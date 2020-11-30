@@ -6,53 +6,67 @@ inspecode:
   tools:
 
     astyle:
+    - input: sources/
+      auto-fix: true
+      thresholds: {num-issues: 999}
+    - ignore: sources/
       auto-fix: true
       thresholds: {num-issues: 999}
 
     clang-format:
+    - input: sources/
+      auto-fix: true
+      thresholds: {num-issues: 999}
+    - ignore: sources/
       auto-fix: true
       thresholds: {num-issues: 999}
 
     cpd:
-      # options: [--skip-lexical-errors]
+      options: [--skip-lexical-errors]
       thresholds: {num-issues: 999}
 
     cppcheck:
-      thresholds: {num-issues: 999}
+      thresholds: {num-issues: 3}
 
     cpplint:
       options:
+        --filter:
+          - -whitespace
+          - -readability/casting
+          - -build/header_guard
+          - -legal/copyright
       thresholds: {num-issues: 999}
 
     # fortify:
     #   thresholds: {num-issues: 999}
 
     fossology:
-      thresholds: {num-issues: 999}
+      thresholds: {num-issues: 70}
 
     grep:
-      thresholds: {num-issues: 999}
+      thresholds: {num-issues: 143}
 
-    infer:
-      thresholds: {num-issues: 999}
+    # infer:
+    #   thresholds: {num-issues: 999}
 
     jscpd:
-      thresholds: {num-issues: 999}
+      thresholds: {num-issues: 437}
 
     misspell:
       auto-fix: true
-      thresholds: {num-issues: 999}
+      thresholds: {num-issues: 76}
 
-    scan-build:
-      thresholds: {num-issues: 999}
+    # scan-build:
+    #   thresholds: {num-issues: 999}
 
-    uncrustify:
-      auto-fix: true
-      thresholds: {num-issues: 999}
+    # uncrustify:
+    #   auto-fix: true
+    #   thresholds: {num-issues: 999}
 
     # understand:
     #   thresholds: {num-issues: 999}
 
-    unused:
-      options: [--single-occurrence, --all-likelihoods]
-      thresholds: {num-issues: 999}
+    ### Timed Out
+    # unused:
+    #   options: [--single-occurrence, --all-likelihoods]
+    #   thresholds: {num-issues: 999}
