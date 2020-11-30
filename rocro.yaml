@@ -14,7 +14,11 @@ inspecode:
       thresholds: {num-issues: 999}
 
     clang-format:
-    - input: sources/
+    - input:  sources/*.h
+      auto-fix: true
+      thresholds: {num-issues: 999}
+    - ignore: sources/*.h
+      input:  sources/
       auto-fix: true
       thresholds: {num-issues: 999}
     - ignore: sources/
