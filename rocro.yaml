@@ -53,7 +53,7 @@ inspecode:
     ### cannot resolve dependencies
     flake8:
       options:
-        --ignore: [E501, E231, E302, E251, E111, E701, E221]
+        --ignore: [E1, E2, E302, E501, E701, F401, W291, W293, W391]
       thresholds: {num-issues: 999}
 
     fossology:
@@ -85,7 +85,7 @@ inspecode:
 
     pycodestyle:
       options:
-        --ignore: [E501, E231, E302, E251, E111, E701, E221, E117, W293]
+        --ignore: [E1, E2, E302, E501, E701, W291, W391]
       thresholds: {num-issues: 999}
 
     pyflakes:
