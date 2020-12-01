@@ -15,7 +15,7 @@ inspecode:
 
     autopep8:
       auto-fix: true
-      thresholds: {num-issues: 999}
+      thresholds: {num-issues: 153}
 
     clang-format:
     - input:  sources/*.h
@@ -48,13 +48,10 @@ inspecode:
     # fortify:
     #   thresholds: {num-issues: 999}
 
-    ### ERROR: Command errored out with exit status 1: python setup.py egg_info
-    ### Check the logs for full command output.
-    ### cannot resolve dependencies
     flake8:
       options:
         --ignore: [E1, E2, E302, E501, E701, F401, W291, W293, W391]
-      thresholds: {num-issues: 999}
+      thresholds: {num-issues: 433}
 
     fossology:
       thresholds: {num-issues: 70}
@@ -81,12 +78,12 @@ inspecode:
     prospector:
       options:
         --without-tool: [pylint]
-      thresholds: {num-issues: 999}
+      thresholds: {num-issues: 570}
 
     pycodestyle:
       options:
         --ignore: [E1, E2, E302, E501, E701, W291, W391]
-      thresholds: {num-issues: 999}
+      thresholds: {num-issues: 538}
 
     pyflakes:
       thresholds: {num-issues: 199}
@@ -94,7 +91,7 @@ inspecode:
     pylint:
       options:
         --errors-only:
-      thresholds: {num-issues: 999}
+      thresholds: {num-issues: 47}
 
     ### ERROR: Command errored out with exit status 1: python setup.py egg_info
     ### Check the logs for full command output.
