@@ -15,7 +15,7 @@
 
 @end
 
-@implementation iTermFindOnPageHelperTest{
+@implementation iTermFindOnPageHelperTest {
     FindContext *findContext;
     iTermFindOnPageHelper *helper;
 }
@@ -24,13 +24,13 @@
     findContext = [[[FindContext alloc] init] autorelease];
     helper = [[[iTermFindOnPageHelper alloc] init] autorelease];
     [helper findString:@"test"
-      forwardDirection:NO
-                  mode:iTermFindModeCaseInsensitiveSubstring
+            forwardDirection:NO
+            mode:iTermFindModeCaseInsensitiveSubstring
             withOffset:0
-               context:findContext
-         numberOfLines:100
-totalScrollbackOverflow:0
-   scrollToFirstResult:YES];
+            context:findContext
+            numberOfLines:100
+            totalScrollbackOverflow:0
+            scrollToFirstResult:YES];
 }
 
 - (void)testFindRangeOfSearchResults_Random {
@@ -39,13 +39,13 @@ totalScrollbackOverflow:0
         findContext = [[[FindContext alloc] init] autorelease];
         helper = [[[iTermFindOnPageHelper alloc] init] autorelease];
         [helper findString:@"test"
-          forwardDirection:NO
-                      mode:iTermFindModeCaseInsensitiveSubstring
+                forwardDirection:NO
+                mode:iTermFindModeCaseInsensitiveSubstring
                 withOffset:0
-                   context:findContext
-             numberOfLines:100
-   totalScrollbackOverflow:0
-       scrollToFirstResult:YES];
+                context:findContext
+                numberOfLines:100
+                totalScrollbackOverflow:0
+                scrollToFirstResult:YES];
         int x = 0;
         int n = 1 + rand() % 23;
         NSMutableArray<NSNumber *> *values = [NSMutableArray array];
@@ -57,8 +57,8 @@ totalScrollbackOverflow:0
             [helper addSearchResult:r width:80];
         }
         [values sortUsingComparator:^NSComparisonResult(NSNumber * _Nonnull obj1, NSNumber * _Nonnull obj2) {
-            return [obj2 compare:obj1];
-        }];
+                   return [obj2 compare:obj1];
+               }];
 
         for (int k = 0; k < 100; k++) {
             NSRange range = NSMakeRange(rand() % 30, rand() % 30);

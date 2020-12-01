@@ -13,23 +13,23 @@
 
 @implementation NSImage(ImageDecoder)
 + (instancetype)imageWithRawData:(NSData *)data
-                            size:(NSSize)size
-                   bitsPerSample:(NSInteger)bitsPerSample
-                 samplesPerPixel:(NSInteger)samplesPerPixel
-                        hasAlpha:(BOOL)hasAlpha
-                  colorSpaceName:(NSString *)colorSpaceName {
+    size:(NSSize)size
+    bitsPerSample:(NSInteger)bitsPerSample
+    samplesPerPixel:(NSInteger)samplesPerPixel
+    hasAlpha:(BOOL)hasAlpha
+    colorSpaceName:(NSString *)colorSpaceName {
     assert(data.length == size.width * size.height * bitsPerSample * samplesPerPixel / 8);
     NSBitmapImageRep *bitmapImageRep =
         [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:nil  // allocate the pixel buffer for us
-                                                pixelsWide:size.width
-                                                pixelsHigh:size.height
-                                             bitsPerSample:bitsPerSample
-                                           samplesPerPixel:samplesPerPixel
-                                                  hasAlpha:hasAlpha
-                                                  isPlanar:NO
-                                            colorSpaceName:colorSpaceName
-                                               bytesPerRow:bitsPerSample * samplesPerPixel * size.width / 8
-                                              bitsPerPixel:bitsPerSample * samplesPerPixel];  // 0 means OS infers it
+                                  pixelsWide:size.width
+                                  pixelsHigh:size.height
+                                  bitsPerSample:bitsPerSample
+                                  samplesPerPixel:samplesPerPixel
+                                  hasAlpha:hasAlpha
+                                  isPlanar:NO
+                                  colorSpaceName:colorSpaceName
+                                  bytesPerRow:bitsPerSample * samplesPerPixel * size.width / 8
+                                  bitsPerPixel:bitsPerSample * samplesPerPixel];  // 0 means OS infers it
 
     memmove([bitmapImageRep bitmapData], data.bytes, data.length);
 
@@ -46,7 +46,7 @@ static NSDictionary *GIFProperties(CGImageSourceRef source, size_t i) {
     CFDictionaryRef const properties = CGImageSourceCopyPropertiesAtIndex(source, i, NULL);
     if (properties) {
         CFDictionaryRef const gifProperties = CFDictionaryGetValue(properties,
-                                                                   kCGImagePropertyGIFDictionary);
+                                              kCGImagePropertyGIFDictionary);
         NSDictionary *result = [(__bridge NSDictionary *)gifProperties copy];
         return result;
     } else {
@@ -58,7 +58,7 @@ static NSTimeInterval DelayInGifProperties(NSDictionary *gifProperties) {
     NSTimeInterval delay = 0.01;
     if (gifProperties) {
         NSNumber *number = (id)CFDictionaryGetValue((CFDictionaryRef)gifProperties,
-                                                    kCGImagePropertyGIFUnclampedDelayTime);
+                           kCGImagePropertyGIFUnclampedDelayTime);
         if (number == NULL || [number doubleValue] == 0) {
             number = (id)CFDictionaryGetValue((CFDictionaryRef)gifProperties,
                                               kCGImagePropertyGIFDelayTime);
@@ -106,11 +106,11 @@ static NSImage *DecodeSixelData(sixel_decoder_t *decoder, NSData *data) {
     free(palette);
     free(pixels);
     return [NSImage imageWithRawData:rgbaData
-                                size:NSMakeSize(width, height)
-                       bitsPerSample:8
-                     samplesPerPixel:4
-                            hasAlpha:YES
-                      colorSpaceName:NSDeviceRGBColorSpace];
+                    size:NSMakeSize(width, height)
+                    bitsPerSample:8
+                    samplesPerPixel:4
+                    hasAlpha:YES
+                    colorSpaceName:NSDeviceRGBColorSpace];
 }
 
 
@@ -133,10 +133,10 @@ static NSImage *ImageFromSixelData(NSData *data) {
     }
     NSArray<NSString *> *paramParts = [paramString componentsSeparatedByString:@";"];
     [paramParts enumerateObjectsUsingBlock:^(NSString * _Nonnull value, NSUInteger index, BOOL * _Nonnull stop) {
-        sixel_decoder_setopt(decoder,
+                   sixel_decoder_setopt(decoder,
                              (int)index,
                              value.UTF8String);
-    }];
+               }];
 
     NSImage *image = DecodeSixelData(decoder, payload);
     sixel_decoder_unref(decoder);
@@ -177,7 +177,7 @@ int main(int argc, const char * argv[]) {
         }
 
         CGImageSourceRef source = CGImageSourceCreateWithData((CFDataRef)data,
-                                                              (CFDictionaryRef)@{});
+        (CFDictionaryRef)@{});
         size_t count = CGImageSourceGetCount(source);
         NSImageRep *rep = [[image representations] firstObject];
         NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
@@ -215,8 +215,8 @@ int main(int argc, const char * argv[]) {
                 for (size_t i = 0; i < count; ++i) {
                     CGImageRef imageRef = CGImageSourceCreateImageAtIndex(source, i, NULL);
                     NSImage *image = [[NSImage alloc] initWithCGImage:imageRef
-                                                                 size:NSMakeSize(CGImageGetWidth(imageRef),
-                                                                                 CGImageGetHeight(imageRef))];
+                                                      size:NSMakeSize(CGImageGetWidth(imageRef),
+                                                      CGImageGetHeight(imageRef))];
                     if (!image) {
                         syslog(LOG_ERR, "could not get image from gif frame");
                         exit(1);

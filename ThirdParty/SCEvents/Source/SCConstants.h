@@ -17,7 +17,7 @@
  *
  *  The above copyright notice and this permission notice shall be
  *  included in all copies or substantial portions of the Software.
- * 
+ *
  *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  *  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  *  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -28,16 +28,16 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-typedef enum 
-{ 
-    SCEventStreamEventFlagNone            = 0x00000000, 
-    SCEventStreamEventFlagMustScanSubDirs = 0x00000001, 
-    SCEventStreamEventFlagUserDropped     = 0x00000002, 
-    SCEventStreamEventFlagKernelDropped   = 0x00000004, 
-    SCEventStreamEventFlagEventIdsWrapped = 0x00000008, 
-    SCEventStreamEventFlagHistoryDone     = 0x00000010, 
-    SCEventStreamEventFlagRootChanged     = 0x00000020, 
-    SCEventStreamEventFlagMount           = 0x00000040, 
+typedef enum
+{
+    SCEventStreamEventFlagNone            = 0x00000000,
+    SCEventStreamEventFlagMustScanSubDirs = 0x00000001,
+    SCEventStreamEventFlagUserDropped     = 0x00000002,
+    SCEventStreamEventFlagKernelDropped   = 0x00000004,
+    SCEventStreamEventFlagEventIdsWrapped = 0x00000008,
+    SCEventStreamEventFlagHistoryDone     = 0x00000010,
+    SCEventStreamEventFlagRootChanged     = 0x00000020,
+    SCEventStreamEventFlagMount           = 0x00000040,
     SCEventStreamEventFlagUnmount         = 0x00000080
-} 
+}
 SCEventFlags;

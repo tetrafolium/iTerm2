@@ -56,8 +56,8 @@ typedef NS_ENUM(NSUInteger, SIGErrorCode) {
 + (instancetype)errorWithCode:(SIGErrorCode)code;
 + (instancetype)errorWithCode:(SIGErrorCode)code detail:(nullable NSString *)detail;
 + (instancetype)errorWrapping:(NSError *)otherError
-                       code:(SIGErrorCode)code
-                       detail:(nullable NSString *)detail;
+    code:(SIGErrorCode)code
+    detail:(nullable NSString *)detail;
 
 @end
 

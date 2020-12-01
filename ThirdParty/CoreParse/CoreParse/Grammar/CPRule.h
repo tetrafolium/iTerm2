@@ -13,7 +13,7 @@
  *
  * Rules are used to specify how your language is structured - each rule specifies that the non-terminal on their left
  * can be constructed by finding the sequence specified on the right hand side.
- * 
+ *
  * Rules are added to CPGrammars to construct a language to parse.
  *
  * During parsing, a CPParser will inform its delegate of which CPRule it has matched to form a reduction.  The tag
@@ -25,17 +25,17 @@
 /// @name Creating and Initialising a Rule
 ///---------------------------------------------------------------------------------------
 
-/**
- * Creates a rule based on a non-terminal name and an array of grammar symbols to make up the right hand side.
- *
- * @param name                  The non-terminal the rule reduces.
- * @param rightHandSideElements An array of CPGrammarSymbols that make up the right hand side of the rule.
- * @return Returns a CPRule based on the right hand side and non-terminal name.
- *
- * @see ruleWithName:rightHandSideElements:tag:
- * @see ruleWithName:rightHandSideElements:representitiveClass:
- * @see initWithName:rightHandSideElements:
- */
+    /**
+     * Creates a rule based on a non-terminal name and an array of grammar symbols to make up the right hand side.
+     *
+     * @param name                  The non-terminal the rule reduces.
+     * @param rightHandSideElements An array of CPGrammarSymbols that make up the right hand side of the rule.
+     * @return Returns a CPRule based on the right hand side and non-terminal name.
+     *
+     * @see ruleWithName:rightHandSideElements:tag:
+     * @see ruleWithName:rightHandSideElements:representitiveClass:
+     * @see initWithName:rightHandSideElements:
+     */
 + (id)ruleWithName:(NSString *)name rightHandSideElements:(NSArray *)rightHandSideElements;
 
 /**
@@ -120,7 +120,7 @@
 
 /**
  * Specifies the right hand side of the rule.
- * 
+ *
  * Elements of this array must be CPGrammarSymbols.
  */
 @property (readwrite, copy  ) NSArray *rightHandSideElements;

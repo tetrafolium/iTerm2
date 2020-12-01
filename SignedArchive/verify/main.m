@@ -57,10 +57,10 @@ static NSError *Verify(NSString *path, BOOL requireV2, NSString **detailsPtr) {
     __block NSString *details;
     verifier.minimumVersion = requireV2 ? 2 : 1;
     [verifier verifyWithCompletion:^(BOOL ok, NSError *error) {
-        details = Details(verifier);
-        result = ok;
-        errorResult = error;
-        dispatch_group_leave(group);
+                 details = Details(verifier);
+                 result = ok;
+                 errorResult = error;
+                 dispatch_group_leave(group);
     }];
     dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
     if (detailsPtr) {

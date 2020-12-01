@@ -40,14 +40,14 @@
 - (id)initWithRule:(CPRule *)initRule children:(NSArray *)initChildren tagValues:(NSDictionary *)initTagValues
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         [self setRule:initRule];
         [self setChildren:initChildren];
         [self setTagValues:initTagValues];
     }
-    
+
     return self;
 }
 
@@ -61,7 +61,7 @@
     [rule release];
     [children release];
     [tagValues release];
-    
+
     [super dealloc];
 }
 

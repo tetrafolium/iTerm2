@@ -33,14 +33,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithColor:(NSColor *)color NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithHue:(CGFloat)hue
-                 saturation:(CGFloat)saturation
-                 brightness:(CGFloat)brightness
-                      alpha:(CGFloat)alpha;
+    saturation:(CGFloat)saturation
+    brightness:(CGFloat)brightness
+    alpha:(CGFloat)alpha;
 
 - (instancetype)initWithRed:(CGFloat)red
-                      green:(CGFloat)green
-                       blue:(CGFloat)blue
-                      alpha:(CGFloat)alpha;
+    green:(CGFloat)green
+    blue:(CGFloat)blue
+    alpha:(CGFloat)alpha;
 
 - (instancetype)init NS_UNAVAILABLE;
 

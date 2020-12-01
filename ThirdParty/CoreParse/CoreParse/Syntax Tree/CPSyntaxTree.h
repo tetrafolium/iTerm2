@@ -12,7 +12,7 @@
 
 /**
  * The CPSyntaxTree class represents a node in a syntax tree.
- * 
+ *
  * Syntax trees carry the rule that was matched to create the tree and the child elements that in order match up with the right hand side of the rule.
  */
 @interface CPSyntaxTree : NSObject
@@ -21,16 +21,16 @@
 /// @name Creating and Initialising a Syntax Tree
 ///---------------------------------------------------------------------------------------
 
-/**
- * Creates a syntax tree based on a rule and some child trees.
- *
- * @param nonTerminal The rule that was matched to create this tree node.
- * @param children    The child trees that represent the components of the right hand side of the rule.
- * @return Returns a syntax tree with apropriate children, and matching a specified rule.
- *
- * @bug Warning this method is deprecated, use -syntaxTreeWithRule:children:tagValues: instead.
- * @see syntaxTreeWithRule:children:tagValues
- */
+    /**
+     * Creates a syntax tree based on a rule and some child trees.
+     *
+     * @param nonTerminal The rule that was matched to create this tree node.
+     * @param children    The child trees that represent the components of the right hand side of the rule.
+     * @return Returns a syntax tree with apropriate children, and matching a specified rule.
+     *
+     * @bug Warning this method is deprecated, use -syntaxTreeWithRule:children:tagValues: instead.
+     * @see syntaxTreeWithRule:children:tagValues
+     */
 + (id)syntaxTreeWithRule:(CPRule *)nonTerminal children:(NSArray *)children __attribute__((deprecated("use +syntaxTreeWithRule:children:tagValues: instead.")));
 
 /**
@@ -98,7 +98,7 @@
 
 /**
  * Returns the child at a specific index.
- * 
+ *
  * @param idx The index of the child you want to retrieve.
  * @return The child at that index.
  */

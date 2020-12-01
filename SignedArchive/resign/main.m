@@ -35,10 +35,10 @@ NSURL *CreateTemporaryURL(NSURL *eventualDestinationURL) {
 
     NSError *error = nil;
     NSURL *temporaryDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSItemReplacementDirectory
-                                                                          inDomain:NSUserDomainMask
-                                                                 appropriateForURL:destinationURL
-                                                                            create:YES
-                                                                             error:&error];
+                                                                   inDomain:NSUserDomainMask
+                                                                   appropriateForURL:destinationURL
+                                                                   create:YES
+                                                                   error:&error];
     if (!temporaryDirectoryURL || error) {
         return nil;
     }
@@ -120,7 +120,7 @@ static BOOL ReSignExtracted(NSURL *oldArchiveURL,
         return NO;
     }
     SIGArchiveBuilder *builder = [[SIGArchiveBuilder alloc] initWithPayloadFileURL:payloadURL
-                                                                          identity:identity];
+                                                            identity:identity];
 
     NSError *error = nil;
     const BOOL ok = [builder writeToURL:outputURL error:&error];
@@ -153,11 +153,11 @@ static BOOL ReSign(NSURL *oldArchiveURL,
 static void Move(NSURL *source, NSURL *dest) {
     NSError *error = nil;
     [[NSFileManager defaultManager] replaceItemAtURL:dest
-                                       withItemAtURL:source
-                                      backupItemName:nil
-                                             options:0
+                                    withItemAtURL:source
+                                    backupItemName:nil
+                                    options:0
                                     resultingItemURL:nil
-                                               error:&error];
+                                    error:&error];
     if (error) {
         fprintf(stderr, "While moving temp file %s over input file %s: %s",
                 source.path.UTF8String, dest.path.UTF8String, error.localizedDescription.UTF8String);
@@ -209,13 +209,13 @@ static SIGReSignMode CheckArgs(int argc, const char *argv[]) {
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         switch (CheckArgs(argc, argv)) {
-            case SIGReSignModeError:
-                Usage();
-                return 1;
-            case SIGReSignModeSingle:
-                return ResignSingle(argc, argv);
-            case SIGReSignModeMultiple:
-                return ResignMultiple(argc, argv);
+        case SIGReSignModeError:
+            Usage();
+            return 1;
+        case SIGReSignModeSingle:
+            return ResignSingle(argc, argv);
+        case SIGReSignModeMultiple:
+            return ResignMultiple(argc, argv);
         }
     }
 }

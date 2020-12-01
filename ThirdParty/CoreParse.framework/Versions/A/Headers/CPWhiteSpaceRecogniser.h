@@ -12,7 +12,7 @@
 
 /**
  * The CPWhiteSpaceRecogniser class attempts to recognise white space on the input string.
- * 
+ *
  * This recogniser produces CPWhiteSpaceTokens.
  */
 @interface CPWhiteSpaceRecogniser : NSObject <CPTokenRecogniser>
@@ -21,11 +21,11 @@
 /// @name Creating and Initialising a WhiteSpace Recogniser
 ///---------------------------------------------------------------------------------------
 
-/**
- * Creates a whitespace recogniser.
- *
- * @return Returns a CPWhiteSpaceRecogniser.
- */
+    /**
+     * Creates a whitespace recogniser.
+     *
+     * @return Returns a CPWhiteSpaceRecogniser.
+     */
 + (id)whiteSpaceRecogniser;
 
 @end

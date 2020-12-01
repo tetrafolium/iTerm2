@@ -32,14 +32,14 @@
 {
     NSUInteger position = 0;
     CPRegexpRecogniser* recognizer = [[CPRegexpRecogniser alloc] initWithRegexp:[[NSRegularExpression alloc] initWithPattern:@"[a-z]+" options:0 error:nil]
-                                                                       matchHandler:^CPToken *(NSString *tokenString, NSTextCheckingResult *match) {
-                                                                           NSString* matchedString = [tokenString substringWithRange:[match range]];
-                                                                           return [CPKeywordToken tokenWithKeyword:matchedString];
-                                                                       }];
+                               matchHandler:^CPToken *(NSString *tokenString, NSTextCheckingResult *match) {
+                                   NSString* matchedString = [tokenString substringWithRange:[match range]];
+        return [CPKeywordToken tokenWithKeyword:matchedString];
+    }];
     CPKeywordToken* token = (CPKeywordToken*) [recognizer recogniseTokenInString:@"hello world" currentTokenPosition:&position];
     XCTAssertEqualObjects([token class], [CPKeywordToken class], @"should be keyword token");
     XCTAssertEqualObjects(@"hello", [token keyword], @"should match the string hello");
-    
+
     position = 5;
     token = (CPKeywordToken*) [recognizer recogniseTokenInString:@"hello world" currentTokenPosition:&position];
     XCTAssertNil(token, @"should not match space");
@@ -54,9 +54,9 @@
 {
     NSUInteger position = 0;
     CPRegexpRecogniser* recognizer = [[CPRegexpRecogniser alloc] initWithRegexp:[[NSRegularExpression alloc] initWithPattern:@"[a-z]+" options:0 error:nil]
-                                                                       matchHandler:^CPToken *(NSString *tokenString, NSTextCheckingResult *match) {
-                                                                           return nil;
-                                                                       }];
+                               matchHandler:^CPToken *(NSString *tokenString, NSTextCheckingResult *match) {
+                                   return nil;
+                               }];
     CPKeywordToken* token = (CPKeywordToken*) [recognizer recogniseTokenInString:@"hello world" currentTokenPosition:&position];
     XCTAssertNil(token, @"should be nil");
     XCTAssertTrue(position == 0, @"should not skip content if callback return nil");

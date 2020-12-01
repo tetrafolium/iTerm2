@@ -12,7 +12,7 @@
 
 /**
  * The CPWhiteSpaceToken class reperesents some white space appearing in the input.
- * 
+ *
  * These tokens return `@"Whitespace"` as their name.
  */
 @interface CPWhiteSpaceToken : CPToken
@@ -21,14 +21,14 @@
 /// @name Creating and Initialising a WhiteSpace Token
 ///---------------------------------------------------------------------------------------
 
-/**
- * Creates a white space token with the white space found in the input.
- *
- * @param whiteSpace The white space found in the input stream.
- * @return Returns a CPWhiteSpaceToken representing the specified white space.
- *
- * @see initWithWhiteSpace:
- */
+    /**
+     * Creates a white space token with the white space found in the input.
+     *
+     * @param whiteSpace The white space found in the input stream.
+     * @return Returns a CPWhiteSpaceToken representing the specified white space.
+     *
+     * @see initWithWhiteSpace:
+     */
 + (id)whiteSpace:(NSString *)whiteSpace;
 
 /**

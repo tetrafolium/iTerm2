@@ -45,28 +45,28 @@ typedef struct {
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
-  self = [super initWithFrame:frameRect];
-  if (self) {
-      self.wantsLayer = YES;
-      [self setColor:[NSColor blackColor]];
-      [[NSNotificationCenter defaultCenter] addObserver:self
-                                               selector:@selector(windowWillEnterFullScreen:)
-                                                   name:NSWindowWillEnterFullScreenNotification
-                                                 object:nil];
-      [[NSNotificationCenter defaultCenter] addObserver:self
-                                               selector:@selector(windowDidEnterFullScreen:)
-                                                   name:NSWindowDidEnterFullScreenNotification
-                                                 object:nil];
-      [[NSNotificationCenter defaultCenter] addObserver:self
-                                               selector:@selector(windowWillExitFullScreen:)
-                                                   name:NSWindowWillExitFullScreenNotification
-                                                 object:nil];
-      [[NSNotificationCenter defaultCenter] addObserver:self
-                                               selector:@selector(windowDidExitFullScreen:)
-                                                   name:NSWindowDidExitFullScreenNotification
-                                                 object:nil];
-  }
-  return self;
+    self = [super initWithFrame:frameRect];
+    if (self) {
+        self.wantsLayer = YES;
+        [self setColor:[NSColor blackColor]];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                              selector:@selector(windowWillEnterFullScreen:)
+                                              name:NSWindowWillEnterFullScreenNotification
+                                              object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                              selector:@selector(windowDidEnterFullScreen:)
+                                              name:NSWindowDidEnterFullScreenNotification
+                                              object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                              selector:@selector(windowWillExitFullScreen:)
+                                              name:NSWindowWillExitFullScreenNotification
+                                              object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                              selector:@selector(windowDidExitFullScreen:)
+                                              name:NSWindowDidExitFullScreenNotification
+                                              object:nil];
+    }
+    return self;
 }
 
 - (void)windowWillEnterFullScreen:(NSNotification *)notification {
@@ -140,13 +140,13 @@ typedef struct {
         }
         [self initializeConfigIfNeeded];
         NSArray *images = AMIndeterminateProgressIndicatorImagesForSize(self.physicalSize,
-                                                                        self.numberOfSteps,
-                                                                        self.numberOfSpokes,
-                                                                        _color,
-                                                                        &_config);
+                          self.numberOfSteps,
+                          self.numberOfSpokes,
+                          _color,
+                          &_config);
         static CFTimeInterval epoch;
         static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
+        dispatch_once(&onceToken, ^ {
             epoch = CACurrentMediaTime();
         });
         // This causes animations to all show the same frame at the same time.
@@ -177,8 +177,8 @@ typedef struct {
 }
 
 static void AMIndeterminateProgressIndicatorDrawSpoke(NSPoint firstPoint,
-                                                      NSPoint secondPoint,
-                                                      CGFloat strokeWidth) {
+        NSPoint secondPoint,
+        CGFloat strokeWidth) {
     NSLineCapStyle previousLineCapStyle = [NSBezierPath defaultLineCapStyle];
     CGFloat previousLineWidth = [NSBezierPath defaultLineWidth];
 
@@ -193,9 +193,9 @@ static void AMIndeterminateProgressIndicatorDrawSpoke(NSPoint firstPoint,
 }
 
 static void AMIndeterminateProgressIndicatorDrawStep(NSInteger step,
-                                                     NSInteger numberOfSpokes,
-                                                     NSColor *color,
-                                                     const AMConfig *config) {
+        NSInteger numberOfSpokes,
+        NSColor *color,
+        const AMConfig *config) {
     CGFloat initialAngle = 0;
     if (!config->bigSur) {
         initialAngle = DegreesToRadians(270 - (step * config->anglePerStep));
@@ -211,35 +211,49 @@ static void AMIndeterminateProgressIndicatorDrawStep(NSInteger step,
         const NSPoint innerPoint = NSMakePoint(config->center.x + cos(currentAngle) * config->geometry.innerRadius,
                                                config->center.y + sin(currentAngle) * config->geometry.innerRadius);
         AMIndeterminateProgressIndicatorDrawSpoke(innerPoint,
-                                                  outerPoint,
-                                                  config->geometry.strokeWidth);
+                outerPoint,
+                config->geometry.strokeWidth);
     }
 }
 
 // Returns an array of CGImageRefs for each frame of the animation.
 static NSArray *AMIndeterminateProgressIndicatorImagesForSize(NSSize size,
-                                                              NSInteger numberOfSteps,
-                                                              NSInteger numberOfSpokes,
-                                                              NSColor *color,
-                                                              const AMConfig *config) {
+        NSInteger numberOfSteps,
+        NSInteger numberOfSpokes,
+        NSColor *color,
+        const AMConfig *config) {
     static NSMutableDictionary *_cache;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         _cache = [NSMutableDictionary dictionary];
     });
-    id key = @{ @"size": NSStringFromSize(size),
-                @"numberOfSteps": @(numberOfSteps),
-                @"numberOfSpokes": @(numberOfSpokes),
-                @"color": color,
-                @"config.geometry.outerRadius": @(config->geometry.outerRadius),
-                @"config.geometry.innerRadius": @(config->geometry.innerRadius),
-                @"config.geometry.strokeWidth": @(config->geometry.strokeWidth),
-                @"config.scale": @(config->scale),
-                @"config.frame": NSStringFromRect(config->frame),
-                @"config.size": @(config->size),
-                @"config.center": NSStringFromPoint(config->center),
-                @"config.anglePerStep": @(config->anglePerStep),
-                @"config.alphaFunctionID": @(config->alphaFunctionID) };
+    id key = @ { @"size":
+                 NSStringFromSize(size),
+                 @"numberOfSteps":
+                 @(numberOfSteps),
+                 @"numberOfSpokes":
+                 @(numberOfSpokes),
+                 @"color":
+                 color,
+                 @"config.geometry.outerRadius":
+                 @(config->geometry.outerRadius),
+                 @"config.geometry.innerRadius":
+                 @(config->geometry.innerRadius),
+                 @"config.geometry.strokeWidth":
+                 @(config->geometry.strokeWidth),
+                 @"config.scale":
+                 @(config->scale),
+                 @"config.frame":
+                 NSStringFromRect(config->frame),
+                 @"config.size":
+                 @(config->size),
+                 @"config.center":
+                 NSStringFromPoint(config->center),
+                 @"config.anglePerStep":
+                 @(config->anglePerStep),
+                 @"config.alphaFunctionID":
+                 @(config->alphaFunctionID)
+               };
 
     NSArray *cached = _cache[key];
     if (cached) {
@@ -253,16 +267,17 @@ static NSArray *AMIndeterminateProgressIndicatorImagesForSize(NSSize size,
         [image lockFocus];
         AMIndeterminateProgressIndicatorDrawStep(step, numberOfSpokes, color, config);
         [image unlockFocus];
-        
+
         NSBitmapImageRep *rep = image.bitmapImageRep;
         NSData *data = [rep representationUsingType:NSBitmapImageFileTypePNG
-                                         properties:@{ NSImageInterlaced: @0,
-                                                       NSImageCompressionFactor: @1 }];
+                            properties:@ { NSImageInterlaced: @0,
+                                       NSImageCompressionFactor: @1
+                                     }];
         CGDataProviderRef provider = CGDataProviderCreateWithCFData((CFDataRef)data);
         CGImageRef cgImage = CGImageCreateWithPNGDataProvider(provider,
-                                                              NULL,
-                                                              true,
-                                                              kCGRenderingIntentDefault);
+                             NULL,
+                             true,
+                             kCGRenderingIntentDefault);
         CFRelease(provider);
 
         [frames addObject:(__bridge id)cgImage];
@@ -296,18 +311,18 @@ static NSArray *AMIndeterminateProgressIndicatorImagesForSize(NSSize size,
 - (AMConfig)config {
     AMConfig config;
     config.frame = self.frame;
-    
+
     // Scale frame by the layer's contentsScale so we fill it properly.
     config.scale = self.layer.contentsScale;
     config.frame.size.width *= config.scale;
     config.frame.size.height *= config.scale;
     config.frame.origin.x *= config.scale;
     config.frame.origin.y *= config.scale;
-    
+
     config.size = MIN(config.frame.size.width, config.frame.size.height);
     config.center = NSMakePoint(NSMidX(config.frame), NSMidY(config.frame));
     config.anglePerStep = 360 / self.numberOfSpokes;
-    
+
     if (self.useBigSurStyle) {
         config.bigSur = YES;
         config.alphaFunction = [self bigSurAlphaFunction];
@@ -346,10 +361,10 @@ static NSArray *AMIndeterminateProgressIndicatorImagesForSize(NSSize size,
     return ^CGFloat(NSInteger i, NSInteger step) {
         const CGFloat minAlpha = 0.07;
         const CGFloat maxAlpha = 0.45;
-        
+
         // The fraction of the way around the circle where min alpha begins.
         const double minAlphaFraction = (double)step / (double)self.numberOfSteps;
-        
+
         // The current fraction of the way around the circle.
         double currentAngle = (double)i / (double)self.numberOfSpokes;
         if (currentAngle < minAlphaFraction) {
@@ -357,7 +372,7 @@ static NSArray *AMIndeterminateProgressIndicatorImagesForSize(NSSize size,
         }
         // Compute fraction of the way around the circle from minAlpha to i.
         const CGFloat delta = currentAngle - minAlphaFraction;
-        
+
         // The alpha value will be the linear interpolation of the alpha between min and max for the current position between them.
         CGFloat result;
         if (delta < (numberOfSpokes - 1) / numberOfSpokes) {

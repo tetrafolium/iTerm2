@@ -9,7 +9,7 @@
 
 #import "iTermSyntheticConfParser+Private.h"
 
-@interface iTermTestableSyntheticConfParser: iTermSyntheticConfParser
+@interface iTermTestableSyntheticConfParser : iTermSyntheticConfParser
 + (void)setFakeContents:(NSString *)string;
 @end
 
@@ -45,14 +45,14 @@ static NSString *_fakeContents;
 
 // Example from synthetic.conf man page
 static NSString *const sValidContents =
-@"# create an empty directory named \"foo\" at / which may be mounted over\n"
-@"foo\n"
-@"\n"
-@"# create a symbolic link named \"bar\" at / which points to\n"
-@"# \"System/Volumes/Data/bar\", a writeable location at the root of the data volume\n"
-@"bar\tSystem/Volumes/Data/bar\n"
-@"# create a symbolic link named \"baz\" at / which points to \"Users/me/baz\"\n"
-@"baz\tUsers/me/baz\n";
+    @"# create an empty directory named \"foo\" at / which may be mounted over\n"
+    @"foo\n"
+    @"\n"
+    @"# create a symbolic link named \"bar\" at / which points to\n"
+    @"# \"System/Volumes/Data/bar\", a writeable location at the root of the data volume\n"
+    @"bar\tSystem/Volumes/Data/bar\n"
+    @"# create a symbolic link named \"baz\" at / which points to \"Users/me/baz\"\n"
+    @"baz\tUsers/me/baz\n";
 
 - (void)testParsingValidData {
     [iTermTestableSyntheticConfParser setFakeContents:sValidContents];
@@ -74,9 +74,9 @@ static NSString *const sValidContents =
 
 - (void)testIgnoreBadInput {
     NSString *badInput =
-    @"one\ttwo\tthree\n"
-    @"\tx\n"
-    @"y\t";
+        @"one\ttwo\tthree\n"
+        @"\tx\n"
+        @"y\t";
     [iTermTestableSyntheticConfParser setFakeContents:badInput];
     iTermSyntheticConfParser *parser = [[iTermTestableSyntheticConfParser alloc] initPrivate];
     XCTAssertEqual(parser.syntheticDirectories.count, 0);

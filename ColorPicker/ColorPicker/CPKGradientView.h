@@ -17,7 +17,7 @@ typedef NS_ENUM(NSInteger, CPKGradientViewType) {
  */
 @interface CPKGradientView : NSView
 
-/** Set this to move the selected color indicator. When the user drags it, this updates. */
+    /** Set this to move the selected color indicator. When the user drags it, this updates. */
 @property(nonatomic) CPKColor *selectedColor;
 
 /** To change the hue without affecting other components, assign to this. */
@@ -50,7 +50,7 @@ typedef NS_ENUM(NSInteger, CPKGradientViewType) {
  * @return An initialized instance or nil.
  */
 - (instancetype)initWithFrame:(NSRect)frameRect
-                         type:(CPKGradientViewType)type
-                        block:(void (^)(CPKColor *))block;
+    type:(CPKGradientViewType)type
+    block:(void (^)(CPKColor *))block;
 
 @end

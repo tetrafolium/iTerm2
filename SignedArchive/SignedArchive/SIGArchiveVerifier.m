@@ -61,7 +61,7 @@ static NSInteger SIGArchiveVerifiedLowestSupportedVersion = 2;
     if (!self.reader) {
         return NO;
     }
-    
+
     NSString *header = [self.reader header:error];
     if (!header) {
         return NO;
@@ -89,12 +89,12 @@ static NSInteger SIGArchiveVerifiedLowestSupportedVersion = 2;
     }
 
     [_trust evaluateWithCompletion:^(BOOL ok, NSError *error) {
-        if (!ok) {
-            completion(NO, error);
-            return;
-        }
+               if (!ok) {
+                   completion(NO, error);
+                   return;
+               }
 
-        NSError *internalError = nil;
+               NSError *internalError = nil;
         const BOOL verified = [self verify:&internalError];
         self->_verified = verified;
         completion(verified, internalError);
@@ -102,22 +102,22 @@ static NSInteger SIGArchiveVerifiedLowestSupportedVersion = 2;
 }
 
 - (void)verifyAndWritePayloadToURL:(NSURL *)url
-                        completion:(void (^)(BOOL, NSError * _Nullable))completion {
+    completion:(void (^)(BOOL, NSError * _Nullable))completion {
     [self verifyWithCompletion:^(BOOL ok, NSError * _Nullable error) {
-        if (!ok || error) {
-            completion(ok, error);
-            return;
-        }
+             if (!ok || error) {
+                 completion(ok, error);
+                 return;
+             }
 
-        NSError *copyError = nil;
+             NSError *copyError = nil;
         const BOOL copiedOK = [self copyPayloadToURL:url
-                                               error:&copyError];
+                                    error:&copyError];
         completion(copiedOK, copyError);
     }];
 }
 
 - (BOOL)copyPayloadToURL:(NSURL *)url
-                   error:(out NSError **)errorOut {
+    error:(out NSError **)errorOut {
     if (!_verified) {
         if (errorOut) {
             *errorOut = [SIGError errorWithCode:SIGErrorCodeConsistency detail:@"Application error: archive not verified"];
@@ -178,7 +178,7 @@ static NSInteger SIGArchiveVerifiedLowestSupportedVersion = 2;
 #pragma mark - Private
 
 - (NSDictionary<NSString *, NSString *> *)metadataDictionaryFromString:(NSString *)metadata
-                                                                 error:(out NSError **)error {
+    error:(out NSError **)error {
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     NSArray<NSString *> *rows = [metadata componentsSeparatedByString:@"\n"];
     NSArray<NSString *> *knownKeys = SIGArchiveGetKnownKeys();
@@ -206,7 +206,7 @@ static NSInteger SIGArchiveVerifiedLowestSupportedVersion = 2;
 
 - (BOOL)verifyMetadata:(NSString *)metadata error:(out NSError **)error {
     NSDictionary *const dictionary = [self metadataDictionaryFromString:metadata
-                                                                  error:error];
+                                           error:error];
     if (!dictionary) {
         return NO;
     }
@@ -268,7 +268,7 @@ static NSInteger SIGArchiveVerifiedLowestSupportedVersion = 2;
     if (![self smellsLikeSignedArchive:error]) {
         return NO;
     }
-    
+
     NSString *metadata = [_reader metadata:error];
     if (!metadata) {
         return NO;
@@ -277,7 +277,7 @@ static NSInteger SIGArchiveVerifiedLowestSupportedVersion = 2;
     if (![self verifyMetadata:metadata error:error]) {
         return NO;
     }
-    
+
     _signature2Data = [_reader signature2:error];
 #if ENABLE_SIGARCHIVE_MIGRATION_VALIDATION
     if (!_signature2Data) {
@@ -330,8 +330,8 @@ static NSInteger SIGArchiveVerifiedLowestSupportedVersion = 2;
     SIGX509Policy *x509 = [[SIGX509Policy alloc] init];
     SIGCRLPolicy *crl = [[SIGCRLPolicy alloc] init];
     _trust = [[SIGTrust alloc] initWithCertificates:certs
-                                           policies:@[ x509, crl ]
-                                              error:error];
+                               policies:@[ x509, crl ]
+                               error:error];
     if (!_trust) {
         return NO;
     }
@@ -357,15 +357,15 @@ static NSInteger SIGArchiveVerifiedLowestSupportedVersion = 2;
     }
     if (_signature2Data) {
         return [algorithm verifyInputStream:_payload2InputStream
-                              signatureData:_signature2Data
-                                  publicKey:_certificates.firstObject.publicKey.secKey
-                                      error:error];
+                          signatureData:_signature2Data
+                          publicKey:_certificates.firstObject.publicKey.secKey
+                          error:error];
     }
 #if ENABLE_SIGARCHIVE_MIGRATION_VALIDATION
     return [algorithm verifyInputStream:_payloadInputStream
-                          signatureData:_signatureData
-                              publicKey:_certificates.firstObject.publicKey.secKey
-                                  error:error];
+                      signatureData:_signatureData
+                      publicKey:_certificates.firstObject.publicKey.secKey
+                      error:error];
 #else
     if (error) {
         *error = [SIGError errorWithCode:SIGErrorCodeNoSignature];
@@ -385,10 +385,10 @@ static NSInteger SIGArchiveVerifiedLowestSupportedVersion = 2;
     _reader = [[SIGArchiveReader alloc] initWithURL:_url];
     if (!_reader) {
         _readerLoadError = [SIGError errorWithCode:SIGErrorCodeUnknown
-                                            detail:@"Could not create archive reader"];
+                                     detail:@"Could not create archive reader"];
         return;
     }
-    
+
     NSError *error;
     [_reader load:&error];
     _readerLoadError = error;

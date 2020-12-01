@@ -22,8 +22,8 @@
     rect.size.height -= 1;
 
     NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:rect
-                                                         xRadius:self.cpk_cornerRadius
-                                                         yRadius:self.cpk_cornerRadius];
+                                       xRadius:self.cpk_cornerRadius
+                                       yRadius:self.cpk_cornerRadius];
     [NSGraphicsContext saveGraphicsState];
     [path addClip];
 

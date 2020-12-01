@@ -111,9 +111,9 @@
         }
 
         return [NSColor colorWithSRGBRed:colors[0]
-                                   green:colors[1]
-                                    blue:colors[2]
-                                   alpha:0.25];
+                        green:colors[1]
+                        blue:colors[2]
+                        alpha:0.25];
     } else {
         CGFloat value = selected ? 0.25 : 0.13;
         if (!selected) {

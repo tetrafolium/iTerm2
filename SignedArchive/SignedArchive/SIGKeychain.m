@@ -13,7 +13,7 @@
 + (instancetype)sharedInstance {
     static id instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] initPrivate];
     });
     return instance;
@@ -35,14 +35,14 @@
             NSLog(@"Unable to open keychain: %d", err);
             return nil;
         }
-        
+
         err = SecKeychainCopyDefault(&_secKeychain);
         if (err != noErr) {
             NSLog(@"Unable to copy default keychain: %d", err);
             return nil;
         }
     }
-    
+
     return self;
 }
 

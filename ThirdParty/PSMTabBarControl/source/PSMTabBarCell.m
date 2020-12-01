@@ -43,9 +43,9 @@ static NSRect PSMConvertAccessibilityFrameToScreen(NSView *view, NSRect frame) {
 }
 
 - (id)accessibilityHitTest:(NSPoint)point {
-        for (id child in self.accessibilityChildren) {
+    for (id child in self.accessibilityChildren) {
         if (NSPointInRect(point, [child accessibilityFrame])) {
-                return [child accessibilityHitTest:point];
+            return [child accessibilityHitTest:point];
         }
     }
     return self;
@@ -107,7 +107,7 @@ static NSRect PSMConvertAccessibilityFrameToScreen(NSView *view, NSRect frame) {
 }
 
 - (BOOL)accessibilityPerformPress {
-        PSMTabBarCell *cell = self.cell;
+    PSMTabBarCell *cell = self.cell;
     [cell.psmTabControlView closeTabClick:cell];
     return YES; // we don't actually know if -closeTabClick: succeeded, but for now, let's pretend it did
 }
@@ -123,9 +123,9 @@ static NSRect PSMConvertAccessibilityFrameToScreen(NSView *view, NSRect frame) {
 @property(nonatomic, assign) SEL selector;
 
 - (instancetype)initWithTimeInterval:(NSTimeInterval)timeInterval
-                              target:(id)target
-                            selector:(SEL)selector
-                             repeats:(BOOL)repeats;
+    target:(id)target
+    selector:(SEL)selector
+    repeats:(BOOL)repeats;
 - (void)invalidate;
 
 @end
@@ -136,19 +136,19 @@ static NSRect PSMConvertAccessibilityFrameToScreen(NSView *view, NSRect frame) {
 }
 
 - (instancetype)initWithTimeInterval:(NSTimeInterval)timeInterval
-                              target:(id)target
-                            selector:(SEL)selector
-                             repeats:(BOOL)repeats {
+    target:(id)target
+    selector:(SEL)selector
+    repeats:(BOOL)repeats {
     self = [super init];
     if (self) {
         _target = target;
         _selector = selector;
         _repeats = repeats;
         _timer = [NSTimer scheduledTimerWithTimeInterval:timeInterval
-                                                  target:self
-                                                selector:@selector(timerDidFire:)
-                                                userInfo:nil
-                                                 repeats:repeats];
+                          target:self
+                          selector:@selector(timerDidFire:)
+                          userInfo:nil
+                          repeats:repeats];
     }
     return self;
 }
@@ -185,9 +185,9 @@ static NSRect PSMConvertAccessibilityFrameToScreen(NSView *view, NSRect frame) {
     if (self) {
         [self setControlView:controlView];
         _indicator = [[PSMProgressIndicator alloc] initWithFrame:NSMakeRect(0,
-                                                                            0,
-                                                                            kPSMTabBarIndicatorWidth,
-                                                                            kPSMTabBarIndicatorWidth)];
+                                                   0,
+                                                   kPSMTabBarIndicatorWidth,
+                                                   kPSMTabBarIndicatorWidth)];
         _indicator.delegate = self;
         [_indicator setAutoresizingMask:NSViewMinYMargin];
         _indicator.light = controlView.style.useLightControls;
@@ -200,8 +200,8 @@ static NSRect PSMConvertAccessibilityFrameToScreen(NSView *view, NSRect frame) {
 }
 
 - (id)initPlaceholderWithFrame:(NSRect)frame
-                      expanded:(BOOL)value
-                 inControlView:(PSMTabBarControl *)controlView {
+    expanded:(BOOL)value
+    inControlView:(PSMTabBarControl *)controlView {
     self = [super init];
     if (self) {
         [self setControlView:controlView];
@@ -253,16 +253,16 @@ static NSRect PSMConvertAccessibilityFrameToScreen(NSView *view, NSRect frame) {
         identifier = [self.representedObject identifier];
     }
     return [NSString stringWithFormat:@"<%@: %p representedObject=%@ identifier=%@ objectCount=%@>",
-            NSStringFromClass([self class]),
-            self,
-            self.representedObject,
-            identifier,
-            @(self.count)];
+                     NSStringFromClass([self class]),
+                     self,
+                     self.representedObject,
+                     identifier,
+                     @(self.count)];
 }
 
 // we don't want this to be the first responder in the chain
 - (BOOL)acceptsFirstResponder {
-  return NO;
+    return NO;
 }
 
 #pragma mark - Accessors
@@ -273,8 +273,8 @@ static NSRect PSMConvertAccessibilityFrameToScreen(NSView *view, NSRect frame) {
     }
     PSMCachedTitleInputs *inputs = [self cachedTitleInputs];
     NSInteger index = [_titleCache indexOfObjectPassingTest:^BOOL(PSMCachedTitle * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        return [obj.inputs isEqual:inputs];
-    }];
+                    return [obj.inputs isEqual:inputs];
+                }];
     if (index != NSNotFound) {
         PSMCachedTitle *title = [[_titleCache[index] retain] autorelease];
         if (index > 0) {
@@ -305,14 +305,14 @@ static NSRect PSMConvertAccessibilityFrameToScreen(NSView *view, NSRect frame) {
 
 - (void)setStringValue:(NSString *)aString {
     [super setStringValue:aString];
-    
+
     if (!_delayedStringValueTimer) {
         static const NSTimeInterval kStringValueSettingDelay = 0.1;
         _delayedStringValueTimer =
-                [[PSMWeakTimer alloc] initWithTimeInterval:kStringValueSettingDelay
-                                                    target:self
-                                                  selector:@selector(updateStringValue:)
-                                                   repeats:NO];
+            [[PSMWeakTimer alloc] initWithTimeInterval:kStringValueSettingDelay
+                                  target:self
+                                  selector:@selector(updateStringValue:)
+                                  repeats:NO];
     }
 }
 
@@ -387,9 +387,9 @@ static NSRect PSMConvertAccessibilityFrameToScreen(NSView *view, NSRect frame) {
 #pragma mark - Bindings
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context {
+    ofObject:(id)object
+    change:(NSDictionary *)change
+    context:(void *)context {
     // the progress indicator, label, icon, or count has changed - redraw the control view
     [[self psmTabControlView] update:[[self psmTabControlView] automaticallyAnimates]];
 }
@@ -415,7 +415,7 @@ static NSRect PSMConvertAccessibilityFrameToScreen(NSView *view, NSRect frame) {
 #pragma mark - Drawing
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
-    if (_isPlaceholder){
+    if (_isPlaceholder) {
         [[NSColor colorWithCalibratedWhite:0 alpha:0.2] set];
         NSRectFillUsingOperation(cellFrame, NSCompositingOperationSourceAtop);
         return;
@@ -425,9 +425,9 @@ static NSRect PSMConvertAccessibilityFrameToScreen(NSView *view, NSRect frame) {
 }
 
 - (void)drawPostHocDecorationsOnSelectedCell:(PSMTabBarCell *)cell
-                               tabBarControl:(PSMTabBarControl *)bar {
+    tabBarControl:(PSMTabBarControl *)bar {
     [[[self psmTabControlView] style] drawPostHocDecorationsOnSelectedCell:cell
-                                                             tabBarControl:bar];
+                               tabBarControl:bar];
 }
 
 - (CGFloat)highlightAmount {
@@ -477,7 +477,7 @@ static NSRect PSMConvertAccessibilityFrameToScreen(NSView *view, NSRect frame) {
 - (NSImage *)dragImage {
     NSRect cellFrame =
         [[[self psmTabControlView] style] dragRectForTabCell:self
-                                                 orientation:[[self psmTabControlView] orientation]];
+                                   orientation:[[self psmTabControlView] orientation]];
 
     NSBitmapImageRep *rep;
     rep = [self.psmTabControlView bitmapImageRepForCachingDisplayInRect:cellFrame];
@@ -487,9 +487,9 @@ static NSRect PSMConvertAccessibilityFrameToScreen(NSView *view, NSRect frame) {
     NSImage *returnImage = [[[NSImage alloc] initWithSize:[rep size]] autorelease];
     [returnImage lockFocus];
     [image drawAtPoint:NSZeroPoint
-              fromRect:NSZeroRect
-             operation:NSCompositingOperationSourceOver
-              fraction:1.0];
+           fromRect:NSZeroRect
+           operation:NSCompositingOperationSourceOver
+           fraction:1.0];
     [returnImage unlockFocus];
     if (![[self indicator] isHidden]) {
         // TODO: This image is missing!
@@ -497,9 +497,9 @@ static NSRect PSMConvertAccessibilityFrameToScreen(NSView *view, NSRect frame) {
         [returnImage lockFocus];
         NSPoint indicatorPoint = self.indicator.frame.origin;
         [piImage drawAtPoint:indicatorPoint
-                    fromRect:NSZeroRect
-                   operation:NSCompositingOperationSourceOver
-                    fraction:1.0];
+                 fromRect:NSZeroRect
+                 operation:NSCompositingOperationSourceOver
+                 fraction:1.0];
         [returnImage unlockFocus];
         [piImage release];
     }
@@ -583,7 +583,7 @@ static NSRect PSMConvertAccessibilityFrameToScreen(NSView *view, NSRect frame) {
         rectInScreenCoords.size = NSZeroSize;
         NSPoint mouseLocationInWindowCoords = [self.controlView.window convertRectFromScreen:rectInScreenCoords].origin;
         NSPoint mouseLocationInViewCoords = [self.controlView convertPoint:mouseLocationInWindowCoords
-                                                                  fromView:nil];
+                                                              fromView:nil];
         if (!NSPointInRect(mouseLocationInViewCoords, self.frame)) {
             self.highlighted = NO;
         }
@@ -602,10 +602,10 @@ static NSRect PSMConvertAccessibilityFrameToScreen(NSView *view, NSRect frame) {
         if ([self highlightAnimationDuration] > 0) {
             _highlightChangeTime = [NSDate timeIntervalSinceReferenceDate];
             [NSTimer scheduledTimerWithTimeInterval:1 / 60.0
-                                             target:self
-                                           selector:@selector(redrawHighlight:)
-                                           userInfo:self.controlView
-                                            repeats:YES];
+                     target:self
+                     selector:@selector(redrawHighlight:)
+                     userInfo:self.controlView
+                     repeats:YES];
         } else {
             [self.controlView setNeedsDisplayInRect:self.frame];
         }

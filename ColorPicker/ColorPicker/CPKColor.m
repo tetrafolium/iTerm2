@@ -22,13 +22,13 @@
 }
 
 - (instancetype)initWithHue:(CGFloat)hue
-                 saturation:(CGFloat)saturation
-                 brightness:(CGFloat)brightness
-                      alpha:(CGFloat)alpha {
+    saturation:(CGFloat)saturation
+    brightness:(CGFloat)brightness
+    alpha:(CGFloat)alpha {
     self = [self initWithColor:[NSColor cpk_colorWithHue:hue
-                                              saturation:saturation
-                                              brightness:brightness
-                                                   alpha:alpha]];
+                                saturation:saturation
+                                brightness:brightness
+                                alpha:alpha]];
     if (self) {
         _hueComponent = hue;
         _saturationComponent = saturation;

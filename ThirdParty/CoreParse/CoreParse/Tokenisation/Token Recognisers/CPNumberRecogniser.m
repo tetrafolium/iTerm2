@@ -21,13 +21,13 @@
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         [self setRecognisesInts:[aDecoder decodeBoolForKey:CPNumberRecogniserRecognisesIntsKey]];
         [self setRecognisesFloats:[aDecoder decodeBoolForKey:CPNumberRecogniserRecognisesFloatsKey]];
     }
-    
+
     return self;
 }
 
@@ -85,7 +85,7 @@
         {
             NSRange numberRange = NSMakeRange(*tokenPosition, [scanner scanLocation] - *tokenPosition);
             if ([tokenString rangeOfString:@"." options:0x0 range:numberRange].location == NSNotFound &&
-                [tokenString rangeOfString:@"e" options:0x0 range:numberRange].location == NSNotFound)
+                    [tokenString rangeOfString:@"e" options:0x0 range:numberRange].location == NSNotFound)
             {
                 success = NO;
             }
@@ -96,7 +96,7 @@
             return [CPNumberToken tokenWithNumber:[NSNumber numberWithDouble:d]];
         }
     }
-    
+
     return nil;
 }
 

@@ -46,7 +46,7 @@
 - (void)open {
     [_realInputStream open];
     [_realInputStream setProperty:@(_range.location)
-                           forKey:NSStreamFileCurrentOffsetKey];
+                      forKey:NSStreamFileCurrentOffsetKey];
     _bytesLeft = _range.length;
 }
 
@@ -84,7 +84,7 @@
     const NSInteger realMaxLength = MIN(_bytesLeft, maxLength);
     const NSInteger numberOfBytesRead = [_realInputStream read:buffer maxLength:realMaxLength];
     _bytesLeft -= numberOfBytesRead;
-    
+
     return numberOfBytesRead;
 }
 
@@ -96,7 +96,7 @@
     if (_bytesLeft <= 0) {
         return NO;
     }
-    
+
     return [_realInputStream hasBytesAvailable];
 }
 

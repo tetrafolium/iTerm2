@@ -12,7 +12,7 @@
 
 /**
  * The CPQuotedToken class reperesents a quoted literal appearing in the input.
- * 
+ *
  * These tokens return the name specified on their creation as their name.
  */
 @interface CPQuotedToken : CPToken
@@ -21,16 +21,16 @@
 /// @name Creating and Initialising a Quoted Literal Token
 ///---------------------------------------------------------------------------------------
 
-/**
- * Creates a quoted literal token with the quoted literal found in the input.
- *
- * @param content    The string found inside the quotes.
- * @param startQuote The symbol used to quote the content.
- * @param name       The name to use for this token.
- * @return Returns a CPQuotedToken representing the specified quoted literal.
- *
- * @see initWithContent:quoteType:name:
- */
+    /**
+     * Creates a quoted literal token with the quoted literal found in the input.
+     *
+     * @param content    The string found inside the quotes.
+     * @param startQuote The symbol used to quote the content.
+     * @param name       The name to use for this token.
+     * @return Returns a CPQuotedToken representing the specified quoted literal.
+     *
+     * @see initWithContent:quoteType:name:
+     */
 + (id)content:(NSString *)content quotedWith:(NSString *)startQuote name:(NSString *)name;
 
 /**

@@ -32,8 +32,8 @@ static const CGFloat kBottomMargin = 8;
 @implementation CPKMainViewController
 
 - (instancetype)initWithBlock:(void (^)(NSColor *))block
-                        color:(NSColor *)color
-                 alphaAllowed:(BOOL)alphaAllowed {
+    color:(NSColor *)color
+    alphaAllowed:(BOOL)alphaAllowed {
     CPKMainViewControllerOptions options = 0;
     if (alphaAllowed) {
         options |= CPKMainViewControllerOptionsAlpha;
@@ -42,9 +42,9 @@ static const CGFloat kBottomMargin = 8;
 }
 
 - (instancetype)initWithBlock:(void (^)(NSColor *))block
-         useSystemColorPicker:(void (^)(void))useSystemColorPickerBlock
-                        color:(NSColor *)color
-                      options:(CPKMainViewControllerOptions)options {
+    useSystemColorPicker:(void (^)(void))useSystemColorPickerBlock
+    color:(NSColor *)color
+    options:(CPKMainViewControllerOptions)options {
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
         _block = [block copy];
@@ -68,27 +68,27 @@ static const CGFloat kBottomMargin = 8;
 - (void)loadView {
     // The 100 value below is temporary and will be changed before we return to the correct height.
     self.view = [[CPKFlippedView alloc] initWithFrame:NSMakeRect(0,
-                                                                 0,
-                                                                 kDesiredWidth,
-                                                                 100)];
+                                        0,
+                                        kDesiredWidth,
+                                        100)];
     self.view.autoresizesSubviews = NO;
 
     __weak __typeof(self) weakSelf = self;
     self.selectionView = [[CPKSelectionView alloc] initWithFrame:self.view.bounds
-                                                           block: ^(CPKColor *color) {
-                                                               [weakSelf selectColor:color.color];
-                                                           }
-                                                           color:[[CPKColor alloc] initWithColor:_selectedColor]
-                                                    alphaAllowed:self.alphaAllowed];
+                             block: ^(CPKColor *color) {
+                                 [weakSelf selectColor:color.color];
+                             }
+    color:[[CPKColor alloc] initWithColor:_selectedColor]
+    alphaAllowed:self.alphaAllowed];
     self.selectionView.delegate = self;
     [self.selectionView sizeToFit];
 
     self.controlsView =
         [[CPKControlsView alloc] initWithFrame:NSMakeRect(0,
-                                                          NSMaxY(self.selectionView.frame),
-                                                          kDesiredWidth,
-                                                          [CPKControlsView desiredHeight])
-                                noColorAllowed:self.noColorAllowed];
+                                        NSMaxY(self.selectionView.frame),
+                                        kDesiredWidth,
+                                        [CPKControlsView desiredHeight])
+                                 noColorAllowed:self.noColorAllowed];
     self.controlsView.swatchColor = _selectedColor;
     self.controlsView.addFavoriteBlock = ^() {
         NSAlert *alert = [[NSAlert alloc] init];
@@ -106,7 +106,7 @@ static const CGFloat kBottomMargin = 8;
         NSInteger button = [alert runModal];
         if (button == NSAlertFirstButtonReturn) {
             [weakSelf.favoritesView addFavorite:[CPKFavorite favoriteWithColor:weakSelf.selectedColor
-                                                                          name:input.stringValue]];
+                                                 name:input.stringValue]];
         }
     };
     self.controlsView.selectNoColorBlock = ^() {
@@ -117,10 +117,10 @@ static const CGFloat kBottomMargin = 8;
     };
     self.controlsView.startPickingBlock = ^() {
         [CPKEyedropperWindow pickColorWithCompletion:^(NSColor *color) {
-            if (color) {
-                weakSelf.selectionView.selectedColor = [[CPKColor alloc] initWithColor:color];
-            }
-        }];
+                                if (color) {
+                                    weakSelf.selectionView.selectedColor = [[CPKColor alloc] initWithColor:color];
+                                }
+                            }];
     };
     self.controlsView.useNativeColorPicker = ^() {
         if (weakSelf.useSystemColorPickerBlock) {
@@ -129,9 +129,9 @@ static const CGFloat kBottomMargin = 8;
     };
     self.favoritesView =
         [[CPKFavoritesView alloc] initWithFrame:NSMakeRect(kLeftMargin,
-                                                           NSMaxY(self.controlsView.frame),
-                                                           kDesiredWidth - kLeftMargin - kRightMargin,
-                                                           [self favoritesViewHeight])];
+                                         NSMaxY(self.controlsView.frame),
+                                         kDesiredWidth - kLeftMargin - kRightMargin,
+                                         [self favoritesViewHeight])];
     self.favoritesView.selectionDidChangeBlock = ^(NSColor *newColor) {
         if (newColor) {
             weakSelf.selectionView.selectedColor = [[CPKColor alloc] initWithColor:newColor];

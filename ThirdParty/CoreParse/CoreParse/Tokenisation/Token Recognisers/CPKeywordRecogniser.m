@@ -31,13 +31,13 @@
 - (id)initWithKeyword:(NSString *)initKeyword invalidFollowingCharacters:(NSCharacterSet *)initInvalidFollowingCharacters
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         [self setKeyword:initKeyword];
         [self setInvalidFollowingCharacters:initInvalidFollowingCharacters];
     }
-    
+
     return self;
 }
 
@@ -52,13 +52,13 @@
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         [self setKeyword:[aDecoder decodeObjectForKey:CPKeywordRecogniserKeywordKey]];
         [self setInvalidFollowingCharacters:[aDecoder decodeObjectForKey:CPKeywordRecogniserInvalidFollowingCharactersKey]];
     }
-    
+
     return self;
 }
 
@@ -70,9 +70,9 @@
 
 - (void)dealloc
 {
-   [keyword release];
-   [invalidFollowingCharacters release];
-    
+    [keyword release];
+    [invalidFollowingCharacters release];
+
     [super dealloc];
 }
 
@@ -85,15 +85,15 @@
         if (CFStringFindWithOptions((CFStringRef)tokenString, (CFStringRef)keyword, CFRangeMake(*tokenPosition, kwLength), kCFCompareAnchored, NULL))
         {
             if (remainingChars == kwLength ||
-                nil == invalidFollowingCharacters ||
-                !CFStringFindCharacterFromSet((CFStringRef)tokenString, (CFCharacterSetRef)invalidFollowingCharacters, CFRangeMake(*tokenPosition + kwLength, 1), kCFCompareAnchored, NULL))
+                    nil == invalidFollowingCharacters ||
+                    !CFStringFindCharacterFromSet((CFStringRef)tokenString, (CFCharacterSetRef)invalidFollowingCharacters, CFRangeMake(*tokenPosition + kwLength, 1), kCFCompareAnchored, NULL))
             {
                 *tokenPosition = *tokenPosition + kwLength;
                 return [CPKeywordToken tokenWithKeyword:keyword];
             }
         }
     }
-    
+
     return nil;
 }
 

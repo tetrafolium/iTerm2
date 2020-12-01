@@ -58,64 +58,64 @@
 #pragma mark - Int32
 
 @interface GPBInt32Array () {
- @package
-  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+    @package
+    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 #pragma mark - UInt32
 
 @interface GPBUInt32Array () {
- @package
-  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+    @package
+    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 #pragma mark - Int64
 
 @interface GPBInt64Array () {
- @package
-  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+    @package
+    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 #pragma mark - UInt64
 
 @interface GPBUInt64Array () {
- @package
-  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+    @package
+    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 #pragma mark - Float
 
 @interface GPBFloatArray () {
- @package
-  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+    @package
+    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 #pragma mark - Double
 
 @interface GPBDoubleArray () {
- @package
-  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+    @package
+    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 #pragma mark - Bool
 
 @interface GPBBoolArray () {
- @package
-  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+    @package
+    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 #pragma mark - Enum
 
 @interface GPBEnumArray () {
- @package
-  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+    @package
+    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
@@ -124,7 +124,7 @@
 #pragma mark - NSArray Subclass
 
 @interface GPBAutocreatedArray : NSMutableArray {
- @package
-  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+    @package
+    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end

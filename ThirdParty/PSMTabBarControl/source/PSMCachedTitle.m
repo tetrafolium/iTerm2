@@ -11,12 +11,12 @@
 @implementation PSMCachedTitleInputs
 
 - (instancetype)initWithTitle:(NSString *)title
-              truncationStyle:(NSLineBreakMode)truncationStyle
-                        color:(NSColor *)color
-                      graphic:(NSImage *)graphic
-                  orientation:(PSMTabBarOrientation)orientation
-                     fontSize:(CGFloat)fontSize
-                    parseHTML:(BOOL)parseHTML {
+    truncationStyle:(NSLineBreakMode)truncationStyle
+    color:(NSColor *)color
+    graphic:(NSImage *)graphic
+    orientation:(PSMTabBarOrientation)orientation
+    fontSize:(CGFloat)fontSize
+    parseHTML:(BOOL)parseHTML {
     self = [super init];
     if (self) {
         _title = title.length < 256 ? [title copy] : [[title substringToIndex:255] stringByAppendingString:@"…"];
@@ -32,8 +32,8 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p title=%@ trunc=%@ color=%@ graphic=%@ orientation=%@ fontSize=%@ parseHTML=%@>",
-            NSStringFromClass([self class]), self, self.title, @(self.truncationStyle),
-            self.color, self.graphic, @(self.orientation), @(self.fontSize), @(_parseHTML)];
+                     NSStringFromClass([self class]), self, self.title, @(self.truncationStyle),
+                     self.color, self.graphic, @(self.orientation), @(self.fontSize), @(_parseHTML)];
 }
 
 - (BOOL)isEqual:(id)obj {
@@ -91,7 +91,7 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p inputs=%@>",
-            NSStringFromClass([self class]), self, self.inputs];
+                     NSStringFromClass([self class]), self, self.inputs];
 }
 
 - (NSAttributedString *)attributedString {
@@ -109,16 +109,20 @@
     }
 
     NSFont *font = [NSFont systemFontOfSize:_inputs.fontSize];
-    NSDictionary *attributes = @{ NSFontAttributeName: font,
-                                  NSForegroundColorAttributeName: _inputs.color,
-                                  NSParagraphStyleAttributeName: truncatingTailParagraphStyle };
+    NSDictionary *attributes = @ { NSFontAttributeName:
+                                   font,
+                                   NSForegroundColorAttributeName:
+                                   _inputs.color,
+                                   NSParagraphStyleAttributeName:
+                                   truncatingTailParagraphStyle
+                                 };
     NSAttributedString *textAttributedString = nil;
     if (_inputs.parseHTML) {
         textAttributedString = [NSAttributedString newAttributedStringWithHTML:_inputs.title
-                                                                    attributes:attributes];
+                                                   attributes:attributes];
     } else {
         textAttributedString = [[NSAttributedString alloc] initWithString:_inputs.title
-                                                               attributes:attributes];
+                                                           attributes:attributes];
     }
     _attributedString = textAttributedString;
     return _attributedString;
@@ -143,7 +147,7 @@
 #pragma mark - Private
 
 - (NSAttributedString *)attributedStringForcingLeftAlignment:(BOOL)forceLeft
-                                           truncatedForWidth:(CGFloat)truncatingWidth {
+    truncatedForWidth:(CGFloat)truncatingWidth {
     BOOL needsComputed = NO;
     if (truncatingWidth != _truncationWidth) {
         needsComputed = YES;
@@ -154,7 +158,7 @@
     }
     if (needsComputed) {
         NSAttributedString *value = [self truncatedAttributedStringForWidth:truncatingWidth
-                                                                leftAligned:forceLeft];
+                                          leftAligned:forceLeft];
         if (forceLeft) {
             _truncatedLeftAlignedAttributedString = value;
         } else {
@@ -177,19 +181,19 @@
 // In the neverending saga of Cocoa embarassing itself, if there isn't enough space for a text
 // attachment and the text that follows it, they are drawn overlapping.
 - (NSAttributedString *)truncatedAttributedStringForWidth:(CGFloat)width
-                                              leftAligned:(BOOL)forceLeft {
+    leftAligned:(BOOL)forceLeft {
     NSAttributedString *attributedString = forceLeft ? self.leftAlignedAttributedString : self.attributedString;
     __block BOOL truncate = NO;
     [attributedString enumerateAttribute:NSAttachmentAttributeName
-                                 inRange:NSMakeRange(0, 1)
-                                 options:0
-                              usingBlock:^(id  _Nullable value, NSRange range, BOOL * _Nonnull stop) {
-                                  if (![value isKindOfClass:[NSTextAttachment class]]) {
-                                      return;
-                                  }
-                                  NSTextAttachment *attachment = value;
-                                  truncate = (attachment.image.size.width * 2 > width);
-                              }];
+                      inRange:NSMakeRange(0, 1)
+                      options:0
+                     usingBlock:^(id  _Nullable value, NSRange range, BOOL * _Nonnull stop) {
+                         if (![value isKindOfClass:[NSTextAttachment class]]) {
+                             return;
+                         }
+                         NSTextAttachment *attachment = value;
+                         truncate = (attachment.image.size.width * 2 > width);
+    }];
     if (truncate) {
         return [attributedString attributedSubstringFromRange:NSMakeRange(0, 1)];
     }

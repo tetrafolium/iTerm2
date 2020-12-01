@@ -14,15 +14,15 @@
 
 // Safe to use on 10.8.
 + (NSColor *)cpk_colorWithHue:(CGFloat)hue
-                   saturation:(CGFloat)saturation
-                   brightness:(CGFloat)brightness
-                        alpha:(CGFloat)alpha;
+    saturation:(CGFloat)saturation
+    brightness:(CGFloat)brightness
+    alpha:(CGFloat)alpha;
 
 // Safe to use on 10.8.
 + (NSColor *)cpk_colorWithRed:(CGFloat)red
-                        green:(CGFloat)green
-                         blue:(CGFloat)blue
-                        alpha:(CGFloat)alpha;
+    green:(CGFloat)green
+    blue:(CGFloat)blue
+    alpha:(CGFloat)alpha;
 
 // Safe to use on 10.8.
 + (NSColor *)cpk_colorWithWhite:(CGFloat)white alpha:(CGFloat)alpha;

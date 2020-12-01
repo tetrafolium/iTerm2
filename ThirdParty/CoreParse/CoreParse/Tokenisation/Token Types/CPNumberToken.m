@@ -20,13 +20,13 @@
 - (id)initWithNumber:(NSNumber *)initNumber
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         [self setNumber:initNumber];
     }
-    
-    return self;    
+
+    return self;
 }
 
 - (id)init

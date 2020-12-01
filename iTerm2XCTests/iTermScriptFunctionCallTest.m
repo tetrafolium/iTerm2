@@ -26,56 +26,56 @@
 - (void)setUp {
     _savedBIFs = [[iTermBuiltInFunctions sharedInstance] savedState];
     iTermBuiltInFunction *add = [[iTermBuiltInFunction alloc] initWithName:@"add"
-                                                                 arguments:@{ @"x": [NSNumber class], @"y": [NSNumber class] }
-                                                         optionalArguments:[NSSet set]
-                                                             defaultValues:@{}
-                                                                   context:iTermVariablesSuggestionContextNone
-                                                                     block:^(NSDictionary * _Nonnull parameters, iTermBuiltInFunctionCompletionBlock  _Nonnull completion) {
-                                                                         id result = @([parameters[@"x"] integerValue] + [parameters[@"y"] integerValue]);
-                                                                         completion(result, nil);
-                                                                     }];
+                                                              arguments:@ { @"x": [NSNumber class], @"y": [NSNumber class] }
+                                                              optionalArguments:[NSSet set]
+                                                              defaultValues:@ {}
+                                                              context:iTermVariablesSuggestionContextNone
+                                 block:^(NSDictionary * _Nonnull parameters, iTermBuiltInFunctionCompletionBlock  _Nonnull completion) {
+                                     id result = @([parameters[@"x"] integerValue] + [parameters[@"y"] integerValue]);
+                                     completion(result, nil);
+    }];
     [[iTermBuiltInFunctions sharedInstance] registerFunction:add namespace:nil];
 
     iTermBuiltInFunction *mult = [[iTermBuiltInFunction alloc] initWithName:@"mult"
-                                                                  arguments:@{ @"x": [NSNumber class], @"y": [NSNumber class] }
-                                                          optionalArguments:[NSSet set]
-                                                              defaultValues:@{}
-                                                                    context:iTermVariablesSuggestionContextNone
-                                                                      block:^(NSDictionary * _Nonnull parameters, iTermBuiltInFunctionCompletionBlock  _Nonnull completion) {
-                                                                          id result = @([parameters[@"x"] integerValue] * [parameters[@"y"] integerValue]);
-                                                                          completion(result, nil);
-                                                                      }];
+                                                               arguments:@ { @"x": [NSNumber class], @"y": [NSNumber class] }
+                                                               optionalArguments:[NSSet set]
+                                                               defaultValues:@ {}
+                                                               context:iTermVariablesSuggestionContextNone
+                                 block:^(NSDictionary * _Nonnull parameters, iTermBuiltInFunctionCompletionBlock  _Nonnull completion) {
+                                     id result = @([parameters[@"x"] integerValue] * [parameters[@"y"] integerValue]);
+                                     completion(result, nil);
+    }];
     [[iTermBuiltInFunctions sharedInstance] registerFunction:mult namespace:nil];
 
     iTermBuiltInFunction *cat = [[iTermBuiltInFunction alloc] initWithName:@"cat"
-                                                                  arguments:@{ @"x": [NSString class], @"y": [NSString class] }
-                                                         optionalArguments:[NSSet set]
-                                                              defaultValues:@{}
-                                                                    context:iTermVariablesSuggestionContextNone
-                                                                      block:^(NSDictionary * _Nonnull parameters, iTermBuiltInFunctionCompletionBlock  _Nonnull completion) {
-                                                                          id result = [parameters[@"x"] stringByAppendingString:parameters[@"y"]];
-                                                                          completion(result, nil);
-                                                                      }];
+                                                              arguments:@ { @"x": [NSString class], @"y": [NSString class] }
+                                                              optionalArguments:[NSSet set]
+                                                              defaultValues:@ {}
+                                                              context:iTermVariablesSuggestionContextNone
+                                 block:^(NSDictionary * _Nonnull parameters, iTermBuiltInFunctionCompletionBlock  _Nonnull completion) {
+                                     id result = [parameters[@"x"] stringByAppendingString:parameters[@"y"]];
+                                     completion(result, nil);
+    }];
     [[iTermBuiltInFunctions sharedInstance] registerFunction:cat namespace:nil];
 
     iTermBuiltInFunction *s = [[iTermBuiltInFunction alloc] initWithName:@"s"
-                                                               arguments:@{}
-                                                       optionalArguments:[NSSet set]
-                                                             defaultValues:@{}
-                                                                   context:iTermVariablesSuggestionContextNone
-                                                                     block:^(NSDictionary * _Nonnull parameters, iTermBuiltInFunctionCompletionBlock  _Nonnull completion) {
-                                                                         completion(@"string", nil);
-                                                                     }];
+                                                            arguments:@ {}
+                                                            optionalArguments:[NSSet set]
+                                                            defaultValues:@ {}
+                                                            context:iTermVariablesSuggestionContextNone
+                                 block:^(NSDictionary * _Nonnull parameters, iTermBuiltInFunctionCompletionBlock  _Nonnull completion) {
+                                     completion(@"string", nil);
+                                 }];
     [[iTermBuiltInFunctions sharedInstance] registerFunction:s namespace:nil];
 
     iTermBuiltInFunction *a = [[iTermBuiltInFunction alloc] initWithName:@"a"
-                                                               arguments:@{}
-                                                       optionalArguments:[NSSet set]
-                                                           defaultValues:@{}
-                                                                 context:iTermVariablesSuggestionContextNone
-                                                                   block:^(NSDictionary * _Nonnull parameters, iTermBuiltInFunctionCompletionBlock  _Nonnull completion) {
-                                                                       completion(@[ @1, @"foo" ], nil);
-                                                                   }];
+                                                            arguments:@ {}
+                                                            optionalArguments:[NSSet set]
+                                                            defaultValues:@ {}
+                                                            context:iTermVariablesSuggestionContextNone
+                                 block:^(NSDictionary * _Nonnull parameters, iTermBuiltInFunctionCompletionBlock  _Nonnull completion) {
+                                     completion(@[ @1, @"foo" ], nil);
+                                 }];
     [[iTermBuiltInFunctions sharedInstance] registerFunction:a namespace:nil];
     [iTermArrayCountBuiltInFunction registerBuiltInFunction];
 
@@ -107,10 +107,10 @@
 
     iTermExpressionEvaluator *evaluator;
     evaluator = [[iTermExpressionEvaluator alloc] initWithExpressionString:@"add(x: 1, y: 2)"
-                                                                     scope:_scope];
+                                                  scope:_scope];
     [evaluator evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-        output = evaluator.value;
-        XCTAssertNil(evaluator.error);
+                  output = evaluator.value;
+                  XCTAssertNil(evaluator.error);
         XCTAssertEqual(0, evaluator.missingValues.count);
     }];
     XCTAssertEqualObjects(output, @3);
@@ -120,9 +120,9 @@
     __block id output;
 
     [[[iTermExpressionEvaluator alloc] initWithExpressionString:@"add(x: 1, y: mult(x: 2, y: 3))"
-                                                          scope:_scope] evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-        output = evaluator.value;
-        XCTAssertNil(evaluator.error);
+                                      scope:_scope] evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
+                                          output = evaluator.value;
+                                          XCTAssertNil(evaluator.error);
         XCTAssertEqual(0, evaluator.missingValues.count);
     }];
     XCTAssertEqualObjects(output, @7);
@@ -131,13 +131,13 @@
 - (void)testEvaluateExpressionUndefinedFunction {
     XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"evaluate function call"];
     [[[iTermExpressionEvaluator alloc] initWithExpressionString:@"add(x: 1, y: bogus(x: 2, y: 3))"
-                                                          scope:_scope] evaluateWithTimeout:INFINITY
-     completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-                                         XCTAssertNil(evaluator.value);
-                                         XCTAssertNotNil(evaluator.error);
-                                         XCTAssertEqualObjects(evaluator.missingValues.allObjects, @[ @"bogus(x,y)" ]);
-                                         [expectation fulfill];
-                                     }];
+                                        scope:_scope] evaluateWithTimeout:INFINITY
+                                      completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
+                                          XCTAssertNil(evaluator.value);
+                                          XCTAssertNotNil(evaluator.error);
+        XCTAssertEqualObjects(evaluator.missingValues.allObjects, @[ @"bogus(x,y)" ]);
+        [expectation fulfill];
+    }];
     [self waitForExpectations:@[expectation] timeout:3600];
 }
 
@@ -146,33 +146,33 @@
 
     __block id output;
     [[[iTermExpressionEvaluator alloc] initWithExpressionString:@"foo"
-                                                          scope:_scope] evaluateWithTimeout:0
-     completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-         output = evaluator.value;
-         XCTAssertNil(evaluator.error);
-         XCTAssertEqual(0, evaluator.missingValues.count);
-     }];
+                                        scope:_scope] evaluateWithTimeout:0
+                                      completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
+                                          output = evaluator.value;
+                                          XCTAssertNil(evaluator.error);
+        XCTAssertEqual(0, evaluator.missingValues.count);
+    }];
     XCTAssertEqualObjects(output, @"xyz");
 }
 
 - (void)testEvaluateExpressionStringLiteral {
     __block id output;
     [[[iTermExpressionEvaluator alloc] initWithExpressionString:@"\"foo\""
-                                                          scope:_scope] evaluateWithTimeout:0
-     completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-         output = evaluator.value;
-         XCTAssertNil(evaluator.error);
-         XCTAssertEqual(0, evaluator.missingValues.count);
-     }];
+                                        scope:_scope] evaluateWithTimeout:0
+                                      completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
+                                          output = evaluator.value;
+                                          XCTAssertNil(evaluator.error);
+        XCTAssertEqual(0, evaluator.missingValues.count);
+    }];
     XCTAssertEqualObjects(output, @"foo");
 }
 
 - (void)testEvaluateExpressionNumberLiteral {
     __block id output;
     [[[iTermExpressionEvaluator alloc] initWithExpressionString:@"42"
-                                                          scope:_scope] evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-        output = evaluator.value;
-        XCTAssertNil(evaluator.error);
+                                      scope:_scope] evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
+                                          output = evaluator.value;
+                                          XCTAssertNil(evaluator.error);
         XCTAssertEqual(0, evaluator.missingValues.count);
     }];
     XCTAssertEqualObjects(output, @42);
@@ -185,9 +185,9 @@
 
     __block id output;
     [[[iTermExpressionEvaluator alloc] initWithExpressionString:@"\"I found that \\(label) equal to \\(add(x: one, y: array[2]))\""
-                                                          scope:_scope] evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-        output = evaluator.value;
-        XCTAssertNil(evaluator.error);
+                                      scope:_scope] evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
+                                          output = evaluator.value;
+                                          XCTAssertNil(evaluator.error);
         XCTAssertEqual(0, evaluator.missingValues.count);
     }];
     XCTAssertEqualObjects(output, @"I found that the sum is equal to 3");
@@ -200,17 +200,17 @@
 
     __block id output;
     NSString *const expression =
-    @"\"start-top \\("
-    @"    cat(x: \"outer-cat-x\","
-    @"        y: \"begin-outer-cat-y \\("
-    @"                cat(x: \"inner-cat-x\", "
-    @"                    y: \"inner-cat-y\")"
-    @"            ) end-outer-cat-y\")"
-    @"    ) end-outer\"";
+        @"\"start-top \\("
+        @"    cat(x: \"outer-cat-x\","
+        @"        y: \"begin-outer-cat-y \\("
+        @"                cat(x: \"inner-cat-x\", "
+        @"                    y: \"inner-cat-y\")"
+        @"            ) end-outer-cat-y\")"
+        @"    ) end-outer\"";
     [[[iTermExpressionEvaluator alloc] initWithExpressionString:expression
-                                                          scope:_scope] evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-        output = evaluator.value;
-        XCTAssertNil(evaluator.error);
+                                      scope:_scope] evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
+                                          output = evaluator.value;
+                                          XCTAssertNil(evaluator.error);
         XCTAssertEqual(0, evaluator.missingValues.count);
     }];
     XCTAssertEqualObjects(output, @"start-top outer-cat-xbegin-outer-cat-y inner-cat-xinner-cat-y end-outer-cat-y end-outer");
@@ -232,9 +232,9 @@
         @"            ) end-outer-cat-y\")"
         @"    ) end-outer\"";
         [[[iTermExpressionEvaluator alloc] initWithExpressionString:expression
-                                                              scope:_scope] evaluateWithTimeout:INFINITY completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-            XCTAssertNil(evaluator.value);
-            XCTAssertNotNil(evaluator.error);
+                                          scope:_scope] evaluateWithTimeout:INFINITY completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
+                                              XCTAssertNil(evaluator.value);
+                                              XCTAssertNotNil(evaluator.error);
             NSArray *expected = @[ @"XXX(x,y)" ];
             XCTAssertEqualObjects(evaluator.missingValues.allObjects, expected);
 
@@ -251,17 +251,17 @@
 
     XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"evaluate function call"];
     NSString *const expression =
-    @"\"start-top \\("
-    @"    cat(x: \"outer-cat-x\","
-    @"        y: \"begin-outer-cat-y \\("
-    @"                cat(x: \"inner-cat-x\", "
-    @"                    y: bogus)"
-    @"            ) end-outer-cat-y\")"
-    @"    ) end-outer\"";
+        @"\"start-top \\("
+        @"    cat(x: \"outer-cat-x\","
+        @"        y: \"begin-outer-cat-y \\("
+        @"                cat(x: \"inner-cat-x\", "
+        @"                    y: bogus)"
+        @"            ) end-outer-cat-y\")"
+        @"    ) end-outer\"";
     [[[iTermExpressionEvaluator alloc] initWithExpressionString:expression
-                                                          scope:_scope] evaluateWithTimeout:INFINITY completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-        XCTAssertNil(evaluator.value);
-        XCTAssertNotNil(evaluator.error);
+                                      scope:_scope] evaluateWithTimeout:INFINITY completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
+                                          XCTAssertNil(evaluator.value);
+                                          XCTAssertNotNil(evaluator.error);
         XCTAssertEqual(0, evaluator.missingValues.count);
 
         [expectation fulfill];
@@ -274,9 +274,9 @@
 
     __block id output;
     [[[iTermExpressionEvaluator alloc] initWithExpressionString:@"foo"
-                                                          scope:_scope] evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-        output = evaluator.value;
-        XCTAssertNil(evaluator.error);
+                                      scope:_scope] evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
+                                          output = evaluator.value;
+                                          XCTAssertNil(evaluator.error);
         XCTAssertEqual(0, evaluator.missingValues.count);
     }];
     XCTAssertEqualObjects(output, @5);
@@ -288,9 +288,9 @@
 
     __block id output;
     [[[iTermExpressionEvaluator alloc] initWithExpressionString:@"foo"
-                                                          scope:_scope] evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-        output = evaluator.value;
-        XCTAssertNil(evaluator.error);
+                                      scope:_scope] evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
+                                          output = evaluator.value;
+                                          XCTAssertNil(evaluator.error);
         XCTAssertEqual(0, evaluator.missingValues.count);
     }];
     XCTAssertEqualObjects(output, value);
@@ -302,9 +302,9 @@
 
     __block id output;
     [[[iTermExpressionEvaluator alloc] initWithExpressionString:@"foo[1]"
-                                                          scope:_scope] evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-        output = evaluator.value;
-        XCTAssertNil(evaluator.error);
+                                      scope:_scope] evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
+                                          output = evaluator.value;
+                                          XCTAssertNil(evaluator.error);
         XCTAssertEqual(0, evaluator.missingValues.count);
     }];
     XCTAssertEqualObjects(output, @3);
@@ -315,9 +315,9 @@
     [_scope setValue:value forVariableNamed:@"foo"];
 
     [[[iTermExpressionEvaluator alloc] initWithExpressionString:@"foo[3]"
-                                                          scope:_scope] evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-        XCTAssertNil(evaluator.value);
-        XCTAssertNotNil(evaluator.error);
+                                      scope:_scope] evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
+                                          XCTAssertNil(evaluator.value);
+                                          XCTAssertNotNil(evaluator.error);
         XCTAssertEqual(evaluator.error.code, 3);
         XCTAssertEqual(0, evaluator.missingValues.count);
     }];
@@ -328,18 +328,18 @@
 
     __block id output;
     [[[iTermExpressionEvaluator alloc] initWithExpressionString:@"foo?"
-                                                          scope:_scope] evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-        output = evaluator.value;
-        XCTAssertNil(evaluator.error);
+                                      scope:_scope] evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
+                                          output = evaluator.value;
+                                          XCTAssertNil(evaluator.error);
         XCTAssertEqual(0, evaluator.missingValues.count);
     }];
     XCTAssertEqualObjects(output, @5);
 
     output = nil;
     [[[iTermExpressionEvaluator alloc] initWithExpressionString:@"bar?"
-                                                          scope:_scope] evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-        output = evaluator.value;
-        XCTAssertNil(evaluator.error);
+                                      scope:_scope] evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
+                                          output = evaluator.value;
+                                          XCTAssertNil(evaluator.error);
         XCTAssertEqual(0, evaluator.missingValues.count);
     }];
     XCTAssertEqualObjects(output, nil);
@@ -347,9 +347,9 @@
 
 - (void)testEvaluateExpressionUndefinedVariable {
     [[[iTermExpressionEvaluator alloc] initWithExpressionString:@"foo"
-                                                          scope:_scope] evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-        XCTAssertNil(evaluator.value);
-        XCTAssertNotNil(evaluator.error);
+                                      scope:_scope] evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
+                                          XCTAssertNil(evaluator.value);
+                                          XCTAssertNotNil(evaluator.error);
         XCTAssertEqual(evaluator.error.code, 7);
         XCTAssertEqual(0, evaluator.missingValues.count);
     }];
@@ -360,42 +360,42 @@
 - (void)testCallFunction {
     __block id result;
     [iTermScriptFunctionCall callFunction:@"add(x:1, y:2)"
-                                  timeout:0
-                                    scope:_scope
-                               retainSelf:YES
-                               completion:^(id object, NSError *error, NSSet<NSString *> *missing) {
-                                   result = object;
-                                   XCTAssertNil(error);
-                                   XCTAssertEqual(0, missing.count);
-                               }];
+                             timeout:0
+                             scope:_scope
+                             retainSelf:YES
+                            completion:^(id object, NSError *error, NSSet<NSString *> *missing) {
+                                result = object;
+                                XCTAssertNil(error);
+        XCTAssertEqual(0, missing.count);
+    }];
     XCTAssertEqualObjects(result, @3);
 }
 
 - (void)testCallFunctionMistypedArgument {
     [iTermScriptFunctionCall callFunction:@"add(x:1, y:\"foo\")"
-                                  timeout:0
-                                    scope:_scope
-                               retainSelf:YES
-                               completion:^(id object, NSError *error, NSSet<NSString *> *missing) {
-                                   XCTAssertNil(object);
-                                   XCTAssertNotNil(error);
-                                   XCTAssertEqual(0, missing.count);
-                               }];
+                             timeout:0
+                             scope:_scope
+                             retainSelf:YES
+                            completion:^(id object, NSError *error, NSSet<NSString *> *missing) {
+                                XCTAssertNil(object);
+                                XCTAssertNotNil(error);
+        XCTAssertEqual(0, missing.count);
+    }];
 }
 
 - (void)testCallFunctionWrongArguments {
     XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"evaluate function call"];
     [iTermScriptFunctionCall callFunction:@"add(x:1)"
-                                  timeout:INFINITY
-                                    scope:_scope
-                               retainSelf:YES
-                               completion:^(id object, NSError *error, NSSet<NSString *> *missing) {
-                                   XCTAssertNil(object);
-                                   XCTAssertNotNil(error);
-                                   NSArray *expected = @[ @"add(x)" ];
-                                   XCTAssertEqualObjects(missing.allObjects, expected);
-                                   [expectation fulfill];
-                               }];
+                             timeout:INFINITY
+                             scope:_scope
+                             retainSelf:YES
+                            completion:^(id object, NSError *error, NSSet<NSString *> *missing) {
+                                XCTAssertNil(object);
+                                XCTAssertNotNil(error);
+        NSArray *expected = @[ @"add(x)" ];
+        XCTAssertEqualObjects(missing.allObjects, expected);
+        [expectation fulfill];
+    }];
     [self waitForExpectations:@[expectation] timeout:3600];
 }
 
@@ -429,9 +429,9 @@
     [_scope setValue:@"BAR" forVariableNamed:@"bar"];
     __block id result;
     [[[iTermExpressionEvaluator alloc] initWithInterpolatedString:@"foo \\(cat(x: s(), y: bar)) fin"
-                                                          scope:_scope] evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-        result = evaluator.value;
-        XCTAssertNil(evaluator.error);
+                                      scope:_scope] evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
+                                          result = evaluator.value;
+                                          XCTAssertNil(evaluator.error);
         XCTAssertEqual(0, evaluator.missingValues.count);
     }];
     NSString *expected = @"foo stringBAR fin";
@@ -441,9 +441,9 @@
 - (void)testEvaluateStringArrayResult {
     __block id result;
     [[[iTermExpressionEvaluator alloc] initWithInterpolatedString:@"\\(a())"
-                                                            scope:_scope] evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-        result = evaluator.value;
-        XCTAssertNil(evaluator.error);
+                                      scope:_scope] evaluateWithTimeout:0 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
+                                          result = evaluator.value;
+                                          XCTAssertNil(evaluator.error);
         XCTAssertEqual(0, evaluator.missingValues.count);
     }];
     NSString *expected = @"[1, foo]";
@@ -455,12 +455,12 @@
 - (void)testArrayCount {
     __block id result;
     [iTermScriptFunctionCall callFunction:@"iterm2.count(array: a())"
-                                  timeout:0
-                                    scope:_scope
-                               retainSelf:YES
-                               completion:^(id object, NSError *error, NSSet<NSString *> *missing) {
-                                   result = object;
-                               }];
+                             timeout:0
+                             scope:_scope
+                             retainSelf:YES
+                            completion:^(id object, NSError *error, NSSet<NSString *> *missing) {
+                                result = object;
+                            }];
     XCTAssertEqualObjects(result, @2);
 }
 
@@ -472,8 +472,8 @@
     iTermParsedExpression *expression = [parser parse:@"[ 1, 2, 3 ]" scope:scope];
     XCTAssertEqual(expression.expressionType, iTermParsedExpressionTypeArrayOfExpressions);
     NSArray *actual = [expression.arrayOfExpressions mapWithBlock:^id(iTermParsedExpression *expression) {
-        return expression.object;
-    }];
+                                      return expression.object;
+                                  }];
     NSArray *expected = @[ @1, @2, @3 ];
     XCTAssertEqualObjects(actual, expected);
 }

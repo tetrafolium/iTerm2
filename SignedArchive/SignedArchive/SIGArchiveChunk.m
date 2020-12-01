@@ -19,8 +19,8 @@ NSString *const SIGArchiveHeaderMagicString = @"signed-archive";
 }
 
 + (instancetype)chunkFromFileHandle:(NSFileHandle *)fileHandle
-                           atOffset:(long long)offset
-                              error:(out NSError * _Nullable __autoreleasing * _Nullable)error {
+    atOffset:(long long)offset
+    error:(out NSError * _Nullable __autoreleasing * _Nullable)error {
     @try {
         [fileHandle seekToFileOffset:offset];
     } @catch (NSException *exception) {
@@ -29,7 +29,7 @@ NSString *const SIGArchiveHeaderMagicString = @"signed-archive";
         }
         return nil;
     }
-    
+
     SIGArchiveTag tag;
     if (![self readNonnegativeIntegerFromFileHandle:fileHandle fromOffset:offset value:(long long *)&tag error:error]) {
         return nil;
@@ -39,26 +39,26 @@ NSString *const SIGArchiveHeaderMagicString = @"signed-archive";
     if (![self readNonnegativeIntegerFromFileHandle:fileHandle fromOffset:SIGAddNonnegativeInt64s(offset, sizeof(long long)) value:(long long *)&length error:error]) {
         return nil;
     }
-    
+
     SIGArchiveChunk *chunk = [[SIGArchiveChunk alloc] initWithTag:tag
-                                                           length:length
-                                                           offset:SIGAddNonnegativeInt64s(offset, SIGArchiveChunkOverhead)];
+                                                      length:length
+                                                      offset:SIGAddNonnegativeInt64s(offset, SIGArchiveChunkOverhead)];
     if (!chunk) {
         if (error) {
             *error = [SIGError errorWithCode:SIGErrorCodeUnknown
-                                      detail:@"Failed to create chunk object"];
+                               detail:@"Failed to create chunk object"];
         }
         return nil;
     }
-    
+
     chunk->_fileHandle = fileHandle;
 
     return chunk;
 }
 
 + (NSData *)readDataFromFileHandle:(NSFileHandle *)fileHandle
-                    expectedLength:(long long)expectedLength
-                             error:(out NSError * _Nullable __autoreleasing * _Nullable)error {
+    expectedLength:(long long)expectedLength
+    error:(out NSError * _Nullable __autoreleasing * _Nullable)error {
     assert(expectedLength >= 0);
 
     NSError *readError = nil;
@@ -67,15 +67,15 @@ NSString *const SIGArchiveHeaderMagicString = @"signed-archive";
         data = [fileHandle readDataOfLength:expectedLength];
     } @catch (NSException *exception) {
         readError = [SIGError errorWithCode:SIGErrorCodeIORead
-                                     detail:[exception reason]];
+                              detail:[exception reason]];
     }
     if (!readError && data.length != expectedLength) {
         readError = [SIGError errorWithCode:SIGErrorCodeIORead
-                                     detail:@"Short read"];
+                              detail:@"Short read"];
     }
     if (!data && !readError) {
         readError = [SIGError errorWithCode:SIGErrorCodeIORead
-                                     detail:@"Uncaught read failure"];
+                              detail:@"Uncaught read failure"];
     }
     if (error) {
         *error = readError;
@@ -87,9 +87,9 @@ NSString *const SIGArchiveHeaderMagicString = @"signed-archive";
 }
 
 + (NSData *)readDataFromFileHandle:(NSFileHandle *)fileHandle
-                        fromOffset:(NSInteger)offset
-                    expectedLength:(long long)expectedLength
-                             error:(out NSError * _Nullable __autoreleasing * _Nullable)error {
+    fromOffset:(NSInteger)offset
+    expectedLength:(long long)expectedLength
+    error:(out NSError * _Nullable __autoreleasing * _Nullable)error {
     assert(offset >= 0);
     assert(expectedLength >= 0);
 
@@ -97,7 +97,7 @@ NSString *const SIGArchiveHeaderMagicString = @"signed-archive";
         [fileHandle seekToFileOffset:offset];
     } @catch (NSException *exception) {
         NSError *readError = [SIGError errorWithCode:SIGErrorCodeIORead
-                                              detail:[exception reason]];
+                                       detail:[exception reason]];
         if (error) {
             *error = readError;
         }
@@ -105,18 +105,18 @@ NSString *const SIGArchiveHeaderMagicString = @"signed-archive";
     }
 
     return [self readDataFromFileHandle:fileHandle
-                         expectedLength:expectedLength
-                                  error:error];
+                 expectedLength:expectedLength
+                 error:error];
 }
 
 + (BOOL)readNonnegativeIntegerFromFileHandle:(NSFileHandle *)fileHandle
-                                  fromOffset:(NSInteger)offset
-                                       value:(out long long *)valuePointer
-                                       error:(out NSError * _Nullable __autoreleasing * _Nullable)error {
+    fromOffset:(NSInteger)offset
+    value:(out long long *)valuePointer
+    error:(out NSError * _Nullable __autoreleasing * _Nullable)error {
     NSData *data = [self readDataFromFileHandle:fileHandle
-                                     fromOffset:offset
-                                 expectedLength:sizeof(long long)
-                                          error:error];
+                         fromOffset:offset
+                         expectedLength:sizeof(long long)
+                         error:error];
     if (data) {
         long long networkOrder;
         assert(data.length == sizeof(networkOrder));
@@ -133,8 +133,8 @@ NSString *const SIGArchiveHeaderMagicString = @"signed-archive";
 }
 
 - (instancetype)initWithTag:(SIGArchiveTag)tag
-                     length:(long long)length
-                     offset:(long long)offset {
+    length:(long long)length
+    offset:(long long)offset {
     self = [super init];
     if (self) {
         assert(length >= 0);
@@ -157,9 +157,9 @@ NSString *const SIGArchiveHeaderMagicString = @"signed-archive";
 
     NSError *readError = nil;
     _data = [SIGArchiveChunk readDataFromFileHandle:_fileHandle
-                                         fromOffset:self.payloadOffset
-                                     expectedLength:self.payloadLength
-                                              error:&readError];
+                             fromOffset:self.payloadOffset
+                             expectedLength:self.payloadLength
+                             error:&readError];
     if (readError) {
         if (error) {
             *error = readError;
@@ -168,7 +168,7 @@ NSString *const SIGArchiveHeaderMagicString = @"signed-archive";
         _fileHandle = nil;
         return nil;
     }
-    
+
     return _data;
 }
 
@@ -179,15 +179,15 @@ NSString *const SIGArchiveHeaderMagicString = @"signed-archive";
 @implementation SIGArchiveChunkWriter
 
 - (BOOL)writeData:(NSData *)data
-         toStream:(NSOutputStream *)stream
-            error:(out NSError * _Nullable __autoreleasing * _Nullable)error {
+    toStream:(NSOutputStream *)stream
+    error:(out NSError * _Nullable __autoreleasing * _Nullable)error {
     if (![self writeInteger:self.tag toStream:stream error:error]) {
         return NO;
     }
     if (data.length != self.payloadLength) {
         if (error) {
             *error = [SIGError errorWithCode:SIGErrorCodeConsistency
-                                      detail:@"File changed during signing"];
+                               detail:@"File changed during signing"];
         }
         return NO;
     }
@@ -195,21 +195,21 @@ NSString *const SIGArchiveHeaderMagicString = @"signed-archive";
         return NO;
     }
     const long long length = [stream write:data.bytes
-                                 maxLength:data.length];
+                                     maxLength:data.length];
     if (length != data.length) {
         if (error) {
             *error = [SIGError errorWithCode:SIGErrorCodeIOWrite
-                                      detail:@"Short write"];
+                               detail:@"Short write"];
         }
         return NO;
     }
-    
+
     return YES;
 }
 
 - (BOOL)writeStream:(NSInputStream *)readStream
-           toStream:(NSOutputStream *)writeStream
-              error:(out NSError * _Nullable __autoreleasing * _Nullable)error {
+    toStream:(NSOutputStream *)writeStream
+    error:(out NSError * _Nullable __autoreleasing * _Nullable)error {
     if (![self writeInteger:self.tag toStream:writeStream error:error]) {
         return NO;
     }
@@ -220,15 +220,15 @@ NSString *const SIGArchiveHeaderMagicString = @"signed-archive";
     while (readStream.hasBytesAvailable) {
         uint8_t buffer[4096];
         const NSInteger numberOfBytesRead = [readStream read:buffer
-                                                   maxLength:sizeof(buffer)];
+                                                        maxLength:sizeof(buffer)];
         if (numberOfBytesRead == 0) {
             break;
         }
         if (numberOfBytesRead < 0) {
             if (error) {
                 *error = [SIGError errorWrapping:readStream.streamError
-                                          code:SIGErrorCodeIORead
-                                          detail:@"Error reading file"];
+                                   code:SIGErrorCodeIORead
+                                   detail:@"Error reading file"];
             }
             return NO;
         }
@@ -236,14 +236,14 @@ NSString *const SIGArchiveHeaderMagicString = @"signed-archive";
         if (totalNumberOfBytes > self.payloadLength) {
             if (error) {
                 *error = [SIGError errorWithCode:SIGErrorCodeConsistency
-                                          detail:@"File changed while reading"];
+                                   detail:@"File changed while reading"];
             }
             return NO;
         }
         NSInteger numberOfBytesWritten = [writeStream write:buffer maxLength:numberOfBytesRead];
         if (numberOfBytesWritten < numberOfBytesRead) {
             *error = [SIGError errorWithCode:SIGErrorCodeIOWrite
-                                      detail:@"Short write"];
+                               detail:@"Short write"];
             return NO;
         }
     }
@@ -253,21 +253,21 @@ NSString *const SIGArchiveHeaderMagicString = @"signed-archive";
 #pragma mark - Private
 
 - (BOOL)writeInteger:(long long)integer
-            toStream:(NSOutputStream *)stream
-               error:(out NSError * _Nullable __autoreleasing * _Nullable)error {
+    toStream:(NSOutputStream *)stream
+    error:(out NSError * _Nullable __autoreleasing * _Nullable)error {
     const long long networkOrder = htonll(integer);
     uint8_t buffer[sizeof(networkOrder)];
     memmove(&buffer, (void *)&networkOrder, sizeof(networkOrder));
     const NSInteger length = [stream write:buffer
-                                 maxLength:sizeof(buffer)];
+                                     maxLength:sizeof(buffer)];
     if (error) {
         if (length < 0) {
             *error = [SIGError errorWrapping:stream.streamError
-                                      code:SIGErrorCodeIOWrite
-                                      detail:@"Error writing to file"];
+                               code:SIGErrorCodeIOWrite
+                               detail:@"Error writing to file"];
         } else if (length != sizeof(buffer)) {
             *error = [SIGError errorWithCode:SIGErrorCodeIOWrite
-                                      detail:@"Short write"];
+                               detail:@"Short write"];
         }
     }
     return length == sizeof(buffer);

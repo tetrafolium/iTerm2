@@ -23,9 +23,9 @@
 
 /**
  * Returns an object initialised with the contents of a syntax tree.
- * 
+ *
  * @param syntaxTree The syntax tree to initialise the object with.
- * 
+ *
  * @return An object created using the contents of the syntax tree.
  */
 - (id)initWithSyntaxTree:(CPSyntaxTree *)syntaxTree;
@@ -34,7 +34,7 @@
 
 /**
  * The delegate of a CPParser must adopt the CPParserDelegate protocol.  This allows you to replace the produced syntax trees with data structures of your choice.
- * 
+ *
  * Significant processing can be performed in a parser delegate.  For example, a parser for numeric expressions could replace each syntax tree with an NSNumber representing
  * the resultant value of evaluating the expression.  This would allow you to parse, and compute the result of the expression in one pass.
  */
@@ -44,11 +44,11 @@
 
 /**
  * Should return an object to replace a produced syntax tree with.
- * 
+ *
  * You should not return `nil` from this method.  If you do not wish to change the syntax tree, simply return the same value as you are passed.
- * 
+ *
  * @warning Note that it is not guarenteed that this method will be called in the same order as the structures appear in your input stream.
- * 
+ *
  * @param parser     The parser which produced the syntax tree.
  * @param syntaxTree The syntax tree the parser has produced.
  * @return An object value to replace the syntax tree with.
@@ -57,7 +57,7 @@
 
 /**
  * Called when the parser encounters a token for which it can not shift, reduce or accept.
- * 
+ *
  * @param parser           The parser which produced the syntax tree.
  * @param inputStream      The input stream containing the token the parser could not cope with.
  * @return An action to take to recover from the parse error or nil.  If the action is nil, and the problematic token is a CPErrorToken
@@ -68,7 +68,7 @@
 
 /**
  * Called when the parser encounters a token for which it can not shift, reduce or accept.
- * 
+ *
  * @param parser           The parser which produced the syntax tree.
  * @param inputStream      The input stream containing the token the parser could not cope with.
  * @param acceptableTokens A set of token names that would have allowed the parser to continue in its current state.
@@ -84,7 +84,7 @@ typedef struct
     unsigned int didProduceSyntaxTree:1;
     unsigned int didEncounterErrorOnInput:1;
     unsigned int didEncounterErrorOnInputExpecting:1;
-    
+
 } CPParserDelegateResponseCache;
 
 /**
@@ -121,7 +121,7 @@ typedef struct
 - (id)initWithGrammar:(CPGrammar *)grammar;
 
 ///---------------------------------------------------------------------------------------
-/// @name Managing the Delegate 
+/// @name Managing the Delegate
 ///---------------------------------------------------------------------------------------
 
 /**
@@ -130,7 +130,7 @@ typedef struct
 @property (readwrite,assign, nonatomic) id<CPParserDelegate> delegate;
 
 ///---------------------------------------------------------------------------------------
-/// @name Finding out about the parsed Grammar 
+/// @name Finding out about the parsed Grammar
 ///---------------------------------------------------------------------------------------
 
 /**
@@ -144,7 +144,7 @@ typedef struct
 
 /**
  * Parses an input token stream.
- * 
+ *
  * Currently if errors are generated, `nil` is returned and the error Logged using NSLog.  This behaviour may change in the future to return the error in a more usable form.
  *
  * @param tokenStream The token stream to parse.

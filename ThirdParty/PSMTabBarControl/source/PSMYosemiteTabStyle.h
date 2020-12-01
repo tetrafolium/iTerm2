@@ -38,12 +38,12 @@ int DebugLogImpl(const char *file, int line, const char *function, NSString* val
 - (NSEdgeInsets)backgroundInsetsWithHorizontalOrientation:(BOOL)horizontal;
 
 - (NSColor *)effectiveBackgroundColorForTabWithTabColor:(NSColor *)tabColor
-                                               selected:(BOOL)selected
-                                        highlightAmount:(CGFloat)highlightAmount
-                                                 window:(NSWindow *)window;
+    selected:(BOOL)selected
+    highlightAmount:(CGFloat)highlightAmount
+    window:(NSWindow *)window;
 - (void)drawCellBackgroundSelected:(BOOL)selected
-                            inRect:(NSRect)cellFrame
-                      withTabColor:(NSColor *)tabColor
-                   highlightAmount:(CGFloat)highlightAmount
-                        horizontal:(BOOL)horizontal;
+    inRect:(NSRect)cellFrame
+    withTabColor:(NSColor *)tabColor
+    highlightAmount:(CGFloat)highlightAmount
+    horizontal:(BOOL)horizontal;
 @end

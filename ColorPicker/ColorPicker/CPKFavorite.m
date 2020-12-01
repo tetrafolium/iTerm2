@@ -22,7 +22,8 @@ NSString *const kCPKFavoriteUTI = @"com.googlecode.iterm2.ColorPicker.Favorite";
 
 #pragma mark - NSSecureCoding
 
-+ (BOOL)supportsSecureCoding; {
++ (BOOL)supportsSecureCoding;
+{
     return YES;
 }
 
@@ -30,11 +31,11 @@ NSString *const kCPKFavoriteUTI = @"com.googlecode.iterm2.ColorPicker.Favorite";
     self = [super init];
     if (self) {
         self.name = [aDecoder decodeObjectOfClass:[NSString class]
-                                           forKey:kNSCodingCPKFavoriteNameKey];
+                              forKey:kNSCodingCPKFavoriteNameKey];
         self.color = [aDecoder decodeObjectOfClass:[NSColor class]
-                                            forKey:kNSCodingCPKFavoriteColorKey];
+                               forKey:kNSCodingCPKFavoriteColorKey];
         self.identifier = [aDecoder decodeObjectOfClass:[NSString class]
-                                                 forKey:kNSCodingCPKFavoriteIdentifierKey];
+                                    forKey:kNSCodingCPKFavoriteIdentifierKey];
     }
     return self;
 }

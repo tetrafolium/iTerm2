@@ -29,23 +29,23 @@ typedef enum
 /// @name Creating and Initialising a Grammar
 ///---------------------------------------------------------------------------------------
 
-/**
- * Creates a grammar based on a starting non-terminal and a list of rules.
- *
- * @param start The non-terminal that all parses must reduce to.
- * @param rules An array of CPRules to describe the grammar.
- * @return Returns a CPGrammar based on the rules and starting non-terminal.
- *
- * @see initWithStart:rules:
- * @see grammarWithStart:backusNaurForm:
- */
+    /**
+     * Creates a grammar based on a starting non-terminal and a list of rules.
+     *
+     * @param start The non-terminal that all parses must reduce to.
+     * @param rules An array of CPRules to describe the grammar.
+     * @return Returns a CPGrammar based on the rules and starting non-terminal.
+     *
+     * @see initWithStart:rules:
+     * @see grammarWithStart:backusNaurForm:
+     */
 + (id)grammarWithStart:(NSString *)start rules:(NSArray *)rules;
 
 /**
  * Creates a grammar based on a starting non-terminal and some backus naur form.
  *
  * see initWithStart:backusNaurForm: for a description of the syntax used for BNF.
- * 
+ *
  * @param start The non-terminal that all parses must reduce to.
  * @param bnf   BNF for the grammar.
  * @return Returns a CPGrammar based on the BNF and starting non-terminal.
@@ -88,13 +88,13 @@ typedef enum
  * This allows you to quickly construct grammars in a readable form.
  * You may also use EBNF to construct grammars.  This allows you to use the symbols "*", "+", and "?" to indicate that a construction may appear 0 or more; 1 or more; and 0 or 1 times respectively.
  * You may also parenthesise subrules.
- * 
+ *
  * When you use any of the above EBNF constructs or parentheses, the parser will return the contents in an NSArray.
  *
  * You may use tags to identify sections of rules to be extracted in your result classes or parser delegate.  To do this, use the syntax `nonTerminal ::= foo@<subNonTerminal> bar@"subTerminal";`.  You may use multiple tags to identify the same section of a rule.  For example `range ::= min@'Number' '-' max@'Number' | min@'Number' '-' | '-' max@'Number' | min@max@'Number'`.
- * 
+ *
  * The grammar used for parsing the BNF can be expressed as follows:
- * 
+ *
  * <pre>
  * ruleset                 ::= &lt;rule&gt;+;
  *
@@ -186,14 +186,14 @@ typedef enum
 
 /**
  * The set of rules in the grammar.
- * 
+ *
  * @return Returns the set of rules used to describe the grammar.
  */
 - (NSSet *)allRules;
 
 /**
  * Adds a rule to the grammar.
- * 
+ *
  * @param rule The rule to add.
  */
 - (void)addRule:(CPRule *)rule;

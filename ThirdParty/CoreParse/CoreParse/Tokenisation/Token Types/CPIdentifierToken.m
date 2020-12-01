@@ -23,12 +23,12 @@
 - (id)initWithIdentifier:(NSString *)initIdentifier
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         [self setIdentifier:initIdentifier];
     }
-    
+
     return self;
 }
 
@@ -40,7 +40,7 @@
 - (void)dealloc
 {
     [identifier release];
-    
+
     [super dealloc];
 }
 

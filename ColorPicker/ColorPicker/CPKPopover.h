@@ -9,7 +9,7 @@
  */
 @interface CPKPopover : NSPopover
 
-/** Reflects the final selected color. Setter changes color in open popover. */
+    /** Reflects the final selected color. Setter changes color in open popover. */
 @property(nonatomic, strong) NSColor *selectedColor;
 
 /** Called before popover closes. */
@@ -27,18 +27,18 @@
  * @return A new popover that's being displayed.
  */
 + (instancetype)presentRelativeToRect:(NSRect)positioningRect
-                               ofView:(NSView *)positioningView
-                        preferredEdge:(NSRectEdge)preferredEdge
-                         initialColor:(NSColor *)color
-                         alphaAllowed:(BOOL)alphaAllowed
-                selectionDidChange:(void (^)(NSColor *))block DEPRECATED_ATTRIBUTE;
+    ofView:(NSView *)positioningView
+    preferredEdge:(NSRectEdge)preferredEdge
+    initialColor:(NSColor *)color
+    alphaAllowed:(BOOL)alphaAllowed
+    selectionDidChange:(void (^)(NSColor *))block DEPRECATED_ATTRIBUTE;
 
 + (instancetype)presentRelativeToRect:(NSRect)positioningRect
-                               ofView:(NSView *)positioningView
-                        preferredEdge:(NSRectEdge)preferredEdge
-                         initialColor:(NSColor *)color
-                              options:(CPKMainViewControllerOptions)options
-                   selectionDidChange:(void (^)(NSColor *))block
-                 useSystemColorPicker:(void (^)(void))useSystemColorPicker;
+    ofView:(NSView *)positioningView
+    preferredEdge:(NSRectEdge)preferredEdge
+    initialColor:(NSColor *)color
+    options:(CPKMainViewControllerOptions)options
+    selectionDidChange:(void (^)(NSColor *))block
+    useSystemColorPicker:(void (^)(void))useSystemColorPicker;
 
 @end

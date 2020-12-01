@@ -20,19 +20,19 @@
 - (id)initWithMesage:(NSString *)initErrorMessage
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         [self setErrorMessage:initErrorMessage];
     }
-    
+
     return self;
 }
 
 - (void)dealloc
 {
     [errorMessage release];
-    
+
     [super dealloc];
 }
 

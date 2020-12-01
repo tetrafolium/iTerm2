@@ -52,12 +52,12 @@
 
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     CGContextRef context = CGBitmapContextCreate((void *)data.bytes,
-                                                 size.width,
-                                                 size.height,
-                                                 8,
-                                                 bytesPerRow,
-                                                 colorSpace,
-                                                 (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
+                           size.width,
+                           size.height,
+                           8,
+                           bytesPerRow,
+                           colorSpace,
+                           (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
     CGColorSpaceRelease(colorSpace);
     if (!context) {
         return NULL;
@@ -88,15 +88,19 @@
 }
 
 - (NSDictionary *)dictionaryValue {
-    return @{ @"delays": self.delays,
-              @"size": @[ @(self.size.width), @(self.size.height) ],
-              @"images": [self imageStringArray] };
+    return @ { @"delays":
+               self.delays,
+               @"size":
+               @[ @(self.size.width), @(self.size.height) ],
+               @"images":
+               [self imageStringArray]
+             };
 }
 
 - (NSData *)jsonValue {
     return [NSJSONSerialization dataWithJSONObject:[self dictionaryValue]
-                                           options:0
-                                             error:nil];
+                                options:0
+                                error:nil];
 }
 
 @end

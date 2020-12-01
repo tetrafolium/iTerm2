@@ -52,14 +52,14 @@
     }
 
     NSString *string = [[NSString alloc] initWithData:data
-                                             encoding:NSUTF8StringEncoding];
+                                         encoding:NSUTF8StringEncoding];
     if (!string) {
         if (error) {
             *error = [SIGError errorWithCode:SIGErrorCodeMalformedHeader];
         }
         return nil;
     }
-    
+
     return string;
 }
 
@@ -76,14 +76,14 @@
         return nil;
     }
     NSString *string = [[NSString alloc] initWithData:data
-                                             encoding:NSUTF8StringEncoding];
+                                         encoding:NSUTF8StringEncoding];
     if (!string) {
         if (error) {
             *error = [SIGError errorWithCode:SIGErrorCodeMalformedMetadata];
         }
         return nil;
     }
-    
+
     return string;
 }
 
@@ -139,8 +139,8 @@
         return nil;
     }
     return [[SIGPartialInputStream alloc] initWithURL:_url
-                                                range:NSMakeRange(chunk.payloadOffset,
-                                                                  chunk.payloadLength)];
+                                          range:NSMakeRange(chunk.payloadOffset,
+                                                            chunk.payloadLength)];
 }
 
 - (NSInputStream *)payload2InputStream:(out NSError **)error {
@@ -163,7 +163,7 @@
     }
 
     return [[SIGPartialInputStream alloc] initWithURL:_url
-                                                range:NSMakeRange(0, length)];
+                                          range:NSMakeRange(0, length)];
 }
 
 - (long long)payloadLength {
@@ -177,26 +177,26 @@
 - (BOOL)load:(out NSError **)errorOut {
     assert(!_loaded);
     _loaded = YES;
-    
+
     NSError *error = nil;
     const NSInteger length = [[NSFileManager defaultManager] attributesOfItemAtPath:_url.path
-                                                                              error:&error].fileSize;
+                                                             error:&error].fileSize;
     if (error) {
         if (errorOut) {
             *errorOut = [SIGError errorWrapping:error
-                                           code:SIGErrorCodeIORead
-                                         detail:@"Failed get get size of input file"];
+                                  code:SIGErrorCodeIORead
+                                  detail:@"Failed get get size of input file"];
         }
         return NO;
     }
 
     NSFileHandle *fileHandle = [NSFileHandle fileHandleForReadingFromURL:_url
-                                                                   error:&error];
+                                             error:&error];
     if (!fileHandle) {
         if (errorOut) {
             *errorOut = [SIGError errorWrapping:error
-                                           code:SIGErrorCodeIORead
-                                         detail:@"Error opening file"];
+                                  code:SIGErrorCodeIORead
+                                  detail:@"Error opening file"];
         }
         return NO;
     }
@@ -204,8 +204,8 @@
     NSInteger offset = 0;
     while (offset < length) {
         SIGArchiveChunk *chunk = [SIGArchiveChunk chunkFromFileHandle:fileHandle
-                                                             atOffset:offset
-                                                                error:errorOut];
+                                                  atOffset:offset
+                                                  error:errorOut];
         if (!chunk) {
             return NO;
         }
@@ -237,10 +237,10 @@
 
 - (SIGArchiveChunk *)chunkWithTag:(SIGArchiveTag)tag {
     NSInteger index = [_chunks indexOfObjectPassingTest:^BOOL(SIGArchiveChunk * _Nonnull obj,
-                                                              NSUInteger idx,
-                                                              BOOL * _Nonnull stop) {
-        return obj.tag == tag;
-    }];
+                               NSUInteger idx,
+            BOOL * _Nonnull stop) {
+                return obj.tag == tag;
+            }];
 
     if (index == NSNotFound) {
         return nil;
@@ -251,10 +251,10 @@
 
 - (NSArray<SIGArchiveChunk *> *)chunksWithTag:(SIGArchiveTag)tag {
     NSIndexSet *indexes = [_chunks indexesOfObjectsPassingTest:^BOOL(SIGArchiveChunk * _Nonnull obj,
-                                                                     NSUInteger idx,
-                                                                     BOOL * _Nonnull stop) {
-        return obj.tag == tag;
-    }];
+                                   NSUInteger idx,
+            BOOL * _Nonnull stop) {
+                return obj.tag == tag;
+            }];
 
     return [_chunks objectsAtIndexes:indexes];
 }

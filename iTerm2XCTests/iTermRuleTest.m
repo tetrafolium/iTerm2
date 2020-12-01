@@ -85,44 +85,44 @@
     _malformed2 = [iTermRule ruleWithString:@"/foo:bar@baz&job"];
 
     _rules = @[
-               _hostname,
-               _username,
-               _usernameHostname,
-               _usernameHostnamePath,
-               _usernamePath,
-               _usernameWildcardStartPath,
-               _usernameWildcardEndPath,
-               _usernameWildcardStartEndPath,
-               _usernameWildcardMiddlePath,
-               _usernameWildcardAllPath,
-               _usernameWildcardActualPath,
-               _hostnamePath,
-               _path,
+                 _hostname,
+                 _username,
+                 _usernameHostname,
+                 _usernameHostnamePath,
+                 _usernamePath,
+                 _usernameWildcardStartPath,
+                 _usernameWildcardEndPath,
+                 _usernameWildcardStartEndPath,
+                 _usernameWildcardMiddlePath,
+                 _usernameWildcardAllPath,
+                 _usernameWildcardActualPath,
+                 _hostnamePath,
+                 _path,
 
-               _hostnameJob,
-               _usernameJob,
-               _usernameHostnameJob,
-               _usernameHostnamePathJob,
-               _usernamePathJob,
-               _usernameWildcardStartPathJob,
-               _usernameWildcardEndPathJob,
-               _usernameWildcardStartEndPathJob,
-               _usernameWildcardMiddlePathJob,
-               _usernameWildcardAllPathJob,
-               _usernameWildcardActualPathJob,
-               _hostnamePathJob,
-               _pathJob,
-               _job,
+                 _hostnameJob,
+                 _usernameJob,
+                 _usernameHostnameJob,
+                 _usernameHostnamePathJob,
+                 _usernamePathJob,
+                 _usernameWildcardStartPathJob,
+                 _usernameWildcardEndPathJob,
+                 _usernameWildcardStartEndPathJob,
+                 _usernameWildcardMiddlePathJob,
+                 _usernameWildcardAllPathJob,
+                 _usernameWildcardActualPathJob,
+                 _hostnamePathJob,
+                 _pathJob,
+                 _job,
 
-               _malformed1,
-               _malformed2,
-               ];
+                 _malformed1,
+                 _malformed2,
+             ];
 }
 
 - (NSArray *)matchingRulesSortedByScoreWithHostname:(NSString *)hostname
-                                           username:(NSString *)username
-                                               path:(NSString *)path
-                                                job:(NSString *)job {
+    username:(NSString *)username
+    path:(NSString *)path
+    job:(NSString *)job {
     NSMutableArray *matching = [NSMutableArray array];
     for (iTermRule *rule in _rules) {
         double score = [rule scoreForHostname:hostname username:username path:path job:job];
@@ -131,7 +131,7 @@
         }
     }
     return [matching sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        int score1 = [obj1 scoreForHostname:hostname username:username path:path job:job];
+                 int score1 = [obj1 scoreForHostname:hostname username:username path:path job:job];
         int score2 = [obj2 scoreForHostname:hostname username:username path:path job:job];
         return [@(score2) compare:@(score1)];
     }];
@@ -139,34 +139,34 @@
 
 - (void)testHostname {
     NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"hostname"
-                                                         username:@"x"
-                                                             path:@"x"
-                                                              job:@"x"];
+                           username:@"x"
+                           path:@"x"
+                           job:@"x"];
     XCTAssertEqualObjects(rules, @[ _hostname ]);
 }
 
 - (void)testUsername {
     NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"x"
-                                                         username:@"username"
-                                                             path:@"x"
-                                                              job:@"x"];
+                           username:@"username"
+                           path:@"x"
+                           job:@"x"];
     XCTAssertEqualObjects(rules, @[ _username ]);
 }
 
 - (void)testUsernameHostname {
     NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"hostname"
-                                                         username:@"username"
-                                                             path:@"x"
-                                                              job:@"x"];
+                           username:@"username"
+                           path:@"x"
+                           job:@"x"];
     NSArray *expected = @[ _usernameHostname, _hostname, _username ];
     XCTAssertEqualObjects(rules, expected);
 }
 
 - (void)testUsernameHostnamePath {
     NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"hostname"
-                                                         username:@"username"
-                                                             path:@"/path"
-                                                              job:@"x"];
+                           username:@"username"
+                           path:@"/path"
+                           job:@"x"];
     NSArray *expected = @[ _usernameHostnamePath,
                            _usernameHostname,
                            _usernameWildcardStartPath,
@@ -185,9 +185,9 @@
 
 - (void)testUsernameWildcardPath {
     NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"x"
-                                                         username:@"username"
-                                                             path:@"/path"
-                                                              job:@"x"];
+                           username:@"username"
+                           path:@"/path"
+                           job:@"x"];
     NSArray *expected = @[ _usernamePath,
                            _username,
                            _path ];
@@ -195,66 +195,66 @@
 }
 
 - (void)testUsernameWildcardStartPath {
-  NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"service01.hostname"
-                                                       username:@"username"
-                                                           path:@"/path"
-                                                            job:@"x"];
-  NSArray *expected = @[ _usernameWildcardStartPath,
-                         _usernameWildcardStartEndPath,
-                         _usernameWildcardAllPath,
-                         _usernamePath,
-                         _username,
-                         _path ];
-  XCTAssertEqualObjects(rules, expected);
+    NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"service01.hostname"
+                           username:@"username"
+                           path:@"/path"
+                           job:@"x"];
+    NSArray *expected = @[ _usernameWildcardStartPath,
+                           _usernameWildcardStartEndPath,
+                           _usernameWildcardAllPath,
+                           _usernamePath,
+                           _username,
+                           _path ];
+    XCTAssertEqualObjects(rules, expected);
 }
 
 - (void)testUsernameWildcardEndPath {
-  NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"hostname.com"
-                                                       username:@"username"
-                                                           path:@"/path"
-                                                            job:@"x"];
-  NSArray *expected = @[ _usernameWildcardEndPath,
-                         _usernameWildcardStartEndPath,
-                         _usernameWildcardAllPath,
-                         _usernamePath,
-                         _username,
-                         _path ];
-  XCTAssertEqualObjects(rules, expected);
+    NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"hostname.com"
+                           username:@"username"
+                           path:@"/path"
+                           job:@"x"];
+    NSArray *expected = @[ _usernameWildcardEndPath,
+                           _usernameWildcardStartEndPath,
+                           _usernameWildcardAllPath,
+                           _usernamePath,
+                           _username,
+                           _path ];
+    XCTAssertEqualObjects(rules, expected);
 }
 
 - (void)testUsernameWildcardStartEndPath {
-  NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"service01.hostname.com"
-                                                       username:@"username"
-                                                           path:@"/path"
-                                                            job:@"x"];
-  NSArray *expected = @[ _usernameWildcardStartEndPath,
-                         _usernameWildcardAllPath,
-                         _usernamePath,
-                         _username,
-                         _path ];
-  XCTAssertEqualObjects(rules, expected);
+    NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"service01.hostname.com"
+                           username:@"username"
+                           path:@"/path"
+                           job:@"x"];
+    NSArray *expected = @[ _usernameWildcardStartEndPath,
+                           _usernameWildcardAllPath,
+                           _usernamePath,
+                           _username,
+                           _path ];
+    XCTAssertEqualObjects(rules, expected);
 }
 
 - (void)testUsernameWildcardActualPath {
-  NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"service01.prod.hostname.com"
-                                                       username:@"username"
-                                                           path:@"/path"
-                                                            job:@"x"];
-  NSArray *expected = @[ _usernameWildcardActualPath,
-                         _usernameWildcardStartEndPath,
-                         _usernameWildcardAllPath,
-                         _usernamePath,
-                         _username,
-                         _path ];
-  XCTAssertEqualObjects(rules, expected);
+    NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"service01.prod.hostname.com"
+                           username:@"username"
+                           path:@"/path"
+                           job:@"x"];
+    NSArray *expected = @[ _usernameWildcardActualPath,
+                           _usernameWildcardStartEndPath,
+                           _usernameWildcardAllPath,
+                           _usernamePath,
+                           _username,
+                           _path ];
+    XCTAssertEqualObjects(rules, expected);
 }
 
 
 - (void)testHostnamePath {
     NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"hostname"
-                                                         username:@"x"
-                                                             path:@"/path"
-                                                              job:@"x"];
+                           username:@"x"
+                           path:@"/path"
+                           job:@"x"];
     NSArray *expected = @[ _hostnamePath,
                            _hostname,
                            _path ];
@@ -263,9 +263,9 @@
 
 - (void)testPath {
     NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"x"
-                                                         username:@"x"
-                                                             path:@"/path"
-                                                              job:@"x"];
+                           username:@"x"
+                           path:@"/path"
+                           job:@"x"];
     XCTAssertEqualObjects(rules, @[ _path ]);
 }
 
@@ -273,9 +273,9 @@
 
 - (void)testHostnameJob {
     NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"hostname"
-                                                         username:@"x"
-                                                             path:@"x"
-                                                              job:@"job"];
+                           username:@"x"
+                           path:@"x"
+                           job:@"job"];
     NSArray *expected = @[ _hostnameJob,
                            _hostname,
                            _job];
@@ -284,21 +284,21 @@
 
 - (void)testUsernameJob {
     NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"x"
-                                                         username:@"username"
-                                                             path:@"x"
-                                                              job:@"job"];
+                           username:@"username"
+                           path:@"x"
+                           job:@"job"];
     NSArray *expected = @[ _usernameJob,
                            _job,
                            _username,
-                           ];
+                         ];
     XCTAssertEqualObjects(rules, expected);
 }
 
 - (void)testUsernameHostnameJob {
     NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"hostname"
-                                                         username:@"username"
-                                                             path:@"x"
-                                                              job:@"job"];
+                           username:@"username"
+                           path:@"x"
+                           job:@"job"];
     NSArray *expected = @[ _usernameHostnameJob,
                            _hostnameJob,
                            _usernameHostname,
@@ -311,9 +311,9 @@
 
 - (void)testUsernameHostnamePathJob {
     NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"hostname"
-                                                         username:@"username"
-                                                             path:@"/path"
-                                                              job:@"job"];
+                           username:@"username"
+                           path:@"/path"
+                           job:@"job"];
     NSArray *expected = @[ _usernameHostnamePathJob,
                            _usernameHostnameJob,
                            _usernameWildcardStartPathJob,
@@ -345,133 +345,133 @@
 
 - (void)testUsernameWildcardPathJob {
     NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"x"
-                                                         username:@"username"
-                                                             path:@"/path"
-                                                              job:@"job"];
+                           username:@"username"
+                           path:@"/path"
+                           job:@"job"];
     NSArray *expected = @[
-                          _usernamePathJob,
-                          _usernameJob,
-                          _pathJob,
-                          _job,
-                          _usernamePath,
-                          _username,
-                          _path,
-                           ];
+                            _usernamePathJob,
+                            _usernameJob,
+                            _pathJob,
+                            _job,
+                            _usernamePath,
+                            _username,
+                            _path,
+                        ];
     XCTAssertEqualObjects(rules, expected);
 }
 
 - (void)testUsernameWildcardStartPathJob {
     NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"service01.hostname"
-                                                         username:@"username"
-                                                             path:@"/path"
-                                                              job:@"job"];
+                           username:@"username"
+                           path:@"/path"
+                           job:@"job"];
     NSArray *expected = @[
-                          _usernameWildcardStartPathJob,
-                          _usernameWildcardStartEndPathJob,
-                          _usernameWildcardAllPathJob,
-                          _usernameWildcardStartPath,
-                          _usernameWildcardStartEndPath,
-                          _usernameWildcardAllPath,
-                          _usernamePathJob,
-                          _usernameJob,
-                          _pathJob,
-                          _job,
-                          _usernamePath,
-                          _username,
-                          _path
-                          ];
+                            _usernameWildcardStartPathJob,
+                            _usernameWildcardStartEndPathJob,
+                            _usernameWildcardAllPathJob,
+                            _usernameWildcardStartPath,
+                            _usernameWildcardStartEndPath,
+                            _usernameWildcardAllPath,
+                            _usernamePathJob,
+                            _usernameJob,
+                            _pathJob,
+                            _job,
+                            _usernamePath,
+                            _username,
+                            _path
+                        ];
     XCTAssertEqualObjects(rules, expected);
 }
 
 - (void)testUsernameWildcardEndPathJob {
     NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"hostname.com"
-                                                         username:@"username"
-                                                             path:@"/path"
-                                                              job:@"job"];
+                           username:@"username"
+                           path:@"/path"
+                           job:@"job"];
     NSArray *expected = @[
-                          _usernameWildcardEndPathJob,
-                          _usernameWildcardStartEndPathJob,
-                          _usernameWildcardAllPathJob,
-                          _usernameWildcardEndPath,
-                          _usernameWildcardStartEndPath,
-                          _usernameWildcardAllPath,
-                          _usernamePathJob,
-                          _usernameJob,
-                          _pathJob,
-                          _job,
-                          _usernamePath,
-                          _username,
-                          _path
-                          ];
+                            _usernameWildcardEndPathJob,
+                            _usernameWildcardStartEndPathJob,
+                            _usernameWildcardAllPathJob,
+                            _usernameWildcardEndPath,
+                            _usernameWildcardStartEndPath,
+                            _usernameWildcardAllPath,
+                            _usernamePathJob,
+                            _usernameJob,
+                            _pathJob,
+                            _job,
+                            _usernamePath,
+                            _username,
+                            _path
+                        ];
     XCTAssertEqualObjects(rules, expected);
 }
 
 - (void)testUsernameWildcardStartEndPathJob {
     NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"service01.hostname.com"
-                                                         username:@"username"
-                                                             path:@"/path"
-                                                              job:@"job"];
+                           username:@"username"
+                           path:@"/path"
+                           job:@"job"];
     NSArray *expected = @[
-                          _usernameWildcardStartEndPathJob,
-                          _usernameWildcardAllPathJob,
-                          _usernameWildcardStartEndPath,
-                          _usernameWildcardAllPath,
-                          _usernamePathJob,
-                          _usernameJob,
-                          _pathJob,
-                          _job,
-                          _usernamePath,
-                          _username,
-                          _path
-                          ];
+                            _usernameWildcardStartEndPathJob,
+                            _usernameWildcardAllPathJob,
+                            _usernameWildcardStartEndPath,
+                            _usernameWildcardAllPath,
+                            _usernamePathJob,
+                            _usernameJob,
+                            _pathJob,
+                            _job,
+                            _usernamePath,
+                            _username,
+                            _path
+                        ];
     XCTAssertEqualObjects(rules, expected);
 }
 
 - (void)testUsernameWildcardActualPathJob {
     NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"service01.prod.hostname.com"
-                                                         username:@"username"
-                                                             path:@"/path"
-                                                              job:@"job"];
+                           username:@"username"
+                           path:@"/path"
+                           job:@"job"];
     NSArray *expected = @[
-                          _usernameWildcardActualPathJob,
-                          _usernameWildcardStartEndPathJob,
-                          _usernameWildcardAllPathJob,
-                          _usernameWildcardActualPath,
-                          _usernameWildcardStartEndPath,
-                          _usernameWildcardAllPath,
-                          _usernamePathJob,
-                          _usernameJob,
-                          _pathJob,
-                          _job,
-                          _usernamePath,
-                          _username,
-                          _path,
-                          ];
+                            _usernameWildcardActualPathJob,
+                            _usernameWildcardStartEndPathJob,
+                            _usernameWildcardAllPathJob,
+                            _usernameWildcardActualPath,
+                            _usernameWildcardStartEndPath,
+                            _usernameWildcardAllPath,
+                            _usernamePathJob,
+                            _usernameJob,
+                            _pathJob,
+                            _job,
+                            _usernamePath,
+                            _username,
+                            _path,
+                        ];
     XCTAssertEqualObjects(rules, expected);
 }
 
 - (void)testHostnamePathJob {
     NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"hostname"
-                                                         username:@"x"
-                                                             path:@"/path"
-                                                              job:@"job"];
+                           username:@"x"
+                           path:@"/path"
+                           job:@"job"];
     NSArray *expected = @[
-                          _hostnamePathJob,
-                          _hostnameJob,
-                          _hostnamePath,
-                          _hostname,
-                          _pathJob,
-                          _job,
-                          _path,
-                          ];
+                            _hostnamePathJob,
+                            _hostnameJob,
+                            _hostnamePath,
+                            _hostname,
+                            _pathJob,
+                            _job,
+                            _path,
+                        ];
     XCTAssertEqualObjects(rules, expected);
 }
 
 - (void)testPathJob {
     NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"x"
-                                                         username:@"x"
-                                                             path:@"/path"
-                                                              job:@"job"];
+                           username:@"x"
+                           path:@"/path"
+                           job:@"job"];
     NSArray *expected = @[ _pathJob, _job, _path ];
     XCTAssertEqualObjects(rules, expected);
 }
@@ -480,9 +480,9 @@
 
 - (void)testNoMatch {
     NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"x"
-                                                         username:@"x"
-                                                             path:@"x"
-                                                              job:@"x"];
+                           username:@"x"
+                           path:@"x"
+                           job:@"x"];
     XCTAssertEqualObjects(rules, @[ ]);
 }
 
@@ -541,12 +541,12 @@
 
 - (void)testJobGlobWorks {
     NSArray *rules = [self matchingRulesSortedByScoreWithHostname:@"x"
-                                                         username:@"x"
-                                                             path:@"x"
-                                                              job:@"jobber"];
+                           username:@"x"
+                           path:@"x"
+                           job:@"jobber"];
     NSArray *expected = @[
-                          _job,
-                          ];
+                            _job,
+                        ];
     XCTAssertEqualObjects(rules, expected);
 }
 

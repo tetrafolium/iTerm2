@@ -28,14 +28,14 @@
 - (id)initWithContent:(NSString *)initContent quoteType:(NSString *)initQuoteType name:(NSString *)initName
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         [self setContent:initContent];
         [self setQuoteType:initQuoteType];
         name = [initName copy];
     }
-    
+
     return self;
 }
 
@@ -49,7 +49,7 @@
     [content release];
     [quoteType release];
     [name release];
-    
+
     [super dealloc];
 }
 

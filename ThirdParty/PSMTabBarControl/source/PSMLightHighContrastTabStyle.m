@@ -13,15 +13,15 @@
 @implementation PSMLightHighContrastTabStyle
 
 - (NSString *)name {
-  return @"Light High Contrast";
+    return @"Light High Contrast";
 }
 
 - (NSColor *)textColorDefaultSelected:(BOOL)selected backgroundColor:(NSColor *)backgroundColor windowIsMainAndAppIsActive:(BOOL)mainAndActive {
-  return [NSColor blackColor];
+    return [NSColor blackColor];
 }
 
 - (NSColor *)accessoryTextColor {
-  return [NSColor blackColor];
+    return [NSColor blackColor];
 }
 
 - (NSColor *)backgroundColorSelected:(BOOL)selected highlightAmount:(CGFloat)highlightAmount {

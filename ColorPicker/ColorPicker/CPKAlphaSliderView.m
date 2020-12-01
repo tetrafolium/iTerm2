@@ -10,9 +10,9 @@
 @implementation CPKAlphaSliderView
 
 - (instancetype)initWithFrame:(NSRect)frame
-                        alpha:(CGFloat)alpha
-                        color:(CPKColor *)color
-                        block:(void (^)(CGFloat))block {
+    alpha:(CGFloat)alpha
+    color:(CPKColor *)color
+    block:(void (^)(CGFloat))block {
     self = [super initWithFrame:frame value:alpha block:block];
     if (self) {
         self.color = color;

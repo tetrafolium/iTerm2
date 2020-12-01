@@ -27,12 +27,12 @@
 - (id)initWithGrammar:(CPGrammar *)initGrammar
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         [self setGrammar:initGrammar];
     }
-    
+
     return self;
 }
 
@@ -44,15 +44,15 @@
 - (void)dealloc
 {
     [grammar release];
-    
+
     [super dealloc];
 }
 
 - (id)parse:(CPTokenStream *)tokenStream
 {
     [NSException raise:@"Abstract Class Exception"
-                format:@"CPParser is an abstract class, use one of the concrete subclasses to parse your token stream"];
-    
+                 format:@"CPParser is an abstract class, use one of the concrete subclasses to parse your token stream"];
+
     return nil;
 }
 
@@ -61,7 +61,7 @@
     if (delegate != aDelegate)
     {
         delegate = aDelegate;
-        
+
         delegateRespondsTo.didProduceSyntaxTree = [delegate respondsToSelector:@selector(parser:didProduceSyntaxTree:)];
         delegateRespondsTo.didEncounterErrorOnInput = [delegate respondsToSelector:@selector(parser:didEncounterErrorOnInput:)];
         delegateRespondsTo.didEncounterErrorOnInputExpecting = [delegate respondsToSelector:@selector(parser:didEncounterErrorOnInput:expecting:)];

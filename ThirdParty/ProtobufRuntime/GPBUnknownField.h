@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBUnknownField : NSObject<NSCopying>
 
-/** The field number the data is stored under. */
+    /** The field number the data is stored under. */
 @property(nonatomic, readonly, assign) int32_t number;
 
 /** An array of varint values for this field. */

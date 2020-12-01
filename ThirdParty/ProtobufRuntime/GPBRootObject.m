@@ -48,16 +48,16 @@
 // Taken from http://www.burtleburtle.net/bob/hash/doobs.html
 // Public Domain
 static uint32_t jenkins_one_at_a_time_hash(const char *key) {
-  uint32_t hash = 0;
-  for (uint32_t i = 0; key[i] != '\0'; ++i) {
-    hash += key[i];
-    hash += (hash << 10);
-    hash ^= (hash >> 6);
-  }
-  hash += (hash << 3);
-  hash ^= (hash >> 11);
-  hash += (hash << 15);
-  return hash;
+    uint32_t hash = 0;
+    for (uint32_t i = 0; key[i] != '\0'; ++i) {
+        hash += key[i];
+        hash += (hash << 10);
+        hash ^= (hash >> 6);
+    }
+    hash += (hash << 3);
+    hash ^= (hash >> 11);
+    hash += (hash << 15);
+    return hash;
 }
 
 // Key methods for our custom CFDictionary.
@@ -66,9 +66,9 @@ static uint32_t jenkins_one_at_a_time_hash(const char *key) {
 // startup, and so the keys don't need to be retained/released.
 // Keys are NULL terminated char *.
 static const void *GPBRootExtensionKeyRetain(CFAllocatorRef allocator,
-                                             const void *value) {
+        const void *value) {
 #pragma unused(allocator)
-  return value;
+    return value;
 }
 
 static void GPBRootExtensionKeyRelease(CFAllocatorRef allocator,
@@ -78,21 +78,21 @@ static void GPBRootExtensionKeyRelease(CFAllocatorRef allocator,
 }
 
 static CFStringRef GPBRootExtensionCopyKeyDescription(const void *value) {
-  const char *key = (const char *)value;
-  return CFStringCreateWithCString(kCFAllocatorDefault, key,
-                                   kCFStringEncodingUTF8);
+    const char *key = (const char *)value;
+    return CFStringCreateWithCString(kCFAllocatorDefault, key,
+                                     kCFStringEncodingUTF8);
 }
 
 static Boolean GPBRootExtensionKeyEqual(const void *value1,
                                         const void *value2) {
-  const char *key1 = (const char *)value1;
-  const char *key2 = (const char *)value2;
-  return strcmp(key1, key2) == 0;
+    const char *key1 = (const char *)value1;
+    const char *key2 = (const char *)value2;
+    return strcmp(key1, key2) == 0;
 }
 
 static CFHashCode GPBRootExtensionKeyHash(const void *value) {
-  const char *key = (const char *)value;
-  return jenkins_one_at_a_time_hash(key);
+    const char *key = (const char *)value;
+    return jenkins_one_at_a_time_hash(key);
 }
 
 // NOTE: OSSpinLock may seem like a good fit here but Apple engineers have
@@ -105,126 +105,126 @@ static CFMutableDictionaryRef gExtensionSingletonDictionary = NULL;
 static GPBExtensionRegistry *gDefaultExtensionRegistry = NULL;
 
 + (void)initialize {
-  // Ensure the global is started up.
-  if (!gExtensionSingletonDictionary) {
-    gExtensionSingletonDictionarySemaphore = dispatch_semaphore_create(1);
-    CFDictionaryKeyCallBacks keyCallBacks = {
-      // See description above for reason for using custom dictionary.
-      0,
-      GPBRootExtensionKeyRetain,
-      GPBRootExtensionKeyRelease,
-      GPBRootExtensionCopyKeyDescription,
-      GPBRootExtensionKeyEqual,
-      GPBRootExtensionKeyHash,
-    };
-    gExtensionSingletonDictionary =
-        CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &keyCallBacks,
-                                  &kCFTypeDictionaryValueCallBacks);
-    gDefaultExtensionRegistry = [[GPBExtensionRegistry alloc] init];
-  }
+    // Ensure the global is started up.
+    if (!gExtensionSingletonDictionary) {
+        gExtensionSingletonDictionarySemaphore = dispatch_semaphore_create(1);
+        CFDictionaryKeyCallBacks keyCallBacks = {
+            // See description above for reason for using custom dictionary.
+            0,
+            GPBRootExtensionKeyRetain,
+            GPBRootExtensionKeyRelease,
+            GPBRootExtensionCopyKeyDescription,
+            GPBRootExtensionKeyEqual,
+            GPBRootExtensionKeyHash,
+        };
+        gExtensionSingletonDictionary =
+            CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &keyCallBacks,
+                                      &kCFTypeDictionaryValueCallBacks);
+        gDefaultExtensionRegistry = [[GPBExtensionRegistry alloc] init];
+    }
 
-  if ([self superclass] == [GPBRootObject class]) {
-    // This is here to start up all the per file "Root" subclasses.
-    // This must be done in initialize to enforce thread safety of start up of
-    // the protocol buffer library.
-    [self extensionRegistry];
-  }
+    if ([self superclass] == [GPBRootObject class]) {
+        // This is here to start up all the per file "Root" subclasses.
+        // This must be done in initialize to enforce thread safety of start up of
+        // the protocol buffer library.
+        [self extensionRegistry];
+    }
 }
 
 + (GPBExtensionRegistry *)extensionRegistry {
-  // Is overridden in all the subclasses that provide extensions to provide the
-  // per class one.
-  return gDefaultExtensionRegistry;
+    // Is overridden in all the subclasses that provide extensions to provide the
+    // per class one.
+    return gDefaultExtensionRegistry;
 }
 
 + (void)globallyRegisterExtension:(GPBExtensionDescriptor *)field {
-  const char *key = [field singletonNameC];
-  dispatch_semaphore_wait(gExtensionSingletonDictionarySemaphore,
-                          DISPATCH_TIME_FOREVER);
-  CFDictionarySetValue(gExtensionSingletonDictionary, key, field);
-  dispatch_semaphore_signal(gExtensionSingletonDictionarySemaphore);
+    const char *key = [field singletonNameC];
+    dispatch_semaphore_wait(gExtensionSingletonDictionarySemaphore,
+                            DISPATCH_TIME_FOREVER);
+    CFDictionarySetValue(gExtensionSingletonDictionary, key, field);
+    dispatch_semaphore_signal(gExtensionSingletonDictionarySemaphore);
 }
 
 static id ExtensionForName(id self, SEL _cmd) {
-  // Really fast way of doing "classname_selName".
-  // This came up as a hotspot (creation of NSString *) when accessing a
-  // lot of extensions.
-  const char *selName = sel_getName(_cmd);
-  if (selName[0] == '_') {
-    return nil;  // Apple internal selector.
-  }
-  size_t selNameLen = 0;
-  while (1) {
-    char c = selName[selNameLen];
-    if (c == '\0') {  // String end.
-      break;
+    // Really fast way of doing "classname_selName".
+    // This came up as a hotspot (creation of NSString *) when accessing a
+    // lot of extensions.
+    const char *selName = sel_getName(_cmd);
+    if (selName[0] == '_') {
+        return nil;  // Apple internal selector.
     }
-    if (c == ':') {
-      return nil;  // Selector took an arg, not one of the runtime methods.
+    size_t selNameLen = 0;
+    while (1) {
+        char c = selName[selNameLen];
+        if (c == '\0') {  // String end.
+            break;
+        }
+        if (c == ':') {
+            return nil;  // Selector took an arg, not one of the runtime methods.
+        }
+        ++selNameLen;
     }
-    ++selNameLen;
-  }
 
-  const char *className = class_getName(self);
-  size_t classNameLen = strlen(className);
-  char key[classNameLen + selNameLen + 2];
-  memcpy(key, className, classNameLen);
-  key[classNameLen] = '_';
-  memcpy(&key[classNameLen + 1], selName, selNameLen);
-  key[classNameLen + 1 + selNameLen] = '\0';
+    const char *className = class_getName(self);
+    size_t classNameLen = strlen(className);
+    char key[classNameLen + selNameLen + 2];
+    memcpy(key, className, classNameLen);
+    key[classNameLen] = '_';
+    memcpy(&key[classNameLen + 1], selName, selNameLen);
+    key[classNameLen + 1 + selNameLen] = '\0';
 
-  // NOTE: Even though this method is called from another C function,
-  // gExtensionSingletonDictionarySemaphore and gExtensionSingletonDictionary
-  // will always be initialized. This is because this call flow is just to
-  // lookup the Extension, meaning the code is calling an Extension class
-  // message on a Message or Root class. This guarantees that the class was
-  // initialized and Message classes ensure their Root was also initialized.
-  NSAssert(gExtensionSingletonDictionary, @"Startup order broken!");
+    // NOTE: Even though this method is called from another C function,
+    // gExtensionSingletonDictionarySemaphore and gExtensionSingletonDictionary
+    // will always be initialized. This is because this call flow is just to
+    // lookup the Extension, meaning the code is calling an Extension class
+    // message on a Message or Root class. This guarantees that the class was
+    // initialized and Message classes ensure their Root was also initialized.
+    NSAssert(gExtensionSingletonDictionary, @"Startup order broken!");
 
-  dispatch_semaphore_wait(gExtensionSingletonDictionarySemaphore,
-                          DISPATCH_TIME_FOREVER);
-  id extension = (id)CFDictionaryGetValue(gExtensionSingletonDictionary, key);
-  if (extension) {
-    // The method is getting wired in to the class, so no need to keep it in
-    // the dictionary.
-    CFDictionaryRemoveValue(gExtensionSingletonDictionary, key);
-  }
-  dispatch_semaphore_signal(gExtensionSingletonDictionarySemaphore);
-  return extension;
+    dispatch_semaphore_wait(gExtensionSingletonDictionarySemaphore,
+                            DISPATCH_TIME_FOREVER);
+    id extension = (id)CFDictionaryGetValue(gExtensionSingletonDictionary, key);
+    if (extension) {
+        // The method is getting wired in to the class, so no need to keep it in
+        // the dictionary.
+        CFDictionaryRemoveValue(gExtensionSingletonDictionary, key);
+    }
+    dispatch_semaphore_signal(gExtensionSingletonDictionarySemaphore);
+    return extension;
 }
 
 BOOL GPBResolveExtensionClassMethod(Class self, SEL sel) {
-  // Another option would be to register the extensions with the class at
-  // globallyRegisterExtension:
-  // Timing the two solutions, this solution turned out to be much faster
-  // and reduced startup time, and runtime memory.
-  // The advantage to globallyRegisterExtension is that it would reduce the
-  // size of the protos somewhat because the singletonNameC wouldn't need
-  // to include the class name. For a class with a lot of extensions it
-  // can add up. You could also significantly reduce the code complexity of this
-  // file.
-  id extension = ExtensionForName(self, sel);
-  if (extension != nil) {
-    const char *encoding =
-        GPBMessageEncodingForSelector(@selector(getClassValue), NO);
-    Class metaClass = objc_getMetaClass(class_getName(self));
-    IMP imp = imp_implementationWithBlock(^(id obj) {
+    // Another option would be to register the extensions with the class at
+    // globallyRegisterExtension:
+    // Timing the two solutions, this solution turned out to be much faster
+    // and reduced startup time, and runtime memory.
+    // The advantage to globallyRegisterExtension is that it would reduce the
+    // size of the protos somewhat because the singletonNameC wouldn't need
+    // to include the class name. For a class with a lot of extensions it
+    // can add up. You could also significantly reduce the code complexity of this
+    // file.
+    id extension = ExtensionForName(self, sel);
+    if (extension != nil) {
+        const char *encoding =
+            GPBMessageEncodingForSelector(@selector(getClassValue), NO);
+        Class metaClass = objc_getMetaClass(class_getName(self));
+        IMP imp = imp_implementationWithBlock(^(id obj) {
 #pragma unused(obj)
-      return extension;
-    });
-    if (class_addMethod(metaClass, sel, imp, encoding)) {
-      return YES;
+            return extension;
+        });
+        if (class_addMethod(metaClass, sel, imp, encoding)) {
+            return YES;
+        }
     }
-  }
-  return NO;
+    return NO;
 }
 
 
 + (BOOL)resolveClassMethod:(SEL)sel {
-  if (GPBResolveExtensionClassMethod(self, sel)) {
-    return YES;
-  }
-  return [super resolveClassMethod:sel];
+    if (GPBResolveExtensionClassMethod(self, sel)) {
+        return YES;
+    }
+    return [super resolveClassMethod:sel];
 }
 
 @end

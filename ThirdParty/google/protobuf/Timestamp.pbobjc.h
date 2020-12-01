@@ -4,13 +4,13 @@
 // This CPP symbol can be defined to use imports that match up to the framework
 // imports needed when using CocoaPods.
 #if !defined(GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS)
- #define GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS 0
+#define GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS 0
 #endif
 
 #if GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS
- #import <Protobuf/GPBProtocolBuffers.h>
+#import <Protobuf/GPBProtocolBuffers.h>
 #else
- #import "GPBProtocolBuffers.h"
+#import "GPBProtocolBuffers.h"
 #endif
 
 #if GOOGLE_PROTOBUF_OBJC_VERSION < 30002
@@ -47,8 +47,8 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - GPBTimestamp
 
 typedef GPB_ENUM(GPBTimestamp_FieldNumber) {
-  GPBTimestamp_FieldNumber_Seconds = 1,
-  GPBTimestamp_FieldNumber_Nanos = 2,
+    GPBTimestamp_FieldNumber_Seconds = 1,
+    GPBTimestamp_FieldNumber_Nanos = 2,
 };
 
 /**
@@ -106,11 +106,11 @@ typedef GPB_ENUM(GPBTimestamp_FieldNumber) {
  **/
 @interface GPBTimestamp : GPBMessage
 
-/**
- * Represents seconds of UTC time since Unix epoch
- * 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to
- * 9999-12-31T23:59:59Z inclusive.
- **/
+    /**
+     * Represents seconds of UTC time since Unix epoch
+     * 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to
+     * 9999-12-31T23:59:59Z inclusive.
+     **/
 @property(nonatomic, readwrite) int64_t seconds;
 
 /**

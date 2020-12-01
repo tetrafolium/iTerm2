@@ -8,7 +8,7 @@ extern NSString *const kCPKUseSystemColorPicker;
  */
 @interface CPKControlsView : NSView
 
-/** Should the "Remove Favorite" button be enabled? */
+    /** Should the "Remove Favorite" button be enabled? */
 @property(nonatomic) BOOL removeEnabled;
 
 /** Block called when you clicks on "No Color". */

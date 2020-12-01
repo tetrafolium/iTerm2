@@ -4,13 +4,13 @@
 // This CPP symbol can be defined to use imports that match up to the framework
 // imports needed when using CocoaPods.
 #if !defined(GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS)
- #define GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS 0
+#define GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS 0
 #endif
 
 #if GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS
- #import <Protobuf/GPBProtocolBuffers.h>
+#import <Protobuf/GPBProtocolBuffers.h>
 #else
- #import "GPBProtocolBuffers.h"
+#import "GPBProtocolBuffers.h"
 #endif
 
 #if GOOGLE_PROTOBUF_OBJC_VERSION < 30002
@@ -47,8 +47,8 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - GPBDuration
 
 typedef GPB_ENUM(GPBDuration_FieldNumber) {
-  GPBDuration_FieldNumber_Seconds = 1,
-  GPBDuration_FieldNumber_Nanos = 2,
+    GPBDuration_FieldNumber_Seconds = 1,
+    GPBDuration_FieldNumber_Nanos = 2,
 };
 
 /**
@@ -101,10 +101,10 @@ typedef GPB_ENUM(GPBDuration_FieldNumber) {
  **/
 @interface GPBDuration : GPBMessage
 
-/**
- * Signed seconds of the span of time. Must be from -315,576,000,000
- * to +315,576,000,000 inclusive.
- **/
+    /**
+     * Signed seconds of the span of time. Must be from -315,576,000,000
+     * to +315,576,000,000 inclusive.
+     **/
 @property(nonatomic, readwrite) int64_t seconds;
 
 /**

@@ -38,12 +38,12 @@ static char followCacheKey;
 - (NSArray *)rules
 {
     NSMutableArray *rs = [NSMutableArray arrayWithCapacity:[[self rulesByNonTerminal] count]];
-    
+
     for (NSArray *arr in [[self rulesByNonTerminal] allValues])
     {
         [rs addObjectsFromArray:arr];
     }
-    
+
     return rs;
 }
 
@@ -52,7 +52,7 @@ static char followCacheKey;
     @synchronized(self)
     {
         [self setRulesByNonTerminal:[NSMutableDictionary dictionaryWithCapacity:[newRules count]]];
-        
+
         for (CPRule *rule in newRules)
         {
             [self addRule:rule];
@@ -63,12 +63,12 @@ static char followCacheKey;
 - (NSArray *)orderedRules
 {
     return [[[self allRules] allObjects] sortedArrayUsingComparator:^ NSComparisonResult (CPRule *r1, CPRule *r2)
-            {
-                NSComparisonResult t = [r1 tag] < [r2 tag] ? NSOrderedDescending : [r1 tag] > [r2 tag] ? NSOrderedAscending: NSOrderedSame;
-                NSComparisonResult r = NSOrderedSame != t ? t : [[r1 name] compare:[r2 name]];
-                return NSOrderedSame != r ? r : ([[r1 rightHandSideElements] count] < [[r2 rightHandSideElements] count] ? NSOrderedAscending : ([[r1 rightHandSideElements] count] > [[r2 rightHandSideElements] count] ? NSOrderedDescending : NSOrderedSame));
-            }];
-    
+                     {
+                         NSComparisonResult t = [r1 tag] < [r2 tag] ? NSOrderedDescending : [r1 tag] > [r2 tag] ? NSOrderedAscending: NSOrderedSame;
+        NSComparisonResult r = NSOrderedSame != t ? t : [[r1 name] compare:[r2 name]];
+        return NSOrderedSame != r ? r : ([[r1 rightHandSideElements] count] < [[r2 rightHandSideElements] count] ? NSOrderedAscending : ([[r1 rightHandSideElements] count] > [[r2 rightHandSideElements] count] ? NSOrderedDescending : NSOrderedSame));
+    }];
+
 }
 
 - (NSSet *)firstSymbol:(CPGrammarSymbol *)sym
@@ -123,7 +123,7 @@ static char followCacheKey;
 - (NSSet *)symbolNamesInRules:(NSArray *)rules
 {
     NSMutableSet *symbols = [NSMutableSet set];
-    
+
     for (CPRule *rule in rules)
     {
         [symbols addObject:[rule name]];
@@ -135,7 +135,7 @@ static char followCacheKey;
             }
         }
     }
-    
+
     return symbols;
 }
 

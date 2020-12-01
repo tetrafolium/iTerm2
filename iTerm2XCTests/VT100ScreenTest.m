@@ -238,10 +238,10 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     screen = [self screenWithWidth:5 height:4];
     [self appendLines:@[@"abcdefgh", @"ijkl"] toScreen:screen];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcde\n"
-               @"fgh..\n"
-               @"ijkl.\n"
-               @"....."]);
+                                        @"abcde\n"
+                                        @"fgh..\n"
+                                        @"ijkl.\n"
+                                        @"....."]);
     return screen;
 }
 
@@ -259,15 +259,15 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     screen.maxScrollbackLines = 10;
     [self appendLines:@[@"", @"abcdefgh", @"", @"ijkl"] toScreen:screen];
     XCTAssert([[screen compactLineDumpWithHistory] isEqualToString:
-               @".....\n"
-               @"abcde\n"
-               @"fgh..\n"
-               @".....\n"
-               @"ijkl.\n"
-               @".....\n"
-               @".....\n"
-               @".....\n"
-               @"....."]);
+                                                   @".....\n"
+                                                   @"abcde\n"
+                                                   @"fgh..\n"
+                                                   @".....\n"
+                                                   @"ijkl.\n"
+                                                   @".....\n"
+                                                   @".....\n"
+                                                   @".....\n"
+                                                   @"....."]);
     return screen;
 }
 
@@ -277,10 +277,10 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     screen = [self screenWithWidth:5 height:4];
     [self appendLines:@[@"abcdefgh", @"ijkl", @"mnopqrst"] toScreen:screen];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"ijkl.\n"
-               @"mnopq\n"
-               @"rst..\n"
-               @"....."]);
+                                        @"ijkl.\n"
+                                        @"mnopq\n"
+                                        @"rst..\n"
+                                        @"....."]);
     return screen;
 }
 
@@ -305,11 +305,11 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
 - (void)setSelectionRange:(VT100GridCoordRange)range width:(int)width {
     [selection_ clearSelection];
     VT100GridWindowedRange theRange =
-    VT100GridWindowedRangeMake(range, 0, 0);
+        VT100GridWindowedRangeMake(range, 0, 0);
     iTermSubSelection *theSub =
-    [iTermSubSelection subSelectionWithRange:theRange
-                                        mode:kiTermSelectionModeCharacter
-                                       width:width];
+        [iTermSubSelection subSelectionWithRange:theRange
+                           mode:kiTermSelectionModeCharacter
+                           width:width];
     [selection_ addSubSelection:theSub];
 }
 
@@ -317,7 +317,7 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
 - (VT100Screen *)screenFromCompactLines:(NSString *)compactLines {
     NSArray *lines = [compactLines componentsSeparatedByString:@"\n"];
     VT100Screen *screen = [self screenWithWidth:[[lines objectAtIndex:0] length]
-                                         height:[lines count]];
+                                height:[lines count]];
     int i = 0;
     for (NSString *line in lines) {
         screen_char_t *s = [screen getLineAtScreenIndex:i++];
@@ -342,7 +342,7 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
 - (VT100Screen *)screenFromCompactLinesWithContinuationMarks:(NSString *)compactLines {
     NSArray *lines = [compactLines componentsSeparatedByString:@"\n"];
     VT100Screen *screen = [self screenWithWidth:[[lines objectAtIndex:0] length] - 1
-                                         height:[lines count]];
+                                height:[lines count]];
     int i = 0;
     for (NSString *line in lines) {
         screen_char_t *s = [screen getLineAtScreenIndex:i++];
@@ -363,21 +363,21 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
         }
         int j = [line length] - 1;
         switch ([line characterAtIndex:j]) {
-            case '!':
-                s[j].code = EOL_HARD;
-                break;
+        case '!':
+            s[j].code = EOL_HARD;
+            break;
 
-            case '+':
-                s[j].code = EOL_SOFT;
-                break;
+        case '+':
+            s[j].code = EOL_SOFT;
+            break;
 
-            case '>':
-                [screen setMayHaveDoubleWidthCharacters:YES];
-                s[j].code = EOL_DWC;
-                break;
+        case '>':
+            [screen setMayHaveDoubleWidthCharacters:YES];
+            s[j].code = EOL_DWC;
+            break;
 
-            default:
-                XCTAssert(false);  // bogus continuation mark
+        default:
+            XCTAssert(false);  // bogus continuation mark
         }
     }
     return screen;
@@ -389,8 +389,8 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     }
     NSMutableString *s = [NSMutableString string];
     [selection_ enumerateSelectedRanges:^(VT100GridWindowedRange range, BOOL *stop, BOOL eol) {
-        int sx = range.coordRange.start.x;
-        for (int y = range.coordRange.start.y; y <= range.coordRange.end.y; y++) {
+                   int sx = range.coordRange.start.x;
+                   for (int y = range.coordRange.start.y; y <= range.coordRange.end.y; y++) {
             screen_char_t *line = [screen getLineAtIndex:y];
             int x;
             int ex = y == range.coordRange.end.y ? range.coordRange.end.x : [screen width];
@@ -461,11 +461,11 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
 }
 
 - (void)assertScreen:(VT100Screen *)screen
-   matchesHighlights:(NSArray *)expectedHighlights
-         highlightFg:(int)hfg
-     highlightFgMode:(ColorMode)hfm
-         highlightBg:(int)hbg
-     highlightBgMode:(ColorMode)hbm {
+    matchesHighlights:(NSArray *)expectedHighlights
+    highlightFg:(int)hfg
+    highlightFgMode:(ColorMode)hfm
+    highlightBg:(int)hbg
+    highlightBgMode:(ColorMode)hbm {
     int defaultFg = [terminal_ foregroundColorCode].foregroundColor;
     int defaultBg = [terminal_ foregroundColorCode].backgroundColor;
     for (int i = 0; i < screen.height; i++) {
@@ -618,10 +618,10 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
 
 - (void)screenDidAppendAsciiDataToCurrentLine:(AsciiData *)asciiData {
     [self screenDidAppendStringToCurrentLine:[[[NSString alloc] initWithBytes:asciiData->buffer
-                                                                       length:asciiData->length
-                                                                     encoding:NSASCIIStringEncoding]
-                                              autorelease]
-                                 isPlainText:YES];
+            length:asciiData->length
+            encoding:NSASCIIStringEncoding]
+            autorelease]
+          isPlainText:YES];
 }
 
 - (void)screenDidReset {
@@ -836,8 +836,8 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
 }
 
 - (NSIndexSet *)selectionIndexesOnLine:(int)line
-                   containingCharacter:(unichar)c
-                               inRange:(NSRange)range {
+    containingCharacter:(unichar)c
+    inRange:(NSRange)range {
     return nil;
 }
 
@@ -1047,10 +1047,10 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     screen = [self fiveByFourScreenWithThreeLinesOneWrapped];
     [screen setSize:VT100GridSizeMake(5, 4)];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcde\n"
-               @"fgh..\n"
-               @"ijkl.\n"
-               @"....."]);
+                                        @"abcde\n"
+                                        @"fgh..\n"
+                                        @"ijkl.\n"
+                                        @"....."]);
     XCTAssert(screen.cursorX == 1);
     XCTAssert(screen.cursorY == 4);
 
@@ -1058,10 +1058,10 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     screen = [self fiveByFourScreenWithThreeLinesOneWrapped];
     [screen setSize:VT100GridSizeMake(4, 4)];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcd\n"
-               @"efgh\n"
-               @"ijkl\n"
-               @"...."]);
+                                        @"abcd\n"
+                                        @"efgh\n"
+                                        @"ijkl\n"
+                                        @"...."]);
     XCTAssert(screen.cursorX == 1);
     XCTAssert(screen.cursorY == 4);
 
@@ -1069,10 +1069,10 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     screen = [self fiveByFourScreenWithThreeLinesOneWrapped];
     [screen setSize:VT100GridSizeMake(9, 4)];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcdefgh.\n"
-               @"ijkl.....\n"
-               @".........\n"
-               @"........."]);
+                                        @"abcdefgh.\n"
+                                        @"ijkl.....\n"
+                                        @".........\n"
+                                        @"........."]);
     XCTAssert(screen.cursorX == 1);
     XCTAssert(screen.cursorY == 3);
 
@@ -1080,11 +1080,11 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     screen = [self fiveByFourScreenWithThreeLinesOneWrapped];
     [screen setSize:VT100GridSizeMake(5, 5)];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcde\n"
-               @"fgh..\n"
-               @"ijkl.\n"
-               @".....\n"
-               @"....."]);
+                                        @"abcde\n"
+                                        @"fgh..\n"
+                                        @"ijkl.\n"
+                                        @".....\n"
+                                        @"....."]);
     XCTAssert(screen.cursorX == 1);
     XCTAssert(screen.cursorY == 4);
 
@@ -1092,11 +1092,11 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     screen = [self fiveByFourScreenWithFourLinesOneWrappedAndOneInLineBuffer];
     [screen setSize:VT100GridSizeMake(6, 5)];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"gh....\n"
-               @"ijkl..\n"
-               @"mnopqr\n"
-               @"st....\n"
-               @"......"]);
+                                        @"gh....\n"
+                                        @"ijkl..\n"
+                                        @"mnopqr\n"
+                                        @"st....\n"
+                                        @"......"]);
     XCTAssert(screen.cursorX == 1);
     XCTAssert(screen.cursorY == 5);
 
@@ -1104,9 +1104,9 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     screen = [self fiveByFourScreenWithThreeLinesOneWrapped];
     [screen setSize:VT100GridSizeMake(3, 3)];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"ijk\n"
-               @"l..\n"
-               @"..."]);
+                                        @"ijk\n"
+                                        @"l..\n"
+                                        @"..."]);
     XCTAssert(screen.cursorX == 1);
     XCTAssert(screen.cursorY == 3);
     NSString* s;
@@ -1120,18 +1120,18 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [self showAltAndUppercase:screen];
     [screen setSize:VT100GridSizeMake(5, 4)];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"ABCDE\n"
-               @"FGH..\n"
-               @"IJKL.\n"
-               @"....."]);
+                                        @"ABCDE\n"
+                                        @"FGH..\n"
+                                        @"IJKL.\n"
+                                        @"....."]);
     XCTAssert(screen.cursorX == 1);
     XCTAssert(screen.cursorY == 4);
     [screen terminalShowPrimaryBuffer];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcde\n"
-               @"fgh..\n"
-               @"ijkl.\n"
-               @"....."]);
+                                        @"abcde\n"
+                                        @"fgh..\n"
+                                        @"ijkl.\n"
+                                        @"....."]);
     XCTAssert(screen.cursorX == 1);
     XCTAssert(screen.cursorY == 4);
 
@@ -1140,18 +1140,18 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [self showAltAndUppercase:screen];
     [screen setSize:VT100GridSizeMake(4, 4)];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"ABCD\n"
-               @"EFGH\n"
-               @"IJKL\n"
-               @"...."]);
+                                        @"ABCD\n"
+                                        @"EFGH\n"
+                                        @"IJKL\n"
+                                        @"...."]);
     XCTAssert(screen.cursorX == 1);
     XCTAssert(screen.cursorY == 4);
     [screen terminalShowPrimaryBuffer];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcd\n"
-               @"efgh\n"
-               @"ijkl\n"
-               @"...."]);
+                                        @"abcd\n"
+                                        @"efgh\n"
+                                        @"ijkl\n"
+                                        @"...."]);
     XCTAssert(screen.cursorX == 1);
     XCTAssert(screen.cursorY == 4);
 
@@ -1160,18 +1160,18 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [self showAltAndUppercase:screen];
     [screen setSize:VT100GridSizeMake(9, 4)];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"ABCDEFGH.\n"
-               @"IJKL.....\n"
-               @".........\n"
-               @"........."]);
+                                        @"ABCDEFGH.\n"
+                                        @"IJKL.....\n"
+                                        @".........\n"
+                                        @"........."]);
     XCTAssert(screen.cursorX == 1);
     XCTAssert(screen.cursorY == 3);
     [screen terminalShowPrimaryBuffer];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcdefgh.\n"
-               @"ijkl.....\n"
-               @".........\n"
-               @"........."]);
+                                        @"abcdefgh.\n"
+                                        @"ijkl.....\n"
+                                        @".........\n"
+                                        @"........."]);
     XCTAssert(screen.cursorX == 1);
     XCTAssert(screen.cursorY == 3);
 
@@ -1180,40 +1180,40 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [self showAltAndUppercase:screen];
     [screen setSize:VT100GridSizeMake(5, 5)];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"ABCDE\n"
-               @"FGH..\n"
-               @"IJKL.\n"
-               @".....\n"
-               @"....."]);
+                                        @"ABCDE\n"
+                                        @"FGH..\n"
+                                        @"IJKL.\n"
+                                        @".....\n"
+                                        @"....."]);
     XCTAssert(screen.cursorX == 1);
     XCTAssert(screen.cursorY == 4);
     [screen terminalShowPrimaryBuffer];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcde\n"
-               @"fgh..\n"
-               @"ijkl.\n"
-               @".....\n"
-               @"....."]);
+                                        @"abcde\n"
+                                        @"fgh..\n"
+                                        @"ijkl.\n"
+                                        @".....\n"
+                                        @"....."]);
 
     // Starting in alt - grows, but we don't pull anything out of the line buffer.
     screen = [self fiveByFourScreenWithFourLinesOneWrappedAndOneInLineBuffer];
     [self showAltAndUppercase:screen];
     [screen setSize:VT100GridSizeMake(6, 5)];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"IJKL..\n"
-               @"MNOPQR\n"
-               @"ST....\n"
-               @"......\n"
-               @"......"]);
+                                        @"IJKL..\n"
+                                        @"MNOPQR\n"
+                                        @"ST....\n"
+                                        @"......\n"
+                                        @"......"]);
     XCTAssert(screen.cursorX == 1);
     XCTAssert(screen.cursorY == 4);
     [screen terminalShowPrimaryBuffer];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"ijkl..\n"
-               @"mnopqr\n"
-               @"st....\n"
-               @"......\n"
-               @"......"]);
+                                        @"ijkl..\n"
+                                        @"mnopqr\n"
+                                        @"st....\n"
+                                        @"......\n"
+                                        @"......"]);
     XCTAssert(screen.cursorX == 1);
     XCTAssert(screen.cursorY == 4);
 
@@ -1222,16 +1222,16 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [self showAltAndUppercase:screen];
     [screen setSize:VT100GridSizeMake(3, 3)];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"IJK\n"
-               @"L..\n"
-               @"..."]);
+                                        @"IJK\n"
+                                        @"L..\n"
+                                        @"..."]);
     XCTAssert(screen.cursorX == 1);
     XCTAssert(screen.cursorY == 3);
     [screen terminalShowPrimaryBuffer];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"ijk\n"
-               @"l..\n"
-               @"..."]);
+                                        @"ijk\n"
+                                        @"l..\n"
+                                        @"..."]);
     s = ScreenCharArrayToStringDebug([screen getLineAtIndex:0],
                                      [screen width]);
     XCTAssert([s isEqualToString:@"abc"]);
@@ -1256,9 +1256,9 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [self setSelectionRange:VT100GridCoordRangeMake(1, 2, 3, 2) width:screen.width];
     [screen setSize:VT100GridSizeMake(3, 3)];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"ijk\n"
-               @"l..\n"
-               @"..."]);
+                                        @"ijk\n"
+                                        @"l..\n"
+                                        @"..."]);
     XCTAssert(screen.cursorX == 1);
     XCTAssert(screen.cursorY == 3);
     XCTAssert([[self selectedStringInScreen:screen] isEqualToString:@"jk"]);
@@ -1278,9 +1278,9 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [self setSelectionRange:VT100GridCoordRangeMake(0, 0, 4, 0) width:screen.width];
     [screen setSize:VT100GridSizeMake(3, 3)];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"ijk\n"
-               @"l..\n"
-               @"..."]);
+                                        @"ijk\n"
+                                        @"l..\n"
+                                        @"..."]);
     XCTAssert(screen.cursorX == 1);
     XCTAssert(screen.cursorY == 3);
     XCTAssertEqualObjects([self selectedStringInScreen:screen], @"abcd");
@@ -1300,9 +1300,9 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [self setSelectionRange:VT100GridCoordRangeMake(1, 1, 2, 2) width:screen.width];
     [screen setSize:VT100GridSizeMake(3, 3)];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"ijk\n"
-               @"l..\n"
-               @"..."]);
+                                        @"ijk\n"
+                                        @"l..\n"
+                                        @"..."]);
     XCTAssert(screen.cursorX == 1);
     XCTAssert(screen.cursorY == 3);
     XCTAssert([[self selectedStringInScreen:screen] isEqualToString:@"gh\nij"]);
@@ -1318,10 +1318,10 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [self setSelectionRange:VT100GridCoordRangeMake(1, 1, 2, 2) width:screen.width];
     [screen setSize:VT100GridSizeMake(9, 4)];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcdefgh.\n"
-               @"ijkl.....\n"
-               @".........\n"
-               @"........."]);
+                                        @"abcdefgh.\n"
+                                        @"ijkl.....\n"
+                                        @".........\n"
+                                        @"........."]);
     XCTAssert(screen.cursorX == 1);
     XCTAssert(screen.cursorY == 3);
     XCTAssert([[self selectedStringInScreen:screen] isEqualToString:@"gh\nij"]);
@@ -1338,10 +1338,10 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [self setSelectionRange:VT100GridCoordRangeMake(1, 1, 2, 2) width:screen.width];
     [screen setSize:VT100GridSizeMake(4, 4)];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"ABCD\n"
-               @"EFGH\n"
-               @"IJKL\n"
-               @"...."]);
+                                        @"ABCD\n"
+                                        @"EFGH\n"
+                                        @"IJKL\n"
+                                        @"...."]);
     XCTAssert([[self selectedStringInScreen:screen] isEqualToString:@"GH\nIJ"]);
     XCTAssert(needsRedraw_ > 0);
     XCTAssert(sizeDidChange_ > 0);
@@ -1357,9 +1357,9 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     XCTAssert([[self selectedStringInScreen:screen] isEqualToString:@"GH\nIJ"]);
     [screen setSize:VT100GridSizeMake(3, 3)];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"IJK\n"
-               @"L..\n"
-               @"..."]);
+                                        @"IJK\n"
+                                        @"L..\n"
+                                        @"..."]);
     XCTAssert([[self selectedStringInScreen:screen] isEqualToString:@"IJ"]);
     XCTAssert(needsRedraw_ > 0);
     XCTAssert(sizeDidChange_ > 0);
@@ -1374,9 +1374,9 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [self setSelectionRange:VT100GridCoordRangeMake(0, 0, 3, 0) width:screen.width];
     [screen setSize:VT100GridSizeMake(3, 3)];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"IJK\n"
-               @"L..\n"
-               @"..."]);
+                                        @"IJK\n"
+                                        @"L..\n"
+                                        @"..."]);
     XCTAssert([self selectedStringInScreen:screen] == nil);
     XCTAssert(needsRedraw_ > 0);
     XCTAssert(sizeDidChange_ > 0);
@@ -1392,11 +1392,11 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     XCTAssert([[self selectedStringInScreen:screen] isEqualToString:@"GH\nIJ"]);
     [screen setSize:VT100GridSizeMake(6, 5)];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"ABCDEF\n"
-               @"GH....\n"
-               @"IJKL..\n"
-               @"......\n"
-               @"......"]);
+                                        @"ABCDEF\n"
+                                        @"GH....\n"
+                                        @"IJKL..\n"
+                                        @"......\n"
+                                        @"......"]);
     XCTAssert([[self selectedStringInScreen:screen] isEqualToString:@"GH\nIJ"]);
     XCTAssert(needsRedraw_ > 0);
     XCTAssert(sizeDidChange_ > 0);
@@ -1417,32 +1417,32 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [self appendLines:@[@"abcdefgh", @"ijkl", @"mnopqrst", @"uvwxyz"] toScreen:screen];
     [self showAltAndUppercase:screen];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"MNOPQ\n"
-               @"RST..\n"
-               @"UVWXY\n"
-               @"Z....\n"
-               @"....."]);
+                                        @"MNOPQ\n"
+                                        @"RST..\n"
+                                        @"UVWXY\n"
+                                        @"Z....\n"
+                                        @"....."]);
     // select everything
     // TODO There's a bug when the selection is at the very end (5,6). It is deselected.
     [self setSelectionRange:VT100GridCoordRangeMake(0, 0, 1, 6) width:screen.width];
     XCTAssert([[self selectedStringInScreen:screen] isEqualToString:@"abcdefgh\nijkl\nMNOPQRST\nUVWXYZ"]);
     [screen setSize:VT100GridSizeMake(6, 6)];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"MNOPQR\n"
-               @"ST....\n"
-               @"UVWXYZ\n"
-               @"......\n"
-               @"......\n"
-               @"......"]);
+                                        @"MNOPQR\n"
+                                        @"ST....\n"
+                                        @"UVWXYZ\n"
+                                        @"......\n"
+                                        @"......\n"
+                                        @"......"]);
     XCTAssert([[self selectedStringInScreen:screen] isEqualToString:@"abcdefgh\nMNOPQRST\nUVWXYZ"]);
     [screen terminalShowPrimaryBuffer];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"ijkl..\n"
-               @"mnopqr\n"
-               @"st....\n"
-               @"uvwxyz\n"
-               @"......\n"
-               @"......"]);
+                                        @"ijkl..\n"
+                                        @"mnopqr\n"
+                                        @"st....\n"
+                                        @"uvwxyz\n"
+                                        @"......\n"
+                                        @"......"]);
 
     needsRedraw_ = 0;
     sizeDidChange_ = 0;
@@ -1476,9 +1476,9 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [self showAltAndUppercase:screen];
     [screen setSize:VT100GridSizeMake(3, 3)];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"IJK\n"
-               @"L..\n"
-               @"..."]);
+                                        @"IJK\n"
+                                        @"L..\n"
+                                        @"..."]);
     XCTAssert(screen.cursorX == 1);
     XCTAssert(screen.cursorY == 3);
     s = ScreenCharArrayToStringDebug([screen getLineAtIndex:0],
@@ -1486,9 +1486,9 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     XCTAssert([s isEqualToString:@"gh"]);
     [screen terminalShowPrimaryBuffer];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"ijk\n"
-               @"l..\n"
-               @"..."]);
+                                        @"ijk\n"
+                                        @"l..\n"
+                                        @"..."]);
 
     // Scroll regions are reset
     screen = [self fiveByFourScreenWithThreeLinesOneWrapped];
@@ -1537,36 +1537,36 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     screen.delegate = (id<VT100ScreenDelegate>)self;
     [self appendLines:@[@"abcdefgh", @"ijklmnopqrst", @"uvwxyz"] toScreen:screen];
     XCTAssert([[screen compactLineDumpWithHistory] isEqualToString:
-               @"abcde\n"
-               @"fgh..\n"
-               @"ijklm\n"
-               @"nopqr\n" // top line of screen
-               @"st...\n"
-               @"uvwxy\n"
-               @"z....\n"
-               @"....."]);
+                                                   @"abcde\n"
+                                                   @"fgh..\n"
+                                                   @"ijklm\n"
+                                                   @"nopqr\n" // top line of screen
+                                                   @"st...\n"
+                                                   @"uvwxy\n"
+                                                   @"z....\n"
+                                                   @"....."]);
     [self showAltAndUppercase:screen];
     [self setSelectionRange:VT100GridCoordRangeMake(0, 0, 2, 2) width:screen.width];
     XCTAssert([[self selectedStringInScreen:screen] isEqualToString:@"abcdefgh\nij"]);
     [screen setSize:VT100GridSizeMake(6, 6)];
     XCTAssert([[screen compactLineDumpWithHistory] isEqualToString:
-               @"abcdef\n"
-               @"NOPQRS\n"
-               @"T.....\n"
-               @"UVWXYZ\n"
-               @"......\n"
-               @"......\n"
-               @"......"]);
+                                                   @"abcdef\n"
+                                                   @"NOPQRS\n"
+                                                   @"T.....\n"
+                                                   @"UVWXYZ\n"
+                                                   @"......\n"
+                                                   @"......\n"
+                                                   @"......"]);
     XCTAssert([[self selectedStringInScreen:screen] isEqualToString:@"abcdef"]);
     [screen terminalShowPrimaryBuffer];
     XCTAssert([[screen compactLineDumpWithHistory] isEqualToString:
-               @"abcdef\n"
-               @"gh....\n"
-               @"ijklmn\n"
-               @"opqrst\n"
-               @"uvwxyz\n"
-               @"......\n"
-               @"......"]);
+                                                   @"abcdef\n"
+                                                   @"gh....\n"
+                                                   @"ijklmn\n"
+                                                   @"opqrst\n"
+                                                   @"uvwxyz\n"
+                                                   @"......\n"
+                                                   @"......"]);
 
     // In alt screen with selection that begins in history just above the visible screen and ends
     // onscreen. The screen grows, moving lines from history into the primary screen. The start of the
@@ -1641,42 +1641,42 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     screen.delegate = (id<VT100ScreenDelegate>)self;
     [self appendLines:@[@"abcdefgh", @"ijklmnopqrst", @"uvwxyz"] toScreen:screen];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"nopqr\n"
-               @"st...\n"
-               @"uvwxy\n"
-               @"z....\n"
-               @"....."]);
+                                        @"nopqr\n"
+                                        @"st...\n"
+                                        @"uvwxy\n"
+                                        @"z....\n"
+                                        @"....."]);
     [self showAltAndUppercase:screen];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"NOPQR\n"
-               @"ST...\n"
-               @"UVWXY\n"
-               @"Z....\n"
-               @"....."]);
+                                        @"NOPQR\n"
+                                        @"ST...\n"
+                                        @"UVWXY\n"
+                                        @"Z....\n"
+                                        @"....."]);
     [screen setSize:VT100GridSizeMake(6, 6)];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"NOPQRS\n"
-               @"T.....\n"
-               @"UVWXYZ\n"
-               @"......\n"
-               @"......\n"
-               @"......"]);
+                                        @"NOPQRS\n"
+                                        @"T.....\n"
+                                        @"UVWXYZ\n"
+                                        @"......\n"
+                                        @"......\n"
+                                        @"......"]);
     [screen terminalShowPrimaryBuffer];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"gh....\n"
-               @"ijklmn\n"
-               @"opqrst\n"
-               @"uvwxyz\n"
-               @"......\n"
-               @"......"]);
+                                        @"gh....\n"
+                                        @"ijklmn\n"
+                                        @"opqrst\n"
+                                        @"uvwxyz\n"
+                                        @"......\n"
+                                        @"......"]);
 }
 
 - (void)testRunByTrimmingNullsFromRun {
     // Basic test
     VT100Screen *screen = [self screenFromCompactLines:
-                           @"..1234\n"
-                           @"56789a\n"
-                           @"bc...."];
+                                @"..1234\n"
+                                @"56789a\n"
+                                @"bc...."];
     VT100GridRun run = VT100GridRunMake(1, 0, 16);
     VT100GridRun trimmed = [screen runByTrimmingNullsFromRun:run];
     XCTAssert(trimmed.origin.x == 2);
@@ -1685,10 +1685,10 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
 
     // Test wrapping nulls around.
     screen = [self screenFromCompactLines:
-              @"......\n"
-              @".12345\n"
-              @"67....\n"
-              @"......\n"];
+                   @"......\n"
+                   @".12345\n"
+                   @"67....\n"
+                   @"......\n"];
     run = VT100GridRunMake(1, 0, 24);
     trimmed = [screen runByTrimmingNullsFromRun:run];
     XCTAssertEqual(trimmed.origin.x, 0);
@@ -1705,8 +1705,8 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
 
     // Test no nulls
     screen = [self screenFromCompactLines:
-              @"1234\n"
-              @"5678"];
+                   @"1234\n"
+                   @"5678"];
     run = VT100GridRunMake(1, 0, 6);
     trimmed = [screen runByTrimmingNullsFromRun:run];
     XCTAssert(trimmed.origin.x == 1);
@@ -1726,14 +1726,14 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     XCTAssert(![screen allCharacterSetPropertiesHaveDefaultValues]);
     [screen terminalResetPreservingPrompt:YES];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"ijkl.\n"
-               @".....\n"
-               @"....."]);
+                                        @"ijkl.\n"
+                                        @".....\n"
+                                        @"....."]);
     XCTAssert([[screen compactLineDumpWithHistory] isEqualToString:
-               @"fgh..\n"
-               @"ijkl.\n"
-               @".....\n"
-               @"....."]);
+                                                   @"fgh..\n"
+                                                   @"ijkl.\n"
+                                                   @".....\n"
+                                                   @"....."]);
 
     XCTAssert(screen.cursorX == 5);
     XCTAssert(screen.cursorY == 1);
@@ -1755,14 +1755,14 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     XCTAssert(![screen allCharacterSetPropertiesHaveDefaultValues]);
     [screen terminalResetPreservingPrompt:NO];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @".....\n"
-               @".....\n"
-               @"....."]);
+                                        @".....\n"
+                                        @".....\n"
+                                        @"....."]);
     XCTAssert([[screen compactLineDumpWithHistory] isEqualToString:
-               @"ijkl.\n"
-               @".....\n"
-               @".....\n"
-               @"....."]);
+                                                   @"ijkl.\n"
+                                                   @".....\n"
+                                                   @".....\n"
+                                                   @"....."]);
 
     XCTAssert(screen.cursorX == 1);
     XCTAssert(screen.cursorY == 1);
@@ -1810,10 +1810,10 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen clearBuffer];
     XCTAssert(updates_ == 1);
     XCTAssert([[screen compactLineDumpWithHistory] isEqualToString:
-               @".....\n"
-               @".....\n"
-               @".....\n"
-               @"....."]);
+                                                   @".....\n"
+                                                   @".....\n"
+                                                   @".....\n"
+                                                   @"....."]);
     XCTAssert(VT100GridRectEquals([[screen currentGrid] scrollRegionRect],
                                   VT100GridRectMake(0, 0, 5, 4)));
     XCTAssert(terminal_.savedCursorPosition.x == 0);
@@ -1827,10 +1827,10 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen clearBuffer];
     XCTAssert(updates_ == 2);
     XCTAssert([[screen compactLineDumpWithHistory] isEqualToString:
-               @"wxyz.\n"
-               @".....\n"
-               @".....\n"
-               @"....."]);
+                                                   @"wxyz.\n"
+                                                   @".....\n"
+                                                   @".....\n"
+                                                   @"....."]);
     XCTAssert(screen.cursorX == 4);
     XCTAssert(screen.cursorY == 1);
 
@@ -1841,10 +1841,10 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen terminalMoveCursorToX:4 y:2];
     [screen clearBuffer];
     XCTAssert([[screen compactLineDumpWithHistory] isEqualToString:
-               @"rstuv\n"
-               @".....\n"
-               @".....\n"
-               @"....."]);
+                                                   @"rstuv\n"
+                                                   @".....\n"
+                                                   @".....\n"
+                                                   @"....."]);
     XCTAssert(screen.cursorX == 4);
     XCTAssert(screen.cursorY == 1);
 }
@@ -1855,19 +1855,19 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [self setSelectionRange:VT100GridCoordRangeMake(1, 1, 1, 1) width:screen.width];
     [self appendLines:@[@"abcdefgh", @"ijkl", @"mnopqrstuvwxyz"] toScreen:screen];
     XCTAssert([[screen compactLineDumpWithHistory] isEqualToString:
-               @"abcde\n"
-               @"fgh..\n"
-               @"ijkl.\n"
-               @"mnopq\n"
-               @"rstuv\n"
-               @"wxyz.\n"
-               @"....."]);
+                                                   @"abcde\n"
+                                                   @"fgh..\n"
+                                                   @"ijkl.\n"
+                                                   @"mnopq\n"
+                                                   @"rstuv\n"
+                                                   @"wxyz.\n"
+                                                   @"....."]);
     [screen clearScrollbackBuffer];
     XCTAssert([[screen compactLineDumpWithHistory] isEqualToString:
-               @"mnopq\n"
-               @"rstuv\n"
-               @"wxyz.\n"
-               @"....."]);
+                                                   @"mnopq\n"
+                                                   @"rstuv\n"
+                                                   @"wxyz.\n"
+                                                   @"....."]);
     XCTAssert(highlightsCleared_);
     XCTAssert(![selection_ hasSelection]);
     XCTAssert([screen isAllDirty]);
@@ -1885,10 +1885,10 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen appendStringAtCursor:@"Hello world"];
 
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"Hello\n"
-               @" worl\n"
-               @"d....\n"
-               @"....."]);
+                                        @"Hello\n"
+                                        @" worl\n"
+                                        @"d....\n"
+                                        @"....."]);
     screen_char_t *line = [screen getLineAtScreenIndex:0];
     XCTAssert(line[0].foregroundColor == 5);
     XCTAssert(line[0].foregroundColorMode == ColorModeNormal);
@@ -1964,7 +1964,8 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
         0x1F91D,
         0x200D,
         0x1F468,
-        0x1F3FB };
+        0x1F3FB
+    };
     NSData *expectedData = [NSData dataWithBytes:codePoints length:sizeof(codePoints)];
     NSString *expectedString = [[NSString alloc] initWithData:expectedData encoding:NSUTF32LittleEndianStringEncoding];
     VT100Screen *screen = [self screenWithWidth:20 height:2];
@@ -2012,7 +2013,7 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     };
 
     NSMutableString *s = [NSMutableString stringWithCharacters:chars
-                                                        length:sizeof(chars) / sizeof(unichar)];
+                                          length:sizeof(chars) / sizeof(unichar)];
     [screen appendStringAtCursor:s];
 
     screen_char_t *line = [screen getLineAtScreenIndex:0];
@@ -2075,22 +2076,22 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     screen.delegate = (id<VT100ScreenDelegate>)self;
     [self appendLines:@[@"abcdefgh", @"ijkl", @"mnop"] toScreen:screen];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcde\n"
-               @"fgh..\n"
-               @"ijkl.\n"
-               @"mnop.\n"
-               @"....."]);
+                                        @"abcde\n"
+                                        @"fgh..\n"
+                                        @"ijkl.\n"
+                                        @"mnop.\n"
+                                        @"....."]);
     [screen terminalSetScrollRegionTop:1 bottom:3];
     [screen terminalSetUseColumnScrollRegion:YES];
     [screen terminalSetLeftMargin:1 rightMargin:3];
     [screen terminalMoveCursorToX:4 y:4];
     [screen linefeed];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcde\n"
-               @"fjkl.\n"
-               @"inop.\n"
-               @"m....\n"
-               @"....."]);
+                                        @"abcde\n"
+                                        @"fjkl.\n"
+                                        @"inop.\n"
+                                        @"m....\n"
+                                        @"....."]);
     XCTAssert([screen scrollbackOverflow] == 0);
     XCTAssert([screen totalScrollbackOverflow] == 0);
     XCTAssert([screen cursorX] == 4);
@@ -2101,20 +2102,20 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen setMaxScrollbackLines:1];
     [self appendLines:@[@"abcdefgh", @"ijkl", @"mnop"] toScreen:screen];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcde\n"
-               @"fgh..\n"
-               @"ijkl.\n"
-               @"mnop.\n"
-               @"....."]);
+                                        @"abcde\n"
+                                        @"fgh..\n"
+                                        @"ijkl.\n"
+                                        @"mnop.\n"
+                                        @"....."]);
     [screen terminalMoveCursorToX:4 y:5];
     [screen linefeed];
     [screen linefeed];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"ijkl.\n"
-               @"mnop.\n"
-               @".....\n"
-               @".....\n"
-               @"....."]);
+                                        @"ijkl.\n"
+                                        @"mnop.\n"
+                                        @".....\n"
+                                        @".....\n"
+                                        @"....."]);
     XCTAssert([screen scrollbackOverflow] == 1);
     XCTAssert([screen totalScrollbackOverflow] == 1);
     XCTAssert([screen cursorX] == 4);
@@ -2125,56 +2126,62 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
 
 - (void)testSetHistory {
     NSArray *lines = @[[self screenCharLineForString:@"abcdefghijkl"],
-                       [self screenCharLineForString:@"mnop"],
-                       [self screenCharLineForString:@"qrstuvwxyz"],
-                       [self screenCharLineForString:@"0123456  "],
-                       [self screenCharLineForString:@"ABC   "],
-                       [self screenCharLineForString:@"DEFGHIJKL   "],
-                       [self screenCharLineForString:@"MNOP  "]];
+                                                                     [self screenCharLineForString:@"mnop"],
+                                                                     [self screenCharLineForString:@"qrstuvwxyz"],
+                                                                     [self screenCharLineForString:@"0123456  "],
+                                                                     [self screenCharLineForString:@"ABC   "],
+                                                                     [self screenCharLineForString:@"DEFGHIJKL   "],
+                                                                     [self screenCharLineForString:@"MNOP  "]];
     VT100Screen *screen = [self screenWithWidth:6 height:4];
     [screen setHistory:lines];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcdef+\n"
-               @"ghijkl!\n"
-               @"mnop..!\n"
-               @"qrstuv+\n"
-               @"wxyz..!\n"
-               @"012345+\n"
-               @"6.....!\n"
-               @"ABC...!\n"
-               @"DEFGHI+\n"
-               @"JKL...!\n"
-               @"MNOP..!"]);
+                                                                       @"abcdef+\n"
+                                                                       @"ghijkl!\n"
+                                                                       @"mnop..!\n"
+                                                                       @"qrstuv+\n"
+                                                                       @"wxyz..!\n"
+                                                                       @"012345+\n"
+                                                                       @"6.....!\n"
+                                                                       @"ABC...!\n"
+                                                                       @"DEFGHI+\n"
+                                                                       @"JKL...!\n"
+                                                                       @"MNOP..!"]);
 }
 
 - (void)testSetAltScreen {
     NSArray *lines = @[[self screenCharLineForString:@"abcdefghijkl"],
-                       [self screenCharLineForString:@"mnop"],
-                       [self screenCharLineForString:@"qrstuvwxyz"],
-                       [self screenCharLineForString:@"0123456  "],
-                       [self screenCharLineForString:@"ABC   "],
-                       [self screenCharLineForString:@"DEFGHIJKL   "],
-                       [self screenCharLineForString:@"MNOP  "]];
+                                                                     [self screenCharLineForString:@"mnop"],
+                                                                     [self screenCharLineForString:@"qrstuvwxyz"],
+                                                                     [self screenCharLineForString:@"0123456  "],
+                                                                     [self screenCharLineForString:@"ABC   "],
+                                                                     [self screenCharLineForString:@"DEFGHIJKL   "],
+                                                                     [self screenCharLineForString:@"MNOP  "]];
     VT100Screen *screen = [self screenWithWidth:6 height:4];
     [screen terminalShowAltBuffer];
     [screen setAltScreen:lines];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcdef+\n"
-               @"ghijkl!\n"
-               @"mnop..!\n"
-               @"qrstuv+"]);
+                                                                       @"abcdef+\n"
+                                                                       @"ghijkl!\n"
+                                                                       @"mnop..!\n"
+                                                                       @"qrstuv+"]);
 }
 
 - (void)testSetTmuxState {
     NSDictionary *stateDict =
-    @{
-      kStateDictCursorX: @(4),
-      kStateDictCursorY: @(5),
-      kStateDictScrollRegionUpper: @(6),
-      kStateDictScrollRegionLower: @(7),
-      kStateDictCursorMode: @(NO),
-      kStateDictTabstops: @[@(4), @(8)]
-      };
+    @ {
+kStateDictCursorX:
+        @(4),
+kStateDictCursorY:
+        @(5),
+kStateDictScrollRegionUpper:
+        @(6),
+kStateDictScrollRegionLower:
+        @(7),
+kStateDictCursorMode:
+        @(NO),
+kStateDictTabstops:
+        @[@(4), @(8)]
+    };
     VT100Screen *screen = [self screenWithWidth:10 height:10];
     screen.delegate = (id<VT100ScreenDelegate>)self;
     cursorVisible_ = YES;
@@ -2210,24 +2217,24 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     };
     VT100Screen *screen = [self screenWithWidth:5 height:4];
     [screen setFromFrame:(screen_char_t *) data.mutableBytes
-                     len:data.length
-                    info:info];
+            len:data.length
+            info:info];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcde+\n"
-               @"fgh..!\n"
-               @"ijkl.!\n"
-               @".....!"]);
+                                                                       @"abcde+\n"
+                                                                       @"fgh..!\n"
+                                                                       @"ijkl.!\n"
+                                                                       @".....!"]);
     XCTAssert(screen.cursorX == 2);
     XCTAssert(screen.cursorY == 3);
 
     // Try a screen smaller than the frame
     screen = [self screenWithWidth:2 height:2];
     [screen setFromFrame:(screen_char_t *) data.mutableBytes
-                     len:data.length
-                    info:info];
+            len:data.length
+            info:info];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"ij!\n"
-               @"..!"]);
+                                                                       @"ij!\n"
+                                                                       @"..!"]);
     XCTAssert(screen.cursorX == 2);
     XCTAssert(screen.cursorY == 1);
 }
@@ -2251,16 +2258,16 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     FindContext *ctx = [[[FindContext alloc] init] autorelease];
     ctx.maxTime = 0;
     [screen setFindString:@"wxyz"
-         forwardDirection:YES
-                     mode:iTermFindModeCaseSensitiveSubstring
-              startingAtX:0
-              startingAtY:0
-               withOffset:0
-                inContext:ctx
-          multipleResults:YES];
+            forwardDirection:YES
+            mode:iTermFindModeCaseSensitiveSubstring
+            startingAtX:0
+            startingAtY:0
+            withOffset:0
+            inContext:ctx
+            multipleResults:YES];
     NSMutableArray *results = [NSMutableArray array];
     XCTAssert([screen continueFindAllResults:results
-                                   inContext:ctx]);
+                      inContext:ctx]);
     XCTAssert(results.count == 1);
     SearchResult *range = results[0];
     XCTAssert(range.startX == 0);
@@ -2271,7 +2278,7 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     // Make sure there's nothing else to find
     [results removeAllObjects];
     XCTAssert(![screen continueFindAllResults:results
-                                    inContext:ctx]);
+                       inContext:ctx]);
     XCTAssert(results.count == 0);
 
     [screen storeLastPositionInLineBufferAsFindContextSavedPosition];
@@ -2279,17 +2286,17 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     // Now add some stuff to the bottom and search again from where we previously stopped.
     [self appendLines:@[@"0123", @"wxyz"] toScreen:screen];
     [screen setFindString:@"wxyz"
-         forwardDirection:YES
-                     mode:iTermFindModeCaseSensitiveSubstring
-              startingAtX:0
-              startingAtY:7  // Past bottom of screen
-               withOffset:0
-                inContext:ctx
-          multipleResults:YES];
+            forwardDirection:YES
+            mode:iTermFindModeCaseSensitiveSubstring
+            startingAtX:0
+            startingAtY:7  // Past bottom of screen
+            withOffset:0
+            inContext:ctx
+            multipleResults:YES];
     [screen restoreSavedPositionToFindContext:ctx];
     results = [NSMutableArray array];
     XCTAssert([screen continueFindAllResults:results
-                                   inContext:ctx]);
+                      inContext:ctx]);
     XCTAssert(results.count == 1);
     range = results[0];
     XCTAssert(range.startX == 0);
@@ -2300,7 +2307,7 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     // Make sure there's nothing else to find
     [results removeAllObjects];
     XCTAssert(![screen continueFindAllResults:results
-                                    inContext:ctx]);
+                       inContext:ctx]);
     XCTAssert(results.count == 0);
 
     // Search backwards from the end. This is slower than searching
@@ -2308,13 +2315,13 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     // so it will get a result sooner.
     FindContext *myFindContext = [[[FindContext alloc] init] autorelease];
     [screen setFindString:@"mnop"
-         forwardDirection:NO
-                     mode:iTermFindModeCaseSensitiveSubstring
-              startingAtX:0
-              startingAtY:[screen numberOfLines] + 1 + [screen totalScrollbackOverflow]
-               withOffset:0
-                inContext:[screen findContext]
-          multipleResults:YES];
+            forwardDirection:NO
+            mode:iTermFindModeCaseSensitiveSubstring
+            startingAtX:0
+            startingAtY:[screen numberOfLines] + 1 + [screen totalScrollbackOverflow]
+            withOffset:0
+            inContext:[screen findContext]
+            multipleResults:YES];
     [myFindContext copyFromFindContext:[screen findContext]];
     myFindContext.results = nil;
     [screen saveFindContextAbsPos];
@@ -2329,13 +2336,13 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     // Do a tail find from the saved position.
     FindContext *tailFindContext = [[[FindContext alloc] init] autorelease];
     [screen setFindString:@"rst"
-         forwardDirection:YES
-                     mode:iTermFindModeCaseSensitiveSubstring
-              startingAtX:0
-              startingAtY:0
-               withOffset:0
-                inContext:tailFindContext
-          multipleResults:YES];
+            forwardDirection:YES
+            mode:iTermFindModeCaseSensitiveSubstring
+            startingAtX:0
+            startingAtY:0
+            withOffset:0
+            inContext:tailFindContext
+            multipleResults:YES];
 
     // Set the starting position to the block & offset that the backward search
     // began at. Do a forward search from that location.
@@ -2350,13 +2357,13 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [self appendLines:@[ @"rst" ]  toScreen:screen];
     tailFindContext = [[[FindContext alloc] init] autorelease];
     [screen setFindString:@"rst"
-         forwardDirection:YES
-                     mode:iTermFindModeCaseSensitiveSubstring
-              startingAtX:0
-              startingAtY:0
-               withOffset:0
-                inContext:tailFindContext
-          multipleResults:YES];
+            forwardDirection:YES
+            mode:iTermFindModeCaseSensitiveSubstring
+            startingAtX:0
+            startingAtY:0
+            withOffset:0
+            inContext:tailFindContext
+            multipleResults:YES];
 
     // Set the starting position to the block & offset that the backward search
     // began at. Do a forward search from that location.
@@ -2400,8 +2407,8 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
 
 - (void)testGetLineAtIndex {
     VT100Screen *screen = [self screenFromCompactLines:
-                           @"abcde>\n"
-                           @"F-ghi.\n"];
+                                @"abcde>\n"
+                                @"F-ghi.\n"];
     [screen terminalMoveCursorToX:6 y:2];
     screen_char_t *line = [screen getLineAtIndex:0];
     XCTAssert(line[0].code == 'a');
@@ -2461,25 +2468,25 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
 }
 
 - (void)assertSearchInScreen:(VT100Screen *)screen
-                  forPattern:(NSString *)pattern
-            forwardDirection:(BOOL)forward
-                        mode:(iTermFindMode)mode
-                 startingAtX:(int)startX
-                 startingAtY:(int)startY
-                  withOffset:(int)offset
-              matchesResults:(NSArray *)expected
-  callBlockBetweenIterations:(void (^)(VT100Screen *))block {
+    forPattern:(NSString *)pattern
+    forwardDirection:(BOOL)forward
+    mode:(iTermFindMode)mode
+    startingAtX:(int)startX
+    startingAtY:(int)startY
+    withOffset:(int)offset
+    matchesResults:(NSArray *)expected
+    callBlockBetweenIterations:(void (^)(VT100Screen *))block {
     screen.delegate = (id<VT100ScreenDelegate>)self;
     [screen setSize:VT100GridSizeMake(screen.width, 2)];
     [[screen findContext] setMaxTime:0];
     [screen setFindString:pattern
-         forwardDirection:forward
-                     mode:mode
-              startingAtX:startX
-              startingAtY:startY
-               withOffset:offset
-                inContext:[screen findContext]
-          multipleResults:YES];
+            forwardDirection:forward
+            mode:mode
+            startingAtX:startX
+            startingAtY:startY
+            withOffset:offset
+            inContext:[screen findContext]
+            multipleResults:YES];
     NSMutableArray *results = [NSMutableArray array];
     while ([screen continueFindAllResults:results inContext:[screen findContext]]) {
         if (block) {
@@ -2493,188 +2500,188 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
 }
 
 - (void)assertSearchInScreenLines:(NSString *)compactLines
-                       forPattern:(NSString *)pattern
-                 forwardDirection:(BOOL)forward
-                     mode:(iTermFindMode)mode
-                      startingAtX:(int)startX
-                      startingAtY:(int)startY
-                       withOffset:(int)offset
-                   matchesResults:(NSArray *)expected {
+    forPattern:(NSString *)pattern
+    forwardDirection:(BOOL)forward
+    mode:(iTermFindMode)mode
+    startingAtX:(int)startX
+    startingAtY:(int)startY
+    withOffset:(int)offset
+    matchesResults:(NSArray *)expected {
     VT100Screen *screen = [self screenFromCompactLinesWithContinuationMarks:compactLines];
     [self assertSearchInScreen:screen
-                    forPattern:pattern
-              forwardDirection:forward
-                          mode:mode
-                   startingAtX:startX
-                   startingAtY:startY
-                    withOffset:offset
-                matchesResults:expected
-    callBlockBetweenIterations:NULL];
+          forPattern:pattern
+          forwardDirection:forward
+          mode:mode
+          startingAtX:startX
+          startingAtY:startY
+          withOffset:offset
+          matchesResults:expected
+          callBlockBetweenIterations:NULL];
 }
 
 - (void)testFind {
     NSString *lines =
-    @"abcd+\n"
-    @"efgc!\n"
-    @"de..!\n"
-    @"fgx>>\n"
-    @"Y-z.!";
+        @"abcd+\n"
+        @"efgc!\n"
+        @"de..!\n"
+        @"fgx>>\n"
+        @"Y-z.!";
     NSArray *cdeResults = @[ [SearchResult searchResultFromX:2 y:0 toX:0 y:1] ];
     // Search forward, wraps around a line, beginning from first char onscreen
     [self assertSearchInScreenLines:lines
-                         forPattern:@"cde"
-                   forwardDirection:YES
-                               mode:iTermFindModeCaseSensitiveSubstring
-                        startingAtX:0
-                        startingAtY:0
-                         withOffset:0
-                     matchesResults:cdeResults];
+          forPattern:@"cde"
+          forwardDirection:YES
+          mode:iTermFindModeCaseSensitiveSubstring
+          startingAtX:0
+          startingAtY:0
+          withOffset:0
+          matchesResults:cdeResults];
 
     // Search backward
     [self assertSearchInScreenLines:lines
-                         forPattern:@"cde"
-                   forwardDirection:NO
-                               mode:iTermFindModeCaseSensitiveSubstring
-                        startingAtX:2
-                        startingAtY:4
-                         withOffset:0
-                     matchesResults:cdeResults];
+          forPattern:@"cde"
+          forwardDirection:NO
+          mode:iTermFindModeCaseSensitiveSubstring
+          startingAtX:2
+          startingAtY:4
+          withOffset:0
+          matchesResults:cdeResults];
 
     // Search from last char on screen
     [self assertSearchInScreenLines:lines
-                         forPattern:@"cde"
-                   forwardDirection:NO
-                               mode:iTermFindModeCaseSensitiveSubstring
-                        startingAtX:2
-                        startingAtY:4
-                         withOffset:0
-                     matchesResults:cdeResults];
+          forPattern:@"cde"
+          forwardDirection:NO
+          mode:iTermFindModeCaseSensitiveSubstring
+          startingAtX:2
+          startingAtY:4
+          withOffset:0
+          matchesResults:cdeResults];
 
     // Search from null after last char on screen
     [self assertSearchInScreenLines:lines
-                         forPattern:@"cde"
-                   forwardDirection:NO
-                               mode:iTermFindModeCaseSensitiveSubstring
-                        startingAtX:3
-                        startingAtY:4
-                         withOffset:0
-                     matchesResults:cdeResults];
+          forPattern:@"cde"
+          forwardDirection:NO
+          mode:iTermFindModeCaseSensitiveSubstring
+          startingAtX:3
+          startingAtY:4
+          withOffset:0
+          matchesResults:cdeResults];
     // Search from middle of screen
     [self assertSearchInScreenLines:lines
-                         forPattern:@"cde"
-                   forwardDirection:NO
-                               mode:iTermFindModeCaseSensitiveSubstring
-                        startingAtX:3
-                        startingAtY:2
-                         withOffset:0
-                     matchesResults:cdeResults];
+          forPattern:@"cde"
+          forwardDirection:NO
+          mode:iTermFindModeCaseSensitiveSubstring
+          startingAtX:3
+          startingAtY:2
+          withOffset:0
+          matchesResults:cdeResults];
 
     [self assertSearchInScreenLines:lines
-                         forPattern:@"cde"
-                   forwardDirection:NO
-                               mode:iTermFindModeCaseSensitiveSubstring
-                        startingAtX:1
-                        startingAtY:0
-                         withOffset:0
-                     matchesResults:@[]];
+          forPattern:@"cde"
+          forwardDirection:NO
+          mode:iTermFindModeCaseSensitiveSubstring
+          startingAtX:1
+          startingAtY:0
+          withOffset:0
+          matchesResults:@[]];
 
     // Search ignoring case
     [self assertSearchInScreenLines:lines
-                         forPattern:@"CDE"
-                   forwardDirection:YES
-                               mode:iTermFindModeCaseSensitiveSubstring
-                        startingAtX:0
-                        startingAtY:0
-                         withOffset:0
-                     matchesResults:@[]];
+          forPattern:@"CDE"
+          forwardDirection:YES
+          mode:iTermFindModeCaseSensitiveSubstring
+          startingAtX:0
+          startingAtY:0
+          withOffset:0
+          matchesResults:@[]];
 
     [self assertSearchInScreenLines:lines
-                         forPattern:@"CDE"
-                   forwardDirection:YES
-                       mode:iTermFindModeCaseInsensitiveSubstring
-                        startingAtX:0
-                        startingAtY:0
-                         withOffset:0
-                     matchesResults:cdeResults];
+          forPattern:@"CDE"
+          forwardDirection:YES
+          mode:iTermFindModeCaseInsensitiveSubstring
+          startingAtX:0
+          startingAtY:0
+          withOffset:0
+          matchesResults:cdeResults];
 
     // Search with regex
     [self assertSearchInScreenLines:lines
-                         forPattern:@"c.e"
-                   forwardDirection:YES
-                       mode:iTermFindModeCaseSensitiveRegex
-                        startingAtX:0
-                        startingAtY:0
-                         withOffset:0
-                     matchesResults:cdeResults];
+          forPattern:@"c.e"
+          forwardDirection:YES
+          mode:iTermFindModeCaseSensitiveRegex
+          startingAtX:0
+          startingAtY:0
+          withOffset:0
+          matchesResults:cdeResults];
 
     [self assertSearchInScreenLines:lines
-                         forPattern:@"C.E"
-                   forwardDirection:YES
-                       mode:iTermFindModeCaseInsensitiveRegex
-                        startingAtX:0
-                        startingAtY:0
-                         withOffset:0
-                     matchesResults:cdeResults];
+          forPattern:@"C.E"
+          forwardDirection:YES
+          mode:iTermFindModeCaseInsensitiveRegex
+          startingAtX:0
+          startingAtY:0
+          withOffset:0
+          matchesResults:cdeResults];
 
     // Search with offset=1
     [self assertSearchInScreenLines:lines
-                         forPattern:@"de"
-                   forwardDirection:YES
-                               mode:iTermFindModeCaseSensitiveSubstring
-                        startingAtX:3
-                        startingAtY:0
-                         withOffset:0
-                     matchesResults:@[ [SearchResult searchResultFromX:3 y:0 toX:0 y:1],
-                                       [SearchResult searchResultFromX:0 y:2 toX:1 y:2] ]];
+          forPattern:@"de"
+          forwardDirection:YES
+          mode:iTermFindModeCaseSensitiveSubstring
+          startingAtX:3
+          startingAtY:0
+          withOffset:0
+          matchesResults:@[ [SearchResult searchResultFromX:3 y:0 toX:0 y:1],
+                       [SearchResult searchResultFromX:0 y:2 toX:1 y:2] ]];
 
     [self assertSearchInScreenLines:lines
-                         forPattern:@"de"
-                   forwardDirection:YES
-                               mode:iTermFindModeCaseSensitiveSubstring
-                        startingAtX:3
-                        startingAtY:0
-                         withOffset:1
-                     matchesResults:@[ [SearchResult searchResultFromX:0 y:2 toX:1 y:2] ]];
+          forPattern:@"de"
+          forwardDirection:YES
+          mode:iTermFindModeCaseSensitiveSubstring
+          startingAtX:3
+          startingAtY:0
+          withOffset:1
+          matchesResults:@[ [SearchResult searchResultFromX:0 y:2 toX:1 y:2] ]];
 
     // Search with offset=-1
     [self assertSearchInScreenLines:lines
-                         forPattern:@"de"
-                   forwardDirection:NO
-                               mode:iTermFindModeCaseSensitiveSubstring
-                        startingAtX:0
-                        startingAtY:2
-                         withOffset:0
-                     matchesResults:@[ [SearchResult searchResultFromX:0 y:2 toX:1 y:2],
-                                       [SearchResult searchResultFromX:3 y:0 toX:0 y:1] ]];
+          forPattern:@"de"
+          forwardDirection:NO
+          mode:iTermFindModeCaseSensitiveSubstring
+          startingAtX:0
+          startingAtY:2
+          withOffset:0
+          matchesResults:@[ [SearchResult searchResultFromX:0 y:2 toX:1 y:2],
+                       [SearchResult searchResultFromX:3 y:0 toX:0 y:1] ]];
 
     [self assertSearchInScreenLines:lines
-                         forPattern:@"de"
-                   forwardDirection:NO
-                               mode:iTermFindModeCaseSensitiveSubstring
-                        startingAtX:0
-                        startingAtY:2
-                         withOffset:1
-                     matchesResults:@[ [SearchResult searchResultFromX:3 y:0 toX:0 y:1] ]];
+          forPattern:@"de"
+          forwardDirection:NO
+          mode:iTermFindModeCaseSensitiveSubstring
+          startingAtX:0
+          startingAtY:2
+          withOffset:1
+          matchesResults:@[ [SearchResult searchResultFromX:3 y:0 toX:0 y:1] ]];
 
     // Search matching DWC
     [self assertSearchInScreenLines:lines
-                         forPattern:@"Yz"
-                   forwardDirection:YES
-                               mode:iTermFindModeCaseSensitiveSubstring
-                        startingAtX:0
-                        startingAtY:0
-                         withOffset:0
-                     matchesResults:@[ [SearchResult searchResultFromX:0 y:4 toX:2 y:4] ]];
+          forPattern:@"Yz"
+          forwardDirection:YES
+          mode:iTermFindModeCaseSensitiveSubstring
+          startingAtX:0
+          startingAtY:0
+          withOffset:0
+          matchesResults:@[ [SearchResult searchResultFromX:0 y:4 toX:2 y:4] ]];
 
     // Search matching text before DWC_SKIP and after it
     [self assertSearchInScreenLines:lines
-                         forPattern:@"xYz"
-                   forwardDirection:YES
-                               mode:iTermFindModeCaseSensitiveSubstring
-                        startingAtX:0
-                        startingAtY:0
-                         withOffset:0
-                     matchesResults:@[ [SearchResult searchResultFromX:2 y:3 toX:2 y:4] ]];
+          forPattern:@"xYz"
+          forwardDirection:YES
+          mode:iTermFindModeCaseSensitiveSubstring
+          startingAtX:0
+          startingAtY:0
+          withOffset:0
+          matchesResults:@[ [SearchResult searchResultFromX:2 y:3 toX:2 y:4] ]];
 
     // Search that searches multiple blocks
     VT100Screen *screen = [self screenWithWidth:5 height:2];
@@ -2687,7 +2694,7 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
                          @"spam",
                          @"0123def456789",    // Block 3
                          @"hello def world"]  // Block 4
-             toScreen:screen];
+          toScreen:screen];
     /*
      abcde  0
      fghij  1
@@ -2704,16 +2711,16 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
      12
      */
     [self assertSearchInScreen:screen
-                    forPattern:@"def"
-              forwardDirection:NO
-                          mode:iTermFindModeCaseSensitiveSubstring
-                   startingAtX:0
-                   startingAtY:12
-                    withOffset:0
-                matchesResults:@[ [SearchResult searchResultFromX:1 y:10 toX:3 y:10],
-                                  [SearchResult searchResultFromX:4 y:6 toX:1 y:7],
-                                  [SearchResult searchResultFromX:3 y:0 toX:0 y:1]]
-    callBlockBetweenIterations:NULL];
+          forPattern:@"def"
+          forwardDirection:NO
+          mode:iTermFindModeCaseSensitiveSubstring
+          startingAtX:0
+          startingAtY:12
+          withOffset:0
+          matchesResults:@[ [SearchResult searchResultFromX:1 y:10 toX:3 y:10],
+                       [SearchResult searchResultFromX:4 y:6 toX:1 y:7],
+                       [SearchResult searchResultFromX:3 y:0 toX:0 y:1]]
+          callBlockBetweenIterations:NULL];
     // Search multiple blocks with a drop between calls to continueFindAllResults
     screen = [self screenWithWidth:5 height:2];
     smallBlockLineBuffer = [[[LineBuffer alloc] initWithBlockSize:10] autorelease];
@@ -2726,18 +2733,18 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
                          @"spam",
                          @"0123def456789",    // Block 3
                          @"hello def world"]  // Block 4
-             toScreen:screen];
+          toScreen:screen];
     [self assertSearchInScreen:screen
-                    forPattern:@"spam"
-              forwardDirection:NO
-                          mode:iTermFindModeCaseSensitiveSubstring
-                   startingAtX:0
-                   startingAtY:12
-                    withOffset:0
-                matchesResults:@[ [SearchResult searchResultFromX:0 y:5 toX:3 y:5] ]
-    callBlockBetweenIterations:^(VT100Screen *screen) {
-        [self appendLines:@[ @"FOO" ] toScreen:screen];
-    }];
+          forPattern:@"spam"
+          forwardDirection:NO
+          mode:iTermFindModeCaseSensitiveSubstring
+          startingAtX:0
+          startingAtY:12
+          withOffset:0
+          matchesResults:@[ [SearchResult searchResultFromX:0 y:5 toX:3 y:5] ]
+         callBlockBetweenIterations:^(VT100Screen *screen) {
+             [self appendLines:@[ @"FOO" ] toScreen:screen];
+         }];
 }
 
 - (void)testScrollingInAltScreen {
@@ -2754,16 +2761,16 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen terminalLineFeed];
     XCTAssert([screen scrollbackOverflow] == 1);
     XCTAssert([[screen compactLineDumpWithHistory] isEqualToString:
-               @"1.\n"
-               @"2.\n"
-               @"3.\n"
-               @"4.\n"
-               @"..\n"
-               @".."]);
+                                                   @"1.\n"
+                                                   @"2.\n"
+                                                   @"3.\n"
+                                                   @"4.\n"
+                                                   @"..\n"
+                                                   @".."]);
     XCTAssert([[[screen currentGrid] compactDirtyDump] isEqualToString:
-               @"cc\n"
-               @"dc\n"
-               @"dd"]);
+                                     @"cc\n"
+                                     @"dc\n"
+                                     @"dd"]);
     [screen resetScrollbackOverflow];
     XCTAssert([selection_ firstAbsRange].coordRange.start.x == 1);
 
@@ -2773,16 +2780,16 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen terminalLineFeed];
     XCTAssert([screen scrollbackOverflow] == 0);
     XCTAssert([[screen compactLineDumpWithHistory] isEqualToString:
-               @"1.\n"
-               @"2.\n"
-               @"3.\n"
-               @"..\n"
-               @"..\n"
-               @".."]);
+                                                   @"1.\n"
+                                                   @"2.\n"
+                                                   @"3.\n"
+                                                   @"..\n"
+                                                   @"..\n"
+                                                   @".."]);
     XCTAssert([[[screen currentGrid] compactDirtyDump] isEqualToString:
-               @"dd\n"
-               @"dd\n"
-               @"dd"]);
+                                     @"dd\n"
+                                     @"dd\n"
+                                     @"dd"]);
     VT100GridAbsWindowedRange selectionRange = [selection_ firstAbsRange];
     ITERM_TEST_KNOWN_BUG(selectionRange.coordRange.start.y == 4,
                          selectionRange.coordRange.start.y == -1);
@@ -2811,25 +2818,25 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     // Test normal case
     [screen setCharDirtyAtCursorX:0 Y:0];
     XCTAssert([[[screen currentGrid] compactDirtyDump] isEqualToString:
-               @"dd\n"
-               @"cc\n"
-               @"cc"]);
+                                     @"dd\n"
+                                     @"cc\n"
+                                     @"cc"]);
 
     // Test cursor in right margin
     [screen resetDirty];
     [screen setCharDirtyAtCursorX:2 Y:1];
     XCTAssert([[[screen currentGrid] compactDirtyDump] isEqualToString:
-               @"cc\n"
-               @"cc\n"
-               @"dd"]);
+                                     @"cc\n"
+                                     @"cc\n"
+                                     @"dd"]);
 
     // Test cursor in last column
     [screen resetDirty];
     [screen setCharDirtyAtCursorX:1 Y:1];
     XCTAssert([[[screen currentGrid] compactDirtyDump] isEqualToString:
-               @"cc\n"
-               @"cd\n"
-               @"cc"]);
+                                     @"cc\n"
+                                     @"cd\n"
+                                     @"cc"]);
 }
 
 - (void)testIsDirtyAt {
@@ -2899,7 +2906,7 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen terminalPrintBuffer];
     XCTAssert(!printed_);
     XCTAssert([ScreenCharArrayToStringDebug([screen getLineAtScreenIndex:0],
-                                            screen.width) isEqualToString:@"test"]);
+                                                                                 screen.width) isEqualToString:@"test"]);
 
     printed_ = nil;
     printingAllowed_ = YES;
@@ -3001,7 +3008,7 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen terminalMoveCursorToX:1 y:1];
     [screen terminalAppendTabAtCursor:NO];
     XCTAssert([ScreenCharArrayToStringDebug([screen getLineAtScreenIndex:0],
-                                            screen.width) isEqualToString:@"0123456789"]);
+                                                                                 screen.width) isEqualToString:@"0123456789"]);
 
     // Tabbing over all nils replaces them with tab fillers and a tab character at the end
     screen = [self screenWithWidth:20 height:3];
@@ -3019,7 +3026,7 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen terminalMoveCursorToX:1 y:1];
     [screen terminalAppendTabAtCursor:NO];
     XCTAssert([ScreenCharArrayToStringDebug([screen getLineAtScreenIndex:0],
-                                            screen.width) isEqualToString:@"x"]);
+                                                                                 screen.width) isEqualToString:@"x"]);
     XCTAssert(screen.cursorX == 9);
 
     // No wrap-around
@@ -3125,10 +3132,10 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen terminalMoveCursorToX:5 y:16];
     [screen terminalAppendString:@"Hello"];
     XCTAssert([ScreenCharArrayToStringDebug([screen getLineAtScreenIndex:15],
-                                            screen.width) isEqualToString:@"Hello"]);
+                                                                                 screen.width) isEqualToString:@"Hello"]);
     [screen terminalLineFeed];
     XCTAssert([ScreenCharArrayToStringDebug([screen getLineAtScreenIndex:14],
-                                            screen.width) isEqualToString:@"Hello"]);
+                                                                                 screen.width) isEqualToString:@"Hello"]);
 
     // When origin mode is on, cursor should move to top left of scroll region.
     screen = [self screenWithWidth:20 height:20];
@@ -3159,10 +3166,10 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
                          @"klmnopqrst",
                          @"0123456789" ] toScreen:screen];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcdefghij\n"
-               @"klmnopqrst\n"
-               @"0123456789\n"
-               @".........."]);
+                                        @"abcdefghij\n"
+                                        @"klmnopqrst\n"
+                                        @"0123456789\n"
+                                        @".........."]);
     [screen terminalMoveCursorToX:5 y:2];  // over the 'o'
     return screen;
 }
@@ -3174,50 +3181,50 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     VT100Screen *screen = [self screenForEraseInDisplay];
     [screen terminalEraseInDisplayBeforeCursor:YES afterCursor:YES];
     XCTAssert([[screen compactLineDumpWithHistory] isEqualToString:
-               @"abcdefghij\n"
-               @"klmnopqrst\n"
-               @"0123456789\n"
-               @"..........\n"
-               @"..........\n"
-               @"..........\n"
-               @".........."]);
+                                                   @"abcdefghij\n"
+                                                   @"klmnopqrst\n"
+                                                   @"0123456789\n"
+                                                   @"..........\n"
+                                                   @"..........\n"
+                                                   @"..........\n"
+                                                   @".........."]);
 
     // Before only should erase from origin to cursor, inclusive.
     screen = [self screenForEraseInDisplay];
     [screen terminalEraseInDisplayBeforeCursor:YES afterCursor:NO];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"..........\n"
-               @".....pqrst\n"
-               @"0123456789\n"
-               @".........."]);
+                                        @"..........\n"
+                                        @".....pqrst\n"
+                                        @"0123456789\n"
+                                        @".........."]);
 
     // Same but with curosr in the right margin
     screen = [self screenForEraseInDisplay];
     [screen terminalMoveCursorToX:11 y:2];
     [screen terminalEraseInDisplayBeforeCursor:YES afterCursor:NO];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"..........\n"
-               @"..........\n"
-               @"0123456789\n"
-               @".........."]);
+                                        @"..........\n"
+                                        @"..........\n"
+                                        @"0123456789\n"
+                                        @".........."]);
 
     // After only erases from cursor position inclusive to end of display
     screen = [self screenForEraseInDisplay];
     [screen terminalEraseInDisplayBeforeCursor:NO afterCursor:YES];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcdefghij\n"
-               @"klmn......\n"
-               @"..........\n"
-               @".........."]);
+                                        @"abcdefghij\n"
+                                        @"klmn......\n"
+                                        @"..........\n"
+                                        @".........."]);
 
     // Neither before nor after does nothing
     screen = [self screenForEraseInDisplay];
     [screen terminalEraseInDisplayBeforeCursor:NO afterCursor:NO];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcdefghij\n"
-               @"klmnopqrst\n"
-               @"0123456789\n"
-               @".........."]);
+                                        @"abcdefghij\n"
+                                        @"klmnopqrst\n"
+                                        @"0123456789\n"
+                                        @".........."]);
 }
 
 - (void)testEraseLine {
@@ -3227,47 +3234,47 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     VT100Screen *screen = [self screenForEraseInDisplay];
     [screen terminalEraseLineBeforeCursor:YES afterCursor:YES];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcdefghij\n"
-               @"..........\n"
-               @"0123456789\n"
-               @".........."]);
+                                        @"abcdefghij\n"
+                                        @"..........\n"
+                                        @"0123456789\n"
+                                        @".........."]);
 
     // Before only should erase from start of line to cursor, inclusive.
     screen = [self screenForEraseInDisplay];
     [screen terminalEraseLineBeforeCursor:YES afterCursor:NO];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcdefghij\n"
-               @".....pqrst\n"
-               @"0123456789\n"
-               @".........."]);
+                                        @"abcdefghij\n"
+                                        @".....pqrst\n"
+                                        @"0123456789\n"
+                                        @".........."]);
 
     // Same but with curosr in the right margin
     screen = [self screenForEraseInDisplay];
     [screen terminalMoveCursorToX:11 y:2];
     [screen terminalEraseLineBeforeCursor:YES afterCursor:NO];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcdefghij\n"
-               @"..........\n"
-               @"0123456789\n"
-               @".........."]);
+                                        @"abcdefghij\n"
+                                        @"..........\n"
+                                        @"0123456789\n"
+                                        @".........."]);
 
     // After only erases from cursor position inclusive to end of line
     screen = [self screenForEraseInDisplay];
     [screen terminalEraseLineBeforeCursor:NO afterCursor:YES];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcdefghij\n"
-               @"klmn......\n"
-               @"0123456789\n"
-               @".........."]);
+                                        @"abcdefghij\n"
+                                        @"klmn......\n"
+                                        @"0123456789\n"
+                                        @".........."]);
 
     // Neither before nor after does nothing
     screen = [self screenForEraseInDisplay];
     [screen terminalEraseLineBeforeCursor:NO afterCursor:NO];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcdefghij\n"
-               @"klmnopqrst\n"
-               @"0123456789\n"
-               @".........."]);
+                                        @"abcdefghij\n"
+                                        @"klmnopqrst\n"
+                                        @"0123456789\n"
+                                        @".........."]);
 }
 
 - (void)testIndex {
@@ -3283,10 +3290,10 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen terminalLineFeed];
     [screen terminalLineFeed];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"klmnopqrst\n"
-               @"0123456789\n"
-               @"..........\n"
-               @".........."]);
+                                        @"klmnopqrst\n"
+                                        @"0123456789\n"
+                                        @"..........\n"
+                                        @".........."]);
 
 
     // With vsplit and hsplit
@@ -3305,10 +3312,10 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen terminalLineFeed];
     XCTAssert(screen.cursorY == 3);
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcdefghij\n"
-               @"kl2345qrst\n"
-               @"01....6789\n"
-               @".........."]);
+                                        @"abcdefghij\n"
+                                        @"kl2345qrst\n"
+                                        @"01....6789\n"
+                                        @".........."]);
 
     // Test simple reverse indexing
     screen = [self screenWithWidth:10 height:4];
@@ -3319,17 +3326,17 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen terminalReverseIndex];
     XCTAssert(screen.cursorY == 1);
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcdefghij\n"
-               @"klmnopqrst\n"
-               @"0123456789\n"
-               @".........."]);
+                                        @"abcdefghij\n"
+                                        @"klmnopqrst\n"
+                                        @"0123456789\n"
+                                        @".........."]);
 
     [screen terminalReverseIndex];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"..........\n"
-               @"abcdefghij\n"
-               @"klmnopqrst\n"
-               @"0123456789"]);
+                                        @"..........\n"
+                                        @"abcdefghij\n"
+                                        @"klmnopqrst\n"
+                                        @"0123456789"]);
 
 
     // Reverse index with vsplit and hsplit
@@ -3348,10 +3355,10 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen terminalReverseIndex];
     XCTAssert(screen.cursorY == 2);
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcdefghij\n"
-               @"kl....qrst\n"
-               @"01mnop6789\n"
-               @".........."]);
+                                        @"abcdefghij\n"
+                                        @"kl....qrst\n"
+                                        @"01mnop6789\n"
+                                        @".........."]);
 }
 
 - (void)testResetPreservingPrompt {
@@ -3361,10 +3368,10 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen terminalMoveCursorToX:4 y:2];
     [screen terminalResetPreservingPrompt:YES];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"klm.......\n"
-               @"..........\n"
-               @"..........\n"
-               @".........."]);
+                                        @"klm.......\n"
+                                        @"..........\n"
+                                        @"..........\n"
+                                        @".........."]);
 
     // Don't preserve prompt
     screen = [self screenWithWidth:10 height:4];
@@ -3372,10 +3379,10 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen terminalMoveCursorToX:4 y:2];
     [screen terminalResetPreservingPrompt:NO];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"..........\n"
-               @"..........\n"
-               @"..........\n"
-               @".........."]);
+                                        @"..........\n"
+                                        @"..........\n"
+                                        @"..........\n"
+                                        @".........."]);
 
     // Tab stops get reset
     screen = [self screenWithWidth:20 height:4];
@@ -3463,23 +3470,23 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen terminalMoveCursorToX:5 y:1];  // 'e'
     [screen terminalEraseCharactersAfterCursor:0];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcdefghij+\n"
-               @"klm.......!\n"
-               @"..........!"]);
+                                                                       @"abcdefghij+\n"
+                                                                       @"klm.......!\n"
+                                                                       @"..........!"]);
 
     // Delete 2 chars
     [screen terminalEraseCharactersAfterCursor:2];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd..ghij+\n"
-               @"klm.......!\n"
-               @"..........!"]);
+                                                                       @"abcd..ghij+\n"
+                                                                       @"klm.......!\n"
+                                                                       @"..........!"]);
 
     // Delete just to end of line, change eol hard to eol soft.
     [screen terminalEraseCharactersAfterCursor:6];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd......!\n"
-               @"klm.......!\n"
-               @"..........!"]);
+                                                                       @"abcd......!\n"
+                                                                       @"klm.......!\n"
+                                                                       @"..........!"]);
 
     // Delete way more than fits on line
     screen = [self screenWithWidth:10 height:3];
@@ -3487,39 +3494,39 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen terminalMoveCursorToX:5 y:1];  // 'e'
     [screen terminalEraseCharactersAfterCursor:100];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd......!\n"
-               @"klm.......!\n"
-               @"..........!"]);
+                                                                       @"abcd......!\n"
+                                                                       @"klm.......!\n"
+                                                                       @"..........!"]);
 
     // Break dwc before cursor
     screen = [self screenFromCompactLinesWithContinuationMarks:
-              @"abcD-fghij+\n"
-              @"klm.......!"];
+                   @"abcD-fghij+\n"
+                   @"klm.......!"];
     [screen terminalMoveCursorToX:5 y:1];  // '-'
     [screen terminalEraseCharactersAfterCursor:2];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abc...ghij+\n"
-               @"klm.......!"]);
+                                                                       @"abc...ghij+\n"
+                                                                       @"klm.......!"]);
 
     // Break dwc after cursor
     screen = [self screenFromCompactLinesWithContinuationMarks:
-              @"abcdeF-hij+\n"
-              @"klm.......!"];
+                   @"abcdeF-hij+\n"
+                   @"klm.......!"];
     [screen terminalMoveCursorToX:5 y:1];  // 'e'
     [screen terminalEraseCharactersAfterCursor:2];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd...hij+\n"
-               @"klm.......!"]);
+                                                                       @"abcd...hij+\n"
+                                                                       @"klm.......!"]);
 
     // Break split dwc
     screen = [self screenFromCompactLinesWithContinuationMarks:
-              @"abcdefghi>>\n"
-              @"J-klm.....!"];
+                   @"abcdefghi>>\n"
+                   @"J-klm.....!"];
     [screen terminalMoveCursorToX:5 y:1];  // 'e'
     [screen terminalEraseCharactersAfterCursor:6];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd......!\n"
-               @"J-klm.....!"]);
+                                                                       @"abcd......!\n"
+                                                                       @"J-klm.....!"]);
 }
 
 - (void)testSetTitle {
@@ -3583,9 +3590,9 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen terminalMoveCursorToX:5 y:1];  // 'e'
     [screen terminalInsertEmptyCharsAtCursor:0];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcdefghij+\n"
-               @"klm.......!\n"
-               @"..........!"]);
+                                                                       @"abcdefghij+\n"
+                                                                       @"klm.......!\n"
+                                                                       @"..........!"]);
 
     // Base case: insert 1
     screen = [self screenWithWidth:10 height:3];
@@ -3593,9 +3600,9 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen terminalMoveCursorToX:5 y:1];  // 'e'
     [screen terminalInsertEmptyCharsAtCursor:1];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd.efghi+\n"
-               @"klm.......!\n"
-               @"..........!"]);
+                                                                       @"abcd.efghi+\n"
+                                                                       @"klm.......!\n"
+                                                                       @"..........!"]);
 
     // Insert 2
     screen = [self screenWithWidth:10 height:3];
@@ -3603,9 +3610,9 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen terminalMoveCursorToX:5 y:1];  // 'e'
     [screen terminalInsertEmptyCharsAtCursor:2];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd..efgh+\n"
-               @"klm.......!\n"
-               @"..........!"]);
+                                                                       @"abcd..efgh+\n"
+                                                                       @"klm.......!\n"
+                                                                       @"..........!"]);
 
     // Insert to end of line, breaking EOL_SOFT
     screen = [self screenWithWidth:10 height:3];
@@ -3613,9 +3620,9 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen terminalMoveCursorToX:5 y:1];  // 'e'
     [screen terminalInsertEmptyCharsAtCursor:6];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd......!\n"
-               @"klm.......!\n"
-               @"..........!"]);
+                                                                       @"abcd......!\n"
+                                                                       @"klm.......!\n"
+                                                                       @"..........!"]);
 
     // Insert more than fits
     screen = [self screenWithWidth:10 height:3];
@@ -3623,57 +3630,57 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen terminalMoveCursorToX:5 y:1];  // 'e'
     [screen terminalInsertEmptyCharsAtCursor:100];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd......!\n"
-               @"klm.......!\n"
-               @"..........!"]);
+                                                                       @"abcd......!\n"
+                                                                       @"klm.......!\n"
+                                                                       @"..........!"]);
 
     // Insert 1, breaking DWC_SKIP
     screen = [self screenFromCompactLinesWithContinuationMarks:
-              @"abcdefghi>>\n"
-              @"J-k.......!\n"
-              @"..........!"];
+                   @"abcdefghi>>\n"
+                   @"J-k.......!\n"
+                   @"..........!"];
     [screen terminalMoveCursorToX:5 y:1];  // 'e'
     [screen terminalInsertEmptyCharsAtCursor:1];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd.efghi+\n"
-               @"J-k.......!\n"
-               @"..........!"]);
+                                                                       @"abcd.efghi+\n"
+                                                                       @"J-k.......!\n"
+                                                                       @"..........!"]);
 
     // Insert breaking DWC that would end at end of line
     screen = [self screenFromCompactLinesWithContinuationMarks:
-              @"abcdefghI-+\n"
-              @"jkl.......!\n"
-              @"..........!"];
+                   @"abcdefghI-+\n"
+                   @"jkl.......!\n"
+                   @"..........!"];
     [screen terminalMoveCursorToX:5 y:1];  // 'e'
     [screen terminalInsertEmptyCharsAtCursor:1];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd.efgh.!\n"
-               @"jkl.......!\n"
-               @"..........!"]);
+                                                                       @"abcd.efgh.!\n"
+                                                                       @"jkl.......!\n"
+                                                                       @"..........!"]);
 
     // Insert breaking DWC at cursor, which is on left half of dwc
     screen = [self screenFromCompactLinesWithContinuationMarks:
-              @"abcdE-fghi+\n"
-              @"jkl.......!\n"
-              @"..........!"];
+                   @"abcdE-fghi+\n"
+                   @"jkl.......!\n"
+                   @"..........!"];
     [screen terminalMoveCursorToX:6 y:1];  // 'E'
     [screen terminalInsertEmptyCharsAtCursor:1];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd...fgh+\n"
-               @"jkl.......!\n"
-               @"..........!"]);
+                                                                       @"abcd...fgh+\n"
+                                                                       @"jkl.......!\n"
+                                                                       @"..........!"]);
 
     // Insert breaking DWC at cursor, which is on right half of dwc
     screen = [self screenFromCompactLinesWithContinuationMarks:
-              @"abcD-efghi+\n"
-              @"jkl.......!\n"
-              @"..........!"];
+                   @"abcD-efghi+\n"
+                   @"jkl.......!\n"
+                   @"..........!"];
     [screen terminalMoveCursorToX:5 y:1];  // '-'
     [screen terminalInsertEmptyCharsAtCursor:1];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abc...efgh+\n"
-               @"jkl.......!\n"
-               @"..........!"]);
+                                                                       @"abc...efgh+\n"
+                                                                       @"jkl.......!\n"
+                                                                       @"..........!"]);
 
     // With vsplit
     screen = [self screenWithWidth:10 height:3];
@@ -3683,9 +3690,9 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen terminalMoveCursorToX:5 y:1];  // 'e'
     [screen terminalInsertEmptyCharsAtCursor:1];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd.efghj+\n"
-               @"klm.......!\n"
-               @"..........!"]);
+                                                                       @"abcd.efghj+\n"
+                                                                       @"klm.......!\n"
+                                                                       @"..........!"]);
 
     // There are a few more tests of insertChar in VT100GridTest, no sense duplicating them all here.
 }
@@ -3695,50 +3702,50 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     VT100Screen *screen = [self screenWithWidth:4 height:4];
     [self appendLines:@[ @"abcdefg", @"hij" ] toScreen:screen];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd+\n"
-               @"efg.!\n"
-               @"hij.!\n"
-               @"....!"]);
+                                                                       @"abcd+\n"
+                                                                       @"efg.!\n"
+                                                                       @"hij.!\n"
+                                                                       @"....!"]);
     [screen terminalMoveCursorToX:5 y:2];  // 'f'
     [screen terminalInsertBlankLinesAfterCursor:0];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd+\n"
-               @"efg.!\n"
-               @"hij.!\n"
-               @"....!"]);
+                                                                       @"abcd+\n"
+                                                                       @"efg.!\n"
+                                                                       @"hij.!\n"
+                                                                       @"....!"]);
 
     // insert 1 blank line, breaking eol_soft
     screen = [self screenWithWidth:4 height:4];
     [self appendLines:@[ @"abcdefg", @"hij" ] toScreen:screen];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd+\n"
-               @"efg.!\n"
-               @"hij.!\n"
-               @"....!"]);
+                                                                       @"abcd+\n"
+                                                                       @"efg.!\n"
+                                                                       @"hij.!\n"
+                                                                       @"....!"]);
     [screen terminalMoveCursorToX:5 y:2];  // 'f'
     [screen terminalInsertBlankLinesAfterCursor:1];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd!\n"
-               @"....!\n"
-               @"efg.!\n"
-               @"hij.!"]);
+                                                                       @"abcd!\n"
+                                                                       @"....!\n"
+                                                                       @"efg.!\n"
+                                                                       @"hij.!"]);
 
     // Insert outside scroll region does nothing
     screen = [self screenWithWidth:4 height:4];
     [screen terminalSetScrollRegionTop:2 bottom:3];
     [self appendLines:@[ @"abcdefg", @"hij" ] toScreen:screen];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd+\n"
-               @"efg.!\n"
-               @"hij.!\n"
-               @"....!"]);
+                                                                       @"abcd+\n"
+                                                                       @"efg.!\n"
+                                                                       @"hij.!\n"
+                                                                       @"....!"]);
     [screen terminalMoveCursorToX:1 y:1];  // outside region
     [screen terminalInsertBlankLinesAfterCursor:1];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd+\n"
-               @"efg.!\n"
-               @"hij.!\n"
-               @"....!"]);
+                                                                       @"abcd+\n"
+                                                                       @"efg.!\n"
+                                                                       @"hij.!\n"
+                                                                       @"....!"]);
 
     // Same but with vsplit
     screen = [self screenWithWidth:4 height:4];
@@ -3746,17 +3753,17 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen terminalSetUseColumnScrollRegion:YES];
     [screen terminalSetLeftMargin:2 rightMargin:3];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd+\n"
-               @"efg.!\n"
-               @"hij.!\n"
-               @"....!"]);
+                                                                       @"abcd+\n"
+                                                                       @"efg.!\n"
+                                                                       @"hij.!\n"
+                                                                       @"....!"]);
     [screen terminalMoveCursorToX:1 y:1];  // outside region
     [screen terminalInsertBlankLinesAfterCursor:1];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd+\n"
-               @"efg.!\n"
-               @"hij.!\n"
-               @"....!"]);
+                                                                       @"abcd+\n"
+                                                                       @"efg.!\n"
+                                                                       @"hij.!\n"
+                                                                       @"....!"]);
 }
 
 - (void)testDeleteLinesAtCursor {
@@ -3764,50 +3771,50 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     VT100Screen *screen = [self screenWithWidth:4 height:4];
     [self appendLines:@[ @"abcdefg", @"hij" ] toScreen:screen];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd+\n"
-               @"efg.!\n"
-               @"hij.!\n"
-               @"....!"]);
+                                                                       @"abcd+\n"
+                                                                       @"efg.!\n"
+                                                                       @"hij.!\n"
+                                                                       @"....!"]);
     [screen terminalMoveCursorToX:5 y:2];  // 'f'
     [screen terminalDeleteLinesAtCursor:0];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd+\n"
-               @"efg.!\n"
-               @"hij.!\n"
-               @"....!"]);
+                                                                       @"abcd+\n"
+                                                                       @"efg.!\n"
+                                                                       @"hij.!\n"
+                                                                       @"....!"]);
 
     // Deleting 1
     screen = [self screenWithWidth:4 height:4];
     [self appendLines:@[ @"abcdefg", @"hij" ] toScreen:screen];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd+\n"
-               @"efg.!\n"
-               @"hij.!\n"
-               @"....!"]);
+                                                                       @"abcd+\n"
+                                                                       @"efg.!\n"
+                                                                       @"hij.!\n"
+                                                                       @"....!"]);
     [screen terminalMoveCursorToX:5 y:2];  // 'f'
     [screen terminalDeleteLinesAtCursor:1];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd!\n"
-               @"hij.!\n"
-               @"....!\n"
-               @"....!"]);
+                                                                       @"abcd!\n"
+                                                                       @"hij.!\n"
+                                                                       @"....!\n"
+                                                                       @"....!"]);
 
     // Outside region does nothing
     screen = [self screenWithWidth:4 height:4];
     [screen terminalSetScrollRegionTop:2 bottom:3];
     [self appendLines:@[ @"abcdefg", @"hij" ] toScreen:screen];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd+\n"
-               @"efg.!\n"
-               @"hij.!\n"
-               @"....!"]);
+                                                                       @"abcd+\n"
+                                                                       @"efg.!\n"
+                                                                       @"hij.!\n"
+                                                                       @"....!"]);
     [screen terminalMoveCursorToX:1 y:1];  // outside region
     [screen terminalDeleteLinesAtCursor:1];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd+\n"
-               @"efg.!\n"
-               @"hij.!\n"
-               @"....!"]);
+                                                                       @"abcd+\n"
+                                                                       @"efg.!\n"
+                                                                       @"hij.!\n"
+                                                                       @"....!"]);
 
     // Same but with vsplit
     screen = [self screenWithWidth:4 height:4];
@@ -3815,36 +3822,36 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     [screen terminalSetUseColumnScrollRegion:YES];
     [screen terminalSetLeftMargin:2 rightMargin:3];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd+\n"
-               @"efg.!\n"
-               @"hij.!\n"
-               @"....!"]);
+                                                                       @"abcd+\n"
+                                                                       @"efg.!\n"
+                                                                       @"hij.!\n"
+                                                                       @"....!"]);
     [screen terminalMoveCursorToX:1 y:1];  // outside region
     [screen terminalDeleteLinesAtCursor:1];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd+\n"
-               @"efg.!\n"
-               @"hij.!\n"
-               @"....!"]);
+                                                                       @"abcd+\n"
+                                                                       @"efg.!\n"
+                                                                       @"hij.!\n"
+                                                                       @"....!"]);
 
     // Delete one inside scroll region
     screen = [self screenWithWidth:4 height:5];
     [self appendLines:@[ @"abcdefg", @"hij", @"klm" ] toScreen:screen];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd+\n"
-               @"efg.!\n"
-               @"hij.!\n"
-               @"klm.!\n"
-               @"....!"]);
+                                                                       @"abcd+\n"
+                                                                       @"efg.!\n"
+                                                                       @"hij.!\n"
+                                                                       @"klm.!\n"
+                                                                       @"....!"]);
     [screen terminalSetScrollRegionTop:1 bottom:2];
     [screen terminalMoveCursorToX:2 y:2];  // 'f'
     [screen terminalDeleteLinesAtCursor:1];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd!\n"
-               @"hij.!\n"
-               @"....!\n"
-               @"klm.!\n"
-               @"....!"]);
+                                                                       @"abcd!\n"
+                                                                       @"hij.!\n"
+                                                                       @"....!\n"
+                                                                       @"klm.!\n"
+                                                                       @"....!"]);
 }
 
 - (void)testTerminalSetPixelSize {
@@ -3868,67 +3875,67 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     VT100Screen *screen = [self screenWithWidth:4 height:4];
     [self appendLines:@[ @"abcdefg", @"hij" ] toScreen:screen];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd+\n"
-               @"efg.!\n"
-               @"hij.!\n"
-               @"....!"]);
+                                                                       @"abcd+\n"
+                                                                       @"efg.!\n"
+                                                                       @"hij.!\n"
+                                                                       @"....!"]);
     [screen terminalScrollUp:0];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd+\n"
-               @"efg.!\n"
-               @"hij.!\n"
-               @"....!"]);
+                                                                       @"abcd+\n"
+                                                                       @"efg.!\n"
+                                                                       @"hij.!\n"
+                                                                       @"....!"]);
 
     // Scroll by 1
     screen = [self screenWithWidth:4 height:4];
     [self appendLines:@[ @"abcdefg", @"hij" ] toScreen:screen];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd+\n"
-               @"efg.!\n"
-               @"hij.!\n"
-               @"....!"]);
+                                                                       @"abcd+\n"
+                                                                       @"efg.!\n"
+                                                                       @"hij.!\n"
+                                                                       @"....!"]);
     [screen terminalScrollUp:1];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd+\n"
-               @"efg.!\n"
-               @"hij.!\n"
-               @"....!\n"
-               @"....!"]);
+                                                                       @"abcd+\n"
+                                                                       @"efg.!\n"
+                                                                       @"hij.!\n"
+                                                                       @"....!\n"
+                                                                       @"....!"]);
 
     // Scroll by 2
     screen = [self screenWithWidth:4 height:4];
     [self appendLines:@[ @"abcdefg", @"hij" ] toScreen:screen];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd+\n"
-               @"efg.!\n"
-               @"hij.!\n"
-               @"....!"]);
+                                                                       @"abcd+\n"
+                                                                       @"efg.!\n"
+                                                                       @"hij.!\n"
+                                                                       @"....!"]);
     [screen terminalScrollUp:2];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd+\n"
-               @"efg.!\n"
-               @"hij.!\n"
-               @"....!\n"
-               @"....!\n"
-               @"....!"]);
+                                                                       @"abcd+\n"
+                                                                       @"efg.!\n"
+                                                                       @"hij.!\n"
+                                                                       @"....!\n"
+                                                                       @"....!\n"
+                                                                       @"....!"]);
 
     // Scroll with region
     screen = [self screenWithWidth:4 height:4];
     [self appendLines:@[ @"abcdefg", @"hij" ] toScreen:screen];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd+\n"
-               @"efg.!\n"
-               @"hij.!\n"
-               @"....!"]);
+                                                                       @"abcd+\n"
+                                                                       @"efg.!\n"
+                                                                       @"hij.!\n"
+                                                                       @"....!"]);
     [screen terminalSetUseColumnScrollRegion:YES];
     [screen terminalSetLeftMargin:1 rightMargin:2];
     [screen terminalSetScrollRegionTop:1 bottom:2];
     [screen terminalScrollUp:1];
     XCTAssert([[screen compactLineDumpWithHistoryAndContinuationMarks] isEqualToString:
-               @"abcd+\n"
-               @"eij.!\n"
-               @"h...!\n"
-               @"....!"]);
+                                                                       @"abcd+\n"
+                                                                       @"eij.!\n"
+                                                                       @"h...!\n"
+                                                                       @"....!"]);
 }
 
 #pragma mark - Regression tests
@@ -3966,20 +3973,20 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     // still be there.
     VT100Screen *screen = [self fiveByFourScreenWithThreeLinesOneWrapped];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcde\n"
-               @"fgh..\n"
-               @"ijkl.\n"
-               @"....."]);
+                                        @"abcde\n"
+                                        @"fgh..\n"
+                                        @"ijkl.\n"
+                                        @"....."]);
     PTYNoteViewController *note = [[[PTYNoteViewController alloc] init] autorelease];
     [screen addNote:note inRange:VT100GridCoordRangeMake(0, 1, 2, 1)];  // fg
     [screen terminalShowAltBuffer];
     [screen setSize:VT100GridSizeMake(4, 4)];
     [screen terminalShowPrimaryBuffer];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcd\n"
-               @"efgh\n"
-               @"ijkl\n"
-               @"...."]);
+                                        @"abcd\n"
+                                        @"efgh\n"
+                                        @"ijkl\n"
+                                        @"...."]);
     NSArray *notes = [screen notesInRange:VT100GridCoordRangeMake(0, 0, 5, 3)];
     XCTAssert(notes.count == 1);
     XCTAssert(notes[0] == note);
@@ -3993,10 +4000,10 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
 - (void)testRestoreWithNoteOnEmptyLineAtTop {
     VT100Screen *screen = [self fiveByFourScreenWithThreeLinesOneWrapped];
     XCTAssert([[screen compactLineDump] isEqualToString:
-               @"abcde\n"
-               @"fgh..\n"
-               @"ijkl.\n"
-               @"....."]);
+                                        @"abcde\n"
+                                        @"fgh..\n"
+                                        @"ijkl.\n"
+                                        @"....."]);
     PTYNoteViewController *note = [[[PTYNoteViewController alloc] init] autorelease];
     [screen addNote:note inRange:VT100GridCoordRangeMake(0, 3, 2, 3)];  // First two chars on last line
 
@@ -4027,24 +4034,24 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     VT100Screen *screen = [self fiveByFourScreenWithThreeLinesOneWrapped];
     [self appendLinesNoNewline:@[ @"hello world" ] toScreen:screen];
     XCTAssert([[screen compactLineDumpWithHistory] isEqualToString:
-               @"abcde\n"   // history
-               @"fgh..\n"   // history
-               @"ijkl.\n"
-               @"hello\n"
-               @" worl\n"
-               @"d...."]);
+                                                   @"abcde\n"   // history
+                                                   @"fgh..\n"   // history
+                                                   @"ijkl.\n"
+                                                   @"hello\n"
+                                                   @" worl\n"
+                                                   @"d...."]);
     PTYNoteViewController *note = [[[PTYNoteViewController alloc] init] autorelease];
     [screen addNote:note inRange:VT100GridCoordRangeMake(0, 2, 2, 2)];  // ij
     [screen terminalShowAltBuffer];
     [screen setSize:VT100GridSizeMake(4, 4)];
     [screen terminalShowPrimaryBuffer];
     XCTAssert([[screen compactLineDumpWithHistory] isEqualToString:
-               @"abcd\n"  // history
-               @"efgh\n"  // history
-               @"ijkl\n"
-               @"hell\n"
-               @"o wo\n"
-               @"rld."]);
+                                                   @"abcd\n"  // history
+                                                   @"efgh\n"  // history
+                                                   @"ijkl\n"
+                                                   @"hell\n"
+                                                   @"o wo\n"
+                                                   @"rld."]);
     NSArray *notes = [screen notesInRange:VT100GridCoordRangeMake(0, 0, 5, 3)];
     XCTAssert(notes.count == 1);
     XCTAssert(notes[0] == note);
@@ -4059,27 +4066,27 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     VT100Screen *screen = [self fiveByFourScreenWithThreeLinesOneWrapped];
     [self appendLinesNoNewline:@[ @"hello world" ] toScreen:screen];
     XCTAssert([[screen compactLineDumpWithHistory] isEqualToString:
-               @"abcde\n"   // history
-               @"fgh..\n"   // history
-               @"ijkl.\n"
-               @"hello\n"
-               @" worl\n"
-               @"d...."]);
+                                                   @"abcde\n"   // history
+                                                   @"fgh..\n"   // history
+                                                   @"ijkl.\n"
+                                                   @"hello\n"
+                                                   @" worl\n"
+                                                   @"d...."]);
     PTYNoteViewController *note = [[[PTYNoteViewController alloc] init] autorelease];
     [screen addNote:note inRange:VT100GridCoordRangeMake(0, 2, 2, 2)];  // ij
     [screen terminalShowAltBuffer];
     [screen setSize:VT100GridSizeMake(3, 4)];
     [screen terminalShowPrimaryBuffer];
     XCTAssert([[screen compactLineDumpWithHistory] isEqualToString:
-               @"abc\n"
-               @"def\n"
-               @"gh.\n"
-               @"ijk\n"
-               @"l..\n"
-               @"hel\n"
-               @"lo \n"
-               @"wor\n"
-               @"ld."]);
+                                                   @"abc\n"
+                                                   @"def\n"
+                                                   @"gh.\n"
+                                                   @"ijk\n"
+                                                   @"l..\n"
+                                                   @"hel\n"
+                                                   @"lo \n"
+                                                   @"wor\n"
+                                                   @"ld."]);
     NSArray *notes = [screen notesInRange:VT100GridCoordRangeMake(0, 0, 8, 3)];
     XCTAssert(notes.count == 1);
     XCTAssert(notes[0] == note);
@@ -4094,27 +4101,27 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     VT100Screen *screen = [self fiveByFourScreenWithThreeLinesOneWrapped];
     [self appendLinesNoNewline:@[ @"hello world" ] toScreen:screen];
     XCTAssert([[screen compactLineDumpWithHistory] isEqualToString:
-               @"abcde\n"   // history
-               @"fgh..\n"   // history
-               @"ijkl.\n"
-               @"hello\n"
-               @" worl\n"
-               @"d...."]);
+                                                   @"abcde\n"   // history
+                                                   @"fgh..\n"   // history
+                                                   @"ijkl.\n"
+                                                   @"hello\n"
+                                                   @" worl\n"
+                                                   @"d...."]);
     PTYNoteViewController *note = [[[PTYNoteViewController alloc] init] autorelease];
     [screen addNote:note inRange:VT100GridCoordRangeMake(0, 2, 5, 3)];  // ijkl\nhello
     [screen terminalShowAltBuffer];
     [screen setSize:VT100GridSizeMake(3, 4)];
     [screen terminalShowPrimaryBuffer];
     XCTAssert([[screen compactLineDumpWithHistory] isEqualToString:
-               @"abc\n"
-               @"def\n"
-               @"gh.\n"
-               @"ijk\n"
-               @"l..\n"
-               @"hel\n"
-               @"lo \n"
-               @"wor\n"
-               @"ld."]);
+                                                   @"abc\n"
+                                                   @"def\n"
+                                                   @"gh.\n"
+                                                   @"ijk\n"
+                                                   @"l..\n"
+                                                   @"hel\n"
+                                                   @"lo \n"
+                                                   @"wor\n"
+                                                   @"ld."]);
     NSArray *notes = [screen notesInRange:VT100GridCoordRangeMake(0, 0, 8, 3)];
     XCTAssert(notes.count == 1);
     XCTAssert(notes[0] == note);
@@ -4129,12 +4136,12 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     VT100Screen *screen = [self fiveByFourScreenWithThreeLinesOneWrapped];
     [self appendLinesNoNewline:@[ @"hello world" ] toScreen:screen];
     XCTAssert([[screen compactLineDumpWithHistory] isEqualToString:
-               @"abcde\n"   // history
-               @"fgh..\n"   // history
-               @"ijkl.\n"
-               @"hello\n"
-               @" worl\n"
-               @"d...."]);
+                                                   @"abcde\n"   // history
+                                                   @"fgh..\n"   // history
+                                                   @"ijkl.\n"
+                                                   @"hello\n"
+                                                   @" worl\n"
+                                                   @"d...."]);
     PTYNoteViewController *note = [[[PTYNoteViewController alloc] init] autorelease];
     [screen addNote:note inRange:VT100GridCoordRangeMake(0, 1, 5, 3)];  // fgh\nijkl\nhello
     [screen terminalShowAltBuffer];
@@ -4154,26 +4161,26 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     VT100Screen *screen = [self fiveByFourScreenWithThreeLinesOneWrapped];
     [self appendLinesNoNewline:@[ @"hello world" ] toScreen:screen];
     XCTAssert([[screen compactLineDumpWithHistory] isEqualToString:
-               @"abcde\n"   // history
-               @"fgh..\n"   // history
-               @"ijkl.\n"
-               @"hello\n"
-               @" worl\n"
-               @"d...."]);
+                                                   @"abcde\n"   // history
+                                                   @"fgh..\n"   // history
+                                                   @"ijkl.\n"
+                                                   @"hello\n"
+                                                   @" worl\n"
+                                                   @"d...."]);
     [self showAltAndUppercase:screen];
     PTYNoteViewController *note = [[[PTYNoteViewController alloc] init] autorelease];
     [screen addNote:note inRange:VT100GridCoordRangeMake(0, 1, 5, 3)];  // fgh\nIJKL\nHELLO
     [screen setSize:VT100GridSizeMake(3, 4)];
     XCTAssert([[screen compactLineDumpWithHistory] isEqualToString:
-               @"abc\n"
-               @"def\n"
-               @"gh.\n"
-               @"ijk\n"
-               @"l..\n"  // last line of history (all pulled from primary)
-               @"HEL\n"
-               @"LO \n"
-               @"WOR\n"
-               @"LD."]);
+                                                   @"abc\n"
+                                                   @"def\n"
+                                                   @"gh.\n"
+                                                   @"ijk\n"
+                                                   @"l..\n"  // last line of history (all pulled from primary)
+                                                   @"HEL\n"
+                                                   @"LO \n"
+                                                   @"WOR\n"
+                                                   @"LD."]);
     NSArray *notes = [screen notesInRange:VT100GridCoordRangeMake(0, 0, 3, 6)];
     XCTAssert(notes.count == 1);
     XCTAssert(notes[0] == note);
@@ -4187,15 +4194,15 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
 - (void)commonAnnotationRestorationWithRange:(VT100GridCoordRange)range {
     VT100Screen *screen = [self fiveByNineScreenWithEmptyLineAtTop];
     XCTAssert([[screen compactLineDumpWithHistory] isEqualToString:
-               @".....\n"
-               @"abcde\n"
-               @"fgh..\n"
-               @".....\n"
-               @"ijkl.\n"
-               @".....\n"
-               @".....\n"
-               @".....\n"
-               @"....."]);
+                                                   @".....\n"
+                                                   @"abcde\n"
+                                                   @"fgh..\n"
+                                                   @".....\n"
+                                                   @"ijkl.\n"
+                                                   @".....\n"
+                                                   @".....\n"
+                                                   @".....\n"
+                                                   @"....."]);
     PTYNoteViewController *note = [[[PTYNoteViewController alloc] init] autorelease];
     [screen addNote:note inRange:range];
     iTermMutableDictionaryEncoderAdapter *encoder = [iTermMutableDictionaryEncoderAdapter encoder];
@@ -4206,15 +4213,15 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     screen = [self screenWithWidth:3 height:4];
     [screen restoreFromDictionary:state includeRestorationBanner:NO knownTriggers:@[] reattached:NO];
     XCTAssert([[screen compactLineDumpWithHistory] isEqualToString:
-               @".....\n"
-               @"abcde\n"
-               @"fgh..\n"
-               @".....\n"
-               @"ijkl.\n"
-               @".....\n"
-               @".....\n"
-               @".....\n"
-               @"....."]);
+                                                   @".....\n"
+                                                   @"abcde\n"
+                                                   @"fgh..\n"
+                                                   @".....\n"
+                                                   @"ijkl.\n"
+                                                   @".....\n"
+                                                   @".....\n"
+                                                   @".....\n"
+                                                   @"....."]);
 
     NSArray *notes = [screen notesInRange:VT100GridCoordRangeMake(0, 0, 5, 8)];
     XCTAssertEqual(notes.count, 1);
@@ -4284,13 +4291,13 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     VT100Screen *screen = [self screenWithWidth:142 height:8];
     screen.maxScrollbackLines = 1000;
     [self appendLines:@[
-        @"Last login: Mon Dec  9 23:22:07 on ttys011",
-        @"You have mail.",
-        @"Georges-iMac:/Users/gnachman% echo;echo xxxxxxxxxx",
-        @"",
-        @"xxxxxxxxxx",
-        @"Georges-iMac:/Users/gnachman%"
-    ] toScreen:screen];
+         @"Last login: Mon Dec  9 23:22:07 on ttys011",
+         @"You have mail.",
+         @"Georges-iMac:/Users/gnachman% echo;echo xxxxxxxxxx",
+         @"",
+         @"xxxxxxxxxx",
+         @"Georges-iMac:/Users/gnachman%"
+          ] toScreen:screen];
     PTYNoteViewController *note = [[[PTYNoteViewController alloc] init] autorelease];
     [screen addNote:note inRange:range1];
     [screen setSize:VT100GridSizeMake(141, 8)];
@@ -4301,7 +4308,7 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
 }
 
 - (void)commonNoteResizeRegressionTestWithInitialRange:(VT100GridCoordRange)range1
-                                     intermediateRange:(VT100GridCoordRange)range2 {
+    intermediateRange:(VT100GridCoordRange)range2 {
     VT100Screen *screen = [self screenWithWidth:80 height:25];
     screen.maxScrollbackLines = 1000;
     [self appendLines:@[@"", @"", @"", @"Georges-iMac:/Users/gnachman% xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"] toScreen:screen];
@@ -4334,27 +4341,27 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
 
 - (void)testNoteResizeRegression1 {
     [self commonNoteResizeRegressionTestWithInitialRange:VT100GridCoordRangeMake(0, 0, 80, 0)
-                                       intermediateRange:VT100GridCoordRangeMake(0, 0, 77, 0)];
+          intermediateRange:VT100GridCoordRangeMake(0, 0, 77, 0)];
 }
 
 - (void)testNoteResizeRegression2 {
     [self commonNoteResizeRegressionTestWithInitialRange:VT100GridCoordRangeMake(0, 1, 80, 1)
-                                       intermediateRange:VT100GridCoordRangeMake(0, 1, 77, 1)];
+          intermediateRange:VT100GridCoordRangeMake(0, 1, 77, 1)];
 }
 
 - (void)testNoteResizeRegression3 {
     [self commonNoteResizeRegressionTestWithInitialRange:VT100GridCoordRangeMake(0, 2, 80, 2)
-                                       intermediateRange:VT100GridCoordRangeMake(0, 2, 77, 2)];
+          intermediateRange:VT100GridCoordRangeMake(0, 2, 77, 2)];
 }
 
 - (void)testNoteResizeRegression4 {
     [self commonNoteResizeRegressionTestWithInitialRange:VT100GridCoordRangeMake(20, 4, 80, 6)
-                                       intermediateRange:VT100GridCoordRangeMake(23, 4, 77, 6)];
+          intermediateRange:VT100GridCoordRangeMake(23, 4, 77, 6)];
 }
 
 - (void)testNoteResizeRegression5 {
     [self commonNoteResizeRegressionTestWithInitialRange:VT100GridCoordRangeMake(0, 12, 80, 12)
-                                       intermediateRange:VT100GridCoordRangeMake(0, 12, 77, 12)];
+          intermediateRange:VT100GridCoordRangeMake(0, 12, 77, 12)];
 }
 
 - (void)testEmptyLineRestoresBackgroundColor {
@@ -4408,17 +4415,17 @@ NSLog(@"Known bug: %s should be true, but %s is.", #expressionThatShouldBeTrue, 
     }
     // This tests the regression.
     NSArray *lines = [lineBuffer wrappedLinesFromIndex:linesPerBlock
-                                                 width:n*2
-                                                 count:2];
+                                 width:n*2
+                                 count:2];
     XCTAssertEqual(lines.count, 2);
-    
+
     // This works because the old version is, as far as I can tell, written defensively rather than correctly.
     screen_char_t buffer[wrapWidth];
     [lineBuffer copyLineToBuffer:buffer width:wrapWidth lineNum:linesPerBlock continuation:&continuation];
     for (int i = 0; i < linesPerBlock * 2; i++) {
         NSArray *lines = [lineBuffer wrappedLinesFromIndex:i
-                                                     width:n*2
-                                                     count:1];
+                                     width:n*2
+                                     count:1];
         XCTAssertEqual(lines.count, 1);
         ScreenCharArray *array = lines[0];
         unichar c = array.line[0].code;

@@ -67,7 +67,7 @@
 // drawing
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView;
 - (void)drawPostHocDecorationsOnSelectedCell:(PSMTabBarCell *)cell
-                               tabBarControl:(PSMTabBarControl *)bar;
+    tabBarControl:(PSMTabBarControl *)bar;
 
 // drag support
 - (NSImage *)dragImage;

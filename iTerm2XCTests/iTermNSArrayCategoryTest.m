@@ -31,9 +31,9 @@
 }
 
 - (void)testAttributedComponentsJoinedByAttributedString {
-    NSDictionary *attributes1 = @{ NSForegroundColorAttributeName: [NSColor whiteColor] };
-    NSDictionary *attributes2 = @{ NSForegroundColorAttributeName: [NSColor blackColor] };
-    NSDictionary *joinAttributes = @{ NSForegroundColorAttributeName: [NSColor redColor] };
+    NSDictionary *attributes1 = @ { NSForegroundColorAttributeName: [NSColor whiteColor] };
+    NSDictionary *attributes2 = @ { NSForegroundColorAttributeName: [NSColor blackColor] };
+    NSDictionary *joinAttributes = @ { NSForegroundColorAttributeName: [NSColor redColor] };
 
     NSAttributedString *string1 = [[[NSAttributedString alloc] initWithString:@"one" attributes:attributes1] autorelease];
     NSAttributedString *string2 = [[[NSAttributedString alloc] initWithString:@"two" attributes:attributes2] autorelease];
@@ -52,8 +52,8 @@
 - (void)testMapWithBlock {
     NSArray *input = @[ @1, @2, @3 ];
     NSArray *actual = [input mapWithBlock:^id(id anObject) {
-        return @([anObject integerValue] * 2);
-    }];
+              return @([anObject integerValue] * 2);
+          }];
     NSArray *expected = @[ @2, @4, @6 ];
     XCTAssertEqualObjects(actual, expected);
 }
@@ -61,8 +61,8 @@
 - (void)testFilteredArrayUsingBlock {
     NSArray *input = @[ @1, @2, @3, @4 ];
     NSArray *actual = [input filteredArrayUsingBlock:^BOOL(id anObject) {
-        return ([anObject integerValue] % 2) == 0;
-    }];
+              return ([anObject integerValue] % 2) == 0;
+          }];
     NSArray *expected = @[ @2, @4 ];
     XCTAssertEqualObjects(actual, expected);
 }

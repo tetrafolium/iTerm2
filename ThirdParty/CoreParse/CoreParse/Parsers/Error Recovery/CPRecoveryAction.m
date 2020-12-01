@@ -31,44 +31,44 @@
 - (id)initWithAdditionalToken:(CPToken *)token
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         [self setRecoveryType:CPRecoveryTypeAddToken];
         [self setAdditionalToken:token];
     }
-    
+
     return self;
 }
 
 - (id)initWithDeleteAction
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         [self setRecoveryType:CPRecoveryTypeRemoveToken];
     }
-    
+
     return self;
 }
 
 - (id)initWithStopAction
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         [self setRecoveryType:CPRecoveryTypeBail];
     }
-    
+
     return self;
 }
 
 - (void)dealloc
 {
     [additionalToken release];
-    
+
     [super dealloc];
 }
 

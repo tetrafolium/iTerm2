@@ -43,16 +43,19 @@
     NSColor *centerColor = centerColumn[centerColumn.count / 2];
     centerColor = [centerColor colorUsingColorSpace:[NSColorSpace sRGBColorSpace]];
     NSString *description = [NSString stringWithFormat:@"#%02x%02x%02x R:%d G:%d B:%d",
-                                (int)round(centerColor.redComponent * 255),
-                                (int)round(centerColor.greenComponent * 255),
-                                (int)round(centerColor.blueComponent * 255),
-                                (int)round(centerColor.redComponent * 255),
-                                (int)round(centerColor.greenComponent * 255),
-                                (int)round(centerColor.blueComponent * 255)];
+                                      (int)round(centerColor.redComponent * 255),
+                                      (int)round(centerColor.greenComponent * 255),
+                                      (int)round(centerColor.blueComponent * 255),
+                                      (int)round(centerColor.redComponent * 255),
+                                      (int)round(centerColor.greenComponent * 255),
+                                      (int)round(centerColor.blueComponent * 255)];
 
     NSDictionary *attributes =
-        @{ NSForegroundColorAttributeName: [NSColor whiteColor],
-           NSFontAttributeName: [NSFont systemFontOfSize:[NSFont systemFontSize]] };
+        @ { NSForegroundColorAttributeName:
+            [NSColor whiteColor],
+            NSFontAttributeName:
+            [NSFont systemFontOfSize:[NSFont systemFontSize]]
+          };
 
     NSSize size = [description sizeWithAttributes:attributes];
     NSRect frame = NSMakeRect(floor((NSWidth(self.bounds) - size.width) / 2),

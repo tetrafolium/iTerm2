@@ -16,11 +16,11 @@ typedef NS_OPTIONS(NSUInteger, NMSSHLogLevel) {
 /// @name Retrieve the shared logger
 /// ----------------------------------------------------------------------------
 
-/**
- Retrieve the shared logger instance
- 
- @returns Shared logger
- */
+    /**
+     Retrieve the shared logger instance
+
+     @returns Shared logger
+     */
 + (nonnull instancetype)logger NS_SWIFT_NAME(shared());
 
 /// ----------------------------------------------------------------------------

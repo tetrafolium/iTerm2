@@ -17,7 +17,7 @@
 - (id)initWithSyntaxTree:(CPSyntaxTree *)syntaxTree
 {
     self = [self init];
-    
+
     if (nil != self)
     {
         NSArray *components = [syntaxTree children];
@@ -30,7 +30,7 @@
             [self setValue:[(Expression *)[components objectAtIndex:0] value] + [(Term *)[components objectAtIndex:2] value]];
         }
     }
-    
+
     return self;
 }
 

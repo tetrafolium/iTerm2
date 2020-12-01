@@ -15,9 +15,9 @@
  */
 @interface CPErrorToken : CPToken
 
-/**
- * The error message generated when the tokeniser failed.
- */
+    /**
+     * The error message generated when the tokeniser failed.
+     */
 @property (readwrite, copy) NSString *errorMessage;
 
 /**

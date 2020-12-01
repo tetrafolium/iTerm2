@@ -30,14 +30,18 @@
 {
     CPGrammar *aug = [[self grammar] augmentedGrammar];
     NSArray *kernels = [self kernelsForGrammar:aug];
-    NSArray *lr0Kernels = [kernels cp_map:^ NSSet * (NSSet *s) { return [s cp_map:^ id (CPLR1Item *i) { return [CPItem itemWithRule:[i rule] position:[i position]]; }]; }];
+    NSArray *lr0Kernels = [kernels cp_map:^ NSSet * (NSSet *s) {
+                return [s cp_map:^ id (CPLR1Item *i) {
+                    return [CPItem itemWithRule:[i rule] position:[i position]];
+                }];
+    }];
     NSUInteger itemCount = [kernels count];
     NSArray *allNonTerminalNames = [[self grammar] allNonTerminalNames];
     NSString *startSymbol = [aug start];
-    
+
     [self setActionTable:[[[CPShiftReduceActionTable alloc] initWithCapacity:itemCount] autorelease]];
     [self setGotoTable:  [[[CPShiftReduceGotoTable   alloc] initWithCapacity:itemCount] autorelease]];
-    
+
     NSUInteger idx = 0;
     for (NSSet *kernel in kernels)
     {
@@ -73,7 +77,9 @@
                     else if ([next isTerminal])
                     {
                         NSSet *g = [aug lr0GotoKernelWithItems:itemsSet symbol:next];
-                        NSSet *lr0G = [g cp_map:^ id (CPLR1Item *i) { return [CPItem itemWithRule:[i rule] position:[i position]]; }];
+                        NSSet *lr0G = [g cp_map:^ id (CPLR1Item *i) {
+                              return [CPItem itemWithRule:[i rule] position:[i position]];
+                          }];
                         NSUInteger indx = 0;
                         NSUInteger ix = NSNotFound;
                         for (NSSet *lr0Kernel in lr0Kernels)
@@ -94,11 +100,13 @@
                     }
                 }
             }
-            
+
             for (NSString *nonTerminalName in allNonTerminalNames)
             {
                 NSSet *g = [aug lr0GotoKernelWithItems:itemsSet symbol:[CPGrammarSymbol nonTerminalWithName:nonTerminalName]];
-                NSSet *lr0G = [g cp_map:^ id (CPLR1Item *i) { return [CPItem itemWithRule:[i rule] position:[i position]]; }];
+                NSSet *lr0G = [g cp_map:^ id (CPLR1Item *i) {
+                      return [CPItem itemWithRule:[i rule] position:[i position]];
+                  }];
                 NSUInteger indx = 0;
                 NSUInteger gotoIndex = NSNotFound;
                 for (NSSet *lr0Kernel in lr0Kernels)
@@ -118,10 +126,10 @@
                 }
             }
         }
-        
+
         idx++;
     }
-    
+
     return YES;
 }
 
@@ -132,14 +140,14 @@
     NSMutableDictionary *propogations = [NSMutableDictionary dictionary];
     NSMutableDictionary *spontaneous = [NSMutableDictionary dictionary];
     NSString *grammarStartSymbol = [aug start];
-    
+
     for (NSSet *kernel in lr0Kernels)
     {
         [spontaneous  setObject:[NSMutableDictionary dictionary] forKey:kernel];
     }
-    
+
     NSString *uniqueName = [aug uniqueSymbolNameBasedOnName:@"#"];
-    
+
     for (NSSet *kernel in lr0Kernels)
     {
         for (CPItem *item in kernel)
@@ -155,7 +163,7 @@
                 }
                 [itemSpontaneous addObject:[CPGrammarSymbol terminalWithName:@"EOF"]];
             }
-            
+
             NSSet *j = [aug lr1Closure:[NSSet setWithObject:[CPLR1Item lr1ItemWithRule:[item rule] position:[item position] terminal:[CPGrammarSymbol terminalWithName:uniqueName]]]];
             for (CPLR1Item *lr1Item in j)
             {
@@ -202,7 +210,7 @@
             }
         }
     }
-    
+
     BOOL finishedPropogating = NO;
     while (!finishedPropogating)
     {
@@ -245,7 +253,7 @@
             }
         }
     }
-    
+
     for (NSSet *kernel in lr0Kernels)
     {
         NSMutableSet *lr1Kernel = [NSMutableSet set];
@@ -263,7 +271,7 @@
         }
         [lr1Kernels addObject:lr1Kernel];
     }
-    
+
     return lr1Kernels;
 }
 

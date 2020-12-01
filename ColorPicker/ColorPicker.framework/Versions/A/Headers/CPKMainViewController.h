@@ -11,7 +11,7 @@ typedef NS_OPTIONS(NSInteger, CPKMainViewControllerOptions) {
  */
 @interface CPKMainViewController : NSViewController
 
-/** How large we want our view to be. */
+    /** How large we want our view to be. */
 @property(nonatomic, readonly) NSSize desiredSize;
 
 /** The currently selected color. */
@@ -27,13 +27,13 @@ typedef NS_OPTIONS(NSInteger, CPKMainViewControllerOptions) {
  * @return An initialized instance.
  */
 - (instancetype)initWithBlock:(void (^)(NSColor *))block
-                        color:(NSColor *)color
-                 alphaAllowed:(BOOL)alphaAllowed DEPRECATED_ATTRIBUTE;
+    color:(NSColor *)color
+    alphaAllowed:(BOOL)alphaAllowed DEPRECATED_ATTRIBUTE;
 
 - (instancetype)initWithBlock:(void (^)(NSColor *))block
-         useSystemColorPicker:(void (^)(void))useSystemColorPickerBlock
-                        color:(NSColor *)color
-                      options:(CPKMainViewControllerOptions)options;
+    useSystemColorPicker:(void (^)(void))useSystemColorPickerBlock
+    color:(NSColor *)color
+    options:(CPKMainViewControllerOptions)options;
 
 
 // Changes the selected color.

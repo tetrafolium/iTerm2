@@ -40,10 +40,10 @@
 }
 
 - (NSData *)signatureForInputStream:(NSInputStream *)readStream
-                      usingIdentity:(SIGIdentity *)identity
-                              error:(out NSError **)error {
+    usingIdentity:(SIGIdentity *)identity
+    error:(out NSError **)error {
     CFErrorRef err = NULL;
-    
+
     SIGKey *privateKey = identity.privateKey;
     if (!privateKey) {
         if (error) {
@@ -51,40 +51,40 @@
         }
         return nil;
     }
-    
+
     _readTransform = SecTransformCreateReadTransformWithReadStream((__bridge CFReadStreamRef)readStream);
     if (!_readTransform) {
         if (error) {
             *error = [SIGError errorWrapping:(__bridge NSError *)err
-                                      code:SIGErrorCodeAlgorithmCreationFailed
-                                      detail:@"Failed to create read transform"];
+                               code:SIGErrorCodeAlgorithmCreationFailed
+                               detail:@"Failed to create read transform"];
         }
         return nil;
     }
-    
+
     _dataDigestTransform = SecDigestTransformCreate(kSecDigestSHA2,
-                                                   256,
-                                                   &err);
+                           256,
+                           &err);
     if (!_dataDigestTransform) {
         if (error) {
             *error = [SIGError errorWrapping:(__bridge NSError *)err
-                                      code:SIGErrorCodeAlgorithmCreationFailed
-                                      detail:@"Failed to create SHA2 digest transform"];
+                               code:SIGErrorCodeAlgorithmCreationFailed
+                               detail:@"Failed to create SHA2 digest transform"];
         }
         return nil;
     }
-    
+
     _dataSignTransform = SecSignTransformCreate(privateKey.secKey,
-                                               &err);
+                         &err);
     if (!_dataSignTransform) {
         if (error) {
             *error = [SIGError errorWrapping:(__bridge NSError *)err
-                                      code:SIGErrorCodeAlgorithmCreationFailed
-                                      detail:@"Failed to create private key transform"];
+                               code:SIGErrorCodeAlgorithmCreationFailed
+                               detail:@"Failed to create private key transform"];
         }
         return nil;
     }
-    
+
     SecTransformSetAttribute(_dataSignTransform,
                              kSecInputIsAttributeName,
                              kSecInputIsDigest,
@@ -92,12 +92,12 @@
     if (err) {
         if (error) {
             *error = [SIGError errorWrapping:(__bridge NSError *)err
-                                      code:SIGErrorCodeAlgorithmCreationFailed
-                                      detail:@"Failed to set is-digest attribute"];
+                               code:SIGErrorCodeAlgorithmCreationFailed
+                               detail:@"Failed to set is-digest attribute"];
         }
         return nil;
     }
-    
+
     SecTransformSetAttribute(_dataSignTransform,
                              kSecDigestTypeAttribute,
                              kSecDigestSHA2,
@@ -105,12 +105,12 @@
     if (err) {
         if (error) {
             *error = [SIGError errorWrapping:(__bridge NSError *)err
-                                      code:SIGErrorCodeAlgorithmCreationFailed
-                                      detail:@"Failed to set digest-type attribute"];
+                               code:SIGErrorCodeAlgorithmCreationFailed
+                               detail:@"Failed to set digest-type attribute"];
         }
         return nil;
     }
-    
+
     SecTransformSetAttribute(_dataSignTransform,
                              kSecDigestLengthAttribute,
                              (__bridge CFTypeRef _Nonnull)@256,
@@ -118,12 +118,12 @@
     if (err) {
         if (error) {
             *error = [SIGError errorWrapping:(__bridge NSError *)err
-                                      code:SIGErrorCodeAlgorithmCreationFailed
-                                      detail:@"Failed to set digest-length attribute"];
+                               code:SIGErrorCodeAlgorithmCreationFailed
+                               detail:@"Failed to set digest-length attribute"];
         }
         return nil;
     }
-    
+
     _group = SecTransformCreateGroupTransform();
     SecTransformConnectTransforms(_readTransform,
                                   kSecTransformOutputAttributeName,
@@ -134,12 +134,12 @@
     if (err != nil) {
         if (error) {
             *error = [SIGError errorWrapping:(__bridge NSError *)err
-                                      code:SIGErrorCodeAlgorithmCreationFailed
-                                      detail:@"Failed to conenct read to digest transform"];
+                               code:SIGErrorCodeAlgorithmCreationFailed
+                               detail:@"Failed to conenct read to digest transform"];
         }
         return nil;
     }
-    
+
     SecTransformConnectTransforms(_dataDigestTransform,
                                   kSecTransformOutputAttributeName,
                                   _dataSignTransform,
@@ -149,22 +149,22 @@
     if (err != nil) {
         if (error) {
             *error = [SIGError errorWrapping:(__bridge NSError *)err
-                                      code:SIGErrorCodeAlgorithmCreationFailed
-                                      detail:@"Failed to connect digest to sign transform"];
+                               code:SIGErrorCodeAlgorithmCreationFailed
+                               detail:@"Failed to connect digest to sign transform"];
         }
         return nil;
     }
-    
+
     NSData *signature = (__bridge_transfer NSData *)SecTransformExecute(_group, &err);
     if (err != nil) {
         if (error) {
             *error = [SIGError errorWrapping:(__bridge NSError *)err
-                                      code:SIGErrorCodeAlgorithmCreationFailed
-                                      detail:@"Execution of signature algorithm failed"];
+                               code:SIGErrorCodeAlgorithmCreationFailed
+                               detail:@"Execution of signature algorithm failed"];
         }
         return nil;
     }
-    
+
     return signature;
 }
 

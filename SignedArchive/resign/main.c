@@ -63,7 +63,7 @@ int main(int argc, const char * argv[]) {
             return -1;
         }
         SIGArchiveBuilder *builder = [[SIGArchiveBuilder alloc] initWithPayloadFileURL:payloadURL
-                                                                              identity:identity];
+                                                                identity:identity];
 
         NSError *error = nil;
         NSURL *outputURL = [NSURL fileURLWithPath:[NSString stringWithUTF8String:argv[3]]];

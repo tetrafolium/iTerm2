@@ -129,85 +129,85 @@ static NSTimeInterval kDefaultTime = 10000000;
 - (void)testSuccessfulCommandHistoryMigration {
     _now = [NSDate timeIntervalSinceReferenceDate];
     NSDictionary *dictionary =
+    @ {
+@"user1@host1":
+        @[
         @{
-            @"user1@host1":
-               @[
-                   @{
-                       @"command": @"command1",
-                       @"uses": @10,
-                       @"last used": @(_now),
-                       @"use times":
-                           @[
-                               @[ @(_now),
-                                  @"/path1",
-                                  @"mark-guid-1",
-                                  @"command1",
-                                ],
-                               @[ @(_now - 1),
-                                  @"/path2",
-                                  @"mark-guid-2",
-                                ],
-                               @[ @(_now - 2),
-                                  @"/path3",
-                                ],
-                               @[ @(_now - 3) ],
-                               @(_now - 4)
-                            ],
-                    },
-                   @{
-                       @"command": @"command2",
-                       @"uses": @5,
-                       @"last used": @(_now),
-                       @"use times":
-                           @[
-                               @[ @(_now),
-                                  @"/path4",
-                                  @"mark-guid-4",
-                                  @"command2",
-                                  @1
-                                ],
-                            ],
-                    },
-                ],
-            @"user2@host2":
-                @[
-                    @{
-                       @"command": @"command3",
-                       @"uses": @2,
-                       @"last used": @(_now),
-                       @"use times":
-                           @[
-                               @[ @(_now),
-                                  @"/path5",
-                                  @"mark-guid-5",
-                                  @"command3",
-                                  @1
-                                ],
-                               @[ @(_now),
-                                  @"/path5",
-                                  @"mark-guid-5",
-                                  @"command3",
-                                  @1
-                                  ],
-                            ],
-                     }
-                 ]
-           };
+@"command": @"command1",
+@"uses": @10,
+@"last used": @(_now),
+@"use times":
+            @[
+                @[ @(_now),
+                   @"/path1",
+                   @"mark-guid-1",
+                   @"command1",
+                 ],
+                @[ @(_now - 1),
+                   @"/path2",
+                   @"mark-guid-2",
+                 ],
+                @[ @(_now - 2),
+                   @"/path3",
+                 ],
+                @[ @(_now - 3) ],
+                @(_now - 4)
+            ],
+        },
+        @{
+@"command": @"command2",
+@"uses": @5,
+@"last used": @(_now),
+@"use times":
+            @[
+                @[ @(_now),
+                   @"/path4",
+                   @"mark-guid-4",
+                   @"command2",
+                   @1
+                 ],
+            ],
+        },
+        ],
+@"user2@host2":
+        @[
+        @{
+@"command": @"command3",
+@"uses": @2,
+@"last used": @(_now),
+@"use times":
+            @[
+                @[ @(_now),
+                   @"/path5",
+                   @"mark-guid-5",
+                   @"command3",
+                   @1
+                 ],
+                @[ @(_now),
+                   @"/path5",
+                   @"mark-guid-5",
+                   @"command3",
+                   @1
+                 ],
+            ],
+        }
+        ]
+    };
     NSString *plistPath = [kFakeCommandHistoryPlistPath stringByAppendingString:_guid];
     [NSKeyedArchiver archiveRootObject:dictionary toFile:plistPath];
     XCTAssert([[NSFileManager defaultManager] fileExistsAtPath:plistPath isDirectory:nil]);
     iTermShellHistoryControllerWithConfigurableStoreDefaultingToDiskForTesting *historyController =
         [[[iTermShellHistoryControllerWithConfigurableStoreDefaultingToDiskForTesting alloc] initWithGuid:_guid
-                                                                                         shouldSaveToDisk:YES] autorelease];
+                                                                                              shouldSaveToDisk:YES] autorelease];
     XCTAssert(![[NSFileManager defaultManager] fileExistsAtPath:plistPath isDirectory:nil]);
     XCTAssert([[NSFileManager defaultManager] fileExistsAtPath:[kSqlitePathForTest stringByAppendingString:_guid]
-                                                   isDirectory:nil]);
+                                              isDirectory:nil]);
 
     for (int iteration = 0; iteration < 2; iteration++) {
         if (iteration == 1) {
             // Re-create the history controller to verify that values can be loaded
             historyController = [[[iTermShellHistoryControllerWithConfigurableStoreDefaultingToDiskForTesting alloc] initWithGuid:_guid
-                                                                                                                 shouldSaveToDisk:YES] autorelease];
+                                                                                                                      shouldSaveToDisk:YES] autorelease];
         }
         for (NSString *key in dictionary) {
             VT100RemoteHost *remoteHost = [[[VT100RemoteHost alloc] init] autorelease];
@@ -216,7 +216,7 @@ static NSTimeInterval kDefaultTime = 10000000;
             remoteHost.hostname = parts[1];
             NSArray<iTermCommandHistoryEntryMO *> *actualEntries =
                 [historyController commandHistoryEntriesWithPrefix:@""
-                                                            onHost:remoteHost];
+                                   onHost:remoteHost];
             NSArray *expectedEntries = dictionary[key];
             XCTAssertEqual(expectedEntries.count, actualEntries.count);
 
@@ -280,9 +280,9 @@ static NSTimeInterval kDefaultTime = 10000000;
 
     VT100ScreenMark *mark = [[[VT100ScreenMark alloc] init] autorelease];
     [historyController addCommand:@"command1"
-                           onHost:remoteHost
-                      inDirectory:@"/directory1"
-                         withMark:mark];
+                       onHost:remoteHost
+                       inDirectory:@"/directory1"
+                       withMark:mark];
     entries = [historyController commandHistoryEntriesWithPrefix:@"" onHost:remoteHost];
     XCTAssertEqual(entries.count, 1);
 
@@ -319,18 +319,18 @@ static NSTimeInterval kDefaultTime = 10000000;
 
     VT100ScreenMark *mark1 = [[[VT100ScreenMark alloc] init] autorelease];
     [historyController addCommand:@"command1"
-                           onHost:remoteHost
-                      inDirectory:@"/directory1"
-                         withMark:mark1];
+                       onHost:remoteHost
+                       inDirectory:@"/directory1"
+                       withMark:mark1];
     entries = [historyController commandHistoryEntriesWithPrefix:@"" onHost:remoteHost];
     XCTAssertEqual(entries.count, 1);
 
     historyController.currentTime = time2;
     VT100ScreenMark *mark2 = [[[VT100ScreenMark alloc] init] autorelease];
     [historyController addCommand:@"command1"
-                           onHost:remoteHost
-                      inDirectory:@"/directory2"
-                         withMark:mark2];
+                       onHost:remoteHost
+                       inDirectory:@"/directory2"
+                       withMark:mark2];
     entries = [historyController commandHistoryEntriesWithPrefix:@"" onHost:remoteHost];
     XCTAssertEqual(entries.count, 1);
 
@@ -377,9 +377,9 @@ static NSTimeInterval kDefaultTime = 10000000;
 
     VT100ScreenMark *mark = [[[VT100ScreenMark alloc] init] autorelease];
     [historyController addCommand:@"command1"
-                           onHost:remoteHost
-                      inDirectory:@"/directory1"
-                         withMark:mark];
+                       onHost:remoteHost
+                       inDirectory:@"/directory1"
+                       withMark:mark];
     entries = [historyController commandHistoryEntriesWithPrefix:@"" onHost:remoteHost];
     XCTAssertEqual(entries.count, 1);
 
@@ -425,18 +425,18 @@ static NSTimeInterval kDefaultTime = 10000000;
     for (NSString *command in self.commandWithCommonPrefixes) {
         VT100ScreenMark *mark = [[[VT100ScreenMark alloc] init] autorelease];
         [historyController addCommand:command
-                               onHost:remoteHost
-                          inDirectory:@"/directory1"
-                             withMark:mark];
+                           onHost:remoteHost
+                           inDirectory:@"/directory1"
+                           withMark:mark];
         historyController.currentTime = historyController.currentTime + 1;
     }
     VT100RemoteHost *bogusHost = [[[VT100RemoteHost alloc] init] autorelease];
     bogusHost.username = @"bogus";
     bogusHost.hostname = @"bogus";
     [historyController addCommand:@"aaaa"
-                           onHost:bogusHost
-                      inDirectory:@"/directory1"
-                         withMark:[[[VT100ScreenMark alloc] init] autorelease]];
+                       onHost:bogusHost
+                       inDirectory:@"/directory1"
+                       withMark:[[[VT100ScreenMark alloc] init] autorelease]];
     return remoteHost;
 }
 
@@ -487,9 +487,9 @@ static NSTimeInterval kDefaultTime = 10000000;
     XCTAssertFalse([historyController haveCommandsForHost:remoteHost]);
 
     [historyController addCommand:@"command"
-                           onHost:remoteHost
-                      inDirectory:@"directory"
-                         withMark:[[[VT100ScreenMark alloc] init] autorelease]];
+                       onHost:remoteHost
+                       inDirectory:@"directory"
+                       withMark:[[[VT100ScreenMark alloc] init] autorelease]];
 
     XCTAssertTrue([historyController haveCommandsForHost:remoteHost]);
 }
@@ -497,25 +497,25 @@ static NSTimeInterval kDefaultTime = 10000000;
 - (void)testEraseCommandHistoryForHost {
     iTermShellHistoryControllerForTesting *historyController =
         [[[iTermShellHistoryControllerWithConfigurableStoreDefaultingToDiskForTesting alloc] initWithGuid:_guid
-                                                                                         shouldSaveToDisk:YES] autorelease];
+                                                                                              shouldSaveToDisk:YES] autorelease];
 
     // Add command for first host
     VT100RemoteHost *remoteHost = [[[VT100RemoteHost alloc] init] autorelease];
     remoteHost.username = @"user1";
     remoteHost.hostname = @"host1";
     [historyController addCommand:@"command"
-                           onHost:remoteHost
-                      inDirectory:@"directory"
-                         withMark:[[[VT100ScreenMark alloc] init] autorelease]];
+                       onHost:remoteHost
+                       inDirectory:@"directory"
+                       withMark:[[[VT100ScreenMark alloc] init] autorelease]];
 
     // Add command for second host
     VT100RemoteHost *remoteHost2 = [[[VT100RemoteHost alloc] init] autorelease];
     remoteHost2.username = @"user2";
     remoteHost2.hostname = @"host2";
     [historyController addCommand:@"command"
-                           onHost:remoteHost2
-                      inDirectory:@"directory"
-                         withMark:[[[VT100ScreenMark alloc] init] autorelease]];
+                       onHost:remoteHost2
+                       inDirectory:@"directory"
+                       withMark:[[[VT100ScreenMark alloc] init] autorelease]];
 
     // Ensure both are present.
     XCTAssertTrue([historyController haveCommandsForHost:remoteHost]);
@@ -532,7 +532,7 @@ static NSTimeInterval kDefaultTime = 10000000;
 
     // Create a new history controller and make sure the change persists.
     historyController = [[[iTermShellHistoryControllerWithConfigurableStoreDefaultingToDiskForTesting alloc] initWithGuid:_guid
-                                                                                                         shouldSaveToDisk:YES] autorelease];
+                                                                                                              shouldSaveToDisk:YES] autorelease];
     XCTAssertFalse([historyController haveCommandsForHost:remoteHost]);
     XCTAssertTrue([historyController haveCommandsForHost:remoteHost2]);
 }
@@ -542,9 +542,9 @@ static NSTimeInterval kDefaultTime = 10000000;
         [[[iTermShellHistoryControllerForTesting alloc] initWithGuid:_guid] autorelease];
     VT100RemoteHost *remoteHost = [[[VT100RemoteHost alloc] init] autorelease];
     [historyController addCommand:@"command"
-                           onHost:remoteHost
-                      inDirectory:@"directory"
-                         withMark:[[[VT100ScreenMark alloc] init] autorelease]];
+                       onHost:remoteHost
+                       inDirectory:@"directory"
+                       withMark:[[[VT100ScreenMark alloc] init] autorelease]];
     XCTAssertTrue([historyController haveCommandsForHost:remoteHost]);
     [historyController eraseCommandHistory:YES directories:NO];
     XCTAssertFalse([historyController haveCommandsForHost:remoteHost]);
@@ -559,9 +559,9 @@ static NSTimeInterval kDefaultTime = 10000000;
         [[[iTermShellHistoryControllerWithRAMStoreForTesting alloc] initWithGuid:_guid] autorelease];
     VT100RemoteHost *remoteHost = [[[VT100RemoteHost alloc] init] autorelease];
     [historyController addCommand:@"command"
-                           onHost:remoteHost
-                      inDirectory:@"directory"
-                         withMark:[[[VT100ScreenMark alloc] init] autorelease]];
+                       onHost:remoteHost
+                       inDirectory:@"directory"
+                       withMark:[[[VT100ScreenMark alloc] init] autorelease]];
     XCTAssertTrue([historyController haveCommandsForHost:remoteHost]);
     [historyController eraseCommandHistory:YES directories:NO];
     XCTAssertFalse([historyController haveCommandsForHost:remoteHost]);
@@ -582,24 +582,24 @@ static NSTimeInterval kDefaultTime = 10000000;
 
     VT100ScreenMark *mark = [[[VT100ScreenMark alloc] init] autorelease];
     [historyController addCommand:@"command1"
-                           onHost:remoteHost
-                      inDirectory:@"/directory1"
-                         withMark:[[[VT100ScreenMark alloc] init] autorelease]];
+                       onHost:remoteHost
+                       inDirectory:@"/directory1"
+                       withMark:[[[VT100ScreenMark alloc] init] autorelease]];
     [historyController addCommand:@"command1"
-                           onHost:remoteHost
-                      inDirectory:@"/directory2"
-                         withMark:mark];
+                       onHost:remoteHost
+                       inDirectory:@"/directory2"
+                       withMark:mark];
     [historyController addCommand:@"command1"
-                           onHost:remoteHost
-                      inDirectory:@"/directory3"
-                         withMark:[[[VT100ScreenMark alloc] init] autorelease]];
+                       onHost:remoteHost
+                       inDirectory:@"/directory3"
+                       withMark:[[[VT100ScreenMark alloc] init] autorelease]];
     [historyController addCommand:@"command2"
-                           onHost:remoteHost
-                      inDirectory:@"/directory3"
-                         withMark:[[[VT100ScreenMark alloc] init] autorelease]];
+                       onHost:remoteHost
+                       inDirectory:@"/directory3"
+                       withMark:[[[VT100ScreenMark alloc] init] autorelease]];
 
     iTermCommandHistoryCommandUseMO *use = [historyController commandUseWithMarkGuid:mark.guid
-                                                                              onHost:remoteHost];
+                                                              onHost:remoteHost];
     XCTAssertEqualObjects(use.directory, @"/directory2");
 }
 
@@ -615,29 +615,29 @@ static NSTimeInterval kDefaultTime = 10000000;
 - (void)testOldCommandUsesRemoved {
     iTermShellHistoryControllerForTesting *historyController =
         [[[iTermShellHistoryControllerWithConfigurableStoreDefaultingToDiskForTesting alloc] initWithGuid:_guid
-                                                                                         shouldSaveToDisk:YES] autorelease];
+                                                                                              shouldSaveToDisk:YES] autorelease];
     VT100RemoteHost *remoteHost = [[[VT100RemoteHost alloc] init] autorelease];
 
     // Just old enough to be removed
     historyController.currentTime = kDefaultTime - (60 * 60 * 24 * 90 + 1);
     [historyController addCommand:@"command1"
-                           onHost:remoteHost
-                      inDirectory:@"directory"
-                         withMark:[[[VT100ScreenMark alloc] init] autorelease]];
+                       onHost:remoteHost
+                       inDirectory:@"directory"
+                       withMark:[[[VT100ScreenMark alloc] init] autorelease]];
 
     // Should stay
     historyController.currentTime = kDefaultTime;
     [historyController addCommand:@"command2"
-                           onHost:remoteHost
-                      inDirectory:@"directory"
-                         withMark:[[[VT100ScreenMark alloc] init] autorelease]];
+                       onHost:remoteHost
+                       inDirectory:@"directory"
+                       withMark:[[[VT100ScreenMark alloc] init] autorelease]];
     NSArray<iTermCommandHistoryEntryMO *> *entries =
         [historyController commandHistoryEntriesWithPrefix:@"" onHost:remoteHost];
     XCTAssertEqual(entries.count, 2);
 
     historyController =
         [[[iTermShellHistoryControllerWithConfigurableStoreDefaultingToDiskForTesting alloc] initWithGuid:_guid
-                                                                                         shouldSaveToDisk:YES] autorelease];
+                                                                                              shouldSaveToDisk:YES] autorelease];
     entries = [historyController commandHistoryEntriesWithPrefix:@"" onHost:remoteHost];
     XCTAssertEqual(entries.count, 1);
     XCTAssertEqualObjects([entries[0] command], @"command2");
@@ -648,43 +648,43 @@ static NSTimeInterval kDefaultTime = 10000000;
 // There was a bug where migrating directories would stop on migrated commands. This tests migrating
 // both to ensure this isn't an issue.
 - (void)testCommandHistoryAndDirectoryMigration {
-  _now = kDefaultTime;
+    _now = kDefaultTime;
 
-  NSDictionary *commandDictionary =
+    NSDictionary *commandDictionary =
+    @ {
+@"user1@host1":
+        @[
         @{
-            @"user1@host1":
-               @[
-                   @{
-                       @"command": @"command1",
-                       @"uses": @10,
-                       @"last used": @(_now),
-                       @"use times":
-                           @[
-                               @[ @(_now),
-                                  @"/path1",
-                                  @"mark-guid-1",
-                                  @"command1",
-                                ],
-                            ]
-                    }
-                ],
-         };
+@"command": @"command1",
+@"uses": @10,
+@"last used": @(_now),
+@"use times":
+            @[
+                @[ @(_now),
+                   @"/path1",
+                   @"mark-guid-1",
+                   @"command1",
+                 ],
+            ]
+        }
+        ],
+    };
     NSString *commandPlistPath = [kFakeCommandHistoryPlistPath stringByAppendingString:_guid];
     [NSKeyedArchiver archiveRootObject:commandDictionary toFile:commandPlistPath];
     XCTAssert([[NSFileManager defaultManager] fileExistsAtPath:commandPlistPath isDirectory:nil]);
 
     NSDictionary *directoryDictionary =
+    @ {
+@"user1@host1":
+        @[
         @{
-            @"user1@host1":
-               @[
-                   @{
-                       @"path": @"/abc/def/ghi/good",
-                       @"use count": @5,
-                       @"last use": @(_now),
-                       @"starred": @NO,
-                    },
-                ]
-         };
+@"path": @"/abc/def/ghi/good",
+@"use count": @5,
+@"last use": @(_now),
+@"starred": @NO,
+        },
+        ]
+    };
     NSString *directoriesPlistPath = [kFakeDirectoriesPlistPath stringByAppendingString:_guid];
     [NSKeyedArchiver archiveRootObject:directoryDictionary toFile:directoriesPlistPath];
     XCTAssert([[NSFileManager defaultManager] fileExistsAtPath:directoriesPlistPath isDirectory:nil]);
@@ -700,7 +700,7 @@ static NSTimeInterval kDefaultTime = 10000000;
     remoteHost.hostname = @"host1";
     NSArray<iTermCommandHistoryEntryMO *> *actualEntries =
         [historyController commandHistoryEntriesWithPrefix:@""
-                                                    onHost:remoteHost];
+                           onHost:remoteHost];
     XCTAssertEqual(1, actualEntries.count);
 
     NSArray<iTermRecentDirectoryMO *> *actualDirectories =
@@ -711,50 +711,50 @@ static NSTimeInterval kDefaultTime = 10000000;
 // If you migrate from plist when there's already a Core Data database, it should just merge it
 // in without causing duplicate host records.
 - (void)testNoDuplicateHostRecordsAfterDoubleMigration {
-  _now = kDefaultTime;
+    _now = kDefaultTime;
 
-  NSDictionary *commandDictionary =
+    NSDictionary *commandDictionary =
+    @ {
+@"user1@host1":
+        @[
         @{
-            @"user1@host1":
-               @[
-                   @{
-                       @"command": @"command1",
-                       @"uses": @10,
-                       @"last used": @(_now),
-                       @"use times":
-                           @[
-                               @[ @(_now),
-                                  @"/path1",
-                                  @"mark-guid-1",
-                                  @"command1",
-                                ],
-                            ]
-                    }
-                ],
-         };
+@"command": @"command1",
+@"uses": @10,
+@"last used": @(_now),
+@"use times":
+            @[
+                @[ @(_now),
+                   @"/path1",
+                   @"mark-guid-1",
+                   @"command1",
+                 ],
+            ]
+        }
+        ],
+    };
     NSString *commandPlistPath = [kFakeCommandHistoryPlistPath stringByAppendingString:_guid];
     [NSKeyedArchiver archiveRootObject:commandDictionary toFile:commandPlistPath];
     XCTAssert([[NSFileManager defaultManager] fileExistsAtPath:commandPlistPath isDirectory:nil]);
 
     NSDictionary *directoryDictionary =
+    @ {
+@"user1@host1":
+        @[
         @{
-            @"user1@host1":
-               @[
-                   @{
-                       @"path": @"/abc/def/ghi/good1",
-                       @"use count": @5,
-                       @"last use": @(_now),
-                       @"starred": @NO,
-                    },
-                ]
-         };
+@"path": @"/abc/def/ghi/good1",
+@"use count": @5,
+@"last use": @(_now),
+@"starred": @NO,
+        },
+        ]
+    };
     NSString *directoriesPlistPath = [kFakeDirectoriesPlistPath stringByAppendingString:_guid];
     [NSKeyedArchiver archiveRootObject:directoryDictionary toFile:directoriesPlistPath];
     XCTAssert([[NSFileManager defaultManager] fileExistsAtPath:directoriesPlistPath isDirectory:nil]);
 
     iTermShellHistoryController *historyController =
         [[[iTermShellHistoryControllerWithConfigurableStoreDefaultingToDiskForTesting alloc] initWithGuid:_guid
-                                                                                         shouldSaveToDisk:YES] autorelease];
+                                                                                              shouldSaveToDisk:YES] autorelease];
 
     XCTAssert(![[NSFileManager defaultManager] fileExistsAtPath:commandPlistPath isDirectory:nil]);
     XCTAssert(![[NSFileManager defaultManager] fileExistsAtPath:directoriesPlistPath isDirectory:nil]);
@@ -762,45 +762,45 @@ static NSTimeInterval kDefaultTime = 10000000;
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Second migration.
     NSDictionary *commandDictionary2 =
+    @ {
+@"user1@host1":
+        @[
         @{
-            @"user1@host1":
-               @[
-                   @{
-                       @"command": @"command2",
-                       @"uses": @10,
-                       @"last used": @(_now),
-                       @"use times":
-                           @[
-                               @[ @(_now),
-                                  @"/path1",
-                                  @"mark-guid-1",
-                                  @"command1",
-                                ],
-                            ]
-                    }
-                ],
-         };
+@"command": @"command2",
+@"uses": @10,
+@"last used": @(_now),
+@"use times":
+            @[
+                @[ @(_now),
+                   @"/path1",
+                   @"mark-guid-1",
+                   @"command1",
+                 ],
+            ]
+        }
+        ],
+    };
     [NSKeyedArchiver archiveRootObject:commandDictionary2 toFile:commandPlistPath];
     XCTAssert([[NSFileManager defaultManager] fileExistsAtPath:commandPlistPath isDirectory:nil]);
 
     NSDictionary *directoryDictionary2 =
+    @ {
+@"user1@host1":
+        @[
         @{
-            @"user1@host1":
-               @[
-                   @{
-                       @"path": @"/abc/def/ghi/good2",
-                       @"use count": @5,
-                       @"last use": @(_now),
-                       @"starred": @NO,
-                    },
-                ]
-         };
+@"path": @"/abc/def/ghi/good2",
+@"use count": @5,
+@"last use": @(_now),
+@"starred": @NO,
+        },
+        ]
+    };
     [NSKeyedArchiver archiveRootObject:directoryDictionary2 toFile:directoriesPlistPath];
     XCTAssert([[NSFileManager defaultManager] fileExistsAtPath:directoriesPlistPath isDirectory:nil]);
 
     historyController =
         [[[iTermShellHistoryControllerWithConfigurableStoreDefaultingToDiskForTesting alloc] initWithGuid:_guid
-                                                                                         shouldSaveToDisk:YES] autorelease];
+                                                                                              shouldSaveToDisk:YES] autorelease];
 
     XCTAssert(![[NSFileManager defaultManager] fileExistsAtPath:commandPlistPath isDirectory:nil]);
     XCTAssert(![[NSFileManager defaultManager] fileExistsAtPath:directoriesPlistPath isDirectory:nil]);
@@ -812,7 +812,7 @@ static NSTimeInterval kDefaultTime = 10000000;
     remoteHost.hostname = @"host1";
     NSArray<iTermCommandHistoryEntryMO *> *actualEntries =
         [historyController commandHistoryEntriesWithPrefix:@""
-                                                    onHost:remoteHost];
+                           onHost:remoteHost];
     XCTAssertEqual(2, actualEntries.count);
 
     NSArray<iTermRecentDirectoryMO *> *actualDirectories =
@@ -825,9 +825,9 @@ static NSTimeInterval kDefaultTime = 10000000;
         [[[iTermShellHistoryControllerForTesting alloc] initWithGuid:_guid] autorelease];
     VT100RemoteHost *remoteHost = [self addEntriesWithCommonPrefixes:historyController];
     [historyController addCommand:@"command"
-                           onHost:remoteHost
-                      inDirectory:@"directory"
-                         withMark:[[[VT100ScreenMark alloc] init] autorelease]];
+                       onHost:remoteHost
+                       inDirectory:@"directory"
+                       withMark:[[[VT100ScreenMark alloc] init] autorelease]];
     XCTAssertTrue([historyController haveCommandsForHost:remoteHost]);
     NSMutableData *data = [NSMutableData dataWithContentsOfFile:[kSqlitePathForTest stringByAppendingString:_guid]];
     for (int i = 1024; i < data.length; i += 16) {
@@ -838,9 +838,9 @@ static NSTimeInterval kDefaultTime = 10000000;
     historyController = [[[iTermShellHistoryControllerForTesting alloc] initWithGuid:_guid] autorelease];
     XCTAssertFalse([historyController haveCommandsForHost:remoteHost]);
     [historyController addCommand:@"command"
-                           onHost:remoteHost
-                      inDirectory:@"directory"
-                         withMark:[[[VT100ScreenMark alloc] init] autorelease]];
+                       onHost:remoteHost
+                       inDirectory:@"directory"
+                       withMark:[[[VT100ScreenMark alloc] init] autorelease]];
     XCTAssertTrue([historyController haveCommandsForHost:remoteHost]);
 }
 
@@ -849,9 +849,9 @@ static NSTimeInterval kDefaultTime = 10000000;
         [[[iTermShellHistoryControllerWithRAMStoreForTesting alloc] initWithGuid:_guid] autorelease];
     VT100RemoteHost *remoteHost = [[[VT100RemoteHost alloc] init] autorelease];
     [historyController addCommand:@"command"
-                           onHost:remoteHost
-                      inDirectory:@"directory"
-                         withMark:[[[VT100ScreenMark alloc] init] autorelease]];
+                       onHost:remoteHost
+                       inDirectory:@"directory"
+                       withMark:[[[VT100ScreenMark alloc] init] autorelease]];
     XCTAssertTrue([historyController haveCommandsForHost:remoteHost]);
 
     historyController =
@@ -864,54 +864,54 @@ static NSTimeInterval kDefaultTime = 10000000;
 - (void)testSuccessfulDirectoriesMigration {
     _now = kDefaultTime;
     NSDictionary *dictionary =
+    @ {
+@"user1@host1":
+        @[
         @{
-            @"user1@host1":
-               @[
-                   @{
-                       @"path": @"/abc/def/ghi/good",
-                       @"use count": @5,
-                       @"last use": @(_now),
-                       @"starred": @NO,
-                    },
-                   @{
-                       @"path": @"/abc/def/ghi/old",
-                       @"use count": @5,
-                       @"last use": @(_now - 86400 * 365),
-                       @"starred": @NO,
-                    },
-                   @{
-                       @"path": @"/abc/def/ghi/old_but_starred",
-                       @"use count": @5,
-                       @"last use": @(_now - 86400 * 365),
-                       @"starred": @YES,
-                    },
-                ],
-            @"user2@host2":
-                @[
-                   @{
-                       @"path": @"/abc/def/ghi/old",
-                       @"use count": @5,
-                       @"last use": @(_now - 86400 * 365),
-                       @"starred": @NO,
-                    },
-                 ]
-           };
+@"path": @"/abc/def/ghi/good",
+@"use count": @5,
+@"last use": @(_now),
+@"starred": @NO,
+        },
+        @{
+@"path": @"/abc/def/ghi/old",
+@"use count": @5,
+@"last use": @(_now - 86400 * 365),
+@"starred": @NO,
+        },
+        @{
+@"path": @"/abc/def/ghi/old_but_starred",
+@"use count": @5,
+@"last use": @(_now - 86400 * 365),
+@"starred": @YES,
+        },
+        ],
+@"user2@host2":
+        @[
+        @{
+@"path": @"/abc/def/ghi/old",
+@"use count": @5,
+@"last use": @(_now - 86400 * 365),
+@"starred": @NO,
+        },
+        ]
+    };
     NSString *plistPath = [kFakeDirectoriesPlistPath stringByAppendingString:_guid];
     [NSKeyedArchiver archiveRootObject:dictionary toFile:plistPath];
 
     XCTAssert([[NSFileManager defaultManager] fileExistsAtPath:plistPath isDirectory:nil]);
     iTermShellHistoryController *historyController =
         [[[iTermShellHistoryControllerWithConfigurableStoreDefaultingToDiskForTesting alloc] initWithGuid:_guid
-                                                                                         shouldSaveToDisk:YES] autorelease];
+                                                                                              shouldSaveToDisk:YES] autorelease];
     XCTAssert(![[NSFileManager defaultManager] fileExistsAtPath:plistPath isDirectory:nil]);
     XCTAssert([[NSFileManager defaultManager] fileExistsAtPath:[kSqlitePathForTest stringByAppendingString:_guid]
-                                                   isDirectory:nil]);
+                                              isDirectory:nil]);
 
     for (int iteration = 0; iteration < 2; iteration++) {
         if (iteration == 1) {
             // Re-create the history controller to verify that values can be loaded
             historyController = [[[iTermShellHistoryControllerWithConfigurableStoreDefaultingToDiskForTesting alloc] initWithGuid:_guid
-                                                                                                                 shouldSaveToDisk:YES] autorelease];
+                                                                                                                      shouldSaveToDisk:YES] autorelease];
         }
         iTermRecentDirectoryMO *directory;
 
@@ -1089,9 +1089,9 @@ static NSTimeInterval kDefaultTime = 10000000;
                 historyController.currentTime = date.doubleValue;
                 for (int i = 0; i < useCount.intValue; i++) {
                     NSString *path = [NSString stringWithFormat:@"/%@/uses%@/date%@",
-                                         starred.boolValue ? @"starred" : @"unstarred",
-                                         useCount,
-                                         date];
+                                               starred.boolValue ? @"starred" : @"unstarred",
+                                               useCount,
+                                               date];
                     iTermRecentDirectoryMO *directory =
                         [historyController recordUseOfPath:path onHost:remoteHost isChange:YES];
                     if (starred.boolValue && i == 0) {
@@ -1139,7 +1139,7 @@ static NSTimeInterval kDefaultTime = 10000000;
 - (void)testHaveDirectoriesOnHost {
     iTermShellHistoryControllerForTesting *historyController =
         [[[iTermShellHistoryControllerWithConfigurableStoreDefaultingToDiskForTesting alloc] initWithGuid:_guid
-                                                                                         shouldSaveToDisk:YES] autorelease];
+                                                                                              shouldSaveToDisk:YES] autorelease];
 
     VT100RemoteHost *remoteHost = [[[VT100RemoteHost alloc] init] autorelease];
     remoteHost.username = @"user1";
@@ -1151,7 +1151,7 @@ static NSTimeInterval kDefaultTime = 10000000;
 
     historyController =
         [[[iTermShellHistoryControllerWithConfigurableStoreDefaultingToDiskForTesting alloc] initWithGuid:_guid
-                                                                                         shouldSaveToDisk:YES] autorelease];
+                                                                                              shouldSaveToDisk:YES] autorelease];
     XCTAssertTrue([historyController haveDirectoriesForHost:remoteHost]);
 }
 
@@ -1166,9 +1166,9 @@ static NSTimeInterval kDefaultTime = 10000000;
 
     [historyController recordUseOfPath:@"/test/path" onHost:remoteHost isChange:YES];
     [historyController addCommand:@"command1"
-                           onHost:remoteHost
-                      inDirectory:@"/directory1"
-                         withMark:mark];
+                       onHost:remoteHost
+                       inDirectory:@"/directory1"
+                       withMark:mark];
 
     XCTAssertTrue([historyController haveDirectoriesForHost:remoteHost]);
     XCTAssertTrue([historyController haveCommandsForHost:remoteHost]);
@@ -1181,9 +1181,9 @@ static NSTimeInterval kDefaultTime = 10000000;
 
     [historyController recordUseOfPath:@"/test2/path2" onHost:remoteHost isChange:YES];
     [historyController addCommand:@"command1"
-                           onHost:remoteHost
-                      inDirectory:@"/directory1"
-                         withMark:mark];
+                       onHost:remoteHost
+                       inDirectory:@"/directory1"
+                       withMark:mark];
 
     // Back to disk. Should lose no data.
     historyController.saveToDisk = YES;

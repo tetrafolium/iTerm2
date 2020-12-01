@@ -6,12 +6,12 @@
  */
 @interface CPKEyedropperWindow : NSWindow
 
-/**
- * Shows the window, waits for the user to click, and then returns the color under the cursor.
- *
- * @return The selected color, or nil if the pick is aborted (e.g., by another application becoming
- *   active).
- */
+    /**
+     * Shows the window, waits for the user to click, and then returns the color under the cursor.
+     *
+     * @return The selected color, or nil if the pick is aborted (e.g., by another application becoming
+     *   active).
+     */
 + (void)pickColorWithCompletion:(void (^)(NSColor *color))completion;
 
 @end

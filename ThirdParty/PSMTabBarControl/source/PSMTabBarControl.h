@@ -165,10 +165,10 @@ typedef enum {
 // This view provides a control interface to manage a regular NSTabView.  It looks and works like
 // the tabbed browsing interface of many popular browsers.
 @interface PSMTabBarControl : NSControl<
-  NSDraggingSource,
-  NSAccessibilityGroup,
-  PSMProgressIndicatorDelegate,
-  PSMTabViewDelegate>
+    NSDraggingSource,
+    NSAccessibilityGroup,
+    PSMProgressIndicatorDelegate,
+    PSMTabViewDelegate>
 
 // control configuration
 @property(nonatomic, assign) BOOL disableTabClose;
@@ -253,10 +253,10 @@ typedef enum {
 // drag the window by dragging the background.
 - (BOOL)wantsMouseDownAtPoint:(NSPoint)point;
 - (void)moveTabAtIndex:(NSInteger)sourceIndex
-              toTabBar:(PSMTabBarControl *)destinationTabBar
-               atIndex:(NSInteger)destinationIndex;
+    toTabBar:(PSMTabBarControl *)destinationTabBar
+    atIndex:(NSInteger)destinationIndex;
 - (void)backgroundColorWillChange;
 - (id)cellForPoint:(NSPoint)point
-         cellFrame:(NSRectPointer)outFrame;
+    cellFrame:(NSRectPointer)outFrame;
 
 @end

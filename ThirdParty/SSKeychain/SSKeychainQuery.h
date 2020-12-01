@@ -16,9 +16,9 @@
 
 #ifdef SSKEYCHAIN_SYNCHRONIZATION_AVAILABLE
 typedef NS_ENUM(NSUInteger, SSKeychainQuerySynchronizationMode) {
-	SSKeychainQuerySynchronizationModeAny,
-	SSKeychainQuerySynchronizationModeNo,
-	SSKeychainQuerySynchronizationModeYes
+    SSKeychainQuerySynchronizationModeAny,
+    SSKeychainQuerySynchronizationModeNo,
+    SSKeychainQuerySynchronizationModeYes
 };
 #endif
 
@@ -27,7 +27,7 @@ typedef NS_ENUM(NSUInteger, SSKeychainQuerySynchronizationMode) {
  */
 @interface SSKeychainQuery : NSObject
 
-/** kSecAttrAccount */
+    /** kSecAttrAccount */
 @property (nonatomic, copy) NSString *account;
 
 /** kSecAttrService */
@@ -115,10 +115,10 @@ typedef NS_ENUM(NSUInteger, SSKeychainQuerySynchronizationMode) {
 
 #ifdef SSKEYCHAIN_SYNCHRONIZATION_AVAILABLE
 /**
- Returns a boolean indicating if keychain synchronization is available on the device at runtime. The #define 
+ Returns a boolean indicating if keychain synchronization is available on the device at runtime. The #define
  SSKEYCHAIN_SYNCHRONIZATION_AVAILABLE is only for compile time. If you are checking for the presence of synchronization,
  you should use this method.
- 
+
  @return A value indicating if keychain synchronization is available
  */
 + (BOOL)isSynchronizationAvailable;

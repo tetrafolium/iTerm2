@@ -26,20 +26,20 @@
         [self setLevel:NSStatusWindowLevel];
         [self setIgnoresMouseEvents:YES];
         [self setOpaque:NO];
-        
+
         [_imageView setImage:image];
-        
+
         //Set the size of the window to be the exact size of the drag image
         NSSize imageSize = [image size];
         NSRect windowFrame = [self frame];
-        
+
         windowFrame.origin.y += windowFrame.size.height - imageSize.height;
         windowFrame.size = imageSize;
-        
+
         if (styleMask | NSWindowStyleMaskBorderless) {
             windowFrame.size.height += 22;
         }
-        
+
         [self setFrame:windowFrame display:YES];
     }
     return self;

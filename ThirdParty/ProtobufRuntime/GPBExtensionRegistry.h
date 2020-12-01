@@ -56,11 +56,11 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBExtensionRegistry : NSObject<NSCopying>
 
-/**
- * Adds the given GPBExtensionDescriptor to this registry.
- *
- * @param extension The extension description to add.
- **/
+    /**
+     * Adds the given GPBExtensionDescriptor to this registry.
+     *
+     * @param extension The extension description to add.
+     **/
 - (void)addExtension:(GPBExtensionDescriptor *)extension;
 
 /**
@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @return The registered GPBExtensionDescriptor or nil if none was found.
  **/
 - (nullable GPBExtensionDescriptor *)extensionForDescriptor:(GPBDescriptor *)descriptor
-                                                fieldNumber:(NSInteger)fieldNumber;
+    fieldNumber:(NSInteger)fieldNumber;
 
 @end
 

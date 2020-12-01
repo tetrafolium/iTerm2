@@ -8,7 +8,7 @@
  */
 @interface NMSSHConfig : NSObject
 
-/** The array of parsed NMSSHHostConfig objects. */
+    /** The array of parsed NMSSHHostConfig objects. */
 @property (nonatomic, nonnull, readonly) NSArray<NMSSHHostConfig *> *hostConfigs;
 
 /**

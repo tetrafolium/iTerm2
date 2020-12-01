@@ -4,13 +4,13 @@
 // This CPP symbol can be defined to use imports that match up to the framework
 // imports needed when using CocoaPods.
 #if !defined(GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS)
- #define GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS 0
+#define GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS 0
 #endif
 
 #if GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS
- #import <Protobuf/GPBProtocolBuffers.h>
+#import <Protobuf/GPBProtocolBuffers.h>
 #else
- #import "GPBProtocolBuffers.h"
+#import "GPBProtocolBuffers.h"
 #endif
 
 #if GOOGLE_PROTOBUF_OBJC_VERSION < 30002
@@ -39,17 +39,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** The syntax in which a protocol buffer element is defined. */
 typedef GPB_ENUM(GPBSyntax) {
-  /**
-   * Value used if any message's field encounters a value that is not defined
-   * by this enum. The message will also have C functions to get/set the rawValue
-   * of the field.
-   **/
-  GPBSyntax_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  /** Syntax `proto2`. */
-  GPBSyntax_SyntaxProto2 = 0,
+    /**
+     * Value used if any message's field encounters a value that is not defined
+     * by this enum. The message will also have C functions to get/set the rawValue
+     * of the field.
+     **/
+    GPBSyntax_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+    /** Syntax `proto2`. */
+    GPBSyntax_SyntaxProto2 = 0,
 
-  /** Syntax `proto3`. */
-  GPBSyntax_SyntaxProto3 = 1,
+    /** Syntax `proto3`. */
+    GPBSyntax_SyntaxProto3 = 1,
 };
 
 GPBEnumDescriptor *GPBSyntax_EnumDescriptor(void);
@@ -64,68 +64,68 @@ BOOL GPBSyntax_IsValidValue(int32_t value);
 
 /** Basic field types. */
 typedef GPB_ENUM(GPBField_Kind) {
-  /**
-   * Value used if any message's field encounters a value that is not defined
-   * by this enum. The message will also have C functions to get/set the rawValue
-   * of the field.
-   **/
-  GPBField_Kind_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  /** Field type unknown. */
-  GPBField_Kind_TypeUnknown = 0,
+    /**
+     * Value used if any message's field encounters a value that is not defined
+     * by this enum. The message will also have C functions to get/set the rawValue
+     * of the field.
+     **/
+    GPBField_Kind_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+    /** Field type unknown. */
+    GPBField_Kind_TypeUnknown = 0,
 
-  /** Field type double. */
-  GPBField_Kind_TypeDouble = 1,
+    /** Field type double. */
+    GPBField_Kind_TypeDouble = 1,
 
-  /** Field type float. */
-  GPBField_Kind_TypeFloat = 2,
+    /** Field type float. */
+    GPBField_Kind_TypeFloat = 2,
 
-  /** Field type int64. */
-  GPBField_Kind_TypeInt64 = 3,
+    /** Field type int64. */
+    GPBField_Kind_TypeInt64 = 3,
 
-  /** Field type uint64. */
-  GPBField_Kind_TypeUint64 = 4,
+    /** Field type uint64. */
+    GPBField_Kind_TypeUint64 = 4,
 
-  /** Field type int32. */
-  GPBField_Kind_TypeInt32 = 5,
+    /** Field type int32. */
+    GPBField_Kind_TypeInt32 = 5,
 
-  /** Field type fixed64. */
-  GPBField_Kind_TypeFixed64 = 6,
+    /** Field type fixed64. */
+    GPBField_Kind_TypeFixed64 = 6,
 
-  /** Field type fixed32. */
-  GPBField_Kind_TypeFixed32 = 7,
+    /** Field type fixed32. */
+    GPBField_Kind_TypeFixed32 = 7,
 
-  /** Field type bool. */
-  GPBField_Kind_TypeBool = 8,
+    /** Field type bool. */
+    GPBField_Kind_TypeBool = 8,
 
-  /** Field type string. */
-  GPBField_Kind_TypeString = 9,
+    /** Field type string. */
+    GPBField_Kind_TypeString = 9,
 
-  /** Field type group. Proto2 syntax only, and deprecated. */
-  GPBField_Kind_TypeGroup = 10,
+    /** Field type group. Proto2 syntax only, and deprecated. */
+    GPBField_Kind_TypeGroup = 10,
 
-  /** Field type message. */
-  GPBField_Kind_TypeMessage = 11,
+    /** Field type message. */
+    GPBField_Kind_TypeMessage = 11,
 
-  /** Field type bytes. */
-  GPBField_Kind_TypeBytes = 12,
+    /** Field type bytes. */
+    GPBField_Kind_TypeBytes = 12,
 
-  /** Field type uint32. */
-  GPBField_Kind_TypeUint32 = 13,
+    /** Field type uint32. */
+    GPBField_Kind_TypeUint32 = 13,
 
-  /** Field type enum. */
-  GPBField_Kind_TypeEnum = 14,
+    /** Field type enum. */
+    GPBField_Kind_TypeEnum = 14,
 
-  /** Field type sfixed32. */
-  GPBField_Kind_TypeSfixed32 = 15,
+    /** Field type sfixed32. */
+    GPBField_Kind_TypeSfixed32 = 15,
 
-  /** Field type sfixed64. */
-  GPBField_Kind_TypeSfixed64 = 16,
+    /** Field type sfixed64. */
+    GPBField_Kind_TypeSfixed64 = 16,
 
-  /** Field type sint32. */
-  GPBField_Kind_TypeSint32 = 17,
+    /** Field type sint32. */
+    GPBField_Kind_TypeSint32 = 17,
 
-  /** Field type sint64. */
-  GPBField_Kind_TypeSint64 = 18,
+    /** Field type sint64. */
+    GPBField_Kind_TypeSint64 = 18,
 };
 
 GPBEnumDescriptor *GPBField_Kind_EnumDescriptor(void);
@@ -140,23 +140,23 @@ BOOL GPBField_Kind_IsValidValue(int32_t value);
 
 /** Whether a field is optional, required, or repeated. */
 typedef GPB_ENUM(GPBField_Cardinality) {
-  /**
-   * Value used if any message's field encounters a value that is not defined
-   * by this enum. The message will also have C functions to get/set the rawValue
-   * of the field.
-   **/
-  GPBField_Cardinality_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  /** For fields with unknown cardinality. */
-  GPBField_Cardinality_CardinalityUnknown = 0,
+    /**
+     * Value used if any message's field encounters a value that is not defined
+     * by this enum. The message will also have C functions to get/set the rawValue
+     * of the field.
+     **/
+    GPBField_Cardinality_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+    /** For fields with unknown cardinality. */
+    GPBField_Cardinality_CardinalityUnknown = 0,
 
-  /** For optional fields. */
-  GPBField_Cardinality_CardinalityOptional = 1,
+    /** For optional fields. */
+    GPBField_Cardinality_CardinalityOptional = 1,
 
-  /** For required fields. Proto2 syntax only. */
-  GPBField_Cardinality_CardinalityRequired = 2,
+    /** For required fields. Proto2 syntax only. */
+    GPBField_Cardinality_CardinalityRequired = 2,
 
-  /** For repeated fields. */
-  GPBField_Cardinality_CardinalityRepeated = 3,
+    /** For repeated fields. */
+    GPBField_Cardinality_CardinalityRepeated = 3,
 };
 
 GPBEnumDescriptor *GPBField_Cardinality_EnumDescriptor(void);
@@ -185,12 +185,12 @@ BOOL GPBField_Cardinality_IsValidValue(int32_t value);
 #pragma mark - GPBType
 
 typedef GPB_ENUM(GPBType_FieldNumber) {
-  GPBType_FieldNumber_Name = 1,
-  GPBType_FieldNumber_FieldsArray = 2,
-  GPBType_FieldNumber_OneofsArray = 3,
-  GPBType_FieldNumber_OptionsArray = 4,
-  GPBType_FieldNumber_SourceContext = 5,
-  GPBType_FieldNumber_Syntax = 6,
+    GPBType_FieldNumber_Name = 1,
+    GPBType_FieldNumber_FieldsArray = 2,
+    GPBType_FieldNumber_OneofsArray = 3,
+    GPBType_FieldNumber_OptionsArray = 4,
+    GPBType_FieldNumber_SourceContext = 5,
+    GPBType_FieldNumber_Syntax = 6,
 };
 
 /**
@@ -198,7 +198,7 @@ typedef GPB_ENUM(GPBType_FieldNumber) {
  **/
 @interface GPBType : GPBMessage
 
-/** The fully qualified message name. */
+    /** The fully qualified message name. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *name;
 
 /** The list of fields. */
@@ -241,16 +241,16 @@ void SetGPBType_Syntax_RawValue(GPBType *message, int32_t value);
 #pragma mark - GPBField
 
 typedef GPB_ENUM(GPBField_FieldNumber) {
-  GPBField_FieldNumber_Kind = 1,
-  GPBField_FieldNumber_Cardinality = 2,
-  GPBField_FieldNumber_Number = 3,
-  GPBField_FieldNumber_Name = 4,
-  GPBField_FieldNumber_TypeURL = 6,
-  GPBField_FieldNumber_OneofIndex = 7,
-  GPBField_FieldNumber_Packed = 8,
-  GPBField_FieldNumber_OptionsArray = 9,
-  GPBField_FieldNumber_JsonName = 10,
-  GPBField_FieldNumber_DefaultValue = 11,
+    GPBField_FieldNumber_Kind = 1,
+    GPBField_FieldNumber_Cardinality = 2,
+    GPBField_FieldNumber_Number = 3,
+    GPBField_FieldNumber_Name = 4,
+    GPBField_FieldNumber_TypeURL = 6,
+    GPBField_FieldNumber_OneofIndex = 7,
+    GPBField_FieldNumber_Packed = 8,
+    GPBField_FieldNumber_OptionsArray = 9,
+    GPBField_FieldNumber_JsonName = 10,
+    GPBField_FieldNumber_DefaultValue = 11,
 };
 
 /**
@@ -258,7 +258,7 @@ typedef GPB_ENUM(GPBField_FieldNumber) {
  **/
 @interface GPBField : GPBMessage
 
-/** The field type. */
+    /** The field type. */
 @property(nonatomic, readwrite) GPBField_Kind kind;
 
 /** The field cardinality. */
@@ -325,11 +325,11 @@ void SetGPBField_Cardinality_RawValue(GPBField *message, int32_t value);
 #pragma mark - GPBEnum
 
 typedef GPB_ENUM(GPBEnum_FieldNumber) {
-  GPBEnum_FieldNumber_Name = 1,
-  GPBEnum_FieldNumber_EnumvalueArray = 2,
-  GPBEnum_FieldNumber_OptionsArray = 3,
-  GPBEnum_FieldNumber_SourceContext = 4,
-  GPBEnum_FieldNumber_Syntax = 5,
+    GPBEnum_FieldNumber_Name = 1,
+    GPBEnum_FieldNumber_EnumvalueArray = 2,
+    GPBEnum_FieldNumber_OptionsArray = 3,
+    GPBEnum_FieldNumber_SourceContext = 4,
+    GPBEnum_FieldNumber_Syntax = 5,
 };
 
 /**
@@ -337,7 +337,7 @@ typedef GPB_ENUM(GPBEnum_FieldNumber) {
  **/
 @interface GPBEnum : GPBMessage
 
-/** Enum type name. */
+    /** Enum type name. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *name;
 
 /** Enum value definitions. */
@@ -375,9 +375,9 @@ void SetGPBEnum_Syntax_RawValue(GPBEnum *message, int32_t value);
 #pragma mark - GPBEnumValue
 
 typedef GPB_ENUM(GPBEnumValue_FieldNumber) {
-  GPBEnumValue_FieldNumber_Name = 1,
-  GPBEnumValue_FieldNumber_Number = 2,
-  GPBEnumValue_FieldNumber_OptionsArray = 3,
+    GPBEnumValue_FieldNumber_Name = 1,
+    GPBEnumValue_FieldNumber_Number = 2,
+    GPBEnumValue_FieldNumber_OptionsArray = 3,
 };
 
 /**
@@ -385,7 +385,7 @@ typedef GPB_ENUM(GPBEnumValue_FieldNumber) {
  **/
 @interface GPBEnumValue : GPBMessage
 
-/** Enum value name. */
+    /** Enum value name. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *name;
 
 /** Enum value number. */
@@ -401,8 +401,8 @@ typedef GPB_ENUM(GPBEnumValue_FieldNumber) {
 #pragma mark - GPBOption
 
 typedef GPB_ENUM(GPBOption_FieldNumber) {
-  GPBOption_FieldNumber_Name = 1,
-  GPBOption_FieldNumber_Value = 2,
+    GPBOption_FieldNumber_Name = 1,
+    GPBOption_FieldNumber_Value = 2,
 };
 
 /**
@@ -411,7 +411,7 @@ typedef GPB_ENUM(GPBOption_FieldNumber) {
  **/
 @interface GPBOption : GPBMessage
 
-/** The option's name. For example, `"java_package"`. */
+    /** The option's name. For example, `"java_package"`. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *name;
 
 /** The option's value. For example, `"com.google.protobuf"`. */

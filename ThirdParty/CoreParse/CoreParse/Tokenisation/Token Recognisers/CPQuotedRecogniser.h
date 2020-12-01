@@ -12,13 +12,13 @@
 
 /**
  * The CPQuotedRecogniser class is used to recognise quoted literals in the input string.  This can be used for quoted strings, characters, comments and many other things.
- * 
+ *
  * Quoted tokens are recognised via a start string and end string.  You may optionally add an escape sequence string that stops the end quote being recognised at that point in the input.
  * You may optionally provide a block used to replace escape sequences with their actual meaning.  If you don't provide an escape replcement block it is assumed that the character
  * following the escape sequence replaces the whole sequence.
  *
  * Finally, you may also provide a maximum length for the quoted sequence to recognise.  If you want to recognise strings of any length, pass NSNotFound.
- * 
+ *
  * This recogniser produces CPQuotedTokens.  The name of the produced tokens is determined by the name property.
  */
 @interface CPQuotedRecogniser : NSObject <CPTokenRecogniser>
@@ -27,17 +27,17 @@
 /// @name Creating and Initialising a Quoted Recogniser
 ///---------------------------------------------------------------------------------------
 
-/**
- * Creates a quoted recogniser that recognises quoted litterals starting with startQuote and ending with endQuote.
- *
- * @param startQuote A string that indicates the beginning of a quoted literal.
- * @param endQuote   A string that indicates the end of the quoted literal.
- * @param name       The name to attach to recognised tokens.
- * @return Returns a CPQuotedRecogniser that recognises C like identifiers.
- *
- * @see quotedRecogniserWithStartQuote:endQuote:escapeSequence:name:
- * @see quotedRecogniserWithStartQuote:endQuote:escapeSequence:maximumLength:name:
- */
+    /**
+     * Creates a quoted recogniser that recognises quoted litterals starting with startQuote and ending with endQuote.
+     *
+     * @param startQuote A string that indicates the beginning of a quoted literal.
+     * @param endQuote   A string that indicates the end of the quoted literal.
+     * @param name       The name to attach to recognised tokens.
+     * @return Returns a CPQuotedRecogniser that recognises C like identifiers.
+     *
+     * @see quotedRecogniserWithStartQuote:endQuote:escapeSequence:name:
+     * @see quotedRecogniserWithStartQuote:endQuote:escapeSequence:maximumLength:name:
+     */
 + (id)quotedRecogniserWithStartQuote:(NSString *)startQuote endQuote:(NSString *)endQuote name:(NSString *)name;
 
 /**

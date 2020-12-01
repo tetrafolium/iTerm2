@@ -36,7 +36,7 @@ NSString *const kCPKUseSystemColorPicker = @"kCPKUseSystemColorPicker";
         CGFloat x = kLeftMargin;
         if (noColorAllowed) {
             self.noColor = [self addButtonWithImage:[self cpk_imageNamed:@"NoColor"]
-                                             origin:NSMakePoint(x, kTopMargin)];
+                                 origin:NSMakePoint(x, kTopMargin)];
             self.noColor.toolTip = @"Select the absence of color";
             [self.noColor setTarget:self];
             [self.noColor setAction:@selector(selectNoColor:)];
@@ -44,7 +44,7 @@ NSString *const kCPKUseSystemColorPicker = @"kCPKUseSystemColorPicker";
         }
 
         self.addFavorite = [self addButtonWithImage:[self cpk_imageNamed:@"Add"]
-                                             origin:NSMakePoint(x, kTopMargin)];
+                                 origin:NSMakePoint(x, kTopMargin)];
         self.addFavorite.toolTip = @"Save color as a Favorite";
         [self.addFavorite setTarget:self];
         [self.addFavorite setAction:@selector(addFavorite:)];
@@ -52,7 +52,7 @@ NSString *const kCPKUseSystemColorPicker = @"kCPKUseSystemColorPicker";
         NSPoint origin = NSMakePoint(NSMaxX(self.addFavorite.frame) + kMarginBetweenButtons,
                                      kTopMargin);
         self.removeFavorite = [self addButtonWithImage:[self cpk_imageNamed:@"Remove"]
-                                                origin:origin];
+                                    origin:origin];
         self.removeFavorite.toolTip = @"Remove selected Favorite color";
         [self.removeFavorite setTarget:self];
         [self.removeFavorite setAction:@selector(removeFavorite:)];
@@ -61,7 +61,7 @@ NSString *const kCPKUseSystemColorPicker = @"kCPKUseSystemColorPicker";
         origin = NSMakePoint(NSMaxX(self.removeFavorite.frame) + kMarginBetweenButtons,
                              kTopMargin);
         self.eyedropperMode = [self addButtonWithImage:[self cpk_imageNamed:@"Eyedropper"]
-                                                origin:origin];
+                                    origin:origin];
         self.eyedropperMode.toolTip = @"Open the eye dropper";
         [self.eyedropperMode setTarget:self];
         [self.eyedropperMode setAction:@selector(eyedropperMode:)];
@@ -69,7 +69,7 @@ NSString *const kCPKUseSystemColorPicker = @"kCPKUseSystemColorPicker";
         origin = NSMakePoint(NSMaxX(self.eyedropperMode.frame) + kMarginBetweenButtons,
                              kTopMargin);
         self.escapeHatch = [self addButtonWithImage:[self cpk_imageNamed:@"EscapeHatch"]
-                                             origin:origin];
+                                 origin:origin];
         self.escapeHatch.toolTip = @"Use the system color picker";
         [self.escapeHatch setTarget:self];
         [self.escapeHatch setAction:@selector(escapeHatch:)];
@@ -78,13 +78,13 @@ NSString *const kCPKUseSystemColorPicker = @"kCPKUseSystemColorPicker";
                              kTopMargin);
         self.swatch =
             [[CPKSwatchView alloc] initWithFrame:NSMakeRect(NSMaxX(self.escapeHatch.frame) +
-                                                                kMarginBetweenButtonsAndSwatch,
-                                                            kTopMargin,
-                                                            NSWidth(frameRect) -
-                                                                NSMaxX(self.escapeHatch.frame) -
-                                                                kMarginBetweenButtonsAndSwatch -
-                                                                kRightMargin,
-                                                            NSHeight(self.addFavorite.frame))];
+                                          kMarginBetweenButtonsAndSwatch,
+                                          kTopMargin,
+                                          NSWidth(frameRect) -
+                                          NSMaxX(self.escapeHatch.frame) -
+                                          kMarginBetweenButtonsAndSwatch -
+                                          kRightMargin,
+                                          NSHeight(self.addFavorite.frame))];
         [self addSubview:self.swatch];
     }
     return self;
@@ -121,7 +121,7 @@ NSString *const kCPKUseSystemColorPicker = @"kCPKUseSystemColorPicker";
 }
 
 - (void)colorPanelDidClose {
-  self.useSystemColorPicker = NO;
+    self.useSystemColorPicker = NO;
 }
 
 - (void)setUseSystemColorPicker:(BOOL)useSystemColorPicker {
@@ -129,11 +129,11 @@ NSString *const kCPKUseSystemColorPicker = @"kCPKUseSystemColorPicker";
         return;
     }
     [[NSUserDefaults standardUserDefaults] setBool:useSystemColorPicker
-                                            forKey:kCPKUseSystemColorPicker];
+                                           forKey:kCPKUseSystemColorPicker];
     _useSystemColorPicker = useSystemColorPicker;
     self.escapeHatch.image =
         self.useSystemColorPicker ? [self cpk_imageNamed:@"ActiveEscapeHatch"] :
-                                    [self cpk_imageNamed:@"EscapeHatch"];
+        [self cpk_imageNamed:@"EscapeHatch"];
     if (_useNativeColorPicker) {
         __weak __typeof(self) weakSelf = self;
         weakSelf.useNativeColorPicker();
@@ -161,7 +161,7 @@ NSString *const kCPKUseSystemColorPicker = @"kCPKUseSystemColorPicker";
 - (void)eyedropperMode:(id)sender {
     if (_startPickingBlock) {
         self.eyedropperMode.image = [self cpk_imageNamed:@"ActiveEyedropper"];
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^ {
             _startPickingBlock();
             self.eyedropperMode.image = [self cpk_imageNamed:@"Eyedropper"];
         });

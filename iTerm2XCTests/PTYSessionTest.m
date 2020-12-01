@@ -17,11 +17,11 @@ typedef NSModalResponse (^WarningBlockType)(NSAlert *alert, NSString *identifier
 @implementation FakePasteHelper
 
 - (void)pasteString:(NSString *)theString
-             slowly:(BOOL)slowly
-   escapeShellChars:(BOOL)escapeShellChars
-           isUpload:(BOOL)isUpload
-       tabTransform:(iTermTabTransformTags)tabTransform
-       spacesPerTab:(int)spacesPerTab {
+    slowly:(BOOL)slowly
+    escapeShellChars:(BOOL)escapeShellChars
+    isUpload:(BOOL)isUpload
+    tabTransform:(iTermTabTransformTags)tabTransform
+    spacesPerTab:(int)spacesPerTab {
     self.string = theString;
     self.slowly = slowly;
     self.escapeShellChars = escapeShellChars;
@@ -102,7 +102,7 @@ typedef NSModalResponse (^WarningBlockType)(NSAlert *alert, NSString *identifier
     XCTAssert(_fakePasteHelper.tabTransform == kTabTransformNone);
     XCTAssert(!_fakePasteHelper.slowly);
     XCTAssert(
-           _fakePasteHelper.escapeShellChars);
+        _fakePasteHelper.escapeShellChars);
 }
 
 - (void)testEmbeddedTabsConvertToSpaces {
@@ -112,12 +112,12 @@ typedef NSModalResponse (^WarningBlockType)(NSAlert *alert, NSString *identifier
         BOOL found = NO;
         for (NSView *subview in alert.accessoryView.subviews) {
             if ([subview isKindOfClass:[NSTextField class]] &&
-                [(NSTextField *)subview isEditable]) {
+                    [(NSTextField *)subview isEditable]) {
                 found = YES;
                 NSTextField *textField = (NSTextField *)subview;
                 textField.intValue = 8;
                 [(id)textField.delegate controlTextDidChange:[NSNotification notificationWithName:NSControlTextDidChangeNotification
-                                                                                           object:nil]];
+                                               object:nil]];
                 break;
             }
         }

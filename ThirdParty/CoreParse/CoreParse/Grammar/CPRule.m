@@ -47,7 +47,7 @@
 - (id)initWithName:(NSString *)initName rightHandSideElements:(NSArray *)rightHandSideElements representitiveClass:(Class)initRepresentitiveClass
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         [self setName:initName];
@@ -55,7 +55,7 @@
         [self setTag:0];
         [self setRepresentitiveClass:initRepresentitiveClass];
     }
-    
+
     return self;
 }
 
@@ -67,12 +67,12 @@
 - (id)initWithName:(NSString *)initName rightHandSideElements:(NSArray *)rightHandSideElements tag:(NSUInteger)initTag
 {
     self = [self initWithName:initName rightHandSideElements:rightHandSideElements representitiveClass:nil];
-    
+
     if (nil != self)
     {
         [self setTag:initTag];
     }
-    
+
     return self;
 }
 
@@ -99,7 +99,7 @@
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         [self setTag:[aDecoder decodeIntegerForKey:CPRuleTagKey]];
@@ -107,7 +107,7 @@
         [self setRightHandSideElements:[aDecoder decodeObjectForKey:CPRuleRHSElementsKey]];
         [self setRepresentitiveClass:NSClassFromString([aDecoder decodeObjectForKey:CPRuleRepresentitiveClassKey])];
     }
-    
+
     return self;
 }
 
@@ -123,7 +123,7 @@
 {
     [name release];
     [rightHandSide release];
-    
+
     [super dealloc];
 }
 

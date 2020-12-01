@@ -15,8 +15,8 @@
 @implementation SIGTrust
 
 - (instancetype)initWithCertificates:(NSArray<SIGCertificate *> *)certificates
-                            policies:(NSArray<id<SIGPolicy>> *)policies
-                               error:(out NSError * _Nullable __autoreleasing *)error {
+    policies:(NSArray<id<SIGPolicy>> *)policies
+    error:(out NSError * _Nullable __autoreleasing *)error {
     self = [super init];
     if (self) {
         _certificates = [certificates copy];
@@ -33,13 +33,13 @@
         }
 
         OSStatus status = SecTrustCreateWithCertificates((__bridge CFTypeRef)secCertificates,
-                                                         (__bridge CFTypeRef)secPolicies,
-                                                         &_secTrust);
+                          (__bridge CFTypeRef)secPolicies,
+                          &_secTrust);
         if (status != noErr) {
             if (error) {
                 NSString *message = (__bridge_transfer NSString *)SecCopyErrorMessageString(status, NULL);
                 *error = [SIGError errorWithCode:SIGErrorCodeTrust
-                                          detail:message];
+                                   detail:message];
             }
             return nil;
         }
@@ -54,7 +54,7 @@
 }
 
 - (void)evaluateWithCompletion:(void (^)(BOOL, NSError *))completion {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
         BOOL trusted;
         NSError *error = nil;
         trusted = [self evaluateTrust:&error];
@@ -67,50 +67,50 @@
 - (BOOL)evaluateTrust:(out NSError **)error NS_AVAILABLE_MAC(10_14) {
     CFErrorRef secError = NULL;
     const BOOL trusted = SecTrustEvaluateWithError(self->_secTrust,
-                                                   &secError);
+                         &secError);
     if (secError && error) {
         *error = [SIGError errorWrapping:(__bridge NSError *)secError
-                                    code:SIGErrorCodeTrust
-                                  detail:@"Failed to evaluate certificate chain"];
+                           code:SIGErrorCodeTrust
+                           detail:@"Failed to evaluate certificate chain"];
     }
     return trusted;
 }
 
 - (BOOL)resultIsTrustedPreMojave:(SecTrustResultType)trustResult
-                           error:(out NSError **)error NS_DEPRECATED_MAC(10_0, 10_14) {
+    error:(out NSError **)error NS_DEPRECATED_MAC(10_0, 10_14) {
     switch (trustResult) {
-        case kSecTrustResultDeny:  // user-configured deny
-            if (error) {
-                *error = [SIGError errorWithCode:SIGErrorCodeTrustUserDeny];
-            }
-            break;
-        case kSecTrustResultOtherError:  // a failure other than that of trust evaluation
-        case kSecTrustResultInvalid:  // invalid setting or result
-            if (error) {
-                *error = [SIGError errorWithCode:SIGErrorCodeTrustMisconfiguration];
-            }
-            break;
-        case kSecTrustResultFatalTrustFailure:  // trust failure which cannot be overridden by the user
-        case kSecTrustResultRecoverableTrustFailure:  // a trust policy failure which can be overridden by the user
-            if (error) {
-                *error = [SIGError errorWithCode:SIGErrorCodeTrustFailed];
-            }
-            break;
+    case kSecTrustResultDeny:  // user-configured deny
+        if (error) {
+            *error = [SIGError errorWithCode:SIGErrorCodeTrustUserDeny];
+        }
+        break;
+    case kSecTrustResultOtherError:  // a failure other than that of trust evaluation
+    case kSecTrustResultInvalid:  // invalid setting or result
+        if (error) {
+            *error = [SIGError errorWithCode:SIGErrorCodeTrustMisconfiguration];
+        }
+        break;
+    case kSecTrustResultFatalTrustFailure:  // trust failure which cannot be overridden by the user
+    case kSecTrustResultRecoverableTrustFailure:  // a trust policy failure which can be overridden by the user
+        if (error) {
+            *error = [SIGError errorWithCode:SIGErrorCodeTrustFailed];
+        }
+        break;
 
-        case kSecTrustResultProceed:  // you may proceed
-        case kSecTrustResultUnspecified:  // the certificate is implicitly trusted, but user intent was not explicitly specified
-            if (error) {
-                *error = nil;
-            }
-            return YES;
-            break;
+    case kSecTrustResultProceed:  // you may proceed
+    case kSecTrustResultUnspecified:  // the certificate is implicitly trusted, but user intent was not explicitly specified
+        if (error) {
+            *error = nil;
+        }
+        return YES;
+        break;
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        case kSecTrustResultConfirm:
+    case kSecTrustResultConfirm:
 #pragma clang diagnostic pop
-            assert(NO);
-            break;
+        assert(NO);
+        break;
     }
     return NO;
 }

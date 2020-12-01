@@ -20,12 +20,12 @@
 - (id)initWithWhiteSpace:(NSString *)initWhiteSpace
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         [self setWhiteSpace:initWhiteSpace];
     }
-    
+
     return self;
 }
 
@@ -37,7 +37,7 @@
 - (void)dealloc
 {
     [whiteSpace release];
-    
+
     [super dealloc];
 }
 

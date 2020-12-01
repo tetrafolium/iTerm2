@@ -12,7 +12,7 @@
 
 
 - (NSString *)name {
-  return @"Dark High Contrast";
+    return @"Dark High Contrast";
 }
 
 - (BOOL)highVisibility {
@@ -28,7 +28,7 @@
 }
 
 - (NSColor *)accessoryTextColor {
-  return [NSColor whiteColor];
+    return [NSColor whiteColor];
 }
 
 - (NSColor *)backgroundColorSelected:(BOOL)selected highlightAmount:(CGFloat)highlightAmount {

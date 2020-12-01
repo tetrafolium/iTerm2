@@ -16,22 +16,22 @@
 {
     CPRule *r = [syntaxTree rule];
     NSArray *c = [syntaxTree children];
-    
+
     switch ([r tag])
     {
-        case 0:
-        case 2:
-            return [c objectAtIndex:0];
-        case 1:
-            return [NSNumber numberWithInt:[[c objectAtIndex:0] intValue] + [[c objectAtIndex:2] intValue]];
-        case 3:
-            return [NSNumber numberWithInt:[[c objectAtIndex:0] intValue] * [[c objectAtIndex:2] intValue]];
-        case 4:
-            return [(CPNumberToken *)[c objectAtIndex:0] number];
-        case 5:
-            return [c objectAtIndex:1];
-        default:
-            return syntaxTree;
+    case 0:
+    case 2:
+        return [c objectAtIndex:0];
+    case 1:
+        return [NSNumber numberWithInt:[[c objectAtIndex:0] intValue] + [[c objectAtIndex:2] intValue]];
+    case 3:
+        return [NSNumber numberWithInt:[[c objectAtIndex:0] intValue] * [[c objectAtIndex:2] intValue]];
+    case 4:
+        return [(CPNumberToken *)[c objectAtIndex:0] number];
+    case 5:
+        return [c objectAtIndex:1];
+    default:
+        return syntaxTree;
     }
 }
 

@@ -38,7 +38,7 @@
         *tokenPosition = [scanner scanLocation];
         return [CPWhiteSpaceToken whiteSpace:scannedString];
     }
-    
+
     return nil;
 }
 

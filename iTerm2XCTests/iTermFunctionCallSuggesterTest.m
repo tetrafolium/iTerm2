@@ -34,14 +34,17 @@
 - (void)setUp {
     [super setUp];
 
-    NSDictionary *signatures = @{ @"func1": @[ @"arg1", @"arg2" ],
-                                  @"func2": @[ ] };
+    NSDictionary *signatures = @ { @"func1":
+                                   @[ @"arg1", @"arg2" ],
+                                   @"func2":
+                                   @[ ]
+                                 };
     NSArray *paths = @[ @"path.first", @"path.second", @"third" ];
     _suggester =
         [[iTermFunctionCallSuggester alloc] initWithFunctionSignatures:signatures
-                                                            pathSource:^NSSet<NSString *> *(NSString *prefix) {
-                                                                return [NSSet setWithArray:paths];
-                                                            }];
+                                       pathSource:^NSSet<NSString *> *(NSString *prefix) {
+                                           return [NSSet setWithArray:paths];
+                                       }];
 
     _parser = [iTermExpressionParser expressionParser];
 }
@@ -109,8 +112,8 @@
     iTermParsedExpression *innerCall = [[iTermParsedExpression alloc] initWithFunctionCall:functionCall];
 
     iTermParsedExpression *xValue = [[iTermParsedExpression alloc] initWithInterpolatedStringParts:@[ [[iTermParsedExpression alloc] initWithString:@"foo"],
-                                                                                                      innerCall,
-                                                                                                      [[iTermParsedExpression alloc] initWithString:@"bar"] ]];
+                                                                   innerCall,
+                                                                   [[iTermParsedExpression alloc] initWithString:@"bar"] ]];
 
     functionCall = [[iTermScriptFunctionCall alloc] init];
     functionCall.name = @"func";
@@ -121,17 +124,20 @@
 }
 
 - (void)testParserReuse {
-    NSDictionary *signatures = @{ @"func1": @[ @"arg1", @"arg2" ],
-                                  @"func2": @[ ] };
+    NSDictionary *signatures = @ { @"func1":
+                                   @[ @"arg1", @"arg2" ],
+                                   @"func2":
+                                   @[ ]
+                                 };
     NSArray *paths = @[ @"path.first", @"path.second", @"third" ];
 
     CPLALR1Parser *firstInnerParser;
     @autoreleasepool {
         iTermFunctionCallSuggester *suggester =
         [[iTermFunctionCallSuggester alloc] initWithFunctionSignatures:signatures
-                                                            pathSource:^NSSet<NSString *> *(NSString *prefix) {
-                                                                return [NSSet setWithArray:paths];
-                                                            }];
+                                           pathSource:^NSSet<NSString *> *(NSString *prefix) {
+                                               return [NSSet setWithArray:paths];
+                                           }];
         firstInnerParser = suggester.parser;
         [suggester release];
     }
@@ -140,9 +146,9 @@
     @autoreleasepool {
         iTermFunctionCallSuggester *suggester =
         [[iTermFunctionCallSuggester alloc] initWithFunctionSignatures:signatures
-                                                            pathSource:^NSSet<NSString *> *(NSString *prefix) {
-                                                                return [NSSet setWithArray:paths];
-                                                            }];
+                                           pathSource:^NSSet<NSString *> *(NSString *prefix) {
+                                               return [NSSet setWithArray:paths];
+                                           }];
         secondInnerParser = suggester.parser;
         [suggester release];
     }

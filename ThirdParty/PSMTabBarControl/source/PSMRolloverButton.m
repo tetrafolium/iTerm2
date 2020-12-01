@@ -67,12 +67,12 @@ static const CGFloat PSMRolloverButtonMaxAlpha = 0.25;
 
 
     _trackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds
-                                                 options:(NSTrackingMouseEnteredAndExited |
-                                                          NSTrackingMouseMoved |
-                                                          NSTrackingCursorUpdate |
-                                                          NSTrackingActiveAlways)
-                                                   owner:self
-                                                userInfo:nil];
+                                            options:(NSTrackingMouseEnteredAndExited |
+                                                     NSTrackingMouseMoved |
+                                                     NSTrackingCursorUpdate |
+                                                     NSTrackingActiveAlways)
+                                            owner:self
+                                            userInfo:nil];
     [self setTargetAlpha:0];
     [self addTrackingArea:_trackingArea];
 }
@@ -102,10 +102,10 @@ static const CGFloat PSMRolloverButtonMaxAlpha = 0.25;
         _targetAlpha = targetAlpha;
         if (!_timer) {
             _timer = [NSTimer scheduledTimerWithTimeInterval:1.0 / PSMRolloverButtonFramesPerSecond
-                                                      target:self
-                                                    selector:@selector(updateBackgroundAlphaTimer:)
-                                                    userInfo:nil
-                                                     repeats:YES];
+                              target:self
+                              selector:@selector(updateBackgroundAlphaTimer:)
+                              userInfo:nil
+                              repeats:YES];
         }
     }
 }
@@ -132,10 +132,10 @@ static const CGFloat PSMRolloverButtonMaxAlpha = 0.25;
 - (void)mouseDown:(NSEvent *)theEvent {
     // eliminates drawing artifact
     [[NSRunLoop currentRunLoop] performSelector:@selector(display)
-                                         target:[self superview]
-                                       argument:nil
-                                          order:1
-                                          modes:@[ NSEventTrackingRunLoopMode, NSDefaultRunLoopMode ]];
+                                target:[self superview]
+                                argument:nil
+                                order:1
+                                modes:@[ NSEventTrackingRunLoopMode, NSDefaultRunLoopMode ]];
 }
 
 - (void)mouseUp:(NSEvent *)event {

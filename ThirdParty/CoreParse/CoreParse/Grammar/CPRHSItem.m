@@ -56,14 +56,14 @@
 {
     [_alternatives release];
     [_tags release];
-    
+
     [super dealloc];
 }
 
 - (NSString *)description
 {
     NSMutableString *desc = [NSMutableString string];
-    
+
     if ([[self alternatives] count] != 1 || [[[self alternatives] objectAtIndex:0] count] != 1)
     {
         [desc appendString:@"("];
@@ -85,7 +85,7 @@
                 [desc appendFormat:@"%@", comp];
             }
         }
-        
+
         if (i != [[self alternatives] count])
         {
             [desc appendString:@"| "];
@@ -149,7 +149,7 @@
 - (NSSet *)tagNamesWithError:(NSError **)err
 {
     NSMutableSet *tagNames = [NSMutableSet set];
-    
+
     for (NSArray *components in [self alternatives])
     {
         NSMutableSet *tagNamesInAlternative = [NSMutableSet set];
@@ -169,10 +169,10 @@
                     if (NULL != err)
                     {
                         *err = [NSError errorWithDomain:CPEBNFParserErrorDomain
-                                                   code:CPErrorCodeDuplicateTag
-                                               userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                         [NSString stringWithFormat:@"Duplicate tag names %@ in same part of alternative is not allowed in \"%@\".", duplicateTags, self], NSLocalizedDescriptionKey,
-                                                         nil]];
+                                        code:CPErrorCodeDuplicateTag
+                                        userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                                          [NSString stringWithFormat:@"Duplicate tag names %@ in same part of alternative is not allowed in \"%@\".", duplicateTags, self], NSLocalizedDescriptionKey,
+                                          nil]];
                     }
                     return nil;
                 }
@@ -187,10 +187,10 @@
                             NSMutableSet *intersection = [[tagNamesInAlternative mutableCopy] autorelease];
                             [intersection intersectSet:tns];
                             *err = [NSError errorWithDomain:CPEBNFParserErrorDomain
-                                                       code:CPErrorCodeDuplicateTag
-                                                   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                             [NSString stringWithFormat:@"Duplicate tag names (%@) in same part of alternative is not allowed in \"%@\".", intersection, self], NSLocalizedDescriptionKey,
-                                                             nil]];
+                                            code:CPErrorCodeDuplicateTag
+                                            userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                                              [NSString stringWithFormat:@"Duplicate tag names (%@) in same part of alternative is not allowed in \"%@\".", intersection, self], NSLocalizedDescriptionKey,
+                                              nil]];
                         }
                         return nil;
                     }
@@ -200,20 +200,20 @@
         }
         [tagNames unionSet:tagNamesInAlternative];
     }
-    
+
     if ([tagNames count] > 0 && [self repeats])
     {
         if (NULL != err)
         {
             *err = [NSError errorWithDomain:CPEBNFParserErrorDomain
-                                       code:CPErrorCodeDuplicateTag
-                                   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                                             [NSString stringWithFormat:@"Tag names are not allowed within repeating section of rule \"%@\".", self], NSLocalizedDescriptionKey,
-                                             nil]];
+                            code:CPErrorCodeDuplicateTag
+                            userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                              [NSString stringWithFormat:@"Tag names are not allowed within repeating section of rule \"%@\".", self], NSLocalizedDescriptionKey,
+                              nil]];
         }
         return nil;
     }
-    
+
     return tagNames;
 }
 

@@ -35,28 +35,28 @@ CF_EXTERN_C_BEGIN
 NS_ASSUME_NONNULL_BEGIN
 
 typedef enum {
-  GPBWireFormatVarint = 0,
-  GPBWireFormatFixed64 = 1,
-  GPBWireFormatLengthDelimited = 2,
-  GPBWireFormatStartGroup = 3,
-  GPBWireFormatEndGroup = 4,
-  GPBWireFormatFixed32 = 5,
+    GPBWireFormatVarint = 0,
+    GPBWireFormatFixed64 = 1,
+    GPBWireFormatLengthDelimited = 2,
+    GPBWireFormatStartGroup = 3,
+    GPBWireFormatEndGroup = 4,
+    GPBWireFormatFixed32 = 5,
 } GPBWireFormat;
 
 enum {
-  GPBWireFormatMessageSetItem = 1,
-  GPBWireFormatMessageSetTypeId = 2,
-  GPBWireFormatMessageSetMessage = 3
+    GPBWireFormatMessageSetItem = 1,
+    GPBWireFormatMessageSetTypeId = 2,
+    GPBWireFormatMessageSetMessage = 3
 };
 
 uint32_t GPBWireFormatMakeTag(uint32_t fieldNumber, GPBWireFormat wireType)
-    __attribute__((const));
+__attribute__((const));
 GPBWireFormat GPBWireFormatGetTagWireType(uint32_t tag) __attribute__((const));
 uint32_t GPBWireFormatGetTagFieldNumber(uint32_t tag) __attribute__((const));
 BOOL GPBWireFormatIsValidTag(uint32_t tag) __attribute__((const));
 
 GPBWireFormat GPBWireFormatForType(GPBDataType dataType, BOOL isPacked)
-    __attribute__((const));
+__attribute__((const));
 
 #define GPBWireFormatMessageSetItemTag \
   (GPBWireFormatMakeTag(GPBWireFormatMessageSetItem, GPBWireFormatStartGroup))

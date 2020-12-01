@@ -15,7 +15,7 @@
 {
     NSUInteger c = [self count];
     id *resultingObjects = malloc(c * sizeof(id));
-    
+
     NSUInteger nonNilCount = 0;
     for (id obj in self)
     {
@@ -26,7 +26,7 @@
             nonNilCount++;
         }
     }
-    
+
     NSSet *s = [NSSet setWithObjects:resultingObjects count:nonNilCount];
     free(resultingObjects);
     return s;

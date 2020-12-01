@@ -48,11 +48,11 @@ typedef NS_ENUM(NSInteger, NMSSHKnownHostStatus) {
 /// @name Setting the Delegate
 /// ----------------------------------------------------------------------------
 
-/**
- The receiver’s `delegate`.
+    /**
+     The receiver’s `delegate`.
 
- The `delegate` is sent messages when content is loading.
- */
+     The `delegate` is sent messages when content is loading.
+     */
 @property (nonatomic, nullable, weak) id<NMSSHSessionDelegate> delegate;
 
 /**
@@ -130,9 +130,9 @@ typedef NS_ENUM(NSInteger, NMSSHKnownHostStatus) {
      overridden by a config)
  */
 - (nonnull instancetype)initWithHost:(nonnull NSString *)host
-                             configs:(nonnull NSArray *)configs
-                     withDefaultPort:(NSInteger)defaultPort
-                     defaultUsername:(nonnull NSString *)defaultUsername;
+    configs:(nonnull NSArray *)configs
+    withDefaultPort:(NSInteger)defaultPort
+    defaultUsername:(nonnull NSString *)defaultUsername;
 
 /// ----------------------------------------------------------------------------
 /// @name Connection settings
@@ -234,8 +234,8 @@ typedef NS_ENUM(NSInteger, NMSSHKnownHostStatus) {
  @returns Authentication success
  */
 - (BOOL)authenticateByPublicKey:(nullable NSString *)publicKey
-                     privateKey:(nonnull NSString *)privateKey
-                    andPassword:(nullable NSString *)password;
+    privateKey:(nonnull NSString *)privateKey
+    andPassword:(nullable NSString *)password;
 
 /**
  Authenticate by private key pair
@@ -248,8 +248,8 @@ typedef NS_ENUM(NSInteger, NMSSHKnownHostStatus) {
  @returns Authentication success
  */
 - (BOOL)authenticateByInMemoryPublicKey:(nullable NSString *)publicKey
-                             privateKey:(nonnull NSString *)privateKey
-                            andPassword:(nullable NSString *)password;
+    privateKey:(nonnull NSString *)privateKey
+    andPassword:(nullable NSString *)password;
 
 /**
  Authenticate by keyboard-interactive using delegate.
@@ -334,9 +334,9 @@ typedef NS_ENUM(NSInteger, NMSSHKnownHostStatus) {
  @returns Success status.
  */
 - (BOOL)addKnownHostName:(nonnull NSString *)hostName
-                    port:(NSInteger)port
-                  toFile:(nullable NSString *)fileName
-                withSalt:(nullable NSString *)salt;
+    port:(NSInteger)port
+    toFile:(nullable NSString *)fileName
+    withSalt:(nullable NSString *)salt;
 
 /// ----------------------------------------------------------------------------
 /// @name Quick channel/sftp access

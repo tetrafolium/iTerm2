@@ -14,8 +14,8 @@
  platform.
  */
 typedef NS_ENUM(OSStatus, SSKeychainErrorCode) {
-	/** Some of the arguments were invalid. */
-	SSKeychainErrorBadArguments = -1001,
+    /** Some of the arguments were invalid. */
+    SSKeychainErrorBadArguments = -1001,
 };
 
 /** SSKeychain error domain */
@@ -60,17 +60,17 @@ extern NSString *const kSSKeychainWhereKey;
 
 #pragma mark - Classic methods
 
-/**
- Returns a string containing the password for a given account and service, or `nil` if the Keychain doesn't have a
- password for the given parameters.
+    /**
+     Returns a string containing the password for a given account and service, or `nil` if the Keychain doesn't have a
+     password for the given parameters.
 
- @param serviceName The service for which to return the corresponding password.
+     @param serviceName The service for which to return the corresponding password.
 
- @param account The account for which to return the corresponding password.
+     @param account The account for which to return the corresponding password.
 
- @return Returns a string containing the password for a given account and service, or `nil` if the Keychain doesn't
- have a password for the given parameters.
- */
+     @return Returns a string containing the password for a given account and service, or `nil` if the Keychain doesn't
+     have a password for the given parameters.
+     */
 + (NSString *)passwordForService:(NSString *)serviceName account:(NSString *)account;
 + (NSString *)passwordForService:(NSString *)serviceName account:(NSString *)account error:(NSError **)error;
 

@@ -4,19 +4,19 @@
 // This CPP symbol can be defined to use imports that match up to the framework
 // imports needed when using CocoaPods.
 #if !defined(GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS)
- #define GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS 0
+#define GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS 0
 #endif
 
 #if GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS
- #import <Protobuf/GPBProtocolBuffers_RuntimeSupport.h>
+#import <Protobuf/GPBProtocolBuffers_RuntimeSupport.h>
 #else
- #import "GPBProtocolBuffers_RuntimeSupport.h"
+#import "GPBProtocolBuffers_RuntimeSupport.h"
 #endif
 
 #if GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS
- #import <Protobuf/Empty.pbobjc.h>
+#import <Protobuf/Empty.pbobjc.h>
 #else
- #import "google/protobuf/Empty.pbobjc.h"
+#import "google/protobuf/Empty.pbobjc.h"
 #endif
 // @@protoc_insertion_point(imports)
 
@@ -35,16 +35,16 @@
 #pragma mark - GPBEmptyRoot_FileDescriptor
 
 static GPBFileDescriptor *GPBEmptyRoot_FileDescriptor(void) {
-  // This is called by +initialize so there is no need to worry
-  // about thread safety of the singleton.
-  static GPBFileDescriptor *descriptor = NULL;
-  if (!descriptor) {
-    GPB_DEBUG_CHECK_RUNTIME_VERSIONS();
-    descriptor = [[GPBFileDescriptor alloc] initWithPackage:@"google.protobuf"
-                                                 objcPrefix:@"GPB"
-                                                     syntax:GPBFileSyntaxProto3];
-  }
-  return descriptor;
+    // This is called by +initialize so there is no need to worry
+    // about thread safety of the singleton.
+    static GPBFileDescriptor *descriptor = NULL;
+    if (!descriptor) {
+        GPB_DEBUG_CHECK_RUNTIME_VERSIONS();
+        descriptor = [[GPBFileDescriptor alloc] initWithPackage:@"google.protobuf"
+                                                objcPrefix:@"GPB"
+                                                syntax:GPBFileSyntaxProto3];
+    }
+    return descriptor;
 }
 
 #pragma mark - GPBEmpty
@@ -53,26 +53,26 @@ static GPBFileDescriptor *GPBEmptyRoot_FileDescriptor(void) {
 
 
 typedef struct GPBEmpty__storage_ {
-  uint32_t _has_storage_[1];
+    uint32_t _has_storage_[1];
 } GPBEmpty__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
 + (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[GPBEmpty class]
-                                     rootClass:[GPBEmptyRoot class]
-                                          file:GPBEmptyRoot_FileDescriptor()
-                                        fields:NULL
-                                    fieldCount:0
-                                   storageSize:sizeof(GPBEmpty__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
+    static GPBDescriptor *descriptor = nil;
+    if (!descriptor) {
+        GPBDescriptor *localDescriptor =
+            [GPBDescriptor allocDescriptorForClass:[GPBEmpty class]
+                           rootClass:[GPBEmptyRoot class]
+                           file:GPBEmptyRoot_FileDescriptor()
+                           fields:NULL
+                           fieldCount:0
+                           storageSize:sizeof(GPBEmpty__storage_)
+                           flags:GPBDescriptorInitializationFlag_None];
+        NSAssert(descriptor == nil, @"Startup recursed!");
+        descriptor = localDescriptor;
+    }
+    return descriptor;
 }
 
 @end

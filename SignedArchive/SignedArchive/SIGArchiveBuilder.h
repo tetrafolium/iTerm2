@@ -20,12 +20,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) SIGIdentity *identity;
 
 - (instancetype)initWithPayloadFileURL:(NSURL *)payloadFileURL
-                              identity:(SIGIdentity *)identity NS_DESIGNATED_INITIALIZER;
+    identity:(SIGIdentity *)identity NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 
 - (BOOL)writeToURL:(NSURL *)url
-             error:(out NSError **)error;
+    error:(out NSError **)error;
 
 @end
 

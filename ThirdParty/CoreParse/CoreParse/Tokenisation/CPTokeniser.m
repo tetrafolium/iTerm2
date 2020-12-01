@@ -18,7 +18,7 @@ typedef struct
     unsigned int willProduceToken:1;
     unsigned int didNotFindTokenOnInputPositionError:1;
     unsigned int willFinish:1;
-    
+
 } CPTokeniserDelegateResponseCache;
 
 @interface CPTokeniser ()
@@ -41,12 +41,12 @@ typedef struct
 - (id)init
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         [self setTokenRecognisers:[NSMutableArray array]];
     }
-    
+
     return self;
 }
 
@@ -55,12 +55,12 @@ typedef struct
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         [self setTokenRecognisers:[aDecoder decodeObjectForKey:CPTokeniserTokenRecognisersKey]];
     }
-    
+
     return self;
 }
 
@@ -72,7 +72,7 @@ typedef struct
 - (void)dealloc
 {
     [tokenRecognisers release];
-    
+
     [super dealloc];
 }
 
@@ -104,9 +104,9 @@ typedef struct
 - (CPTokenStream *)tokenise:(NSString *)input
 {
     CPTokenStream *stream = [[[CPTokenStream alloc] init] autorelease];
-    
+
     [self tokenise:input into:stream];
-    
+
     return stream;
 }
 
@@ -117,7 +117,7 @@ typedef struct
     NSUInteger currentColumnNumber = 0;
     NSUInteger inputLength = [input length];
     NSArray *recs = [self tokenRecognisers];
-    
+
     while (currentTokenOffset < inputLength)
     {
         @autoreleasepool
@@ -133,7 +133,7 @@ typedef struct
                     [tok setColumnNumber:currentColumnNumber];
                     [tok setCharacterNumber:lastTokenOffset];
                     [tok setLength:currentTokenOffset - lastTokenOffset];
-                    
+
                     if (delegateRespondsTo.shouldConsumeToken)
                     {
                         if ([delegate tokeniser:self shouldConsumeToken:tok])
@@ -157,7 +157,7 @@ typedef struct
                     }
                 }
             }
-            
+
             if (!recognised)
             {
                 if (delegateRespondsTo.didNotFindTokenOnInputPositionError)
@@ -224,7 +224,7 @@ static CFCharacterSetRef newlineCharset = nil;
     {
         newlineCharset = (CFCharacterSetRef)[[NSCharacterSet characterSetWithCharactersInString:@"\n\r"] retain];
     });
-    
+
     CFRange searchRange = range;
     NSUInteger rangeEnd = range.location + range.length;
     CFRange foundRange;
@@ -249,10 +249,10 @@ static CFCharacterSetRef newlineCharset = nil;
 
 - (void)setDelegate:(id<CPTokeniserDelegate>)aDelegate
 {
-    if (delegate != aDelegate) 
+    if (delegate != aDelegate)
     {
         delegate = aDelegate;
-        
+
         delegateRespondsTo.shouldConsumeToken = [delegate respondsToSelector:@selector(tokeniser:shouldConsumeToken:)];
         delegateRespondsTo.requestsPush = [delegate respondsToSelector:@selector(tokeniser:requestsToken:pushedOntoStream:)];
         delegateRespondsTo.willProduceToken = [delegate respondsToSelector:@selector(tokeniser:willProduceToken:)];
