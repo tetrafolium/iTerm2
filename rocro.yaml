@@ -13,6 +13,10 @@ inspecode:
       auto-fix: true
       thresholds: {num-issues: 358}
 
+    autopep8:
+      auto-fix: true
+      thresholds: {num-issues: 999}
+
     clang-format:
     - input:  sources/*.h
       auto-fix: true
@@ -44,6 +48,9 @@ inspecode:
     # fortify:
     #   thresholds: {num-issues: 999}
 
+    flake8:
+      thresholds: {num-issues: 999}
+
     fossology:
       thresholds: {num-issues: 70}
 
@@ -60,6 +67,24 @@ inspecode:
       auto-fix: true
       thresholds: {num-issues: 76}
 
+    nose2:
+      thresholds: {num-issues: 999}
+
+    prospector:
+      thresholds: {num-issues: 999}
+
+    pycodestyle:
+      thresholds: {num-issues: 999}
+
+    pyflakes:
+      thresholds: {num-issues: 999}
+
+    pylint:
+      thresholds: {num-issues: 999}
+
+    pytest:
+      thresholds: {num-issues: 999}
+
     # scan-build:
     #   thresholds: {num-issues: 999}
 
@@ -74,3 +99,7 @@ inspecode:
     # unused:
     #   options: [--single-occurrence, --all-likelihoods]
     #   thresholds: {num-issues: 999}
+
+    yapf:
+      auto-fix: true
+      thresholds: {num-issues: 999}
