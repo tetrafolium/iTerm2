@@ -13,8 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSURL(iTerm)
 
 + (nullable NSURL *)urlByReplacingFormatSpecifier:(NSString *)formatSpecifier
-                                         inString:(NSString *)string
-                                        withValue:(NSString *)value;
+    inString:(NSString *)string
+    withValue:(NSString *)value;
 
 // Returns a URL that is the same but does not have a fragment.
 - (NSURL *)URLByRemovingFragment;

@@ -89,10 +89,10 @@
 {
     NSMutableString *d = [NSMutableString stringWithString:@"<PTYSplitView "];
     [d appendFormat:@"<%@:%p frame:%@ splitter:%@ [",
-        [self class],
-        self,
-        [NSValue valueWithRect:[self frame]],
-        [self isVertical] ? @"|" : @"--"];
+       [self class],
+       self,
+       [NSValue valueWithRect:[self frame]],
+       [self isVertical] ? @"|" : @"--"];
     for (NSView *view in [self subviews]) {
         [d appendFormat:@" (%@)", [view description]];
     }
@@ -176,8 +176,8 @@
 
     // Run our delegate method.
     [[self delegate] splitView:self
-         draggingDidEndOfSplit:clickedOnSplitterIndex
-                        pixels:changePx];
+                     draggingDidEndOfSplit:clickedOnSplitterIndex
+                     pixels:changePx];
 }
 
 - (void)didAddSubview:(NSView *)subview {
@@ -193,7 +193,7 @@
         return;
     }
     __weak __typeof(self) weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         __strong __typeof(self) strongSelf = weakSelf;
         if (!strongSelf) {
             return;
@@ -228,7 +228,7 @@
 }
 
 - (NSArray<PTYSplitViewDividerInfo *> *)transitiveDividerLocationsVertical:(BOOL)vertical
-                                                                      root:(PTYSplitView *)root {
+    root:(PTYSplitView *)root {
     const NSPoint originPoint = [root convertRect:self.bounds fromView:self].origin;
 
     NSMutableArray<PTYSplitViewDividerInfo *> *result = [NSMutableArray array];
@@ -246,14 +246,14 @@
                 dividerFrame = NSMakeRect(originPoint.x, offset, self.bounds.size.width, dividerThickness);
             }
             PTYSplitViewDividerInfo *info = [[PTYSplitViewDividerInfo alloc] initWithFrame:dividerFrame
-                                                                                  vertical:vertical];
+                                                                             vertical:vertical];
             [result addObject:info];
         }
         __kindof NSView *subview = self.subviews[i];
         if ([subview isKindOfClass:[PTYSplitView class]]) {
             PTYSplitView *childSplit = subview;
             [result addObjectsFromArray:[childSplit transitiveDividerLocationsVertical:vertical
-                                                                                  root:root]];
+                                         root:root]];
         }
         offset += dividerThickness;
     }

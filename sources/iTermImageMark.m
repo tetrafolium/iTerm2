@@ -41,9 +41,9 @@
 
 - (NSDictionary *)dictionaryValue {
     if (_imageCode) {
-        return @{ @"imageCode": _imageCode };
+        return @ { @"imageCode": _imageCode };
     } else {
-        return @{};
+        return @ {};
     }
 }
 

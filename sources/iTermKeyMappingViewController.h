@@ -24,14 +24,14 @@
 - (NSDictionary *)keyMappingTouchBarItems;
 
 - (void)keyMapping:(iTermKeyMappingViewController *)viewController
-     didChangeItem:(iTermKeystrokeOrTouchbarItem *)item
-           atIndex:(NSInteger)index
-          toAction:(iTermKeyBindingAction *)action
-        isAddition:(BOOL)addition;
+    didChangeItem:(iTermKeystrokeOrTouchbarItem *)item
+    atIndex:(NSInteger)index
+    toAction:(iTermKeyBindingAction *)action
+    isAddition:(BOOL)addition;
 
 - (void)keyMapping:(iTermKeyMappingViewController *)viewController
-  removeKeystrokes:(NSSet<iTermKeystroke *> *)keyCombos
-     touchbarItems:(NSSet<iTermTouchbarItem *> *)touchBarItems;
+    removeKeystrokes:(NSSet<iTermKeystroke *> *)keyCombos
+    touchbarItems:(NSSet<iTermTouchbarItem *> *)touchBarItems;
 
 - (NSArray *)keyMappingPresetNames:(iTermKeyMappingViewController *)viewController;
 

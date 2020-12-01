@@ -26,29 +26,29 @@ const CGFloat iTermStatusBarViewControllerMargin = 10;
 }
 
 + (instancetype)layoutAlgorithmWithContainerViews:(NSArray<iTermStatusBarContainerView *> *)containerViews
-                                    mandatoryView:(nullable iTermStatusBarContainerView *)mandatoryView
-                                   statusBarWidth:(CGFloat)statusBarWidth
-                                          setting:(iTermStatusBarLayoutAlgorithmSetting)setting
-                            removeEmptyComponents:(BOOL)removeEmptyComponents {
+    mandatoryView:(nullable iTermStatusBarContainerView *)mandatoryView
+    statusBarWidth:(CGFloat)statusBarWidth
+    setting:(iTermStatusBarLayoutAlgorithmSetting)setting
+    removeEmptyComponents:(BOOL)removeEmptyComponents {
     switch (setting) {
-        case iTermStatusBarLayoutAlgorithmSettingStable:
-            return [[iTermStatusBarStableLayoutAlgorithm alloc] initWithContainerViews:containerViews
-                                                                         mandatoryView:mandatoryView
-                                                                        statusBarWidth:statusBarWidth
-                                                                 removeEmptyComponents:removeEmptyComponents];
-        case iTermStatusBarLayoutAlgorithmSettingTightlyPacked:
-            return [[iTermStatusBarTightlyPackedLayoutAlgorithm alloc] initWithContainerViews:containerViews
-                                                                                mandatoryView:mandatoryView
-                                                                          statusBarWidth:statusBarWidth
-                                                                        removeEmptyComponents:removeEmptyComponents];
+    case iTermStatusBarLayoutAlgorithmSettingStable:
+        return [[iTermStatusBarStableLayoutAlgorithm alloc] initWithContainerViews:containerViews
+                                                            mandatoryView:mandatoryView
+                                                            statusBarWidth:statusBarWidth
+                                                            removeEmptyComponents:removeEmptyComponents];
+    case iTermStatusBarLayoutAlgorithmSettingTightlyPacked:
+        return [[iTermStatusBarTightlyPackedLayoutAlgorithm alloc] initWithContainerViews:containerViews
+                                                                   mandatoryView:mandatoryView
+                                                                   statusBarWidth:statusBarWidth
+                                                                   removeEmptyComponents:removeEmptyComponents];
     }
     return nil;
 }
 
 - (instancetype)initWithContainerViews:(NSArray<iTermStatusBarContainerView *> *)containerViews
-                         mandatoryView:(nonnull iTermStatusBarContainerView *)mandatoryView
-                        statusBarWidth:(CGFloat)statusBarWidth
-                 removeEmptyComponents:(BOOL)removeEmptyComponents {
+    mandatoryView:(nonnull iTermStatusBarContainerView *)mandatoryView
+    statusBarWidth:(CGFloat)statusBarWidth
+    removeEmptyComponents:(BOOL)removeEmptyComponents {
     self = [super init];
     if (self) {
         _mandatoryView = mandatoryView;

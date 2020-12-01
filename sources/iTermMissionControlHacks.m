@@ -12,7 +12,7 @@
 @implementation iTermMissionControlHacks
 
 + (CGEventRef)newEventToSwitchToSpace:(int)spaceNum  // 1 indexed
-                                 down:(BOOL)down {
+    down:(BOOL)down {
     NSUserDefaults *userDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"com.apple.symbolichotkeys"];
     const NSInteger action = 118 + spaceNum - 1;
     NSDictionary *dict = [NSDictionary castFrom:[userDefaults objectForKey:@"AppleSymbolicHotKeys"]];
@@ -53,23 +53,23 @@
 
 + (void)complainThatCantSwitchToSpace:(int)spaceNum fix:(NSString *)fix {
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         [[iTermNotificationController sharedInstance] notify:[NSString stringWithFormat:@"Can’t switch to desktop %d", spaceNum]
-                                             withDescription:fix];
+                                                      withDescription:fix];
     });
 }
 
 + (void)switchToSpace:(int)spaceNum {
-    if (!AXIsProcessTrustedWithOptions((__bridge CFDictionaryRef)@{(__bridge id)kAXTrustedCheckOptionPrompt: @YES})) {
+    if (!AXIsProcessTrustedWithOptions((__bridge CFDictionaryRef)@ {(__bridge id)kAXTrustedCheckOptionPrompt: @YES})) {
         [self complainThatCantSwitchToSpace:spaceNum
-                                        fix:@"You must grant iTerm2 accessibility permission in System Preferences > Security & Privacy."];
+              fix:@"You must grant iTerm2 accessibility permission in System Preferences > Security & Privacy."];
         return;
     }
     CGEventRef keyDownEvent = [self newEventToSwitchToSpace:spaceNum down:YES];
     CGEventRef keyUpEvent = [self newEventToSwitchToSpace:spaceNum down:NO];
     if (!keyDownEvent || !keyUpEvent) {
         [self complainThatCantSwitchToSpace:spaceNum
-                                        fix:@"You must enable shortcuts to switch desktops in System Preferences > Keyboard."];
+              fix:@"You must enable shortcuts to switch desktops in System Preferences > Keyboard."];
         if (keyDownEvent) {
             CFRelease(keyDownEvent);
         }

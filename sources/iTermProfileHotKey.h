@@ -51,21 +51,21 @@
 @property(nonatomic, readonly) NSString *profileGuid;
 
 - (instancetype)initWithShortcuts:(NSArray<iTermShortcut *> *)shortcuts
-            hasModifierActivation:(BOOL)hasModifierActivation
-               modifierActivation:(iTermHotKeyModifierActivation)modifierActivation
-                          profile:(Profile *)profile NS_DESIGNATED_INITIALIZER;
+    hasModifierActivation:(BOOL)hasModifierActivation
+    modifierActivation:(iTermHotKeyModifierActivation)modifierActivation
+    profile:(Profile *)profile NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithShortcuts:(NSArray<iTermShortcut *> *)shortcuts
-            hasModifierActivation:(BOOL)hasModifierActivation
-               modifierActivation:(iTermHotKeyModifierActivation)modifierActivation NS_UNAVAILABLE;
+    hasModifierActivation:(BOOL)hasModifierActivation
+    modifierActivation:(iTermHotKeyModifierActivation)modifierActivation NS_UNAVAILABLE;
 
 // Hide the hotkey window. If `suppressHideApp` is set then do not hide and then unhide
 // iTerm after the hotkey window is dismissed (which would normally happen if iTerm2 was not the
 // active app when the hotkey window was shown). The hide-unhide cycles moves all the iTerm2 windows
 // behind the next app.
 - (void)hideHotKeyWindowAnimated:(BOOL)animated
-                 suppressHideApp:(BOOL)suppressHideApp
-                otherIsRollingIn:(BOOL)otherIsRollingIn;
+    suppressHideApp:(BOOL)suppressHideApp
+    otherIsRollingIn:(BOOL)otherIsRollingIn;
 
 // Erase the restorable state since it won't be needed after the last session is gone. We wouldn't
 // want to restore a defunct session.

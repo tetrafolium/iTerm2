@@ -19,30 +19,30 @@
 
 - (void)snippetsDidChange:(iTermSnippetsDidChangeNotification *)notification {
     switch (notification.mutationType) {
-        case iTermSnippetsDidChangeMutationTypeEdit:
-            [self reloadIndex:notification.index];
-            break;
-        case iTermSnippetsDidChangeMutationTypeDeletion:
-            [self deleteIndexes:notification.indexSet];
-            break;
-        case iTermSnippetsDidChangeMutationTypeInsertion:
-            [self insertAtIndex:notification.index];
-            break;
-        case iTermSnippetsDidChangeMutationTypeMove:
-            [self moveIndexes:notification.indexSet to:notification.index];
-            break;
-        case iTermSnippetsDidChangeMutationTypeFullReplacement:
-            [self reload];
-            break;
+    case iTermSnippetsDidChangeMutationTypeEdit:
+        [self reloadIndex:notification.index];
+        break;
+    case iTermSnippetsDidChangeMutationTypeDeletion:
+        [self deleteIndexes:notification.indexSet];
+        break;
+    case iTermSnippetsDidChangeMutationTypeInsertion:
+        [self insertAtIndex:notification.index];
+        break;
+    case iTermSnippetsDidChangeMutationTypeMove:
+        [self moveIndexes:notification.indexSet to:notification.index];
+        break;
+    case iTermSnippetsDidChangeMutationTypeFullReplacement:
+        [self reload];
+        break;
     }
 }
 
 - (void)reload {
     [self.menu removeAllItems];
     [[[iTermSnippetsModel sharedInstance] snippets] enumerateObjectsUsingBlock:
-     ^(iTermSnippet * _Nonnull snippet, NSUInteger idx, BOOL * _Nonnull stop) {
-        [self add:snippet];
-    }];
+                                         ^(iTermSnippet * _Nonnull snippet, NSUInteger idx, BOOL * _Nonnull stop) {
+                                             [self add:snippet];
+                                         }];
 }
 
 - (NSMenu *)menu {
@@ -59,7 +59,7 @@
 
 - (void)add:(iTermSnippet *)snippet {
     NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:snippet.title
-                                                  action:@selector(sendSnippet:)
+                                           action:@selector(sendSnippet:)
                                            keyEquivalent:@""];
     item.representedObject = snippet;
     [self.menu addItem:item];
@@ -74,8 +74,8 @@
 
 - (void)deleteIndexes:(NSIndexSet *)indexes {
     [indexes enumerateIndexesWithOptions:NSEnumerationReverse usingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
-        [self.menu removeItemAtIndex:idx];
-    }];
+                [self.menu removeItemAtIndex:idx];
+            }];
 }
 
 - (void)insertAtIndex:(NSInteger)index {

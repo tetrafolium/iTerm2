@@ -83,13 +83,13 @@ extern NSString *const TERMINAL_ARRANGEMENT_PROFILE_GUID;
 // there is already a hotkey window for this role, in which case it should be made visible and resume
 // life as a regular window.
 - (BOOL)addRevivedHotkeyWindowController:(PseudoTerminal *)windowController
-                      forProfileWithGUID:(NSString *)guid;
+    forProfileWithGUID:(NSString *)guid;
 
 // Use this when creating a window that might be a hotkey window. Generally iTermProfileHotkey creates
 // its own windows, but that's not the case for e.g. tmux windows. Returns the iTermProfileHotKey if
 // the window controller was assigned a shotkey or nil if not.
 - (iTermProfileHotKey *)didCreateWindowController:(PseudoTerminal *)windowController
-                                      withProfile:(Profile *)profile;
+    withProfile:(Profile *)profile;
 
 // Hide all hotkey windows without animation. Used by Exposé All Tabs.
 - (void)fastHideAllHotKeyWindows;

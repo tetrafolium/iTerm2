@@ -76,9 +76,9 @@ void iTermPosixMoveFileDescriptors(int *orig, int count) {
 // dies.
 // IMPORTANT: This runs between fork and exec. Careful what you do.
 static void iTermPosixTTYReplacementLoginTTY(int master,
-                                             int slave,
-                                             int serverSocketFd,
-                                             int deadMansPipeWriteEnd) {
+        int slave,
+        int serverSocketFd,
+        int deadMansPipeWriteEnd) {
     setsid();
     ioctl(slave, TIOCSCTTY, NULL);
 
@@ -102,23 +102,23 @@ int iTermPosixTTYReplacementForkPty(int *amaster,
     iTermFileDescriptorServerLog("Calling fork");
     pid_t pid = fork();
     switch (pid) {
-        case -1:
-            // error
-            iTermFileDescriptorServerLog("Fork failed: %s", strerror(errno));
-            return -1;
+    case -1:
+        // error
+        iTermFileDescriptorServerLog("Fork failed: %s", strerror(errno));
+        return -1;
 
-        case 0:
-            // child
-            iTermPosixTTYReplacementLoginTTY(master, slave, serverSocketFd, deadMansPipeWriteEnd);
-            return 0;
+    case 0:
+        // child
+        iTermPosixTTYReplacementLoginTTY(master, slave, serverSocketFd, deadMansPipeWriteEnd);
+        return 0;
 
-        default:
-            // parent
-            *amaster = master;
-            close(slave);
-            close(serverSocketFd);
-            close(deadMansPipeWriteEnd);
-            return pid;
+    default:
+        // parent
+        *amaster = master;
+        close(slave);
+        close(serverSocketFd);
+        close(deadMansPipeWriteEnd);
+        return pid;
     }
 }
 

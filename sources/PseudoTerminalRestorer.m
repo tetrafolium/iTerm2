@@ -100,9 +100,9 @@ static BOOL gExternalRestorationDidComplete;
     } else {
         if (gPostRestorationCompletionBlock) {
             void (^oldBlock)(void) = [[gPostRestorationCompletionBlock retain] autorelease];
-            gPostRestorationCompletionBlock = [^{
-                DLog(@"call older postrestoration block");
-                oldBlock();
+            gPostRestorationCompletionBlock = [^ {
+                  DLog(@"call older postrestoration block");
+                  oldBlock();
                 [oldBlock release];
                 postRestorationCompletionBlock();
             } copy];
@@ -119,12 +119,12 @@ static BOOL gExternalRestorationDidComplete;
 }
 
 + (void)restoreWindowWithIdentifier:(NSString *)identifier
-                              state:(NSCoder *)state
-                  completionHandler:(void (^)(NSWindow *, NSError *))completionHandler {
+    state:(NSCoder *)state
+    completionHandler:(void (^)(NSWindow *, NSError *))completionHandler {
     [self restoreWindowWithIdentifier:identifier
-                  pseudoTerminalState:[[[PseudoTerminalState alloc] initWithCoder:state] autorelease]
-                               system:YES
-                    completionHandler:completionHandler];
+          pseudoTerminalState:[[[PseudoTerminalState alloc] initWithCoder:state] autorelease]
+          system:YES
+          completionHandler:completionHandler];
 }
 
 + (BOOL)shouldIgnoreOpenUntitledFile {
@@ -132,9 +132,9 @@ static BOOL gExternalRestorationDidComplete;
 }
 
 + (void)restoreWindowWithIdentifier:(NSString *)identifier
-                pseudoTerminalState:(PseudoTerminalState *)state
-                             system:(BOOL)system
-                  completionHandler:(void (^)(NSWindow *, NSError *))completionHandler {
+    pseudoTerminalState:(PseudoTerminalState *)state
+    system:(BOOL)system
+    completionHandler:(void (^)(NSWindow *, NSError *))completionHandler {
     if (system && [iTermUserDefaults ignoreSystemWindowRestoration]) {
         DLog(@"Ignore system window restoration because we're using our own restorable state controller.");
         gShouldIgnoreOpenUntitledFile = YES;
@@ -186,11 +186,11 @@ static BOOL gExternalRestorationDidComplete;
     NSDictionary *arrangement = [state.arrangement retain];
     if (arrangement) {
         DLog(@"Have an arrangement");
-        VoidBlock theBlock = ^{
+        VoidBlock theBlock = ^ {
             DLog(@"PseudoTerminalRestorer block running for id %@", identifier);
             DLog(@"Creating term");
             PseudoTerminal *term = [PseudoTerminal bareTerminalWithArrangement:arrangement
-                                                      forceOpeningHotKeyWindow:NO];
+                                                   forceOpeningHotKeyWindow:NO];
             [arrangement autorelease];
             DLog(@"Create a new terminal %@", term);
             if (!term) {
@@ -206,29 +206,29 @@ static BOOL gExternalRestorationDidComplete;
             // to do with those, and we'd set it to some crazy wrong size.
             // Normal, top, and bottom windows take care of themselves.
             switch ([term windowType]) {
-                case WINDOW_TYPE_TRADITIONAL_FULL_SCREEN:
-                case WINDOW_TYPE_TOP:
-                case WINDOW_TYPE_TOP_PARTIAL:
-                case WINDOW_TYPE_BOTTOM:
-                case WINDOW_TYPE_BOTTOM_PARTIAL:
-                case WINDOW_TYPE_MAXIMIZED:
-                case WINDOW_TYPE_COMPACT_MAXIMIZED:
-                    DLog(@"Canonicalizing window frame");
-                    [term performSelector:@selector(canonicalizeWindowFrame)
-                               withObject:nil
-                               afterDelay:0];
-                    break;
+            case WINDOW_TYPE_TRADITIONAL_FULL_SCREEN:
+            case WINDOW_TYPE_TOP:
+            case WINDOW_TYPE_TOP_PARTIAL:
+            case WINDOW_TYPE_BOTTOM:
+            case WINDOW_TYPE_BOTTOM_PARTIAL:
+            case WINDOW_TYPE_MAXIMIZED:
+            case WINDOW_TYPE_COMPACT_MAXIMIZED:
+                DLog(@"Canonicalizing window frame");
+                [term performSelector:@selector(canonicalizeWindowFrame)
+                      withObject:nil
+                      afterDelay:0];
+                break;
 
-                case WINDOW_TYPE_LEFT:
-                case WINDOW_TYPE_RIGHT:
-                case WINDOW_TYPE_NORMAL:
-                case WINDOW_TYPE_LEFT_PARTIAL:
-                case WINDOW_TYPE_NO_TITLE_BAR:
-                case WINDOW_TYPE_COMPACT:
-                case WINDOW_TYPE_RIGHT_PARTIAL:
-                case WINDOW_TYPE_LION_FULL_SCREEN:
-                case WINDOW_TYPE_ACCESSORY:
-                    break;
+            case WINDOW_TYPE_LEFT:
+            case WINDOW_TYPE_RIGHT:
+            case WINDOW_TYPE_NORMAL:
+            case WINDOW_TYPE_LEFT_PARTIAL:
+            case WINDOW_TYPE_NO_TITLE_BAR:
+            case WINDOW_TYPE_COMPACT:
+            case WINDOW_TYPE_RIGHT_PARTIAL:
+            case WINDOW_TYPE_LION_FULL_SCREEN:
+            case WINDOW_TYPE_ACCESSORY:
+                break;
             }
 
             DLog(@"Invoking completion handler");

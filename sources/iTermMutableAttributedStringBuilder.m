@@ -20,9 +20,9 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p %@>",
-	   NSStringFromClass([self class]),
-	   self,
-	   [[[NSString alloc] initWithCharacters:[self characters] length:[self length]] autorelease]];
+                     NSStringFromClass([self class]),
+                     self,
+                     [[[NSString alloc] initWithCharacters:[self characters] length:[self length]] autorelease]];
 }
 
 - (void)dealloc {
@@ -75,7 +75,7 @@
     self = [super init];
     if (self) {
 #if ENABLE_TEXT_DRAWING_FAST_PATH
-    _canUseFastPath = [iTermAdvancedSettingsModel preferSpeedToFullLigatureSupport];
+        _canUseFastPath = [iTermAdvancedSettingsModel preferSpeedToFullLigatureSupport];
 #endif
     }
     return self;
@@ -111,7 +111,7 @@
         iTermCheapAttributedString *cheap = [(id)_attributedString autorelease];
         _attributedString = nil;
         [self appendRealAttributedStringWithText:[NSString stringWithCharacters:cheap.characters length:cheap.length]
-                                      attributes:cheap.attributes];
+              attributes:cheap.attributes];
         [_string setString:@""];
         [_characterData setLength:0];
     }
@@ -131,7 +131,7 @@
         [_attributedString beginEditing];
     }
     [_attributedString appendAttributedString:[NSAttributedString attributedStringWithString:string
-                                                                                  attributes:attributes]];
+                              attributes:attributes]];
 }
 
 - (id<iTermAttributedString>)attributedString {

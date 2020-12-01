@@ -47,7 +47,7 @@
 @property (nonatomic, readonly) NSString *treeString;
 
 - (iTermProcessInfo *)addProcessWithProcessID:(pid_t)processID
-                              parentProcessID:(pid_t)parentProcessID;
+    parentProcessID:(pid_t)parentProcessID;
 
 - (void)commit;
 

@@ -29,11 +29,11 @@ NSString *const iTermLoggingHelperErrorNotificationGUIDKey = @"guid";
 
 + (void)observeNotificationsWithHandler:(void (^)(NSString * _Nonnull))handler {
     [[NSNotificationCenter defaultCenter] addObserverForName:iTermLoggingHelperErrorNotificationName
-                                                      object:nil
-                                                       queue:nil
-                                                  usingBlock:^(NSNotification * _Nonnull notification) {
-        NSString *guid = notification.userInfo[iTermLoggingHelperErrorNotificationGUIDKey];
-        if (!guid) {
+                                          object:nil
+                                          queue:nil
+                                         usingBlock:^(NSNotification * _Nonnull notification) {
+                                             NSString *guid = notification.userInfo[iTermLoggingHelperErrorNotificationGUIDKey];
+                                             if (!guid) {
             return;
         }
         handler(guid);
@@ -41,8 +41,8 @@ NSString *const iTermLoggingHelperErrorNotificationGUIDKey = @"guid";
 }
 
 - (instancetype)initWithRawLogger:(id<iTermLogging>)rawLogger
-                      plainLogger:(id<iTermLogging>)plainLogger
-                      profileGUID:(NSString *)profileGUID {
+    plainLogger:(id<iTermLogging>)plainLogger
+    profileGUID:(NSString *)profileGUID {
     self = [super init];
     if (self) {
         _path = nil;
@@ -96,14 +96,14 @@ NSString *const iTermLoggingHelperErrorNotificationGUIDKey = @"guid";
 }
 
 - (void)close {
-    dispatch_async(_queue, ^{
+    dispatch_async(_queue, ^ {
         [self.fileHandle closeFile];
         self.fileHandle = nil;
     });
 }
 
 - (void)start {
-    dispatch_async(_queue, ^{
+    dispatch_async(_queue, ^ {
         [self.fileHandle closeFile];
         self.fileHandle = nil;
         self.fileHandle = [self newFileHandle];
@@ -111,11 +111,11 @@ NSString *const iTermLoggingHelperErrorNotificationGUIDKey = @"guid";
             self->_needsTimestamp = YES;
         } else {
             self->_enabled = NO;
-            dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_main_queue(), ^ {
                 [[iTermNotificationController sharedInstance] postNotificationWithTitle:@"Couldn’t write to session log"
-                                                                                 detail:self.path
-                                                               callbackNotificationName:iTermLoggingHelperErrorNotificationName
-                                                           callbackNotificationUserInfo:@{ iTermLoggingHelperErrorNotificationGUIDKey: self->_profileGUID ?: @"" }];
+                                                              detail:self.path
+                                                              callbackNotificationName:iTermLoggingHelperErrorNotificationName
+                                             callbackNotificationUserInfo:@{ iTermLoggingHelperErrorNotificationGUIDKey: self->_profileGUID ?: @"" }];
             });
         }
     });
@@ -146,7 +146,7 @@ NSString *const iTermLoggingHelperErrorNotificationGUIDKey = @"guid";
 }
 
 - (void)logData:(NSData *)data {
-    dispatch_async(_queue, ^{
+    dispatch_async(_queue, ^ {
         if (self.plainText && self->_needsTimestamp) {
             self->_needsTimestamp = NO;
             [self queueLogTimestamp];
@@ -164,14 +164,14 @@ NSString *const iTermLoggingHelperErrorNotificationGUIDKey = @"guid";
         DLog(@"Exception while logging %@ bytes of data: %@", @(data.length), exception);
         [self.fileHandle closeFile];
         self.fileHandle = nil;
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^ {
             self->_enabled = NO;
         });
     }
 }
 
 - (void)logNewline {
-    dispatch_async(_queue, ^{
+    dispatch_async(_queue, ^ {
         [self queueLogData:[NSData dataWithBytesNoCopy:"\n" length:1 freeWhenDone:NO]];
         self->_needsTimestamp = YES;
     });
@@ -184,11 +184,11 @@ NSString *const iTermLoggingHelperErrorNotificationGUIDKey = @"guid";
     }
     static NSDateFormatter *dateFormatter;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         dateFormatter = [[NSDateFormatter alloc] init];
         dateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"yyyy-MM-dd hh.mm.ss.SSS"
-                                                                   options:0
-                                                                    locale:[NSLocale currentLocale]];
+                                                    options:0
+                                                    locale:[NSLocale currentLocale]];
     });
     NSString *dateString = [NSString stringWithFormat:@"[%@] ", [dateFormatter stringFromDate:[NSDate date]]];
     [self queueLogData:[dateString dataUsingEncoding:NSUTF8StringEncoding]];

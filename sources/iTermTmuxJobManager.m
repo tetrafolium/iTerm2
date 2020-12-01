@@ -27,7 +27,7 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p read-only-fd=%d tty=%@>",
-            NSStringFromClass([self class]), self, _fd, _tty];
+                     NSStringFromClass([self class]), self, _fd, _tty];
 }
 
 - (pid_t)serverPid {
@@ -58,25 +58,25 @@
 }
 
 - (void)forkAndExecWithTtyState:(iTermTTYState)ttyState
-                        argpath:(NSString *)argpath
-                           argv:(NSArray<NSString *> *)argv
-                     initialPwd:(NSString *)initialPwd
-                     newEnviron:(NSArray<NSString *> *)newEnviron
-                           task:(id<iTermTask>)task
-                     completion:(void (^)(iTermJobManagerForkAndExecStatus))completion  {
+    argpath:(NSString *)argpath
+    argv:(NSArray<NSString *> *)argv
+    initialPwd:(NSString *)initialPwd
+    newEnviron:(NSArray<NSString *> *)newEnviron
+    task:(id<iTermTask>)task
+    completion:(void (^)(iTermJobManagerForkAndExecStatus))completion  {
     assert(NO);
 }
 
 - (void)attachToServer:(iTermGeneralServerConnection)serverConnection
-         withProcessID:(NSNumber *)thePid
-                  task:(id<iTermTask>)task
-            completion:(void (^)(iTermJobManagerAttachResults results))completion {
+    withProcessID:(NSNumber *)thePid
+    task:(id<iTermTask>)task
+    completion:(void (^)(iTermJobManagerAttachResults results))completion {
     assert(NO);
 }
 
 - (iTermJobManagerAttachResults)attachToServer:(iTermGeneralServerConnection)serverConnection
-                                 withProcessID:(NSNumber *)thePid
-                                          task:(id<iTermTask>)task {
+    withProcessID:(NSNumber *)thePid
+    task:(id<iTermTask>)task {
     assert(NO);
 }
 

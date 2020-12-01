@@ -13,7 +13,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-@interface iTermRestorableStateRestorerIndex: NSObject<iTermRestorableStateIndex>
+@interface iTermRestorableStateRestorerIndex : NSObject<iTermRestorableStateIndex>
 @property (nonatomic, readonly) NSArray<NSDictionary *> *entries;
 @property (nonatomic, readonly) NSURL *url;
 @end
@@ -63,14 +63,14 @@
 }
 
 - (void)restoreWindowWithRecord:(id<iTermRestorableStateRecord>)record
-                     completion:(void (^)(void))completion {
+    completion:(void (^)(void))completion {
     NSKeyedUnarchiver *unarchiver = record.unarchiver;
     [self.delegate restorableStateRestoreWithCoder:unarchiver
-                                        identifier:record.identifier
-                                        completion:^(NSWindow * _Nonnull window, NSError * _Nonnull error) {
-        if ([window.delegate respondsToSelector:@selector(window:didDecodeRestorableState:)]) {
-            [window.delegate window:window didDecodeRestorableState:unarchiver];
-        }
+                   identifier:record.identifier
+                  completion:^(NSWindow * _Nonnull window, NSError * _Nonnull error) {
+                      if ([window.delegate respondsToSelector:@selector(window:didDecodeRestorableState:)]) {
+                          [window.delegate window:window didDecodeRestorableState:unarchiver];
+                      }
         [unarchiver finishDecoding];
         completion();
     }];

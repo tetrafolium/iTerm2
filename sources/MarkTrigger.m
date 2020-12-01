@@ -60,8 +60,9 @@ typedef enum {
 
 - (NSDictionary *)menuItemsForPoupupButton
 {
-    return @{ @(kMarkTriggerParamTagKeepScrolling): @"Keep Scrolling",
-              @(kMarkTriggerParamTagStopScrolling): @"Stop Scrolling" };
+    return @ { @(kMarkTriggerParamTagKeepScrolling): @"Keep Scrolling",
+               @(kMarkTriggerParamTagStopScrolling): @"Stop Scrolling"
+             };
 }
 
 - (BOOL)shouldStopScrolling {
@@ -69,13 +70,13 @@ typedef enum {
 }
 
 - (BOOL)performActionWithCapturedStrings:(NSString *const *)capturedStrings
-                          capturedRanges:(const NSRange *)capturedRanges
-                            captureCount:(NSInteger)captureCount
-                               inSession:(PTYSession *)aSession
-                                onString:(iTermStringLine *)stringLine
-                    atAbsoluteLineNumber:(long long)lineNumber
-                        useInterpolation:(BOOL)useInterpolation
-                                    stop:(BOOL *)stop {
+    capturedRanges:(const NSRange *)capturedRanges
+    captureCount:(NSInteger)captureCount
+    inSession:(PTYSession *)aSession
+    onString:(iTermStringLine *)stringLine
+    atAbsoluteLineNumber:(long long)lineNumber
+    useInterpolation:(BOOL)useInterpolation
+    stop:(BOOL *)stop {
     [aSession.screen terminalSaveScrollPositionWithArgument:@"saveCursorLine"];
     if ([self shouldStopScrolling]) {
         [[aSession.view.scrollview ptyVerticalScroller] setUserScroll:YES];

@@ -15,11 +15,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSString *cached;  // cached fullString
 
 - (instancetype)initWithPath:(nullable NSString *)path
-               configuration:(NSDictionary<iTermStatusBarComponentConfigurationKey, id> *)configuration
-                       scope:(iTermVariableScope *)scope NS_DESIGNATED_INITIALIZER;
+    configuration:(NSDictionary<iTermStatusBarComponentConfigurationKey, id> *)configuration
+    scope:(iTermVariableScope *)scope NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithConfiguration:(NSDictionary<iTermStatusBarComponentConfigurationKey, id> *)configuration
-                                scope:(nullable iTermVariableScope *)scope;
+    scope:(nullable iTermVariableScope *)scope;
 
 // If you override stringVariants you don't need to provide this.
 - (nullable NSString *)stringByCompressingString:(NSString *)source;
@@ -30,29 +30,29 @@ NS_ASSUME_NONNULL_BEGIN
 @interface iTermStatusBarHostnameComponent : iTermStatusBarVariableBaseComponent
 
 - (instancetype)initWithConfiguration:(NSDictionary<iTermStatusBarComponentConfigurationKey, id> *)configuration
-                                scope:(nullable iTermVariableScope *)scope NS_DESIGNATED_INITIALIZER;
+    scope:(nullable iTermVariableScope *)scope NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithPath:(nullable NSString *)path
-               configuration:(NSDictionary<iTermStatusBarComponentConfigurationKey, id> *)configuration
-                       scope:(iTermVariableScope *)scope NS_UNAVAILABLE;
+    configuration:(NSDictionary<iTermStatusBarComponentConfigurationKey, id> *)configuration
+    scope:(iTermVariableScope *)scope NS_UNAVAILABLE;
 @end
 
 @interface iTermStatusBarUsernameComponent : iTermStatusBarVariableBaseComponent
 
 - (instancetype)initWithConfiguration:(NSDictionary<iTermStatusBarComponentConfigurationKey, id> *)configuration
-                                scope:(nullable iTermVariableScope *)scope NS_DESIGNATED_INITIALIZER;
+    scope:(nullable iTermVariableScope *)scope NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithPath:(nullable NSString *)path
-               configuration:(NSDictionary<iTermStatusBarComponentConfigurationKey, id> *)configuration
-                       scope:(iTermVariableScope *)scope NS_UNAVAILABLE;
+    configuration:(NSDictionary<iTermStatusBarComponentConfigurationKey, id> *)configuration
+    scope:(iTermVariableScope *)scope NS_UNAVAILABLE;
 
 @end
 
 @interface iTermStatusBarWorkingDirectoryComponent : iTermStatusBarVariableBaseComponent
 
 - (instancetype)initWithConfiguration:(NSDictionary<iTermStatusBarComponentConfigurationKey, id> *)configuration
-                                scope:(nullable iTermVariableScope *)scope NS_DESIGNATED_INITIALIZER;
+    scope:(nullable iTermVariableScope *)scope NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithPath:(nullable NSString *)path
-               configuration:(NSDictionary<iTermStatusBarComponentConfigurationKey, id> *)configuration
-                       scope:(iTermVariableScope *)scope NS_UNAVAILABLE;
+    configuration:(NSDictionary<iTermStatusBarComponentConfigurationKey, id> *)configuration
+    scope:(iTermVariableScope *)scope NS_UNAVAILABLE;
 
 @end
 

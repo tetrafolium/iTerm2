@@ -67,7 +67,7 @@ static const NSTimeInterval kMaxTimeToRememberDirectories = 60 * 60 * 24 * 90;
 + (instancetype)sharedInstance {
     static id instance;
     static dispatch_once_t once;
-    dispatch_once(&once, ^{
+    dispatch_once(&once, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -121,15 +121,15 @@ static const NSTimeInterval kMaxTimeToRememberDirectories = 60 * 60 * 24 * 90;
 - (NSString *)pathForFileNamed:(NSString *)name {
     NSString *path;
     path = [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory,
-                                                NSUserDomainMask,
-                                                YES) lastObject];
+            NSUserDomainMask,
+            YES) lastObject];
     NSString *appname =
         [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleNameKey];
     path = [path stringByAppendingPathComponent:appname];
     [[NSFileManager defaultManager] createDirectoryAtPath:path
-                              withIntermediateDirectories:YES
-                                               attributes:nil
-                                                    error:NULL];
+                                    withIntermediateDirectories:YES
+                                    attributes:nil
+                                    error:NULL];
     if (name) {
         return [path stringByAppendingPathComponent:name];
     } else {
@@ -198,18 +198,21 @@ static const NSTimeInterval kMaxTimeToRememberDirectories = 60 * 60 * 24 * 90;
         storeType = NSInMemoryStoreType;
     }
 
-    NSDictionary *options = @{ NSInferMappingModelAutomaticallyOption: @YES,
-                               NSMigratePersistentStoresAutomaticallyOption: @YES };
+    NSDictionary *options = @ { NSInferMappingModelAutomaticallyOption:
+                                @YES,
+                                NSMigratePersistentStoresAutomaticallyOption:
+                                @YES
+                              };
     if (vacuum) {
-        options = @{ NSSQLiteManualVacuumOption: @YES };
+        options = @ { NSSQLiteManualVacuumOption: @YES };
     }
     // An exception will be thrown here during the unit test that checks database corruption.
     // This is expected, just hit continue.
     [persistentStoreCoordinator addPersistentStoreWithType:storeType
-                                             configuration:nil
-                                                       URL:storeURL
-                                                   options:options
-                                                     error:&error];
+                                configuration:nil
+                                URL:storeURL
+                                options:options
+                                error:&error];
     if (error) {
         NSLog(@"Got an exception when opening the command history database: %@", error);
         if (![self shouldSaveToDisk]) {
@@ -244,9 +247,9 @@ static const NSTimeInterval kMaxTimeToRememberDirectories = 60 * 60 * 24 * 90;
 - (void)makeDatabaseReadableOnlyByUser {
     NSString *basePath = [self pathForFileNamed:nil];
     NSDirectoryEnumerator<NSURL *> *enumerator = [[NSFileManager defaultManager] enumeratorAtURL:[NSURL fileURLWithPath:basePath]
-                                                                      includingPropertiesForKeys:nil
-                                                                                         options:NSDirectoryEnumerationSkipsSubdirectoryDescendants
-                                                                                    errorHandler:nil];
+                                           includingPropertiesForKeys:nil
+                                           options:NSDirectoryEnumerationSkipsSubdirectoryDescendants
+                                           errorHandler:nil];
     for (NSURL *fileURL in enumerator) {
         NSString *filename = fileURL.path;
         if (![filename hasPrefix:self.databaseFilenamePrefix]) {
@@ -271,7 +274,7 @@ static const NSTimeInterval kMaxTimeToRememberDirectories = 60 * 60 * 24 * 90;
         short fixedPosixPermissions = (posixPermissions & 0700);  // Remove other and group permissions.
         if (fixedPosixPermissions != posixPermissions) {
             NSDictionary *updatedAttributes = [attributes dictionaryBySettingObject:@(fixedPosixPermissions)
-                                                                             forKey:NSFilePosixPermissions];
+                                                          forKey:NSFilePosixPermissions];
             error = nil;
             [[NSFileManager defaultManager] setAttributes:updatedAttributes ofItemAtPath:fullPath error:&error];
             if (error) {
@@ -293,7 +296,7 @@ static const NSTimeInterval kMaxTimeToRememberDirectories = 60 * 60 * 24 * 90;
         if ([filename hasPrefix:[self databaseFilenamePrefix]]) {
             NSError *error = nil;
             [[NSFileManager defaultManager] removeItemAtPath:[path stringByAppendingPathComponent:filename]
-                                                       error:&error];
+                                            error:&error];
             if (error) {
                 anyErrors = YES;
             }
@@ -379,13 +382,13 @@ static const NSTimeInterval kMaxTimeToRememberDirectories = 60 * 60 * 24 * 90;
         [alert addButtonWithTitle:@"Install Now"];
     }
     switch ([alert runModal]) {
-        case NSAlertFirstButtonReturn:
-            [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://iterm2.com/shell_integration.html"]];
-            break;
+    case NSAlertFirstButtonReturn:
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://iterm2.com/shell_integration.html"]];
+        break;
 
-        case NSAlertThirdButtonReturn:  // Install now, optional button
-            [firstResponder performSelector:selector withObject:self];
-            break;
+    case NSAlertThirdButtonReturn:  // Install now, optional button
+        [firstResponder performSelector:selector withObject:self];
+        break;
     }
 }
 
@@ -401,10 +404,10 @@ static const NSTimeInterval kMaxTimeToRememberDirectories = 60 * 60 * 24 * 90;
     // Change the store to the new type
     NSError *error = nil;
     [_managedObjectContext.persistentStoreCoordinator migratePersistentStore:store
-                                                                       toURL:[NSURL fileURLWithPath:[self pathToDatabase]]
-                                                                     options:@{}
-                                                                    withType:storeType
-                                                                       error:&error];
+                                                      toURL:[NSURL fileURLWithPath:[self pathToDatabase]]
+                                                      options:@ {}
+                                                      withType:storeType
+                                                      error:&error];
     if (error) {
         NSLog(@"Failed to migrate to on-disk storage: %@", error);
         // Do it the hard way.
@@ -426,11 +429,11 @@ static const NSTimeInterval kMaxTimeToRememberDirectories = 60 * 60 * 24 * 90;
     // This operates at a low level to ensure data is really removed.
     if (commandHistory) {
         [[NSFileManager defaultManager] removeItemAtPath:self.pathToDeprecatedCommandHistoryPlist
-                                                   error:NULL];
+                                        error:NULL];
     }
     if (directories) {
         [[NSFileManager defaultManager] removeItemAtPath:self.pathToDeprecatedDirectoriesPlist
-                                                   error:NULL];
+                                        error:NULL];
     }
 
     if (commandHistory) {
@@ -448,9 +451,9 @@ static const NSTimeInterval kMaxTimeToRememberDirectories = 60 * 60 * 24 * 90;
     [self vacuum];
 
     [[NSNotificationCenter defaultCenter] postNotificationName:kDirectoriesDidChangeNotificationName
-                                                        object:nil];
+                                          object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:kCommandHistoryDidChangeNotificationName
-                                                        object:nil];
+                                          object:nil];
 }
 
 #pragma mark - Command History
@@ -458,9 +461,9 @@ static const NSTimeInterval kMaxTimeToRememberDirectories = 60 * 60 * 24 * 90;
 #pragma mark Mutation
 
 - (void)addCommand:(NSString *)command
-            onHost:(VT100RemoteHost *)host
-       inDirectory:(NSString *)directory
-          withMark:(VT100ScreenMark *)mark {
+    onHost:(VT100RemoteHost *)host
+    inDirectory:(NSString *)directory
+    withMark:(VT100ScreenMark *)mark {
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kCommandHistoryHasEverBeenUsed];
 
     iTermHostRecordMO *hostRecord = [self recordForHost:host];
@@ -489,7 +492,7 @@ static const NSTimeInterval kMaxTimeToRememberDirectories = 60 * 60 * 24 * 90;
     theEntry.timeOfLastUse = @([self now]);
 
     iTermCommandHistoryCommandUseMO *commandUse =
-    [iTermCommandHistoryCommandUseMO commandHistoryCommandUseInContext:_managedObjectContext];
+        [iTermCommandHistoryCommandUseMO commandHistoryCommandUseInContext:_managedObjectContext];
     commandUse.time = theEntry.timeOfLastUse;
     commandUse.mark = mark;
     commandUse.directory = directory;
@@ -504,8 +507,8 @@ static const NSTimeInterval kMaxTimeToRememberDirectories = 60 * 60 * 24 * 90;
 }
 
 - (void)setStatusOfCommandAtMark:(VT100ScreenMark *)mark
-                          onHost:(VT100RemoteHost *)remoteHost
-                              to:(int)status {
+    onHost:(VT100RemoteHost *)remoteHost
+    to:(int)status {
     iTermCommandHistoryCommandUseMO *commandUse =
         [self commandUseWithMarkGuid:mark.guid onHost:remoteHost];
     // If the status is 0 and commandUse doesn't have a code set, do nothing. This saves some time
@@ -524,7 +527,7 @@ static const NSTimeInterval kMaxTimeToRememberDirectories = 60 * 60 * 24 * 90;
 }
 
 - (NSArray<iTermCommandHistoryEntryMO *> *)commandHistoryEntriesWithPrefix:(NSString *)partialCommand
-                                                                    onHost:(VT100RemoteHost *)host {
+    onHost:(VT100RemoteHost *)host {
     BOOL emptyPartialCommand = (partialCommand.length == 0);
     NSMutableArray<iTermCommandHistoryEntryMO *> *result = [NSMutableArray array];
     iTermHostRecordMO *hostRecord = [self recordForHost:host];
@@ -544,7 +547,7 @@ static const NSTimeInterval kMaxTimeToRememberDirectories = 60 * 60 * 24 * 90;
 }
 
 - (NSArray<iTermCommandHistoryCommandUseMO *> *)autocompleteSuggestionsWithPartialCommand:(NSString *)partialCommand
-                                                                                   onHost:(VT100RemoteHost *)host {
+    onHost:(VT100RemoteHost *)host {
     NSArray<iTermCommandHistoryEntryMO *> *temp =
         [self commandHistoryEntriesWithPrefix:partialCommand onHost:host];
     NSMutableArray<iTermCommandHistoryCommandUseMO *> *result = [NSMutableArray array];
@@ -562,7 +565,7 @@ static const NSTimeInterval kMaxTimeToRememberDirectories = 60 * 60 * 24 * 90;
 }
 
 - (iTermCommandHistoryCommandUseMO *)commandUseWithMarkGuid:(NSString *)markGuid
-                                                     onHost:(VT100RemoteHost *)host {
+    onHost:(VT100RemoteHost *)host {
     if (!markGuid) {
         return nil;
     }
@@ -591,8 +594,8 @@ static const NSTimeInterval kMaxTimeToRememberDirectories = 60 * 60 * 24 * 90;
 #pragma mark Mutation
 
 - (iTermRecentDirectoryMO *)recordUseOfPath:(NSString *)path
-                                     onHost:(VT100RemoteHost *)host
-                                   isChange:(BOOL)isChange {
+    onHost:(VT100RemoteHost *)host
+    isChange:(BOOL)isChange {
     if (!isChange || !path) {
         return nil;
     }
@@ -617,7 +620,7 @@ static const NSTimeInterval kMaxTimeToRememberDirectories = 60 * 60 * 24 * 90;
     if (!directory) {
         // Is a new directory on this host.
         directory = [NSEntityDescription insertNewObjectForEntityForName:[iTermRecentDirectoryMO entityName]
-                                                  inManagedObjectContext:_managedObjectContext];
+                                         inManagedObjectContext:_managedObjectContext];
         directory.path = path;
         [_tree addPath:path];
         [hostRecord addDirectoriesObject:directory];
@@ -678,7 +681,7 @@ static const NSTimeInterval kMaxTimeToRememberDirectories = 60 * 60 * 24 * 90;
 - (BOOL)removeOldData {
     NSFetchRequest *fetchRequest = [[[NSFetchRequest alloc] init] autorelease];
     [fetchRequest setEntity:[NSEntityDescription entityForName:[iTermCommandHistoryCommandUseMO entityName]
-                                        inManagedObjectContext:_managedObjectContext]];
+                             inManagedObjectContext:_managedObjectContext]];
     NSPredicate *predicate =
         [NSPredicate predicateWithFormat:@"time < %f", [self now] - kMaxTimeToRememberCommands];
     [fetchRequest setPredicate:predicate];
@@ -697,10 +700,10 @@ static const NSTimeInterval kMaxTimeToRememberDirectories = 60 * 60 * 24 * 90;
     // Directories
     fetchRequest = [[[NSFetchRequest alloc] init] autorelease];
     [fetchRequest setEntity:[NSEntityDescription entityForName:[iTermRecentDirectoryMO entityName]
-                                        inManagedObjectContext:_managedObjectContext]];
+                             inManagedObjectContext:_managedObjectContext]];
     predicate =
         [NSPredicate predicateWithFormat:@"lastUse < %f and starred == 0",
-            [self now] - kMaxTimeToRememberDirectories];
+                     [self now] - kMaxTimeToRememberDirectories];
     [fetchRequest setPredicate:predicate];
     error = nil;
     NSArray<iTermRecentDirectoryMO *> *directories =
@@ -715,11 +718,11 @@ static const NSTimeInterval kMaxTimeToRememberDirectories = 60 * 60 * 24 * 90;
     static const NSInteger iTermMaxDirectoriesToSave = 1000;
 
     NSSortDescriptor *lastUseDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"lastUse"
-                                                                       ascending:NO
-                                                                        selector:@selector(compare:)] autorelease];
+                                                                      ascending:NO
+                                                                      selector:@selector(compare:)] autorelease];
     fetchRequest = [[[NSFetchRequest alloc] init] autorelease];
     [fetchRequest setEntity:[NSEntityDescription entityForName:[iTermRecentDirectoryMO entityName]
-                                        inManagedObjectContext:_managedObjectContext]];
+                             inManagedObjectContext:_managedObjectContext]];
     [fetchRequest setSortDescriptors:@[ lastUseDescriptor ]];
     predicate = [NSPredicate predicateWithFormat:@"starred == 0"];
     [fetchRequest setPredicate:predicate];
@@ -780,9 +783,9 @@ static const NSTimeInterval kMaxTimeToRememberDirectories = 60 * 60 * 24 * 90;
 
     // Sort result chronologically from earliest to latest
     [result sortWithOptions:0 usingComparator:^NSComparisonResult(iTermCommandHistoryCommandUseMO *obj1,
-                                                                  iTermCommandHistoryCommandUseMO *obj2) {
-        return [(obj1.time ?: @0) compare:(obj2.time ?: @0)];
-    }];
+           iTermCommandHistoryCommandUseMO *obj2) {
+               return [(obj1.time ?: @0) compare:(obj2.time ?: @0)];
+           }];
     return result;
 }
 
@@ -802,7 +805,7 @@ static const NSTimeInterval kMaxTimeToRememberDirectories = 60 * 60 * 24 * 90;
     [self saveObjectGraph];
     if (!_initializing) {
         [[NSNotificationCenter defaultCenter] postNotificationName:kCommandHistoryDidChangeNotificationName
-                                                            object:nil];
+                                              object:nil];
     }
 }
 
@@ -825,7 +828,7 @@ static const NSTimeInterval kMaxTimeToRememberDirectories = 60 * 60 * 24 * 90;
     [self saveObjectGraph];
     if (!_initializing) {
         [[NSNotificationCenter defaultCenter] postNotificationName:kDirectoriesDidChangeNotificationName
-                                                            object:nil];
+                                              object:nil];
     }
 }
 

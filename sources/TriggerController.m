@@ -106,29 +106,29 @@ NSString *const kBackgroundColorWellIdentifier = @"kBackgroundColorWellIdentifie
 
 + (NSArray<Class> *)triggerClasses {
     NSArray *allClasses = @[ [AlertTrigger class],
-                             [AnnotateTrigger class],
-                             [BellTrigger class],
-                             [BounceTrigger class],
-                             [iTermRPCTrigger class],
-                             [CaptureTrigger class],
-                             [iTermUserNotificationTrigger class],
-                             [iTermShellPromptTrigger class],
-                             [iTermSetTitleTrigger class],
-                             [SendTextTrigger class],
-                             [ScriptTrigger class],
-                             [CoprocessTrigger class],
-                             [MuteCoprocessTrigger class],
-                             [HighlightTrigger class],
-                             [MarkTrigger class],
-                             [PasswordTrigger class],
-                             [iTermHyperlinkTrigger class],
-                             [SetDirectoryTrigger class],
-                             [SetHostnameTrigger class],
-                             [StopTrigger class] ];
+                                                 [AnnotateTrigger class],
+                                                 [BellTrigger class],
+                                                 [BounceTrigger class],
+                                                 [iTermRPCTrigger class],
+                                                 [CaptureTrigger class],
+                                                 [iTermUserNotificationTrigger class],
+                                                 [iTermShellPromptTrigger class],
+                                                 [iTermSetTitleTrigger class],
+                                                 [SendTextTrigger class],
+                                                 [ScriptTrigger class],
+                                                 [CoprocessTrigger class],
+                                                 [MuteCoprocessTrigger class],
+                                                 [HighlightTrigger class],
+                                                 [MarkTrigger class],
+                                                 [PasswordTrigger class],
+                                                 [iTermHyperlinkTrigger class],
+                                                 [SetDirectoryTrigger class],
+                                                 [SetHostnameTrigger class],
+                                                 [StopTrigger class] ];
 
     return [allClasses sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-                  return [[obj1 title] compare:[obj2 title]];
-              }];
+                   return [[obj1 title] compare:[obj2 title]];
+               }];
 }
 
 - (void)awakeFromNib {
@@ -197,8 +197,8 @@ NSString *const kBackgroundColorWellIdentifier = @"kBackgroundColorWellIdentifie
 }
 
 - (void)setTriggerDictionary:(NSDictionary *)triggerDictionary
-                      forRow:(NSInteger)rowIndex
-                  reloadData:(BOOL)shouldReload {
+    forRow:(NSInteger)rowIndex
+    reloadData:(BOOL)shouldReload {
     if (shouldReload) {
         // Stop editing. A reload while editing crashes.
         [_tableView reloadData];
@@ -241,8 +241,11 @@ NSString *const kBackgroundColorWellIdentifier = @"kBackgroundColorWellIdentifie
 - (NSDictionary *)defaultTriggerDictionary {
     int index = [self indexOfTriggerClass:[BounceTrigger class]];
     Trigger *trigger = _triggers[index];
-    return @{ kTriggerRegexKey: @"",
-              kTriggerActionKey: [trigger action] };
+    return @ { kTriggerRegexKey:
+               @"",
+               kTriggerActionKey:
+               [trigger action]
+             };
 }
 
 - (void)setGuid:(NSString *)guid {
@@ -253,9 +256,9 @@ NSString *const kBackgroundColorWellIdentifier = @"kBackgroundColorWellIdentifie
 
 + (NSTextField *)labelWithString:(NSString *)string origin:(NSPoint)origin {
     NSTextField *textField = [[NSTextField alloc] initWithFrame:NSMakeRect(origin.x,
-                                                                           origin.y,
-                                                                           0,
-                                                                           0)];
+                                                  origin.y,
+                                                  0,
+                                                  0)];
     [textField setBezeled:NO];
     [textField setDrawsBackground:NO];
     [textField setEditable:NO];
@@ -278,51 +281,51 @@ NSString *const kBackgroundColorWellIdentifier = @"kBackgroundColorWellIdentifie
 
 - (BOOL)tableView:(NSTableView *)tableView
     writeRowsWithIndexes:(NSIndexSet *)rowIndexes
-     toPasteboard:(NSPasteboard*)pasteboard {
+    toPasteboard:(NSPasteboard*)pasteboard {
     NSMutableArray *indexes = [NSMutableArray array];
     [rowIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-        [indexes addObject:@(idx)];
-    }];
+                   [indexes addObject:@(idx)];
+               }];
 
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:indexes
-                                         requiringSecureCoding:NO
-                                                         error:nil];
+                                    requiringSecureCoding:NO
+                                    error:nil];
     [pasteboard declareTypes:@[ kiTermTriggerControllerPasteboardType ] owner:self];
     [pasteboard setData:data forType:kiTermTriggerControllerPasteboardType];
     return YES;
 }
 
 - (NSDragOperation)tableView:(NSTableView *)aTableView
-                validateDrop:(id<NSDraggingInfo>)info
-                 proposedRow:(NSInteger)row
-       proposedDropOperation:(NSTableViewDropOperation)operation {
+    validateDrop:(id<NSDraggingInfo>)info
+    proposedRow:(NSInteger)row
+    proposedDropOperation:(NSTableViewDropOperation)operation {
     if ([info draggingSource] != aTableView) {
         return NSDragOperationNone;
     }
 
     // Add code here to validate the drop
     switch (operation) {
-        case NSTableViewDropOn:
-            return NSDragOperationNone;
+    case NSTableViewDropOn:
+        return NSDragOperationNone;
 
-        case NSTableViewDropAbove:
-            return NSDragOperationMove;
+    case NSTableViewDropAbove:
+        return NSDragOperationMove;
 
-        default:
-            return NSDragOperationNone;
+    default:
+        return NSDragOperationNone;
     }
 }
 
 - (BOOL)tableView:(NSTableView *)aTableView
-       acceptDrop:(id <NSDraggingInfo>)info
-              row:(NSInteger)row
+    acceptDrop:(id <NSDraggingInfo>)info
+    row:(NSInteger)row
     dropOperation:(NSTableViewDropOperation)operation {
     NSPasteboard *pasteboard = [info draggingPasteboard];
     NSData *rowData = [pasteboard dataForType:kiTermTriggerControllerPasteboardType];
     NSError *error = nil;
     NSArray *indexes = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSArray class]
-                                                         fromData:rowData
-                                                            error:&error];
+                                          fromData:rowData
+                                          error:&error];
     if (error) {
         DLog(@"Drop failed: %@", error);
         return NO;
@@ -339,7 +342,7 @@ NSString *const kBackgroundColorWellIdentifier = @"kBackgroundColorWellIdentifie
 
 - (BOOL)tableView:(NSTableView *)aTableView
     shouldEditTableColumn:(NSTableColumn *)aTableColumn
-                      row:(NSInteger)rowIndex {
+    row:(NSInteger)rowIndex {
     if (aTableColumn == _regexColumn || aTableColumn == _partialLineColumn) {
         return YES;
     }
@@ -352,28 +355,28 @@ NSString *const kBackgroundColorWellIdentifier = @"kBackgroundColorWellIdentifie
 }
 
 + (NSView *)viewForParameterForTrigger:(Trigger *)trigger
-                                  size:(CGSize)size
-                                 value:(id)value
-                              receiver:(id<iTermTriggerParameterController>)receiver
-                   interpolatedStrings:(BOOL)interpolatedStrings
-                           wellFactory:(CPKColorWell *(^ NS_NOESCAPE)(NSRect, NSColor *))wellFactory {
+    size:(CGSize)size
+    value:(id)value
+    receiver:(id<iTermTriggerParameterController>)receiver
+    interpolatedStrings:(BOOL)interpolatedStrings
+    wellFactory:(CPKColorWell *(^ NS_NOESCAPE)(NSRect, NSColor *))wellFactory {
     if (![trigger takesParameter]) {
         return [[NSView alloc] initWithFrame:NSZeroRect];
     }
     if ([trigger paramIsTwoColorWells]) {
         NSView *container = [[NSView alloc] initWithFrame:NSMakeRect(0,
-                                                                     0,
-                                                                     size.width,
-                                                                     size.height)];
+                                            0,
+                                            size.width,
+                                            size.height)];
         CGFloat x = 4;
         NSTextField *label = [self labelWithString:@"Text:" origin:NSMakePoint(x, 0)];
         [container addSubview:label];
         x += label.frame.size.width;
         const CGFloat kWellWidth = 30;
         CPKColorWell *well = wellFactory(NSMakeRect(x,
-                                                    0,
-                                                    kWellWidth,
-                                                    size.height),
+                                         0,
+                                         kWellWidth,
+                                         size.height),
                                          trigger.textColor);
         well.identifier = kTextColorWellIdentifier;
 
@@ -409,7 +412,7 @@ NSString *const kBackgroundColorWellIdentifier = @"kBackgroundColorWellIdentifie
                 NSString *theTitle = [items objectForKey:object];
                 if (theTitle) {
                     NSMenuItem *anItem = [[NSMenuItem alloc] initWithTitle:theTitle
-                                                                    action:nil
+                                                             action:nil
                                                              keyEquivalent:@""];
                     [theMenu addItem:anItem];
                 }
@@ -432,10 +435,10 @@ NSString *const kBackgroundColorWellIdentifier = @"kBackgroundColorWellIdentifie
 
     // If not a popup button, then text by default.
     iTermFocusReportingTextField *textField =
-    [[iTermFocusReportingTextField alloc] initWithFrame:NSMakeRect(0,
-                                                                   0,
-                                                                   size.width,
-                                                                   size.height)];
+        [[iTermFocusReportingTextField alloc] initWithFrame:NSMakeRect(0,
+                                                     0,
+                                                     size.width,
+                                                     size.height)];
     textField.font = [NSFont systemFontOfSize:[NSFont systemFontSize]];
     textField.stringValue = value ?: @"";
     textField.editable = YES;
@@ -454,8 +457,8 @@ NSString *const kBackgroundColorWellIdentifier = @"kBackgroundColorWellIdentifie
 }
 
 - (NSView *)tableView:(NSTableView *)tableView
-   viewForTableColumn:(NSTableColumn *)tableColumn
-                  row:(NSInteger)row {
+    viewForTableColumn:(NSTableColumn *)tableColumn
+    row:(NSInteger)row {
     NSDictionary *triggerDictionary = [self triggerDictionariesForCurrentProfile][row];
     if (tableColumn == _actionColumn) {
         NSPopUpButton *popUpButton = [[NSPopUpButton alloc] init];
@@ -474,9 +477,9 @@ NSString *const kBackgroundColorWellIdentifier = @"kBackgroundColorWellIdentifie
         NSDictionary *triggerDictionary = [self triggerDictionariesForCurrentProfile][row];
         NSTextField *textField =
             [[NSTextField alloc] initWithFrame:NSMakeRect(0,
-                                                          0,
-                                                          tableColumn.width,
-                                                          self.tableView.rowHeight)];
+                                        0,
+                                        tableColumn.width,
+                                        self.tableView.rowHeight)];
         textField.font = [NSFont systemFontOfSize:[NSFont systemFontSize]];
         textField.stringValue = triggerDictionary[kTriggerRegexKey] ?: @"";
         textField.editable = YES;
@@ -501,20 +504,20 @@ NSString *const kBackgroundColorWellIdentifier = @"kBackgroundColorWellIdentifie
         Trigger *trigger = [self triggerWithAction:triggerDicts[row][kTriggerActionKey]];
         trigger.param = triggerDicts[row][kTriggerParameterKey];
         NSView *result = [self.class viewForParameterForTrigger:trigger
-                                                           size:NSMakeSize(tableColumn.width, _tableView.rowHeight)
-                                                          value:triggerDictionary[kTriggerParameterKey]
-                                                       receiver:self
-                                            interpolatedStrings:_interpolatedStringParameters.state == NSControlStateValueOn
-                                                    wellFactory:
-                          ^iTermColorWell *(NSRect frame,
-                                            NSColor *color) {
-            iTermColorWell *well = [[iTermColorWell alloc] initWithFrame:frame];
-            well.noColorAllowed = YES;
-            well.continuous = NO;
-            well.tag = row;
-            well.color = color;
-            well.target = self;
-            well.action = @selector(colorWellDidChange:);
+                                     size:NSMakeSize(tableColumn.width, _tableView.rowHeight)
+                                     value:triggerDictionary[kTriggerParameterKey]
+                                     receiver:self
+                                     interpolatedStrings:_interpolatedStringParameters.state == NSControlStateValueOn
+                                     wellFactory:
+                                     ^iTermColorWell *(NSRect frame,
+                   NSColor *color) {
+                       iTermColorWell *well = [[iTermColorWell alloc] initWithFrame:frame];
+                       well.noColorAllowed = YES;
+                       well.continuous = NO;
+                       well.tag = row;
+                       well.color = color;
+                       well.target = self;
+                       well.action = @selector(colorWellDidChange:);
             __weak __typeof(self) weakSelf = self;
             __weak __typeof(well) weakWell = well;
             well.willOpenPopover = ^() {
@@ -561,7 +564,7 @@ NSString *const kBackgroundColorWellIdentifier = @"kBackgroundColorWellIdentifie
 - (IBAction)addTrigger:(id)sender {
     [self setTriggerDictionary:[self defaultTriggerDictionary] forRow:-1 reloadData:YES];
     [_tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:_tableView.numberOfRows - 1]
-            byExtendingSelection:NO];
+                byExtendingSelection:NO];
 }
 
 - (IBAction)removeTrigger:(id)sender {
@@ -583,9 +586,9 @@ NSString *const kBackgroundColorWellIdentifier = @"kBackgroundColorWellIdentifie
 - (void)doubleClick:(id)sender {
     NSPoint screenLocation = [NSEvent mouseLocation];
     NSPoint windowLocation = [self.window convertRectFromScreen:NSMakeRect(screenLocation.x,
-                                                                           screenLocation.y,
-                                                                           0,
-                                                                           0)].origin;
+                                          screenLocation.y,
+                                          0,
+                                          0)].origin;
     NSPoint tableLocation = [_tableView convertPoint:windowLocation fromView:nil];
     NSInteger row = [_tableView rowAtPoint:tableLocation];
     NSInteger column = [_tableView columnAtPoint:tableLocation];

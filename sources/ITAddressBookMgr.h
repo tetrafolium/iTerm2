@@ -332,9 +332,9 @@ iTermWindowType iTermWindowDefaultType(void);
 iTermWindowType iTermThemedWindowType(iTermWindowType windowType);
 
 typedef NS_ENUM(NSInteger, iTermObjectType) {
-  iTermWindowObject,
-  iTermTabObject,
-  iTermPaneObject,
+    iTermWindowObject,
+    iTermTabObject,
+    iTermPaneObject,
 };
 
 // Type for KEY_THIN_STROKES
@@ -408,13 +408,13 @@ typedef NS_ENUM(NSUInteger, iTermProfileIcon) {
 // This is deprecated in favor of -[NSString fontValue] and -[NSFont stringValue].
 + (NSString *)descFromFont:(NSFont*)font __attribute__((deprecated));
 + (void)computeCommandForProfile:(Profile *)profile
-                      objectType:(iTermObjectType)objectType
-                           scope:(iTermVariableScope *)scope
-                      completion:(void (^)(NSString *command))completion;
+    objectType:(iTermObjectType)objectType
+    scope:(iTermVariableScope *)scope
+    completion:(void (^)(NSString *command))completion;
 
 // Like computeCommandForProfile:objectType:scope:completion: but does not evaluate it.
 + (NSString *)bookmarkCommandSwiftyString:(Profile *)bookmark
-                            forObjectType:(iTermObjectType)objectType;
+    forObjectType:(iTermObjectType)objectType;
 
 + (NSString *)customShellForProfile:(Profile *)profile;
 

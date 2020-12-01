@@ -97,7 +97,7 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p hostname=%@ username=%@ path=%@ job=%@>",
-            [self class], self, self.hostname, self.username, self.path, self.job];
+                     [self class], self, self.hostname, self.username, self.path, self.job];
 }
 
 // This is a monotonically increasing function whose range is [0, 1) for the domain of nonnegative
@@ -109,9 +109,9 @@
 }
 
 - (double)scoreForHostname:(NSString *)hostname
-                  username:(NSString *)username
-                      path:(NSString *)path
-                       job:(NSString *)job {
+    username:(NSString *)username
+    path:(NSString *)path
+    job:(NSString *)job {
     int acc = 1;
     const int kPathPartialMatchScore = 0;
     const int kCatchallRuleScore = acc;

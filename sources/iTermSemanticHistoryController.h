@@ -51,10 +51,10 @@ extern NSString *const kSemanticHistoryColumnNumberKey;
 // includes a line number then *lineNumber will be filled in with it. Files on network shares are
 // rejected.
 - (NSString *)cleanedUpPathFromPath:(NSString *)path
-                             suffix:(NSString *)suffix
-                   workingDirectory:(NSString *)workingDirectory
-                extractedLineNumber:(NSString **)lineNumber
-                       columnNumber:(NSString **)columnNumber;
+    suffix:(NSString *)suffix
+    workingDirectory:(NSString *)workingDirectory
+    extractedLineNumber:(NSString **)lineNumber
+    columnNumber:(NSString **)columnNumber;
 
 // Opens the file at the relative |path| (which may include :lineNumber) in |workingDirectory|.
 // The |substitutions| dictionary is used to expand \references in the command to run (gotten from
@@ -69,13 +69,13 @@ extern NSString *const kSemanticHistoryColumnNumberKey;
 //
 // Returns YES if the file was opened, NO if it could not be opened.
 - (void)openPath:(NSString *)path
-   orRawFilename:(NSString *)rawFileName
-        fragment:(NSString *)fragment
-   substitutions:(NSDictionary *)substitutions
-           scope:(iTermVariableScope *)scope
-      lineNumber:(NSString *)lineNumber
+    orRawFilename:(NSString *)rawFileName
+    fragment:(NSString *)fragment
+    substitutions:(NSDictionary *)substitutions
+    scope:(iTermVariableScope *)scope
+    lineNumber:(NSString *)lineNumber
     columnNumber:(NSString *)columnNumber
-      completion:(void (^)(BOOL))completion;
+    completion:(void (^)(BOOL))completion;
 
 // Do a brute force search by putting together suffixes of beforeString with prefixes of afterString
 // to find an existing file in |workingDirectory|. |charsSTakenFromPrefixPtr| will be filled in with
@@ -107,20 +107,20 @@ extern NSString *const kSemanticHistoryColumnNumberKey;
 // beforeStringIn is all whitespace and afterStringIn has a whitespace prefix. In that case, the
 // result of |charsTakenFromPrefixPtr| will be 0, and it's not suitable for highlighting a match.
 - (NSString *)pathOfExistingFileFoundWithPrefix:(NSString *)beforeStringIn
-                                         suffix:(NSString *)afterStringIn
-                               workingDirectory:(NSString *)workingDirectory
-                           charsTakenFromPrefix:(int *)charsTakenFromPrefixPtr
-                           charsTakenFromSuffix:(int *)suffixChars
-                                 trimWhitespace:(BOOL)trimWhitespace;
+    suffix:(NSString *)afterStringIn
+    workingDirectory:(NSString *)workingDirectory
+    charsTakenFromPrefix:(int *)charsTakenFromPrefixPtr
+    charsTakenFromSuffix:(int *)suffixChars
+    trimWhitespace:(BOOL)trimWhitespace;
 
 - (iTermPathFinder *)pathOfExistingFileFoundWithPrefix:(NSString *)beforeStringIn
-                                                suffix:(NSString *)afterStringIn
-                                      workingDirectory:(NSString *)workingDirectory
-                                        trimWhitespace:(BOOL)trimWhitespace
-                                            completion:(void (^)(NSString *path,
-                                                                 int prefixChars,
-                                                                 int suffixChars,
-                                                                 BOOL workingDirectoryIsLocal))completion;
+    suffix:(NSString *)afterStringIn
+    workingDirectory:(NSString *)workingDirectory
+    trimWhitespace:(BOOL)trimWhitespace
+    completion:(void (^)(NSString *path,
+    int prefixChars,
+    int suffixChars,
+    BOOL workingDirectoryIsLocal))completion;
 
 #pragma mark - Testing
 

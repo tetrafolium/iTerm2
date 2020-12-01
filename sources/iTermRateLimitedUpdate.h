@@ -22,8 +22,8 @@
 
 // A target/action version of the above.
 - (void)performRateLimitedSelector:(SEL)selector
-                          onTarget:(id)target
-                        withObject:(id)object;
+    onTarget:(id)target
+    withObject:(id)object;
 
 // If there is a pending block, do it now (synchronously) and cancel the delayed perform.
 - (void)force;

@@ -185,7 +185,7 @@ static NSString *sPreviousVersion;
 + (NSSet<NSString *> *)allAppVersionsUsedOnThisMachine {
     static NSSet<NSString *> *versions;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         versions = [NSSet setWithArray:[[NSUserDefaults standardUserDefaults] objectForKey:kPreferenceKeyAllAppVersions] ?: @[]];
     });
     return versions;
@@ -199,13 +199,13 @@ static NSString *sPreviousVersion;
     [[NSUserDefaults standardUserDefaults] setObject:thisVersion forKey:kPreferenceKeyAppVersion];
     NSProcessInfo *processInfo = [NSProcessInfo processInfo];
     [[NSUserDefaults standardUserDefaults] setObject:processInfo.operatingSystemVersionString
-                                              forKey:kPreferenceKeyOSVersion];
+                                           forKey:kPreferenceKeyOSVersion];
 }
 
 + (void)initializeAllAppVersionsUsedOnThisMachine:(NSString *)thisVersion {
     // Update all app versions ever seena.
     NSMutableSet *allVersions = [NSMutableSet setWithArray:[[NSUserDefaults standardUserDefaults] objectForKey:kPreferenceKeyAllAppVersions] ?: @[]];
-    
+
     NSString *const before = [self appVersionBeforeThisLaunch];
     if (before) {
         [allVersions addObject:before];
@@ -217,24 +217,30 @@ static NSString *sPreviousVersion;
 }
 
 + (NSDictionary *)systemPreferenceOverrides {
-    return @{
+    return @ {
         // Force antialiasing to be allowed on small font sizes
-        @"AppleAntiAliasingThreshold": @1,
-        @"AppleSmoothFixedFontsSizeThreshold": @1,
+@"AppleAntiAliasingThreshold":
+        @1,
+@"AppleSmoothFixedFontsSizeThreshold":
+        @1,
 
         // Turn off high sierra's native tabs
-        @"AppleWindowTabbingMode": @"manual",
+@"AppleWindowTabbingMode":
+        @"manual",
 
         // Turn off scroll animations because they screw up the terminal scrolling.
-        @"AppleScrollAnimationEnabled": @0,
+@"AppleScrollAnimationEnabled":
+        @0,
 
         // Turn off accent menu
-        @"ApplePressAndHoldEnabled": @NO,
+@"ApplePressAndHoldEnabled":
+        @NO,
 
         // Override smooth scrolling, which breaks various things (such as the
         // assumption, when detectUserScroll is called, that scrolls happen
         // immediately), and generally sucks with a terminal.
-        @"NSScrollAnimationEnabled": @NO,
+@"NSScrollAnimationEnabled":
+        @NO,
 
         // Disable under-titlebar mirror view.
 
@@ -262,7 +268,8 @@ static NSString *sPreviousVersion;
         // and it seems to work.
         //
         // See issue 3244 for details.
-        @"NSScrollViewShouldScrollUnderTitlebar": @NO,
+@"NSScrollViewShouldScrollUnderTitlebar":
+        @NO,
 
         // macOS does an insane thing and looks for views that might possibly be trying to do something
         // clever with scrollers and then if it finds them changes to legacy scrollers. Quothe the
@@ -279,15 +286,16 @@ static NSString *sPreviousVersion;
         //
         // Well, I am trying to do something clever and I damn well want it to work. With a bit of
         // the old disassembler, I found this user default which seems to turn off the stupid.
-        @"NSOverlayScrollersFallBackForAccessoryViews": @NO,
+@"NSOverlayScrollersFallBackForAccessoryViews":
+        @NO,
     };
 }
 
 + (void)initializeUserDefaults {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [[self systemPreferenceOverrides] enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        [userDefaults setObject:obj forKey:key];
-    }];
+                                         [userDefaults setObject:obj forKey:key];
+                                     }];
 
     NSDictionary *infoDictionary = [[NSBundle bundleForClass:[self class]] infoDictionary];
     NSString *const thisVersion = infoDictionary[@"CFBundleVersion"];
@@ -303,135 +311,255 @@ static NSString *sPreviousVersion;
 + (NSDictionary *)defaultValueMap {
     static NSDictionary *dict;
     if (!dict) {
-        dict = @{ kPreferenceKeyOpenBookmark: @NO,
-                  kPreferenceKeyOpenArrangementAtStartup: @NO,
-                  kPreferenceKeyOpenNoWindowsAtStartup: @NO,
-                  kPreferenceKeyQuitWhenAllWindowsClosed: @NO,
-                  kPreferenceKeyConfirmClosingMultipleTabs: @YES,
-                  kPreferenceKeyPromptOnQuit: @YES,
-                  kPreferenceKeyPromptOnQuitEvenIfThereAreNoWindows: @NO,
-                  kPreferenceKeyInstantReplayMemoryMegabytes: @4,
-                  kPreferenceKeySavePasteAndCommandHistory: @NO,
-                  kPreferenceKeyAddBonjourHostsToProfiles: @NO,
-                  kPreferenceKeyCheckForUpdatesAutomatically: @YES,
-                  kPreferenceKeyCheckForTestReleases: @NO,
-                  kPreferenceKeyLoadPrefsFromCustomFolder: @NO,
-                  kPreferenceKeyNeverRemindPrefsChangesLostForFileHaveSelection: @NO,
-                  kPreferenceKeyNeverRemindPrefsChangesLostForFileSelection: @0,
-                  kPreferenceKeyCustomFolder: [NSNull null],
-                  kPreferenceKeySelectionCopiesText: @YES,
-                  kPreferenceKeyCopyLastNewline: @NO,
-                  kPreferenceKeyAllowClipboardAccessFromTerminal: @NO,
-                  kPreferenceKeyCharactersConsideredPartOfAWordForSelection: @"/-+\\~_.",
-                  kPreferenceKeySmartWindowPlacement: @NO,
-                  kPreferenceKeyAdjustWindowForFontSizeChange: @YES,
-                  kPreferenceKeyMaximizeVerticallyOnly: @NO,
-                  kPreferenceKeyLionStyleFullscreen: @YES,
-                  kPreferenceKeySeparateWindowTitlePerTab: @YES,
-                  kPreferenceKeyOpenTmuxWindowsIn: @(kOpenTmuxWindowsAsNativeWindows),
-                  kPreferenceKeyTmuxDashboardLimit: @10,
-                  kPreferenceKeyAutoHideTmuxClientSession: @NO,
-                  kPreferenceKeyUseTmuxProfile: @YES,
-                  kPreferenceKeyUseTmuxStatusBar: @YES,
-                  kPreferenceKeyTmuxPauseModeAgeLimit: @120,
-                  kPreferenceKeyTmuxUnpauseAutomatically: @NO,
-                  kPreferenceKeyTmuxWarnBeforePausing: @YES,
-                  kPreferenceKeyUseMetal: @YES,
-                  kPreferenceKeyDisableMetalWhenUnplugged: @YES,
-                  kPreferenceKeyPreferIntegratedGPU: @YES,
-                  kPreferenceKeyMetalMaximizeThroughput: @YES,
-                  kPreferenceKeyEnableAPIServer: @NO,
-                  kPreferenceKeyAPIAuthentication: @0,  // ignored — synthetic value
+        dict = @ { kPreferenceKeyOpenBookmark:
+                   @NO,
+                   kPreferenceKeyOpenArrangementAtStartup:
+                   @NO,
+                   kPreferenceKeyOpenNoWindowsAtStartup:
+                   @NO,
+                   kPreferenceKeyQuitWhenAllWindowsClosed:
+                   @NO,
+                   kPreferenceKeyConfirmClosingMultipleTabs:
+                   @YES,
+                   kPreferenceKeyPromptOnQuit:
+                   @YES,
+                   kPreferenceKeyPromptOnQuitEvenIfThereAreNoWindows:
+                   @NO,
+                   kPreferenceKeyInstantReplayMemoryMegabytes:
+                   @4,
+                   kPreferenceKeySavePasteAndCommandHistory:
+                   @NO,
+                   kPreferenceKeyAddBonjourHostsToProfiles:
+                   @NO,
+                   kPreferenceKeyCheckForUpdatesAutomatically:
+                   @YES,
+                   kPreferenceKeyCheckForTestReleases:
+                   @NO,
+                   kPreferenceKeyLoadPrefsFromCustomFolder:
+                   @NO,
+                   kPreferenceKeyNeverRemindPrefsChangesLostForFileHaveSelection:
+                   @NO,
+                   kPreferenceKeyNeverRemindPrefsChangesLostForFileSelection:
+                   @0,
+                   kPreferenceKeyCustomFolder:
+                   [NSNull null],
+                   kPreferenceKeySelectionCopiesText:
+                   @YES,
+                   kPreferenceKeyCopyLastNewline:
+                   @NO,
+                   kPreferenceKeyAllowClipboardAccessFromTerminal:
+                   @NO,
+                   kPreferenceKeyCharactersConsideredPartOfAWordForSelection:
+                   @"/-+\\~_.",
+                   kPreferenceKeySmartWindowPlacement:
+                   @NO,
+                   kPreferenceKeyAdjustWindowForFontSizeChange:
+                   @YES,
+                   kPreferenceKeyMaximizeVerticallyOnly:
+                   @NO,
+                   kPreferenceKeyLionStyleFullscreen:
+                   @YES,
+                   kPreferenceKeySeparateWindowTitlePerTab:
+                   @YES,
+                   kPreferenceKeyOpenTmuxWindowsIn:
+                   @(kOpenTmuxWindowsAsNativeWindows),
+                   kPreferenceKeyTmuxDashboardLimit:
+                   @10,
+                   kPreferenceKeyAutoHideTmuxClientSession:
+                   @NO,
+                   kPreferenceKeyUseTmuxProfile:
+                   @YES,
+                   kPreferenceKeyUseTmuxStatusBar:
+                   @YES,
+                   kPreferenceKeyTmuxPauseModeAgeLimit:
+                   @120,
+                   kPreferenceKeyTmuxUnpauseAutomatically:
+                   @NO,
+                   kPreferenceKeyTmuxWarnBeforePausing:
+                   @YES,
+                   kPreferenceKeyUseMetal:
+                   @YES,
+                   kPreferenceKeyDisableMetalWhenUnplugged:
+                   @YES,
+                   kPreferenceKeyPreferIntegratedGPU:
+                   @YES,
+                   kPreferenceKeyMetalMaximizeThroughput:
+                   @YES,
+                   kPreferenceKeyEnableAPIServer:
+                   @NO,
+                   kPreferenceKeyAPIAuthentication:
+                   @0,  // ignored — synthetic value
 
-                  kPreferenceKeyTabStyle_Deprecated: @(TAB_STYLE_LIGHT),
-                  kPreferenceKeyTabStyle: @(TAB_STYLE_LIGHT),
-                  
-                  kPreferenceKeyTabPosition: @(TAB_POSITION_TOP),
-                  kPreferenceKeyStatusBarPosition: @(iTermStatusBarPositionTop),
-                  kPreferenceKeyTopBottomMargins: @2,
-                  kPreferenceKeySideMargins: @5,
-                  kPreferenceKeyHideTabBar: @YES,
-                  kPreferenceKeyHideTabNumber: @NO,
-                  kPreferenceKeyPreserveWindowSizeWhenTabBarVisibilityChanges: @NO,
-                  kPreferenceKeyHideTabCloseButton: @NO,  // Deprecated
-                  kPreferenceKeyTabsHaveCloseButton: @YES,
-                  kPreferenceKeyHideTabActivityIndicator: @NO,
-                  kPreferenceKeyShowNewOutputIndicator: @YES,
-                  kPreferenceKeyStretchTabsToFillBar: @YES,
+                   kPreferenceKeyTabStyle_Deprecated:
+                   @(TAB_STYLE_LIGHT),
+                   kPreferenceKeyTabStyle:
+                   @(TAB_STYLE_LIGHT),
 
-                  kPreferenceKeyShowPaneTitles: @YES,
-                  kPreferenceKeyPerPaneBackgroundImage: @YES,
-                  kPreferenceKeyHideMenuBarInFullscreen:@YES,
-                  kPreferenceKeyUIElement: @NO,
-                  kPreferenceKeyUIElementRequiresHotkeys: @NO,
-                  kPreferenceKeyFlashTabBarInFullscreen:@NO,
-                  kPreferenceKeyShowWindowNumber: @YES,
-                  kPreferenceKeyShowJobName_Deprecated: @YES,
-                  kPreferenceKeyShowProfileName_Deprecated: @NO,
-                  kPreferenceKeyDimOnlyText: @NO,
-                  kPreferenceKeyDimmingAmount: @0.4,
-                  kPreferenceKeyDimInactiveSplitPanes: @YES,
-                  kPreferenceKeyShowWindowBorder: @NO,
-                  kPreferenceKeyHideScrollbar: @NO,
-                  kPreferenceKeyDisableFullscreenTransparencyByDefault: @NO,
-                  kPreferenceKeyEnableDivisionView: @YES,
-                  kPreferenceKeyEnableProxyIcon: @NO,
-                  kPreferenceKeyDimBackgroundWindows: @NO,
-                  kPreferenceKeySeparateStatusBarsPerPane: @NO,
+                   kPreferenceKeyTabPosition:
+                   @(TAB_POSITION_TOP),
+                   kPreferenceKeyStatusBarPosition:
+                   @(iTermStatusBarPositionTop),
+                   kPreferenceKeyTopBottomMargins:
+                   @2,
+                   kPreferenceKeySideMargins:
+                   @5,
+                   kPreferenceKeyHideTabBar:
+                   @YES,
+                   kPreferenceKeyHideTabNumber:
+                   @NO,
+                   kPreferenceKeyPreserveWindowSizeWhenTabBarVisibilityChanges:
+                   @NO,
+                   kPreferenceKeyHideTabCloseButton:
+                   @NO,  // Deprecated
+                   kPreferenceKeyTabsHaveCloseButton:
+                   @YES,
+                   kPreferenceKeyHideTabActivityIndicator:
+                   @NO,
+                   kPreferenceKeyShowNewOutputIndicator:
+                   @YES,
+                   kPreferenceKeyStretchTabsToFillBar:
+                   @YES,
 
-                  kPreferenceKeyControlRemapping: @(kPreferencesModifierTagControl),
-                  kPreferenceKeyLeftOptionRemapping: @(kPreferencesModifierTagLeftOption),
-                  kPreferenceKeyRightOptionRemapping: @(kPreferencesModifierTagRightOption),
-                  kPreferenceKeyLeftCommandRemapping: @(kPreferencesModifierTagLeftCommand),
-                  kPreferenceKeyRightCommandRemapping: @(kPreferencesModifierTagRightCommand),
-                  kPreferenceKeySwitchPaneModifier: @(kPreferenceModifierTagNone),
-                  kPreferenceKeySwitchTabModifier: @(kPreferencesModifierTagEitherCommand),
-                  kPreferenceKeySwitchWindowModifier: @(kPreferencesModifierTagCommandAndOption),
-                  kPreferenceKeyEmulateUSKeyboard: @NO,
-                  kPreferenceKeyHotkeyEnabled: @NO,
-                  kPreferenceKeyHotKeyCode: @0,
-                  kPreferenceKeyHotkeyCharacter: @0,
-                  kPreferenceKeyHotkeyModifiers: @0,
-                  kPreferenceKeyHotKeyTogglesWindow_Deprecated: @NO,
-                  kPreferenceKeyHotkeyProfileGuid_Deprecated: [NSNull null],
-                  kPreferenceKeyHotkeyAutoHides_Deprecated: @YES,
-                  kPreferenceKeyEnableHapticFeedbackForEsc: @NO,
-                  kPreferenceKeyEnableSoundForEsc: @NO,
-                  kPreferenceKeyVisualIndicatorForEsc: @NO,
+                   kPreferenceKeyShowPaneTitles:
+                   @YES,
+                   kPreferenceKeyPerPaneBackgroundImage:
+                   @YES,
+                   kPreferenceKeyHideMenuBarInFullscreen:
+                   @YES,
+                   kPreferenceKeyUIElement:
+                   @NO,
+                   kPreferenceKeyUIElementRequiresHotkeys:
+                   @NO,
+                   kPreferenceKeyFlashTabBarInFullscreen:
+                   @NO,
+                   kPreferenceKeyShowWindowNumber:
+                   @YES,
+                   kPreferenceKeyShowJobName_Deprecated:
+                   @YES,
+                   kPreferenceKeyShowProfileName_Deprecated:
+                   @NO,
+                   kPreferenceKeyDimOnlyText:
+                   @NO,
+                   kPreferenceKeyDimmingAmount:
+                   @0.4,
+                   kPreferenceKeyDimInactiveSplitPanes:
+                   @YES,
+                   kPreferenceKeyShowWindowBorder:
+                   @NO,
+                   kPreferenceKeyHideScrollbar:
+                   @NO,
+                   kPreferenceKeyDisableFullscreenTransparencyByDefault:
+                   @NO,
+                   kPreferenceKeyEnableDivisionView:
+                   @YES,
+                   kPreferenceKeyEnableProxyIcon:
+                   @NO,
+                   kPreferenceKeyDimBackgroundWindows:
+                   @NO,
+                   kPreferenceKeySeparateStatusBarsPerPane:
+                   @NO,
 
-                  kPreferenceKeyCmdClickOpensURLs: @YES,
-                  kPreferenceKeyControlLeftClickBypassesContextMenu: @NO,
-                  kPreferenceKeyOptionClickMovesCursor: @YES,
-                  kPreferenceKeyThreeFingerEmulatesMiddle: @NO,
-                  kPreferenceKeyFocusFollowsMouse: @NO,
-                  kPreferenceKeyFocusOnRightOrMiddleClick: @NO,
-                  kPreferenceKeyTripleClickSelectsFullWrappedLines: @YES,
-                  kPreferenceKeyDoubleClickPerformsSmartSelection: @NO,
-                  kPreferenceKeyEnterCopyModeAutomatically: @YES,
+                   kPreferenceKeyControlRemapping:
+                   @(kPreferencesModifierTagControl),
+                   kPreferenceKeyLeftOptionRemapping:
+                   @(kPreferencesModifierTagLeftOption),
+                   kPreferenceKeyRightOptionRemapping:
+                   @(kPreferencesModifierTagRightOption),
+                   kPreferenceKeyLeftCommandRemapping:
+                   @(kPreferencesModifierTagLeftCommand),
+                   kPreferenceKeyRightCommandRemapping:
+                   @(kPreferencesModifierTagRightCommand),
+                   kPreferenceKeySwitchPaneModifier:
+                   @(kPreferenceModifierTagNone),
+                   kPreferenceKeySwitchTabModifier:
+                   @(kPreferencesModifierTagEitherCommand),
+                   kPreferenceKeySwitchWindowModifier:
+                   @(kPreferencesModifierTagCommandAndOption),
+                   kPreferenceKeyEmulateUSKeyboard:
+                   @NO,
+                   kPreferenceKeyHotkeyEnabled:
+                   @NO,
+                   kPreferenceKeyHotKeyCode:
+                   @0,
+                   kPreferenceKeyHotkeyCharacter:
+                   @0,
+                   kPreferenceKeyHotkeyModifiers:
+                   @0,
+                   kPreferenceKeyHotKeyTogglesWindow_Deprecated:
+                   @NO,
+                   kPreferenceKeyHotkeyProfileGuid_Deprecated:
+                   [NSNull null],
+                   kPreferenceKeyHotkeyAutoHides_Deprecated:
+                   @YES,
+                   kPreferenceKeyEnableHapticFeedbackForEsc:
+                   @NO,
+                   kPreferenceKeyEnableSoundForEsc:
+                   @NO,
+                   kPreferenceKeyVisualIndicatorForEsc:
+                   @NO,
 
-                  kPreferenceAutoCommandHistory: @NO,
+                   kPreferenceKeyCmdClickOpensURLs:
+                   @YES,
+                   kPreferenceKeyControlLeftClickBypassesContextMenu:
+                   @NO,
+                   kPreferenceKeyOptionClickMovesCursor:
+                   @YES,
+                   kPreferenceKeyThreeFingerEmulatesMiddle:
+                   @NO,
+                   kPreferenceKeyFocusFollowsMouse:
+                   @NO,
+                   kPreferenceKeyFocusOnRightOrMiddleClick:
+                   @NO,
+                   kPreferenceKeyTripleClickSelectsFullWrappedLines:
+                   @YES,
+                   kPreferenceKeyDoubleClickPerformsSmartSelection:
+                   @NO,
+                   kPreferenceKeyEnterCopyModeAutomatically:
+                   @YES,
 
-                  kPreferenceKeyPasteSpecialChunkSize: @1024,
-                  kPreferenceKeyPasteSpecialChunkDelay: @0.01,
-                  kPreferenceKeyPasteSpecialSpacesPerTab: @4,
-                  kPreferenceKeyPasteSpecialTabTransform: @0,
-                  kPreferenceKeyPasteSpecialEscapeShellCharsWithBackslash: @NO,
-                  kPreferenceKeyPasteSpecialConvertUnicodePunctuation: @NO,
-                  kPreferenceKeyPasteSpecialConvertDosNewlines: @YES,
-                  kPreferenceKeyPasteSpecialRemoveControlCodes: @YES,
-                  kPreferenceKeyPasteSpecialBracketedPasteMode: @YES,
-                  kPreferencesKeyPasteSpecialUseRegexSubstitution: @NO,
-                  kPreferencesKeyPasteSpecialRegex: @"",
-                  kPreferencesKeyPasteSpecialSubstitution: @"",
+                   kPreferenceAutoCommandHistory:
+                   @NO,
 
-                  kPreferenceKeyPasteWarningNumberOfSpacesPerTab: @4,
-                  kPreferenceKeyShowFullscreenTabBar: @YES,
-                  kPreferenceKeyHotkeyMigratedFromSingleToMulti: @NO,
-                  kPreferenceKeyLeftTabBarWidth: @150,
-                  kPreferenceKeyDefaultToolbeltWidth: @250,
-                  kPreferenceKeySizeChangesAffectProfile: @NO,
-                  kPreferenceKeyHTMLTabTitles: @NO
-              };
+                   kPreferenceKeyPasteSpecialChunkSize:
+                   @1024,
+                   kPreferenceKeyPasteSpecialChunkDelay:
+                   @0.01,
+                   kPreferenceKeyPasteSpecialSpacesPerTab:
+                   @4,
+                   kPreferenceKeyPasteSpecialTabTransform:
+                   @0,
+                   kPreferenceKeyPasteSpecialEscapeShellCharsWithBackslash:
+                   @NO,
+                   kPreferenceKeyPasteSpecialConvertUnicodePunctuation:
+                   @NO,
+                   kPreferenceKeyPasteSpecialConvertDosNewlines:
+                   @YES,
+                   kPreferenceKeyPasteSpecialRemoveControlCodes:
+                   @YES,
+                   kPreferenceKeyPasteSpecialBracketedPasteMode:
+                   @YES,
+                   kPreferencesKeyPasteSpecialUseRegexSubstitution:
+                   @NO,
+                   kPreferencesKeyPasteSpecialRegex:
+                   @"",
+                   kPreferencesKeyPasteSpecialSubstitution:
+                   @"",
+
+                   kPreferenceKeyPasteWarningNumberOfSpacesPerTab:
+                   @4,
+                   kPreferenceKeyShowFullscreenTabBar:
+                   @YES,
+                   kPreferenceKeyHotkeyMigratedFromSingleToMulti:
+                   @NO,
+                   kPreferenceKeyLeftTabBarWidth:
+                   @150,
+                   kPreferenceKeyDefaultToolbeltWidth:
+                   @250,
+                   kPreferenceKeySizeChangesAffectProfile:
+                   @NO,
+                   kPreferenceKeyHTMLTabTitles:
+                   @NO
+                 };
     }
     return dict;
 }
@@ -448,33 +576,33 @@ static NSString *sPreviousVersion;
 + (BOOL)defaultValueForKey:(NSString *)key isCompatibleWithType:(PreferenceInfoType)type {
     id defaultValue = [self defaultValueMap][key];
     switch (type) {
-        case kPreferenceInfoTypeIntegerTextField:
-        case kPreferenceInfoTypeDoubleTextField:
-        case kPreferenceInfoTypePopup:
-            return ([defaultValue isKindOfClass:[NSNumber class]] &&
-                    [defaultValue doubleValue] == ceil([defaultValue doubleValue]));
-        case kPreferenceInfoTypeUnsignedIntegerTextField:
-        case kPreferenceInfoTypeUnsignedIntegerPopup:
-            return ([defaultValue isKindOfClass:[NSNumber class]]);
-        case kPreferenceInfoTypeCheckbox:
-        case kPreferenceInfoTypeInvertedCheckbox:
-            return ([defaultValue isKindOfClass:[NSNumber class]] &&
-                    ([defaultValue intValue] == YES ||
-                     [defaultValue intValue] == NO));
-        case kPreferenceInfoTypeSlider:
-            return [defaultValue isKindOfClass:[NSNumber class]];
-        case kPreferenceInfoTypeTokenField:
-            return ([defaultValue isKindOfClass:[NSArray class]] ||
-                    [defaultValue isKindOfClass:[NSNull class]]);
-        case kPreferenceInfoTypeStringTextField:
-            return ([defaultValue isKindOfClass:[NSString class]] ||
-                    [defaultValue isKindOfClass:[NSNull class]]);
-        case kPreferenceInfoTypeMatrix:
-            return [defaultValue isKindOfClass:[NSString class]];
-        case kPreferenceInfoTypeRadioButton:
-            return [defaultValue isKindOfClass:[NSString class]];
-        case kPreferenceInfoTypeColorWell:
-            return [defaultValue isKindOfClass:[NSDictionary class]];
+    case kPreferenceInfoTypeIntegerTextField:
+    case kPreferenceInfoTypeDoubleTextField:
+    case kPreferenceInfoTypePopup:
+        return ([defaultValue isKindOfClass:[NSNumber class]] &&
+                [defaultValue doubleValue] == ceil([defaultValue doubleValue]));
+    case kPreferenceInfoTypeUnsignedIntegerTextField:
+    case kPreferenceInfoTypeUnsignedIntegerPopup:
+        return ([defaultValue isKindOfClass:[NSNumber class]]);
+    case kPreferenceInfoTypeCheckbox:
+    case kPreferenceInfoTypeInvertedCheckbox:
+        return ([defaultValue isKindOfClass:[NSNumber class]] &&
+                ([defaultValue intValue] == YES ||
+                 [defaultValue intValue] == NO));
+    case kPreferenceInfoTypeSlider:
+        return [defaultValue isKindOfClass:[NSNumber class]];
+    case kPreferenceInfoTypeTokenField:
+        return ([defaultValue isKindOfClass:[NSArray class]] ||
+                [defaultValue isKindOfClass:[NSNull class]]);
+    case kPreferenceInfoTypeStringTextField:
+        return ([defaultValue isKindOfClass:[NSString class]] ||
+                [defaultValue isKindOfClass:[NSNull class]]);
+    case kPreferenceInfoTypeMatrix:
+        return [defaultValue isKindOfClass:[NSString class]];
+    case kPreferenceInfoTypeRadioButton:
+        return [defaultValue isKindOfClass:[NSString class]];
+    case kPreferenceInfoTypeColorWell:
+        return [defaultValue isKindOfClass:[NSDictionary class]];
     }
 
     return NO;
@@ -488,13 +616,19 @@ static NSString *sPreviousVersion;
 + (NSDictionary *)computedObjectDictionary {
     static NSDictionary *dict;
     if (!dict) {
-        dict = @{ kPreferenceKeyOpenArrangementAtStartup: BLOCK(computedOpenArrangementAtStartup),
-                  kPreferenceKeyCustomFolder: BLOCK(computedCustomFolder),
-                  kPreferenceKeyCharactersConsideredPartOfAWordForSelection: BLOCK(computedWordChars),
-                  kPreferenceKeyTabStyle: BLOCK(computedTabStyle),
-                  kPreferenceKeyUseMetal: BLOCK(computedUseMetal),
-                  kPreferenceKeyTabsHaveCloseButton: BLOCK(computedTabsHaveCloseButton)
-                  };
+        dict = @ { kPreferenceKeyOpenArrangementAtStartup:
+                   BLOCK(computedOpenArrangementAtStartup),
+                   kPreferenceKeyCustomFolder:
+                   BLOCK(computedCustomFolder),
+                   kPreferenceKeyCharactersConsideredPartOfAWordForSelection:
+                   BLOCK(computedWordChars),
+                   kPreferenceKeyTabStyle:
+                   BLOCK(computedTabStyle),
+                   kPreferenceKeyUseMetal:
+                   BLOCK(computedUseMetal),
+                   kPreferenceKeyTabsHaveCloseButton:
+                   BLOCK(computedTabsHaveCloseButton)
+                 };
     }
     return dict;
 }
@@ -628,24 +762,24 @@ static NSString *sPreviousVersion;
 
 + (NSUInteger)maskForModifierTag:(iTermPreferencesModifierTag)tag {
     switch (tag) {
-        case kPreferencesModifierTagControl:
-            return NSEventModifierFlagControl;
+    case kPreferencesModifierTagControl:
+        return NSEventModifierFlagControl;
 
-        case kPreferencesModifierTagEitherCommand:
-            return NSEventModifierFlagCommand;
+    case kPreferencesModifierTagEitherCommand:
+        return NSEventModifierFlagCommand;
 
-        case kPreferencesModifierTagCommandAndOption:
-            return NSEventModifierFlagCommand | NSEventModifierFlagOption;
+    case kPreferencesModifierTagCommandAndOption:
+        return NSEventModifierFlagCommand | NSEventModifierFlagOption;
 
-        case kPreferencesModifierTagEitherOption:
-            return NSEventModifierFlagOption;
+    case kPreferencesModifierTagEitherOption:
+        return NSEventModifierFlagOption;
 
-        case kPreferenceModifierTagNone:
-            return NSUIntegerMax;
+    case kPreferenceModifierTagNone:
+        return NSUIntegerMax;
 
-        default:
-            NSLog(@"Unexpected value for maskForModifierTag: %d", tag);
-            return NSEventModifierFlagCommand | NSEventModifierFlagOption;
+    default:
+        NSLog(@"Unexpected value for maskForModifierTag: %d", tag);
+        return NSEventModifierFlagCommand | NSEventModifierFlagOption;
     }
 }
 
@@ -724,7 +858,7 @@ static NSString *sPreviousVersion;
 + (iTermUserDefaultsObserver *)sharedObserver {
     static iTermUserDefaultsObserver *instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[iTermUserDefaultsObserver alloc] init];
     });
     return instance;
@@ -751,11 +885,11 @@ typedef struct {
 @implementation iTermPreferences (FastAccessors)
 
 + (BOOL)boolWithCache:(iTermPreferencesBoolCache *)cache {
-    dispatch_once(&cache->onceToken, ^{
+    dispatch_once(&cache->onceToken, ^ {
         cache->value = [self boolForKey:cache->key];
         [[self sharedObserver] observeKey:cache->key block:^{
-            cache->value = [self boolForKey:cache->key];
-        }];
+                                  cache->value = [self boolForKey:cache->key];
+                              }];
     });
     return cache->value;
 }

@@ -32,8 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
     }] componentsJoinedByString:@", "];
     [[NSString stringWithFormat:@"descriptors=%@", descriptors] writeToURL:[folder URLByAppendingPathComponent:@"state.txt"]
                                                                 atomically:NO
-                                                                  encoding:NSUTF8StringEncoding
-                                                                     error:NULL];
+                                                                encoding:NSUTF8StringEncoding
+                                                                error:NULL];
 }
 
 @end
@@ -50,10 +50,10 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (self) {
         _metalRenderer = [[iTermMetalRenderer alloc] initWithDevice:device
-                                                 vertexFunctionName:@"iTermIndicatorVertexShader"
-                                               fragmentFunctionName:@"iTermIndicatorFragmentShader"
-                                                           blending:[iTermMetalBlending premultipliedCompositing]
-                                                transientStateClass:[iTermIndicatorRendererTransientState class]];
+                                                     vertexFunctionName:@"iTermIndicatorVertexShader"
+                                                     fragmentFunctionName:@"iTermIndicatorFragmentShader"
+                                                     blending:[iTermMetalBlending premultipliedCompositing]
+                                                     transientStateClass:[iTermIndicatorRendererTransientState class]];
         _textures = [NSMutableDictionary dictionary];
         _indicatorDescriptors = [NSMutableArray array];
         _identifierToTextureMap = [NSMutableDictionary dictionary];
@@ -67,10 +67,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable __kindof iTermMetalRendererTransientState *)createTransientStateForConfiguration:(iTermRenderConfiguration *)configuration
-                                                                               commandBuffer:(id<MTLCommandBuffer>)commandBuffer {
+    commandBuffer:(id<MTLCommandBuffer>)commandBuffer {
     __kindof iTermMetalRendererTransientState * _Nonnull transientState =
         [_metalRenderer createTransientStateForConfiguration:configuration
-                                               commandBuffer:commandBuffer];
+                        commandBuffer:commandBuffer];
     [self initializeTransientState:transientState];
     return transientState;
 }
@@ -84,39 +84,39 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)drawWithFrameData:(iTermMetalFrameData *)frameData
-           transientState:(__kindof iTermMetalRendererTransientState *)transientState {
+    transientState:(__kindof iTermMetalRendererTransientState *)transientState {
     iTermIndicatorRendererTransientState *tState = transientState;
     [tState.indicatorDescriptors enumerateObjectsUsingBlock:^(iTermIndicatorDescriptor * _Nonnull descriptor, NSUInteger idx, BOOL * _Nonnull stop) {
-        [self drawDescriptor:descriptor
-           withRenderEncoder:frameData.renderEncoder
-              transientState:tState];
-    }];
+                                    [self drawDescriptor:descriptor
+                                     withRenderEncoder:frameData.renderEncoder
+                                     transientState:tState];
+                                }];
 }
 
 - (void)drawDescriptor:(iTermIndicatorDescriptor *)descriptor
-     withRenderEncoder:(nonnull id<MTLRenderCommandEncoder>)renderEncoder
-        transientState:(__kindof iTermMetalRendererTransientState *)tState {
+    withRenderEncoder:(nonnull id<MTLRenderCommandEncoder>)renderEncoder
+    transientState:(__kindof iTermMetalRendererTransientState *)tState {
     id<MTLBuffer> vertexBuffer = [self vertexBufferForFrame:descriptor.frame
-                                                      scale:tState.configuration.scale
-                                                    context:tState.poolContext];
+                                       scale:tState.configuration.scale
+                                       context:tState.poolContext];
 
     float alpha = descriptor.alpha;
     id<MTLBuffer> alphaBuffer = [_alphaBufferPool requestBufferFromContext:tState.poolContext
-                                                                 withBytes:&alpha
-                                                            checkIfChanged:YES];
+                                                  withBytes:&alpha
+                                                  checkIfChanged:YES];
 
     [_metalRenderer drawWithTransientState:tState
-                             renderEncoder:renderEncoder
-                          numberOfVertices:6
-                              numberOfPIUs:0
-                             vertexBuffers:@{ @(iTermVertexInputIndexVertices): vertexBuffer }
-                           fragmentBuffers:@{ @(iTermFragmentBufferIndexIndicatorAlpha): alphaBuffer }
-                                  textures:@{ @(iTermTextureIndexPrimary): descriptor.texture }];
+                    renderEncoder:renderEncoder
+                    numberOfVertices:6
+                    numberOfPIUs:0
+                    vertexBuffers:@ { @(iTermVertexInputIndexVertices): vertexBuffer }
+                    fragmentBuffers:@ { @(iTermFragmentBufferIndexIndicatorAlpha): alphaBuffer }
+                    textures:@ { @(iTermTextureIndexPrimary): descriptor.texture }];
 }
 
 - (id<MTLBuffer>)vertexBufferForFrame:(NSRect)frame
-                                scale:(CGFloat)scale
-                              context:(iTermMetalBufferPoolContext *)context {
+    scale:(CGFloat)scale
+    context:(iTermMetalBufferPoolContext *)context {
     CGRect textureFrame = CGRectMake(0, 0, 1, 1);
     CGRect quad = CGRectMake(CGRectGetMinX(frame) * scale,
                              CGRectGetMinY(frame) * scale,
@@ -133,8 +133,8 @@ NS_ASSUME_NONNULL_BEGIN
         { { CGRectGetMaxX(quad), CGRectGetMaxY(quad) }, { CGRectGetMaxX(textureFrame), CGRectGetMaxY(textureFrame) } },
     };
     return [_metalRenderer.verticesPool requestBufferFromContext:context
-                                                       withBytes:vertices
-                                                  checkIfChanged:YES];
+                                        withBytes:vertices
+                                        checkIfChanged:YES];
 }
 
 - (void)reset {
@@ -142,9 +142,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)addIndicator:(iTermIndicatorDescriptor *)indicator
-             context:(iTermMetalBufferPoolContext *)context {
+    context:(iTermMetalBufferPoolContext *)context {
     indicator.texture = [self textureForIdentifier:indicator.identifier image:indicator.image context:context];
-            [_indicatorDescriptors addObject:indicator];
+    [_indicatorDescriptors addObject:indicator];
     indicator.texture.label = indicator.identifier;
 }
 

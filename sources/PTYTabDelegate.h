@@ -42,8 +42,8 @@ typedef NS_OPTIONS(NSUInteger, PTYTabState) {
 - (void)tab:(PTYTab *)tab didSetMetalEnabled:(BOOL)useMetal;
 - (void)tabSessionDidChangeBackgroundColor:(PTYTab *)tab;
 - (void)tabDidChangeGraphic:(PTYTab *)tab
-                 shouldShow:(BOOL)shouldShow
-                      image:(NSImage *)image;
+    shouldShow:(BOOL)shouldShow
+    image:(NSImage *)image;
 - (BOOL)tabCanUseMetal:(PTYTab *)tab reason:(out iTermMetalUnavailableReason *)reason;
 - (void)tabDidChangeMetalViewVisibility:(PTYTab *)tab;
 - (BOOL)tabShouldUseTransparency:(PTYTab *)tab;
@@ -56,9 +56,9 @@ typedef NS_OPTIONS(NSUInteger, PTYTabState) {
 - (void)tabEditActions:(PTYTab *)tab;
 - (void)tabEditSnippets:(PTYTab *)tab;
 - (void)tab:(PTYTab *)tab
-setBackgroundImage:(NSImage *)image
-       mode:(iTermBackgroundImageMode)imageMode
-backgroundColor:(NSColor *)backgroundColor;
+    setBackgroundImage:(NSImage *)image
+    mode:(iTermBackgroundImageMode)imageMode
+    backgroundColor:(NSColor *)backgroundColor;
 - (NSImage *)tabBackgroundImage;
 - (iTermBackgroundImageMode)tabBackgroundImageMode;
 - (CGFloat)tabBlend;

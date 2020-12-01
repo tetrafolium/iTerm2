@@ -13,7 +13,7 @@
 #import "NSArray+iTerm.h"
 #import "NSObject+iTerm.h"
 
-@interface iTermRestorableStateSQLiteRecord: NSObject<iTermRestorableStateRecord>
+@interface iTermRestorableStateSQLiteRecord : NSObject<iTermRestorableStateRecord>
 @end
 
 @implementation iTermRestorableStateSQLiteRecord {
@@ -23,8 +23,8 @@
 }
 
 - (instancetype)initWithIndex:(NSInteger)i
-                 windowNumber:(NSInteger)windowNumber
-                   identifier:(NSString *)identifier {
+    windowNumber:(NSInteger)windowNumber
+    identifier:(NSString *)identifier {
     self = [super init];
     if (self) {
         _index = i;
@@ -45,7 +45,7 @@
     [archiver finishEncoding];
 
     NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:archiver.encodedData
-                                                                                error:nil];
+                                                               error:nil];
     return unarchiver;
 }
 
@@ -65,7 +65,7 @@
 
 @end
 
-@interface iTermRestorableStateSQLiteIndex: NSObject<iTermRestorableStateIndex>
+@interface iTermRestorableStateSQLiteIndex : NSObject<iTermRestorableStateIndex>
 @end
 
 @implementation iTermRestorableStateSQLiteIndex {
@@ -99,8 +99,8 @@
         return nil;
     }
     return [[iTermRestorableStateSQLiteRecord alloc] initWithIndex:i
-                                                      windowNumber:windowNumber
-                                                        identifier:identifier ?: @""];
+                                                     windowNumber:windowNumber
+                                                     identifier:identifier ?: @""];
 }
 
 - (id)objectAtIndexedSubscript:(NSUInteger)idx {
@@ -148,14 +148,14 @@
         return;
     }
     DLog(@"Add a when-ready callback to %@", _db);
-    [_db whenReady:^{
-        DLog(@"db is ready now");
+    [_db whenReady:^ {
+            DLog(@"db is ready now");
         completion([[iTermRestorableStateSQLiteIndex alloc] initWithGraphRecord:self->_db.record]);
     }];
 }
 
 - (void)restoreWindowWithRecord:(id<iTermRestorableStateRecord>)record
-                     completion:(void (^)(void))completion {
+    completion:(void (^)(void))completion {
     NSKeyedUnarchiver *coder = record.unarchiver;
     NSInteger i = -1;
     @try {
@@ -180,11 +180,11 @@
     NSString *identifier = windowRecord.identifier;
     assert(identifier.length > 0);
     [self.delegate restorableStateRestoreWithRecord:windowRecord
-                                         identifier:identifier
-                                         completion:^(NSWindow *window,
-                                                      NSError *error) {
-        completion();
-    }];
+                   identifier:identifier
+                   completion:^(NSWindow *window,
+                  NSError *error) {
+                      completion();
+                  }];
 }
 
 - (void)restoreApplicationState {
@@ -211,9 +211,9 @@
     const NSInteger generation = _generation;
     NSArray<NSWindow *> *windows = [self.delegate restorableStateWindows];
     NSArray<NSString *> *identifiers = [windows mapWithBlock:^id(NSWindow *window) {
-        if (![window.delegate conformsToProtocol:@protocol(iTermGraphCodable)]) {
-            return nil;
-        }
+                if (![window.delegate conformsToProtocol:@protocol(iTermGraphCodable)]) {
+                    return nil;
+                }
         if (![window.delegate conformsToProtocol:@protocol(iTermUniquelyIdentifiable)]) {
             return nil;
         }
@@ -223,14 +223,14 @@
     void (^update)(iTermGraphEncoder * _Nonnull) = ^(iTermGraphEncoder * _Nonnull encoder) {
         // Encode state for each window.
         [encoder encodeArrayWithKey:@"windows"
-                         generation:generation
-                        identifiers:identifiers
-                            options:0
-                              block:^BOOL(NSString * _Nonnull identifier,
-                                          NSInteger index,
-                                          iTermGraphEncoder * _Nonnull subencoder,
-                                          BOOL *stop) {
-            NSWindow *window = windows[index];
+                 generation:generation
+                 identifiers:identifiers
+                 options:0
+                 block:^BOOL(NSString * _Nonnull identifier,
+                     NSInteger index,
+                     iTermGraphEncoder * _Nonnull subencoder,
+                BOOL *stop) {
+                    NSWindow *window = windows[index];
             [subencoder encodeString:identifier forKey:@"__identifier"];
             [subencoder encodeNumber:@(window.windowNumber) forKey:@"__windowNumber"];
             id<iTermGraphCodable> codable = (id<iTermGraphCodable>)window.delegate;
@@ -246,10 +246,10 @@
     };
 
     iTermCallback *callback =
-    [iTermCallback onThread:[iTermThread main] block:^(iTermMainThreadState *state,
-                                                       id  _Nullable result) {
-        completion();
-    }];
+        [iTermCallback onThread:[iTermThread main] block:^(iTermMainThreadState *state,
+                  id  _Nullable result) {
+                      completion();
+                  }];
 
     return [_db updateSynchronously:sync block:update completion:callback];
 }

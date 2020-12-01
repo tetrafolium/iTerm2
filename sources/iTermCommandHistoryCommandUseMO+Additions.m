@@ -15,7 +15,7 @@
 
 + (instancetype)commandHistoryCommandUseInContext:(NSManagedObjectContext *)context {
     return [NSEntityDescription insertNewObjectForEntityForName:self.entityName
-                                         inManagedObjectContext:context];
+                                inManagedObjectContext:context];
 }
 
 + (NSString *)entityName {
@@ -23,7 +23,7 @@
 }
 
 + (instancetype)commandHistoryCommandUseFromDeprecatedSerialization:(id)serializedValue
-                                                          inContext:(NSManagedObjectContext *)context {
+    inContext:(NSManagedObjectContext *)context {
     iTermCommandHistoryCommandUseMO *managedObject = [self commandHistoryCommandUseInContext:context];
     if ([serializedValue isKindOfClass:[NSArray class]]) {
         managedObject.time = serializedValue[0];
@@ -34,8 +34,8 @@
             managedObject.markGuid = serializedValue[2];
         }
         if ([serializedValue count] > 3 &&
-            ![serializedValue[3] isKindOfClass:[NSNull class]] &&
-            [serializedValue[3] length] > 0) {
+                ![serializedValue[3] isKindOfClass:[NSNull class]] &&
+                [serializedValue[3] length] > 0) {
             managedObject.command = serializedValue[3];
         }
         if ([serializedValue count] > 4 && ![serializedValue[4] isKindOfClass:[NSNull class]]) {

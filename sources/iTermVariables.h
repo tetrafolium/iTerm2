@@ -116,7 +116,7 @@ extern NSString *const iTermVariableKeyWindowNumber;
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithContext:(iTermVariablesSuggestionContext)context
-                          owner:(id<iTermObject>)owner NS_DESIGNATED_INITIALIZER;
+    owner:(id<iTermObject>)owner NS_DESIGNATED_INITIALIZER;
 
 // WARNING: You almost never want to use this. It is useful if you need to get a known child out, as
 // open quickly does to find the names of all user variables.
@@ -126,7 +126,7 @@ extern NSString *const iTermVariableKeyWindowNumber;
 - (nullable id)rawValueForVariableName:(NSString *)name;
 
 - (void)removeLinkToReference:(id<iTermVariableReference>)reference
-                         path:(NSString *)path;
+    path:(NSString *)path;
 
 @end
 

@@ -66,12 +66,12 @@ static BOOL gForceSaveState;
         }
         NSString *savedState = [appSupport stringByAppendingPathComponent:@"SavedState"];
         [[NSFileManager defaultManager] createDirectoryAtPath:savedState
-                                  withIntermediateDirectories:YES
-                                                   attributes:@{ NSFilePosixPermissions: @(01700) }
-                                                        error:nil];
-        [[NSFileManager defaultManager] setAttributes:@{ NSFilePosixPermissions: @(01700) }
-                                         ofItemAtPath:savedState
-                                                error:nil];
+                                        withIntermediateDirectories:YES
+                                        attributes:@ { NSFilePosixPermissions: @(01700) }
+                                        error:nil];
+        [[NSFileManager defaultManager] setAttributes:@ { NSFilePosixPermissions: @(01700) }
+                                        ofItemAtPath:savedState
+                                        error:nil];
 
         // NOTE: I used to erase state at this point if window restoration was globally disabled,
         // but doing so breaks restoring state when logging back in. See the comment on
@@ -79,7 +79,7 @@ static BOOL gForceSaveState;
         if ([iTermAdvancedSettingsModel storeStateInSqlite]) {
             NSURL *url = [NSURL fileURLWithPath:[savedState stringByAppendingPathComponent:@"restorable-state.sqlite"]];
             iTermRestorableStateSQLite *sqlite = [[iTermRestorableStateSQLite alloc] initWithURL:url
-                                                                                           erase:NO];
+                                                                                     erase:NO];
             sqlite.delegate = self;
             _saver = sqlite;
             _restorer = sqlite;
@@ -90,14 +90,14 @@ static BOOL gForceSaveState;
             saver.delegate = self;
 
             iTermRestorableStateRestorer *restorer = [[iTermRestorableStateRestorer alloc] initWithIndexURL:indexURL
-                                                                                                      erase:NO];
+                                                         erase:NO];
             restorer.delegate = self;
             _restorer = restorer;
         }
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(applicationWillTerminate:)
-                                                     name:iTermApplicationWillTerminate
-                                                   object:nil];
+                                              selector:@selector(applicationWillTerminate:)
+                                              name:iTermApplicationWillTerminate
+                                              object:nil];
 
         _driver = [[iTermRestorableStateDriver alloc] init];
         _driver.restorer = _restorer;
@@ -136,11 +136,11 @@ static BOOL gForceSaveState;
 - (void)restoreWindowsWithCompletion:(void (^)(void))completion {
     assert([NSThread isMainThread]);
     __weak __typeof(self) weakSelf = self;
-    [_driver restoreWithReady:^{
-        [weakSelf.delegate restorableStateDidFinishRequestingRestorations:self];
-    }
-                   completion:^{
-        DLog(@"Restoration did complete");
+    [_driver restoreWithReady:^ {
+                [weakSelf.delegate restorableStateDidFinishRequestingRestorations:self];
+            }
+            completion:^ {
+                DLog(@"Restoration did complete");
         [weakSelf completeInitialization];
         completion();
     }];
@@ -192,20 +192,20 @@ static BOOL gForceSaveState;
 #pragma mark - iTermRestorableStateRestoring
 
 - (void)restorableStateRestoreWithCoder:(NSCoder *)coder
-                             identifier:(NSString *)identifier
-                             completion:(void (^)(NSWindow *, NSError *))completion {
+    identifier:(NSString *)identifier
+    completion:(void (^)(NSWindow *, NSError *))completion {
     [self.delegate restorableStateRestoreWithCoder:coder
-                                        identifier:identifier
-                                        completion:completion];
+                   identifier:identifier
+                   completion:completion];
 }
 
 - (void)restorableStateRestoreWithRecord:(nonnull iTermEncoderGraphRecord *)record
-                              identifier:(nonnull NSString *)identifier
-                              completion:(nonnull void (^)(NSWindow *,
-                                                           NSError *))completion {
+    identifier:(nonnull NSString *)identifier
+    completion:(nonnull void (^)(NSWindow *,
+    NSError *))completion {
     [self.delegate restorableStateRestoreWithRecord:record
-                                         identifier:identifier
-                                         completion:completion];
+                   identifier:identifier
+                   completion:completion];
 }
 
 - (void)restorableStateRestoreApplicationStateWithRecord:(nonnull iTermEncoderGraphRecord *)record {
@@ -223,7 +223,7 @@ static BOOL gForceSaveState;
 }
 
 - (void)restorableStateEncodeWithCoder:(NSCoder *)coder
-                                window:(NSWindow *)window {
+    window:(NSWindow *)window {
     return [self.delegate restorableStateEncodeWithCoder:coder window:window];
 }
 

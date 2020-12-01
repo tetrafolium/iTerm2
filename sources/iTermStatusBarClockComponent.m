@@ -34,27 +34,27 @@ static NSString *const iTermStatusBarClockComponentLocalizeKey = @"localize";
 - (NSArray<iTermStatusBarComponentKnob *> *)statusBarComponentKnobs {
     iTermStatusBarComponentKnob *formatKnob =
         [[iTermStatusBarComponentKnob alloc] initWithLabelText:@"Date Format:"
-                                                          type:iTermStatusBarComponentKnobTypeText
-                                                   placeholder:@"Date Format (Unicode TR 35)"
-                                                  defaultValue:self.class.statusBarComponentDefaultKnobs[iTermStatusBarClockComponentFormatKey]
-                                                           key:iTermStatusBarClockComponentFormatKey];
+                                             type:iTermStatusBarComponentKnobTypeText
+                                             placeholder:@"Date Format (Unicode TR 35)"
+                                             defaultValue:self.class.statusBarComponentDefaultKnobs[iTermStatusBarClockComponentFormatKey]
+                                             key:iTermStatusBarClockComponentFormatKey];
     formatKnob.helpURL = [NSURL URLWithString:@"https://iterm2.com/clock-status-bar-component-help"];
     iTermStatusBarComponentKnob *dateFormatIsTemplate =
         [[iTermStatusBarComponentKnob alloc] initWithLabelText:@"Localize Date Format"
-                                                          type:iTermStatusBarComponentKnobTypeCheckbox
-                                                   placeholder:nil
-                                                  defaultValue:@YES
-                                                           key:iTermStatusBarClockComponentLocalizeKey];
+                                             type:iTermStatusBarComponentKnobTypeCheckbox
+                                             placeholder:nil
+                                             defaultValue:@YES
+                                             key:iTermStatusBarClockComponentLocalizeKey];
     return [ @[ formatKnob, dateFormatIsTemplate, [super statusBarComponentKnobs] ] flattenedArray];
 }
 
 + (NSDictionary *)statusBarComponentDefaultKnobs {
     NSDictionary *fromSuper = [super statusBarComponentDefaultKnobs];
-    return [fromSuper dictionaryByMergingDictionary:@{ iTermStatusBarClockComponentFormatKey: @"M/dd h:mm" }];
+    return [fromSuper dictionaryByMergingDictionary:@ { iTermStatusBarClockComponentFormatKey: @"M/dd h:mm" }];
 }
 
 - (id)statusBarComponentExemplarWithBackgroundColor:(NSColor *)backgroundColor
-                                          textColor:(NSColor *)textColor {
+    textColor:(NSColor *)textColor {
     return [[self dateFormatter] stringFromDate:[NSDate date]];
 }
 

@@ -28,7 +28,7 @@ NSString *const iTermSessionBuriedStateChangeTabNotification = @"iTermSessionBur
 + (instancetype)sharedInstance {
     static id instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -39,9 +39,9 @@ NSString *const iTermSessionBuriedStateChangeTabNotification = @"iTermSessionBur
     if (self) {
         _array = [[NSMutableArray alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(tmuxWindowCacheDidChange:)
-                                                     name:iTermTmuxWindowCacheDidChange
-                                                   object:nil];
+                                              selector:@selector(tmuxWindowCacheDidChange:)
+                                              name:iTermTmuxWindowCacheDidChange
+                                              object:nil];
     }
     return self;
 }
@@ -84,9 +84,9 @@ NSString *const iTermSessionBuriedStateChangeTabNotification = @"iTermSessionBur
             DLog(@"Found it. Re-create the tab.");
             // Add to existing tab by destroying and recreating it.
             [term recreateTab:tab
-              withArrangement:restorableSession.arrangement
-                     sessions:restorableSession.sessions
-                       revive:NO];
+                  withArrangement:restorableSession.arrangement
+                  sessions:restorableSession.sessions
+                  revive:NO];
         } else {
             DLog(@"The tab doesn't exist. Create a new tab and add the session to it");
             // Create a new tab and add the session to it.
@@ -96,10 +96,10 @@ NSString *const iTermSessionBuriedStateChangeTabNotification = @"iTermSessionBur
         // Create a new term and add the session to it.
         DLog(@"Failed to find the terminal by uid. Create a new window and add the session to it.");
         term = [[PseudoTerminal alloc] initWithSmartLayout:YES
-                                                windowType:restorableSession.windowType
-                                           savedWindowType:restorableSession.savedWindowType
-                                                    screen:restorableSession.screen
-                                                   profile:nil];
+                                       windowType:restorableSession.windowType
+                                       savedWindowType:restorableSession.savedWindowType
+                                       screen:restorableSession.screen
+                                       profile:nil];
         if (term) {
             [[iTermController sharedInstance] addTerminalWindow:term];
             term.terminalGuid = restorableSession.terminalGuid;
@@ -118,14 +118,14 @@ NSString *const iTermSessionBuriedStateChangeTabNotification = @"iTermSessionBur
 
 - (NSArray<PTYSession *> *)buriedSessions {
     return [_array flatMapWithBlock:^NSArray *(iTermRestorableSession *anObject) {
-        return anObject.sessions;
-    }];
+               return anObject.sessions;
+           }];
 }
 
 - (NSArray<NSDictionary *> *)restorableState {
     return [_array mapWithBlock:^id(iTermRestorableSession *anObject) {
-        return [anObject restorableState];
-    }];
+               return [anObject restorableState];
+           }];
 }
 
 - (void)restoreFromState:(NSArray<NSDictionary *> *)state {
@@ -176,7 +176,7 @@ NSString *const iTermSessionBuriedStateChangeTabNotification = @"iTermSessionBur
         }
         NSString *title = [NSString stringWithFormat:@"↣ %@ — %@", clientName, window.name];
         NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:title
-                                                      action:@selector(disinterTmuxWindow:)
+                                               action:@selector(disinterTmuxWindow:)
                                                keyEquivalent:@""];
         item.target = self;
         item.representedObject = window;
@@ -199,8 +199,8 @@ NSString *const iTermSessionBuriedStateChangeTabNotification = @"iTermSessionBur
     TmuxController *controller =
         [[TmuxControllerRegistry sharedInstance] controllerForClient:window.clientName];
     [controller openWindowWithId:window.windowNumber
-                     intentional:YES
-                         profile:controller.sharedProfile];
+                intentional:YES
+                profile:controller.sharedProfile];
 
 }
 

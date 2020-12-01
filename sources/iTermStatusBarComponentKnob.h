@@ -41,10 +41,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) id value;
 
 - (instancetype)initWithLabelText:(nullable NSString *)labelText
-                             type:(iTermStatusBarComponentKnobType)type
-                      placeholder:(nullable NSString *)placeholder
-                     defaultValue:(nullable id)defaultValue
-                              key:(NSString *)key NS_DESIGNATED_INITIALIZER;
+    type:(iTermStatusBarComponentKnobType)type
+    placeholder:(nullable NSString *)placeholder
+    defaultValue:(nullable id)defaultValue
+    key:(NSString *)key NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 

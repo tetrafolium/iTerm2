@@ -16,7 +16,7 @@
 // NSPanel and so it doesn't receive this method. I don't know how you get one, but I saw a few
 // crashes because of this folly.
 + (void)setDirectoryURL:(NSURL *)url
-              onceForID:(NSString *)identifier
-              savePanel:(NSSavePanel *)savePanel;
+    onceForID:(NSString *)identifier
+    savePanel:(NSSavePanel *)savePanel;
 
 @end

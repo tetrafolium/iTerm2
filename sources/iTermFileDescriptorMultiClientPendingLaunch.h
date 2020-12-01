@@ -14,13 +14,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef iTermCallback<id, iTermResult<iTermFileDescriptorMultiClientChild *> *> iTermMultiClientLaunchCallback;
 
-@interface iTermFileDescriptorMultiClientPendingLaunch: NSObject
+@interface iTermFileDescriptorMultiClientPendingLaunch : NSObject
 @property (nonatomic, readonly) iTermMultiServerRequestLaunch launchRequest;
 @property (nonatomic, readonly) iTermMultiClientLaunchCallback *launchCallback;
 
 - (instancetype)initWithRequest:(iTermMultiServerRequestLaunch)request
-                       callback:(iTermMultiClientLaunchCallback *)callback
-                         thread:(iTermThread *)thread NS_DESIGNATED_INITIALIZER;
+    callback:(iTermMultiClientLaunchCallback *)callback
+    thread:(iTermThread *)thread NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 - (void)invalidate;
 - (void)cancelWithError:(NSError *)error;

@@ -59,8 +59,8 @@ const int kColorMapAnsiBrightModifier = 8;
 }
 
 + (iTermColorMapKey)keyFor8bitRed:(int)red
-                            green:(int)green
-                             blue:(int)blue {
+    green:(int)green
+    blue:(int)blue {
     return kColorMap24bitBase + ((red & 0xff) << 16) + ((green & 0xff) << 8) + (blue & 0xff);
 }
 
@@ -127,7 +127,7 @@ const int kColorMapAnsiBrightModifier = 8;
         (float)components[1],
         (float)components[2],
         (float)components[3]
-   };
+    };
     _fastMap[@(theKey)] = [NSData dataWithBytes:&value length:sizeof(value)];
     [_delegate colorMap:self didChangeColorForKey:theKey];
 }
@@ -176,8 +176,8 @@ const int kColorMapAnsiBrightModifier = 8;
 // spaces. The effects are generally subtle.
 + (void)getComponents:(CGFloat *)result
     byAveragingComponents:(CGFloat *)rgb1
-       withComponents:(CGFloat *)rgb2
-                alpha:(CGFloat)alpha {
+    withComponents:(CGFloat *)rgb2
+    alpha:(CGFloat)alpha {
     for (int i = 0; i < 3; i++) {
         result[i] = rgb1[i] * (1 - alpha) + rgb2[i] * alpha;
     }
@@ -198,8 +198,8 @@ const int kColorMapAnsiBrightModifier = 8;
 // default background color. It doesn't make sense to combine RGB values from different color
 // spaces. The effects are generally subtle.
 - (NSColor *)processedTextColorForTextColor:(NSColor *)textColor
-                        overBackgroundColor:(NSColor *)backgroundColor
-                     disableMinimumContrast:(BOOL)disableMinimumContrast {
+    overBackgroundColor:(NSColor *)backgroundColor
+    disableMinimumContrast:(BOOL)disableMinimumContrast {
     if (!textColor) {
         return nil;
     }
@@ -213,8 +213,8 @@ const int kColorMapAnsiBrightModifier = 8;
     if (backgroundColor && !disableMinimumContrast) {
         [NSColor getComponents:contrastingRgb
                  forComponents:textRgb
-            withContrastAgainstComponents:backgroundRgb
-                          minimumContrast:_minimumContrast];
+                 withContrastAgainstComponents:backgroundRgb
+                 minimumContrast:_minimumContrast];
     } else {
         memmove(contrastingRgb, textRgb, sizeof(textRgb));
     }
@@ -224,9 +224,9 @@ const int kColorMapAnsiBrightModifier = 8;
 
     CGFloat mutedRgb[4];
     [iTermColorMap getComponents:mutedRgb
-           byAveragingComponents:contrastingRgb
-                  withComponents:defaultBackgroundComponents
-                           alpha:_mutingAmount];
+                   byAveragingComponents:contrastingRgb
+                   withComponents:defaultBackgroundComponents
+                   alpha:_mutingAmount];
 
     CGFloat dimmedRgb[4];
     CGFloat grayRgb[] = { _backgroundBrightness, _backgroundBrightness, _backgroundBrightness };
@@ -234,9 +234,9 @@ const int kColorMapAnsiBrightModifier = 8;
         grayRgb[0] = grayRgb[1] = grayRgb[2] = 0.5;
     }
     [iTermColorMap getComponents:dimmedRgb
-           byAveragingComponents:mutedRgb
-                  withComponents:grayRgb
-                           alpha:_dimmingAmount];
+                   byAveragingComponents:mutedRgb
+                   withComponents:grayRgb
+                   alpha:_dimmingAmount];
 
     // Premultiply alpha
     CGFloat alpha = textRgb[3];
@@ -251,8 +251,8 @@ const int kColorMapAnsiBrightModifier = 8;
         [_lastTextColor autorelease];
         memmove(_lastTextComponents, dimmedRgb, sizeof(CGFloat) * 3);
         _lastTextColor = [[NSColor colorWithColorSpace:textColor.colorSpace
-                                            components:dimmedRgb
-                                                 count:4] retain];
+                           components:dimmedRgb
+                           count:4] retain];
         return _lastTextColor;
     }
 }
@@ -269,15 +269,15 @@ const int kColorMapAnsiBrightModifier = 8;
     [color getComponents:components];
 
     vector_float4 colorVector = simd_make_float4(components[0],
-                                                 components[1],
-                                                 components[2],
-                                                 components[3]);
+                                components[1],
+                                components[2],
+                                components[3]);
     vector_float4 v = [self commonColorByMutingColor:colorVector];
 
     CGFloat mutedRgb[4] = { v.x, v.y, v.z, v.w };
     return [NSColor colorWithColorSpace:color.colorSpace
-                             components:mutedRgb
-                                  count:4];
+                    components:mutedRgb
+                    count:4];
 }
 
 - (vector_float4)fastColorByMutingColor:(vector_float4)color {
@@ -295,18 +295,18 @@ const int kColorMapAnsiBrightModifier = 8;
 
     CGFloat mutedRgb[4];
     [iTermColorMap getComponents:mutedRgb
-           byAveragingComponents:components
-                  withComponents:defaultBackgroundComponents
-                           alpha:_mutingAmount];
+                   byAveragingComponents:components
+                   withComponents:defaultBackgroundComponents
+                   alpha:_mutingAmount];
     mutedRgb[3] = components[3];
 
     return simd_make_float4(mutedRgb[0], mutedRgb[1], mutedRgb[2], components[3]);
 }
 
 + (NSColor *)dimmedTextColor:(NSColor *)color
-        backgroundBrightness:(CGFloat)backgroundBrightness
-               dimmingAmount:(CGFloat)dimmingAmount
-                 dimOnlyText:(BOOL)dimOnlyText {
+    backgroundBrightness:(CGFloat)backgroundBrightness
+    dimmingAmount:(CGFloat)dimmingAmount
+    dimOnlyText:(BOOL)dimOnlyText {
     CGFloat components[4];
     [color getComponents:components];
 
@@ -316,14 +316,14 @@ const int kColorMapAnsiBrightModifier = 8;
         grayRgb[0] = grayRgb[1] = grayRgb[2] = 0.5;
     }
     [iTermColorMap getComponents:dimmedRgb
-           byAveragingComponents:components
-                  withComponents:grayRgb
-                           alpha:dimmingAmount];
+                   byAveragingComponents:components
+                   withComponents:grayRgb
+                   alpha:dimmingAmount];
     dimmedRgb[3] = components[3];
 
     return [NSColor colorWithColorSpace:color.colorSpace
-                             components:dimmedRgb
-                                  count:4];
+                    components:dimmedRgb
+                    count:4];
 }
 // There is an issue where where the passed-in color can be in a different color space than the
 // default background color. It doesn't make sense to combine RGB values from different color
@@ -337,9 +337,9 @@ const int kColorMapAnsiBrightModifier = 8;
     [_map[@(kColorMapBackground)] getComponents:defaultBackgroundComponents];
 
     return [iTermColorMap dimmedTextColor:color
-                     backgroundBrightness:_backgroundBrightness
-                            dimmingAmount:_dimmingAmount
-                              dimOnlyText:_dimOnlyText];
+                          backgroundBrightness:_backgroundBrightness
+                          dimmingAmount:_dimmingAmount
+                          dimOnlyText:_dimOnlyText];
 }
 
 - (vector_float4)fastProcessedBackgroundColorForBackgroundColor:(vector_float4)backgroundColor {
@@ -351,11 +351,11 @@ const int kColorMapAnsiBrightModifier = 8;
     // If dimOnlyText is set then text and non-default background colors get dimmed toward black.
     if (_dimOnlyText) {
         const BOOL isDefaultBackgroundColor =
-        (fabs(backgroundColor.x - defaultBackgroundComponents.x) < 0.01 &&
-         fabs(backgroundColor.y - defaultBackgroundComponents.y) < 0.01 &&
-         fabs(backgroundColor.z - defaultBackgroundComponents.z) < 0.01);
+            (fabs(backgroundColor.x - defaultBackgroundComponents.x) < 0.01 &&
+             fabs(backgroundColor.y - defaultBackgroundComponents.y) < 0.01 &&
+             fabs(backgroundColor.z - defaultBackgroundComponents.z) < 0.01);
         if (!isDefaultBackgroundColor) {
-            grayRgb = (vector_float4){
+            grayRgb = (vector_float4) {
                 (float)_backgroundBrightness,
                 (float)_backgroundBrightness,
                 (float)_backgroundBrightness,
@@ -392,9 +392,9 @@ const int kColorMapAnsiBrightModifier = 8;
 
     CGFloat mutedRgb[4];
     [iTermColorMap getComponents:mutedRgb
-           byAveragingComponents:backgroundRgb
-                  withComponents:defaultBackgroundComponents
-                           alpha:_mutingAmount];
+                   byAveragingComponents:backgroundRgb
+                   withComponents:defaultBackgroundComponents
+                   alpha:_mutingAmount];
 
     CGFloat dimmedRgb[4];
     CGFloat grayRgb[] = { 0.5, 0.5, 0.5 };
@@ -415,9 +415,9 @@ const int kColorMapAnsiBrightModifier = 8;
 
     if (shouldDim) {
         [iTermColorMap getComponents:dimmedRgb
-               byAveragingComponents:mutedRgb
-                      withComponents:grayRgb
-                               alpha:_dimmingAmount];
+                       byAveragingComponents:mutedRgb
+                       withComponents:grayRgb
+                       alpha:_dimmingAmount];
     } else {
         memmove(dimmedRgb, mutedRgb, sizeof(CGFloat) * 3);
     }
@@ -429,66 +429,66 @@ const int kColorMapAnsiBrightModifier = 8;
         [_lastBackgroundColor autorelease];
         memmove(_lastBackgroundComponents, dimmedRgb, sizeof(CGFloat) * 4);
         _lastBackgroundColor = [[NSColor colorWithColorSpace:backgroundColor.colorSpace
-                                                  components:dimmedRgb
-                                                       count:4] retain];
+                                 components:dimmedRgb
+                                 count:4] retain];
         return _lastBackgroundColor;
     }
 }
 
 - (NSString *)profileKeyForColorMapKey:(int)theKey {
     switch (theKey) {
-        case kColorMapForeground:
-            return KEY_FOREGROUND_COLOR;
-        case kColorMapBackground:
-            return KEY_BACKGROUND_COLOR;
-        case kColorMapBold:
-            return KEY_BOLD_COLOR;
-        case kColorMapLink:
-            return KEY_LINK_COLOR;
-        case kColorMapSelection:
-            return KEY_SELECTION_COLOR;
-        case kColorMapSelectedText:
-            return KEY_SELECTED_TEXT_COLOR;
-        case kColorMapCursor:
-            return KEY_CURSOR_COLOR;
-        case kColorMapCursorText:
-            return KEY_CURSOR_TEXT_COLOR;
-        case kColorMapUnderline:
-            return KEY_UNDERLINE_COLOR;
+    case kColorMapForeground:
+        return KEY_FOREGROUND_COLOR;
+    case kColorMapBackground:
+        return KEY_BACKGROUND_COLOR;
+    case kColorMapBold:
+        return KEY_BOLD_COLOR;
+    case kColorMapLink:
+        return KEY_LINK_COLOR;
+    case kColorMapSelection:
+        return KEY_SELECTION_COLOR;
+    case kColorMapSelectedText:
+        return KEY_SELECTED_TEXT_COLOR;
+    case kColorMapCursor:
+        return KEY_CURSOR_COLOR;
+    case kColorMapCursorText:
+        return KEY_CURSOR_TEXT_COLOR;
+    case kColorMapUnderline:
+        return KEY_UNDERLINE_COLOR;
 
-        case kColorMapAnsiBlack:
-            return KEY_ANSI_0_COLOR;
-        case kColorMapAnsiRed:
-            return KEY_ANSI_1_COLOR;
-        case kColorMapAnsiGreen:
-            return KEY_ANSI_2_COLOR;
-        case kColorMapAnsiYellow:
-            return KEY_ANSI_3_COLOR;
-        case kColorMapAnsiBlue:
-            return KEY_ANSI_4_COLOR;
-        case kColorMapAnsiMagenta:
-            return KEY_ANSI_5_COLOR;
-        case kColorMapAnsiCyan:
-            return KEY_ANSI_6_COLOR;
-        case kColorMapAnsiWhite:
-            return KEY_ANSI_7_COLOR;
+    case kColorMapAnsiBlack:
+        return KEY_ANSI_0_COLOR;
+    case kColorMapAnsiRed:
+        return KEY_ANSI_1_COLOR;
+    case kColorMapAnsiGreen:
+        return KEY_ANSI_2_COLOR;
+    case kColorMapAnsiYellow:
+        return KEY_ANSI_3_COLOR;
+    case kColorMapAnsiBlue:
+        return KEY_ANSI_4_COLOR;
+    case kColorMapAnsiMagenta:
+        return KEY_ANSI_5_COLOR;
+    case kColorMapAnsiCyan:
+        return KEY_ANSI_6_COLOR;
+    case kColorMapAnsiWhite:
+        return KEY_ANSI_7_COLOR;
 
-        case kColorMapAnsiBlack + kColorMapAnsiBrightModifier:
-            return KEY_ANSI_8_COLOR;
-        case kColorMapAnsiRed + kColorMapAnsiBrightModifier:
-            return KEY_ANSI_9_COLOR;
-        case kColorMapAnsiGreen + kColorMapAnsiBrightModifier:
-            return KEY_ANSI_10_COLOR;
-        case kColorMapAnsiYellow + kColorMapAnsiBrightModifier:
-            return KEY_ANSI_11_COLOR;
-        case kColorMapAnsiBlue + kColorMapAnsiBrightModifier:
-            return KEY_ANSI_12_COLOR;
-        case kColorMapAnsiMagenta + kColorMapAnsiBrightModifier:
-            return KEY_ANSI_13_COLOR;
-        case kColorMapAnsiCyan + kColorMapAnsiBrightModifier:
-            return KEY_ANSI_14_COLOR;
-        case kColorMapAnsiWhite + kColorMapAnsiBrightModifier:
-            return KEY_ANSI_15_COLOR;
+    case kColorMapAnsiBlack + kColorMapAnsiBrightModifier:
+        return KEY_ANSI_8_COLOR;
+    case kColorMapAnsiRed + kColorMapAnsiBrightModifier:
+        return KEY_ANSI_9_COLOR;
+    case kColorMapAnsiGreen + kColorMapAnsiBrightModifier:
+        return KEY_ANSI_10_COLOR;
+    case kColorMapAnsiYellow + kColorMapAnsiBrightModifier:
+        return KEY_ANSI_11_COLOR;
+    case kColorMapAnsiBlue + kColorMapAnsiBrightModifier:
+        return KEY_ANSI_12_COLOR;
+    case kColorMapAnsiMagenta + kColorMapAnsiBrightModifier:
+        return KEY_ANSI_13_COLOR;
+    case kColorMapAnsiCyan + kColorMapAnsiBrightModifier:
+        return KEY_ANSI_14_COLOR;
+    case kColorMapAnsiWhite + kColorMapAnsiBrightModifier:
+        return KEY_ANSI_15_COLOR;
     }
 
     return nil;

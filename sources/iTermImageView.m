@@ -21,9 +21,13 @@
         self.layer = [[CALayer alloc] init];
         self.layer.contentsGravity = kCAGravityResizeAspectFill;
         self.wantsLayer = YES;
-        self.layer.actions = @{@"backgroundColor": [NSNull null],
-                               @"contents": [NSNull null],
-                               @"contentsGravity": [NSNull null] };
+        self.layer.actions = @ {@"backgroundColor":
+                                [NSNull null],
+                                @"contents":
+                                [NSNull null],
+                                @"contentsGravity":
+                                [NSNull null]
+                               };
     }
     return self;
 }
@@ -74,26 +78,26 @@
 
 - (void)reallyUpdate {
     switch (_contentMode) {
-        case iTermBackgroundImageModeTile:
-            [self loadTiledImage];
-            self.layer.contentsGravity = kCAGravityResize;
-            return;
-            
-        case iTermBackgroundImageModeStretch:
-            [self loadRegularImage];
-            self.layer.contentsGravity = kCAGravityResize;
-            return;
-            
-        case iTermBackgroundImageModeScaleAspectFit:
-            [self loadRegularImage];
-            self.layer.contentsGravity = kCAGravityResizeAspect;
-            self.layer.backgroundColor = self.backgroundColor.CGColor;
-            return;
-            
-        case iTermBackgroundImageModeScaleAspectFill:
-            [self loadRegularImage];
-            self.layer.contentsGravity = kCAGravityResizeAspectFill;
-            return;
+    case iTermBackgroundImageModeTile:
+        [self loadTiledImage];
+        self.layer.contentsGravity = kCAGravityResize;
+        return;
+
+    case iTermBackgroundImageModeStretch:
+        [self loadRegularImage];
+        self.layer.contentsGravity = kCAGravityResize;
+        return;
+
+    case iTermBackgroundImageModeScaleAspectFit:
+        [self loadRegularImage];
+        self.layer.contentsGravity = kCAGravityResizeAspect;
+        self.layer.backgroundColor = self.backgroundColor.CGColor;
+        return;
+
+    case iTermBackgroundImageModeScaleAspectFill:
+        [self loadRegularImage];
+        self.layer.contentsGravity = kCAGravityResizeAspectFill;
+        return;
     }
 }
 
@@ -156,14 +160,14 @@ static void iTermImageViewReleaseImage(void *info) {
 - (void)setBackgroundColor:(NSColor *)backgroundColor {
     _backgroundColor = backgroundColor;
     switch (self.contentMode) {
-        case iTermBackgroundImageModeTile:
-        case iTermBackgroundImageModeStretch:
-        case iTermBackgroundImageModeScaleAspectFill:
-            return;
-            
-        case iTermBackgroundImageModeScaleAspectFit:
-            self.layer.backgroundColor = backgroundColor.CGColor;
-            return;
+    case iTermBackgroundImageModeTile:
+    case iTermBackgroundImageModeStretch:
+    case iTermBackgroundImageModeScaleAspectFill:
+        return;
+
+    case iTermBackgroundImageModeScaleAspectFit:
+        self.layer.backgroundColor = backgroundColor.CGColor;
+        return;
     }
 }
 

@@ -273,45 +273,45 @@ static BOOL NS_WARN_UNUSED_RESULT SafeIncr(int summand, int addend, int *sum) {
 #endif
         int n;
         switch (diff[i++]) {
-            case kSameSequence:
-                memcpy(&n, diff + i, sizeof(n));
-                if (!SafeIncr(i, sizeof(n), &i)) {
-                    return NO;
-                }
+        case kSameSequence:
+            memcpy(&n, diff + i, sizeof(n));
+            if (!SafeIncr(i, sizeof(n), &i)) {
+                return NO;
+            }
 #ifdef DVRDEBUG
-                NSLog(@"%d bytes of sameness at offset %d", n, i);
+            NSLog(@"%d bytes of sameness at offset %d", n, i);
 #endif
-                if (!SafeIncr(n, o, &o)) {
-                    return NO;
-                }
-                // Don't advance i because there's nothing saved in the buffer
-                // at this location since it's a SameSequence.
-                break;
+            if (!SafeIncr(n, o, &o)) {
+                return NO;
+            }
+            // Don't advance i because there's nothing saved in the buffer
+            // at this location since it's a SameSequence.
+            break;
 
-            case kDiffSequence:
-                memcpy(&n, diff + i, sizeof(n));
-                if (!SafeIncr(i, sizeof(n), &i)) {
-                    return NO;
-                }
-                int proposedEnd;
-                if (!SafeIncr(o, n, &proposedEnd)) {
-                    return NO;
-                }
-                if (proposedEnd -1 >= length_) {
-                    return NO;
-                }
-                memcpy(frame_ + o, diff + i, n);
+        case kDiffSequence:
+            memcpy(&n, diff + i, sizeof(n));
+            if (!SafeIncr(i, sizeof(n), &i)) {
+                return NO;
+            }
+            int proposedEnd;
+            if (!SafeIncr(o, n, &proposedEnd)) {
+                return NO;
+            }
+            if (proposedEnd -1 >= length_) {
+                return NO;
+            }
+            memcpy(frame_ + o, diff + i, n);
 #ifdef DVRDEBUG
-                NSLog(@"%d bytes of difference at offset %d", n, o);
+            NSLog(@"%d bytes of difference at offset %d", n, o);
 #endif
-                if (!SafeIncr(n, o, &o) || !SafeIncr(n, i, &i)) {
-                    return NO;
-                }
-                break;
+            if (!SafeIncr(n, o, &o) || !SafeIncr(n, i, &i)) {
+                return NO;
+            }
+            break;
 
-            default:
-                NSLog(@"Unexpected block type %d", (int)diff[i-1]);
-                assert(0);
+        default:
+            NSLog(@"Unexpected block type %d", (int)diff[i-1]);
+            assert(0);
         }
     }
     return YES;

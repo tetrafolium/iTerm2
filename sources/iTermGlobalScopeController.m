@@ -23,7 +23,7 @@ static char iTermGlobalScopeControllerKVOContext;
 @end
 
 NS_CLASS_AVAILABLE_MAC(10_14)
-@interface iTermGlobalScopeControllerModernImpl: iTermGlobalScopeController
+@interface iTermGlobalScopeControllerModernImpl : iTermGlobalScopeController
 @end
 
 @implementation iTermGlobalScopeControllerModernImpl
@@ -32,9 +32,9 @@ NS_CLASS_AVAILABLE_MAC(10_14)
     self = [super init];
     if (self) {
         [NSApp addObserver:self
-                forKeyPath:NSStringFromSelector(@selector(effectiveAppearance))
-                   options:NSKeyValueObservingOptionNew
-                   context:&iTermGlobalScopeControllerKVOContext];
+               forKeyPath:NSStringFromSelector(@selector(effectiveAppearance))
+               options:NSKeyValueObservingOptionNew
+               context:&iTermGlobalScopeControllerKVOContext];
     }
     return self;
 }
@@ -44,14 +44,14 @@ NS_CLASS_AVAILABLE_MAC(10_14)
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary<NSKeyValueChangeKey,id> *)change
-                       context:(void *)context {
+    ofObject:(id)object
+    change:(NSDictionary<NSKeyValueChangeKey,id> *)change
+    context:(void *)context {
     if (context != &iTermGlobalScopeControllerKVOContext) {
         return;
     }
     if ([keyPath isEqualToString:NSStringFromSelector(@selector(effectiveAppearance))]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^ {
             [self themeDidChange];
         });
     }
@@ -75,29 +75,29 @@ NS_CLASS_AVAILABLE_MAC(10_14)
     if (self) {
         __weak __typeof(self) weakSelf = self;
         [[NSUserDefaults standardUserDefaults] it_addObserverForKey:kPreferenceKeyTabStyle
-                                                              block:^(id _Nonnull newValue) {
-                                                                  [weakSelf themeDidChange];
-                                                              }];
+                                              block:^(id _Nonnull newValue) {
+                                                  [weakSelf themeDidChange];
+                                              }];
         [[iTermVariableScope globalsScope] setValue:@(getpid()) forVariableNamed:iTermVariableKeyApplicationPID];
         _userVariables = [[iTermVariables alloc] initWithContext:iTermVariablesSuggestionContextNone
-                                                           owner:self];
+                                                 owner:self];
         [[iTermVariableScope globalsScope] setValue:_userVariables forVariableNamed:@"user"];
         [[iTermVariableScope globalsScope] setValue:[self effectiveTheme]
-                                   forVariableNamed:iTermVariableKeyApplicationEffectiveTheme];
+                                           forVariableNamed:iTermVariableKeyApplicationEffectiveTheme];
         [[iTermVariableScope globalsScope] setValue:[NSHost fullyQualifiedDomainName]
-                                   forVariableNamed:iTermVariableKeyApplicationLocalhostName];
+                                           forVariableNamed:iTermVariableKeyApplicationLocalhostName];
         [NSTimer scheduledTimerWithTimeInterval:60 repeats:YES block:^(NSTimer * _Nonnull timer) {
-            [[iTermVariableScope globalsScope] setValue:[NSHost fullyQualifiedDomainName]
-                                       forVariableNamed:iTermVariableKeyApplicationLocalhostName];
-        }];
+                    [[iTermVariableScope globalsScope] setValue:[NSHost fullyQualifiedDomainName]
+                     forVariableNamed:iTermVariableKeyApplicationLocalhostName];
+                }];
     }
     return self;
 }
 
 - (void)themeDidChange {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         [[iTermVariableScope globalsScope] setValue:[self effectiveTheme]
-                                   forVariableNamed:iTermVariableKeyApplicationEffectiveTheme];
+                                           forVariableNamed:iTermVariableKeyApplicationEffectiveTheme];
     });
 }
 

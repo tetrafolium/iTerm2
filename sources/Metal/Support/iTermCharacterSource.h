@@ -26,17 +26,17 @@
 @property (nonatomic, readonly) BOOL nonAsciiAntiAliased;
 
 + (instancetype)characterSourceDescriptorWithAsciiFont:(PTYFontInfo *)asciiFontInfo
-                                          nonAsciiFont:(PTYFontInfo *)nonAsciiFontInfo
-                                           asciiOffset:(CGSize)asciiOffset
-                                             glyphSize:(CGSize)glyphSize
-                                              cellSize:(CGSize)cellSize
-                                cellSizeWithoutSpacing:(CGSize)cellSizeWithoutSpacing
-                                                 scale:(CGFloat)scale
-                                           useBoldFont:(BOOL)useBoldFont
-                                         useItalicFont:(BOOL)useItalicFont
-                                      usesNonAsciiFont:(BOOL)useNonAsciiFont
-                                      asciiAntiAliased:(BOOL)asciiAntiAliased
-                                   nonAsciiAntiAliased:(BOOL)nonAsciiAntiAliased;
+    nonAsciiFont:(PTYFontInfo *)nonAsciiFontInfo
+    asciiOffset:(CGSize)asciiOffset
+    glyphSize:(CGSize)glyphSize
+    cellSize:(CGSize)cellSize
+    cellSizeWithoutSpacing:(CGSize)cellSizeWithoutSpacing
+    scale:(CGFloat)scale
+    useBoldFont:(BOOL)useBoldFont
+    useItalicFont:(BOOL)useItalicFont
+    usesNonAsciiFont:(BOOL)useNonAsciiFont
+    asciiAntiAliased:(BOOL)asciiAntiAliased
+    nonAsciiAntiAliased:(BOOL)nonAsciiAntiAliased;
 @end
 
 @interface iTermCharacterSourceAttributes : NSObject
@@ -45,8 +45,8 @@
 @property (nonatomic, readonly) BOOL italic;
 
 + (instancetype)characterSourceAttributesWithThinStrokes:(BOOL)useThinStrokes
-                                                    bold:(BOOL)bold
-                                                  italic:(BOOL)italic;
+    bold:(BOOL)bold
+    italic:(BOOL)italic;
 @end
 
 @interface iTermCharacterSource : NSObject
@@ -59,21 +59,21 @@
 // returns the frame that contains all characters in the range. This is useful
 // for finding the bounding box of all ASCII glyphs.
 + (NSRect)boundingRectForCharactersInRange:(NSRange)range
-                             asciiFontInfo:(PTYFontInfo *)asciiFontInfo
-                          nonAsciiFontInfo:(PTYFontInfo *)nonAsciiFontInfo
-                                     scale:(CGFloat)scale
-                               useBoldFont:(BOOL)useBoldFont
-                             useItalicFont:(BOOL)useItalicFont
-                          usesNonAsciiFont:(BOOL)useNonAsciiFont
-                                   context:(CGContextRef)context;
+    asciiFontInfo:(PTYFontInfo *)asciiFontInfo
+    nonAsciiFontInfo:(PTYFontInfo *)nonAsciiFontInfo
+    scale:(CGFloat)scale
+    useBoldFont:(BOOL)useBoldFont
+    useItalicFont:(BOOL)useItalicFont
+    usesNonAsciiFont:(BOOL)useNonAsciiFont
+    context:(CGContextRef)context;
 
 - (instancetype)initWithCharacter:(NSString *)string
-                       descriptor:(iTermCharacterSourceDescriptor *)descriptor
-                       attributes:(iTermCharacterSourceAttributes *)attributes
-                       boxDrawing:(BOOL)boxDrawing
-                           radius:(int)radius
-         useNativePowerlineGlyphs:(BOOL)useNativePowerlineGlyphs
-                          context:(CGContextRef)context;
+    descriptor:(iTermCharacterSourceDescriptor *)descriptor
+    attributes:(iTermCharacterSourceAttributes *)attributes
+    boxDrawing:(BOOL)boxDrawing
+    radius:(int)radius
+    useNativePowerlineGlyphs:(BOOL)useNativePowerlineGlyphs
+    context:(CGContextRef)context;
 
 - (iTermCharacterBitmap *)bitmapForPart:(int)part;
 

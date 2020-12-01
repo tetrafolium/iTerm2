@@ -24,18 +24,18 @@ static NSString *const iTermStatusBarActionKey = @"action";
 - (nullable NSArray<NSString *> *)stringVariants {
     NSMutableArray<NSString *> *result = [NSMutableArray array];
     [_value enumerateStringsSeparatedByRegex:@"\\h+"
-                                     options:RKLNoOptions
-                                     inRange:NSMakeRange(0, _value.length)
-                                       error:nil
-                          enumerationOptions:RKLRegexEnumerationNoOptions
-                                  usingBlock:
-     ^(NSInteger captureCount,
-       NSString *const __unsafe_unretained *capturedStrings,
-       const NSRange *capturedRanges,
-       volatile BOOL *const stop) {
+            options:RKLNoOptions
+            inRange:NSMakeRange(0, _value.length)
+            error:nil
+            enumerationOptions:RKLRegexEnumerationNoOptions
+            usingBlock:
+            ^(NSInteger captureCount,
+              NSString *const __unsafe_unretained *capturedStrings,
+              const NSRange *capturedRanges,
+           volatile BOOL *const stop) {
 
-        [result addObject:[self->_value substringToIndex:NSMaxRange(capturedRanges[0])]];
-    }];
+               [result addObject:[self->_value substringToIndex:NSMaxRange(capturedRanges[0])]];
+           }];
     return result;
 }
 
@@ -46,11 +46,11 @@ static NSString *const iTermStatusBarActionKey = @"action";
 
 - (NSArray<iTermStatusBarComponentKnob *> *)statusBarComponentKnobs {
     iTermStatusBarComponentKnob *actionKnob =
-    [[iTermStatusBarComponentKnob alloc] initWithLabelText:@"Action"
-                                                      type:iTermStatusBarComponentKnobTypeAction
-                                               placeholder:nil
-                                              defaultValue:nil
-                                                       key:iTermStatusBarActionKey];
+        [[iTermStatusBarComponentKnob alloc] initWithLabelText:@"Action"
+                                             type:iTermStatusBarComponentKnobTypeAction
+                                             placeholder:nil
+                                             defaultValue:nil
+                                             key:iTermStatusBarActionKey];
     return [@[ actionKnob, [super statusBarComponentKnobs] ] flattenedArray];
 }
 
@@ -70,10 +70,10 @@ static NSString *const iTermStatusBarActionKey = @"action";
     __weak __typeof(self) weakSelf = self;
     NSString *expression = self.action.title.copy ?: @"";
     _swiftyString = [[iTermSwiftyString alloc] initWithString:expression
-                                                        scope:self.scope
-                                                     observer:^(NSString * _Nonnull newValue, NSError *error) {
-        if (error != nil) {
-            [[iTermScriptHistoryEntry globalEntry] addOutput:[NSString stringWithFormat:@"Error while evaluating %@ in status bar action button: %@", expression, error]];
+                                               scope:self.scope
+                              observer:^(NSString * _Nonnull newValue, NSError *error) {
+                                  if (error != nil) {
+                                      [[iTermScriptHistoryEntry globalEntry] addOutput:[NSString stringWithFormat:@"Error while evaluating %@ in status bar action button: %@", expression, error]];
             return [NSString stringWithFormat:@"🐞 %@", error.localizedDescription];
         }
         [weakSelf setStringValue:newValue];
@@ -94,7 +94,7 @@ static NSString *const iTermStatusBarActionKey = @"action";
 }
 
 - (id)statusBarComponentExemplarWithBackgroundColor:(NSColor *)backgroundColor
-                                          textColor:(NSColor *)textColor {
+    textColor:(NSColor *)textColor {
     NSDictionary *dict = self.actionDictionary;
     if (dict.count) {
         return self.action.title;
@@ -143,7 +143,7 @@ static NSString *const iTermStatusBarActionKey = @"action";
 }
 
 - (id)statusBarComponentExemplarWithBackgroundColor:(NSColor *)backgroundColor
-                                          textColor:(NSColor *)textColor {
+    textColor:(NSColor *)textColor {
     return @"Action…";
 }
 

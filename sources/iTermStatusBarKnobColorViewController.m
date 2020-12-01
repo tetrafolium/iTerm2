@@ -43,11 +43,11 @@
 
 - (void)sizeToFit {
     const CGFloat marginBetweenLabelAndWell = NSMinX(_well.frame) - NSMaxX(_label.frame);
-    
+
     [_label sizeToFit];
     NSRect rect = _label.frame;
     _label.frame = rect;
-    
+
     rect = _well.frame;
     rect.origin.x = NSMaxX(_label.frame) + marginBetweenLabelAndWell;
     _well.frame = rect;

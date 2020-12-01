@@ -23,10 +23,10 @@ static NSString *const iTermTupleValueKey = @"value";
 
 + (instancetype)fromPlistValue:(id)plistValue {
     NSArray *array = [NSArray castFrom:plistValue];
-    NSDictionary *firstDict = [array uncheckedObjectAtIndex:0] ?: @{};
-    NSDictionary *secondDict = [array uncheckedObjectAtIndex:1] ?: @{};
+    NSDictionary *firstDict = [array uncheckedObjectAtIndex:0] ?: @ {};
+    NSDictionary *secondDict = [array uncheckedObjectAtIndex:1] ?: @ {};
     return [iTermTuple tupleWithObject:firstDict[iTermTupleValueKey]
-                             andObject:secondDict[iTermTupleValueKey]];
+                       andObject:secondDict[iTermTupleValueKey]];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
@@ -44,17 +44,19 @@ static NSString *const iTermTupleValueKey = @"value";
 }
 
 - (id)plistValue {
-    NSDictionary *first = self.firstObject ? @{ iTermTupleValueKey: self.firstObject } : @{};
-    NSDictionary *second = self.secondObject ? @{ iTermTupleValueKey: self.secondObject } : @{};
+    NSDictionary *first = self.firstObject ? @ { iTermTupleValueKey: self.firstObject } :
+                          @ {};
+    NSDictionary *second = self.secondObject ? @ { iTermTupleValueKey: self.secondObject } :
+                           @ {};
     return @[ first, second ];
 }
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p (%@, %@)>",
-            NSStringFromClass([self class]),
-            self,
-            _firstObject,
-            _secondObject];
+                     NSStringFromClass([self class]),
+                     self,
+                     _firstObject,
+                     _secondObject];
 }
 
 - (BOOL)isEqual:(id)object {
@@ -100,12 +102,12 @@ static NSString *const iTermTupleValueKey = @"value";
 
 + (instancetype)fromPlistValue:(id)plistValue {
     NSArray *array = [NSArray castFrom:plistValue];
-    NSDictionary *firstDict = [array uncheckedObjectAtIndex:0] ?: @{};
-    NSDictionary *secondDict = [array uncheckedObjectAtIndex:1] ?: @{};
-    NSDictionary *thirdDict = [array uncheckedObjectAtIndex:2] ?: @{};
+    NSDictionary *firstDict = [array uncheckedObjectAtIndex:0] ?: @ {};
+    NSDictionary *secondDict = [array uncheckedObjectAtIndex:1] ?: @ {};
+    NSDictionary *thirdDict = [array uncheckedObjectAtIndex:2] ?: @ {};
     return [iTermTriple tripleWithObject:firstDict[iTermTupleValueKey]
-                               andObject:secondDict[iTermTupleValueKey]
-                                  object:thirdDict[iTermTupleValueKey]];
+                        andObject:secondDict[iTermTupleValueKey]
+                        object:thirdDict[iTermTupleValueKey]];
 }
 
 
@@ -123,17 +125,20 @@ static NSString *const iTermTupleValueKey = @"value";
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p (%@, %@, %@)>",
-            NSStringFromClass([self class]),
-            self,
-            self.firstObject,
-            self.secondObject,
-            _thirdObject];
+                     NSStringFromClass([self class]),
+                     self,
+                     self.firstObject,
+                     self.secondObject,
+                     _thirdObject];
 }
 
 - (id)plistValue {
-    NSDictionary *first = self.firstObject ? @{ iTermTupleValueKey: self.firstObject } : @{};
-    NSDictionary *second = self.secondObject ? @{ iTermTupleValueKey: self.secondObject } : @{};
-    NSDictionary *third = self.thirdObject ? @{ iTermTupleValueKey: self.thirdObject } : @{};
+    NSDictionary *first = self.firstObject ? @ { iTermTupleValueKey: self.firstObject } :
+                          @ {};
+    NSDictionary *second = self.secondObject ? @ { iTermTupleValueKey: self.secondObject } :
+                           @ {};
+    NSDictionary *third = self.thirdObject ? @ { iTermTupleValueKey: self.thirdObject } :
+                          @ {};
     return @[ first, second, third ];
 }
 
@@ -147,8 +152,8 @@ static NSString *const iTermTupleValueKey = @"value";
 
 - (id)copyWithZone:(NSZone *)zone {
     return [iTermTriple tripleWithObject:self.firstObject
-                               andObject:self.secondObject
-                                  object:_thirdObject];
+                        andObject:self.secondObject
+                        object:_thirdObject];
 }
 
 - (NSUInteger)hash {

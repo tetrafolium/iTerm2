@@ -17,19 +17,19 @@
 @property (nonatomic, copy) NSDictionary<NSString *, NSString *> *environment;
 
 + (void)unzipURL:(NSURL *)zipURL
-   withArguments:(NSArray<NSString *> *)arguments
-     destination:(NSString *)destination
-      completion:(void (^)(BOOL))completion;
+    withArguments:(NSArray<NSString *> *)arguments
+    destination:(NSString *)destination
+    completion:(void (^)(BOOL))completion;
 
 + (void)zipURLs:(NSArray<NSURL *> *)URLs
-      arguments:(NSArray<NSString *> *)arguments
-       toZipURL:(NSURL *)zipURL
-     relativeTo:(NSURL *)baseURL
-     completion:(void (^)(BOOL))completion;
+    arguments:(NSArray<NSString *> *)arguments
+    toZipURL:(NSURL *)zipURL
+    relativeTo:(NSURL *)baseURL
+    completion:(void (^)(BOOL))completion;
 
 - (instancetype)initWithCommand:(NSString *)command
-                  withArguments:(NSArray<NSString *> *)arguments
-                           path:(NSString *)currentDirectoryPath NS_DESIGNATED_INITIALIZER;
+    withArguments:(NSArray<NSString *> *)arguments
+    path:(NSString *)currentDirectoryPath NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (void)run;

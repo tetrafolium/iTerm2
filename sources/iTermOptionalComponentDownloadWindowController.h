@@ -27,21 +27,21 @@ extern const int iTermMinimumPythonEnvironmentVersion;
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithURL:(NSURL *)url
-                      title:(NSString *)title
-           nextPhaseFactory:(iTermOptionalComponentDownloadPhase *(^)(iTermOptionalComponentDownloadPhase *))nextPhaseFactory;
+    title:(NSString *)title
+    nextPhaseFactory:(iTermOptionalComponentDownloadPhase *(^)(iTermOptionalComponentDownloadPhase *))nextPhaseFactory;
 
 @end
 
-@interface iTermDownloadableComponentInfo: NSObject
+@interface iTermDownloadableComponentInfo : NSObject
 @property (nonatomic, readonly) NSURL *URL;
 @property (nonatomic, readonly) NSInteger size;
 @property (nonatomic, readonly) NSString *signature;
 @property (nonatomic, readonly) BOOL isSitePackagesOnly;
 
 - (instancetype)initWithURL:(NSURL *)url
-                       size:(NSInteger)size
-                  signature:(NSString *)signature
-         isSitePackagesOnly:(BOOL)isSitePackagesOnly NS_DESIGNATED_INITIALIZER;
+    size:(NSInteger)size
+    signature:(NSString *)signature
+    isSitePackagesOnly:(BOOL)isSitePackagesOnly NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 @end
 
@@ -55,8 +55,8 @@ extern const int iTermMinimumPythonEnvironmentVersion;
 @property (nonatomic, copy, readonly) NSArray<NSString *> *pythonVersionsInArchive;
 
 - (instancetype)initWithURL:(NSURL *)url
-     requestedPythonVersion:(NSString *)requestedPythonVersion
-           nextPhaseFactory:(iTermOptionalComponentDownloadPhase *(^)(iTermOptionalComponentDownloadPhase *))nextPhaseFactory;
+    requestedPythonVersion:(NSString *)requestedPythonVersion
+    nextPhaseFactory:(iTermOptionalComponentDownloadPhase *(^)(iTermOptionalComponentDownloadPhase *))nextPhaseFactory;
 
 - (iTermDownloadableComponentInfo *)infoGivenExistingFullComponent:(NSNumber *)existingFullComponent;
 
@@ -69,15 +69,15 @@ extern const int iTermMinimumPythonEnvironmentVersion;
 @property (nonatomic, readonly) int version;
 
 - (instancetype)initWithURL:(NSURL *)url
-                    version:(int)version
-          expectedSignature:(NSString *)expectedSignature
-     requestedPythonVersion:(NSString *)requestedPythonVersion
-           expectedVersions:(NSArray<NSString *> *)expectedVersions
-           nextPhaseFactory:(iTermOptionalComponentDownloadPhase *(^)(iTermOptionalComponentDownloadPhase *))nextPhaseFactory NS_DESIGNATED_INITIALIZER;
+    version:(int)version
+    expectedSignature:(NSString *)expectedSignature
+    requestedPythonVersion:(NSString *)requestedPythonVersion
+    expectedVersions:(NSArray<NSString *> *)expectedVersions
+    nextPhaseFactory:(iTermOptionalComponentDownloadPhase *(^)(iTermOptionalComponentDownloadPhase *))nextPhaseFactory NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithURL:(NSURL *)url
-                      title:(NSString *)title
-           nextPhaseFactory:(iTermOptionalComponentDownloadPhase *(^)(iTermOptionalComponentDownloadPhase *))nextPhaseFactory NS_UNAVAILABLE;
+    title:(NSString *)title
+    nextPhaseFactory:(iTermOptionalComponentDownloadPhase *(^)(iTermOptionalComponentDownloadPhase *))nextPhaseFactory NS_UNAVAILABLE;
 
 @end
 

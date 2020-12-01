@@ -10,7 +10,7 @@
 #import "DebugLogging.h"
 #import "iTermDoublyLinkedList.h"
 
-@interface iTermCacheEntry: NSObject
+@interface iTermCacheEntry : NSObject
 @property (nonatomic, strong) id key;
 @property (nonatomic, strong) id object;
 @end
@@ -39,7 +39,7 @@
 
 - (id)objectForKeyedSubscript:(id)key {
     __block id result = nil;
-    dispatch_sync(_queue, ^{
+    dispatch_sync(_queue, ^ {
         iTermDoublyLinkedListEntry<iTermCacheEntry *> *entry = self->_dict[key];
         if (!entry) {
             return;
@@ -52,7 +52,7 @@
 }
 
 - (void)setObject:(id)obj forKeyedSubscript:(id)key {
-    dispatch_sync(_queue, ^{
+    dispatch_sync(_queue, ^ {
         iTermDoublyLinkedListEntry<iTermCacheEntry *> *dllEntry = self->_dict[key];
         if (dllEntry) {
             [self->_mru remove:dllEntry];

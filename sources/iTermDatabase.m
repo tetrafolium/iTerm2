@@ -27,10 +27,10 @@
 
 + (NSArray<NSURL *> *)allURLsForDatabaseAt:(NSURL *)url {
     return @[
-        url,
-        [url.URLByDeletingPathExtension URLByAppendingPathExtension:@"sqlite-shm"],
-        [url.URLByDeletingPathExtension URLByAppendingPathExtension:@"sqlite-wal"],
-    ];
+               url,
+               [url.URLByDeletingPathExtension URLByAppendingPathExtension:@"sqlite-shm"],
+               [url.URLByDeletingPathExtension URLByAppendingPathExtension:@"sqlite-wal"],
+           ];
 }
 
 + (void)touchWithPrivateUnixPermissions:(NSURL *)url {
@@ -69,7 +69,7 @@
     NSArray<NSURL *> *urls = [iTermSqliteDatabaseImpl allURLsForDatabaseAt:self.url];
     for (NSURL *url in urls) {
         if (![[NSFileManager defaultManager] removeItemAtURL:url
-                                                       error:&error]) {
+                                               error:&error]) {
             DLog(@"Failed to unlink %@: %@", url.path, error);
         }
     }

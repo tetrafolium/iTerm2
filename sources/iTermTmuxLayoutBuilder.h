@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermTmuxLayoutBuilderLeafNode : iTermTmuxLayoutBuilderNode
 - (instancetype)initWithSessionOfSize:(VT100GridSize)size
-                           windowPane:(int)windowPane;
+    windowPane:(int)windowPane;
 @end
 
 @interface iTermTmuxLayoutBuilderInteriorNode : iTermTmuxLayoutBuilderNode

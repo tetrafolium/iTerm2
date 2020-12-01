@@ -20,13 +20,13 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation iTermStatusBarCPUUtilizationComponent
 
 - (instancetype)initWithConfiguration:(NSDictionary<iTermStatusBarComponentConfigurationKey,id> *)configuration
-                                scope:(nullable iTermVariableScope *)scope {
+    scope:(nullable iTermVariableScope *)scope {
     self = [super initWithConfiguration:configuration scope:scope];
     if (self) {
         __weak __typeof(self) weakSelf = self;
         [[iTermCPUUtilization sharedInstance] addSubscriber:self block:^(double value) {
-            [weakSelf update:value];
-        }];
+                                                 [weakSelf update:value];
+                                             }];
     }
     return self;
 }
@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (id)statusBarComponentExemplarWithBackgroundColor:(NSColor *)backgroundColor
-                                          textColor:(NSColor *)textColor {
+    textColor:(NSColor *)textColor {
     return @"12% ▃▃▅▂ CPU";
 }
 
@@ -64,9 +64,9 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray<NSNumber *> *values = [[iTermCPUUtilization sharedInstance] samples];
     iTermStatusBarTimeSeries *timeSeries = [[iTermStatusBarTimeSeries alloc] initWithValues:values];
     iTermStatusBarTimeSeriesRendition *rendition =
-    [[iTermStatusBarTimeSeriesRendition alloc] initWithTimeSeries:timeSeries
-                                                            color:[self statusBarTextColor]];
-    return [[iTermStatusBarSparklinesModel alloc] initWithDictionary:@{ @"main": rendition}];
+        [[iTermStatusBarTimeSeriesRendition alloc] initWithTimeSeries:timeSeries
+                                                   color:[self statusBarTextColor]];
+    return [[iTermStatusBarSparklinesModel alloc] initWithDictionary:@ { @"main": rendition}];
 }
 
 - (int)currentEstimate {
@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
     double x = samples.lastObject.doubleValue;
     if (lastSamples.count > maxSamplesToUse) {
         lastSamples = [lastSamples subarrayWithRange:NSMakeRange(lastSamples.count - maxSamplesToUse,
-                                                                 maxSamplesToUse)];
+                                   maxSamplesToUse)];
     }
     for (NSNumber *number in lastSamples) {
         x *= (1.0 - alpha);
@@ -96,9 +96,13 @@ NS_ASSUME_NONNULL_BEGIN
     [leftAlignStyle setAlignment:NSTextAlignmentLeft];
     [leftAlignStyle setLineBreakMode:NSLineBreakByTruncatingTail];
 
-    return @{ NSParagraphStyleAttributeName: leftAlignStyle,
-              NSFontAttributeName: self.font,
-              NSForegroundColorAttributeName: self.textColor };
+    return @ { NSParagraphStyleAttributeName:
+               leftAlignStyle,
+               NSFontAttributeName:
+               self.font,
+               NSForegroundColorAttributeName:
+               self.textColor
+             };
 }
 
 - (NSDictionary *)rightAttributes {
@@ -106,9 +110,13 @@ NS_ASSUME_NONNULL_BEGIN
         [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     [rightAlignStyle setAlignment:NSTextAlignmentRight];
     [rightAlignStyle setLineBreakMode:NSLineBreakByTruncatingTail];
-    return @{ NSParagraphStyleAttributeName: rightAlignStyle,
-              NSFontAttributeName: self.font,
-              NSForegroundColorAttributeName: self.textColor };
+    return @ { NSParagraphStyleAttributeName:
+               rightAlignStyle,
+               NSFontAttributeName:
+               self.font,
+               NSForegroundColorAttributeName:
+               self.textColor
+             };
 }
 
 - (NSSize)leftSize {

@@ -58,34 +58,34 @@ extern NSString * const kTriggerPartialLineKey;
 - (NSArray *)objectsSortedByValueInDict:(NSDictionary *)dict;
 
 - (iTermVariableScope *)variableScope:(iTermVariableScope *)scope
-               byAddingBackreferences:(NSArray<NSString *> *)backreferences;
+    byAddingBackreferences:(NSArray<NSString *> *)backreferences;
 
 - (void)paramWithBackreferencesReplacedWithValues:(NSString *const *)strings
-                                            count:(NSInteger)count
-                                            scope:(iTermVariableScope *)scope
-                                 useInterpolation:(BOOL)useInterpolation
-                                       completion:(void (^)(NSString *result))completion;
+    count:(NSInteger)count
+    scope:(iTermVariableScope *)scope
+    useInterpolation:(BOOL)useInterpolation
+    completion:(void (^)(NSString *result))completion;
 - (void)paramWithBackreferencesReplacedWithValues:(NSArray *)strings
-                                            scope:(iTermVariableScope *)scope
-                                 useInterpolation:(BOOL)useInterpolation
-                                       completion:(void (^)(NSString *result))completion;
+    scope:(iTermVariableScope *)scope
+    useInterpolation:(BOOL)useInterpolation
+    completion:(void (^)(NSString *result))completion;
 
 // Returns YES if no more triggers should be processed.
 - (BOOL)tryString:(iTermStringLine *)stringLine
-        inSession:(PTYSession *)aSession
-      partialLine:(BOOL)partialLine
-       lineNumber:(long long)lineNumber
- useInterpolation:(BOOL)useInterpolation;
+    inSession:(PTYSession *)aSession
+    partialLine:(BOOL)partialLine
+    lineNumber:(long long)lineNumber
+    useInterpolation:(BOOL)useInterpolation;
 
 // Subclasses must override this. Return YES if it can fire again on this line.
 - (BOOL)performActionWithCapturedStrings:(NSString *const *)capturedStrings
-                          capturedRanges:(const NSRange *)capturedRanges
-                            captureCount:(NSInteger)captureCount
-                               inSession:(PTYSession *)aSession
-                                onString:(iTermStringLine *)s
-                    atAbsoluteLineNumber:(long long)lineNumber
-                        useInterpolation:(BOOL)useInterpolation
-                                    stop:(BOOL *)stop;
+    capturedRanges:(const NSRange *)capturedRanges
+    captureCount:(NSInteger)captureCount
+    inSession:(PTYSession *)aSession
+    onString:(iTermStringLine *)s
+    atAbsoluteLineNumber:(long long)lineNumber
+    useInterpolation:(BOOL)useInterpolation
+    stop:(BOOL *)stop;
 
 - (NSComparisonResult)compareTitle:(Trigger *)other;
 

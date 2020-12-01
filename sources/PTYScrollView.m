@@ -64,15 +64,15 @@
         _ptyScrollerState = PTYScrollerStateLegacy;
     } else {
         switch (arg1) {
-            case 0:
-                _ptyScrollerState = PTYScrollerStateOverlayHidden;
-                break;
-            case 1:
-                _ptyScrollerState = PTYScrollerStateOverlayVisibleNarrow;
-                break;
-            case 2:
-                _ptyScrollerState = PTYScrollerStateOverlayVisibleWide;
-                break;
+        case 0:
+            _ptyScrollerState = PTYScrollerStateOverlayHidden;
+            break;
+        case 1:
+            _ptyScrollerState = PTYScrollerStateOverlayVisibleNarrow;
+            break;
+        case 2:
+            _ptyScrollerState = PTYScrollerStateOverlayVisibleWide;
+            break;
         }
     }
     [self.ptyScrollerDelegate ptyScrollerDidTransitionToState:_ptyScrollerState];
@@ -228,7 +228,7 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"%@ visibleRect:%@", [super description],
-               [NSValue valueWithRect:[self documentVisibleRect]]];
+                     [NSValue valueWithRect:[self documentVisibleRect]]];
 }
 
 - (PTYScroller *)ptyVerticalScroller {

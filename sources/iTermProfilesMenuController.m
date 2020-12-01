@@ -34,9 +34,9 @@ static id gAltOpenAllRepresentedObject;
 }
 
 + (NSMenu *)findOrCreateTagSubmenuInMenu:(NSMenu *)menu
-                          startingAtItem:(int)skip
-                                withName:(NSString *)multipartName
-                                  params:(iTermProfileModelJournalParams *)params {
+    startingAtItem:(int)skip
+    withName:(NSString *)multipartName
+    params:(iTermProfileModelJournalParams *)params {
     NSArray *parts = [multipartName componentsSeparatedByString:@"/"];
     if (parts.count == 0) {
         return nil;
@@ -65,7 +65,7 @@ static id gAltOpenAllRepresentedObject;
     if (!submenu) {
         // Add menu item with submenu
         NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:name
-                                                         action:nil
+                                                  action:nil
                                                   keyEquivalent:@""];
         [newItem setSubmenu:[[NSMenu alloc] init]];
         [menu insertItem:newItem atIndex:pos];
@@ -77,12 +77,12 @@ static id gAltOpenAllRepresentedObject;
         NSString *suffix = [tail componentsJoinedByString:@"/"];
         NSMenu *menuToAddOpenAll = submenu;
         submenu = [self findOrCreateTagSubmenuInMenu:submenu
-                                      startingAtItem:0
-                                            withName:suffix
-                                              params:params];
+                        startingAtItem:0
+                        withName:suffix
+                        params:params];
         if (menuToAddOpenAll &&
-            [self menuHasMultipleItemsExcludingAlternates:menuToAddOpenAll fromIndex:0] &&
-            ![self menuHasOpenAll:menuToAddOpenAll]) {
+                [self menuHasMultipleItemsExcludingAlternates:menuToAddOpenAll fromIndex:0] &&
+                ![self menuHasOpenAll:menuToAddOpenAll]) {
             [self addOpenAllToMenu:menuToAddOpenAll params:params];
         }
     }
@@ -97,7 +97,7 @@ static id gAltOpenAllRepresentedObject;
 
     // Add alternate open all menu
     NSMenuItem *altOpenAll = [[NSMenuItem alloc] initWithTitle:@"Open All in New Window"
-                                                        action:params.alternateOpenAllSelector
+                                                 action:params.alternateOpenAllSelector
                                                  keyEquivalent:@""];
     [altOpenAll setTarget:params.target];
     [altOpenAll setKeyEquivalentModifierMask:NSEventModifierFlagOption];
@@ -172,13 +172,13 @@ static id gAltOpenAllRepresentedObject;
 }
 
 - (void)addBookmark:(Profile *)b
-             toMenu:(NSMenu *)menu
-         atPosition:(int)pos
-         withParams:(iTermProfileModelJournalParams *)params
-        isAlternate:(BOOL)isAlternate
-            withTag:(int)tag {
+    toMenu:(NSMenu *)menu
+    atPosition:(int)pos
+    withParams:(iTermProfileModelJournalParams *)params
+    isAlternate:(BOOL)isAlternate
+    withTag:(int)tag {
     NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[b objectForKey:KEY_NAME]
-                                                  action:isAlternate ? params.alternateSelector : params.selector
+                                           action:isAlternate ? params.alternateSelector : params.selector
                                            keyEquivalent:@""];
     [item setAlternate:isAlternate];
     item.identifier = [self.class identifierForMenuItem:item];
@@ -200,11 +200,11 @@ static id gAltOpenAllRepresentedObject;
 }
 
 - (void)addBookmark:(Profile *)b
-             toMenu:(NSMenu *)menu
-     startingAtItem:(int)skip
-           withTags:(NSArray *)tags
-             params:(iTermProfileModelJournalParams *)params
-              atPos:(int)theIndex {
+    toMenu:(NSMenu *)menu
+    startingAtItem:(int)skip
+    withTags:(NSArray *)tags
+    params:(iTermProfileModelJournalParams *)params
+    atPos:(int)theIndex {
     int pos;
     if (theIndex == -1) {
         // Add in sorted order
@@ -222,33 +222,33 @@ static id gAltOpenAllRepresentedObject;
     // Add to tag submenus
     for (NSString *tag in [NSSet setWithArray:tags]) {
         NSMenu *tagSubMenu = [self.class findOrCreateTagSubmenuInMenu:menu
-                                                       startingAtItem:skip
-                                                             withName:tag
-                                                               params:params];
+                                         startingAtItem:skip
+                                         withName:tag
+                                         params:params];
         [self addBookmark:b toMenu:tagSubMenu startingAtItem:0 withTags:nil params:params atPos:theIndex];
     }
 
     if ([[self class] menuHasMultipleItemsExcludingAlternates:menu fromIndex:skip] &&
-        ![self.class menuHasOpenAll:menu]) {
+            ![self.class menuHasOpenAll:menu]) {
         [self.class addOpenAllToMenu:menu params:params];
     }
 }
 
 + (void)applyAddJournalEntry:(BookmarkJournalEntry *)e
-                      toMenu:(NSMenu *)menu
-              startingAtItem:(int)skip
-                      params:(iTermProfileModelJournalParams *)params {
+    toMenu:(NSMenu *)menu
+    startingAtItem:(int)skip
+    params:(iTermProfileModelJournalParams *)params {
     id<iTermProfileModelJournalModel> model = e.model;
     Profile *b = [NSDictionary castFrom:[model profileWithGuid:e.guid]];
     if (!b) {
         return;
     }
     [model.menuController addBookmark:b
-                               toMenu:menu
-                       startingAtItem:skip
-                             withTags:b[KEY_TAGS]
-                               params:params
-                                atPos:e.index];
+                          toMenu:menu
+                          startingAtItem:skip
+                          withTags:b[KEY_TAGS]
+                          params:params
+                          atPos:e.index];
 }
 
 + (NSArray *)menuItemsForTag:(NSString *)multipartName inMenu:(NSMenu *)menu {
@@ -267,9 +267,9 @@ static id gAltOpenAllRepresentedObject;
 }
 
 + (void)applyRemoveJournalEntry:(BookmarkJournalEntry *)e
-                         toMenu:(NSMenu *)menu
-                 startingAtItem:(int)skip
-                         params:(iTermProfileModelJournalParams *)params {
+    toMenu:(NSMenu *)menu
+    startingAtItem:(int)skip
+    params:(iTermProfileModelJournalParams *)params {
     int pos = [menu indexOfItemWithRepresentedObject:e.guid];
     if (pos != -1) {
         [menu removeItemAtIndex:pos];
@@ -312,56 +312,56 @@ static id gAltOpenAllRepresentedObject;
 }
 
 + (void)applyRemoveAllJournalEntry:(BookmarkJournalEntry *)e
-                            toMenu:(NSMenu *)menu
-                    startingAtItem:(int)skip
-                            params:(iTermProfileModelJournalParams *)params {
+    toMenu:(NSMenu *)menu
+    startingAtItem:(int)skip
+    params:(iTermProfileModelJournalParams *)params {
     while ([menu numberOfItems] > skip) {
         [menu removeItemAtIndex:[menu numberOfItems] - 1];
     }
 }
 
 + (void)applySetDefaultJournalEntry:(BookmarkJournalEntry *)e
-                             toMenu:(NSMenu *)menu
-                     startingAtItem:(int)skip
-                             params:(iTermProfileModelJournalParams *)params {
+    toMenu:(NSMenu *)menu
+    startingAtItem:(int)skip
+    params:(iTermProfileModelJournalParams *)params {
 }
 
 + (void)applyJournal:(NSDictionary *)journalDict
-              toMenu:(NSMenu *)menu
-      startingAtItem:(int)skip
-              params:(iTermProfileModelJournalParams *)params {
+    toMenu:(NSMenu *)menu
+    startingAtItem:(int)skip
+    params:(iTermProfileModelJournalParams *)params {
     NSArray *journal = [journalDict objectForKey:@"array"];
     for (BookmarkJournalEntry *e in journal) {
         switch (e.action) {
-            case JOURNAL_ADD:
-                [self.class applyAddJournalEntry:e toMenu:menu startingAtItem:skip params:params];
-                break;
+        case JOURNAL_ADD:
+            [self.class applyAddJournalEntry:e toMenu:menu startingAtItem:skip params:params];
+            break;
 
-            case JOURNAL_REMOVE:
-                [self.class applyRemoveJournalEntry:e toMenu:menu startingAtItem:skip params:params];
-                break;
+        case JOURNAL_REMOVE:
+            [self.class applyRemoveJournalEntry:e toMenu:menu startingAtItem:skip params:params];
+            break;
 
-            case JOURNAL_REMOVE_ALL:
-                [self.class applyRemoveAllJournalEntry:e toMenu:menu startingAtItem:skip params:params];
-                break;
+        case JOURNAL_REMOVE_ALL:
+            [self.class applyRemoveAllJournalEntry:e toMenu:menu startingAtItem:skip params:params];
+            break;
 
-            case JOURNAL_SET_DEFAULT:
-                [self.class applySetDefaultJournalEntry:e toMenu:menu startingAtItem:skip params:params];
-                break;
+        case JOURNAL_SET_DEFAULT:
+            [self.class applySetDefaultJournalEntry:e toMenu:menu startingAtItem:skip params:params];
+            break;
 
-            default:
-                assert(false);
+        default:
+            assert(false);
         }
     }
 }
 
 + (void)applyJournal:(NSDictionary *)journal
-              toMenu:(NSMenu *)menu
-              params:(iTermProfileModelJournalParams *)params {
+    toMenu:(NSMenu *)menu
+    params:(iTermProfileModelJournalParams *)params {
     [self.class applyJournal:journal
-                      toMenu:menu
-              startingAtItem:0
-                      params:params];
+                toMenu:menu
+                startingAtItem:0
+                params:params];
 }
 
 @end

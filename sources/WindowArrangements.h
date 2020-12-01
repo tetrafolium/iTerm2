@@ -29,9 +29,9 @@
 + (NSArray *)allNames;
 
 + (void)refreshRestoreArrangementsMenu:(NSMenuItem *)menuItem
-                          withSelector:(SEL)selector
-                       defaultShortcut:(NSString *)defaultShortcut
-                            identifier:(NSString *)identifier;
+    withSelector:(SEL)selector
+    defaultShortcut:(NSString *)defaultShortcut
+    identifier:(NSString *)identifier;
 
 + (NSString *)nameForNewArrangement;
 

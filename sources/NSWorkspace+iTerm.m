@@ -30,7 +30,7 @@
     }
     close(fileDescriptor);
     NSString *filename = [[NSFileManager defaultManager] stringWithFileSystemRepresentation:tempFileNameCString
-                                                                                     length:strlen(tempFileNameCString)];
+                                                         length:strlen(tempFileNameCString)];
     free(tempFileNameCString);
     return filename;
 }

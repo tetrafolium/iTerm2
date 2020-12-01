@@ -16,18 +16,18 @@
 
 - (NSArray<iTermTmuxSessionObject *> *)sessionsTableObjects:(TmuxSessionsTable *)sender;
 - (void)renameSessionWithNumber:(int)sessionNumber
-                         toName:(NSString *)newName;
+    toName:(NSString *)newName;
 - (void)removeSessionWithNumber:(int)sessionNumber;
 - (void)addSessionWithName:(NSString *)sessionName;
 - (void)attachToSessionWithNumber:(int)sessionNumber;
 - (NSNumber *)numberOfAttachedSession;
 - (void)selectedSessionDidChange;
 - (void)linkWindowId:(int)windowId
-     inSessionNumber:(int)sourceSessionNumber
-     toSessionNumber:(int)targetSessionNumber;
+    inSessionNumber:(int)sourceSessionNumber
+    toSessionNumber:(int)targetSessionNumber;
 - (void)moveWindowId:(int)windowId
-     inSessionNumber:(int)sessionNumber
-     toSessionNumber:(int)targetSessionNumber;
+    inSessionNumber:(int)sessionNumber
+    toSessionNumber:(int)targetSessionNumber;
 - (void)detach;
 
 @end

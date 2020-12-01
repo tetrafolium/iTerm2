@@ -14,14 +14,14 @@
 @implementation iTermSmartCursorColor
 
 + (iTermCursorNeighbors)neighborsForCursorAtCoord:(VT100GridCoord)cursorCoord
-                                         gridSize:(VT100GridSize)gridSize
-                                       lineSource:(const screen_char_t *(^)(int))lineSource {
+    gridSize:(VT100GridSize)gridSize
+    lineSource:(const screen_char_t *(^)(int))lineSource {
     iTermCursorNeighbors neighbors;
     memset(&neighbors, 0, sizeof(neighbors));
     NSArray *coords = @[ @[ @0,    @(-1) ],     // Above
-                         @[ @(-1), @0    ],     // Left
-                         @[ @1,    @0    ],     // Right
-                         @[ @0,    @1    ] ];   // Below
+                            @[ @(-1), @0    ],     // Left
+                            @[ @1,    @0    ],     // Right
+                            @[ @0,    @1    ] ];   // Below
     int prevY = -2;
 
     for (NSArray *tuple in coords) {
@@ -56,8 +56,8 @@
 - (NSColor *)backgroundColorForCharacter:(screen_char_t)screenChar {
     iTermCursorNeighbors neighbors = [self.delegate cursorNeighbors];
     NSColor *bgColor = [self.delegate cursorColorForCharacter:screenChar
-                                               wantBackground:NO
-                                                        muted:NO];
+                                      wantBackground:NO
+                                      muted:NO];
 
     NSMutableArray* constraints = [NSMutableArray arrayWithCapacity:2];
     for (int y = 0; y < 3; y++) {
@@ -69,7 +69,7 @@
     }
     CGFloat bgBrightness = [bgColor perceivedBrightness];
     if ([self minimumDistanceOf:bgBrightness fromAnyValueIn:constraints] <
-        [iTermAdvancedSettingsModel smartCursorColorBgThreshold]) {
+            [iTermAdvancedSettingsModel smartCursorColorBgThreshold]) {
         CGFloat b = [self farthestValueFromAnyValueIn:constraints];
         bgColor = [NSColor colorWithCalibratedRed:b green:b blue:b alpha:1];
     }
@@ -77,11 +77,11 @@
 }
 
 - (NSColor *)textColorForCharacter:(screen_char_t)screenChar
-                  regularTextColor:(NSColor *)proposedForeground
-              smartBackgroundColor:(NSColor *)backgroundColor {
+    regularTextColor:(NSColor *)proposedForeground
+    smartBackgroundColor:(NSColor *)backgroundColor {
     proposedForeground = [proposedForeground colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]];
     return [self overrideColorForSmartCursorWithForegroundColor:proposedForeground
-                                                backgroundColor:backgroundColor];
+                 backgroundColor:backgroundColor];
 }
 
 #pragma mark - Private
@@ -144,7 +144,7 @@
 }
 
 - (NSColor *)overrideColorForSmartCursorWithForegroundColor:(NSColor *)proposedForeground
-                                            backgroundColor:(NSColor *)backgroundColor {
+    backgroundColor:(NSColor *)backgroundColor {
     CGFloat fgBrightness = [proposedForeground perceivedBrightness];
     CGFloat bgBrightness = [backgroundColor perceivedBrightness];
     const double threshold = [iTermAdvancedSettingsModel smartCursorColorFgThreshold];

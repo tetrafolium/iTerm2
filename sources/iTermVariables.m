@@ -110,15 +110,15 @@ NSString *const iTermVariableKeyWindowNumber = @"number";
 + (instancetype)globalInstance {
     static id instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[iTermVariables alloc] initWithContext:iTermVariablesSuggestionContextApp
-                                                     owner:NSApp];
+                                           owner:NSApp];
     });
     return instance;
 }
 
 - (instancetype)initWithContext:(iTermVariablesSuggestionContext)context
-                          owner:(nonnull id<iTermObject>)owner {
+    owner:(nonnull id<iTermObject>)owner {
     self = [super init];
     if (self) {
         _owner = owner;
@@ -128,7 +128,7 @@ NSString *const iTermVariableKeyWindowNumber = @"number";
         _unresolvedLinks = [NSMutableDictionary dictionary];
 
         static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
+        dispatch_once(&onceToken, ^ {
             [iTermVariableHistory recordBuiltInVariables];
         });
     }
@@ -240,7 +240,7 @@ NSString *const iTermVariableKeyWindowNumber = @"number";
 }
 
 - (void)addLinkToReference:(id<iTermVariableReference>)reference
-                      path:(NSString *)path {
+    path:(NSString *)path {
     NSArray<NSString *> *parts = [path componentsSeparatedByString:@"."];
     id value = _values[parts.firstObject];
     if (value) {
@@ -256,7 +256,7 @@ NSString *const iTermVariableKeyWindowNumber = @"number";
 }
 
 - (BOOL)hasLinkToReference:(id<iTermVariableReference>)reference
-                      path:(NSString *)path {
+    path:(NSString *)path {
     NSArray<NSString *> *parts = [path componentsSeparatedByString:@"."];
     id value = _values[parts.firstObject];
     if (!value) {
@@ -270,7 +270,7 @@ NSString *const iTermVariableKeyWindowNumber = @"number";
 }
 
 - (void)removeLinkToReference:(id<iTermVariableReference>)reference
-                         path:(NSString *)path {
+    path:(NSString *)path {
     [self removeWeakReferenceFromLinkTable:_resolvedLinks toObject:reference forKey:path];
     [self removeWeakReferenceFromLinkTable:_unresolvedLinks toObject:reference forKey:path];
 }
@@ -285,7 +285,7 @@ NSString *const iTermVariableKeyWindowNumber = @"number";
     _primaryKeyReference.onChangeBlock = nil;
     _primaryKeyReference = [[iTermVariableReference alloc] initWithPath:primaryKey vendor:self.it_weakProxy];
     __weak __typeof(self) weakSelf = self;
-    _primaryKeyReference.onChangeBlock = ^{
+    _primaryKeyReference.onChangeBlock = ^ {
         [weakSelf valueOfPrimaryKeyDidChange];
     };
     [self valueOfPrimaryKeyDidChange];
@@ -353,8 +353,8 @@ NSString *const iTermVariableKeyWindowNumber = @"number";
 }
 
 - (void)addWeakReferenceToLinkTable:(NSMutableDictionary<NSString *, NSPointerArray *> *)linkTable
-                           toObject:(id<iTermVariableReference>)reference
-                             forKey:(NSString *)localPath {
+    toObject:(id<iTermVariableReference>)reference
+    forKey:(NSString *)localPath {
     NSPointerArray *array = linkTable[localPath];
     if (!array) {
         array = [NSPointerArray weakObjectsPointerArray];
@@ -364,8 +364,8 @@ NSString *const iTermVariableKeyWindowNumber = @"number";
 }
 
 - (void)removeWeakReferenceFromLinkTable:(NSMutableDictionary<NSString *, NSPointerArray *> *)linkTable
-                                toObject:(id<iTermVariableReference>)reference
-                                  forKey:(NSString *)localPath {
+    toObject:(id<iTermVariableReference>)reference
+    forKey:(NSString *)localPath {
     NSPointerArray *array = linkTable[localPath];
     for (NSInteger i = (NSInteger)array.count - 1; i >= 0; i--) {
         void *pointer = [array pointerAtIndex:i];
@@ -392,9 +392,9 @@ NSString *const iTermVariableKeyWindowNumber = @"number";
             return nil;
         }
         return [child setValue:value
-              forVariableNamed:[[parts subarrayFromIndex:1] componentsJoinedByString:@"."]
-               withSideEffects:sideEffects
-                          weak:weak];
+                      forVariableNamed:[[parts subarrayFromIndex:1] componentsJoinedByString:@"."]
+                      withSideEffects:sideEffects
+                      weak:weak];
     }
 
     const BOOL changed = ![NSObject object:value isEqualToObject:[self valueByUnwrappingWeakVariables:_values[name]]];
@@ -451,17 +451,17 @@ NSString *const iTermVariableKeyWindowNumber = @"number";
 // commit is already too large.
 - (void)didReferenceVariables:(NSArray<iTermVariablesDepthOwnerNamesTriple *> *)mutations {
     [self enumerateMutationsByOwnersByDepth:mutations block:^(iTermVariables *owner, NSSet<NSString *> *nameSet) {
-        [owner recordUseOfVariables:nameSet];
-    }];
+             [owner recordUseOfVariables:nameSet];
+         }];
 }
 
 - (void)enumerateMutationsByOwnersByDepth:(NSArray<iTermVariablesDepthOwnerNamesTriple *> *)mutations
-                                    block:(void (^)(iTermVariables *owner, NSSet<NSString *> *names))block {
+    block:(void (^)(iTermVariables *owner, NSSet<NSString *> *names))block {
     [self enumerateMutationsByDepth:mutations block:^(NSArray<iTermVariablesDepthOwnerNamesTriple *> *isodepthTriples) {
-        [self enumerateOwners:isodepthTriples block:^(iTermVariables *owner, NSArray<NSString *> *names) {
-            NSSet *uniqueNames =  [NSSet setWithArray:[names mapWithBlock:^id(NSString *anObject) {
-                return [[anObject componentsSeparatedByString:@"."] lastObject];
-            }]];
+             [self enumerateOwners:isodepthTriples block:^(iTermVariables *owner, NSArray<NSString *> *names) {
+                 NSSet *uniqueNames =  [NSSet setWithArray:[names mapWithBlock:^id(NSString *anObject) {
+                     return [[anObject componentsSeparatedByString:@"."] lastObject];
+                 }]];
             block(owner, uniqueNames);
         }];
     }];
@@ -469,11 +469,11 @@ NSString *const iTermVariableKeyWindowNumber = @"number";
 
 // Calls the block for each distinct depth, from deepest to shallowest
 - (void)enumerateMutationsByDepth:(NSArray<iTermVariablesDepthOwnerNamesTriple *> *)mutations
-                            block:(void (^)(NSArray<iTermVariablesDepthOwnerNamesTriple *> *isodepthTriple))block {
+    block:(void (^)(NSArray<iTermVariablesDepthOwnerNamesTriple *> *isodepthTriple))block {
     NSDictionary<NSNumber *, NSArray<iTermVariablesDepthOwnerNamesTriple *> *> *byDepth;
     byDepth = [mutations classifyWithBlock:^id(iTermVariablesDepthOwnerNamesTriple *triple) {
-        return triple.firstObject;
-    }];
+                  return triple.firstObject;
+              }];
 
     // Iterate from deepest to shallowest
     NSArray<NSNumber *> *sortedDepths = [byDepth.allKeys sortedArrayUsingSelector:@selector(compare:)];
@@ -483,15 +483,15 @@ NSString *const iTermVariableKeyWindowNumber = @"number";
 }
 
 - (void)enumerateOwners:(NSArray<iTermVariablesDepthOwnerNamesTriple *> *)mutations
-                  block:(void (^)(iTermVariables *owner, NSArray<NSString *> *names))block {
+    block:(void (^)(iTermVariables *owner, NSArray<NSString *> *names))block {
     NSDictionary<NSValue *, NSArray<iTermVariablesDepthOwnerNamesTriple *> *> *byOwner;
     byOwner = [mutations classifyWithBlock:^id(iTermVariablesDepthOwnerNamesTriple *triple) {
-        return [NSValue valueWithNonretainedObject:triple.secondObject];
-    }];
+                  return [NSValue valueWithNonretainedObject:triple.secondObject];
+              }];
     [byOwner enumerateKeysAndObjectsUsingBlock:^(NSValue * _Nonnull ownerValue, NSArray<iTermVariablesDepthOwnerNamesTriple *> * _Nonnull triples, BOOL * _Nonnull stop) {
-        NSArray<NSString *> *names = [triples mapWithBlock:^id(iTermVariablesDepthOwnerNamesTriple *anObject) {
-            return anObject.thirdObject;
-        }];
+                NSArray<NSString *> *names = [triples mapWithBlock:^id(iTermVariablesDepthOwnerNamesTriple *anObject) {
+                    return anObject.thirdObject;
+                }];
         iTermVariables *owner = ownerValue.nonretainedObjectValue;
         block(owner, names);
     }];
@@ -500,7 +500,7 @@ NSString *const iTermVariableKeyWindowNumber = @"number";
 + (NSSet<NSString *> *)namesToRecordFromSet:(NSSet<NSString *> *)names inContext:(iTermVariablesSuggestionContext)context {
     static NSMutableDictionary<NSNumber *, NSMutableSet *> *seen;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         seen = [NSMutableDictionary dictionary];
         seen[@(iTermVariablesSuggestionContextSession)] = [NSMutableSet set];
         seen[@(iTermVariablesSuggestionContextTab)] = [NSMutableSet set];
@@ -524,10 +524,10 @@ NSString *const iTermVariableKeyWindowNumber = @"number";
             return;
         }
         [names enumerateObjectsUsingBlock:^(NSString * _Nonnull name, BOOL * _Nonnull stop) {
-            if (![[self valueByUnwrappingWeakVariables:self->_values[name]] isKindOfClass:[iTermVariables class]]) {
-                [iTermVariableHistory recordUseOfVariableNamed:name inContext:self->_context];
-            }
-        }];
+                  if (![[self valueByUnwrappingWeakVariables:self->_values[name]] isKindOfClass:[iTermVariables class]]) {
+                      [iTermVariableHistory recordUseOfVariableNamed:name inContext:self->_context];
+                  }
+              }];
     }
 
     if (_parent && _parentName) {
@@ -538,8 +538,8 @@ NSString *const iTermVariableKeyWindowNumber = @"number";
 - (NSSet<NSString *> *)namesByPrependingParentName:(NSSet<NSString *> *)names {
     NSString *parentName = _parentName;
     return [NSSet setWithArray:[names.allObjects mapWithBlock:^id(NSString *anObject) {
-        return [NSString stringWithFormat:@"%@.%@", parentName, anObject];
-    }]];;
+              return [NSString stringWithFormat:@"%@.%@", parentName, anObject];
+          }]];;
 }
 
 - (NSDictionary<NSString *,NSString *> *)stringValuedDictionary {
@@ -557,9 +557,9 @@ NSString *const iTermVariableKeyWindowNumber = @"number";
         iTermVariables *child = [iTermVariables castFrom:value];
         if (child) {
             [result it_mergeFrom:[child.stringValuedDictionary mapKeysWithBlock:^id(NSString *key, NSString *object) {
-                if (scopeName) {
-                    return [NSString stringWithFormat:@"%@.%@.%@", scopeName, name, key];
-                } else {
+                       if (scopeName) {
+                           return [NSString stringWithFormat:@"%@.%@.%@", scopeName, name, key];
+                       } else {
                     return [NSString stringWithFormat:@"%@.%@", name, key];
                 }
             }]];
@@ -583,9 +583,9 @@ NSString *const iTermVariableKeyWindowNumber = @"number";
         iTermVariables *child = [iTermVariables castFrom:value];
         if (child) {
             [result it_mergeFrom:[[child dictionaryInScope:nil] mapKeysWithBlock:^id(NSString *key, id object) {
-                if (scopeName) {
-                    return [NSString stringWithFormat:@"%@.%@.%@", scopeName, name, key];
-                } else {
+                       if (scopeName) {
+                           return [NSString stringWithFormat:@"%@.%@.%@", scopeName, name, key];
+                       } else {
                     return [NSString stringWithFormat:@"%@.%@", name, key];
                 }
             }]];
@@ -606,11 +606,11 @@ NSString *const iTermVariableKeyWindowNumber = @"number";
 
 - (NSDictionary *)encodableDictionaryValue {
     return [self.dictionaryValue filteredWithBlock:^BOOL(id key, id value) {
-        if ([value isKindOfClass:[iTermWeakVariables class]]) {
-            return NO;
-        }
-        return YES;
-    }];
+                             if ([value isKindOfClass:[iTermWeakVariables class]]) {
+                                 return NO;
+                             }
+                             return YES;
+                         }];
 }
 
 @end

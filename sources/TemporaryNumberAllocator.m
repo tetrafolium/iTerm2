@@ -15,7 +15,7 @@
 + (instancetype)sharedInstance {
     static id instance;
     static dispatch_once_t once;
-    dispatch_once(&once, ^{
+    dispatch_once(&once, ^ {
         instance = [[self alloc] init];
     });
     return instance;

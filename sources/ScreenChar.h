@@ -205,8 +205,8 @@ typedef struct screen_char_t
 @property (nonatomic) screen_char_t continuation;
 
 - (instancetype)initWithLine:(screen_char_t *)line
-                      length:(int)length
-                continuation:(screen_char_t)continuation;
+    length:(int)length
+    continuation:(screen_char_t)continuation;
 - (BOOL)isEqualToScreenCharArray:(ScreenCharArray *)other;
 @end
 
@@ -266,7 +266,7 @@ static inline void CopyBackgroundColor(screen_char_t* to, const screen_char_t fr
 
 // Returns true iff two background colors are equal.
 static inline BOOL BackgroundColorsEqual(const screen_char_t a,
-                                         const screen_char_t b)
+        const screen_char_t b)
 {
     if (a.backgroundColorMode == b.backgroundColorMode) {
         if (a.backgroundColorMode != ColorMode24bit) {
@@ -275,8 +275,8 @@ static inline BOOL BackgroundColorsEqual(const screen_char_t a,
         } else {
             // RGB must all be equal for 24bit color
             return a.backgroundColor == b.backgroundColor &&
-                a.bgGreen == b.bgGreen &&
-                a.bgBlue == b.bgBlue;
+                   a.bgGreen == b.bgGreen &&
+                   a.bgBlue == b.bgBlue;
         }
     } else {
         // different ColorMode == different colors
@@ -286,16 +286,16 @@ static inline BOOL BackgroundColorsEqual(const screen_char_t a,
 
 // Returns true iff two foreground colors are equal.
 static inline BOOL ForegroundAttributesEqual(const screen_char_t a,
-                                             const screen_char_t b)
+        const screen_char_t b)
 {
     if (a.bold != b.bold ||
-        a.faint != b.faint ||
-        a.italic != b.italic ||
-        a.blink != b.blink ||
-        a.underline != b.underline ||
-        a.underlineStyle != b.underlineStyle ||
-        a.strikethrough != b.strikethrough ||
-        !a.urlCode != !b.urlCode) {
+            a.faint != b.faint ||
+            a.italic != b.italic ||
+            a.blink != b.blink ||
+            a.underline != b.underline ||
+            a.underlineStyle != b.underlineStyle ||
+            a.strikethrough != b.strikethrough ||
+            !a.urlCode != !b.urlCode) {
         return NO;
     }
     if (a.foregroundColorMode == b.foregroundColorMode) {
@@ -305,8 +305,8 @@ static inline BOOL ForegroundAttributesEqual(const screen_char_t a,
         } else {
             // RGB must all be equal for 24bit color
             return a.foregroundColor == b.foregroundColor &&
-                a.fgGreen == b.fgGreen &&
-                a.fgBlue == b.fgBlue;
+                   a.fgGreen == b.fgGreen &&
+                   a.fgBlue == b.fgBlue;
         }
     } else {
         // different ColorMode == different colors
@@ -343,7 +343,7 @@ static inline BOOL ScreenCharHasDefaultAttributesAndColors(const screen_char_t s
 + (instancetype)stringLineWithString:(NSString *)string;
 
 - (instancetype)initWithScreenChars:(screen_char_t *)screenChars
-                             length:(NSInteger)length;
+    length:(NSInteger)length;
 
 - (NSRange)rangeOfScreenCharsForRangeInString:(NSRange)rangeInString;
 

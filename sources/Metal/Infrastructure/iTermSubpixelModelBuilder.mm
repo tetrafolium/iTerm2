@@ -34,12 +34,12 @@ static NSString *const iTermSubpixelModelString = @"O";
 }
 
 + (NSUInteger)keyForForegroundColor:(float)foregroundColor
-                    backgroundColor:(float)backgroundColor {
+    backgroundColor:(float)backgroundColor {
     return ([self keyForColor:foregroundColor] << 8) | [self keyForColor:backgroundColor];
 }
 
 - (instancetype)initWithForegroundColor:(float)foregroundColor
-                        backgroundColor:(float)backgroundColor {
+    backgroundColor:(float)backgroundColor {
     if (self) {
         _table = [NSMutableData dataWithLength:256 * sizeof(unsigned char)];
         _foregroundColor = foregroundColor;
@@ -50,14 +50,14 @@ static NSString *const iTermSubpixelModelString = @"O";
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p fg=%f bg=%f>",
-            NSStringFromClass(self.class), self,
-            _foregroundColor,
-            _backgroundColor];
+                     NSStringFromClass(self.class), self,
+                     _foregroundColor,
+                     _backgroundColor];
 }
 
 - (NSUInteger)key {
     return [iTermSubpixelModel keyForForegroundColor:_foregroundColor
-                                     backgroundColor:_backgroundColor];
+                               backgroundColor:_backgroundColor];
 }
 
 - (NSString *)dump {
@@ -90,22 +90,22 @@ static NSString *const iTermSubpixelModelString = @"O";
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     static id instance;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] init];
     });
     return instance;
 }
 
 + (NSData *)dataForImageWithForegroundColor:(vector_float4)foregroundColor
-                            backgroundColor:(vector_float4)backgroundColor {
+    backgroundColor:(vector_float4)backgroundColor {
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     CGContextRef ctx = CGBitmapContextCreate(NULL,
-                                             iTermSubpixelModelSize.width,
-                                             iTermSubpixelModelSize.height,
-                                             8,
-                                             iTermSubpixelModelSize.width * 4,
-                                             colorSpace,
-                                             kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host);
+                       iTermSubpixelModelSize.width,
+                       iTermSubpixelModelSize.height,
+                       8,
+                       iTermSubpixelModelSize.width * 4,
+                       colorSpace,
+                       kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host);
     CGColorSpaceRelease(colorSpace);
 
     CGContextSetRGBFillColor(ctx, backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
@@ -114,21 +114,21 @@ static NSString *const iTermSubpixelModelString = @"O";
     NSFont *font = [NSFont fontWithName:@"Monaco" size:12];
     CGFloat foreground[4] = { foregroundColor.x, foregroundColor.y, foregroundColor.z, foregroundColor.w };
     [self drawString:iTermSubpixelModelString
-                font:font
-                size:iTermSubpixelModelSize
+          font:font
+          size:iTermSubpixelModelSize
           components:foreground
-             context:ctx];
+          context:ctx];
     NSData *data = [NSData dataWithBytes:CGBitmapContextGetData(ctx)
-                                  length:iTermSubpixelModelSize.width * iTermSubpixelModelSize.height * 4];
+                           length:iTermSubpixelModelSize.width * iTermSubpixelModelSize.height * 4];
     CGContextRelease(ctx);
     return data;
 }
 
 + (void)drawString:(NSString *)string
-              font:(NSFont *)font
-              size:(CGSize)size
-        components:(CGFloat *)components
-           context:(CGContextRef)ctx {
+    font:(NSFont *)font
+    size:(CGSize)size
+    components:(CGFloat *)components
+    context:(CGContextRef)ctx {
     CGGlyph glyphs[string.length];
     const NSUInteger numCodes = string.length;
     unichar characters[numCodes];
@@ -156,7 +156,7 @@ static NSString *const iTermSubpixelModelString = @"O";
     // TODO: could use extended srgb on macOS 10.12+
     static CGColorSpaceRef srgb;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         srgb = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
     });
     CGContextSetFillColorSpace(ctx, srgb);
@@ -175,8 +175,8 @@ static NSString *const iTermSubpixelModelString = @"O";
     double y = -(-(floorf(font.leading) - floorf(font.descender + 0.5)));
     // Flip vertically and translate to (x, y).
     CGContextSetTextMatrix(ctx, CGAffineTransformMake(scale,  0.0,
-                                                      0, scale,
-                                                      0, y));
+                           0, scale,
+                           0, y));
     CGContextSetAllowsAntialiasing(ctx, YES);
     CGContextSetShouldAntialias(ctx, YES);
 
@@ -194,7 +194,7 @@ static NSString *const iTermSubpixelModelString = @"O";
         _models = [NSMutableDictionary dictionary];
         _indexToReferenceColor = new std::unordered_map<int, int>();
         NSData *referenceImageData = [iTermSubpixelModelBuilder dataForImageWithForegroundColor:vector4(0.0f, 0.0f, 0.0f, 1.0f)
-                                                                                backgroundColor:vector4(1.0f, 1.0f, 1.0f, 1.0f)];
+                                                                backgroundColor:vector4(1.0f, 1.0f, 1.0f, 1.0f)];
         std::unordered_set<int> referenceColors;
         const unsigned char *bytes = (const unsigned char *)referenceImageData.bytes;
         int i = 0;
@@ -217,17 +217,17 @@ static NSString *const iTermSubpixelModelString = @"O";
 }
 
 - (iTermSubpixelModel *)modelForForegroundColor:(float)foregroundComponent
-                                backgroundColor:(float)backgroundComponent {
+    backgroundColor:(float)backgroundComponent {
     @synchronized (self) {
         NSUInteger key = [iTermSubpixelModel keyForForegroundColor:foregroundComponent
-                                               backgroundColor:backgroundComponent];
+                                             backgroundColor:backgroundComponent];
         iTermSubpixelModel *cachedModel = _models[@(key)];
         if (cachedModel) {
             return cachedModel;
         }
 
         NSData *imageData = [iTermSubpixelModelBuilder dataForImageWithForegroundColor:simd_make_float4(foregroundComponent, foregroundComponent, foregroundComponent, 1)
-                                                                       backgroundColor:simd_make_float4(backgroundComponent, backgroundComponent, backgroundComponent, 1)];
+                                                       backgroundColor:simd_make_float4(backgroundComponent, backgroundComponent, backgroundComponent, 1)];
         // Maps a reference color to a model color. We'll go back and fill in the gaps with linear
         // interpolations, which is why we use a sorted container. When translating a black-on-white
         // render to a color render, these mapping tables let us look up the proper color for a black
@@ -245,7 +245,7 @@ static NSString *const iTermSubpixelModelString = @"O";
         }
 
         iTermSubpixelModel *subpixelModel = [[iTermSubpixelModel alloc] initWithForegroundColor:foregroundComponent
-                                                                                backgroundColor:backgroundComponent];
+                                                                        backgroundColor:backgroundComponent];
         [self interpolateValuesInMap:&map toByteArrayInData:subpixelModel.mutableTable offset:0 stride:1];
         if (backgroundComponent == 0) {
             DLog(@"Generated model for %f/%f", foregroundComponent, backgroundComponent);
@@ -257,28 +257,28 @@ static NSString *const iTermSubpixelModelString = @"O";
 }
 
 - (void)writeDebugDataToFolder:(NSString *)folder
-               foregroundColor:(float)foregroundComponent
-               backgroundColor:(float)backgroundComponent {
+    foregroundColor:(float)foregroundComponent
+    backgroundColor:(float)backgroundComponent {
     NSData *imageData = [iTermSubpixelModelBuilder dataForImageWithForegroundColor:simd_make_float4(foregroundComponent,
-                                                                                                    foregroundComponent,
-                                                                                                    foregroundComponent,
-                                                                                                    1)
-                                                                   backgroundColor:simd_make_float4(backgroundComponent,
-                                                                                                    backgroundComponent,
-                                                                                                    backgroundComponent,
-                                                                                                    1)];
+                                                   foregroundComponent,
+                                                   foregroundComponent,
+                                                   1)
+                                                   backgroundColor:simd_make_float4(backgroundComponent,
+                                                           backgroundComponent,
+                                                           backgroundComponent,
+                                                           1)];
     NSString *name = [NSString stringWithFormat:@"SubpixelImage.f_%02x.b_%02x.dat",
-                      static_cast<int>(foregroundComponent * 255), static_cast<int>(backgroundComponent * 255)];
+                               static_cast<int>(foregroundComponent * 255), static_cast<int>(backgroundComponent * 255)];
     [imageData writeToFile:[folder stringByAppendingPathComponent:name] atomically:NO];
 
     NSImage *image = [NSImage imageWithRawData:imageData
-                                          size:iTermSubpixelModelSize
-                                 bitsPerSample:8
-                               samplesPerPixel:4
-                                      hasAlpha:YES
-                                colorSpaceName:NSDeviceRGBColorSpace];
+                              size:iTermSubpixelModelSize
+                              bitsPerSample:8
+                              samplesPerPixel:4
+                              hasAlpha:YES
+                              colorSpaceName:NSDeviceRGBColorSpace];
     NSString *imageName = [NSString stringWithFormat:@"SubpixelImage.f_%02x.b_%02x.png",
-                           static_cast<int>(foregroundComponent * 255), static_cast<int>(backgroundComponent * 255)];
+                                    static_cast<int>(foregroundComponent * 255), static_cast<int>(backgroundComponent * 255)];
     [[image dataForFileOfType:NSBitmapImageFileTypePNG] writeToFile:[folder stringByAppendingPathComponent:imageName] atomically:NO];
 }
 
@@ -287,34 +287,34 @@ static NSString *const iTermSubpixelModelString = @"O";
 }
 
 namespace iTerm2 {
-    void Backfill(double slope, int previousReferenceColor, double value, size_t stride, unsigned char *output) {
-        // Backfill from this value to a reference color of 0
-        double backfillSlope = -slope;
-        if (value + backfillSlope * previousReferenceColor < 0) {
-            backfillSlope = previousReferenceColor / -value;
-        }
-        double backfillValue = value;
-        DLog(@"Backfill [0, %d] with values [%f, %f]", previousReferenceColor, MAX(0, backfillValue + backfillSlope * previousReferenceColor), backfillValue);
-        for (int i = previousReferenceColor; i >= 0; i--) {
-            output[i * stride] = MAX(0, round(backfillValue));
-            backfillValue += backfillSlope;
-        }
+void Backfill(double slope, int previousReferenceColor, double value, size_t stride, unsigned char *output) {
+    // Backfill from this value to a reference color of 0
+    double backfillSlope = -slope;
+    if (value + backfillSlope * previousReferenceColor < 0) {
+        backfillSlope = previousReferenceColor / -value;
     }
-
-    void Fill(double slope, double value, int previousReferenceColor, int referenceColor, size_t stride, unsigned char *output) {
-        // Fill between this color and the previous reference color
-        DLog(@"Fill range [%d, %d] with values [%f, %f]", previousReferenceColor, referenceColor, value, value + slope * (referenceColor - previousReferenceColor));
-        for (int i = previousReferenceColor; i <= referenceColor; i++) {
-            output[i * stride] = value;
-            value += slope;
-        }
+    double backfillValue = value;
+    DLog(@"Backfill [0, %d] with values [%f, %f]", previousReferenceColor, MAX(0, backfillValue + backfillSlope * previousReferenceColor), backfillValue);
+    for (int i = previousReferenceColor; i >= 0; i--) {
+        output[i * stride] = MAX(0, round(backfillValue));
+        backfillValue += backfillSlope;
     }
 }
 
+void Fill(double slope, double value, int previousReferenceColor, int referenceColor, size_t stride, unsigned char *output) {
+    // Fill between this color and the previous reference color
+    DLog(@"Fill range [%d, %d] with values [%f, %f]", previousReferenceColor, referenceColor, value, value + slope * (referenceColor - previousReferenceColor));
+    for (int i = previousReferenceColor; i <= referenceColor; i++) {
+        output[i * stride] = value;
+        value += slope;
+    }
+}
+}
+
 - (void)interpolateValuesInMap:(std::map<unsigned char, unsigned char> *)modelToReferenceMap
-             toByteArrayInData:(NSMutableData *)destinationData
-                        offset:(size_t)offset
-                        stride:(size_t)stride {
+    toByteArrayInData:(NSMutableData *)destinationData
+    offset:(size_t)offset
+    stride:(size_t)stride {
     int previousModelColor = -1;
     int previousReferenceColor = -1;
     BOOL first = YES;

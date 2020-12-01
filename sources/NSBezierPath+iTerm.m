@@ -23,35 +23,38 @@
     nx = x+radius;
     ny = y+radius+0.5;  // Add an extra 0.5 to get on the pixel grid.
     [path curveToPoint:NSMakePoint(nx, ny)
-         controlPoint1:NSMakePoint((nx+x)/2, y)
-         controlPoint2:NSMakePoint(nx, (ny+y)/2)];
+          controlPoint1:NSMakePoint((nx+x)/2, y)
+          controlPoint2:NSMakePoint(nx, (ny+y)/2)];
     y = ny;
     ny = y + MAX(0, height - 2*radius);
     [path lineToPoint:NSMakePoint(nx, ny)];
-    x = nx; y = ny;
+    x = nx;
+    y = ny;
     nx = x + radius;
     ny = y + radius;
     [path curveToPoint:NSMakePoint(nx, ny)
-         controlPoint1:NSMakePoint(x, (y + ny)/2)
-         controlPoint2:NSMakePoint((x+nx)/2, ny)];
+          controlPoint1:NSMakePoint(x, (y + ny)/2)
+          controlPoint2:NSMakePoint((x+nx)/2, ny)];
     x = nx;
     nx = x + width - 4*radius;
     [path lineToPoint:NSMakePoint(nx, ny)];
-    x = nx; y = ny;
+    x = nx;
+    y = ny;
     nx = x + radius;
     ny = y - radius;
     [path curveToPoint:NSMakePoint(nx, ny)
-         controlPoint1:NSMakePoint((nx+x)/2, y)
-         controlPoint2:NSMakePoint(nx, (ny+y)/2)];
+          controlPoint1:NSMakePoint((nx+x)/2, y)
+          controlPoint2:NSMakePoint(nx, (ny+y)/2)];
     y = ny;
     ny = y - MAX(0, height - 2*radius);
     [path lineToPoint:NSMakePoint(nx, ny)];
-    x = nx; y = ny;
+    x = nx;
+    y = ny;
     nx = x + radius;
     ny = y - radius - 0.5; // Subtract 0.5 to return to the "true" origin of the frame
     [path curveToPoint:NSMakePoint(nx, ny)
-         controlPoint1:NSMakePoint(x, (ny+y)/2)
-         controlPoint2:NSMakePoint((x+nx)/2, ny)];
+          controlPoint1:NSMakePoint(x, (ny+y)/2)
+          controlPoint2:NSMakePoint((x+nx)/2, ny)];
 
     return path;
 }
@@ -76,29 +79,29 @@
         NSPoint associatedPoints[3];
         NSBezierPathElement element = [self elementAtIndex:i associatedPoints:associatedPoints];
         switch (element) {
-            case NSMoveToBezierPathElement:
-                CGPathMoveToPoint(path, NULL, associatedPoints[0].x, associatedPoints[0].y);
-                break;
+        case NSMoveToBezierPathElement:
+            CGPathMoveToPoint(path, NULL, associatedPoints[0].x, associatedPoints[0].y);
+            break;
 
-            case NSLineToBezierPathElement:
-                closed = NO;
-                CGPathAddLineToPoint(path, NULL, associatedPoints[0].x, associatedPoints[0].y);
-                break;
+        case NSLineToBezierPathElement:
+            closed = NO;
+            CGPathAddLineToPoint(path, NULL, associatedPoints[0].x, associatedPoints[0].y);
+            break;
 
-            case NSCurveToBezierPathElement:
-                closed = NO;
-                CGPathAddCurveToPoint(path, NULL,
-                                      associatedPoints[0].x, associatedPoints[0].y,
-                                      associatedPoints[1].x, associatedPoints[1].y,
-                                      associatedPoints[2].x, associatedPoints[2].y);
-                break;
+        case NSCurveToBezierPathElement:
+            closed = NO;
+            CGPathAddCurveToPoint(path, NULL,
+                                  associatedPoints[0].x, associatedPoints[0].y,
+                                  associatedPoints[1].x, associatedPoints[1].y,
+                                  associatedPoints[2].x, associatedPoints[2].y);
+            break;
 
-            case NSClosePathBezierPathElement:
-                closed = YES;
-                if (!open) {
-                    CGPathCloseSubpath(path);
-                }
-                break;
+        case NSClosePathBezierPathElement:
+            closed = YES;
+            if (!open) {
+                CGPathCloseSubpath(path);
+            }
+            break;
         }
     }
 

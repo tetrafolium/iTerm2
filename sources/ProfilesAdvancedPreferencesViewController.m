@@ -61,30 +61,30 @@
 
 - (void)awakeFromNib {
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(reloadProfiles:)
-                                                 name:kReloadAllProfiles
-                                               object:nil];
+                                          selector:@selector(reloadProfiles:)
+                                          name:kReloadAllProfiles
+                                          object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateSemanticHistoryDisabledLabel:)
-                                                 name:kPointerPrefsSemanticHistoryEnabledChangedNotification
-                                               object:nil];
+                                          selector:@selector(updateSemanticHistoryDisabledLabel:)
+                                          name:kPointerPrefsSemanticHistoryEnabledChangedNotification
+                                          object:nil];
 
     [self addViewToSearchIndex:_triggersButton
-                   displayName:@"Triggers"
-                       phrases:@[ @"regular expression", @"regex" ]
-                           key:nil];
+          displayName:@"Triggers"
+          phrases:@[ @"regular expression", @"regex" ]
+          key:nil];
     [self addViewToSearchIndex:_smartSelectionButton
-                   displayName:@"Smart selection"
-                       phrases:@[ @"regular expression", @"regex" ]
-                           key:nil];
+          displayName:@"Smart selection"
+          phrases:@[ @"regular expression", @"regex" ]
+          key:nil];
     [self addViewToSearchIndex:_automaticProfileSwitchingView
-                   displayName:@"Automatic profile switching rules"
-                       phrases:@[]
-                           key:nil];
+          displayName:@"Automatic profile switching rules"
+          phrases:@[]
+          key:nil];
     [self addViewToSearchIndex:_semanticHistoryAction
-                   displayName:@"Semantic history"
-                       phrases:@[ @"cmd click", @"open file", @"open url" ]
-                           key:nil];
+          displayName:@"Semantic history"
+          phrases:@[ @"cmd click", @"open file", @"open url" ]
+          key:nil];
     _enableAPSLogging.state = iTermUserDefaults.enableAutomaticProfileSwitchingLogging ? NSControlStateValueOn : NSControlStateValueOff;
 }
 
@@ -139,8 +139,8 @@
     [_triggerWindowController windowWillOpen];
     __weak __typeof(self) weakSelf = self;
     [self.view.window beginSheet:_triggerWindowController.window completionHandler:^(NSModalResponse returnCode) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (strongSelf) {
+                         __strong typeof(weakSelf) strongSelf = weakSelf;
+                         if (strongSelf) {
             [strongSelf->_triggerWindowController.window close];
         }
     }];
@@ -155,8 +155,8 @@
 
 - (void)triggerChanged:(TriggerController *)triggerController newValue:(NSArray *)value {
     [[triggerController.window undoManager] registerUndoWithTarget:self
-                                                          selector:@selector(setTriggersValue:)
-                                                            object:[self objectForKey:KEY_TRIGGERS]];
+                                            selector:@selector(setTriggersValue:)
+                                            object:[self objectForKey:KEY_TRIGGERS]];
     [[triggerController.window undoManager] setActionName:@"Edit Triggers"];
     [self setObject:value forKey:KEY_TRIGGERS];
 }
@@ -184,8 +184,8 @@
     [_smartSelectionWindowController windowWillOpen];
     __weak __typeof(self) weakSelf = self;
     [self.view.window beginSheet:_smartSelectionWindowController.window completionHandler:^(NSModalResponse returnCode) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (strongSelf) {
+                         __strong typeof(weakSelf) strongSelf = weakSelf;
+                         if (strongSelf) {
             [strongSelf->_smartSelectionWindowController.window close];
         }
     }];
@@ -213,12 +213,12 @@
     [_boundHostsTableView reloadData];
     _addingBoundHost = YES;
     [_boundHostsTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:_boundHostsTableView.numberOfRows - 1]
-                      byExtendingSelection:NO];
+                          byExtendingSelection:NO];
     _addingBoundHost = NO;
     [_boundHostsTableView editColumn:0
-                                 row:[self numberOfRowsInTableView:_boundHostsTableView] - 1
-                           withEvent:nil
-                              select:YES];
+                          row:[self numberOfRowsInTableView:_boundHostsTableView] - 1
+                          withEvent:nil
+                          select:YES];
 }
 
 - (IBAction)removeBoundHost:(id)sender {
@@ -269,7 +269,7 @@
 
 - (id)tableView:(NSTableView *)aTableView
     objectValueForTableColumn:(NSTableColumn *)aTableColumn
-            row:(NSInteger)rowIndex {
+    row:(NSInteger)rowIndex {
     if (rowIndex < 0 || rowIndex >= self.boundHosts.count) {
         return nil;
     }
@@ -277,9 +277,9 @@
 }
 
 - (void)tableView:(NSTableView *)aTableView
-   setObjectValue:(id)anObject
-   forTableColumn:(NSTableColumn *)aTableColumn
-              row:(NSInteger)rowIndex {
+    setObjectValue:(id)anObject
+    forTableColumn:(NSTableColumn *)aTableColumn
+    row:(NSInteger)rowIndex {
     if (![anObject length] || [[self boundHosts] containsObject:anObject]) {
         DLog(@"Beep: Empty APS rule not allwoed");
         NSBeep();
@@ -309,29 +309,29 @@
     if (dupProfile) {
         NSString *theTitle;
         theTitle = [NSString stringWithFormat:@"The profile “%@” is already bound to hostname “%@”.",
-                    dupProfile[KEY_NAME], anObject];
+                             dupProfile[KEY_NAME], anObject];
         NSString *removeFromOtherAction = [NSString stringWithFormat:@"Remove from “%@”", dupProfile[KEY_NAME]];
         switch ([iTermWarning showWarningWithTitle:theTitle
-                                           actions:@[ removeFromOtherAction,
-                                                      @"Remove from This Profile" ]
-                                        identifier:nil
-                                       silenceable:kiTermWarningTypePersistent
-                                            window:self.view.window]) {
-            case kiTermWarningSelection0:
-                temp = [boundHosts mutableCopy];
-                [temp removeObject:anObject];
-                [iTermProfilePreferences setObject:temp
-                                            forKey:KEY_BOUND_HOSTS
-                                         inProfile:dupProfile
-                                             model:[ProfileModel sharedInstance]];
-                break;
+                              actions:@[ removeFromOtherAction,
+                                         @"Remove from This Profile" ]
+                              identifier:nil
+                              silenceable:kiTermWarningTypePersistent
+                              window:self.view.window]) {
+        case kiTermWarningSelection0:
+            temp = [boundHosts mutableCopy];
+            [temp removeObject:anObject];
+            [iTermProfilePreferences setObject:temp
+                                     forKey:KEY_BOUND_HOSTS
+                                     inProfile:dupProfile
+                                     model:[ProfileModel sharedInstance]];
+            break;
 
-            case kiTermWarningSelection1:
-                [self removeBoundHostOnRow:rowIndex];
-                break;
+        case kiTermWarningSelection1:
+            [self removeBoundHostOnRow:rowIndex];
+            break;
 
-            default:
-                break;
+        default:
+            break;
         }
     }
 }
@@ -340,13 +340,13 @@
 
 - (BOOL)tableView:(NSTableView *)aTableView
     shouldEditTableColumn:(NSTableColumn *)aTableColumn
-              row:(NSInteger)rowIndex {
+    row:(NSInteger)rowIndex {
     return YES;
 }
 
 - (NSCell *)tableView:(NSTableView *)tableView
     dataCellForTableColumn:(NSTableColumn *)tableColumn
-                       row:(NSInteger)row {
+    row:(NSInteger)row {
     NSTextFieldCell *cell = [[NSTextFieldCell alloc] initTextCell:@"hostname"];
     [cell setPlaceholderString:@"Hostname, username@hostname, or username@"];
     [cell setEditable:YES];

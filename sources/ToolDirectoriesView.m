@@ -135,7 +135,7 @@ static const CGFloat kHelpMargin = 5;
         tableView_.menu.delegate = self;
         NSMenuItem *item;
         item = [[NSMenuItem alloc] initWithTitle:@"Toggle Star"
-                                          action:@selector(toggleStar:)
+                                   action:@selector(toggleStar:)
                                    keyEquivalent:@""];
         [tableView_.menu addItem:item];
 
@@ -143,14 +143,14 @@ static const CGFloat kHelpMargin = 5;
 
         [self relayout];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(directoriesDidChange:)
-                                                     name:kDirectoriesDidChangeNotificationName
-                                                   object:nil];
+                                              selector:@selector(directoriesDidChange:)
+                                              name:kDirectoriesDidChangeNotificationName
+                                              object:nil];
         [self performSelector:@selector(updateDirectories) withObject:nil afterDelay:0];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(windowAppearanceDidChange:)
-                                                     name:iTermWindowAppearanceDidChange
-                                                   object:nil];
+                                              selector:@selector(windowAppearanceDidChange:)
+                                              name:iTermWindowAppearanceDidChange
+                                              object:nil];
     }
     return self;
 }
@@ -213,7 +213,7 @@ static const CGFloat kHelpMargin = 5;
                                   clear_.frame.size.width,
                                   clear_.frame.size.height);
     }
-    
+
     // Scroll view
     [scrollView_ setFrame:NSMakeRect(0,
                                      searchFieldFrame.size.height + kMargin,
@@ -258,8 +258,8 @@ static const CGFloat kHelpMargin = 5;
 }
 
 - (NSView *)tableView:(NSTableView *)tableView
-   viewForTableColumn:(NSTableColumn *)tableColumn
-                  row:(NSInteger)row {
+    viewForTableColumn:(NSTableColumn *)tableColumn
+    row:(NSInteger)row {
     static NSString *const identifier = @"ToolDirectoriesViewEntry";
     NSTextField *result = [tableView makeViewWithIdentifier:identifier owner:self];
     if (result == nil) {
@@ -289,12 +289,12 @@ static const CGFloat kHelpMargin = 5;
 }
 
 - (id)stringOrAttributedStringForColumn:(NSTableColumn *)aTableColumn
-                                    row:(NSInteger)rowIndex {
+    row:(NSInteger)rowIndex {
     iTermRecentDirectoryMO *entry = filteredEntries_[rowIndex];
     NSIndexSet *indexes =
         [[iTermShellHistoryController sharedInstance] abbreviationSafeIndexesInRecentDirectory:entry];
     return [entry attributedStringForTableColumn:aTableColumn
-                      abbreviationSafeComponents:indexes];
+                  abbreviationSafeComponents:indexes];
 }
 
 - (void)directoriesDidChange:(id)sender {
@@ -367,7 +367,7 @@ static const CGFloat kHelpMargin = 5;
         NSMutableArray *array = [NSMutableArray array];
         for (iTermRecentDirectoryMO *entry in entries_) {
             if ([entry.path rangeOfString:searchField_.stringValue
-                                  options:NSCaseInsensitiveSearch].location != NSNotFound) {
+                               options:NSCaseInsensitiveSearch].location != NSNotFound) {
                 [array addObject:entry];
             }
         }
@@ -381,10 +381,10 @@ static const CGFloat kHelpMargin = 5;
 }
 
 - (NSArray *)control:(NSControl *)control
-            textView:(NSTextView *)textView
-         completions:(NSArray *)words
- forPartialWordRange:(NSRange)charRange
- indexOfSelectedItem:(NSInteger *)index {
+    textView:(NSTextView *)textView
+    completions:(NSArray *)words
+    forPartialWordRange:(NSRange)charRange
+    indexOfSelectedItem:(NSInteger *)index {
     return @[];
 }
 
@@ -393,7 +393,7 @@ static const CGFloat kHelpMargin = 5;
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)item {
-  return [self respondsToSelector:[item action]] && [tableView_ clickedRow] >= 0;
+    return [self respondsToSelector:[item action]] && [tableView_ clickedRow] >= 0;
 }
 
 - (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row {
@@ -408,7 +408,7 @@ static const CGFloat kHelpMargin = 5;
     if (index >= 0) {
         iTermRecentDirectoryMO *entry = filteredEntries_[index];
         [[iTermShellHistoryController sharedInstance] setDirectory:entry
-                                                           starred:!entry.starred.boolValue];
+                                                      starred:!entry.starred.boolValue];
     }
     [self updateDirectories];
 }

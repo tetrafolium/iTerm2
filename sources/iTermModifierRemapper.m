@@ -48,82 +48,82 @@
 
 + (NSInteger)_cgMaskForMod:(int)mod {
     switch (mod) {
-        case kPreferencesModifierTagControl:
-            return kCGEventFlagMaskControl;
+    case kPreferencesModifierTagControl:
+        return kCGEventFlagMaskControl;
 
-        case kPreferencesModifierTagLeftOption:
-        case kPreferencesModifierTagRightOption:
-        case kPreferencesModifierTagEitherOption:
-            return kCGEventFlagMaskAlternate;
+    case kPreferencesModifierTagLeftOption:
+    case kPreferencesModifierTagRightOption:
+    case kPreferencesModifierTagEitherOption:
+        return kCGEventFlagMaskAlternate;
 
-        case kPreferencesModifierTagEitherCommand:
-        case kPreferencesModifierTagLeftCommand:
-        case kPreferencesModifierTagRightCommand:
-            return kCGEventFlagMaskCommand;
+    case kPreferencesModifierTagEitherCommand:
+    case kPreferencesModifierTagLeftCommand:
+    case kPreferencesModifierTagRightCommand:
+        return kCGEventFlagMaskCommand;
 
-        case kPreferencesModifierTagCommandAndOption:
-            return kCGEventFlagMaskCommand | kCGEventFlagMaskAlternate;
+    case kPreferencesModifierTagCommandAndOption:
+        return kCGEventFlagMaskCommand | kCGEventFlagMaskAlternate;
 
-        default:
-            return 0;
+    default:
+        return 0;
     }
 }
 
 + (NSInteger)_nxMaskForLeftMod:(int)mod {
     switch (mod) {
-        case kPreferencesModifierTagControl:
-            return NX_DEVICELCTLKEYMASK;
+    case kPreferencesModifierTagControl:
+        return NX_DEVICELCTLKEYMASK;
 
-        case kPreferencesModifierTagLeftOption:
-            return NX_DEVICELALTKEYMASK;
+    case kPreferencesModifierTagLeftOption:
+        return NX_DEVICELALTKEYMASK;
 
-        case kPreferencesModifierTagRightOption:
-            return NX_DEVICERALTKEYMASK;
+    case kPreferencesModifierTagRightOption:
+        return NX_DEVICERALTKEYMASK;
 
-        case kPreferencesModifierTagEitherOption:
-            return NX_DEVICELALTKEYMASK;
+    case kPreferencesModifierTagEitherOption:
+        return NX_DEVICELALTKEYMASK;
 
-        case kPreferencesModifierTagRightCommand:
-            return NX_DEVICERCMDKEYMASK;
+    case kPreferencesModifierTagRightCommand:
+        return NX_DEVICERCMDKEYMASK;
 
-        case kPreferencesModifierTagLeftCommand:
-        case kPreferencesModifierTagEitherCommand:
-            return NX_DEVICELCMDKEYMASK;
+    case kPreferencesModifierTagLeftCommand:
+    case kPreferencesModifierTagEitherCommand:
+        return NX_DEVICELCMDKEYMASK;
 
-        case kPreferencesModifierTagCommandAndOption:
-            return NX_DEVICELCMDKEYMASK | NX_DEVICELALTKEYMASK;
+    case kPreferencesModifierTagCommandAndOption:
+        return NX_DEVICELCMDKEYMASK | NX_DEVICELALTKEYMASK;
 
-        default:
-            return 0;
+    default:
+        return 0;
     }
 }
 
 + (NSInteger)_nxMaskForRightMod:(int)mod {
     switch (mod) {
-        case kPreferencesModifierTagControl:
-            return NX_DEVICERCTLKEYMASK;
+    case kPreferencesModifierTagControl:
+        return NX_DEVICERCTLKEYMASK;
 
-        case kPreferencesModifierTagLeftOption:
-            return NX_DEVICELALTKEYMASK;
+    case kPreferencesModifierTagLeftOption:
+        return NX_DEVICELALTKEYMASK;
 
-        case kPreferencesModifierTagRightOption:
-            return NX_DEVICERALTKEYMASK;
+    case kPreferencesModifierTagRightOption:
+        return NX_DEVICERALTKEYMASK;
 
-        case kPreferencesModifierTagEitherOption:
-            return NX_DEVICERALTKEYMASK;
+    case kPreferencesModifierTagEitherOption:
+        return NX_DEVICERALTKEYMASK;
 
-        case kPreferencesModifierTagLeftCommand:
-            return NX_DEVICELCMDKEYMASK;
+    case kPreferencesModifierTagLeftCommand:
+        return NX_DEVICELCMDKEYMASK;
 
-        case kPreferencesModifierTagRightCommand:
-        case kPreferencesModifierTagEitherCommand:
-            return NX_DEVICERCMDKEYMASK;
+    case kPreferencesModifierTagRightCommand:
+    case kPreferencesModifierTagEitherCommand:
+        return NX_DEVICERCMDKEYMASK;
 
-        case kPreferencesModifierTagCommandAndOption:
-            return NX_DEVICERCMDKEYMASK | NX_DEVICERALTKEYMASK;
+    case kPreferencesModifierTagCommandAndOption:
+        return NX_DEVICERCMDKEYMASK | NX_DEVICERALTKEYMASK;
 
-        default:
-            return 0;
+    default:
+        return 0;
     }
 }
 
@@ -268,12 +268,12 @@
 }
 
 + (instancetype)sharedInstance {
-  static dispatch_once_t onceToken;
-  static id instance;
-  dispatch_once(&onceToken, ^{
-      instance = [[self alloc] init];
-  });
-  return instance;
+    static dispatch_once_t onceToken;
+    static id instance;
+    dispatch_once(&onceToken, ^ {
+        instance = [[self alloc] init];
+    });
+    return instance;
 }
 
 - (void)dealloc {
@@ -284,43 +284,43 @@
 #pragma mark - APIs
 
 - (void)setRemapModifiers:(BOOL)remapModifiers {
-  if (remapModifiers) {
-      [self beginRemappingModifiers];
-  } else {
-      [self stopRemappingModifiers];
-  }
+    if (remapModifiers) {
+        [self beginRemappingModifiers];
+    } else {
+        [self stopRemappingModifiers];
+    }
 }
 
 - (BOOL)isRemappingModifiers {
-  return [_keyDown isEnabled];
+    return [_keyDown isEnabled];
 }
 
 - (iTermPreferencesModifierTag)controlRemapping {
-  return [iTermPreferences intForKey:kPreferenceKeyControlRemapping];
+    return [iTermPreferences intForKey:kPreferenceKeyControlRemapping];
 }
 
 - (iTermPreferencesModifierTag)leftOptionRemapping {
-  return [iTermPreferences intForKey:kPreferenceKeyLeftOptionRemapping];
+    return [iTermPreferences intForKey:kPreferenceKeyLeftOptionRemapping];
 }
 
 - (iTermPreferencesModifierTag)rightOptionRemapping {
-  return [iTermPreferences intForKey:kPreferenceKeyRightOptionRemapping];
+    return [iTermPreferences intForKey:kPreferenceKeyRightOptionRemapping];
 }
 
 - (iTermPreferencesModifierTag)leftCommandRemapping {
-  return [iTermPreferences intForKey:kPreferenceKeyLeftCommandRemapping];
+    return [iTermPreferences intForKey:kPreferenceKeyLeftCommandRemapping];
 }
 
 - (iTermPreferencesModifierTag)rightCommandRemapping {
-  return [iTermPreferences intForKey:kPreferenceKeyRightCommandRemapping];
+    return [iTermPreferences intForKey:kPreferenceKeyRightCommandRemapping];
 }
 
 - (BOOL)isAnyModifierRemapped {
-  return ([self controlRemapping] != kPreferencesModifierTagControl ||
-          [self leftOptionRemapping] != kPreferencesModifierTagLeftOption ||
-          [self rightOptionRemapping] != kPreferencesModifierTagRightOption ||
-          [self leftCommandRemapping] != kPreferencesModifierTagLeftCommand ||
-          [self rightCommandRemapping] != kPreferencesModifierTagRightCommand);
+    return ([self controlRemapping] != kPreferencesModifierTagControl ||
+            [self leftOptionRemapping] != kPreferencesModifierTagLeftOption ||
+            [self rightOptionRemapping] != kPreferencesModifierTagRightOption ||
+            [self leftCommandRemapping] != kPreferencesModifierTagLeftCommand ||
+            [self rightCommandRemapping] != kPreferencesModifierTagRightCommand);
 }
 
 
@@ -363,8 +363,8 @@
 
     DLog(@"Requesting accessibility permission");
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NSDictionary *options = @{ (NSString *)kAXTrustedCheckOptionPrompt: @YES };
+    dispatch_once(&onceToken, ^ {
+NSDictionary *options = @{ (NSString *)kAXTrustedCheckOptionPrompt: @YES };
         // Show a dialog prompting the user to open system prefs.
         if (!AXIsProcessTrustedWithOptions((CFDictionaryRef)options)) {
             return;
@@ -373,13 +373,13 @@
 }
 
 - (NSString *)accessibilityMessageForModifier {
-  return @"You have chosen to remap certain modifier keys. For this to work for all key "
-         @"combinations (such as cmd-tab), you must turn on \"access for assistive devices\" "
-         @"in the Universal Access preferences panel in System Preferences and restart iTerm2.";
+    return @"You have chosen to remap certain modifier keys. For this to work for all key "
+           @"combinations (such as cmd-tab), you must turn on \"access for assistive devices\" "
+           @"in the Universal Access preferences panel in System Preferences and restart iTerm2.";
 }
 
 - (NSString *)accessibilityActionMessage {
-  return @"Open System Preferences";
+    return @"Open System Preferences";
 }
 
 #pragma mark - iTermEventTapRemappingDelegate
@@ -402,7 +402,7 @@
     NSEvent *cocoaEvent = [NSEvent eventWithCGEvent:event];
 
     DLog(@"Remapping event %@ from keyboard of type %@", cocoaEvent, @(CGEventGetIntegerValueField(event, kCGKeyboardEventKeyboardType)));
-    
+
     iTermShortcutInputView *shortcutView = nil;
     NSResponder *firstResponder = [[NSApp keyWindow] firstResponder];
     if ([firstResponder isKindOfClass:[iTermShortcutInputView class]]) {
@@ -418,20 +418,20 @@
     }
 
     switch ([self boundActionForEvent:cocoaEvent]) {
-        case KEY_ACTION_REMAP_LOCALLY:
-            DLog(@"Calling sendEvent:");
-            [self.class remapModifiersInCGEvent:event];
-            [NSApp sendEvent:[NSEvent eventWithCGEvent:event]];
-            return nil;
+    case KEY_ACTION_REMAP_LOCALLY:
+        DLog(@"Calling sendEvent:");
+        [self.class remapModifiersInCGEvent:event];
+        [NSApp sendEvent:[NSEvent eventWithCGEvent:event]];
+        return nil;
 
-        case KEY_ACTION_DO_NOT_REMAP_MODIFIERS:
-            DLog(@"Action is do not remap");
-            return event;
+    case KEY_ACTION_DO_NOT_REMAP_MODIFIERS:
+        DLog(@"Action is do not remap");
+        return event;
 
-        default:
-            DLog(@"Remapping as usual");
-            [self.class remapModifiersInCGEvent:event];
-            return event;
+    default:
+        DLog(@"Remapping as usual");
+        [self.class remapModifiersInCGEvent:event];
+        return event;
     }
 }
 
@@ -441,7 +441,7 @@
     }
     iTermKeystroke *keystroke = [iTermKeystroke withEvent:cocoaEvent];
     iTermKeyBindingAction *action = [iTermKeyMappings actionForKeystroke:keystroke
-                                                             keyMappings:nil];
+                                                      keyMappings:nil];
     return action ? action.keyAction : KEY_ACTION_INVALID;
 }
 

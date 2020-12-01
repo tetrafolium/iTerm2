@@ -27,7 +27,7 @@ NS_CLASS_AVAILABLE(10_11, NA)
 @property (nonatomic, strong, readonly) id<MTLTexture> texture;
 
 - (instancetype)initWithTexture:(id<MTLTexture>)texture
-                           pool:(iTermTexturePool *)pool NS_DESIGNATED_INITIALIZER;
+    pool:(iTermTexturePool *)pool NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 @end

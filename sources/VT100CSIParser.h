@@ -30,9 +30,9 @@ NS_INLINE BOOL isCSI(unsigned char *code, int len, BOOL support8BitControlCharac
 @interface VT100CSIParser : NSObject
 
 + (void)decodeFromContext:(iTermParserContext *)context
-support8BitControlCharacters:(BOOL)support8BitControlCharacters
-              incidentals:(CVector *)incidentals
-                    token:(VT100Token *)result;
+    support8BitControlCharacters:(BOOL)support8BitControlCharacters
+    incidentals:(CVector *)incidentals
+    token:(VT100Token *)result;
 
 @end
 

@@ -12,11 +12,11 @@
 
 + (NSCharacterSet *)boxDrawingCharactersWithBezierPathsIncludingPowerline:(BOOL)includingPowerline;
 + (void)drawCodeInCurrentContext:(unichar)code
-                        cellSize:(NSSize)cellSize
-                           scale:(CGFloat)scale
-                          offset:(CGPoint)offset
-                           color:(CGColorRef)color
-        useNativePowerlineGlyphs:(BOOL)useNativePowerlineGlyphs;
+    cellSize:(NSSize)cellSize
+    scale:(CGFloat)scale
+    offset:(CGPoint)offset
+    color:(CGColorRef)color
+    useNativePowerlineGlyphs:(BOOL)useNativePowerlineGlyphs;
 
 + (BOOL)isPowerlineGlyph:(unichar)code;
 

@@ -15,9 +15,9 @@
 @implementation iTermRestorableStateRecord
 
 - (instancetype)initWithWindowNumber:(NSInteger)windowNumber
-                          identifier:(NSString *)identifier
-                                 key:(NSData *)key
-                           plaintext:(NSData *)plaintext {
+    identifier:(NSString *)identifier
+    key:(NSData *)key
+    plaintext:(NSData *)plaintext {
     self = [super init];
     if (self) {
         _windowNumber = windowNumber;
@@ -29,8 +29,8 @@
 }
 
 + (void)createWithIndexEntry:(id)indexEntry
-                  completion:(void (^)(iTermRestorableStateRecord *record))completion {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    completion:(void (^)(iTermRestorableStateRecord *record))completion {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
         iTermRestorableStateRecord *record = [[self alloc] initWithIndexEntry:indexEntry];
         dispatch_async(dispatch_get_main_queue(), ^{
             completion(record);
@@ -56,9 +56,9 @@
         return nil;
     }
     self = [self initWithWindowNumber:[dict[@"windowNumber"] integerValue]
-                           identifier:identifier
-                                  key:key
-                            plaintext:[NSData data]];
+                 identifier:identifier
+                 key:key
+                 plaintext:[NSData data]];
     if (self) {
         NSData *blob = [NSData dataWithContentsOfURL:[self url]];
         if (!blob) {
@@ -70,7 +70,7 @@
         }
         NSData *iv = [NSMutableData dataWithLength:16];
         _plaintext = [ciphertext decryptedAESCBCDataWithPCKS7PaddingAndKey:self.key
-                                                                        iv:iv];
+                                 iv:iv];
         if (!_plaintext) {
             return nil;
         }
@@ -91,16 +91,18 @@
 }
 
 - (id)indexEntry {
-    return @{ @"identifier": self.identifier ?: @"",
-              @"windowNumber": @(self.windowNumber),
-              @"key": self.key };
+    return @ { @"identifier":
+               self.identifier ?: @"",
+               @"windowNumber": @(self.windowNumber),
+               @"key": self.key
+             };
 }
 
 - (iTermRestorableStateRecord *)withPlaintext:(NSData *)newPlaintext {
     return [[iTermRestorableStateRecord alloc] initWithWindowNumber:_windowNumber
-                                                         identifier:_identifier
-                                                                key:_key
-                                                          plaintext:newPlaintext];
+                                               identifier:_identifier
+                                               key:_key
+                                               plaintext:newPlaintext];
 }
 
 #pragma mark - Saving
@@ -127,11 +129,11 @@
 
 - (NSData *)ciphertextFromBlob:(NSData *)blob {
     NSInteger offset = 0;
-    
+
     NSArray<NSData *> *expectedValues = @[ self.magic, self.version ];
     for (NSData *expected in expectedValues) {
         if (blob.length < offset + expected.length ||
-            ![[blob subdataWithRange:NSMakeRange(offset, expected.length)] isEqualToData:expected]) {
+                ![[blob subdataWithRange:NSMakeRange(offset, expected.length)] isEqualToData:expected]) {
             return nil;
         }
         offset += expected.length;
@@ -194,7 +196,7 @@
     DLog(@"Restore %@", @(self.windowNumber));
     NSError *error = nil;
     NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:self.plaintext
-                                                                                error:&error];
+                                                               error:&error];
     unarchiver.requiresSecureCoding = NO;
     if (error) {
         DLog(@"Restoration failed with %@", error);

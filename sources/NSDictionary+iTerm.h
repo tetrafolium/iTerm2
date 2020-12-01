@@ -84,7 +84,7 @@ typedef NSDictionary iTermHotKeyDescriptor;
 
 @interface NSDictionary(HotKey)
 + (iTermHotKeyDescriptor *)descriptorWithKeyCode:(NSUInteger)keyCode
-                                       modifiers:(NSEventModifierFlags)modifiers;
+    modifiers:(NSEventModifierFlags)modifiers;
 + (iTermHotKeyDescriptor *)descriptorWithModifierActivation:(iTermHotKeyModifierActivation)activation;
 
 - (NSUInteger)hotKeyKeyCode;

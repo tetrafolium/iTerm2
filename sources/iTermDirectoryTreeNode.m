@@ -25,7 +25,7 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p component=%@ %lu children>",
-            [self class], self, _component, (unsigned long)_children.count];
+                     [self class], self, _component, (unsigned long)_children.count];
 }
 
 - (int)numberOfChildrenStartingWithString:(NSString *)prefix {

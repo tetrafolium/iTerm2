@@ -19,8 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSStringEncoding)modifiyOtherKeysDelegateEncoding:(iTermModifyOtherKeysMapper *)sender;
 
 - (void)modifyOtherKeys:(iTermModifyOtherKeysMapper *)sender
-getOptionKeyBehaviorLeft:(iTermOptionKeyBehavior *)left
-                  right:(iTermOptionKeyBehavior *)right;
+    getOptionKeyBehaviorLeft:(iTermOptionKeyBehavior *)left
+    right:(iTermOptionKeyBehavior *)right;
 
 - (VT100Output *)modifyOtherKeysOutputFactory:(iTermModifyOtherKeysMapper *)sender;
 
@@ -32,7 +32,7 @@ getOptionKeyBehaviorLeft:(iTermOptionKeyBehavior *)left
 @property (nonatomic, weak) id<iTermModifyOtherKeysMapperDelegate> delegate;
 @end
 
-@interface iTermModifyOtherKeysMapper2: iTermModifyOtherKeysMapper
+@interface iTermModifyOtherKeysMapper2 : iTermModifyOtherKeysMapper
 @end
 
 NS_ASSUME_NONNULL_END

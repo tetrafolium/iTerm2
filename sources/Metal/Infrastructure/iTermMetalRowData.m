@@ -23,16 +23,16 @@
 
 - (void)writeDebugInfoToFolder:(NSURL *)folder {
     NSString *info = [NSString stringWithFormat:
-                      @"y=%@\n"
-                      @"numberOfBackgroundRLEs=%@\n"
-                      @"numberOfDrawableGlyphs=%@\n"
-                      @"markStyle=%@\n"
-                      @"date=%@\n",
-                      @(self.y),
-                      @(self.numberOfBackgroundRLEs),
-                      @(self.numberOfDrawableGlyphs),
-                      @(self.markStyle),
-                      self.date];
+                               @"y=%@\n"
+                               @"numberOfBackgroundRLEs=%@\n"
+                               @"numberOfDrawableGlyphs=%@\n"
+                               @"markStyle=%@\n"
+                               @"date=%@\n",
+                               @(self.y),
+                               @(self.numberOfBackgroundRLEs),
+                               @(self.numberOfDrawableGlyphs),
+                               @(self.markStyle),
+                               self.date];
     [info writeToURL:[folder URLByAppendingPathComponent:@"info.txt"] atomically:NO encoding:NSUTF8StringEncoding error:NULL];
 
     @autoreleasepool {
@@ -73,34 +73,34 @@
         }
         [lineString writeToURL:[folder URLByAppendingPathComponent:@"ScreenChars.txt"]
                     atomically:NO
-                      encoding:NSUTF8StringEncoding
-                         error:NULL];
+                    encoding:NSUTF8StringEncoding
+                    error:NULL];
     }
 }
 
 - (NSString *)formatChar:(screen_char_t)c {
     return [NSString stringWithFormat:@"code=%x (%@) foregroundColor=%@ fgGreen=%@ fgBlue=%@ backgroundColor=%@ bgGreen=%@ bgBlue=%@ foregroundColorMode=%@ backgroundColorMode=%@ complexChar=%@ bold=%@ faint=%@ italic=%@ blink=%@ underline=%@ underlineStyle=%@ strikethrough=%@ image=%@ unused=%@ urlCode=%@",
-            (int)c.code,
-            ScreenCharToStr(&c),
-            @(c.foregroundColor),
-            @(c.fgGreen),
-            @(c.fgBlue),
-            @(c.backgroundColor),
-            @(c.bgGreen),
-            @(c.bgBlue),
-            @(c.foregroundColorMode),
-            @(c.backgroundColorMode),
-            @(c.complexChar),
-            @(c.bold),
-            @(c.faint),
-            @(c.italic),
-            @(c.blink),
-            @(c.underline),
-            @(c.underlineStyle),
-            @(c.strikethrough),
-            @(c.image),
-            @(c.unused),
-            @(c.urlCode)];
+                     (int)c.code,
+                     ScreenCharToStr(&c),
+                     @(c.foregroundColor),
+                     @(c.fgGreen),
+                     @(c.fgBlue),
+                     @(c.backgroundColor),
+                     @(c.bgGreen),
+                     @(c.bgBlue),
+                     @(c.foregroundColorMode),
+                     @(c.backgroundColorMode),
+                     @(c.complexChar),
+                     @(c.bold),
+                     @(c.faint),
+                     @(c.italic),
+                     @(c.blink),
+                     @(c.underline),
+                     @(c.underlineStyle),
+                     @(c.strikethrough),
+                     @(c.image),
+                     @(c.unused),
+                     @(c.urlCode)];
 }
 
 @end

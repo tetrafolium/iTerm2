@@ -21,7 +21,7 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p %d,%lld to %d,%lld>",
-               [self class], self, _startX, _absStartY, _endX, _absEndY];
+                     [self class], self, _startX, _absStartY, _endX, _absEndY];
 }
 
 - (BOOL)isEqual:(id)object {

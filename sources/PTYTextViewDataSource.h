@@ -53,18 +53,18 @@
 - (void)resetScrollbackOverflow;
 - (long long)absoluteLineNumberOfCursor;
 - (BOOL)continueFindAllResults:(NSMutableArray*)results
-                     inContext:(FindContext*)context;
+    inContext:(FindContext*)context;
 - (FindContext*)findContext;
 
 // Initialize the find context.
 - (void)setFindString:(NSString*)aString
-     forwardDirection:(BOOL)direction
-                 mode:(iTermFindMode)mode
-          startingAtX:(int)x
-          startingAtY:(int)y
-           withOffset:(int)offsetof  // Offset in the direction of searching (offset=1 while searching backwards means start one char before x,y)
-            inContext:(FindContext*)context
-      multipleResults:(BOOL)multipleResults;
+    forwardDirection:(BOOL)direction
+    mode:(iTermFindMode)mode
+    startingAtX:(int)x
+    startingAtY:(int)y
+    withOffset:(int)offsetof  // Offset in the direction of searching (offset=1 while searching backwards means start one char before x,y)
+    inContext:(FindContext*)context
+    multipleResults:(BOOL)multipleResults;
 
 // Save the position of the current find context (with the screen appended).
 - (void)saveFindContextAbsPos;

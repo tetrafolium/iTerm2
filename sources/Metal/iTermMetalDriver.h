@@ -76,26 +76,26 @@ NS_CLASS_AVAILABLE(10_11, NA)
 
 // Initialize sketchPtr to 0. The number of set bits estimates the unique number of color combinations.
 - (void)metalGetGlyphKeys:(iTermMetalGlyphKey *)glyphKeys
-               attributes:(iTermMetalGlyphAttributes *)attributes
-                imageRuns:(NSMutableArray<iTermMetalImageRun *> *)imageRuns
-               background:(iTermMetalBackgroundColorRLE *)backgrounds
-                 rleCount:(int *)rleCount
-                markStyle:(out iTermMarkStyle *)markStylePtr
-                      row:(int)row
-                    width:(int)width
-           drawableGlyphs:(int *)drawableGlyphsPtr
-                     date:(out NSDate * _Nonnull * _Nonnull)date;
+    attributes:(iTermMetalGlyphAttributes *)attributes
+    imageRuns:(NSMutableArray<iTermMetalImageRun *> *)imageRuns
+    background:(iTermMetalBackgroundColorRLE *)backgrounds
+    rleCount:(int *)rleCount
+    markStyle:(out iTermMarkStyle *)markStylePtr
+    row:(int)row
+    width:(int)width
+    drawableGlyphs:(int *)drawableGlyphsPtr
+    date:(out NSDate * _Nonnull * _Nonnull)date;
 
 - (iTermCharacterSourceDescriptor *)characterSourceDescriptorForASCIIWithGlyphSize:(CGSize)glyphSize
-                                                                       asciiOffset:(CGSize)asciiOffset;
+    asciiOffset:(CGSize)asciiOffset;
 
 - (nullable iTermMetalCursorInfo *)metalDriverCursorInfo;
 
 - (nullable NSDictionary<NSNumber *, iTermCharacterBitmap *> *)metalImagesForGlyphKey:(iTermMetalGlyphKey *)glyphKey
-                                                                          asciiOffset:(CGSize)asciiOffset
-                                                                                 size:(CGSize)size
-                                                                                scale:(CGFloat)scale
-                                                                                emoji:(BOOL *)emoji;
+    asciiOffset:(CGSize)asciiOffset
+    size:(CGSize)size
+    scale:(CGFloat)scale
+    emoji:(BOOL *)emoji;
 
 // Returns the background image or nil. If there's a background image, fill in mode.
 - (NSImage *)metalBackgroundImageGetMode:(nullable iTermBackgroundImageMode *)mode;
@@ -106,8 +106,8 @@ NS_CLASS_AVAILABLE(10_11, NA)
 
 // Returns metrics and optional color for underlines.
 - (void)metalGetUnderlineDescriptorsForASCII:(out iTermMetalUnderlineDescriptor *)ascii
-                                    nonASCII:(out iTermMetalUnderlineDescriptor *)nonAscii
-                               strikethrough:(out iTermMetalUnderlineDescriptor *)strikethrough;
+    nonASCII:(out iTermMetalUnderlineDescriptor *)nonAscii
+    strikethrough:(out iTermMetalUnderlineDescriptor *)strikethrough;
 
 - (void)enumerateIndicatorsInFrame:(NSRect)frame block:(void (^)(iTermIndicatorDescriptor *))block;
 
@@ -131,8 +131,8 @@ NS_CLASS_AVAILABLE(10_11, NA)
 - (void)metalDriverDidDrawFrame:(id<iTermMetalDriverDataSourcePerFrameState>)perFrameState;
 
 - (void)metalDidFindImages:(NSSet<NSString *> *)foundImages
-             missingImages:(NSSet<NSString *> *)missingImages
-             animatedLines:(NSSet<NSNumber *> *)animatedLines;  // absolute line numbers
+    missingImages:(NSSet<NSString *> *)missingImages
+    animatedLines:(NSSet<NSNumber *> *)animatedLines;  // absolute line numbers
 
 - (void)metalDriverDidProduceDebugInfo:(NSData *)archive;
 
@@ -150,12 +150,12 @@ NS_CLASS_AVAILABLE(10_11, NA)
 - (nullable instancetype)initWithDevice:(nonnull id<MTLDevice>)device NS_DESIGNATED_INITIALIZER;
 
 - (void)setCellSize:(CGSize)cellSize
-cellSizeWithoutSpacing:(CGSize)cellSizeWithoutSpacing
-          glyphSize:(CGSize)glyphSize
-           gridSize:(VT100GridSize)gridSize
-        asciiOffset:(CGSize)asciiOffset
-              scale:(CGFloat)scale
-            context:(CGContextRef)context;
+    cellSizeWithoutSpacing:(CGSize)cellSizeWithoutSpacing
+    glyphSize:(CGSize)glyphSize
+    gridSize:(VT100GridSize)gridSize
+    asciiOffset:(CGSize)asciiOffset
+    scale:(CGFloat)scale
+    context:(CGContextRef)context;
 
 // Draw and return immediately, calling completion block after GPU's completion
 // block is called.

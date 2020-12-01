@@ -23,14 +23,14 @@
 
 + (instancetype)socketAddressWithSockaddr:(struct sockaddr)sockaddr {
     switch (sockaddr.sa_family) {
-        case AF_UNIX: {
-            struct sockaddr_un *unAddr = (struct sockaddr_un *)&sockaddr;
-            return [self socketAddressWithPath:[NSString stringWithUTF8String:unAddr->sun_path]];
-        }
+    case AF_UNIX: {
+        struct sockaddr_un *unAddr = (struct sockaddr_un *)&sockaddr;
+        return [self socketAddressWithPath:[NSString stringWithUTF8String:unAddr->sun_path]];
+    }
 
-        default:
-            XLog(@"Unrecognized address family %@", @(sockaddr.sa_family));
-            return nil;
+    default:
+        XLog(@"Unrecognized address family %@", @(sockaddr.sa_family));
+        return nil;
     }
 }
 

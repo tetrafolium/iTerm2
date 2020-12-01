@@ -21,7 +21,7 @@ typedef enum {
     JOURNAL_SET_DEFAULT
 } JournalAction;
 
-@interface iTermProfileModelJournalParams: NSObject
+@interface iTermProfileModelJournalParams : NSObject
 @property (nonatomic) SEL selector;                  // normal action
 @property (nonatomic) SEL alternateSelector;         // opt+click
 @property (nonatomic) SEL openAllSelector;           // open all bookmarks
@@ -31,11 +31,11 @@ typedef enum {
 
 @protocol iTermProfileModelMenuController<NSObject>
 - (void)addBookmark:(Profile *)b
-             toMenu:(NSMenu *)menu
-     startingAtItem:(int)skip
-           withTags:(NSArray *)tags
-             params:(iTermProfileModelJournalParams *)params
-              atPos:(int)theIndex;
+    toMenu:(NSMenu *)menu
+    startingAtItem:(int)skip
+    withTags:(NSArray *)tags
+    params:(iTermProfileModelJournalParams *)params
+    atPos:(int)theIndex;
 @end
 
 @protocol iTermProfileModelJournalModel<NSObject>
@@ -52,13 +52,13 @@ typedef enum {
 @property(nonatomic, readonly, strong) NSArray *tags;  // Tags before the action was applied.
 
 + (instancetype)journalWithAction:(JournalAction)action
-                         bookmark:(nullable Profile *)bookmark
-                            model:(id<iTermProfileModelJournalModel>)model;
+    bookmark:(nullable Profile *)bookmark
+    model:(id<iTermProfileModelJournalModel>)model;
 
 + (instancetype)journalWithAction:(JournalAction)action
-                         bookmark:(nullable Profile *)bookmark
-                            model:(id<iTermProfileModelJournalModel>)model
-                            index:(int)index;
+    bookmark:(nullable Profile *)bookmark
+    model:(id<iTermProfileModelJournalModel>)model
+    index:(int)index;
 
 @end
 

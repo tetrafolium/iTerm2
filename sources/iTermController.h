@@ -100,22 +100,22 @@ typedef NS_ENUM(NSUInteger, iTermHotkeyWindowType) {
 - (BOOL)loadWindowArrangementWithName:(NSString *)theName asTabsInTerminal:(PseudoTerminal *)term;
 
 - (BOOL)arrangementWithName:(NSString *)arrangementName
-         hasSessionWithGUID:(NSString *)guid
-                        pwd:(NSString *)pwd;
+    hasSessionWithGUID:(NSString *)guid
+    pwd:(NSString *)pwd;
 
 - (void)repairSavedArrangementNamed:(NSString *)savedArrangementName
-               replacingMissingGUID:(NSString *)guidToReplace
-                           withGUID:(NSString *)replacementGuid;
+    replacingMissingGUID:(NSString *)guidToReplace
+    withGUID:(NSString *)replacementGuid;
 
 - (void)repairSavedArrangementNamed:(NSString *)arrangementName
-replaceInitialDirectoryForSessionWithGUID:(NSString *)guid
-                               with:(NSString *)replacementOldCWD;
+    replaceInitialDirectoryForSessionWithGUID:(NSString *)guid
+    with:(NSString *)replacementOldCWD;
 
 - (void)terminalWillClose:(PseudoTerminal*)theTerminalWindow;
 - (void)addBookmarksToMenu:(NSMenu *)aMenu
-              withSelector:(SEL)selector
-           openAllSelector:(SEL)openAllSelector
-                startingAt:(int)startingAt;
+    withSelector:(SEL)selector
+    openAllSelector:(SEL)openAllSelector
+    startingAt:(int)startingAt;
 
 // Does not enter fullscreen automatically; that is left to the caller, since tmux has special
 // logic around this. Call -didFinishCreatingTmuxWindow: after it is doing being set up.
@@ -125,8 +125,8 @@ replaceInitialDirectoryForSessionWithGUID:(NSString *)guid
 - (void)didFinishCreatingTmuxWindow:(PseudoTerminal *)windowController;
 
 - (PseudoTerminal *)windowControllerForNewTabWithProfile:(Profile *)profile
-                                               candidate:(PseudoTerminal *)preferredWindowController
-                                      respectTabbingMode:(BOOL)respectTabbingMode;
+    candidate:(PseudoTerminal *)preferredWindowController
+    respectTabbingMode:(BOOL)respectTabbingMode;
 
 - (PTYTextView*)frontTextView;
 - (PseudoTerminal*)terminalAtIndex:(int)i;
@@ -187,21 +187,21 @@ typedef NS_OPTIONS(NSUInteger, iTermSingleUseWindowOptions) {
 
 // Note that `command` is a Swifty string.
 - (void)openSingleUseWindowWithCommand:(NSString *)command
-                             arguments:(NSArray<NSString *> *)arguments
-                                inject:(NSData *)injection
-                           environment:(NSDictionary *)environment
-                                   pwd:(NSString *)initialPWD
-                               options:(iTermSingleUseWindowOptions)options
-                        didMakeSession:(void (^)(PTYSession *session))didMakeSession
-                            completion:(void (^)(void))completion;
+    arguments:(NSArray<NSString *> *)arguments
+    inject:(NSData *)injection
+    environment:(NSDictionary *)environment
+    pwd:(NSString *)initialPWD
+    options:(iTermSingleUseWindowOptions)options
+    didMakeSession:(void (^)(PTYSession *session))didMakeSession
+    completion:(void (^)(void))completion;
 
 // Note that `rawCommand` is a plain old string, not a Swifty string.
 - (void)openSingleUseWindowWithCommand:(NSString *)rawCommand
-                                inject:(NSData *)injection
-                           environment:(NSDictionary *)environment
-                                   pwd:(NSString *)initialPWD
-                               options:(iTermSingleUseWindowOptions)options
-                        didMakeSession:(void (^)(PTYSession *session))didMakeSession
-                            completion:(void (^)(void))completion;
+    inject:(NSData *)injection
+    environment:(NSDictionary *)environment
+    pwd:(NSString *)initialPWD
+    options:(iTermSingleUseWindowOptions)options
+    didMakeSession:(void (^)(PTYSession *session))didMakeSession
+    completion:(void (^)(void))completion;
 @end
 

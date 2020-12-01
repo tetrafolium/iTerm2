@@ -34,11 +34,11 @@ const CGFloat iTermTimestampGradientWidth = 20;
 }
 
 - (instancetype)initWithBackgroundColor:(NSColor *)backgroundColor
-                              textColor:(NSColor *)textColor
-                                    now:(NSTimeInterval)now
-                     useTestingTimezone:(BOOL)useTestingTimezone
-                              rowHeight:(CGFloat)rowHeight
-                                 retina:(BOOL)isRetina {
+    textColor:(NSColor *)textColor
+    now:(NSTimeInterval)now
+    useTestingTimezone:(BOOL)useTestingTimezone
+    rowHeight:(CGFloat)rowHeight
+    retina:(BOOL)isRetina {
     self = [super init];
     if (self) {
         _bgColor = backgroundColor;
@@ -56,7 +56,7 @@ const CGFloat iTermTimestampGradientWidth = 20;
 
 - (void)setDate:(NSDate *)timestamp forLine:(int)line {
     NSString *string = [self stringForTimestamp:timestamp
-                                            now:_now
+                             now:_now
                              useTestingTimezone:_useTestingTimezone];
     NSRect textFrame = [self frameForString:string line:line maxX:0];
     _maximumWidth = MAX(_maximumWidth, NSWidth(textFrame));
@@ -69,10 +69,10 @@ const CGFloat iTermTimestampGradientWidth = 20;
 
 - (void)drawInContext:(NSGraphicsContext *)context frame:(NSRect)frame {
     [_rows enumerateObjectsUsingBlock:^(iTermTimestampRow * _Nonnull row, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSRect stringFrame = [self frameForStringGivenWidth:self->_maximumWidth line:row.line maxX:NSMaxX(frame)];
+              NSRect stringFrame = [self frameForStringGivenWidth:self->_maximumWidth line:row.line maxX:NSMaxX(frame)];
         [self drawBackgroundInFrame:[self backgroundFrameForTextFrame:stringFrame]
-                            bgColor:self->_bgColor
-                            context:context];
+              bgColor:self->_bgColor
+              context:context];
         [self drawString:row.string row:idx frame:stringFrame];
     }];
 }
@@ -86,8 +86,8 @@ const CGFloat iTermTimestampGradientWidth = 20;
     NSRect stringFrame = [self frameForStringGivenWidth:_maximumWidth line:0 maxX:NSMaxX(frame)];
     stringFrame.origin.y += frame.origin.y;
     [self drawBackgroundInFrame:[self backgroundFrameForTextFrame:stringFrame]
-                        bgColor:_bgColor
-                        context:context];
+          bgColor:_bgColor
+          context:context];
     [self drawString:row.string row:index frame:stringFrame];
 }
 
@@ -108,17 +108,17 @@ const CGFloat iTermTimestampGradientWidth = 20;
 #pragma mark - Draw Methods
 
 - (void)drawBackgroundInFrame:(NSRect)frame
-                      bgColor:(NSColor *)bgColor
-                      context:(NSGraphicsContext *)context {
+    bgColor:(NSColor *)bgColor
+    context:(NSGraphicsContext *)context {
     const CGFloat alpha = 0.9;
     NSGradient *gradient =
-    [[NSGradient alloc] initWithStartingColor:[bgColor colorWithAlphaComponent:0]
-                                  endingColor:[bgColor colorWithAlphaComponent:alpha]];
+        [[NSGradient alloc] initWithStartingColor:[bgColor colorWithAlphaComponent:0]
+                            endingColor:[bgColor colorWithAlphaComponent:alpha]];
     [context setCompositingOperation:NSCompositingOperationSourceOver];
     NSRect gradientFrame = frame;
     gradientFrame.size.width = iTermTimestampGradientWidth;
     [gradient drawInRect:gradientFrame
-                   angle:0];
+              angle:0];
 
     NSRect solidFrame = frame;
     solidFrame.origin.x += iTermTimestampGradientWidth;
@@ -130,8 +130,8 @@ const CGFloat iTermTimestampGradientWidth = 20;
 
 - (void)drawString:(NSString *)s row:(int)index frame:(NSRect)frame {
     NSDictionary *attributes = [self attributesForTextColor:_fgColor
-                                                     shadow:[self shadowForTextColor:_fgColor]
-                                                     retina:_isRetina];
+                                     shadow:[self shadowForTextColor:_fgColor]
+                                     retina:_isRetina];
     const CGFloat offset = (_rowHeight - NSHeight(frame)) / 2;
     const BOOL repeat = [self rowIsRepeat:index];
     if (s.length && repeat) {
@@ -156,7 +156,7 @@ const CGFloat iTermTimestampGradientWidth = 20;
 
 - (NSRect)frameForString:(NSString *)s line:(int)line maxX:(CGFloat)maxX {
     NSString *widest = [s stringByReplacingOccurrencesOfRegex:@"[\\d\\p{Alphabetic}]" withString:@"M"];
-    NSSize size = [widest sizeWithAttributes:@{ NSFontAttributeName: [NSFont systemFontOfSize:[iTermAdvancedSettingsModel pointSizeOfTimeStamp]] }];
+    NSSize size = [widest sizeWithAttributes:@ { NSFontAttributeName: [NSFont systemFontOfSize:[iTermAdvancedSettingsModel pointSizeOfTimeStamp]] }];
 
     return [self frameForStringGivenWidth:size.width line:line maxX:maxX];
 }
@@ -172,30 +172,30 @@ const CGFloat iTermTimestampGradientWidth = 20;
 #pragma mark - String Diddling
 
 - (NSDateFormatter *)dateFormatterWithTimeDelta:(NSTimeInterval)timeDelta
-                             useTestingTimezone:(BOOL)useTestingTimezone {
+    useTestingTimezone:(BOOL)useTestingTimezone {
     NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
     const NSTimeInterval day = -86400;
     if (timeDelta < day * 180) {
         // More than 180 days ago: include year
         // I tried using 365 but it was pretty confusing to see tomorrow's date.
         [fmt setDateFormat:[NSDateFormatter dateFormatFromTemplate:@"yyyyMMMd jj:mm:ss"
-                                                           options:0
-                                                            locale:[NSLocale currentLocale]]];
+                            options:0
+                            locale:[NSLocale currentLocale]]];
     } else if (timeDelta < day * 6) {
         // 6 days to 180 days ago: include date without year
         [fmt setDateFormat:[NSDateFormatter dateFormatFromTemplate:@"MMMd jj:mm:ss"
-                                                           options:0
-                                                            locale:[NSLocale currentLocale]]];
+                            options:0
+                            locale:[NSLocale currentLocale]]];
     } else if (timeDelta < day) {
         // 1 day to 6 days ago: include day of week
         [fmt setDateFormat:[NSDateFormatter dateFormatFromTemplate:@"EEE jj:mm:ss"
-                                                           options:0
-                                                            locale:[NSLocale currentLocale]]];
+                            options:0
+                            locale:[NSLocale currentLocale]]];
     } else {
         // In last 24 hours, just show time
         [fmt setDateFormat:[NSDateFormatter dateFormatFromTemplate:@"jj:mm:ss"
-                                                           options:0
-                                                            locale:[NSLocale currentLocale]]];
+                            options:0
+                            locale:[NSLocale currentLocale]]];
     }
     if (useTestingTimezone) {
         fmt.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
@@ -204,11 +204,11 @@ const CGFloat iTermTimestampGradientWidth = 20;
 }
 
 - (NSString *)stringForTimestamp:(NSDate *)timestamp
-                             now:(NSTimeInterval)now
-              useTestingTimezone:(BOOL)useTestingTimezone {
+    now:(NSTimeInterval)now
+    useTestingTimezone:(BOOL)useTestingTimezone {
     const NSTimeInterval timeDelta = timestamp.timeIntervalSinceReferenceDate - now;
     NSDateFormatter *fmt = [self dateFormatterWithTimeDelta:timeDelta
-                                         useTestingTimezone:useTestingTimezone];
+                                 useTestingTimezone:useTestingTimezone];
     NSString *theTimestamp = [fmt stringFromDate:timestamp];
     if (!timestamp || ![timestamp timeIntervalSinceReferenceDate]) {
         theTimestamp = @"";
@@ -219,17 +219,24 @@ const CGFloat iTermTimestampGradientWidth = 20;
 - (NSDictionary *)attributesForTextColor:(NSColor *)fgColor shadow:(NSShadow *)shadow retina:(BOOL)retina {
     NSDictionary *attributes;
     if (retina) {
-        attributes = @{ NSFontAttributeName: [NSFont userFixedPitchFontOfSize:[iTermAdvancedSettingsModel pointSizeOfTimeStamp]],
-                        NSForegroundColorAttributeName: fgColor,
-                        NSShadowAttributeName: shadow };
+        attributes = @ { NSFontAttributeName:
+                         [NSFont userFixedPitchFontOfSize:[iTermAdvancedSettingsModel pointSizeOfTimeStamp]],
+                         NSForegroundColorAttributeName:
+                         fgColor,
+                         NSShadowAttributeName:
+                         shadow
+                       };
     } else {
         NSFont *font = [NSFont userFixedPitchFontOfSize:[iTermAdvancedSettingsModel pointSizeOfTimeStamp]];
         font = [[NSFontManager sharedFontManager] fontWithFamily:font.familyName
-                                                          traits:NSBoldFontMask
-                                                          weight:0
-                                                            size:font.pointSize];
-        attributes = @{ NSFontAttributeName: font,
-                        NSForegroundColorAttributeName: fgColor };
+                                                  traits:NSBoldFontMask
+                                                  weight:0
+                                                  size:font.pointSize];
+        attributes = @ { NSFontAttributeName:
+                         font,
+                         NSForegroundColorAttributeName:
+                         fgColor
+                       };
     }
 
     return attributes;

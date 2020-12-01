@@ -14,7 +14,7 @@
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     static id instance;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -47,12 +47,12 @@
         NSString *characters = [NSString stringWithFormat:@"%C", character];
 
         iTermShortcut *shortcut = [[[iTermShortcut alloc] initWithKeyCode:code
-                                                                modifiers:modifiers
-                                                               characters:characters
-                                              charactersIgnoringModifiers:characters] autorelease];
+                                                           modifiers:modifiers
+                                                           characters:characters
+                                                           charactersIgnoringModifiers:characters] autorelease];
         self.appHotKey = [[[iTermAppHotKey alloc] initWithShortcuts:@[ shortcut ]
-                                              hasModifierActivation:NO
-                                                 modifierActivation:0] autorelease];
+                                                   hasModifierActivation:NO
+                                                   modifierActivation:0] autorelease];
 
         [[iTermHotKeyController sharedInstance] addHotKey:self.appHotKey];
     } else {

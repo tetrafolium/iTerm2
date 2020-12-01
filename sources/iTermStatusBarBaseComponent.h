@@ -31,7 +31,7 @@ extern const double iTermStatusBarBaseComponentDefaultPriority;
 + (NSString *)statusBarComponentIdentifier;
 
 - (instancetype)initWithConfiguration:(NSDictionary<iTermStatusBarComponentConfigurationKey, id> *)configuration
-                                scope:(nullable iTermVariableScope *)scope NS_DESIGNATED_INITIALIZER;
+    scope:(nullable iTermVariableScope *)scope NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (NSArray<iTermStatusBarComponentKnob *> *)minMaxWidthKnobs;

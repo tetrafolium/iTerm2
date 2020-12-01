@@ -14,13 +14,13 @@ typedef void (^iTermPasteSpecialCompletionBlock)(PasteEvent *pasteEvent);
 @interface iTermPasteSpecialWindowController : NSWindowController
 
 + (void)showAsPanelInWindow:(NSWindow *)presentingWindow
-                  chunkSize:(NSInteger)chunkSize
-         delayBetweenChunks:(NSTimeInterval)delayBetweenChunks
-          bracketingEnabled:(BOOL)bracketingEnabled
-                   encoding:(NSStringEncoding)encoding
-           canWaitForPrompt:(BOOL)canWaitForPrompt
-            isAtShellPrompt:(BOOL)isAtShellPrompt
-         forceEscapeSymbols:(BOOL)forceEscapeSymbols
-                 completion:(iTermPasteSpecialCompletionBlock)completion;
+    chunkSize:(NSInteger)chunkSize
+    delayBetweenChunks:(NSTimeInterval)delayBetweenChunks
+    bracketingEnabled:(BOOL)bracketingEnabled
+    encoding:(NSStringEncoding)encoding
+    canWaitForPrompt:(BOOL)canWaitForPrompt
+    isAtShellPrompt:(BOOL)isAtShellPrompt
+    forceEscapeSymbols:(BOOL)forceEscapeSymbols
+    completion:(iTermPasteSpecialCompletionBlock)completion;
 
 @end

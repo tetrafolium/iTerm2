@@ -21,9 +21,9 @@ NS_INLINE BOOL isANSI(unsigned char *code, int len) {
 @interface VT100AnsiParser : NSObject
 
 + (void)decodeBytes:(unsigned char *)datap
-             length:(int)datalen
-          bytesUsed:(int *)rmlen
-              token:(VT100Token *)result;
+    length:(int)datalen
+    bytesUsed:(int *)rmlen
+    token:(VT100Token *)result;
 
 @end
 

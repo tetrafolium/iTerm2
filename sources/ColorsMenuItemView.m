@@ -90,8 +90,8 @@ typedef NS_ENUM(NSUInteger, kMenuItem) {
 
 
     _trackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds
-                                                 options:(NSTrackingMouseMoved | NSTrackingMouseEnteredAndExited |
-                                                          NSTrackingActiveAlways) owner:self userInfo:nil];
+                                            options:(NSTrackingMouseMoved | NSTrackingMouseEnteredAndExited |
+                                                     NSTrackingActiveAlways) owner:self userInfo:nil];
     [self addTrackingArea:_trackingArea];
 }
 
@@ -160,17 +160,17 @@ typedef NS_ENUM(NSUInteger, kMenuItem) {
         const CGFloat perceivedBrightness = color.perceivedBrightness;
         const CGFloat outlineBrightness = color.brightnessComponent + 0.1 + (0.05 * pow(20, perceivedBrightness));
         return [NSColor colorWithHue:color.hueComponent
-                          saturation:color.saturationComponent * 0.8
-                          brightness:outlineBrightness
-                               alpha:enabled ? 1 : iTermColorsMenuItemViewDisabledAlpha];
+                        saturation:color.saturationComponent * 0.8
+                        brightness:outlineBrightness
+                        alpha:enabled ? 1 : iTermColorsMenuItemViewDisabledAlpha];
     }
     const CGFloat brightness = color.brightnessComponent; //color.perceivedBrightness;
     const CGFloat perceivedBrightness = color.perceivedBrightness;
     const CGFloat outlineBrightness = brightness * (1 - 0.025 * pow(40, perceivedBrightness));
     color = [NSColor colorWithHue:color.hueComponent
-                       saturation:MAX(1, color.saturationComponent * 1.1)
-                       brightness:outlineBrightness
-                            alpha:enabled ? 1 : iTermColorsMenuItemViewDisabledAlpha];
+                     saturation:MAX(1, color.saturationComponent * 1.1)
+                     brightness:outlineBrightness
+                     alpha:enabled ? 1 : iTermColorsMenuItemViewDisabledAlpha];
     return color;
 }
 
@@ -196,9 +196,9 @@ typedef NS_ENUM(NSUInteger, kMenuItem) {
     }
     [color set];
     [NSBezierPath strokeLineFromPoint:NSMakePoint(defaultX0, defaultY0)
-                              toPoint:NSMakePoint(defaultX1, defaultY1)];
+                  toPoint:NSMakePoint(defaultX1, defaultY1)];
     [NSBezierPath strokeLineFromPoint:NSMakePoint(defaultX1, defaultY0)
-                              toPoint:NSMakePoint(defaultX0, defaultY1)];
+                  toPoint:NSMakePoint(defaultX0, defaultY1)];
 
     // draw the colors
     for (NSInteger i = 1; i < kNumberOfColors; i++) {
@@ -227,7 +227,7 @@ typedef NS_ENUM(NSUInteger, kMenuItem) {
             static NSImage *lightImage;
             static NSImage *darkImage;
             static dispatch_once_t onceToken;
-            dispatch_once(&onceToken, ^{
+            dispatch_once(&onceToken, ^ {
                 lightImage = [[NSImage imageNamed:NSImageNameMenuOnStateTemplate] it_imageWithTintColor:[NSColor whiteColor]];
                 darkImage = [[NSImage imageNamed:NSImageNameMenuOnStateTemplate] it_imageWithTintColor:[NSColor blackColor]];
             });
@@ -271,22 +271,22 @@ typedef NS_ENUM(NSUInteger, kMenuItem) {
 - (NSColor *)colorAtIndex:(kMenuItem)index enabled:(BOOL)enabled {
     const CGFloat alpha = enabled ? 1 : iTermColorsMenuItemViewDisabledAlpha;
     switch (index) {
-        case kMenuItemDefault:
-            return nil;
-        case kMenuItemRed:
-            return [NSColor colorWithSRGBRed:251.0/255.0 green:107.0/255.0 blue:98.0/255.0 alpha:alpha];
-        case kMenuItemOrange:
-            return [NSColor colorWithSRGBRed:246.0/255.0 green:172.0/255.0 blue:71.0/255.0 alpha:alpha];
-        case kMenuItemYellow:
-            return [NSColor colorWithSRGBRed:240.0/255.0 green:220.0/255.0 blue:79.0/255.0 alpha:alpha];
-        case kMenuItemGreen:
-            return [NSColor colorWithSRGBRed:181.0/255.0 green:215.0/255.0 blue:73.0/255.0 alpha:alpha];
-        case kMenuItemBlue:
-            return [NSColor colorWithSRGBRed:95.0/255.0 green:163.0/255.0 blue:248.0/255.0 alpha:alpha];
-        case kMenuItemPurple:
-            return [NSColor colorWithSRGBRed:193.0/255.0 green:142.0/255.0 blue:217.0/255.0 alpha:alpha];
-        case kMenuItemGray:
-            return [NSColor colorWithSRGBRed:120.0/255.0 green:120.0/255.0 blue:120.0/255.0 alpha:alpha];
+    case kMenuItemDefault:
+        return nil;
+    case kMenuItemRed:
+        return [NSColor colorWithSRGBRed:251.0/255.0 green:107.0/255.0 blue:98.0/255.0 alpha:alpha];
+    case kMenuItemOrange:
+        return [NSColor colorWithSRGBRed:246.0/255.0 green:172.0/255.0 blue:71.0/255.0 alpha:alpha];
+    case kMenuItemYellow:
+        return [NSColor colorWithSRGBRed:240.0/255.0 green:220.0/255.0 blue:79.0/255.0 alpha:alpha];
+    case kMenuItemGreen:
+        return [NSColor colorWithSRGBRed:181.0/255.0 green:215.0/255.0 blue:73.0/255.0 alpha:alpha];
+    case kMenuItemBlue:
+        return [NSColor colorWithSRGBRed:95.0/255.0 green:163.0/255.0 blue:248.0/255.0 alpha:alpha];
+    case kMenuItemPurple:
+        return [NSColor colorWithSRGBRed:193.0/255.0 green:142.0/255.0 blue:217.0/255.0 alpha:alpha];
+    case kMenuItemGray:
+        return [NSColor colorWithSRGBRed:120.0/255.0 green:120.0/255.0 blue:120.0/255.0 alpha:alpha];
     }
 }
 

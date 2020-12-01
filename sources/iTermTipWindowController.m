@@ -105,7 +105,7 @@ static const CGFloat kWindowWidth = 400;
 - (void)loadCardExpanded:(BOOL)expanded {
     iTermTipCardViewController *card =
         [[[iTermTipCardViewController alloc] initWithNibName:@"iTermTipCardViewController"
-                                                      bundle:[NSBundle bundleForClass:self.class]] autorelease];
+                                              bundle:[NSBundle bundleForClass:self.class]] autorelease];
     self.cardViewController = card;
     [card view];
     card.titleString = self.tip.title;
@@ -120,33 +120,33 @@ static const CGFloat kWindowWidth = 400;
 - (void)addButtonsToCard:(iTermTipCardViewController *)card expanded:(BOOL)expanded {
     if (_tip.url) {
         [card addActionWithTitle:kLearnMoreTitle
-                            icon:[NSImage it_imageNamed:@"Navigate" forClass:self.class]
-                           block:^(id sendingCard) {
-                               [self openURL];
-                           }];
+              icon:[NSImage it_imageNamed:@"Navigate" forClass:self.class]
+             block:^(id sendingCard) {
+                 [self openURL];
+             }];
     }
     [card addActionWithTitle:kDismissTipTitle
-                    shortcut:@"⎋"
-                        icon:[NSImage it_imageNamed:@"Dismiss" forClass:self.class]
-                       block:^(id sendingCard) {
-                           [self dismiss];
-                       }];
+          shortcut:@"⎋"
+          icon:[NSImage it_imageNamed:@"Dismiss" forClass:self.class]
+         block:^(id sendingCard) {
+             [self dismiss];
+         }];
 
     NSString *toggleTitle = expanded ? kFewerOptionsTitle : kMoreOptionsTitle;
     iTermTipCardActionButton *button =
         [card addActionWithTitle:toggleTitle
-                            icon:[NSImage it_imageNamed:@"ChevronDown" forClass:self.class]
-                           block:^(id sendingCard) {
-                               [self toggleOptionsInCard:sendingCard];
-                           }];
+              icon:[NSImage it_imageNamed:@"ChevronDown" forClass:self.class]
+         block:^(id sendingCard) {
+             [self toggleOptionsInCard:sendingCard];
+         }];
     [button setIconFlipped:expanded];
 
     button =
         [card addActionWithTitle:kShowThisLaterTitle
-                            icon:[NSImage it_imageNamed:@"Later" forClass:self.class]
-                           block:^(id sendingCard) {
-                               [self showThisLater];
-                           }];
+              icon:[NSImage it_imageNamed:@"Later" forClass:self.class]
+         block:^(id sendingCard) {
+             [self showThisLater];
+         }];
     if (!expanded) {
         [button setCollapsed:YES];
     }
@@ -166,9 +166,9 @@ static const CGFloat kWindowWidth = 400;
     shareImage.template = NO;
 
     button =
-        [card addActionWithTitle:kShareTitle icon:shareImage block:^(id card) {
-            [self shareThis:card];
-        }];
+    [card addActionWithTitle:kShareTitle icon:shareImage block:^(id card) {
+             [self shareThis:card];
+         }];
     if (!expanded) {
         [button setCollapsed:YES];
     }
@@ -181,17 +181,17 @@ static const CGFloat kWindowWidth = 400;
     }
     button =
         [card addActionWithTitle:frequencyTitle
-                            icon:[NSImage it_imageNamed:@"TipCalendar" forClass:self.class]
-                           block:^(id sendingCard) {
-                               [_delegate toggleTipFrequency];
-                               iTermTipCardActionButton *theButton = [card actionWithTitle:kShowTipsWeeklyTitle];
-                               if (theButton) {
-                                   [theButton setTitle:kShowTipsDailyTitle];
-                               } else {
-                                   theButton = [card actionWithTitle:kShowTipsDailyTitle];
-                                   [theButton setTitle:kShowTipsWeeklyTitle];
-                               }
-                           }];
+              icon:[NSImage it_imageNamed:@"TipCalendar" forClass:self.class]
+         block:^(id sendingCard) {
+             [_delegate toggleTipFrequency];
+        iTermTipCardActionButton *theButton = [card actionWithTitle:kShowTipsWeeklyTitle];
+        if (theButton) {
+            [theButton setTitle:kShowTipsDailyTitle];
+        } else {
+            theButton = [card actionWithTitle:kShowTipsDailyTitle];
+            [theButton setTitle:kShowTipsWeeklyTitle];
+        }
+    }];
     if (!expanded) {
         [button setCollapsed:YES];
     }
@@ -204,16 +204,16 @@ static const CGFloat kWindowWidth = 400;
     }
     button =
         [card addActionWithTitle:enableOrDisableTitle
-                            icon:[NSImage it_imageNamed:@"DisableTips" forClass:self.class]
-                           block:^(id sendingCard) {
-                               if (![_delegate tipWindowTipsAreDisabled]) {
-                                   [self disableTips];
-                               } else {
-                                   iTermTipCardActionButton *theButton = [card actionWithTitle:kEnableTipsTitle];
-                                   [self enableTips];
-                                   [theButton setTitle:kDisableTipsTitle];
-                               }
-                           }];
+              icon:[NSImage it_imageNamed:@"DisableTips" forClass:self.class]
+         block:^(id sendingCard) {
+             if (![_delegate tipWindowTipsAreDisabled]) {
+                 [self disableTips];
+             } else {
+            iTermTipCardActionButton *theButton = [card actionWithTitle:kEnableTipsTitle];
+            [self enableTips];
+            [theButton setTitle:kDisableTipsTitle];
+        }
+    }];
     if (!expanded) {
         [button setCollapsed:YES];
     }
@@ -221,10 +221,10 @@ static const CGFloat kWindowWidth = 400;
     if ([_delegate tipWindowTipAfterTipWithIdentifier:self.tip.identifier]) {
         button =
             [card addActionWithTitle:kShowNextTipTitle
-                                icon:[NSImage it_imageNamed:@"NextTip" forClass:self.class]
-                               block:^(id sendingCard) {
-                                   [self showNextTip];
-                               }];
+                  icon:[NSImage it_imageNamed:@"NextTip" forClass:self.class]
+             block:^(id sendingCard) {
+                 [self showNextTip];
+             }];
         if (!expanded) {
             [button setCollapsed:YES];
         }
@@ -232,10 +232,10 @@ static const CGFloat kWindowWidth = 400;
     if ([_delegate tipWindowTipBeforeTipWithIdentifier:self.tip.identifier]) {
         button =
             [card addActionWithTitle:kShowPreviousTipTitle
-                                icon:[NSImage it_imageNamed:@"NextTip" forClass:self.class]
-                               block:^(id sendingCard) {
-                                   [self showPreviousTip];
-                               }];
+                  icon:[NSImage it_imageNamed:@"NextTip" forClass:self.class]
+             block:^(id sendingCard) {
+                 [self showPreviousTip];
+             }];
         [button setIconFlipped:YES];
         if (!expanded) {
             [button setCollapsed:YES];
@@ -299,13 +299,13 @@ static const CGFloat kWindowWidth = 400;
     if (!_hotKey) {
         NSString *characters = [NSString stringWithFormat:@"%c", 27];
         iTermShortcut *shortcut = [[[iTermShortcut alloc] initWithKeyCode:kVK_Escape
-                                                                modifiers:0
-                                                               characters:characters
-                                              charactersIgnoringModifiers:characters] autorelease];
+                                                           modifiers:0
+                                                           characters:characters
+                                                           charactersIgnoringModifiers:characters] autorelease];
         _hotKey = [[[iTermCarbonHotKeyController sharedInstance] registerShortcut:shortcut
-                                                                           target:self
-                                                                         selector:@selector(dismissByKeyboard:)
-                                                                         userData:nil] retain];
+                                                                  target:self
+                                                                  selector:@selector(dismissByKeyboard:)
+                                                                  userData:nil] retain];
     }
     return nil;
 }
@@ -345,15 +345,15 @@ static const CGFloat kWindowWidth = 400;
 
         [self retain];
         [card animateCardWithDuration:0.25
-                         heightChange:heightChange
-                    originalCardFrame:originalCardFrame
-                   postAnimationFrame:postAnimationFrame
-                       superviewWidth:kWindowWidth
-                                block:^() {
-                                    [self setWindowFrame:finalWindowFrame];
-                                    self.buttonsEnabled = YES;
-                                    [self release];
-                                }];
+              heightChange:heightChange
+              originalCardFrame:originalCardFrame
+              postAnimationFrame:postAnimationFrame
+              superviewWidth:kWindowWidth
+             block:^() {
+                 [self setWindowFrame:finalWindowFrame];
+                 self.buttonsEnabled = YES;
+            [self release];
+        }];
     }
 }
 
@@ -377,8 +377,8 @@ static const CGFloat kWindowWidth = 400;
     [[NSAnimationContext currentContext] setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
     [self retain];
     self.buttonsEnabled = NO;
-    [[NSAnimationContext currentContext] setCompletionHandler:^{
-        self.buttonsEnabled = YES;
+    [[NSAnimationContext currentContext] setCompletionHandler:^ {
+                                            self.buttonsEnabled = YES;
         [self close];
         // Buttons hold references to us.
         for (iTermTipCardActionButton *button in _cardViewController.actionButtons) {
@@ -402,12 +402,12 @@ static const CGFloat kWindowWidth = 400;
 - (void)shareThis:(iTermTipCardViewController *)card {
     NSAttributedString *item = [self.tip attributedString];
     NSArray<NSSharingService *> *services = [NSSharingService sharingServicesForItems:@[ item ]];
-    
+
     NSMenu *menu = [[[NSMenu alloc] initWithTitle:@"Sharing Services"] autorelease];
     for (NSSharingService *service in services) {
         NSMenuItem *item = [[[NSMenuItem alloc] initWithTitle:service.title
-                                                       action:@selector(shareWithService:)
-                                                keyEquivalent:@""] autorelease];
+                                                 action:@selector(shareWithService:)
+                                                 keyEquivalent:@""] autorelease];
         item.image = service.image;
         item.representedObject = service;
         [menu addItem:item];
@@ -489,9 +489,9 @@ static const CGFloat kWindowWidth = 400;
     iTermTipCardViewController *exitingCardViewController = _cardViewController;
 
     [self retain];
-    [[NSAnimationContext currentContext] setCompletionHandler:^{
-        // Kill old card and go back to normal behavior.
-        [exitingCardViewController.view removeFromSuperview];
+    [[NSAnimationContext currentContext] setCompletionHandler:^ {
+                                            // Kill old card and go back to normal behavior.
+                                            [exitingCardViewController.view removeFromSuperview];
         [_exitingCardViewControllers removeObject:exitingCardViewController];
         self.buttonsEnabled = YES;
         self.windowCanShrink = YES;

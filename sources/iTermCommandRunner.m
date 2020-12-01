@@ -26,13 +26,13 @@
 }
 
 + (void)unzipURL:(NSURL *)zipURL
-   withArguments:(NSArray<NSString *> *)arguments
-     destination:(NSString *)destination
-      completion:(void (^)(BOOL))completion {
+    withArguments:(NSArray<NSString *> *)arguments
+    destination:(NSString *)destination
+    completion:(void (^)(BOOL))completion {
     NSArray<NSString *> *fullArgs = [arguments arrayByAddingObject:zipURL.path];
     iTermCommandRunner *runner = [[self alloc] initWithCommand:@"/usr/bin/unzip"
-                                                 withArguments:fullArgs
-                                                          path:destination];
+                                               withArguments:fullArgs
+                                               path:destination];
     runner.completion = ^(int status) {
         completion(status == 0);
     };
@@ -40,18 +40,18 @@
 }
 
 + (void)zipURLs:(NSArray<NSURL *> *)URLs
-      arguments:(NSArray<NSString *> *)arguments
-       toZipURL:(NSURL *)zipURL
-     relativeTo:(NSURL *)baseURL
-     completion:(void (^)(BOOL))completion {
+    arguments:(NSArray<NSString *> *)arguments
+    toZipURL:(NSURL *)zipURL
+    relativeTo:(NSURL *)baseURL
+    completion:(void (^)(BOOL))completion {
     NSMutableArray<NSString *> *fullArgs = [arguments mutableCopy];
     [fullArgs addObject:zipURL.path];
     [fullArgs addObjectsFromArray:[URLs mapWithBlock:^id(NSURL *url) {
-        return url.relativePath;
-    }]];
+                 return url.relativePath;
+             }]];
     iTermCommandRunner *runner = [[self alloc] initWithCommand:@"/usr/bin/zip"
-                                                 withArguments:fullArgs
-                                                          path:baseURL.path];
+                                               withArguments:fullArgs
+                                               path:baseURL.path];
     runner.completion = ^(int status) {
         completion(status == 0);
     };
@@ -63,8 +63,8 @@
 }
 
 - (instancetype)initWithCommand:(NSString *)command
-                  withArguments:(NSArray<NSString *> *)arguments
-                           path:(NSString *)currentDirectoryPath {
+    withArguments:(NSArray<NSString *> *)arguments
+    path:(NSString *)currentDirectoryPath {
     self = [super init];
     if (self) {
         _task = [[NSTask alloc] init];
@@ -86,7 +86,7 @@
 }
 
 - (void)run {
-    dispatch_async(_readingQueue, ^{
+    dispatch_async(_readingQueue, ^ {
         [self runSynchronously];
     });
 }
@@ -96,10 +96,10 @@
         return;
     }
     NSTask *task = _task;
-    dispatch_async(_readingQueue, ^{
+    dispatch_async(_readingQueue, ^ {
         [self readAndWait:task];
     });
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timeout * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timeout * NSEC_PER_SEC)), dispatch_get_main_queue(), ^ {
         if (self.running) {
             [task terminate];
             self->_task = nil;
@@ -142,7 +142,7 @@
         NSLog(@"Task failed with %@. launchPath=%@, pwd=%@, args=%@", e, _task.launchPath, _task.currentDirectoryPath, _task.arguments);
         DLog(@"Task failed with %@. launchPath=%@, pwd=%@, args=%@", e, _task.launchPath, _task.currentDirectoryPath, _task.arguments);
         if (self.completion) {
-            dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_main_queue(), ^ {
                 self.completion(-1);
             });
         }
@@ -167,7 +167,7 @@
     NSPipe *pipe = _pipe;
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
     DLog(@"%@ readAndWait starting", task);
-    dispatch_async(_waitingQueue, ^{
+    dispatch_async(_waitingQueue, ^ {
         DLog(@"%@ readAndWait calling waitUntilExit", task);
 
         DLog(@"Wait for %@", task.executableURL.path);
@@ -222,7 +222,7 @@
 
     self.running = NO;
     if (self.completion) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^ {
             self.completion(task.terminationStatus);
         });
     }
@@ -232,12 +232,12 @@
     int fd = [[_inputPipe fileHandleForWriting] fileDescriptor];
     DLog(@"Planning to write %@ bytes to %@", @(data.length), self);
 
-    dispatch_data_t dispatchData = dispatch_data_create(data.bytes, data.length, _writingQueue, ^{
+    dispatch_data_t dispatchData = dispatch_data_create(data.bytes, data.length, _writingQueue, ^ {
         [data length];  // just ensure data is retained
     });
     dispatch_write(fd, dispatchData, _writingQueue, ^(dispatch_data_t  _Nullable data, int error) {
         if (completion) {
-            dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_main_queue(), ^ {
                 completion(data ? dispatch_data_get_size(data) : 0, error);
             });
         }
@@ -248,7 +248,7 @@
     if (!self.outputHandler) {
         return;
     }
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         self.outputHandler(inData);
     });
 }
@@ -260,7 +260,7 @@
 }
 
 - (void)didReadData:(NSData *)inData {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         [self saveData:inData];
     });
     [super didReadData:inData];

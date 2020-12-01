@@ -34,7 +34,7 @@
 }
 
 - (void)whenFirst:(void (^ NS_NOESCAPE)(id))firstBlock
-           second:(void (^ NS_NOESCAPE)(id))secondBlock {
+    second:(void (^ NS_NOESCAPE)(id))secondBlock {
     if (_first && firstBlock) {
         firstBlock(_first);
     } else if (_second && secondBlock) {
@@ -53,8 +53,9 @@
 - (NSString *)description {
     __block NSString *value;
     [self whenFirst:^(id  _Nonnull object) {
-        value = [NSString stringWithFormat:@"first=%@", object];
-    } second:^(id  _Nonnull object) {
+             value = [NSString stringWithFormat:@"first=%@", object];
+         }
+         second:^(id  _Nonnull object) {
         value = [NSString stringWithFormat:@"second=%@", object];
     }];
     return [NSString stringWithFormat:@"<%@: %p %@>", NSStringFromClass(self.class), self, value];
@@ -77,7 +78,7 @@
 
 @end
 
-@interface iTermPromiseSeal: NSObject<iTermPromiseSeal>
+@interface iTermPromiseSeal : NSObject<iTermPromiseSeal>
 
 @property (nonatomic, readonly) iTermOr<id, NSError *> *value;
 @property (nonatomic, readonly) void (^observer)(iTermOr<id, NSError *> *value);
@@ -133,10 +134,10 @@
     self = [super init];
     __weak __typeof(self) weakSelf = self;
     iTermPromiseSeal *seal = [[iTermPromiseSeal alloc] initWithObserver:^(iTermOr<id,NSError *> *or) {
-        [or whenFirst:^(id object) {
-            [weakSelf didFulfill:object];
-        }
-               second:^(NSError *object) {
+                                 [or whenFirst:^(id object) {
+                                     [weakSelf didFulfill:object];
+                                 }
+                                 second:^(NSError *object) {
             [weakSelf didReject:object];
         }];
     }];
@@ -186,12 +187,12 @@
     assert(!self.callback);
 
     iTermPromise *next = [iTermPromise promise:^(id<iTermPromiseSeal> seal) {
-        self.callback = ^(iTermOr<id,NSError *> *value) {
-            [value whenFirst:^(id object) {
-                block(object);
+                     self.callback = ^(iTermOr<id,NSError *> *value) {
+                         [value whenFirst:^(id object) {
+                             block(object);
                 [seal fulfill:object];
             }
-                      second:^(NSError *object) {
+            second:^(NSError *object) {
                 [seal reject:object];
             }];
         };
@@ -203,11 +204,11 @@
     assert(!self.callback);
 
     iTermPromise *next = [iTermPromise promise:^(id<iTermPromiseSeal> seal) {
-        self.callback = ^(iTermOr<id,NSError *> *value) {
-            [value whenFirst:^(id object) {
-                [seal fulfill:object];
-            }
-                      second:^(NSError *object) {
+                     self.callback = ^(iTermOr<id,NSError *> *value) {
+                         [value whenFirst:^(id object) {
+                             [seal fulfill:object];
+                         }
+                         second:^(NSError *object) {
                 block(object);
                 [seal reject:object];
             }];

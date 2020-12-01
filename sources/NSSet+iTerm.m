@@ -13,18 +13,18 @@
 - (NSSet *)filteredSetUsingBlock:(BOOL (NS_NOESCAPE ^)(id anObject))block {
     NSMutableSet *result = [NSMutableSet set];
     [self enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
-        if (block(obj)) {
-            [result addObject:obj];
-        }
-    }];
+             if (block(obj)) {
+                 [result addObject:obj];
+             }
+         }];
     return result;
 }
 
 - (NSSet *)mapWithBlock:(id (^NS_NOESCAPE)(id anObject))block {
     NSMutableSet *result = [NSMutableSet set];
     [self enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
-        id mapped = block(obj);
-        if (mapped) {
+             id mapped = block(obj);
+             if (mapped) {
             [result addObject:mapped];
         }
     }];
@@ -34,8 +34,8 @@
 - (NSSet *)flatMapWithBlock:(NSSet *(^)(id anObject))block {
     NSMutableSet *result = [NSMutableSet set];
     [self enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
-        id mapped = block(obj);
-        if (!mapped) {
+             id mapped = block(obj);
+             if (!mapped) {
             return;
         }
         NSArray *array = [NSArray castFrom:mapped];

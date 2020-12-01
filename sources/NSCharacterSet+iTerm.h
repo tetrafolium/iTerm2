@@ -11,7 +11,7 @@
 @interface NSCharacterSet (iTerm)
 
 // No code point less than this will be an emoji with a default emoji presentation.
-extern unichar iTermMinimumDefaultEmojiPresentationCodePoint;
+    extern unichar iTermMinimumDefaultEmojiPresentationCodePoint;
 
 // See EastAsianWidth.txt in Unicode 6.0.
 

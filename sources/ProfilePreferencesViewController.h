@@ -49,15 +49,15 @@ extern NSString *const kProfileSessionHotkeyDidChange;
 - (void)selectGeneralTab;
 
 - (void)openToProfileWithGuid:(NSString *)guid
-             selectGeneralTab:(BOOL)selectGeneralTab
-                        scope:(iTermVariableScope<iTermSessionScope> *)scope;
+    selectGeneralTab:(BOOL)selectGeneralTab
+    scope:(iTermVariableScope<iTermSessionScope> *)scope;
 
 - (void)openToProfileWithGuidAndEditHotKey:(NSString *)guid
-                                     scope:(iTermVariableScope<iTermSessionScope> *)scope;
+    scope:(iTermVariableScope<iTermSessionScope> *)scope;
 
 - (void)openToProfileWithGuid:(NSString *)guid
-andEditComponentWithIdentifier:(NSString *)identifier
-                        scope:(iTermVariableScope<iTermSessionScope> *)scope;
+    andEditComponentWithIdentifier:(NSString *)identifier
+    scope:(iTermVariableScope<iTermSessionScope> *)scope;
 
 // Update views for changed backing state.
 - (void)refresh;

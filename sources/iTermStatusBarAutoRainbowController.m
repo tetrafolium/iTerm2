@@ -56,32 +56,32 @@ typedef struct {
 }
 
 - (void)enumerateColorsWithCount:(NSInteger)count
-                           block:(void (^ NS_NOESCAPE)(NSInteger i, NSColor *color))block {
+    block:(void (^ NS_NOESCAPE)(NSInteger i, NSColor *color))block {
     iTermStatusBarAutoRainbowParameters params;
 
     switch (self.style) {
-        case iTermStatusBarAutoRainbowStyleDisabled:
-            return;
+    case iTermStatusBarAutoRainbowStyleDisabled:
+        return;
 
-        case iTermStatusBarAutoRainbowStyleDark:
-            params = [self darkParameters];
-            break;
+    case iTermStatusBarAutoRainbowStyleDark:
+        params = [self darkParameters];
+        break;
 
-        case iTermStatusBarAutoRainbowStyleLight:
-            params = [self lightParameters];
-            break;
+    case iTermStatusBarAutoRainbowStyleLight:
+        params = [self lightParameters];
+        break;
 
-        case iTermStatusBarAutoRainbowStyleAutomatic:
-            params = [self automaticParameters];
-            break;
+    case iTermStatusBarAutoRainbowStyleAutomatic:
+        params = [self automaticParameters];
+        break;
     }
     CGFloat h = 0;
     const CGFloat stride = 0.91 / (count - 1);
     for (NSInteger i = 0; i < count; i++) {
         block(i, [NSColor colorWithHue:h
-                            saturation:params.saturation
-                            brightness:params.brightness
-                                 alpha:1]);
+                          saturation:params.saturation
+                          brightness:params.brightness
+                          alpha:1]);
         h += stride;
     }
 }

@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)startWithViewForDropdown:(NSView *)dropdownSuperview
-         statusBarViewController:(iTermStatusBarViewController *)statusBarController {
+    statusBarViewController:(iTermStatusBarViewController *)statusBarController {
     if (statusBarController) {
         [self showInStatusBar:statusBarController];
     } else {
@@ -61,10 +61,10 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Status bar
 
 - (void)showInStatusBar:(iTermStatusBarViewController *)statusBar {
-    NSDictionary *knobs = @{ iTermStatusBarPriorityKey: @(INFINITY) };
-    NSDictionary *configuration = @{ iTermStatusBarComponentConfigurationKeyKnobValues: knobs};
+    NSDictionary *knobs = @ { iTermStatusBarPriorityKey: @(INFINITY) };
+    NSDictionary *configuration = @ { iTermStatusBarComponentConfigurationKeyKnobValues: knobs};
     _component = [[iTermStatusBarProgressComponent alloc] initWithConfiguration:configuration
-                                                                          scope:self.delegate.pasteViewManagerScope];
+                                                          scope:self.delegate.pasteViewManagerScope];
     _component.progressDelegate = self;
     _component.pasteContext = self.pasteContext;
     _component.bufferLength = self.bufferLength;
@@ -82,22 +82,22 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Dropdown
 
 - (void)hideDropdown {
-    [_dropDownViewController closeWithCompletion:^{
-        [self.delegate pasteViewManagerDropDownPasteViewVisibilityDidChange];
-    }];
+    [_dropDownViewController closeWithCompletion:^ {
+                                [self.delegate pasteViewManagerDropDownPasteViewVisibilityDidChange];
+                            }];
     _dropDownViewController = nil;
     _dropDownPasteViewIsVisible = NO;
 }
 
 - (void)showDropDownInView:(NSView *)superview {
     _dropDownViewController = [[PasteViewController alloc] initWithContext:_pasteContext
-                                                                    length:_bufferLength
-                                                                      mini:NO];
+                                                           length:_bufferLength
+                                                           mini:NO];
     _dropDownViewController.delegate = self;
     _dropDownViewController.view.frame = NSMakeRect(20,
-                                                    superview.frame.size.height - _dropDownViewController.view.frame.size.height,
-                                                    _dropDownViewController.view.frame.size.width,
-                                                    _dropDownViewController.view.frame.size.height);
+                                         superview.frame.size.height - _dropDownViewController.view.frame.size.height,
+                                         _dropDownViewController.view.frame.size.width,
+                                         _dropDownViewController.view.frame.size.height);
     [superview addSubview:_dropDownViewController.view];
     [_dropDownViewController updateFrame];
     _dropDownPasteViewIsVisible = YES;

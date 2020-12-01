@@ -56,9 +56,9 @@ static const CGFloat iTermDisclosableViewTextViewWidth = 300;
 }
 
 - (CGFloat)heightWhenOpen {
-    NSDictionary *attributes = @{ NSFontAttributeName: self.textView.font };
+    NSDictionary *attributes = @ { NSFontAttributeName: self.textView.font };
     NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:self.textView.string
-                                                                           attributes:attributes];
+                                                                       attributes:attributes];
     const CGFloat height = [attributedString heightForWidth:self.textView.frame.size.width];
 
     return MIN(_maximumHeight, height);
@@ -126,7 +126,7 @@ static const CGFloat iTermDisclosableViewTextViewWidth = 300;
 
         NSScrollView *scrollview;
         _textView = [self.class newTextViewWithFrame:NSMakeRect(8, NSMaxY(_disclosureButton.frame) + 3, 100, 100)
-                     scrollview:&scrollview];
+                                scrollview:&scrollview];
         _scrollView = scrollview;
 
         _textView.drawsBackground = NO;

@@ -37,7 +37,7 @@ typedef NS_ENUM(NSUInteger, iTermReflectionMethodArgumentType) {
 @property (nonatomic, readonly) NSArray<iTermReflectionMethodArgument *> *arguments;
 
 - (instancetype)initWithClass:(Class)theClass
-                     selector:(SEL)selector NS_DESIGNATED_INITIALIZER;
+    selector:(SEL)selector NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 

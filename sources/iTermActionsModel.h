@@ -22,8 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSString *displayString;
 
 - (instancetype)initWithTitle:(NSString *)title
-                       action:(KEY_ACTION)action
-                    parameter:(NSString *)parameter NS_DESIGNATED_INITIALIZER;
+    action:(KEY_ACTION)action
+    parameter:(NSString *)parameter NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
@@ -39,9 +39,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addAction:(iTermAction *)action;
 - (void)removeActions:(NSArray<iTermAction *> *)actions;
 - (void)replaceAction:(iTermAction *)actionToReplace
-           withAction:(iTermAction *)replacement;
+    withAction:(iTermAction *)replacement;
 - (void)moveActionsWithIdentifiers:(NSArray<NSNumber *> *)identifiersToMove
-                           toIndex:(NSInteger)row;
+    toIndex:(NSInteger)row;
 - (void)setActions:(NSArray<iTermAction *> *)actions;
 - (nullable iTermAction *)actionWithIdentifier:(NSInteger)identifier;
 
@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermActionsDidChangeNotification : iTermBaseNotification
 
-typedef NS_ENUM(NSUInteger, iTermActionsDidChangeMutationType) {
+    typedef NS_ENUM(NSUInteger, iTermActionsDidChangeMutationType) {
     iTermActionsDidChangeMutationTypeInsertion,
     iTermActionsDidChangeMutationTypeDeletion,
     iTermActionsDidChangeMutationTypeEdit,
@@ -62,14 +62,14 @@ typedef NS_ENUM(NSUInteger, iTermActionsDidChangeMutationType) {
 @property (nonatomic, readonly) NSIndexSet *indexSet;  // for move only
 
 + (instancetype)notificationWithMutationType:(iTermActionsDidChangeMutationType)mutationType
-                                       index:(NSInteger)index;
+    index:(NSInteger)index;
 + (instancetype)moveNotificationWithRemovals:(NSIndexSet *)removals
-                            destinationIndex:(NSInteger)destinationIndex;
+    destinationIndex:(NSInteger)destinationIndex;
 + (instancetype)fullReplacementNotification;
 + (instancetype)removalNotificationWithIndexes:(NSIndexSet *)indexes;
 
 + (void)subscribe:(NSObject *)owner
-            block:(void (^)(iTermActionsDidChangeNotification * _Nonnull notification))block;
+    block:(void (^)(iTermActionsDidChangeNotification * _Nonnull notification))block;
 @end
 
 NS_ASSUME_NONNULL_END

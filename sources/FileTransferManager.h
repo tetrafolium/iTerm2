@@ -42,13 +42,13 @@
 // Shows a modal alert with the text in |prompt| and a freeform keyboard input. Returns the
 // value entered.
 - (void)transferrableFile:(TransferrableFile *)transferrableFile
-        interactivePrompt:(NSString *)prompt
-               completion:(void (^)(NSString *password))completion;
+    interactivePrompt:(NSString *)prompt
+    completion:(void (^)(NSString *password))completion;
 
 // Shows message, returns YES if OK, NO if Cancel
 - (BOOL)transferrableFile:(TransferrableFile *)transferrableFile
-                    title:(NSString *)title
-           confirmMessage:(NSString *)message;
+    title:(NSString *)title
+    confirmMessage:(NSString *)message;
 
 - (void)removeAllDownloads;
 - (void)removeAllUploads;

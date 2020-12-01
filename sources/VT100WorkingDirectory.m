@@ -29,16 +29,16 @@ static NSString *const kWorkingDirectoryStateWorkingDirectoryKey = @"Working Dir
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p workingDirectory=%@ interval=%@>",
-            self.class, self, self.workingDirectory, self.entry.interval];
+                     self.class, self, self.workingDirectory, self.entry.interval];
 }
 
 #pragma mark - IntervalTreeObject
 
 - (NSDictionary *)dictionaryValue {
     if (self.workingDirectory) {
-        return @{ kWorkingDirectoryStateWorkingDirectoryKey: self.workingDirectory };
+        return @ { kWorkingDirectoryStateWorkingDirectoryKey: self.workingDirectory };
     } else {
-        return @{};
+        return @ {};
     }
 }
 

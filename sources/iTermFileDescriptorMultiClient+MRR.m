@@ -35,8 +35,8 @@ static void Free2DArray(char **array, NSInteger count) {
 @implementation iTermFileDescriptorMultiClient (MRR)
 
 iTermFileDescriptorMultiClientAttachStatus iTermConnectToUnixDomainSocket(NSString *pathString,
-                                                                          int *fdOut,
-                                                                          int async) {
+        int *fdOut,
+        int async) {
     int interrupted = 0;
     int socketFd;
     int flags;
@@ -100,7 +100,7 @@ iTermFileDescriptorMultiClientAttachStatus iTermConnectToUnixDomainSocket(NSStri
 }
 
 iTermUnixDomainSocketConnectResult iTermCreateConnectedUnixDomainSocket(NSString *pathString,
-                                                                        int closeAfterAccept) {
+        int closeAfterAccept) {
     const char *path = pathString.UTF8String;
     NSString *lockPath = [[NSString stringWithUTF8String:path] stringByAppendingString:@".lock"];
     iTermUnixDomainSocketConnectResult result = {
@@ -131,24 +131,24 @@ iTermUnixDomainSocketConnectResult iTermCreateConnectedUnixDomainSocket(NSString
                                        1 /* async */);
 
     switch (connectStatus) {
-        case iTermFileDescriptorMultiClientAttachStatusSuccess:
-        case iTermFileDescriptorMultiClientAttachStatusInProgress:
-            // I don't know why, but connect() doesn't return EINPROGRESS. It returns 0. I can't
-            // get it to take the InProgress code path!
-            break;
-        case iTermFileDescriptorMultiClientAttachStatusConnectFailed:
-        case iTermFileDescriptorMultiClientAttachStatusFatalError:
-            // It's pretty weird if this fails.
-            close(result.listenFD);
-            close(result.lockFD);
-            return (iTermUnixDomainSocketConnectResult) {
-                .ok = NO,
-                .listenFD = -1,
-                .acceptedFD = -1,
-                .connectedFD = -1,
-                .readFD = -1,
-                .lockFD = -1
-            };
+    case iTermFileDescriptorMultiClientAttachStatusSuccess:
+    case iTermFileDescriptorMultiClientAttachStatusInProgress:
+        // I don't know why, but connect() doesn't return EINPROGRESS. It returns 0. I can't
+        // get it to take the InProgress code path!
+        break;
+    case iTermFileDescriptorMultiClientAttachStatusConnectFailed:
+    case iTermFileDescriptorMultiClientAttachStatusFatalError:
+        // It's pretty weird if this fails.
+        close(result.listenFD);
+        close(result.lockFD);
+        return (iTermUnixDomainSocketConnectResult) {
+            .ok = NO,
+            .listenFD = -1,
+            .acceptedFD = -1,
+            .connectedFD = -1,
+            .readFD = -1,
+            .lockFD = -1
+        };
     }
     iTermFileDescriptorServerLog("Now calling accept");
     if (closeAfterAccept) {
@@ -209,9 +209,9 @@ iTermUnixDomainSocketConnectResult iTermCreateConnectedUnixDomainSocket(NSString
 
 // NOTE: Sets _readFD and _writeFD as side-effects when returned forkState.pid >= 0.
 - (iTermForkState)launchWithSocketPath:(NSString *)path
-                            executable:(NSString *)executable
-                                readFD:(int *)readFDOut
-                               writeFD:(int *)writeFDOut {
+    executable:(NSString *)executable
+    readFD:(int *)readFDOut
+    writeFD:(int *)writeFDOut {
     assert([iTermAdvancedSettingsModel runJobsInServers]);
 
     iTermForkState forkState = {
@@ -257,44 +257,44 @@ iTermUnixDomainSocketConnectResult iTermCreateConnectedUnixDomainSocket(NSString
 
     forkState.pid = fork();
     switch (forkState.pid) {
-        case -1:
-            // error
-            iTermFileDescriptorServerLog("Fork failed: %s", strerror(errno));
-            close(connectResult.listenFD);
-            close(connectResult.acceptedFD);
-            close(connectResult.lockFD);
-            close(forkState.deadMansPipe[1]);
-            Free2DArray(cargv, argv.count);
-            close(pipeFds[0]);
-            *writeFDOut = pipeFds[1];
-            Free2DArray((char **)cenv, 0);
-            return forkState;
+    case -1:
+        // error
+        iTermFileDescriptorServerLog("Fork failed: %s", strerror(errno));
+        close(connectResult.listenFD);
+        close(connectResult.acceptedFD);
+        close(connectResult.lockFD);
+        close(forkState.deadMansPipe[1]);
+        Free2DArray(cargv, argv.count);
+        close(pipeFds[0]);
+        *writeFDOut = pipeFds[1];
+        Free2DArray((char **)cenv, 0);
+        return forkState;
 
-        case 0: {
-            // child
-            close(pipeFds[1]);
-            iTermPosixMoveFileDescriptors(fds, numberOfFileDescriptorsToPreserve);
-            iTermExec(argpath,
-                      (const char **)cargv,
-                      YES,  // closeFileDescriptors
-                      YES, // restoreResourceLimits
-                      &forkState,
-                      "/",  // initialPwd
-                      cenv,  // newEnviron
-                      1);  // errorFd
-            return forkState;
-        }
-        default:
-            // parent
-            close(connectResult.listenFD);
-            close(connectResult.acceptedFD);
-            close(connectResult.lockFD);
-            close(forkState.deadMansPipe[1]);
-            Free2DArray(cargv, argv.count);
-            close(pipeFds[0]);
-            *writeFDOut = pipeFds[1];
-            Free2DArray((char **)cenv, 0);
-            return forkState;
+    case 0: {
+        // child
+        close(pipeFds[1]);
+        iTermPosixMoveFileDescriptors(fds, numberOfFileDescriptorsToPreserve);
+        iTermExec(argpath,
+                  (const char **)cargv,
+                  YES,  // closeFileDescriptors
+                  YES, // restoreResourceLimits
+                  &forkState,
+                  "/",  // initialPwd
+                  cenv,  // newEnviron
+                  1);  // errorFd
+        return forkState;
+    }
+    default:
+        // parent
+        close(connectResult.listenFD);
+        close(connectResult.acceptedFD);
+        close(connectResult.lockFD);
+        close(forkState.deadMansPipe[1]);
+        Free2DArray(cargv, argv.count);
+        close(pipeFds[0]);
+        *writeFDOut = pipeFds[1];
+        Free2DArray((char **)cenv, 0);
+        return forkState;
     }
 }
 

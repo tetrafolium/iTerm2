@@ -20,11 +20,11 @@ extern const CGFloat iTermTimestampGradientWidth;
 @property (nonatomic, readonly) CGFloat suggestedWidth;
 
 - (instancetype)initWithBackgroundColor:(NSColor *)backgroundColor
-                              textColor:(NSColor *)textColor
-                                    now:(NSTimeInterval)now
-                     useTestingTimezone:(BOOL)useTestingTimezone
-                              rowHeight:(CGFloat)rowHeight
-                                 retina:(BOOL)isRetina;
+    textColor:(NSColor *)textColor
+    now:(NSTimeInterval)now
+    useTestingTimezone:(BOOL)useTestingTimezone
+    rowHeight:(CGFloat)rowHeight
+    retina:(BOOL)isRetina;
 
 - (void)setDate:(NSDate *)timestamp forLine:(int)line;
 

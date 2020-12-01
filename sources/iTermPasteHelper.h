@@ -66,23 +66,23 @@ extern const NSInteger iTermQuickPasteBytesPerCallDefaultValue;
 
 // This performs all the transformations except for bracketing.
 + (void)sanitizePasteEvent:(PasteEvent *)pasteEvent
-                  encoding:(NSStringEncoding)encoding;
+    encoding:(NSStringEncoding)encoding;
 
 // Queue up a string to paste. If the queue is empty, it will begin pasting immediately.
 - (void)pasteString:(NSString *)theString
-             slowly:(BOOL)slowly
-   escapeShellChars:(BOOL)escapeShellChars
-           isUpload:(BOOL)isUpload
-       tabTransform:(iTermTabTransformTags)tabTransform
-       spacesPerTab:(int)spacesPerTab;
+    slowly:(BOOL)slowly
+    escapeShellChars:(BOOL)escapeShellChars
+    isUpload:(BOOL)isUpload
+    tabTransform:(iTermTabTransformTags)tabTransform
+    spacesPerTab:(int)spacesPerTab;
 
 - (void)pasteString:(NSString *)theString
-             slowly:(BOOL)slowly
-   escapeShellChars:(BOOL)escapeShellChars
-           isUpload:(BOOL)isUpload
-       tabTransform:(iTermTabTransformTags)tabTransform
-       spacesPerTab:(int)spacesPerTab
-           progress:(void (^)(NSInteger))progress;
+    slowly:(BOOL)slowly
+    escapeShellChars:(BOOL)escapeShellChars
+    isUpload:(BOOL)isUpload
+    tabTransform:(iTermTabTransformTags)tabTransform
+    spacesPerTab:(int)spacesPerTab
+    progress:(void (^)(NSInteger))progress;
 
 // The string comes from the paste special view controller.
 - (void)pasteString:(NSString *)theString stringConfig:(NSString *)jsonConfig;
@@ -109,18 +109,18 @@ extern const NSInteger iTermQuickPasteBytesPerCallDefaultValue;
 
 // This method can be overridden for testing.
 - (NSTimer *)scheduledTimerWithTimeInterval:(NSTimeInterval)ti
-                                     target:(id)aTarget
-                                   selector:(SEL)aSelector
-                                   userInfo:(id)userInfo
-                                    repeats:(BOOL)yesOrNo;
+    target:(id)aTarget
+    selector:(SEL)aSelector
+    userInfo:(id)userInfo
+    repeats:(BOOL)yesOrNo;
 
 - (PasteEvent *)pasteEventWithString:(NSString *)theString
-                              slowly:(BOOL)slowly
-                    escapeShellChars:(BOOL)escapeShellChars
-                            isUpload:(BOOL)isUpload
-                        tabTransform:(iTermTabTransformTags)tabTransform
-                        spacesPerTab:(int)spacesPerTab
-                            progress:(void (^)(NSInteger))progress;
+    slowly:(BOOL)slowly
+    escapeShellChars:(BOOL)escapeShellChars
+    isUpload:(BOOL)isUpload
+    tabTransform:(iTermTabTransformTags)tabTransform
+    spacesPerTab:(int)spacesPerTab
+    progress:(void (^)(NSInteger))progress;
 - (void)tryToPasteEvent:(PasteEvent *)pasteEvent;
 
 @end

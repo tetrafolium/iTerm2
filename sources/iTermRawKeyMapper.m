@@ -80,14 +80,14 @@ static BOOL HasBits(NSUInteger value, NSUInteger required) {
 
 - (NSString *)nameForEvent:(NSEvent *)event {
     switch (event.type) {
-        case NSEventTypeKeyDown:
-            return @"d";
-        case NSEventTypeKeyUp:
-            return @"u";
-        case NSEventTypeFlagsChanged:
-            return @"f";
-        default:
-            return nil;
+    case NSEventTypeKeyDown:
+        return @"d";
+    case NSEventTypeKeyUp:
+        return @"u";
+    case NSEventTypeFlagsChanged:
+        return @"f";
+    default:
+        return nil;
     }
 }
 
@@ -107,10 +107,10 @@ static BOOL HasBits(NSUInteger value, NSUInteger required) {
 - (NSString *)rawKeyStringForFlagsChangedEvent:(NSEvent *)event {
     int flags = [self csiModifiersForEventModifiers:event.it_modifierFlags repeat:NO];
     return [NSString stringWithFormat:@"%c]1337;%@;%@%c",
-            27,
-            [self nameForEvent:event],
-            @(flags),
-            7];
+                     27,
+                     [self nameForEvent:event],
+                     @(flags),
+                     7];
 }
 
 - (NSString *)rawKeyStringForEvent:(NSEvent *)event {
@@ -125,13 +125,13 @@ static BOOL HasBits(NSUInteger value, NSUInteger required) {
     const int flags = [self csiModifiersForEventModifiers:event.it_modifierFlags repeat:event.isARepeat];
     const BOOL isFunctionKey = !!(event.it_modifierFlags & NSEventModifierFlagFunction);
     return [NSString stringWithFormat:@"%c]1337;%@;%@;%@;%@;%@%c",
-            27,
-            name,
-            @(flags),
-            isFunctionKey ? @"" : [self hexForString:event.characters],
-            @(event.keyCode),
-            isFunctionKey ? @"" : [self hexForString:event.charactersIgnoringModifiers],
-            7];
+                     27,
+                     name,
+                     @(flags),
+                     isFunctionKey ? @"" : [self hexForString:event.characters],
+                     @(event.keyCode),
+                     isFunctionKey ? @"" : [self hexForString:event.charactersIgnoringModifiers],
+                     7];
 }
 
 @end

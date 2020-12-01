@@ -103,9 +103,9 @@ extern const NSInteger iTermRootTerminalViewWindowNumberLabelWidth;
 @property(nonatomic, readonly) iTermImageView *backgroundImage NS_AVAILABLE_MAC(10_14);
 
 - (instancetype)initWithFrame:(NSRect)frame
-                        color:(NSColor *)color
-               tabBarDelegate:(id<iTermTabBarControlViewDelegate, PSMTabBarControlDelegate>)tabBarDelegate
-                     delegate:(id<iTermRootTerminalViewDelegate, iTermToolbeltViewDelegate>)delegate;  // TODO: This should hopefully go away
+    color:(NSColor *)color
+    tabBarDelegate:(id<iTermTabBarControlViewDelegate, PSMTabBarControlDelegate>)tabBarDelegate
+    delegate:(id<iTermRootTerminalViewDelegate, iTermToolbeltViewDelegate>)delegate;  // TODO: This should hopefully go away
 
 // Update the division view's frame and set it visible/hidden per |shouldBeVisible|.
 - (void)updateDivisionViewAndWindowNumberLabel;

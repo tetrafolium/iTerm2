@@ -79,16 +79,16 @@ CGFloat iTermMaxBlurRadius(void) {
 
 - (void)awakeFromNib {
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(reloadProfile)  // In superclass
-                                                 name:kReloadAllProfiles
-                                               object:nil];
+                                          selector:@selector(reloadProfile)  // In superclass
+                                          name:kReloadAllProfiles
+                                          object:nil];
 
     __weak __typeof(self) weakSelf = self;
     PreferenceInfo *info;
     info = [self defineControl:_transparency
-                           key:KEY_TRANSPARENCY
-                   relatedView:_transparencyLabel
-                          type:kPreferenceInfoTypeSlider];
+                 key:KEY_TRANSPARENCY
+                 relatedView:_transparencyLabel
+                 type:kPreferenceInfoTypeSlider];
     info.observer = ^() {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
         if (!strongSelf) {
@@ -101,14 +101,14 @@ CGFloat iTermMaxBlurRadius(void) {
     };
 
     [self defineControl:_initialUseTransparency
-                    key:KEY_INITIAL_USE_TRANSPARENCY
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_INITIAL_USE_TRANSPARENCY
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     info = [self defineControl:_useBlur
-                           key:KEY_BLUR
-                   relatedView:nil
-                          type:kPreferenceInfoTypeCheckbox];
+                 key:KEY_BLUR
+                 relatedView:nil
+                 type:kPreferenceInfoTypeCheckbox];
     info.observer = ^() {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
         if (!strongSelf) {
@@ -120,85 +120,87 @@ CGFloat iTermMaxBlurRadius(void) {
 
     _blurRadius.maxValue = iTermMaxBlurRadius();
     info = [self defineControl:_blurRadius
-                           key:KEY_BLUR_RADIUS
-                   displayName:@"Blur radius"
-                          type:kPreferenceInfoTypeSlider];
-    info.observer = ^{
+                 key:KEY_BLUR_RADIUS
+                 displayName:@"Blur radius"
+                 type:kPreferenceInfoTypeSlider];
+    info.observer = ^ {
         [weakSelf updateBlurRadiusWarning];
     };
     [self updateBlurRadiusWarning];
 
     info = [self defineControl:_backgroundImageMode
-                           key:KEY_BACKGROUND_IMAGE_MODE
-                   displayName:@"Background image scaling mode"
-                          type:kPreferenceInfoTypePopup];
+                 key:KEY_BACKGROUND_IMAGE_MODE
+                 displayName:@"Background image scaling mode"
+                 type:kPreferenceInfoTypePopup];
     info.observer = ^() {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
         if (!strongSelf) {
             return;
         }
         switch ((iTermBackgroundImageMode)strongSelf->_backgroundImageMode.selectedTag) {
-            case iTermBackgroundImageModeTile:
+        case iTermBackgroundImageModeTile:
+            self->_backgroundImagePreview.imageScaling = NSImageScaleNone;
+            break;
+        case iTermBackgroundImageModeStretch:
+            self->_backgroundImagePreview.imageScaling = NSImageScaleAxesIndependently;
+            break;
+        case iTermBackgroundImageModeScaleAspectFit:
+            self->_backgroundImagePreview.imageScaling = NSImageScaleProportionallyDown;
+            break;
+        case iTermBackgroundImageModeScaleAspectFill: {
+            self->_backgroundImagePreview.imageScaling = NSImageScaleNone;
+            NSString *filename = self.backgroundImageFilename;
+            if (filename) {
+                NSImage *anImage = [[NSImage alloc] initWithContentsOfFile:filename];
+                strongSelf->_backgroundImagePreview.image = [anImage it_imageFillingSize:strongSelf->_backgroundImagePreview.frame.size];
                 self->_backgroundImagePreview.imageScaling = NSImageScaleNone;
-                break;
-            case iTermBackgroundImageModeStretch:
-                self->_backgroundImagePreview.imageScaling = NSImageScaleAxesIndependently;
-                break;
-            case iTermBackgroundImageModeScaleAspectFit:
-                self->_backgroundImagePreview.imageScaling = NSImageScaleProportionallyDown;
-                break;
-            case iTermBackgroundImageModeScaleAspectFill: {
-                self->_backgroundImagePreview.imageScaling = NSImageScaleNone;
-                NSString *filename = self.backgroundImageFilename;
-                if (filename) {
-                    NSImage *anImage = [[NSImage alloc] initWithContentsOfFile:filename];
-                    strongSelf->_backgroundImagePreview.image = [anImage it_imageFillingSize:strongSelf->_backgroundImagePreview.frame.size];
-                    self->_backgroundImagePreview.imageScaling = NSImageScaleNone;
-                    self.backgroundImageFilename = filename;
-                }
-                break;
+                self.backgroundImageFilename = filename;
             }
+            break;
+        }
         }
     };
 
     [self defineControl:_blendAmount
-                    key:KEY_BLEND
-            displayName:@"Background image blending"
-                   type:kPreferenceInfoTypeSlider];
+          key:KEY_BLEND
+          displayName:@"Background image blending"
+          type:kPreferenceInfoTypeSlider];
 
     info = [self defineControl:_columnsField
-                           key:KEY_COLUMNS
-                   displayName:@"Window width in columns"
-                          type:kPreferenceInfoTypeIntegerTextField];
+                 key:KEY_COLUMNS
+                 displayName:@"Window width in columns"
+                 type:kPreferenceInfoTypeIntegerTextField];
     info.range = NSMakeRange(1, iTermMaxInitialSessionSize);
 
     info = [self defineControl:_rowsField
-                           key:KEY_ROWS
-                   displayName:@"Window height in rows"
-                          type:kPreferenceInfoTypeIntegerTextField];
+                 key:KEY_ROWS
+                 displayName:@"Window height in rows"
+                 type:kPreferenceInfoTypeIntegerTextField];
     info.range = NSMakeRange(1, iTermMaxInitialSessionSize);
 
     [self defineControl:_hideAfterOpening
-                    key:KEY_HIDE_AFTER_OPENING
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_HIDE_AFTER_OPENING
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_windowStyle
-                    key:KEY_WINDOW_TYPE
-            displayName:@"Window style for new windows"
-                   type:kPreferenceInfoTypePopup];
+          key:KEY_WINDOW_TYPE
+          displayName:@"Window style for new windows"
+          type:kPreferenceInfoTypePopup];
 
     [self defineControl:_screen
-                    key:KEY_SCREEN
-            displayName:@"Initial screen for new windows"
-                   type:kPreferenceInfoTypePopup
-         settingChanged:^(id sender) { [self screenDidChange]; }
-                 update:^BOOL{ [weakSelf updateScreen]; return YES; }];
+          key:KEY_SCREEN
+          displayName:@"Initial screen for new windows"
+          type:kPreferenceInfoTypePopup
+         settingChanged:^(id sender) {
+             [self screenDidChange];
+         }
+    update:^BOOL{ [weakSelf updateScreen]; return YES; }];
 
     info = [self defineControl:_space
-                           key:KEY_SPACE
-                   displayName:@"Initial desktop/space for new windows"
-                          type:kPreferenceInfoTypePopup];
+                 key:KEY_SPACE
+                 displayName:@"Initial desktop/space for new windows"
+                 type:kPreferenceInfoTypePopup];
     info.onChange = ^() {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
         if (!strongSelf) {
@@ -210,66 +212,66 @@ CGFloat iTermMaxBlurRadius(void) {
     };
 
     [self defineControl:_preventTab
-                    key:KEY_PREVENT_TAB
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_PREVENT_TAB
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_transparencyAffectsOnlyDefaultBackgroundColor
-                    key:KEY_TRANSPARENCY_AFFECTS_ONLY_DEFAULT_BACKGROUND_COLOR
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_TRANSPARENCY_AFFECTS_ONLY_DEFAULT_BACKGROUND_COLOR
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_openToolbelt
-                    key:KEY_OPEN_TOOLBELT
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_OPEN_TOOLBELT
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     // Custom window title
     {
         info = [self defineControl:_useCustomWindowTitle
-                               key:KEY_USE_CUSTOM_WINDOW_TITLE
-                       displayName:@"Enable custom window title for new windows"
-                              type:kPreferenceInfoTypeCheckbox];
-        info.onChange = ^{
+                     key:KEY_USE_CUSTOM_WINDOW_TITLE
+                     displayName:@"Enable custom window title for new windows"
+                     type:kPreferenceInfoTypeCheckbox];
+        info.onChange = ^ {
             [weakSelf updateCustomWindowTitleEnabled];
         };
 
         _customWindowTitleDelegate = [[iTermFunctionCallTextFieldDelegate alloc] initWithPathSource:[iTermVariableHistory pathSourceForContext:iTermVariablesSuggestionContextWindow]
-                                                                                        passthrough:self
-                                                                                      functionsOnly:NO];
+                                                                                 passthrough:self
+                                                                                 functionsOnly:NO];
         _customWindowTitle.delegate = _customWindowTitleDelegate;
         [self defineControl:_customWindowTitle
-                        key:KEY_CUSTOM_WINDOW_TITLE
-                displayName:@"Custom window title for new windows"
-                       type:kPreferenceInfoTypeStringTextField];
+              key:KEY_CUSTOM_WINDOW_TITLE
+              displayName:@"Custom window title for new windows"
+              type:kPreferenceInfoTypeStringTextField];
         [self updateCustomWindowTitleEnabled];
     }
 
     // Custom tab title
     {
         info = [self defineControl:_useCustomTabTitle
-                               key:KEY_USE_CUSTOM_TAB_TITLE
-                       displayName:@"Enable custom tab title for new tabs"
-                              type:kPreferenceInfoTypeCheckbox];
-        info.onChange = ^{
+                     key:KEY_USE_CUSTOM_TAB_TITLE
+                     displayName:@"Enable custom tab title for new tabs"
+                     type:kPreferenceInfoTypeCheckbox];
+        info.onChange = ^ {
             [weakSelf updateCustomTabTitleEnabled];
         };
 
         _customTabTitleDelegate = [[iTermFunctionCallTextFieldDelegate alloc] initWithPathSource:[iTermVariableHistory pathSourceForContext:iTermVariablesSuggestionContextTab]
-                                                                                        passthrough:self
-                                                                                      functionsOnly:NO];
+                                                                              passthrough:self
+                                                                              functionsOnly:NO];
         _customTabTitle.delegate = _customTabTitleDelegate;
         [self defineControl:_customTabTitle
-                        key:KEY_CUSTOM_TAB_TITLE
-                displayName:@"Custom tab title for new tabs"
-                       type:kPreferenceInfoTypeStringTextField];
+              key:KEY_CUSTOM_TAB_TITLE
+              displayName:@"Custom tab title for new tabs"
+              type:kPreferenceInfoTypeStringTextField];
         [self updateCustomTabTitleEnabled];
     }
 
     [self addViewToSearchIndex:_useBackgroundImage
-                   displayName:@"Background image enabled"
-                       phrases:@[]
-                           key:nil];
+          displayName:@"Background image enabled"
+          phrases:@[]
+          key:nil];
 }
 
 - (void)updateBlurRadiusWarning {
@@ -420,13 +422,13 @@ CGFloat iTermMaxBlurRadius(void) {
 - (void)maybeWarnAboutSpaces
 {
     [iTermWarning showWarningWithTitle:@"To have a new window open in a specific space, "
-                                       @"make sure that Spaces is enabled in System "
-                                       @"Preferences and that it is configured to switch directly "
-                                       @"to a space with ^ Number Keys."
-                               actions:@[ @"OK" ]
-                            identifier:@"NeverWarnAboutSpaces"
-                           silenceable:kiTermWarningTypePermanentlySilenceable
-                                window:self.view.window];
+                  @"make sure that Spaces is enabled in System "
+                  @"Preferences and that it is configured to switch directly "
+                  @"to a space with ^ Number Keys."
+                  actions:@[ @"OK" ]
+                  identifier:@"NeverWarnAboutSpaces"
+                  silenceable:kiTermWarningTypePermanentlySilenceable
+                  window:self.view.window];
 }
 
 

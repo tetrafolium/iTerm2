@@ -75,11 +75,11 @@
 //
 // NOTE: call dropExcessLinesWithWidth after this if you want to limit the buffer to max_lines.
 - (void)appendLine:(screen_char_t*)buffer
-            length:(int)length
-           partial:(BOOL)partial
-             width:(int)width
-         timestamp:(NSTimeInterval)timestamp
-      continuation:(screen_char_t)continuation;
+    length:(int)length
+    partial:(BOOL)partial
+    width:(int)width
+    timestamp:(NSTimeInterval)timestamp
+    continuation:(screen_char_t)continuation;
 
 // If more lines are in the buffer than max_lines, call this function. It will adjust the count
 // of excess lines and try to free the first block(s) if they are unused. Because this could happen
@@ -101,30 +101,30 @@
 // Returns EOL code.
 // DEPRECATED, use wrappedLineAtIndex:width: instead.
 - (int)copyLineToBuffer:(screen_char_t*)buffer
-                  width:(int)width
-                lineNum:(int)lineNum
-           continuation:(screen_char_t *)continuationPtr;
+    width:(int)width
+    lineNum:(int)lineNum
+    continuation:(screen_char_t *)continuationPtr;
 
 // Like the above but with a saner way of holding the returned data. Callers are advised not
 // to modify the screen_char_t's returned, but the ScreenCharArray is otherwise safe to
 // mutate. |continuation| is optional and if set will be filled in with the continuation character.
 - (ScreenCharArray *)wrappedLineAtIndex:(int)lineNum
-                                  width:(int)width
-                           continuation:(screen_char_t *)continuation;
+    width:(int)width
+    continuation:(screen_char_t *)continuation;
 
 // This is the fast way to get a bunch of lines at once.
 - (NSArray<ScreenCharArray *> *)wrappedLinesFromIndex:(int)lineNum
-                                                width:(int)width
-                                                count:(int)count;
+    width:(int)width
+    count:(int)count;
 
 // Copy up to width chars from the last line into *ptr. The last line will be removed or
 // truncated from the buffer. Sets *includesEndOfLine to true if this line should have a
 // continuation marker.
 - (BOOL)popAndCopyLastLineInto:(screen_char_t*)ptr
-                         width:(int)width
-             includesEndOfLine:(int*)includesEndOfLine
-                     timestamp:(NSTimeInterval *)timestampPtr
-                  continuation:(screen_char_t *)continuationPtr;
+    width:(int)width
+    includesEndOfLine:(int*)includesEndOfLine
+    timestamp:(NSTimeInterval *)timestampPtr
+    continuation:(screen_char_t *)continuationPtr;
 
 // Get the number of buffer lines at a given width.
 - (int)numLinesWithWidth:(int)width;
@@ -144,10 +144,10 @@
 
 // Set up the find context. See FindContext.h for options bit values.
 - (void)prepareToSearchFor:(NSString*)substring
-                startingAt:(LineBufferPosition *)start
-                   options:(FindOptions)options
-                      mode:(iTermFindMode)findMode
-               withContext:(FindContext*)context;
+    startingAt:(LineBufferPosition *)start
+    options:(FindOptions)options
+    mode:(iTermFindMode)findMode
+    withContext:(FindContext*)context;
 
 // Performs a search. Use prepareToSearchFor:startingAt:options:withContext: to initialize
 // the FindContext prior to calling this.
@@ -157,13 +157,13 @@
 - (NSArray*)convertPositions:(NSArray*)resultRanges withWidth:(int)width;
 
 - (LineBufferPosition *)positionForCoordinate:(VT100GridCoord)coord
-                                        width:(int)width
-                                       offset:(int)offset;
+    width:(int)width
+    offset:(int)offset;
 
 - (VT100GridCoord)coordinateForPosition:(LineBufferPosition *)position
-                                  width:(int)width
-                           extendsRight:(BOOL)extendsRight
-                                     ok:(BOOL *)ok;
+    width:(int)width
+    extendsRight:(BOOL)extendsRight
+    ok:(BOOL *)ok;
 
 - (LineBufferPosition *)firstPosition;
 - (LineBufferPosition *)lastPosition;
@@ -177,7 +177,7 @@
 
 // Set the start location of a find context to an absolute position.
 - (void)storeLocationOfAbsPos:(long long)absPos
-                    inContext:(FindContext *)context;
+    inContext:(FindContext *)context;
 
 - (NSString *)debugString;
 - (void)dumpWrappedToWidth:(int)width;

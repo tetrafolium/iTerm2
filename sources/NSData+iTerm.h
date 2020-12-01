@@ -14,7 +14,7 @@
 // returns the corresponding UTI string constant. Not guaranteed to be correct.
 @property(nonatomic, readonly) NSString *uniformTypeIdentifierForImageData;
 
-  // Base-64 decodes string and returns data or nil.
+// Base-64 decodes string and returns data or nil.
 + (NSData *)dataWithBase64EncodedString:(NSString *)string;
 
 + (NSData *)dataWithTGZContainingFiles:(NSArray<NSString *> *)files relativeToPath:(NSString *)basePath error:(NSError **)error;
@@ -48,10 +48,10 @@
 - (NSData *)it_compressedData;
 
 - (NSData *)aesCBCEncryptedDataWithPCKS7PaddingAndKey:(NSData *)key
-                                                   iv:(NSData *)iv;
+    iv:(NSData *)iv;
 
 - (NSData *)decryptedAESCBCDataWithPCKS7PaddingAndKey:(NSData *)key
-                                                   iv:(NSData *)iv;
+    iv:(NSData *)iv;
 
 + (NSData *)randomAESKey;
 

@@ -16,7 +16,7 @@
 - (BOOL)becomeFirstResponder {
     BOOL result = [super becomeFirstResponder];
     if (result &&
-        [self.delegate respondsToSelector:@selector(focusReportingTextFieldWillBecomeFirstResponder:)]) {
+            [self.delegate respondsToSelector:@selector(focusReportingTextFieldWillBecomeFirstResponder:)]) {
         [self.delegate focusReportingTextFieldWillBecomeFirstResponder:self];
     }
     return result;
@@ -51,7 +51,7 @@
         return NO;
     }
     if (result &&
-        [self.delegate respondsToSelector:@selector(focusReportingSearchFieldWillBecomeFirstResponder:)]) {
+            [self.delegate respondsToSelector:@selector(focusReportingSearchFieldWillBecomeFirstResponder:)]) {
         [self.delegate focusReportingSearchFieldWillBecomeFirstResponder:self];
     }
     return result;
@@ -65,7 +65,7 @@
 }
 
 - (iTermSearchFieldCounts)searchFieldControlGetCounts:(iTermSearchFieldCell *)cell {
-    return (iTermSearchFieldCounts){
+    return (iTermSearchFieldCounts) {
         .currentIndex = [self.delegate focusReportingSearchFieldCurrentIndex:self],
         .numberOfResults = [self.delegate focusReportingSearchFieldNumberOfResults:self]
     };

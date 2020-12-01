@@ -29,8 +29,8 @@
 
 - (instancetype)init {
     self = [super initWithWindowNibName:@"DirectoriesPopup"
-                               tablePtr:nil
-                                  model:[[[PopupModel alloc] init] autorelease]];
+                  tablePtr:nil
+                  model:[[[PopupModel alloc] init] autorelease]];
     if (self) {
         [self window];
         [self setTableView:_tableView];
@@ -58,7 +58,7 @@
 
 - (id)tableView:(NSTableView *)aTableView
     objectValueForTableColumn:(NSTableColumn *)aTableColumn
-            row:(NSInteger)rowIndex {
+    row:(NSInteger)rowIndex {
     DirectoriesPopupEntry* entry = [[self model] objectAtIndex:[self convertIndex:rowIndex]];
     if ([[aTableColumn identifier] isEqualToString:@"date"]) {
         // Date
@@ -78,14 +78,14 @@
 }
 
 - (NSAttributedString *)shrunkToFitAttributedString:(NSAttributedString *)attributedString
-                                            inEntry:(DirectoriesPopupEntry *)entry
-                                     baseAttributes:(NSDictionary *)baseAttributes {
+    inEntry:(DirectoriesPopupEntry *)entry
+    baseAttributes:(NSDictionary *)baseAttributes {
     NSIndexSet *indexes =
         [[iTermShellHistoryController sharedInstance] abbreviationSafeIndexesInRecentDirectory:entry.entry];
     return [entry.entry attributedStringForTableColumn:_mainColumn
-                               basedOnAttributedString:attributedString
-                                        baseAttributes:baseAttributes
-                            abbreviationSafeComponents:indexes];
+                        basedOnAttributedString:attributedString
+                        baseAttributes:baseAttributes
+                        abbreviationSafeComponents:indexes];
 }
 
 - (NSString *)truncatedMainValueForEntry:(DirectoriesPopupEntry *)entry {

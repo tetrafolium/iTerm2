@@ -22,9 +22,9 @@
         NSData *data = [theString dataUsingEncoding:NSUTF8StringEncoding];
         NSArray *filenames =
             [NSPropertyListSerialization propertyListWithData:data
-                                                      options:NSPropertyListImmutable
-                                                       format:nil
-                                                        error:nil];
+                                         options:NSPropertyListImmutable
+                                         format:nil
+                                         error:nil];
 
         if (filenames.count) {
             [_delegate imageWellDidPerformDropOperation:self filename:filenames[0]];

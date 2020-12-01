@@ -65,20 +65,20 @@ typedef NS_ENUM(NSInteger, iTermTabBarFlashState) {
     _cmdPressed = cmdPressed;
     DLog(@"Set cmdPressed=%d", (int)cmdPressed);
     switch (self.flashState) {
-        case kFlashOff:
-            break;
+    case kFlashOff:
+        break;
 
-        case kFlashHolding:
-            break;
+    case kFlashHolding:
+        break;
 
-        case kFlashExtending:
-            if (!cmdPressed) {
-                [self setFlashing:NO];
-            }
-            break;
+    case kFlashExtending:
+        if (!cmdPressed) {
+            [self setFlashing:NO];
+        }
+        break;
 
-        case kFlashFadingOut:
-            break;
+    case kFlashFadingOut:
+        break;
     }
 }
 
@@ -135,31 +135,31 @@ typedef NS_ENUM(NSInteger, iTermTabBarFlashState) {
     [self retain];
     __block BOOL aborted = NO;
     _flashDelayedPerform = [NSView animateWithDuration:[iTermAdvancedSettingsModel tabFlashAnimationDuration]
-                                                 delay:[iTermAdvancedSettingsModel tabAutoShowHoldTime]
-                                            animations:^{
-                                                if (!_cmdPressed) {
-                                                    DLog(@"delayed fade out running");
-                                                    self.flashState = kFlashFadingOut;
-                                                    [self setAlphaValue:0 animated:YES];
-                                                } else {
-                                                    DLog(@"delayed fade out aborted; extending");
-                                                    self.flashState = kFlashExtending;
-                                                    aborted = YES;
-                                                }
-                                            }
-                                            completion:^(BOOL finished) {
-                                                if (!aborted) {
-                                                    DLog(@"delayed fade out completed");
-                                                    if (finished && self.flashState == kFlashFadingOut) {
-                                                        self.flashState = kFlashOff;
-                                                        [_itermTabBarDelegate iTermTabBarDidFinishFlash];
-                                                    }
-                                                }
-                                                if (_flashDelayedPerform.completed) {
-                                                    _flashDelayedPerform = nil;
-                                                }
-                                                [self release];
-                                            }];
+                                   delay:[iTermAdvancedSettingsModel tabAutoShowHoldTime]
+           animations:^ {
+               if (!_cmdPressed) {
+                   DLog(@"delayed fade out running");
+                   self.flashState = kFlashFadingOut;
+            [self setAlphaValue:0 animated:YES];
+        } else {
+            DLog(@"delayed fade out aborted; extending");
+            self.flashState = kFlashExtending;
+            aborted = YES;
+        }
+    }
+    completion:^(BOOL finished) {
+        if (!aborted) {
+            DLog(@"delayed fade out completed");
+            if (finished && self.flashState == kFlashFadingOut) {
+                self.flashState = kFlashOff;
+                [_itermTabBarDelegate iTermTabBarDidFinishFlash];
+            }
+        }
+        if (_flashDelayedPerform.completed) {
+            _flashDelayedPerform = nil;
+        }
+        [self release];
+    }];
     DLog(@"Schedule dp %@", _flashDelayedPerform);
 }
 
@@ -181,17 +181,17 @@ typedef NS_ENUM(NSInteger, iTermTabBarFlashState) {
 
     [self retain];
     [NSView animateWithDuration:[iTermAdvancedSettingsModel tabFlashAnimationDuration]
-                     animations:^{
-                         self.flashState = kFlashFadingOut;
-                         [self setAlphaValue:0 animated:YES];
-                     }
-                     completion:^(BOOL finished) {
-                         if (finished && self.flashState == kFlashFadingOut) {
-                             self.flashState = kFlashOff;
-                             [_itermTabBarDelegate iTermTabBarDidFinishFlash];
-                         }
-                         [self release];
-                     }];
+           animations:^ {
+               self.flashState = kFlashFadingOut;
+        [self setAlphaValue:0 animated:YES];
+    }
+    completion:^(BOOL finished) {
+        if (finished && self.flashState == kFlashFadingOut) {
+            self.flashState = kFlashOff;
+            [_itermTabBarDelegate iTermTabBarDidFinishFlash];
+        }
+        [self release];
+    }];
 }
 
 - (void)setFlashing:(BOOL)flashing {
@@ -199,42 +199,42 @@ typedef NS_ENUM(NSInteger, iTermTabBarFlashState) {
     DLog(@"Set flashing to %d", (int)flashing);
     if (flashing) {
         switch (self.flashState) {
-            case kFlashOff:
-            case kFlashFadingOut:
-                [self fadeIn];
-                [self cancelFadeOut];
-                [self scheduleFadeOutAfterDelay];
-                break;
+        case kFlashOff:
+        case kFlashFadingOut:
+            [self fadeIn];
+            [self cancelFadeOut];
+            [self scheduleFadeOutAfterDelay];
+            break;
 
-            case kFlashHolding:
-                // Restart the timer.
-                [self cancelFadeOut];
-                [self scheduleFadeOutAfterDelay];
-                break;
+        case kFlashHolding:
+            // Restart the timer.
+            [self cancelFadeOut];
+            [self scheduleFadeOutAfterDelay];
+            break;
 
-            case kFlashExtending:
-                break;
+        case kFlashExtending:
+            break;
         }
     } else {
         switch (self.flashState) {
-            case kFlashOff:
-                break;
+        case kFlashOff:
+            break;
 
-            case kFlashHolding:
-            case kFlashExtending:
-                [self fadeOut];
-                break;
+        case kFlashHolding:
+        case kFlashExtending:
+            [self fadeOut];
+            break;
 
-            case kFlashFadingOut:
-                [self stopFlashInstantly];
-                break;
+        case kFlashFadingOut:
+            [self stopFlashInstantly];
+            break;
         }
     }
 }
 
 - (void)updateFlashing {
     if ([self flashing] &&
-        ![_itermTabBarDelegate iTermTabBarShouldFlashAutomatically]) {
+            ![_itermTabBarDelegate iTermTabBarShouldFlashAutomatically]) {
         [self setFlashing:NO];
     }
 }
@@ -272,7 +272,7 @@ typedef NS_ENUM(NSInteger, iTermTabBarFlashState) {
 
     NSView *superview = [self superview];
     NSPoint hitLocation = [[superview superview] convertPoint:[event locationInWindow]
-                                                     fromView:nil];
+                                                 fromView:nil];
     NSView *hitView = [superview hitTest:hitLocation];
 
     NSPoint pointInView = [self convertPoint:event.locationInWindow fromView:nil];
@@ -284,23 +284,23 @@ typedef NS_ENUM(NSInteger, iTermTabBarFlashState) {
         [self.window performWindowDragWithEvent:event];
         return;
     }
-    
+
     [super mouseDown:event];
 }
 
 - (BOOL)clickedInCell:(NSEvent *)event {
     const NSPoint clickPoint = [self convertPoint:event.locationInWindow
-                                         fromView:nil];
+                                     fromView:nil];
     NSRect cellFrame;
     PSMTabBarCell *const cell = [self cellForPoint:clickPoint
-                                         cellFrame:&cellFrame];
+                                      cellFrame:&cellFrame];
     return cell != nil;
 }
 
 - (void)mouseUp:(NSEvent *)event {
     if (event.clickCount == 2 &&
-        [self.itermTabBarDelegate iTermTabBarCanDragWindow] &&
-        ![self clickedInCell:event]) {
+            [self.itermTabBarDelegate iTermTabBarCanDragWindow] &&
+            ![self clickedInCell:event]) {
         [self.window performZoom:nil];
         return;
     }

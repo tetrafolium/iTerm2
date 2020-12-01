@@ -45,9 +45,9 @@ static NSString *const INTERCHANGE_TOUCH_BAR_ITEMS = @"Touch Bar Items";
     self = [super initWithNibName:@"iTermKeyMapping" bundle:[NSBundle bundleForClass:self.class]];
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(keyBindingsChanged)
-                                                     name:kKeyBindingsChangedNotification
-                                                   object:nil];
+                                              selector:@selector(keyBindingsChanged)
+                                              name:kKeyBindingsChangedNotification
+                                              object:nil];
     }
     return self;
 }
@@ -67,7 +67,7 @@ static NSString *const INTERCHANGE_TOUCH_BAR_ITEMS = @"Touch Bar Items";
 - (void)setHapticFeedbackForEscEnabled:(BOOL)hapticFeedbackForEscEnabled {
     _hapticFeedbackForEsc.state = hapticFeedbackForEscEnabled ? NSControlStateValueOn : NSControlStateValueOff;
     [iTermPreferences setBool:hapticFeedbackForEscEnabled
-                       forKey:kPreferenceKeyEnableHapticFeedbackForEsc];
+                      forKey:kPreferenceKeyEnableHapticFeedbackForEsc];
 }
 
 - (BOOL)hapticFeedbackForEscEnabled {
@@ -77,7 +77,7 @@ static NSString *const INTERCHANGE_TOUCH_BAR_ITEMS = @"Touch Bar Items";
 - (void)setSoundForEscEnabled:(BOOL)enabled {
     _soundForEsc.state = enabled ? NSControlStateValueOn : NSControlStateValueOff;
     [iTermPreferences setBool:enabled
-                       forKey:kPreferenceKeyEnableSoundForEsc];
+                      forKey:kPreferenceKeyEnableSoundForEsc];
 }
 
 - (BOOL)soundForEscEnabled {
@@ -87,7 +87,7 @@ static NSString *const INTERCHANGE_TOUCH_BAR_ITEMS = @"Touch Bar Items";
 - (void)setVisualIndicatorForEscEnabled:(BOOL)enabled {
     _visualIndicatorForEsc.state = enabled ? NSControlStateValueOn : NSControlStateValueOff;
     [iTermPreferences setBool:enabled
-                       forKey:kPreferenceKeyVisualIndicatorForEsc];
+                      forKey:kPreferenceKeyVisualIndicatorForEsc];
 }
 
 - (BOOL)visualIndicatorForEscEnabled {
@@ -116,12 +116,12 @@ static NSString *const INTERCHANGE_TOUCH_BAR_ITEMS = @"Touch Bar Items";
     }
     NSMenuItem *item;
     item = [[NSMenuItem alloc] initWithTitle:@"Import…"
-                                      action:@selector(importMenuItem:)
+                               action:@selector(importMenuItem:)
                                keyEquivalent:@""];
     item.target = self;
     [_presetsPopup.menu addItem:item];
     item = [[NSMenuItem alloc] initWithTitle:@"Export…"
-                                      action:@selector(exportMenuItem:)
+                               action:@selector(exportMenuItem:)
                                keyEquivalent:@""];
     item.target = self;
     [_presetsPopup.menu addItem:item];
@@ -134,19 +134,19 @@ static NSString *const INTERCHANGE_TOUCH_BAR_ITEMS = @"Touch Bar Items";
 
 - (void)addViewsToSearchIndex:(iTermPreferencesBaseViewController *)vc {
     [vc addViewToSearchIndex:_addTouchBarItem
-                 displayName:@"Add touch bar item"
-                     phrases:@[]
-                         key:nil];
+        displayName:@"Add touch bar item"
+        phrases:@[]
+        key:nil];
     [vc addViewToSearchIndex:_presetsPopup
-                 displayName:@"Key binding presets"
-                     phrases:@[]
-                         key:nil];
+        displayName:@"Key binding presets"
+        phrases:@[]
+        key:nil];
     [vc addViewToSearchIndex:_touchBarMitigationsButton
-                 displayName:@"Touch bar mitigations"
-                     phrases:@[ @"Haptic feedback for esc key",
-                                @"Key click sound for esc key",
-                                @"Visual indicator for esc key" ]
-                         key:_touchBarMitigationsButton.accessibilityIdentifier];
+        displayName:@"Touch bar mitigations"
+        phrases:@[ @"Haptic feedback for esc key",
+                @"Key click sound for esc key",
+                @"Visual indicator for esc key" ]
+        key:_touchBarMitigationsButton.accessibilityIdentifier];
 }
 
 #pragma mark - NSTableViewDataSource
@@ -180,14 +180,14 @@ static NSString *const INTERCHANGE_TOUCH_BAR_ITEMS = @"Touch Bar Items";
 }
 
 - (NSString *)descriptionForKeystroke:(iTermKeystroke *)keystroke
-                    bindingDictionary:(NSDictionary *)dict {
+    bindingDictionary:(NSDictionary *)dict {
     iTermKeyBindingAction *action = [iTermKeyBindingAction withDictionary:[keystroke valueInBindingDictionary:dict]];
     return action.displayName;
 }
 
 - (NSString *)stringValueForKeyMappingOnRow:(NSInteger)rowIndex
-                                     column:(NSTableColumn *)column
-                          bindingDictionary:(NSDictionary *)dict {
+    column:(NSTableColumn *)column
+    bindingDictionary:(NSDictionary *)dict {
     NSArray<iTermKeystroke *> *sortedKeystrokes = [_delegate keyMappingSortedKeystrokes:self];
     iTermKeystroke *keystroke = sortedKeystrokes[rowIndex];
 
@@ -196,7 +196,7 @@ static NSString *const INTERCHANGE_TOUCH_BAR_ITEMS = @"Touch Bar Items";
     }
     if (column == _actionColumn) {
         return [self descriptionForKeystroke:keystroke
-                           bindingDictionary:dict];
+                     bindingDictionary:dict];
     }
     return nil;
 }
@@ -212,7 +212,7 @@ static NSString *const INTERCHANGE_TOUCH_BAR_ITEMS = @"Touch Bar Items";
 }
 
 - (NSString *)stringValueForTouchBarMappingOnRow:(NSInteger)rowIndex
-                                          column:(NSTableColumn *)column {
+    column:(NSTableColumn *)column {
     NSDictionary *dict = [_delegate keyMappingTouchBarItems];
     NSArray<iTermTouchbarItem *> *sortedKeys = [_delegate keyMappingSortedTouchbarItems:self];
     iTermTouchbarItem *key = sortedKeys[rowIndex];
@@ -227,35 +227,35 @@ static NSString *const INTERCHANGE_TOUCH_BAR_ITEMS = @"Touch Bar Items";
 }
 
 - (NSString *)stringValueForColumn:(NSTableColumn *)column
-                               row:(NSInteger)rowIndex {
+    row:(NSInteger)rowIndex {
     // Try to handle as key mapping
     NSDictionary *dict = [_delegate keyMappingDictionary:self];
     if (rowIndex < dict.count) {
         return [self stringValueForKeyMappingOnRow:rowIndex
-                                            column:column
-                                 bindingDictionary:dict];
+                     column:column
+                     bindingDictionary:dict];
     }
 
     return [self stringValueForTouchBarMappingOnRow:rowIndex - dict.count
-                                             column:column];
+                 column:column];
 }
 
 #pragma mark - Modal Sheets
 
 - (void)presentEditActionSheet:(iTermEditKeyActionWindowController *)editActionWindowController {
     [self.view.window beginSheet:editActionWindowController.window completionHandler:^(NSModalResponse returnCode) {
-        [self editActionWindowCompletionHandler:editActionWindowController];
-    }];
+                         [self editActionWindowCompletionHandler:editActionWindowController];
+                     }];
 }
 
 - (void)editActionWindowCompletionHandler:(iTermEditKeyActionWindowController *)editActionWindowController {
     if (editActionWindowController.ok) {
         [_delegate keyMapping:self
-                didChangeItem:editActionWindowController.keystrokeOrTouchbarItem
-                      atIndex:[_tableView selectedRow]
-                     toAction:[iTermKeyBindingAction withAction:editActionWindowController.action
-                                                      parameter:editActionWindowController.parameterValue
-                                                          label:editActionWindowController.label]
+                   didChangeItem:editActionWindowController.keystrokeOrTouchbarItem
+                   atIndex:[_tableView selectedRow]
+                   toAction:[iTermKeyBindingAction withAction:editActionWindowController.action
+                   parameter:editActionWindowController.parameterValue
+                   label:editActionWindowController.label]
                    isAddition:editActionWindowController.isNewMapping];
     }
     [editActionWindowController close];
@@ -275,8 +275,8 @@ static NSString *const INTERCHANGE_TOUCH_BAR_ITEMS = @"Touch Bar Items";
 - (IBAction)addTouchBarItem:(id)sender {
     iTermEditKeyActionWindowController *editActionWindowController;
     editActionWindowController =
-    [[iTermEditKeyActionWindowController alloc] initWithContext:iTermVariablesSuggestionContextSession | iTermVariablesSuggestionContextApp
-                                                           mode:iTermEditKeyActionWindowControllerModeTouchBarItem];
+        [[iTermEditKeyActionWindowController alloc] initWithContext:iTermVariablesSuggestionContextSession | iTermVariablesSuggestionContextApp
+                                                    mode:iTermEditKeyActionWindowControllerModeTouchBarItem];
     editActionWindowController.isNewMapping = YES;
     editActionWindowController.touchBarItemID = [iTermTouchBarIDPrefix stringByAppendingString:[NSString uuid]];
     editActionWindowController.action = KEY_ACTION_IGNORE;
@@ -286,8 +286,8 @@ static NSString *const INTERCHANGE_TOUCH_BAR_ITEMS = @"Touch Bar Items";
 - (IBAction)addNewMapping:(id)sender {
     iTermEditKeyActionWindowController *editActionWindowController;
     editActionWindowController =
-    [[iTermEditKeyActionWindowController alloc] initWithContext:iTermVariablesSuggestionContextSession | iTermVariablesSuggestionContextApp
-                                                           mode:iTermEditKeyActionWindowControllerModeKeyboardShortcut];
+        [[iTermEditKeyActionWindowController alloc] initWithContext:iTermVariablesSuggestionContextSession | iTermVariablesSuggestionContextApp
+                                                    mode:iTermEditKeyActionWindowControllerModeKeyboardShortcut];
     editActionWindowController.isNewMapping = YES;
     editActionWindowController.action = KEY_ACTION_IGNORE;
     [self presentEditActionSheet:editActionWindowController];
@@ -304,16 +304,16 @@ static NSString *const INTERCHANGE_TOUCH_BAR_ITEMS = @"Touch Bar Items";
     NSArray<iTermTouchbarItem *> *sortedTouchbarItems = [_delegate keyMappingSortedTouchbarItems:self];
 
     [indexes enumerateIndexesUsingBlock:^(NSUInteger row, BOOL * _Nonnull stop) {
-        if (row < sortedRegularKeystrokes.count) {
-            [regularKeystrokes addObject:sortedRegularKeystrokes[row]];
-        } else {
+                if (row < sortedRegularKeystrokes.count) {
+                    [regularKeystrokes addObject:sortedRegularKeystrokes[row]];
+                } else {
             [touchbarItems addObject:sortedTouchbarItems[row - sortedRegularKeystrokes.count]];
         }
     }];
     [_tableView beginUpdates];
     [_delegate keyMapping:self
-         removeKeystrokes:regularKeystrokes
-            touchbarItems:touchbarItems];
+               removeKeystrokes:regularKeystrokes
+               touchbarItems:touchbarItems];
     [_tableView removeRowsAtIndexes:_tableView.selectedRowIndexes withAnimation:YES];
     [_tableView endUpdates];
     [_tableView selectRowIndexes:[NSIndexSet indexSet] byExtendingSelection:NO];
@@ -335,30 +335,30 @@ static NSString *const INTERCHANGE_TOUCH_BAR_ITEMS = @"Touch Bar Items";
     NSDictionary *dict = [_delegate keyMappingDictionary:self];
     NSArray<iTermKeystrokeOrTouchbarItem *> *sortedItems =
     [[_delegate keyMappingSortedKeystrokes:self] mapWithBlock:^id(iTermKeystroke *anObject) {
-        return [iTermOr first:anObject];
-    }];
+                                                    return [iTermOr first:anObject];
+                                                }];
     iTermKeystrokeOrTouchbarItem *selectedItem;
     if (rowIndex < sortedItems.count) {
         selectedItem = sortedItems[rowIndex];
     } else {
         rowIndex -= sortedItems.count;
         sortedItems = [[_delegate keyMappingSortedTouchbarItems:self] mapWithBlock:^id(iTermTouchbarItem *anObject) {
-            return [iTermOr second:anObject];
-        }];
+                                                           return [iTermOr second:anObject];
+                                                       }];
         selectedItem = sortedItems[rowIndex];
         dict = [_delegate keyMappingTouchBarItems];
     }
     _editActionWindowController =
-    [[iTermEditKeyActionWindowController alloc] initWithContext:iTermVariablesSuggestionContextSession | iTermVariablesSuggestionContextApp
-                                                           mode:selectedItem.hasSecond ? iTermEditKeyActionWindowControllerModeTouchBarItem : iTermEditKeyActionWindowControllerModeKeyboardShortcut];
+        [[iTermEditKeyActionWindowController alloc] initWithContext:iTermVariablesSuggestionContextSession | iTermVariablesSuggestionContextApp
+                                                    mode:selectedItem.hasSecond ? iTermEditKeyActionWindowControllerModeTouchBarItem : iTermEditKeyActionWindowControllerModeKeyboardShortcut];
     __block NSDictionary *binding;
     [selectedItem whenFirst:
-     ^(iTermKeystroke * _Nonnull keystroke) {
-        _editActionWindowController.currentKeystroke = keystroke;
+                 ^(iTermKeystroke * _Nonnull keystroke) {
+                     _editActionWindowController.currentKeystroke = keystroke;
         binding = [keystroke valueInBindingDictionary:dict];
     }
-                     second:
-     ^(iTermTouchbarItem * _Nonnull touchbarItem) {
+    second:
+    ^(iTermTouchbarItem * _Nonnull touchbarItem) {
         iTermKeyBindingAction *action = [iTermKeyBindingAction withDictionary:dict[touchbarItem.identifier]];
         _editActionWindowController.label = action.label ?: @"[bug]";
         _editActionWindowController.touchBarItemID = touchbarItem.identifier;
@@ -378,17 +378,17 @@ static NSString *const INTERCHANGE_TOUCH_BAR_ITEMS = @"Touch Bar Items";
 
 - (IBAction)hapticFeedbackToggled:(id)sender {
     [iTermPreferences setBool:_hapticFeedbackForEsc.state == NSControlStateValueOn
-                       forKey:kPreferenceKeyEnableHapticFeedbackForEsc];
+                      forKey:kPreferenceKeyEnableHapticFeedbackForEsc];
 }
 
 - (IBAction)soundForEscToggled:(id)sender {
     [iTermPreferences setBool:_soundForEsc.state == NSControlStateValueOn
-                       forKey:kPreferenceKeyEnableSoundForEsc];
+                      forKey:kPreferenceKeyEnableSoundForEsc];
 }
 
 - (IBAction)visualIndicatorForEscToggled:(id)sender {
     [iTermPreferences setBool:_visualIndicatorForEsc.state == NSControlStateValueOn
-                       forKey:kPreferenceKeyVisualIndicatorForEsc];
+                      forKey:kPreferenceKeyVisualIndicatorForEsc];
 }
 
 - (IBAction)showTouchBarMitigationsPanel:(id)sender {
@@ -408,10 +408,10 @@ static NSString *const INTERCHANGE_TOUCH_BAR_ITEMS = @"Touch Bar Items";
     _openPanel.allowsMultipleSelection = NO;
     __weak __typeof(self) weakSelf = self;
     [_openPanel beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse result) {
-        if (result == NSModalResponseOK) {
-            [weakSelf importFromOpenPanel];
-        }
-    }];
+                   if (result == NSModalResponseOK) {
+                       [weakSelf importFromOpenPanel];
+                   }
+               }];
 }
 
 - (void)importFromOpenPanel {
@@ -419,8 +419,8 @@ static NSString *const INTERCHANGE_TOUCH_BAR_ITEMS = @"Touch Bar Items";
     _openPanel = nil;
     NSError *error = nil;
     NSString *const content = [NSString stringWithContentsOfURL:url
-                                                       encoding:NSUTF8StringEncoding
-                                                          error:&error];
+                                        encoding:NSUTF8StringEncoding
+                                        error:&error];
     if (!content) {
         XLog(@"Beep: %@", error);
         NSBeep();
@@ -437,8 +437,8 @@ static NSString *const INTERCHANGE_TOUCH_BAR_ITEMS = @"Touch Bar Items";
     NSDictionary *dict = [NSDictionary castFrom:decoded];
     NSDictionary *keymappings = [NSDictionary castFrom:dict[INTERCHANGE_KEY_MAPPING_DICT]];
     NSSet<iTermKeystroke *> *keystrokesThatWillChange = [NSSet setWithArray:[keymappings.allKeys mapWithBlock:^id(id anObject) {
-        return [[iTermKeystroke alloc] initWithSerialized:anObject];
-    }]];
+              return [[iTermKeystroke alloc] initWithSerialized:anObject];
+          }]];
 
     if (![self.delegate keyMapping:self shouldImportKeystrokes:keystrokesThatWillChange]) {
         return;
@@ -456,10 +456,10 @@ static NSString *const INTERCHANGE_TOUCH_BAR_ITEMS = @"Touch Bar Items";
             continue;
         }
         [self.delegate keyMapping:self
-                    didChangeItem:[iTermOr first:keystroke]
-                          atIndex:NSNotFound
-                         toAction:[iTermKeyBindingAction withAction:action.keyAction
-                                                          parameter:action.parameter]
+                       didChangeItem:[iTermOr first:keystroke]
+                       atIndex:NSNotFound
+                       toAction:[iTermKeyBindingAction withAction:action.keyAction
+                                 parameter:action.parameter]
                        isAddition:YES];
     }
 
@@ -479,33 +479,33 @@ static NSString *const INTERCHANGE_TOUCH_BAR_ITEMS = @"Touch Bar Items";
             continue;
         }
         [self.delegate keyMapping:self
-                    didChangeItem:[iTermOr second:touchbarItem]
-                          atIndex:NSNotFound
-                         toAction:[iTermKeyBindingAction withAction:action.keyAction
-                                                          parameter:action.parameter
-                                                              label:action.label]
+                       didChangeItem:[iTermOr second:touchbarItem]
+                       atIndex:NSNotFound
+                       toAction:[iTermKeyBindingAction withAction:action.keyAction
+                                 parameter:action.parameter
+                                 label:action.label]
                        isAddition:YES];
     }
 }
 
 - (NSNumber *)removeBeforeLoading:(NSString *)thing {
     const iTermWarningSelection selection =
-    [iTermWarning showWarningWithTitle:[NSString stringWithFormat:@"Remove all key mappings before %@?", thing]
-                               actions:@[ @"Keep", @"Remove", @"Cancel" ]
-                             accessory:nil
-                            identifier:@"RemoveExistingGlobalKeyMappingsBeforeLoading"
-                           silenceable:kiTermWarningTypePersistent
-                               heading:@"Load Preset"
-                                window:self.view.window];
+        [iTermWarning showWarningWithTitle:[NSString stringWithFormat:@"Remove all key mappings before %@?", thing]
+                      actions:@[ @"Keep", @"Remove", @"Cancel" ]
+                      accessory:nil
+                      identifier:@"RemoveExistingGlobalKeyMappingsBeforeLoading"
+                      silenceable:kiTermWarningTypePersistent
+                      heading:@"Load Preset"
+                      window:self.view.window];
     switch (selection) {
-        case kiTermWarningSelection0:
-            return @NO;
-        case kiTermWarningSelection1:
-            return @YES;
-        case kiTermWarningSelection2:
-            return nil;
-        default:
-            assert(NO);
+    case kiTermWarningSelection0:
+        return @NO;
+    case kiTermWarningSelection1:
+        return @YES;
+    case kiTermWarningSelection2:
+        return nil;
+    default:
+        assert(NO);
     }
     return nil;
 }
@@ -515,10 +515,10 @@ static NSString *const INTERCHANGE_TOUCH_BAR_ITEMS = @"Touch Bar Items";
     [_savePanel setAllowedFileTypes:@[ @"itermkeymap" ]];
     __weak __typeof(self) weakSelf = self;
     [_savePanel beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse result) {
-        if (result == NSModalResponseOK) {
-            [weakSelf exportFromSavePanel];
-        }
-    }];
+                   if (result == NSModalResponseOK) {
+                       [weakSelf exportFromSavePanel];
+                   }
+               }];
 }
 
 - (void)exportFromSavePanel {
@@ -527,8 +527,11 @@ static NSString *const INTERCHANGE_TOUCH_BAR_ITEMS = @"Touch Bar Items";
 
     NSDictionary *const keymappings = [self.delegate keyMappingDictionary:self];
     NSDictionary *const touchbarItems = [self.delegate keyMappingTouchBarItems];
-    NSDictionary *const dict = @{ INTERCHANGE_KEY_MAPPING_DICT: keymappings ?: @{},
-                                  INTERCHANGE_TOUCH_BAR_ITEMS: touchbarItems ?: @[] };
+    NSDictionary *const dict = @ { INTERCHANGE_KEY_MAPPING_DICT:
+                                   keymappings ?: @{},
+                                   INTERCHANGE_TOUCH_BAR_ITEMS:
+                                   touchbarItems ?: @[]
+                                 };
     NSString *json = [NSJSONSerialization it_jsonStringForObject:dict];
     NSError *error;
     [json writeToURL:url atomically:NO encoding:NSUTF8StringEncoding error:&error];

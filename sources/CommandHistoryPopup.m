@@ -31,8 +31,8 @@
 
 - (instancetype)initForAutoComplete:(BOOL)autocomplete {
     self = [super initWithWindowNibName:@"CommandHistoryPopup"
-                               tablePtr:nil
-                                  model:[[[PopupModel alloc] init] autorelease]];
+                  tablePtr:nil
+                  model:[[[PopupModel alloc] init] autorelease]];
     if (self) {
         _autocomplete = autocomplete;
         [self window];
@@ -49,8 +49,8 @@
 }
 
 - (NSArray *)commandsForHost:(VT100RemoteHost *)host
-              partialCommand:(NSString *)partialCommand
-                      expand:(BOOL)expand {
+    partialCommand:(NSString *)partialCommand
+    expand:(BOOL)expand {
     iTermShellHistoryController *history = [iTermShellHistoryController sharedInstance];
     if (expand) {
         return [history autocompleteSuggestionsWithPartialCommand:partialCommand onHost:host];
@@ -81,7 +81,7 @@
 
 - (id)tableView:(NSTableView *)aTableView
     objectValueForTableColumn:(NSTableColumn *)aTableColumn
-            row:(NSInteger)rowIndex
+    row:(NSInteger)rowIndex
 {
     CommandHistoryPopupEntry* entry = [[self model] objectAtIndex:[self convertIndex:rowIndex]];
     if ([[aTableColumn identifier] isEqualToString:@"date"]) {

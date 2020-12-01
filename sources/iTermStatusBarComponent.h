@@ -26,7 +26,7 @@ static NSString *const iTermStatusBarSharedTextColorKey = @"shared text color";
 
 @protocol iTermStatusBarComponentDelegate<NSObject>
 - (void)statusBarComponentKnobsDidChange:(id<iTermStatusBarComponent>)component
-                             updatedKeys:(NSSet<NSString *> *)updatedKeys;
+    updatedKeys:(NSSet<NSString *> *)updatedKeys;
 - (BOOL)statusBarComponentIsInSetupUI:(id<iTermStatusBarComponent>)component;
 - (void)statusBarComponentPreferredSizeDidChange:(id<iTermStatusBarComponent>)component;
 - (NSColor *)statusBarComponentDefaultTextColor;
@@ -40,16 +40,16 @@ static NSString *const iTermStatusBarSharedTextColorKey = @"shared text color";
 - (void)statusBarComponentEditSnippets:(id<iTermStatusBarComponent>)component;
 - (void)statusBarComponentResignFirstResponder:(id<iTermStatusBarComponent>)component;
 - (void)statusBarComponent:(id<iTermStatusBarComponent>)component
-      reportScriptingError:(NSError *)error
-forInvocation:(NSString *)invocation
-                    origin:(NSString *)origin;
+    reportScriptingError:(NSError *)error
+    forInvocation:(NSString *)invocation
+    origin:(NSString *)origin;
 @end
 
 @protocol iTermStatusBarComponentFactory<NSSecureCoding, NSCopying, NSObject>
 
 - (id<iTermStatusBarComponent>)newComponentWithKnobs:(NSDictionary *)knobs
-                                     layoutAlgorithm:(iTermStatusBarLayoutAlgorithmSetting)layoutAlgorithm
-                                               scope:(iTermVariableScope *)scope;
+    layoutAlgorithm:(iTermStatusBarLayoutAlgorithmSetting)layoutAlgorithm
+    scope:(iTermVariableScope *)scope;
 - (NSString *)componentDescription;
 - (NSDictionary *)defaultKnobs;
 
@@ -66,7 +66,7 @@ forInvocation:(NSString *)invocation
 + (NSDictionary *)statusBarComponentDefaultKnobs;
 
 - (instancetype)initWithConfiguration:(NSDictionary<iTermStatusBarComponentConfigurationKey, id> *)configuration
-                                scope:(iTermVariableScope *)scope;
+    scope:(iTermVariableScope *)scope;
 
 - (NSImage *)statusBarComponentIcon;
 
@@ -79,7 +79,7 @@ forInvocation:(NSString *)invocation
 
 // Value to show in setup UI
 - (id)statusBarComponentExemplarWithBackgroundColor:(NSColor *)backgroundColor
-                                          textColor:(NSColor *)textColor;
+    textColor:(NSColor *)textColor;
 
 // Returns a newly created view showing this component's content.
 - (NSView *)statusBarComponentView;

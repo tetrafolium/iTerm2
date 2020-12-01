@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class iTermFileDescriptorMultiClientState;
 
-@interface iTermFileDescriptorMultiClientState: iTermSynchronizedState<iTermFileDescriptorMultiClientState *>
+@interface iTermFileDescriptorMultiClientState : iTermSynchronizedState<iTermFileDescriptorMultiClientState *>
 @property (nonatomic) int readFD;
 @property (nonatomic) int writeFD;
 @property (nonatomic) pid_t serverPID;

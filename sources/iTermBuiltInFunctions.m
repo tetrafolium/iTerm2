@@ -20,8 +20,8 @@
 NSString *iTermFunctionSignatureFromNamespaceAndNameAndArguments(NSString *namespace, NSString *name, NSArray<NSString *> *argumentNames) {
     NSString *combinedArguments = [[argumentNames sortedArrayUsingSelector:@selector(compare:)] componentsJoinedByString:@","];
     NSString *tail = [NSString stringWithFormat:@"%@(%@)",
-                      name,
-                      combinedArguments];
+                               name,
+                               combinedArguments];
     if (!namespace) {
         return tail;
     }
@@ -68,11 +68,11 @@ NSString *iTermNamespaceFromSignature(NSString *signature) {
 }
 
 - (instancetype)initWithName:(NSString *)name
-                   arguments:(NSDictionary<NSString *,Class> *)argumentsAndTypes
-           optionalArguments:(NSSet<NSString *> *)optionalArguments
-               defaultValues:(NSDictionary<NSString *,NSString *> *)defaultValues
-                     context:(iTermVariablesSuggestionContext)context
-                       block:(iTermBuiltInFunctionsExecutionBlock)block {
+    arguments:(NSDictionary<NSString *,Class> *)argumentsAndTypes
+    optionalArguments:(NSSet<NSString *> *)optionalArguments
+    defaultValues:(NSDictionary<NSString *,NSString *> *)defaultValues
+    context:(iTermVariablesSuggestionContext)context
+    block:(iTermBuiltInFunctionsExecutionBlock)block {
     self = [super init];
     if (self) {
         _name = [name copy];
@@ -81,8 +81,8 @@ NSString *iTermNamespaceFromSignature(NSString *signature) {
         _block = [block copy];
         _optionalArguments = [optionalArguments copy];
         [defaultValues enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop) {
-            [iTermVariableHistory recordUseOfVariableNamed:obj inContext:context];
-        }];
+                          [iTermVariableHistory recordUseOfVariableNamed:obj inContext:context];
+                      }];
     }
     return self;
 }
@@ -114,20 +114,20 @@ NSString *iTermNamespaceFromSignature(NSString *signature) {
 
 - (NSError *)typeMismatchError:(NSString *)argument wanted:(Class)wanted got:(nullable id)object {
     NSString *reason = [NSString stringWithFormat:@"Type mismatch for argument %@. Expected %@ but got %@.",
-                        argument,
-                        NSStringFromClass(wanted),
-                        object ? NSStringFromClass([object class]) : @"(null)" ];
+                                 argument,
+                                 NSStringFromClass(wanted),
+                                 object ? NSStringFromClass([object class]) : @"(null)" ];
     return [NSError errorWithDomain:@"com.iterm2.bif"
-                               code:2
-                           userInfo:@{ NSLocalizedFailureReasonErrorKey: reason }];
+                    code:2
+                    userInfo:@ { NSLocalizedFailureReasonErrorKey: reason }];
 }
 
 - (NSError *)invalidArgumentError:(NSString *)argument {
     NSString *reason = [NSString stringWithFormat:@"Invalid argument %@ to %@",
-                        argument, _name];
+                                 argument, _name];
     return [NSError errorWithDomain:@"com.iterm2.bif"
-                               code:4
-                           userInfo:@{ NSLocalizedFailureReasonErrorKey: reason }];
+                    code:4
+                    userInfo:@ { NSLocalizedFailureReasonErrorKey: reason }];
 }
 
 @end
@@ -155,7 +155,7 @@ NSString *iTermNamespaceFromSignature(NSString *signature) {
 + (instancetype)sharedInstance {
     static id instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -173,18 +173,18 @@ NSString *iTermNamespaceFromSignature(NSString *signature) {
     NSString *signature = iTermFunctionSignatureFromNamespaceAndNameAndArguments(namespace, function.name, function.argumentsAndTypes.allKeys);
     assert(!_functions[signature]);
     _functions[signature] = function;
-}
+    }
 
 - (BOOL)haveFunctionWithName:(NSString *)name
-                   namespace:(NSString *)namespace
-                   arguments:(NSArray<NSString *> *)arguments {
+    namespace:(NSString *)namespace
+    arguments:(NSArray<NSString *> *)arguments {
     NSString *signature = iTermFunctionSignatureFromNamespaceAndNameAndArguments(namespace, name, arguments);
     return _functions[signature] != nil;
-}
+    }
 
 - (NSString *)signatureOfAnyRegisteredFunctionWithName:(NSString *)name {
     return [_functions.allKeys objectPassingTest:^BOOL(NSString *signature, NSUInteger index, BOOL *stop) {
-        NSString *signatureName = iTermFunctionNameFromSignature(signature);
+                           NSString *signatureName = iTermFunctionNameFromSignature(signature);
         return [signatureName isEqualToString:name];
     }];
 }
@@ -192,22 +192,22 @@ NSString *iTermNamespaceFromSignature(NSString *signature) {
 - (NSDictionary<NSString *, NSArray<NSString *> *> *)registeredFunctionSignatureDictionary {
     // Convert _functions: (signature -> bif) to (name -> [arg, arg, ...])
     NSDictionary *signatureToArgs = [_functions mapValuesWithBlock:^id(NSString *signature, iTermBuiltInFunction *bif) {
-        return bif.argumentsAndTypes.allKeys;
-    }];
+                   return bif.argumentsAndTypes.allKeys;
+               }];
     NSDictionary *nameToArgs = [signatureToArgs mapKeysWithBlock:^id(NSString *signature, id object) {
-        return iTermFunctionNameFromSignature(signature);
-    }];
+                        return iTermFunctionNameFromSignature(signature);
+                    }];
     NSDictionary *publicNameToArgs = [nameToArgs filteredWithBlock:^BOOL(NSString *name, id object) {
-        return ![name hasPrefix:@"iterm2.private"];
-    }];
+                   return ![name hasPrefix:@"iterm2.private"];
+               }];
     return publicNameToArgs;
 }
 
 - (void)callFunctionWithName:(NSString *)name
-                   namespace:(NSString *)namespace
-                  parameters:(NSDictionary<NSString *, id> *)parameters
-                       scope:(iTermVariableScope *)scope
-                  completion:(nonnull iTermBuiltInFunctionCompletionBlock)completion {
+    namespace:(NSString *)namespace
+    parameters:(NSDictionary<NSString *, id> *)parameters
+    scope:(iTermVariableScope *)scope
+    completion:(nonnull iTermBuiltInFunctionCompletionBlock)completion {
     NSArray<NSString *> *arguments = parameters.allKeys;
     NSString *signature = iTermFunctionSignatureFromNamespaceAndNameAndArguments(namespace, name, arguments);
     iTermBuiltInFunction *function = _functions[signature];
@@ -237,22 +237,22 @@ NSString *iTermNamespaceFromSignature(NSString *signature) {
     }
 
     function.block([amendedParameters dictionaryByRemovingNullValues], completion);
-}
+    }
 
 - (NSError *)undeclaredIdentifierError:(NSString *)identifier {
     NSString *reason = [NSString stringWithFormat:@"Undeclared identifier %@",
-                        identifier];
+                                 identifier];
     return [NSError errorWithDomain:@"com.iterm2.bif"
-                               code:1
-                           userInfo:@{ NSLocalizedFailureReasonErrorKey: reason }];
+                    code:1
+                    userInfo:@ { NSLocalizedFailureReasonErrorKey: reason }];
 }
 
 - (NSError *)invalidReferenceError:(NSString *)reference name:(NSString *)name {
     NSString *reason = [NSString stringWithFormat:@"Invalid reference “%@” to %@",
-                        reference, name];
+                                 reference, name];
     return [NSError errorWithDomain:@"com.iterm2.bif"
-                               code:3
-                           userInfo:@{ NSLocalizedFailureReasonErrorKey: reason }];
+                    code:3
+                    userInfo:@ { NSLocalizedFailureReasonErrorKey: reason }];
 }
 
 - (iTermBuiltInMethod *)methodWithSignature:(NSString *)signature {
@@ -277,28 +277,28 @@ NSString *iTermNamespaceFromSignature(NSString *signature) {
 
 + (void)registerBuiltInFunction {
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         NSString *const array = @"array";
         iTermBuiltInFunction *func =
         [[iTermBuiltInFunction alloc] initWithName:@"count"
-                                         arguments:@{ array: [NSArray class] }
-                                 optionalArguments:[NSSet set]
-                                     defaultValues:@{}
-                                           context:iTermVariablesSuggestionContextNone
-                                             block:
-         ^(NSDictionary * _Nonnull parameters, iTermBuiltInFunctionCompletionBlock  _Nonnull completion) {
-             [self countOfObject:parameters[array] completion:completion];
-         }];
+                             arguments:@{ array: [NSArray class] }
+        optionalArguments:[NSSet set]
+        defaultValues:@{}
+        context:iTermVariablesSuggestionContextNone
+        block:
+        ^(NSDictionary * _Nonnull parameters, iTermBuiltInFunctionCompletionBlock  _Nonnull completion) {
+            [self countOfObject:parameters[array] completion:completion];
+        }];
         [[iTermBuiltInFunctions sharedInstance] registerFunction:func
-                                                       namespace:@"iterm2"];
+                                                namespace:@"iterm2"];
     });
 }
 
 + (void)countOfObject:(id)value completion:(iTermBuiltInFunctionCompletionBlock)completion {
     if (!value) {
         NSError *error = [NSError errorWithDomain:@"com.iterm2.array-count"
-                                             code:1
-                                         userInfo:@{ NSLocalizedDescriptionKey: @"Array argument must be non-null" }];
+                                  code:1
+                                  userInfo:@ { NSLocalizedDescriptionKey: @"Array argument must be non-null" }];
         completion(nil, error);
         return;
     }
@@ -306,8 +306,8 @@ NSString *iTermNamespaceFromSignature(NSString *signature) {
     NSArray *array = [NSArray castFrom:value];
     if (!array) {
         NSError *error = [NSError errorWithDomain:@"com.iterm2.array-count"
-                                             code:2
-                                         userInfo:@{ NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Argument must be an array (was %@)", [value class]] }];
+                                  code:2
+                                  userInfo:@ { NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Argument must be an array (was %@)", [value class]] }];
         completion(nil, error);
         return;
     }
@@ -326,7 +326,7 @@ NSString *iTermNamespaceFromSignature(NSString *signature) {
 }
 
 + (NSArray<iTermReflectionMethodArgument *> *)argumentsFromTarget:(id<iTermObject>)target
-                                                           action:(SEL)action {
+    action:(SEL)action {
     iTermReflection *reflection = [[iTermReflection alloc] initWithClass:[(NSObject *)target class] selector:action];
     return reflection.arguments;
 }
@@ -336,30 +336,30 @@ NSString *iTermNamespaceFromSignature(NSString *signature) {
     NSMutableDictionary<NSString *, Class> *result = [NSMutableDictionary dictionary];
     for (iTermReflectionMethodArgument *obj in arguments) {
         assert(result[obj.argumentName] == nil);
-        
+
         switch (obj.type) {
-            case iTermReflectionMethodArgumentTypeObject:
-                result[obj.argumentName] = NSClassFromString(obj.className);
+        case iTermReflectionMethodArgumentTypeObject:
+            result[obj.argumentName] = NSClassFromString(obj.className);
+            break;
+        case iTermReflectionMethodArgumentTypeBlock:
+            if ([obj.argumentName hasSuffix:@"WithCompletion"]) {
+                foundCompletion = YES;
                 break;
-            case iTermReflectionMethodArgumentTypeBlock:
-                if ([obj.argumentName hasSuffix:@"WithCompletion"]) {
-                    foundCompletion = YES;
-                    break;
-                } else {
-                    return nil;
-                }
-            case iTermReflectionMethodArgumentTypeUnknown:
-            case iTermReflectionMethodArgumentTypeVoid:
-            case iTermReflectionMethodArgumentTypeArray:
-            case iTermReflectionMethodArgumentTypeClass:
-            case iTermReflectionMethodArgumentTypeUnion:
-            case iTermReflectionMethodArgumentTypeScalar:
-            case iTermReflectionMethodArgumentTypeStruct:
-            case iTermReflectionMethodArgumentTypePointer:
-            case iTermReflectionMethodArgumentTypeBitField:
-            case iTermReflectionMethodArgumentTypeSelector:
-                // Not legal for built-in methods. They must take only objects and one block named completion.
+            } else {
                 return nil;
+            }
+        case iTermReflectionMethodArgumentTypeUnknown:
+        case iTermReflectionMethodArgumentTypeVoid:
+        case iTermReflectionMethodArgumentTypeArray:
+        case iTermReflectionMethodArgumentTypeClass:
+        case iTermReflectionMethodArgumentTypeUnion:
+        case iTermReflectionMethodArgumentTypeScalar:
+        case iTermReflectionMethodArgumentTypeStruct:
+        case iTermReflectionMethodArgumentTypePointer:
+        case iTermReflectionMethodArgumentTypeBitField:
+        case iTermReflectionMethodArgumentTypeSelector:
+            // Not legal for built-in methods. They must take only objects and one block named completion.
+            return nil;
         }
     }
     if (!foundCompletion) {
@@ -369,12 +369,12 @@ NSString *iTermNamespaceFromSignature(NSString *signature) {
 }
 
 - (instancetype)initWithName:(NSString *)name
-               defaultValues:(NSDictionary<NSString *, NSString *> *)defaultValues  // arg name -> variable name
-                       types:(NSDictionary<NSString *, Class> *)types
-           optionalArguments:(NSSet<NSString *> *)optionalArguments
-                     context:(iTermVariablesSuggestionContext)context
-                      target:(id<iTermObject>)target
-                      action:(SEL)action {
+    defaultValues:(NSDictionary<NSString *, NSString *> *)defaultValues  // arg name -> variable name
+    types:(NSDictionary<NSString *, Class> *)types
+    optionalArguments:(NSSet<NSString *> *)optionalArguments
+    context:(iTermVariablesSuggestionContext)context
+    target:(id<iTermObject>)target
+    action:(SEL)action {
     NSArray<iTermReflectionMethodArgument *> *args = [iTermBuiltInMethod argumentsFromTarget:target action:action];
     if (!args) {
         return nil;
@@ -384,14 +384,14 @@ NSString *iTermNamespaceFromSignature(NSString *signature) {
         return nil;
     }
     self = [super initWithName:name
-                     arguments:argDict
-             optionalArguments:[NSSet set]
-                 defaultValues:defaultValues
-                       context:context
-                         block:^(NSDictionary * _Nonnull parameters, iTermBuiltInFunctionCompletionBlock  _Nonnull completion) {
-                             // Use callWithArguments:completion: instead.
-                             assert(NO);
-                         }];
+                  arguments:argDict
+                  optionalArguments:[NSSet set]
+                  defaultValues:defaultValues
+                  context:context
+          block:^(NSDictionary * _Nonnull parameters, iTermBuiltInFunctionCompletionBlock  _Nonnull completion) {
+              // Use callWithArguments:completion: instead.
+              assert(NO);
+          }];
     if (self) {
         _args = [args copy];
         _action = action;
@@ -403,35 +403,35 @@ NSString *iTermNamespaceFromSignature(NSString *signature) {
 }
 
 - (BOOL)matchedBySignature:(NSString *)signature inNamespace:(NSString *)namespace {
-    NSString *name = iTermFunctionNameFromSignature(signature);
-    NSString *myFullyQualifiedName = namespace ? [NSString stringWithFormat:@"%@.%@", namespace, self.name] : self.name;
-    if (![myFullyQualifiedName isEqualToString:name]) {
+NSString *name = iTermFunctionNameFromSignature(signature);
+NSString *myFullyQualifiedName = namespace ? [NSString stringWithFormat:@"%@.%@", namespace, self.name] : self.name;
+if (![myFullyQualifiedName isEqualToString:name]) {
+    return NO;
+}
+NSSet<NSString *> *signatureArgs = iTermArgumentNamesFromSignature(signature);
+if (!signatureArgs) {
+    return NO;
+}
+// Check that all required args are in signature
+for (NSString *argName in self.argumentsAndTypes) {
+    if ([_optionalArguments containsObject:argName]) {
+        continue;
+    }
+    if (![signatureArgs containsObject:argName]) {
         return NO;
     }
-    NSSet<NSString *> *signatureArgs = iTermArgumentNamesFromSignature(signature);
-    if (!signatureArgs) {
+}
+// Check that all args in signature are known
+for (NSString *argName in signatureArgs) {
+    if (!self.argumentsAndTypes[argName]) {
         return NO;
     }
-    // Check that all required args are in signature
-    for (NSString *argName in self.argumentsAndTypes) {
-        if ([_optionalArguments containsObject:argName]) {
-            continue;
-        }
-        if (![signatureArgs containsObject:argName]) {
-            return NO;
-        }
-    }
-    // Check that all args in signature are known
-    for (NSString *argName in signatureArgs) {
-        if (!self.argumentsAndTypes[argName]) {
-            return NO;
-        }
-    }
-    return YES;
+}
+return YES;
 }
 
 - (void)callWithArguments:(NSDictionary<NSString *, id> *)parameters
-               completion:(iTermBuiltInFunctionCompletionBlock)completion {
+    completion:(iTermBuiltInFunctionCompletionBlock)completion {
     NSMethodSignature *signature = [[(NSObject *)_target class] instanceMethodSignatureForSelector:_action];
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
     invocation.target = _target;
@@ -451,19 +451,19 @@ NSString *iTermNamespaceFromSignature(NSString *signature) {
         if (requiredClass) {
             const BOOL isNull = [parameters[arg.argumentName] isKindOfClass:[NSNull class]];
             if (isNull &&
-                ![_optionalArguments containsObject:arg.argumentName]) {
+                    ![_optionalArguments containsObject:arg.argumentName]) {
                 completion(nil, [self typeMismatchError:arg.argumentName
-                                                 wanted:requiredClass
-                                                    got:nil]);
+                                      wanted:requiredClass
+                                      got:nil]);
                 return;
             }
             if (!isNull &&
-                ![parameters[arg.argumentName] isKindOfClass:requiredClass] &&
-                ![_optionalArguments containsObject:arg.argumentName]) {
+                    ![parameters[arg.argumentName] isKindOfClass:requiredClass] &&
+                    ![_optionalArguments containsObject:arg.argumentName]) {
                 Class actualClass = [parameters[arg.argumentName] class];
                 completion(nil, [self typeMismatchError:arg.argumentName
-                                                 wanted:requiredClass
-                                                    got:actualClass]);
+                                      wanted:requiredClass
+                                      got:actualClass]);
                 return;
             }
         }

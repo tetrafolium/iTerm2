@@ -23,7 +23,7 @@ NSString *const iTermDidToggleSecureInputNotification = @"iTermDidToggleSecureIn
 + (instancetype)sharedInstance {
     static id instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -35,13 +35,13 @@ NSString *const iTermDidToggleSecureInputNotification = @"iTermDidToggleSecureIn
         _enabledByUserDefault = iTermUserDefaults.secureKeyboardEntry;
 
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(applicationDidResignActive:)
-                                                     name:NSApplicationDidResignActiveNotification
-                                                   object:nil];
+                                              selector:@selector(applicationDidResignActive:)
+                                              name:NSApplicationDidResignActiveNotification
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(applicationDidBecomeActive:)
-                                                     name:NSApplicationDidBecomeActiveNotification
-                                                   object:nil];
+                                              selector:@selector(applicationDidBecomeActive:)
+                                              name:NSApplicationDidBecomeActiveNotification
+                                              object:nil];
         if ([NSApp isActive]) {
             [self update];
         }

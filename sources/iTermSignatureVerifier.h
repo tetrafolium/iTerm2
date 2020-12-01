@@ -53,7 +53,7 @@ typedef NS_ENUM(NSInteger, iTermSignatureVerifierErrorCode) {
 //
 // Returns: nil on success or an error if the file could not be validated.
 + (NSError *)validateFileURL:(NSURL *)url
-        withEncodedSignature:(NSString *)encodedSignature
-                   publicKey:(NSString *)encodedPublicKey;
+    withEncodedSignature:(NSString *)encodedSignature
+    publicKey:(NSString *)encodedPublicKey;
 
 @end

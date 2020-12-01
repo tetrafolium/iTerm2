@@ -41,16 +41,16 @@
 }
 
 + (void)addTriggerForText:(NSString *)text
-                   window:(NSWindow *)window
-      interpolatedStrings:(BOOL)interpolatedStrings
-         defaultTextColor:(NSColor *)defaultTextColor
-   defaultBackgroundColor:(NSColor *)defaultBackgroundColor
-               completion:(void (^)(NSDictionary *, BOOL))completion {
+    window:(NSWindow *)window
+    interpolatedStrings:(BOOL)interpolatedStrings
+    defaultTextColor:(NSColor *)defaultTextColor
+    defaultBackgroundColor:(NSColor *)defaultBackgroundColor
+    completion:(void (^)(NSDictionary *, BOOL))completion {
     NSPanel *panel = [[iTermFocusablePanel alloc] initWithContentRect:NSZeroRect
-                                                            styleMask:NSWindowStyleMaskTitled
-                                                              backing:NSBackingStoreBuffered
-                                                                defer:NO
-                                                               screen:nil];
+                                                  styleMask:NSWindowStyleMaskTitled
+                                                  backing:NSBackingStoreBuffered
+                                                  defer:NO
+                                                  screen:nil];
     // List of characters to escape comes from ICU's documentation for the backslash meta-character.
     // Some characters like - only need to be escaped inside [sets] but it's safe to escape them
     // outside sets as well.
@@ -59,19 +59,19 @@
     for (NSInteger i = 0; i < charactersToEscape.length; i++) {
         NSString *c = [charactersToEscape substringWithRange:NSMakeRange(i, 1)];
         [regex replaceOccurrencesOfString:c
-                               withString:[@"\\" stringByAppendingString:c]
-                                  options:0
-                                    range:NSMakeRange(0, regex.length)];
+               withString:[@"\\" stringByAppendingString:c]
+               options:0
+               range:NSMakeRange(0, regex.length)];
     }
     iTermAddTriggerViewController *vc = [[iTermAddTriggerViewController alloc] initWithName:text
-                                                                                      regex:regex
-                                                                        interpolatedStrings:interpolatedStrings
-                                                                           defaultTextColor:defaultTextColor
-                                                                     defaultBackgroundColor:defaultBackgroundColor
-                                                                                 completion:
-                                         ^(NSDictionary * _Nullable dict, BOOL updateProfile) {
-        [window endSheet:panel returnCode:dict ? NSModalResponseOK : NSModalResponseCancel];
-        completion(dict, updateProfile);
+                                                                               regex:regex
+                                                                               interpolatedStrings:interpolatedStrings
+                                                                               defaultTextColor:defaultTextColor
+                                                                               defaultBackgroundColor:defaultBackgroundColor
+                                                                               completion:
+                                          ^(NSDictionary * _Nullable dict, BOOL updateProfile) {
+                                              [window endSheet:panel returnCode:dict ? NSModalResponseOK : NSModalResponseCancel];
+                                              completion(dict, updateProfile);
     }];
     [panel it_setAssociatedObject:vc forKey:"AddTriggerVC"];
     [panel setFrame:[NSPanel frameRectForContentRect:vc.view.bounds styleMask:panel.styleMask] display:NO];
@@ -84,13 +84,13 @@
 
 
 - (instancetype)initWithName:(NSString *)name
-                       regex:(NSString *)regex
-         interpolatedStrings:(BOOL)interpolatedStrings
-            defaultTextColor:(NSColor *)defaultTextColor
-      defaultBackgroundColor:(NSColor *)defaultBackgroundColor
-                  completion:(void (^)(NSDictionary * _Nullable, BOOL))completion {
+    regex:(NSString *)regex
+    interpolatedStrings:(BOOL)interpolatedStrings
+    defaultTextColor:(NSColor *)defaultTextColor
+    defaultBackgroundColor:(NSColor *)defaultBackgroundColor
+    completion:(void (^)(NSDictionary * _Nullable, BOOL))completion {
     self = [super initWithNibName:NSStringFromClass([self class])
-                           bundle:[NSBundle bundleForClass:[self class]]];
+                  bundle:[NSBundle bundleForClass:[self class]]];
     if (self) {
         _regex = [regex copy];
         _interpolatedStrings = interpolatedStrings;
@@ -107,17 +107,17 @@
     _instantButton.state = [iTermUserDefaults addTriggerInstant] ? NSControlStateValueOn : NSControlStateValueOff;
     _updateProfileButton.state = [iTermUserDefaults addTriggerUpdateProfile] ? NSControlStateValueOn : NSControlStateValueOff;
     _triggers = [[TriggerController triggerClasses] mapWithBlock:^id(Class triggerClass) {
-        return [[triggerClass alloc] init];
-    }];
+                                           return [[triggerClass alloc] init];
+                                       }];
     [_triggers enumerateObjectsUsingBlock:^(Trigger *_Nonnull trigger, NSUInteger idx, BOOL * _Nonnull stop) {
-        [trigger reloadData];
+                  [trigger reloadData];
         [_actionButton addItemWithTitle:[trigger.class title]];
     }];
 
     // Select highlight with colors based on text.
     NSInteger i = [_triggers indexOfObjectPassingTest:^BOOL(Trigger * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        return [obj isKindOfClass:[HighlightTrigger class]];
-    }];
+                  return [obj isKindOfClass:[HighlightTrigger class]];
+              }];
     if (i == NSNotFound) {
         i = 0;
     }
@@ -136,10 +136,14 @@
     Trigger *trigger = [self currentTrigger];
     const BOOL instant = _instantButton.state == NSControlStateValueOn;
     const BOOL updateProfile = _updateProfileButton.state == NSControlStateValueOn;
-    NSDictionary *triggerDictionary = @{ kTriggerActionKey: trigger.action,
-                                         kTriggerRegexKey: _regexTextField.stringValue,
-                                         kTriggerParameterKey: trigger.param ?: @0,
-                                         kTriggerPartialLineKey: @(instant) };
+    NSDictionary *triggerDictionary = @ { kTriggerActionKey:
+                                          trigger.action,
+                                          kTriggerRegexKey:
+                                          _regexTextField.stringValue,
+                                          kTriggerParameterKey:
+                                          trigger.param ?: @0,
+                                          kTriggerPartialLineKey: @(instant)
+                                        };
     [iTermUserDefaults setAddTriggerInstant:instant];
     [iTermUserDefaults setAddTriggerUpdateProfile:updateProfile];
     _completion(triggerDictionary, updateProfile);
@@ -156,17 +160,17 @@
 
 - (void)updateCustomViewForTrigger:(Trigger *)trigger value:(id)value {
     NSView *view = [TriggerController viewForParameterForTrigger:self.currentTrigger
-                                                            size:NSMakeSize(_paramContainerView.frame.size.width, 21)
-                                                           value:value
-                                                        receiver:self
-                                             interpolatedStrings:_interpolatedStrings
-                                                     wellFactory:^CPKColorWell *(NSRect frame, NSColor *color) {
-        CPKColorWell *well = [[CPKColorWell alloc] initWithFrame:frame];
-        well.noColorAllowed = YES;
-        well.continuous = YES;
-        well.color = color;
-        well.target = self;
-        well.action = @selector(colorWellDidChange:);
+                                      size:NSMakeSize(_paramContainerView.frame.size.width, 21)
+                                      value:value
+                                      receiver:self
+                                      interpolatedStrings:_interpolatedStrings
+                      wellFactory:^CPKColorWell *(NSRect frame, NSColor *color) {
+                          CPKColorWell *well = [[CPKColorWell alloc] initWithFrame:frame];
+                          well.noColorAllowed = YES;
+                          well.continuous = YES;
+                          well.color = color;
+                          well.target = self;
+                          well.action = @selector(colorWellDidChange:);
         return well;
     }];
 

@@ -9,18 +9,18 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation iTermCellRenderConfiguration
 
 - (instancetype)initWithViewportSize:(vector_uint2)viewportSize
-                               scale:(CGFloat)scale
-                  hasBackgroundImage:(BOOL)hasBackgroundImage
-                        extraMargins:(NSEdgeInsets)extraMargins
-                            cellSize:(CGSize)cellSize
-                           glyphSize:(CGSize)glyphSize
-              cellSizeWithoutSpacing:(CGSize)cellSizeWithoutSpacing
-                            gridSize:(VT100GridSize)gridSize
-               usingIntermediatePass:(BOOL)usingIntermediatePass {
+    scale:(CGFloat)scale
+    hasBackgroundImage:(BOOL)hasBackgroundImage
+    extraMargins:(NSEdgeInsets)extraMargins
+    cellSize:(CGSize)cellSize
+    glyphSize:(CGSize)glyphSize
+    cellSizeWithoutSpacing:(CGSize)cellSizeWithoutSpacing
+    gridSize:(VT100GridSize)gridSize
+    usingIntermediatePass:(BOOL)usingIntermediatePass {
     self = [super initWithViewportSize:viewportSize
-                                 scale:scale
-                    hasBackgroundImage:hasBackgroundImage
-                          extraMargins:extraMargins];
+                  scale:scale
+                  hasBackgroundImage:hasBackgroundImage
+                  extraMargins:extraMargins];
     if (self) {
         _cellSize = cellSize;
         _cellSizeWithoutSpacing = cellSizeWithoutSpacing;
@@ -33,15 +33,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSString *)debugDescription {
     return [NSString stringWithFormat:@"<%@: %p viewportSize=%@x%@ scale=%@ cellSize=%@ cellSizeWithoutSpacing=%@ gridSize=%@ usingIntermediatePass=%@>",
-            NSStringFromClass([self class]),
-            self,
-            @(self.viewportSize.x),
-            @(self.viewportSize.y),
-            @(self.scale),
-            NSStringFromSize(self.cellSize),
-            NSStringFromSize(self.cellSizeWithoutSpacing),
-            VT100GridSizeDescription(self.gridSize),
-            self.usingIntermediatePass ? @"YES" : @"NO"];
+                     NSStringFromClass([self class]),
+                     self,
+                     @(self.viewportSize.x),
+                     @(self.viewportSize.y),
+                     @(self.scale),
+                     NSStringFromSize(self.cellSize),
+                     NSStringFromSize(self.cellSizeWithoutSpacing),
+                     VT100GridSizeDescription(self.gridSize),
+                     self.usingIntermediatePass ? @"YES" : @"NO"];
 }
 
 @end
@@ -82,8 +82,8 @@ NS_ASSUME_NONNULL_BEGIN
 
     const NSEdgeInsets extraMargins = self.configuration.extraMargins;
     const CGSize usableSize =
-    CGSizeMake(self.cellConfiguration.viewportSize.x - MARGIN_WIDTH * 2 - extraMargins.left - extraMargins.right,
-               self.cellConfiguration.viewportSize.y - MARGIN_HEIGHT * 2 - extraMargins.top - extraMargins.bottom);
+        CGSizeMake(self.cellConfiguration.viewportSize.x - MARGIN_WIDTH * 2 - extraMargins.left - extraMargins.right,
+                   self.cellConfiguration.viewportSize.y - MARGIN_HEIGHT * 2 - extraMargins.top - extraMargins.bottom);
     return NSEdgeInsetsMake(fmod(usableSize.height, self.cellConfiguration.cellSize.height) + MARGIN_HEIGHT + extraMargins.bottom,
                             MARGIN_WIDTH,
                             MARGIN_HEIGHT + extraMargins.top,
@@ -96,8 +96,8 @@ NS_ASSUME_NONNULL_BEGIN
     NSString *info = [NSString stringWithFormat:@"margins=(top=%@, left=%@, bottom=%@,right= %@)", @(self.margins.top), @(self.margins.left), @(self.margins.bottom), @(self.margins.right)];
     [info writeToURL:[folder URLByAppendingPathComponent:@"CellTransientState.txt"]
           atomically:NO
-            encoding:NSUTF8StringEncoding
-               error:NULL];
+          encoding:NSUTF8StringEncoding
+          error:NULL];
 
 }
 
@@ -110,16 +110,16 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable instancetype)initWithDevice:(id<MTLDevice>)device
-                     vertexFunctionName:(NSString *)vertexFunctionName
-                   fragmentFunctionName:(NSString *)fragmentFunctionName
-                               blending:(nullable iTermMetalBlending *)blending
-                         piuElementSize:(size_t)piuElementSize
-               transientStateClass:(Class)transientStateClass {
+    vertexFunctionName:(NSString *)vertexFunctionName
+    fragmentFunctionName:(NSString *)fragmentFunctionName
+    blending:(nullable iTermMetalBlending *)blending
+    piuElementSize:(size_t)piuElementSize
+    transientStateClass:(Class)transientStateClass {
     self = [super initWithDevice:device
-              vertexFunctionName:vertexFunctionName
-            fragmentFunctionName:fragmentFunctionName
-                        blending:blending
-             transientStateClass:transientStateClass];
+                  vertexFunctionName:vertexFunctionName
+                  fragmentFunctionName:fragmentFunctionName
+                  blending:blending
+                  transientStateClass:transientStateClass];
     if (self) {
         _piuElementSize = piuElementSize;
         _transientStateClass = transientStateClass;
@@ -133,9 +133,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable __kindof iTermMetalRendererTransientState *)createTransientStateForCellConfiguration:(iTermCellRenderConfiguration *)configuration
-                                                                                   commandBuffer:(id<MTLCommandBuffer>)commandBuffer {
+    commandBuffer:(id<MTLCommandBuffer>)commandBuffer {
     __kindof iTermMetalRendererTransientState *transientState =
-    [super createTransientStateForConfiguration:configuration commandBuffer:commandBuffer];
+        [super createTransientStateForConfiguration:configuration commandBuffer:commandBuffer];
 
     iTermMetalCellRendererTransientState *tState = transientState;
     tState.piuElementSize = _piuElementSize;
@@ -146,8 +146,8 @@ NS_ASSUME_NONNULL_BEGIN
         margins.top
     };
     tState.offsetBuffer = [_offsetBuffers requestBufferFromContext:tState.poolContext
-                                                         withBytes:&offset
-                                                    checkIfChanged:YES];
+                                          withBytes:&offset
+                                          checkIfChanged:YES];
     return tState;
 }
 
@@ -155,7 +155,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (index == iTermVertexInputIndexOffset && buffer.length == sizeof(vector_float2)) {
         vector_float2 *v = (vector_float2 *)buffer.contents;
         NSString *s = [NSString stringWithFormat:@"offset=(%@, %@)\n",
-                       @(v->x), @(v->y)];
+                                @(v->x), @(v->y)];
         [s writeToURL:[folder URLByAppendingPathComponent:@"vertexBuffer.iTermVertexInputIndexOffset.txt"] atomically:NO encoding:NSUTF8StringEncoding error:nil];
     } else {
         [super writeVertexBuffer:buffer index:index toFolder:folder];

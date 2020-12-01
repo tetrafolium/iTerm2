@@ -22,25 +22,25 @@
     self = [super initWithFrame:frameRect];
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(redraw)
-                                                     name:NSApplicationDidBecomeActiveNotification
-                                                   object:nil];
+                                              selector:@selector(redraw)
+                                              name:NSApplicationDidBecomeActiveNotification
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(redraw)
-                                                     name:NSApplicationDidResignActiveNotification
-                                                   object:nil];
+                                              selector:@selector(redraw)
+                                              name:NSApplicationDidResignActiveNotification
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(redraw)
-                                                     name:NSWindowDidBecomeKeyNotification
-                                                   object:nil];
+                                              selector:@selector(redraw)
+                                              name:NSWindowDidBecomeKeyNotification
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(redraw)
-                                                     name:NSWindowDidResignKeyNotification
-                                                   object:nil];
+                                              selector:@selector(redraw)
+                                              name:NSWindowDidResignKeyNotification
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(documentEditedDidChange:)
-                                                     name:iTermWindowDocumentedEditedDidChange
-                                                   object:nil];
+                                              selector:@selector(documentEditedDidChange:)
+                                              name:iTermWindowDocumentedEditedDidChange
+                                              object:nil];
     }
     return self;
 }
@@ -84,11 +84,11 @@
     if (_trackingArea != nil) {
         [self removeTrackingArea:_trackingArea];
     }
-    
+
     _trackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds
-                                                 options:(NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways)
-                                                   owner:self
-                                                userInfo:nil];
+                                            options:(NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways)
+                                            owner:self
+                                            userInfo:nil];
     [self addTrackingArea:_trackingArea];
 }
 

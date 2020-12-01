@@ -210,9 +210,9 @@ typedef enum {
 + (NSString *)keyForGesture:(NSString *)gestureDescription modifiers:(int)modifiers
 {
     return [NSString stringWithFormat:@"%@,%@,%@,",
-                kGestureSchema,
-                gestureDescription,
-                [PointerPrefsController modCharsForMask:modifiers]];
+                     kGestureSchema,
+                     gestureDescription,
+                     [PointerPrefsController modCharsForMask:modifiers]];
 }
 
 + (BOOL)keyIsButton:(NSString *)key
@@ -284,43 +284,50 @@ typedef enum {
 + (NSString *)localizedNumClicks:(int)n
 {
     switch (n) {
-        case 1:
-            return @"single click";
-        case 2:
-            return @"double click";
-        case 3:
-            return @"triple click";
-        case 4:
-            return @"quad click";
-        default:
-            return @"(error)";  // shouldn't happen
+    case 1:
+        return @"single click";
+    case 2:
+        return @"double click";
+    case 3:
+        return @"triple click";
+    case 4:
+        return @"quad click";
+    default:
+        return @"(error)";  // shouldn't happen
     }
 }
 
 + (NSString *)localizedButtonNameForButtonNumber:(int)n
 {
     switch (n) {
-        case -1:
-            return @"Unknown button";
-        case kLeftButton:
-            return @"Left button";
-        case kRightButton:
-            return @"Right button";
-        case kMiddleButton:
-            return @"Middle button";
-        default:
-            return [NSString stringWithFormat:@"Button #%d", n+1];
+    case -1:
+        return @"Unknown button";
+    case kLeftButton:
+        return @"Left button";
+    case kRightButton:
+        return @"Right button";
+    case kMiddleButton:
+        return @"Middle button";
+    default:
+        return [NSString stringWithFormat:@"Button #%d", n+1];
     }
 }
 
 + (NSDictionary *)gestureNamesDict
 {
-    NSDictionary *names = @{ kThreeFingerClickGesture: @"Three-finger Tap",
-                             kThreeFingerSwipeRight: @"Three-finger Swipe Right",
-                             kThreeFingerSwipeLeft: @"Three-finger Swipe Left",
-                             kThreeFingerSwipeUp: @"Three-finger Swipe Up",
-                             kThreeFingerSwipeDown: @"Three-finger Swipe Down",
-                             kForceTouchSingleClick: @"Force Touch Single Click" };
+    NSDictionary *names = @ { kThreeFingerClickGesture:
+                              @"Three-finger Tap",
+                              kThreeFingerSwipeRight:
+                              @"Three-finger Swipe Right",
+                              kThreeFingerSwipeLeft:
+                              @"Three-finger Swipe Left",
+                              kThreeFingerSwipeUp:
+                              @"Three-finger Swipe Up",
+                              kThreeFingerSwipeDown:
+                              @"Three-finger Swipe Down",
+                              kForceTouchSingleClick:
+                              @"Force Touch Single Click"
+                            };
     return names;
 }
 
@@ -367,20 +374,20 @@ typedef enum {
 + (NSString *)gestureIdentifierForTag:(int)tag
 {
     switch (tag) {
-        case kThreeFingerTapGestureTag:
-            return kThreeFingerClickGesture;
-        case kThreeFingerSwipeRightGestureTag:
-            return kThreeFingerSwipeRight;
-        case kThreeFingerSwipeLeftGestureTag:
-            return kThreeFingerSwipeLeft;
-        case kThreeFingerSwipeUpGestureTag:
-            return kThreeFingerSwipeUp;
-        case kThreeFingerSwipeDownGestureTag:
-            return kThreeFingerSwipeDown;
-        case kForceTouchSingleClickTag:
-            return kForceTouchSingleClick;
-        default:
-            return [NSString stringWithFormat:@"Bad tag %d", tag];
+    case kThreeFingerTapGestureTag:
+        return kThreeFingerClickGesture;
+    case kThreeFingerSwipeRightGestureTag:
+        return kThreeFingerSwipeRight;
+    case kThreeFingerSwipeLeftGestureTag:
+        return kThreeFingerSwipeLeft;
+    case kThreeFingerSwipeUpGestureTag:
+        return kThreeFingerSwipeUp;
+    case kThreeFingerSwipeDownGestureTag:
+        return kThreeFingerSwipeDown;
+    case kForceTouchSingleClickTag:
+        return kForceTouchSingleClick;
+    default:
+        return [NSString stringWithFormat:@"Bad tag %d", tag];
     }
 }
 
@@ -391,52 +398,52 @@ typedef enum {
 + (NSDictionary *)localizedActionMap
 {
     NSDictionary *names = [NSDictionary dictionaryWithObjectsAndKeys:
-                           @"Ignore", kIgnoreAction,
-                           @"Paste from Clipboard…", kPasteFromClipboardPointerAction,
-                           @"Paste from Selection…", kPasteFromSelectionPointerAction,
-                           @"Extend Selection", kExtendSelectionPointerAction,
-                           @"Open URL/Semantic History", kOpenTargetPointerAction,
-                           @"Open URL in background", kOpenTargetInBackgroundPointerAction,
-                           @"Smart Selection", kSmartSelectionPointerAction,
-                           @"Smart Selection Ignoring Newlines", kSmartSelectionIgnoringNewlinesPointerAction,
-                           @"Open Context Menu", kContextMenuPointerAction,
-                           @"Next Tab", kNextTabPointerAction,
-                           @"Previous Tab", kPrevTabPointerAction,
-                           @"Next Window", kNextWindowPointerAction,
-                           @"Previous Window", kPrevWindowPointerAction,
-                           @"Move Pane", kMovePanePointerAction,
-                           @"Send Escape Sequence…", kSendEscapeSequencePointerAction,
-                           @"Send Hex Code…", kSendHexCodePointerAction,
-                           @"Send Text…", kSendTextPointerAction,
-                           @"Select Pane Left", kSelectPaneLeftPointerAction,
-                           @"Select Pane Right", kSelectPaneRightPointerAction,
-                           @"Select Pane Above", kSelectPaneAbovePointerAction,
-                           @"Select Pane Below", kSelectPaneBelowPointerAction,
-                           @"New Window With Profile…", kNewWindowWithProfilePointerAction,
-                           @"New Tab With Profile…", kNewWindowWithProfilePointerAction,
-                           @"New Tab With Profile…", kNewTabWithProfilePointerAction,
-                           @"New Vertical Split With Profile…", kNewVerticalSplitWithProfilePointerAction,
-                           @"New Horizontal Split With Profile…", kNewHorizontalSplitWithProfilePointerAction,
-                           @"QuickLook", kQuickLookAction,
-                           @"Select Next Pane", kSelectNextPanePointerAction,
-                           @"Select Previous Pane", kSelectPreviousPanePointerAction,
-                           nil];
+                                        @"Ignore", kIgnoreAction,
+                                        @"Paste from Clipboard…", kPasteFromClipboardPointerAction,
+                                        @"Paste from Selection…", kPasteFromSelectionPointerAction,
+                                        @"Extend Selection", kExtendSelectionPointerAction,
+                                        @"Open URL/Semantic History", kOpenTargetPointerAction,
+                                        @"Open URL in background", kOpenTargetInBackgroundPointerAction,
+                                        @"Smart Selection", kSmartSelectionPointerAction,
+                                        @"Smart Selection Ignoring Newlines", kSmartSelectionIgnoringNewlinesPointerAction,
+                                        @"Open Context Menu", kContextMenuPointerAction,
+                                        @"Next Tab", kNextTabPointerAction,
+                                        @"Previous Tab", kPrevTabPointerAction,
+                                        @"Next Window", kNextWindowPointerAction,
+                                        @"Previous Window", kPrevWindowPointerAction,
+                                        @"Move Pane", kMovePanePointerAction,
+                                        @"Send Escape Sequence…", kSendEscapeSequencePointerAction,
+                                        @"Send Hex Code…", kSendHexCodePointerAction,
+                                        @"Send Text…", kSendTextPointerAction,
+                                        @"Select Pane Left", kSelectPaneLeftPointerAction,
+                                        @"Select Pane Right", kSelectPaneRightPointerAction,
+                                        @"Select Pane Above", kSelectPaneAbovePointerAction,
+                                        @"Select Pane Below", kSelectPaneBelowPointerAction,
+                                        @"New Window With Profile…", kNewWindowWithProfilePointerAction,
+                                        @"New Tab With Profile…", kNewWindowWithProfilePointerAction,
+                                        @"New Tab With Profile…", kNewTabWithProfilePointerAction,
+                                        @"New Vertical Split With Profile…", kNewVerticalSplitWithProfilePointerAction,
+                                        @"New Horizontal Split With Profile…", kNewHorizontalSplitWithProfilePointerAction,
+                                        @"QuickLook", kQuickLookAction,
+                                        @"Select Next Pane", kSelectNextPanePointerAction,
+                                        @"Select Previous Pane", kSelectPreviousPanePointerAction,
+                                        nil];
     return names;
 }
 
 + (ArgumentType)argumentTypeForAction:(NSString *)action
 {
     NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
-                          @(kEscPlusArg), kSendEscapeSequencePointerAction,
-                          @(kHexCodeArg), kSendHexCodePointerAction,
-                          @(kTextArg), kSendTextPointerAction,
-                          @(kProfileArg), kNewWindowWithProfilePointerAction,
-                          @(kProfileArg), kNewTabWithProfilePointerAction,
-                          @(kProfileArg), kNewVerticalSplitWithProfilePointerAction,
-                          @(kProfileArg), kNewHorizontalSplitWithProfilePointerAction,
-                          @(kAdvancedPasteArg), kPasteFromClipboardPointerAction,
-                          @(kAdvancedPasteArg), kPasteFromSelectionPointerAction,
-                          nil];
+                                       @(kEscPlusArg), kSendEscapeSequencePointerAction,
+                                       @(kHexCodeArg), kSendHexCodePointerAction,
+                                       @(kTextArg), kSendTextPointerAction,
+                                       @(kProfileArg), kNewWindowWithProfilePointerAction,
+                                       @(kProfileArg), kNewTabWithProfilePointerAction,
+                                       @(kProfileArg), kNewVerticalSplitWithProfilePointerAction,
+                                       @(kProfileArg), kNewHorizontalSplitWithProfilePointerAction,
+                                       @(kAdvancedPasteArg), kPasteFromClipboardPointerAction,
+                                       @(kAdvancedPasteArg), kPasteFromSelectionPointerAction,
+                                       nil];
     NSNumber *n = [args objectForKey:action];
     if (n) {
         return (ArgumentType) [n intValue];
@@ -473,30 +480,30 @@ typedef enum {
     }
     if (action) {
         switch ([PointerPrefsController argumentTypeForAction:action]) {
-            case kNoArg:
-                break;
-            case kEscPlusArg:
-                return [name stringByReplacingOccurrencesOfString:@"…"
-                                                       withString:[NSString stringWithFormat:@" Esc + %@", argument]];
-            case kHexCodeArg:
-            case kTextArg:
-                return [name stringByReplacingOccurrencesOfString:@"…"
-                                                       withString:[NSString stringWithFormat:@" \"%@\"", argument]];
-            case kProfileArg: {
-                NSString *bookmarkName = [[[ProfileModel sharedInstance] bookmarkWithGuid:argument] objectForKey:KEY_NAME];
-                if (!bookmarkName) {
-                    bookmarkName = @"?";
-                }
-                return [name stringByReplacingOccurrencesOfString:@"…"
-                                                       withString:[NSString stringWithFormat:@" \"%@\"", bookmarkName]];
+        case kNoArg:
+            break;
+        case kEscPlusArg:
+            return [name stringByReplacingOccurrencesOfString:@"…"
+                         withString:[NSString stringWithFormat:@" Esc + %@", argument]];
+        case kHexCodeArg:
+        case kTextArg:
+            return [name stringByReplacingOccurrencesOfString:@"…"
+                         withString:[NSString stringWithFormat:@" \"%@\"", argument]];
+        case kProfileArg: {
+            NSString *bookmarkName = [[[ProfileModel sharedInstance] bookmarkWithGuid:argument] objectForKey:KEY_NAME];
+            if (!bookmarkName) {
+                bookmarkName = @"?";
             }
-            case kAdvancedPasteArg: {
-                if (argument.length) {
-                    name = [NSString stringWithFormat:@"%@: %@",
-                            [name stringByReplacingOccurrencesOfString:@"…" withString:@""],
-                            [iTermPasteSpecialViewController descriptionForCodedSettings:argument]];
-                }
+            return [name stringByReplacingOccurrencesOfString:@"…"
+                         withString:[NSString stringWithFormat:@" \"%@\"", bookmarkName]];
+        }
+        case kAdvancedPasteArg: {
+            if (argument.length) {
+                name = [NSString stringWithFormat:@"%@: %@",
+                                 [name stringByReplacingOccurrencesOfString:@"…" withString:@""],
+                                 [iTermPasteSpecialViewController descriptionForCodedSettings:argument]];
             }
+        }
         }
     }
 
@@ -540,7 +547,7 @@ typedef enum {
 + (NSDictionary *)defaultSettings
 {
     NSString* plistFile = [[NSBundle bundleForClass:[self class]] pathForResource:@"DefaultPointerActions"
-                                                                           ofType:@"plist"];
+                                                                ofType:@"plist"];
     return [NSDictionary dictionaryWithContentsOfFile:plistFile];
 }
 
@@ -554,10 +561,10 @@ typedef enum {
             NSMutableDictionary *tempCopy = [temp mutableCopy];
             for (NSString *key in temp) {
                 if ([PointerPrefsController keyIsButton:key] &&
-                    [PointerPrefsController buttonForKey:key] == kMiddleButton) {
+                        [PointerPrefsController buttonForKey:key] == kMiddleButton) {
                     NSDictionary *middleAction = [temp objectForKey:key];
                     NSString *gestureKey = [PointerPrefsController keyForGesture:kThreeFingerClickGesture
-                                                                       modifiers:[PointerPrefsController modifiersForKey:key]];
+                                                                   modifiers:[PointerPrefsController modifiersForKey:key]];
                     [tempCopy setObject:middleAction forKey:gestureKey];
                 }
             }
@@ -576,8 +583,8 @@ typedef enum {
                         }
                     }
                     NSString *key = [PointerPrefsController keyForButton:kMiddleButton
-                                                                  clicks:numClicks
-                                                               modifiers:modifiers];
+                                                            clicks:numClicks
+                                                            modifiers:modifiers];
                     NSDictionary *middleAction = [temp objectForKey:key];
                     if (middleAction) {
                         [temp setObject:middleAction forKey:key];
@@ -604,7 +611,7 @@ typedef enum {
 {
     [[NSUserDefaults standardUserDefaults] setObject:newSettings forKey:kPointerActionsKey];
     [[NSNotificationCenter defaultCenter] postNotificationName:kPointerPrefsChangedNotification
-                                                        object:nil];
+                                          object:nil];
 }
 
 + (NSArray *)sortedKeys
@@ -630,24 +637,24 @@ typedef enum {
 }
 
 + (NSString *)argumentWithButton:(int)buttonNumber
-                       numClicks:(int)numClicks
-                       modifiers:(int)modMask
+    numClicks:(int)numClicks
+    modifiers:(int)modMask
 {
     NSString *key = [PointerPrefsController keyForButton:buttonNumber
-                                                  clicks:numClicks
-                                               modifiers:modMask];
+                                            clicks:numClicks
+                                            modifiers:modMask];
     NSDictionary *settings = [PointerPrefsController settings];
     NSDictionary *setting = [settings objectForKey:key];
     return [setting objectForKey:kArgumentKey];
 }
 
 + (NSString *)actionWithButton:(int)buttonNumber
-                     numClicks:(int)numClicks
-                     modifiers:(int)modMask
+    numClicks:(int)numClicks
+    modifiers:(int)modMask
 {
     NSString *key = [PointerPrefsController keyForButton:buttonNumber
-                                                  clicks:numClicks
-                                               modifiers:modMask];
+                                            clicks:numClicks
+                                            modifiers:modMask];
     DLog(@"Look up key %@", key);
     NSDictionary *settings = [PointerPrefsController settings];
     NSDictionary *setting = [settings objectForKey:key];
@@ -656,7 +663,7 @@ typedef enum {
 }
 
 + (NSString *)actionForTapWithTouches:(int)numTouches
-                            modifiers:(int)modMask
+    modifiers:(int)modMask
 {
     NSString *gesture = @"";
     if (numTouches == 3) {
@@ -668,7 +675,7 @@ typedef enum {
 }
 
 + (NSString *)argumentForTapWithTouches:(int)numTouches
-                              modifiers:(int)modMask
+    modifiers:(int)modMask
 {
     NSString *gesture = @"";
     if (numTouches == 3) {
@@ -680,11 +687,11 @@ typedef enum {
 }
 
 + (NSString *)actionForGesture:(NSString *)gesture
-                     modifiers:(int)modMask
+    modifiers:(int)modMask
 {
     NSString *key;
     key = [PointerPrefsController keyForGesture:gesture
-                                      modifiers:modMask];
+                                  modifiers:modMask];
     DLog(@"Look up action for gesture %@", key);
     NSDictionary *settings = [PointerPrefsController settings];
     NSDictionary *setting = [settings objectForKey:key];
@@ -692,11 +699,11 @@ typedef enum {
 }
 
 + (NSString *)argumentForGesture:(NSString *)gesture
-                       modifiers:(int)modMask
+    modifiers:(int)modMask
 {
     NSString *key;
     key = [PointerPrefsController keyForGesture:gesture
-                                      modifiers:modMask];
+                                  modifiers:modMask];
     NSDictionary *settings = [PointerPrefsController settings];
     NSDictionary *setting = [settings objectForKey:key];
     return [setting objectForKey:kArgumentKey];
@@ -733,8 +740,8 @@ typedef enum {
 + (NSString *)localizedButtonKey:(NSString *)key
 {
     return [PointerPrefsController localizedButton:[PointerPrefsController buttonForKey:key]
-                                         numClicks:[PointerPrefsController numClicksForKey:key]
-                                         modifiers:[PointerPrefsController modifiersForKey:key]];
+                                   numClicks:[PointerPrefsController numClicksForKey:key]
+                                   modifiers:[PointerPrefsController modifiersForKey:key]];
 }
 
 - (void)setModifierButtons:(int)modMask
@@ -826,64 +833,64 @@ typedef enum {
         argType = [PointerPrefsController argumentTypeForAction:actionIdent];
     }
     switch (argType) {
-        case kNoArg:
-            [editArgumentLabel_ setHidden:YES];
-            [editArgumentField_ setHidden:YES];
-            [editArgumentButton_ setHidden:YES];
-            _pasteSpecialViewContainer.hidden = YES;
-            break;
+    case kNoArg:
+        [editArgumentLabel_ setHidden:YES];
+        [editArgumentField_ setHidden:YES];
+        [editArgumentButton_ setHidden:YES];
+        _pasteSpecialViewContainer.hidden = YES;
+        break;
 
-        case kEscPlusArg:
-            [editArgumentLabel_ setHidden:NO];
-            [editArgumentField_ setHidden:NO];
-            [editArgumentField_ setEnabled:YES];
-            [editArgumentButton_ setHidden:YES];
-            [editArgumentLabel_ setStringValue:@"Esc +"];
-            [[editArgumentField_ cell] setPlaceholderString:@"characters to send"];
-            [editArgumentField_ setStringValue:currentArg];
-            [editArgumentField_ setRefusesFirstResponder:NO];
-            [editArgumentField_ setSelectable:YES];
-            _pasteSpecialViewContainer.hidden = YES;
-            break;
+    case kEscPlusArg:
+        [editArgumentLabel_ setHidden:NO];
+        [editArgumentField_ setHidden:NO];
+        [editArgumentField_ setEnabled:YES];
+        [editArgumentButton_ setHidden:YES];
+        [editArgumentLabel_ setStringValue:@"Esc +"];
+        [[editArgumentField_ cell] setPlaceholderString:@"characters to send"];
+        [editArgumentField_ setStringValue:currentArg];
+        [editArgumentField_ setRefusesFirstResponder:NO];
+        [editArgumentField_ setSelectable:YES];
+        _pasteSpecialViewContainer.hidden = YES;
+        break;
 
-        case kHexCodeArg:
-            [editArgumentLabel_ setHidden:NO];
-            [editArgumentField_ setHidden:NO];
-            [editArgumentField_ setEnabled:YES];
-            [editArgumentButton_ setHidden:YES];
-            [editArgumentLabel_ setStringValue:@"Hex codes:"];
-            [[editArgumentField_ cell] setPlaceholderString:@"ex: 0x7f 0x20"];
-            [editArgumentField_ setStringValue:currentArg];
-            _pasteSpecialViewContainer.hidden = YES;
-            break;
+    case kHexCodeArg:
+        [editArgumentLabel_ setHidden:NO];
+        [editArgumentField_ setHidden:NO];
+        [editArgumentField_ setEnabled:YES];
+        [editArgumentButton_ setHidden:YES];
+        [editArgumentLabel_ setStringValue:@"Hex codes:"];
+        [[editArgumentField_ cell] setPlaceholderString:@"ex: 0x7f 0x20"];
+        [editArgumentField_ setStringValue:currentArg];
+        _pasteSpecialViewContainer.hidden = YES;
+        break;
 
-        case kTextArg:
-            [editArgumentLabel_ setHidden:NO];
-            [editArgumentField_ setHidden:NO];
-            [editArgumentField_ setEnabled:YES];
-            [editArgumentButton_ setHidden:YES];
-            [editArgumentLabel_ setStringValue:@"Text:"];
-            [[editArgumentField_ cell] setPlaceholderString:@"Enter value to send"];
-            [editArgumentField_ setStringValue:currentArg];
-            _pasteSpecialViewContainer.hidden = YES;
-            break;
+    case kTextArg:
+        [editArgumentLabel_ setHidden:NO];
+        [editArgumentField_ setHidden:NO];
+        [editArgumentField_ setEnabled:YES];
+        [editArgumentButton_ setHidden:YES];
+        [editArgumentLabel_ setStringValue:@"Text:"];
+        [[editArgumentField_ cell] setPlaceholderString:@"Enter value to send"];
+        [editArgumentField_ setStringValue:currentArg];
+        _pasteSpecialViewContainer.hidden = YES;
+        break;
 
-        case kProfileArg:
-            [editArgumentLabel_ setHidden:NO];
-            [editArgumentField_ setHidden:YES];
-            [editArgumentButton_ setHidden:NO];
-            [editArgumentLabel_ setStringValue:@"Profile:"];
-            [editArgumentButton_ populateWithProfilesSelectingGuid:currentArg];
-            _pasteSpecialViewContainer.hidden = YES;
-            break;
+    case kProfileArg:
+        [editArgumentLabel_ setHidden:NO];
+        [editArgumentField_ setHidden:YES];
+        [editArgumentButton_ setHidden:NO];
+        [editArgumentLabel_ setStringValue:@"Profile:"];
+        [editArgumentButton_ populateWithProfilesSelectingGuid:currentArg];
+        _pasteSpecialViewContainer.hidden = YES;
+        break;
 
-        case kAdvancedPasteArg:
-            editArgumentLabel_.hidden = YES;
-            editArgumentField_.hidden = YES;
-            editArgumentButton_.hidden = YES;
-            _pasteSpecialViewContainer.hidden = NO;
-            [self configurePasteSpecialWithArgument:currentArg];
-            break;
+    case kAdvancedPasteArg:
+        editArgumentLabel_.hidden = YES;
+        editArgumentField_.hidden = YES;
+        editArgumentButton_.hidden = YES;
+        _pasteSpecialViewContainer.hidden = NO;
+        [self configurePasteSpecialWithArgument:currentArg];
+        break;
     }
     [self updateWindowFrame];
 }
@@ -941,7 +948,7 @@ typedef enum {
 
 - (BOOL)tableView:(NSTableView *)aTableView
     shouldEditTableColumn:(NSTableColumn *)aTableColumn
-              row:(NSInteger)rowIndex
+    row:(NSInteger)rowIndex
 {
     return NO;
 }
@@ -981,12 +988,12 @@ typedef enum {
     [self loadKeyIntoEditPane:key];
     __weak __typeof(self) weakSelf = self;
     [[[PreferencePanel sharedInstance] window] beginSheet:panel_
-                                        completionHandler:^(NSModalResponse returnCode) {
-                                            __strong __typeof(weakSelf) strongSelf = self;
-                                            if (strongSelf) {
-                                                [strongSelf->panel_ close];
-                                            }
-                                        }];
+                                      completionHandler:^(NSModalResponse returnCode) {
+                                          __strong __typeof(weakSelf) strongSelf = self;
+                                          if (strongSelf) {
+            [strongSelf->panel_ close];
+        }
+    }];
 }
 
 - (IBAction)ok:(id)sender {
@@ -996,10 +1003,10 @@ typedef enum {
     }
     NSString *theAction = [PointerPrefsController actionWithLocalizedName:[[editAction_ selectedItem] title]];
     NSMutableDictionary *newValue = [NSMutableDictionary dictionaryWithObject:theAction
-                                                                       forKey:kActionKey];
+                                                         forKey:kActionKey];
     if (![editArgumentField_ isHidden]) {
         [newValue setObject:[editArgumentField_ stringValue]
-                     forKey:kArgumentKey];
+                  forKey:kArgumentKey];
     } else if (![editArgumentButton_ isHidden]) {
         if ([PointerPrefsController argumentTypeForAction:theAction] == kProfileArg) {
             NSString *profileName = [[editArgumentButton_ selectedItem] title];
@@ -1011,12 +1018,12 @@ typedef enum {
             }
         } else {
             [newValue setObject:[[editArgumentButton_ selectedItem] title]
-                         forKey:kArgumentKey];
+                      forKey:kArgumentKey];
         }
     } else if (!_pasteSpecialViewContainer.isHidden) {
         if ([PointerPrefsController argumentTypeForAction:theAction] == kAdvancedPasteArg) {
             [newValue setObject:[_pasteSpecialViewController stringEncodedSettings] ?: @""
-                         forKey:kArgumentKey];
+                      forKey:kArgumentKey];
         }
     }
     NSString *newKey;
@@ -1036,12 +1043,12 @@ typedef enum {
     if ([editButton_ selectedTag] >= kMinGestureTag) {
         // Gesture
         newKey = [PointerPrefsController keyForGesture:[PointerPrefsController gestureIdentifierForTag:[editButton_ selectedTag]]
-                                             modifiers:modMask];
+                                         modifiers:modMask];
     } else {
         // Button
         newKey = [PointerPrefsController keyForButton:[editButton_ selectedTag]
-                                               clicks:[editClickType_ selectedTag]
-                                            modifiers:modMask];
+                                         clicks:[editClickType_ selectedTag]
+                                         modifiers:modMask];
     }
     [temp setObject:newValue forKey:newKey];
     [PointerPrefsController setSettings:temp];
@@ -1076,7 +1083,7 @@ typedef enum {
     [ok_ setEnabled:[self okShouldBeEnabled]];
     NSString *actionIdent = [PointerPrefsController actionWithLocalizedName:[[editAction_ selectedItem] title]];
     [self updateArgumentFieldsForAction:actionIdent
-                               argument:@""];
+          argument:@""];
 }
 
 - (IBAction)clicksChanged:(id)sender

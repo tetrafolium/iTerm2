@@ -24,9 +24,9 @@ extern NSString *const iTermAnnotationVisibilityDidChange;
 @end
 
 @interface PTYNoteViewController : NSViewController <
-  IntervalTreeObject,
-  NSTextViewDelegate,
-  PTYNoteViewDelegate> {
+    IntervalTreeObject,
+    NSTextViewDelegate,
+    PTYNoteViewDelegate> {
     PTYNoteView *noteView_;
     NSTextView *textView_;
     NSScrollView *scrollView_;

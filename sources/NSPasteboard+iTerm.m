@@ -17,10 +17,10 @@
     for (NSURL *url in urls) {
         NSString *filename = url.path;
         NSDictionary *filenamesAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filename
-                                                                                             error:nil];
+                                                                            error:nil];
         if (([filenamesAttributes fileHFSTypeCode] == 'clpt' &&
-             [filenamesAttributes fileHFSCreatorCode] == 'MACS') ||
-            [[filename pathExtension] isEqualToString:@"textClipping"] == YES) {
+                [filenamesAttributes fileHFSCreatorCode] == 'MACS') ||
+                [[filename pathExtension] isEqualToString:@"textClipping"] == YES) {
             // Ignore text clippings
             continue;
         }

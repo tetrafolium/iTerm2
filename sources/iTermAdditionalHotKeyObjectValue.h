@@ -14,7 +14,7 @@
 @interface iTermAdditionalHotKeyObjectValue : NSObject
 
 + (instancetype)objectValueWithShortcut:(iTermShortcut *)shortcut
-                       inUseDescriptors:(NSArray<iTermHotKeyDescriptor *> *)descriptors;
+    inUseDescriptors:(NSArray<iTermHotKeyDescriptor *> *)descriptors;
 
 @property(nonatomic, retain) iTermShortcut *shortcut;
 @property(nonatomic, retain) NSArray<iTermHotKeyDescriptor *> *descriptorsInUseByOtherProfiles;

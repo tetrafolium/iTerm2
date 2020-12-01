@@ -84,18 +84,18 @@
 - (NSArray<iTermStatusBarComponentKnob *> *)statusBarComponentKnobs {
     iTermStatusBarComponentKnob *backgroundColorKnob =
         [[iTermStatusBarComponentKnob alloc] initWithLabelText:@"Background Color:"
-                                                          type:iTermStatusBarComponentKnobTypeColor
-                                                   placeholder:nil
-                                                  defaultValue:nil
-                                                           key:iTermStatusBarSharedBackgroundColorKey];
+                                             type:iTermStatusBarComponentKnobTypeColor
+                                             placeholder:nil
+                                             defaultValue:nil
+                                             key:iTermStatusBarSharedBackgroundColorKey];
     NSArray<iTermStatusBarComponentKnob *> *knobs = [@[ backgroundColorKnob ] arrayByAddingObjectsFromArray:[super statusBarComponentKnobs]];
     if (self.shouldHaveTextColorKnob) {
         iTermStatusBarComponentKnob *textColorKnob =
             [[iTermStatusBarComponentKnob alloc] initWithLabelText:@"Text Color:"
-                                                              type:iTermStatusBarComponentKnobTypeColor
-                                                       placeholder:nil
-                                                      defaultValue:nil
-                                                               key:iTermStatusBarSharedTextColorKey];
+                                                 type:iTermStatusBarComponentKnobTypeColor
+                                                 placeholder:nil
+                                                 defaultValue:nil
+                                                 key:iTermStatusBarSharedTextColorKey];
         knobs = [knobs arrayByAddingObject:textColorKnob];
     }
     return knobs;
@@ -204,7 +204,7 @@
 
 - (NSObject *)modelForWidth:(CGFloat)maximumWidth width:(out CGFloat *)preferredWidth {
     [self doesNotRecognizeSelector:_cmd];
-    return @{};
+    return @ {};
 }
 
 - (void)redraw {

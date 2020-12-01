@@ -17,7 +17,7 @@
 @synthesize terminationStatus = _terminationStatus;
 
 - (instancetype)initWithReport:(iTermMultiServerReportChild *)report
-                        thread:(iTermThread *)thread {
+    thread:(iTermThread *)thread {
     self = [super init];
     if (self) {
         _thread = thread;
@@ -61,74 +61,74 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p pid=%@ fd=%@>", NSStringFromClass(self.class),
-            self, @(self.pid), @(self.fd)];
+                     self, @(self.pid), @(self.fd)];
 }
 
 - (void)willWaitPreemptively {
     [_thread dispatchRecursiveSync:^(id _Nonnull state) {
-        assert(!_haveSentPreemptiveWait);
-        _haveSentPreemptiveWait = YES;
+                assert(!_haveSentPreemptiveWait);
+                _haveSentPreemptiveWait = YES;
         [self didTerminate];
     }];
 }
 
 - (void)setTerminationStatus:(int)status {
     [_thread dispatchRecursiveSync:^(id _Nonnull state) {
-        assert(_hasTerminated);
-        _haveWaited = YES;
-        _terminationStatus = status;
-    }];
+                assert(_hasTerminated);
+                _haveWaited = YES;
+                _terminationStatus = status;
+            }];
 }
 
 - (void)didTerminate {
     [_thread dispatchRecursiveSync:^(id _Nonnull state) {
-        _hasTerminated = YES;
-    }];
+                _hasTerminated = YES;
+            }];
 }
 
 - (BOOL)hasTerminated {
     __block BOOL result;
     [_thread dispatchRecursiveSync:^(id _Nonnull state) {
-        result = _hasTerminated;
-    }];
+                result = _hasTerminated;
+            }];
     return result;
 }
 
 - (BOOL)haveWaited {
     __block BOOL result;
     [_thread dispatchRecursiveSync:^(id _Nonnull state) {
-        result = _haveWaited;
-    }];
+                result = _haveWaited;
+            }];
     return result;
 }
 
 - (BOOL)haveSentPreemptiveWait {
     __block BOOL result;
     [_thread dispatchRecursiveSync:^(id _Nonnull state) {
-        result = _haveSentPreemptiveWait;
-    }];
+                result = _haveSentPreemptiveWait;
+            }];
     return result;
 }
 
 - (int)terminationStatus {
     __block BOOL result;
     [_thread dispatchRecursiveSync:^(id _Nonnull state) {
-        result = _terminationStatus;
-    }];
+                result = _terminationStatus;
+            }];
     return result;
 }
 
 - (void)addWaitCallback:(iTermCallback<id, iTermResult<NSNumber *> *> *)callback {
     [_thread dispatchRecursiveSync:^(id _Nonnull state) {
-        [_callbacks addObject:callback];
-    }];
+                [_callbacks addObject:callback];
+            }];
 }
 
 - (void)invokeWaitCallback:(iTermResult<NSNumber *> *)status {
     __block iTermCallback<id, iTermResult<NSNumber *> *> *callback;
     [_thread dispatchRecursiveSync:^(id _Nonnull state) {
-        callback = _callbacks.firstObject;
-        if (!callback) {
+                callback = _callbacks.firstObject;
+                if (!callback) {
             return;
         }
         [_callbacks removeObjectAtIndex:0];
@@ -139,7 +139,7 @@
 - (void)invokeAllWaitCallbacks:(iTermResult<NSNumber *> *)status {
     __block NSArray<iTermCallback<id, iTermResult<NSNumber *> *> *> *callbacks;
     [_thread dispatchRecursiveSync:^(id _Nonnull state) {
-        callbacks = [_callbacks copy];
+                callbacks = [_callbacks copy];
         [_callbacks removeAllObjects];
     }];
     for (iTermCallback<id, iTermResult<NSNumber *> *> *callback in callbacks) {

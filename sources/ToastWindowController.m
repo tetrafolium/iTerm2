@@ -63,16 +63,16 @@ static NSMutableArray *visibleToast;
         screen = [[term window] screen];
     }
     NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSZeroRect
-                                                 styleMask:NSWindowStyleMaskBorderless
-                                                   backing:NSBackingStoreBuffered
-                                                     defer:NO
-                                                    screen:screen] autorelease];
+                                        styleMask:NSWindowStyleMaskBorderless
+                                        backing:NSBackingStoreBuffered
+                                        defer:NO
+                                        screen:screen] autorelease];
     [panel setOpaque:NO];
     [panel setFrame:NSMakeRect((screen.visibleFrame.size.width - roundedRect.frame.size.width) / 2,
                                (screen.visibleFrame.size.height - roundedRect.frame.size.height) * 0.7,
                                roundedRect.frame.size.width,
                                roundedRect.frame.size.height)
-            display:YES];
+           display:YES];
     [panel setContentView:roundedRect];
     [panel orderFrontRegardless];
     [toast setWindow:panel];
@@ -102,8 +102,8 @@ static NSMutableArray *visibleToast;
     hiding_ = YES;
     [[self.window animator] setAlphaValue:0];
     [visibleToast performSelector:@selector(removeObject:)
-                       withObject:self
-                       afterDelay:[[NSAnimationContext currentContext] duration]];
+                  withObject:self
+                  afterDelay:[[NSAnimationContext currentContext] duration]];
 }
 
 

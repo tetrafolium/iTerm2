@@ -126,7 +126,7 @@ static void AddChild(const iTermMultiServerRequestLaunch *launch,
     status = iTermMultiServerProtocolEncodeMessageFromClient(&tempClientMessage, &tempMessage);
     assert(status == 0);
     status = iTermMultiServerProtocolParseMessageFromClient(&tempMessage,
-                                                            &children[i].messageWithLaunchRequest);
+             &children[i].messageWithLaunchRequest);
     assert(status == 0);
     iTermClientServerProtocolMessageFree(&tempMessage);
 
@@ -201,7 +201,7 @@ static int Launch(const iTermMultiServerRequestLaunch *launch,
         *errorPtr = errno;
         FDLog(LOG_DEBUG, "forkpty failed: %s", strerror(errno));
         return -1;
-    } 
+    }
     FDLog(LOG_DEBUG, "forkpty succeeded. Child pid is %d", forkState->pid);
     *errorPtr = 0;
     return fd;
@@ -234,10 +234,10 @@ static int SendLaunchResponse(int fd, int status, pid_t pid, int masterFd, const
         FDLog(LOG_DEBUG, "NOTE: sending file descriptor");
         int error = 0;
         result = iTermFileDescriptorServerWriteLengthAndBufferAndFileDescriptor(fd,
-                                                                                obj.ioVectors[0].iov_base,
-                                                                                obj.ioVectors[0].iov_len,
-                                                                                masterFd,
-                                                                                &error);
+                 obj.ioVectors[0].iov_base,
+                 obj.ioVectors[0].iov_len,
+                 masterFd,
+                 &error);
         if (result < 0) {
             FDLog(LOG_ERR, "ERROR: SendLaunchResponse: Failed to send master FD with %s", strerror(error));
         }
@@ -246,9 +246,9 @@ static int SendLaunchResponse(int fd, int status, pid_t pid, int masterFd, const
         FDLog(LOG_ERR, "ERROR: *not* sending file descriptor");
         int error;
         result = iTermFileDescriptorServerWriteLengthAndBuffer(fd,
-                                                               obj.ioVectors[0].iov_base,
-                                                               obj.ioVectors[0].iov_len,
-                                                               &error);
+                 obj.ioVectors[0].iov_base,
+                 obj.ioVectors[0].iov_len,
+                 &error);
         if (result < 0) {
             FDLog(LOG_ERR, "SendMsg failed with %s", strerror(error));
         }
@@ -311,9 +311,9 @@ static int ReportTermination(int fd, pid_t pid) {
 
     int error;
     ssize_t result = iTermFileDescriptorServerWriteLengthAndBuffer(fd,
-                                                                   obj.ioVectors[0].iov_base,
-                                                                   obj.ioVectors[0].iov_len,
-                                                                   &error);
+                     obj.ioVectors[0].iov_base,
+                     obj.ioVectors[0].iov_len,
+                     &error);
     if (result < 0) {
         FDLog(LOG_ERR, "SendMsg failed with %s", strerror(error));
     }
@@ -359,10 +359,10 @@ static int ReportChild(int fd, const iTermMultiServerChild *child, int isLast) {
 
     int theError = 0;
     ssize_t bytes = iTermFileDescriptorServerWriteLengthAndBufferAndFileDescriptor(fd,
-                                                                                   obj.ioVectors[0].iov_base,
-                                                                                   obj.ioVectors[0].iov_len,
-                                                                                   child->masterFd,
-                                                                                   &theError);
+                    obj.ioVectors[0].iov_base,
+                    obj.ioVectors[0].iov_len,
+                    child->masterFd,
+                    &theError);
     if (bytes < 0) {
         FDLog(LOG_ERR, "SendMsg failed with %s", strerror(theError));
         assert(theError != EAGAIN);
@@ -406,8 +406,8 @@ static int WaitForAllProcesses(int connectionFd) {
             FDLog(LOG_DEBUG, "Child with pid %d exited with status %d", (int)pid, children[i].status);
             children[i].terminated = 1;
             if (!children[i].willTerminate &&
-                connectionFd >= 0 &&
-                ReportTermination(connectionFd, children[i].pid)) {
+                    connectionFd >= 0 &&
+                    ReportTermination(connectionFd, children[i].pid)) {
                 FDLog(LOG_DEBUG, "ReportTermination returned an error");
                 return -1;
             }
@@ -467,9 +467,9 @@ static int HandleHandshake(int fd, iTermMultiServerRequestHandshake *handshake) 
 
     int error;
     ssize_t bytes = iTermFileDescriptorServerWriteLengthAndBuffer(fd,
-                                                                  obj.ioVectors[0].iov_base,
-                                                                  obj.ioVectors[0].iov_len,
-                                                                  &error);
+                    obj.ioVectors[0].iov_base,
+                    obj.ioVectors[0].iov_len,
+                    &error);
     if (bytes < 0) {
         FDLog(LOG_ERR, "SendMsg failed with %s", strerror(error));
     }
@@ -534,9 +534,9 @@ static int HandleWait(int fd, iTermMultiServerRequestWait *wait) {
 
     int error;
     ssize_t bytes = iTermFileDescriptorServerWriteLengthAndBuffer(fd,
-                                                                  obj.ioVectors[0].iov_base,
-                                                                  obj.ioVectors[0].iov_len,
-                                                                  &error);
+                    obj.ioVectors[0].iov_base,
+                    obj.ioVectors[0].iov_len,
+                    &error);
     if (bytes < 0) {
         FDLog(LOG_ERR, "SendMsg failed with %s", strerror(error));
     }
@@ -611,24 +611,24 @@ static int ReadAndHandleRequest(int readFd, int writeFd) {
     iTermMultiServerProtocolLogMessageFromClient(&request);
     int result = 0;
     switch (request.type) {
-        case iTermMultiServerRPCTypeHandshake:
-            result = HandleHandshake(writeFd, &request.payload.handshake);
-            break;
-        case iTermMultiServerRPCTypeWait:
-            result = HandleWait(writeFd, &request.payload.wait);
-            break;
-        case iTermMultiServerRPCTypeLaunch:
-            result = HandleLaunchRequest(writeFd, &request.payload.launch);
-            break;
-        case iTermMultiServerRPCTypeTermination:
-            FDLog(LOG_ERR, "Ignore termination message");
-            break;
-        case iTermMultiServerRPCTypeReportChild:
-            FDLog(LOG_ERR, "Ignore report child message");
-            break;
-        case iTermMultiServerRPCTypeHello:
-            FDLog(LOG_ERR, "Ignore hello");
-            break;
+    case iTermMultiServerRPCTypeHandshake:
+        result = HandleHandshake(writeFd, &request.payload.handshake);
+        break;
+    case iTermMultiServerRPCTypeWait:
+        result = HandleWait(writeFd, &request.payload.wait);
+        break;
+    case iTermMultiServerRPCTypeLaunch:
+        result = HandleLaunchRequest(writeFd, &request.payload.launch);
+        break;
+    case iTermMultiServerRPCTypeTermination:
+        FDLog(LOG_ERR, "Ignore termination message");
+        break;
+    case iTermMultiServerRPCTypeReportChild:
+        FDLog(LOG_ERR, "Ignore report child message");
+        break;
+    case iTermMultiServerRPCTypeHello:
+        FDLog(LOG_ERR, "Ignore hello");
+        break;
     }
     iTermMultiServerClientOriginatedMessageFree(&request);
     return result;
@@ -664,9 +664,9 @@ static void AcceptAndReject(int socket) {
     }
     int error;
     const ssize_t result = iTermFileDescriptorServerWriteLengthAndBuffer(fd,
-                                                                         obj.ioVectors[0].iov_base,
-                                                                         obj.ioVectors[0].iov_len,
-                                                                         &error);
+                           obj.ioVectors[0].iov_base,
+                           obj.ioVectors[0].iov_len,
+                           &error);
     if (result < 0) {
         FDLog(LOG_ERR, "SendMsg failed with %s", strerror(error));
     }
@@ -739,10 +739,10 @@ static int MakeAndSendPipe(int unixDomainSocketFd) {
 
     int sendFDError = 0;
     const ssize_t rc = iTermFileDescriptorServerWriteLengthAndBufferAndFileDescriptor(unixDomainSocketFd,
-                                                                                      obj.ioVectors[0].iov_base,
-                                                                                      obj.ioVectors[0].iov_len,
-                                                                                      writePipe,
-                                                                                      &sendFDError);
+                       obj.ioVectors[0].iov_base,
+                       obj.ioVectors[0].iov_len,
+                       writePipe,
+                       &sendFDError);
     iTermClientServerProtocolMessageFree(&obj);
     if (rc == -1) {
         FDLog(LOG_ERR, "Failed to send write file descriptor: %s", strerror(sendFDError));
@@ -967,15 +967,15 @@ static int Initialize(char *path) {
 
 static int iTermFileDescriptorMultiServerDaemonize(void) {
     switch (fork()) {
-        case -1:
-            // Error
-            return -1;
-        case 0:
-            // Child
-            break;
-        default:
-            // Parent
-            _exit(0);
+    case -1:
+        // Error
+        return -1;
+    case 0:
+        // Child
+        break;
+    default:
+        // Parent
+        _exit(0);
     }
 
     if (setsid() == -1) {

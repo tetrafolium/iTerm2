@@ -57,7 +57,7 @@ static void iTermPowerManagerSourceDidChange(void *context) {
 + (instancetype)sharedInstance {
     static iTermPowerManager *sharedInstance = nil;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         sharedInstance = [[self alloc] initPrivate];
     });
     return sharedInstance;
@@ -68,15 +68,15 @@ static void iTermPowerManagerSourceDidChange(void *context) {
     if (self) {
         _runLoop = CFRunLoopGetMain();
         _runLoopSource = IOPSCreateLimitedPowerNotification(iTermPowerManagerSourceDidChange,
-                                                            (__bridge void *)(self));
+                         (__bridge void *)(self));
         _connectedToPower = iTermPowerManagerIsConnectedToPower();
-        if (_runLoop && _runLoopSource){
+        if (_runLoop && _runLoopSource) {
             CFRunLoopAddSource(_runLoop, _runLoopSource, kCFRunLoopDefaultMode);
         }
         [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
-                                                               selector:@selector(didWakeFromSleep:)
-                                                                   name:NSWorkspaceDidWakeNotification
-                                                                 object:nil];
+                                        selector:@selector(didWakeFromSleep:)
+                                        name:NSWorkspaceDidWakeNotification
+                                        object:nil];
 
         _publisher = [[iTermPublisher alloc] initWithCapacity:120];
         _publisher.delegate = self;
@@ -134,7 +134,7 @@ static void iTermPowerManagerSourceDidChange(void *context) {
     CFArrayRef powerSourcesList = IOPSCopyPowerSourcesList(powerSourcesInfo);
 
     iTermPowerState *result = [self computedPowerStateWithList:powerSourcesList
-                                                          info:powerSourcesInfo];
+                                    info:powerSourcesInfo];
 
     if (powerSourcesList) {
         CFRelease(powerSourcesList);
@@ -147,13 +147,13 @@ static void iTermPowerManagerSourceDidChange(void *context) {
 }
 
 - (NSDictionary *)infoForFirstBatteryInPowerSourcesList:(CFArrayRef)powerSourcesList
-                                                   info:(CFTypeRef)powerSourcesInfo {
+    info:(CFTypeRef)powerSourcesInfo {
     for (NSInteger i = 0; i < CFArrayGetCount(powerSourcesList); i++) {
         CFTypeRef powerSource = CFArrayGetValueAtIndex(powerSourcesList, i);
         NSDictionary *dict = (__bridge NSDictionary *)IOPSGetPowerSourceDescription(powerSourcesInfo, powerSource);
         NSString *type = dict[(__bridge NSString *)CFSTR(kIOPSTypeKey)];
         if ([type isEqualToString:(__bridge NSString *)CFSTR(kIOPSInternalBatteryType)] ||
-            [type isEqualToString:(__bridge NSString *)CFSTR(kIOPSUPSType)]) {
+                [type isEqualToString:(__bridge NSString *)CFSTR(kIOPSUPSType)]) {
             return dict;
         }
     }
@@ -161,7 +161,7 @@ static void iTermPowerManagerSourceDidChange(void *context) {
 }
 
 - (iTermPowerState *)computedPowerStateWithList:(CFArrayRef)powerSourcesList
-                                           info:(CFTypeRef)powerSourcesInfo {
+    info:(CFTypeRef)powerSourcesInfo {
     CFDictionaryRef info = (__bridge CFDictionaryRef)[self infoForFirstBatteryInPowerSourcesList:powerSourcesList info:powerSourcesInfo];
     if (!info) {
         return nil;
@@ -215,8 +215,8 @@ static void iTermPowerManagerSourceDidChange(void *context) {
 
 - (void)addPowerStateSubscriber:(id)subscriber block:(void (^)(iTermPowerState *))block {
     [_publisher addSubscriber:subscriber block:^(iTermPowerState * _Nonnull payload) {
-        block(payload);
-    }];
+                   block(payload);
+               }];
     iTermPowerState *state = _publisher.historicalValues.lastObject;
     if (state != nil) {
         block(state);
@@ -227,8 +227,8 @@ static void iTermPowerManagerSourceDidChange(void *context) {
 
 - (NSArray<NSNumber *> *)percentageSamples {
     return [_publisher.historicalValues mapWithBlock:^id(iTermPowerState *state) {
-        return state.percentage;
-    }];
+                                    return state.percentage;
+                                }];
 }
 
 - (iTermPowerState *)currentState {
@@ -249,10 +249,10 @@ static void iTermPowerManagerSourceDidChange(void *context) {
         NSTimeInterval interval = 60;
 #endif
         _timer = [NSTimer scheduledTimerWithTimeInterval:interval
-                                                  target:self
-                                                selector:@selector(updateBatteryState)
-                                                userInfo:nil
-                                                 repeats:YES];
+                          target:self
+                          selector:@selector(updateBatteryState)
+                          userInfo:nil
+                          repeats:YES];
     }
 }
 

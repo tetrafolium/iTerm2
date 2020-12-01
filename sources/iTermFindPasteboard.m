@@ -17,7 +17,7 @@
 + (instancetype)sharedInstance {
     static iTermFindPasteboard *instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[iTermFindPasteboard alloc] init];
     });
     return instance;
@@ -27,9 +27,9 @@
     self = [super init];
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(windowDidBecomeKey:)
-                                                     name:NSWindowDidBecomeKeyNotification
-                                                   object:nil];
+                                              selector:@selector(windowDidBecomeKey:)
+                                              name:NSWindowDidBecomeKeyNotification
+                                              object:nil];
     }
     return self;
 }
@@ -57,9 +57,9 @@
 
 - (void)addObserver:(id)observer block:(void (^)(NSString *newValue))block {
     __weak __typeof(self) weakSelf = self;
-    [iTermSearchQueryDidChangeNotification subscribe:observer block:^{
-        __strong __typeof(self) strongSelf = weakSelf;
-        if (!strongSelf) {
+    [iTermSearchQueryDidChangeNotification subscribe:observer block:^ {
+                                              __strong __typeof(self) strongSelf = weakSelf;
+                                              if (!strongSelf) {
             return;
         }
         block(strongSelf.stringValue);

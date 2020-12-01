@@ -35,18 +35,18 @@
 
 // Re-layout the card.
 - (void)layoutWithWidth:(CGFloat)width
-                 origin:(NSPoint)newOrigin;
+    origin:(NSPoint)newOrigin;
 
 // Add an action button. |image| should be 22x22pt. |block| is called on click.
 - (iTermTipCardActionButton *)addActionWithTitle:(NSString *)title
-                                            icon:(NSImage *)image
-                                           block:(void (^)(id card))block;
+    icon:(NSImage *)image
+    block:(void (^)(id card))block;
 
 // The shortcut is merely an indicator. It's up to the caller to register a hotkey and handle it.
 - (iTermTipCardActionButton *)addActionWithTitle:(NSString *)title
-                                        shortcut:(NSString *)shortcut
-                                            icon:(NSImage *)image
-                                           block:(void (^)(id card))block;
+    shortcut:(NSString *)shortcut
+    icon:(NSImage *)image
+    block:(void (^)(id card))block;
 
 // Returns the action button with |title| or nil.
 - (iTermTipCardActionButton *)actionWithTitle:(NSString *)title;
@@ -61,11 +61,11 @@
 // |block| is responsible for animating the window or superview's frame and is called in the
 // completion block.
 - (void)animateCardWithDuration:(CGFloat)duration
-                   heightChange:(CGFloat)heightChange
-              originalCardFrame:(NSRect)originalCardFrame
-             postAnimationFrame:(NSRect)postAnimationFrame
-                 superviewWidth:(CGFloat)superviewWidth
-                          block:(void (^)(void))block;
+    heightChange:(CGFloat)heightChange
+    originalCardFrame:(NSRect)originalCardFrame
+    postAnimationFrame:(NSRect)postAnimationFrame
+    superviewWidth:(CGFloat)superviewWidth
+    block:(void (^)(void))block;
 
 // Make two buttons share a row. Currently, this assumes a row has either 1 or
 // 2 buttons, and both titles must be for existing buttons.

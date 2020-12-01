@@ -17,8 +17,8 @@
 @property (nonatomic, readonly) NSNumber *euid;
 
 - (instancetype)initWithFileDescriptor:(int)fd
-                         clientAddress:(iTermSocketAddress *)address
-                                  euid:(NSNumber *)euid;
+    clientAddress:(iTermSocketAddress *)address
+    euid:(NSNumber *)euid;
 
 // All methods methods should only be called on self.queue:
 - (NSURLRequest *)readRequest;

@@ -16,8 +16,8 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p abs=%@ yoff=%@ extends=%@>",
-            [self class], self,
-            @(absolutePosition_), @(yOffset_), @(extendsToEndOfLine_)];
+                     [self class], self,
+                     @(absolutePosition_), @(yOffset_), @(extendsToEndOfLine_)];
 }
 
 - (LineBufferPosition *)predecessor {
@@ -48,7 +48,8 @@
 
 @end
 
-@implementation LineBufferPositionRange : NSObject
+@implementation LineBufferPositionRange :
+NSObject
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p start=%@ end=%@>", [self class], self, _start, _end];

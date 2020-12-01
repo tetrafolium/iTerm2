@@ -24,8 +24,8 @@
 
     if ([NSJSONSerialization isValidJSONObject:object]) {
         json = [self dataWithJSONObject:object
-                                options:0
-                                  error:&error];
+                     options:0
+                     error:&error];
         if (error) {
             XLog(@"Failed to json encode value %@: %@", object, error);
             return nil;
@@ -46,15 +46,15 @@
     NSError *error;
     NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
     return [NSJSONSerialization JSONObjectWithData:data
-                                           options:NSJSONReadingAllowFragments
-                                             error:&error];
+                                options:NSJSONReadingAllowFragments
+                                error:&error];
 }
 
 + (id)it_objectForJsonString:(NSString *)string error:(out NSError **)error {
     NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
     return [NSJSONSerialization JSONObjectWithData:data
-                                           options:NSJSONReadingAllowFragments
-                                             error:error];
+                                options:NSJSONReadingAllowFragments
+                                error:error];
 }
 
 @end

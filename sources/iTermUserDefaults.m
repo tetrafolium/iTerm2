@@ -32,21 +32,21 @@ static NSString *const iTermUserDefaultsKeyLastSystemPythonVersionRequirement = 
 
 static NSArray *iTermUserDefaultsGetTypedArray(NSUserDefaults *userDefaults, Class objectClass, NSString *key) {
     return [[NSArray castFrom:[userDefaults objectForKey:iTermUserDefaultsKeySearchHistory]] mapWithBlock:^id(id anObject) {
-        return [objectClass castFrom:anObject];
-    }];
+                                                                                       return [objectClass castFrom:anObject];
+                                                                                   }];
 }
 
 static void iTermUserDefaultsSetTypedArray(NSUserDefaults *userDefaults, Class objectClass, NSString *key, id value) {
     NSArray *array = [[NSArray castFrom:value] mapWithBlock:^id(id anObject) {
-        return [objectClass castFrom:anObject];
-    }];
+                                 return [objectClass castFrom:anObject];
+                             }];
     [userDefaults setObject:array forKey:key];
 }
 
 static NSUserDefaults *iTermPrivateUserDefaults(void) {
     static dispatch_once_t onceToken;
     static NSUserDefaults *privateUserDefaults;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         privateUserDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"com.googlecode.iterm2.private"];
     });
     return privateUserDefaults;
@@ -55,9 +55,9 @@ static NSUserDefaults *iTermPrivateUserDefaults(void) {
 + (NSUserDefaults *)userDefaults {
     static NSUserDefaults *userDefaults;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         userDefaults = [NSUserDefaults standardUserDefaults];
-        [userDefaults registerDefaults:@{ iTermUserDefaultsKeyOpenTmuxDashboardIfHiddenWindows: @YES }];
+[userDefaults registerDefaults:@{ iTermUserDefaultsKeyOpenTmuxDashboardIfHiddenWindows: @YES }];
     });
     return userDefaults;
 }
@@ -101,13 +101,13 @@ static NSUserDefaults *iTermPrivateUserDefaults(void) {
     // See comment in +secureKeyboardEntry.
     [self.userDefaults removeObjectForKey:iTermUserDefaultsKeyBuggySecureKeyboardEntry];
     [self.userDefaults setBool:secureKeyboardEntry
-                        forKey:iTermSecureKeyboardEntryEnabledUserDefaultsKey];
+                       forKey:iTermSecureKeyboardEntryEnabledUserDefaultsKey];
 }
 
 + (iTermAppleWindowTabbingMode)appleWindowTabbingMode {
     static NSUserDefaults *globalDomain;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         // We overwrite this key in the app domain to fool Cocoa, so we need to
         // read it from the global domain. You can't create an instance of
         // NSUserDefaults with the suite NSGlobalDefaults because AppKit is not
@@ -138,7 +138,7 @@ static NSUserDefaults *iTermPrivateUserDefaults(void) {
 
 + (void)setEnableAutomaticProfileSwitchingLogging:(BOOL)enableAutomaticProfileSwitchingLogging {
     [self.userDefaults setBool:enableAutomaticProfileSwitchingLogging
-                        forKey:iTermUserDefaultsKeyEnableAutomaticProfileSwitchingLogging];
+                       forKey:iTermUserDefaultsKeyEnableAutomaticProfileSwitchingLogging];
 }
 
 + (BOOL)requireAuthenticationAfterScreenLocks {
@@ -147,7 +147,7 @@ static NSUserDefaults *iTermPrivateUserDefaults(void) {
 
 + (void)setRequireAuthenticationAfterScreenLocks:(BOOL)requireAuthenticationAfterScreenLocks {
     [self.userDefaults setBool:requireAuthenticationAfterScreenLocks
-                        forKey:iTermUserDefaultsKeyRequireAuthenticationAfterScreenLocks];
+                       forKey:iTermUserDefaultsKeyRequireAuthenticationAfterScreenLocks];
 }
 + (BOOL)openTmuxDashboardIfHiddenWindows {
     return [self.userDefaults boolForKey:iTermUserDefaultsKeyOpenTmuxDashboardIfHiddenWindows];
@@ -155,7 +155,7 @@ static NSUserDefaults *iTermPrivateUserDefaults(void) {
 
 + (void)setOpenTmuxDashboardIfHiddenWindows:(BOOL)openTmuxDashboardIfHiddenWindows {
     [self.userDefaults setBool:openTmuxDashboardIfHiddenWindows
-                        forKey:iTermUserDefaultsKeyOpenTmuxDashboardIfHiddenWindows];
+                       forKey:iTermUserDefaultsKeyOpenTmuxDashboardIfHiddenWindows];
 }
 
 + (BOOL)haveExplainedHowToAddTouchbarControls {
@@ -164,7 +164,7 @@ static NSUserDefaults *iTermPrivateUserDefaults(void) {
 
 + (void)setHaveExplainedHowToAddTouchbarControls:(BOOL)haveExplainedHowToAddTouchbarControls {
     [self.userDefaults setBool:haveExplainedHowToAddTouchbarControls
-                        forKey:iTermUserDefaultsKeyHaveExplainedHowToAddTouchbarControls];
+                       forKey:iTermUserDefaultsKeyHaveExplainedHowToAddTouchbarControls];
 }
 
 + (BOOL)ignoreSystemWindowRestoration {
@@ -173,7 +173,7 @@ static NSUserDefaults *iTermPrivateUserDefaults(void) {
 
 + (void)setIgnoreSystemWindowRestoration:(BOOL)ignoreSystemWindowRestoration {
     [self.userDefaults setBool:ignoreSystemWindowRestoration
-                        forKey:iTermUserDefaultsKeyIgnoreSystemWindowRestoration];
+                       forKey:iTermUserDefaultsKeyIgnoreSystemWindowRestoration];
 }
 
 + (NSUInteger)globalSearchMode {

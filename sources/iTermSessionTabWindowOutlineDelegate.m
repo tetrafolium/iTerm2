@@ -82,8 +82,8 @@
     if (self) {
         _tab = tab;
         _children = [tab.sessions mapWithBlock:^id(PTYSession *session) {
-            return [[iTermOutlineSessionProxy alloc] initWithSession:session];
-        }];
+                         return [[iTermOutlineSessionProxy alloc] initWithSession:session];
+                     }];
     }
     return self;
 }
@@ -119,8 +119,8 @@
     self = [super init];
     if (self) {
         _children = [[[iTermBuriedSessions sharedInstance] buriedSessions] mapWithBlock:^id(PTYSession *session) {
-            return [[iTermOutlineSessionProxy alloc] initWithSession:session];
-        }];
+                                                  return [[iTermOutlineSessionProxy alloc] initWithSession:session];
+                                              }];
     }
     return self;
 }
@@ -157,8 +157,8 @@
     if (self) {
         _windowController = windowController;
         _children = [windowController.tabs mapWithBlock:^id(PTYTab *tab) {
-            return [[iTermOutlineTabProxy alloc] initWithTab:tab];
-        }];
+                                  return [[iTermOutlineTabProxy alloc] initWithTab:tab];
+                              }];
     }
     return self;
 }
@@ -194,8 +194,8 @@
     self = [super init];
     if (self) {
         _children = [[[iTermController sharedInstance] terminals] mapWithBlock:^id(PseudoTerminal *windowController) {
-            return [[iTermOutlineWindowProxy alloc] initWithWindowController:windowController];
-        }];
+                                              return [[iTermOutlineWindowProxy alloc] initWithWindowController:windowController];
+                                          }];
         NSArray<PTYSession *> *sessions = [[iTermBuriedSessions sharedInstance] buriedSessions];
         if (sessions.count) {
             _children = [_children arrayByAddingObject:[[iTermOutlineBuriedSessionsProxy alloc] init]];
@@ -284,13 +284,13 @@
         view.textField = textField;
         [view addSubview:textField];
         [view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[textField]-0-|"
-                                                                     options:0
-                                                                     metrics:nil
-                                                                       views:@{ @"textField": textField }]];
+                              options:0
+                              metrics:nil
+                              views:@ { @"textField": textField }]];
         [view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[textField]-0-|"
-                                                                     options:0
-                                                                     metrics:nil
-                                                                       views:@{ @"textField": textField }]];
+                              options:0
+                              metrics:nil
+                              views:@ { @"textField": textField }]];
         textField.frame = view.bounds;
         textField.autoresizingMask = (NSViewWidthSizable | NSViewHeightSizable);
     }
@@ -376,7 +376,7 @@
     }
     NSWindow *window = _sessionTabWindowOutlineView.window;
     // Doesn't work unless you dispatch_async, I guess because modal sessions are a hack.
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         [window makeKeyAndOrderFront:nil];
     });
 }

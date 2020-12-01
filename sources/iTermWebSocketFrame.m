@@ -155,39 +155,39 @@
 - (NSString *)description {
     NSString *opcode;
     switch (_opcode) {
-        case iTermWebSocketOpcodePing:
-            opcode = @"ping";
-            break;
+    case iTermWebSocketOpcodePing:
+        opcode = @"ping";
+        break;
 
-        case iTermWebSocketOpcodePong:
-            opcode = @"pong";
-            break;
+    case iTermWebSocketOpcodePong:
+        opcode = @"pong";
+        break;
 
-        case iTermWebSocketOpcodeText:
-            opcode = @"text";
-            break;
+    case iTermWebSocketOpcodeText:
+        opcode = @"text";
+        break;
 
-        case iTermWebSocketOpcodeBinary:
-            opcode = @"binary";
-            break;
+    case iTermWebSocketOpcodeBinary:
+        opcode = @"binary";
+        break;
 
-        case iTermWebSocketOpcodeContinuation:
-            opcode = @"continuation";
-            break;
+    case iTermWebSocketOpcodeContinuation:
+        opcode = @"continuation";
+        break;
 
-        case iTermWebSocketOpcodeConnectionClose:
-            opcode = @"close";
-            break;
+    case iTermWebSocketOpcodeConnectionClose:
+        opcode = @"close";
+        break;
 
-        default:
-            opcode = [@(_opcode) stringValue];
+    default:
+        opcode = [@(_opcode) stringValue];
     }
     return [NSString stringWithFormat:@"<%@: %p opcode=%@ fin=%@ payloadLength=%@>",
-            NSStringFromClass([self class]),
-            self,
-            opcode,
-            _fin ? @"YES": @"NO",
-            @(self.payload.length)];
+                     NSStringFromClass([self class]),
+                     self,
+                     opcode,
+                     _fin ? @"YES": @"NO",
+                     @(self.payload.length)];
 }
 
 - (NSData *)data {

@@ -15,6 +15,6 @@
 
 + (instancetype)sharedInstance;
 - (void)addSubscriber:(id)subscriber
-                block:(void (^)(double))block;
+    block:(void (^)(double))block;
 
 @end

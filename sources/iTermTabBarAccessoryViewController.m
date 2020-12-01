@@ -9,10 +9,10 @@
 #import "iTermAdvancedSettingsModel.h"
 
 // TODO: FB7781183
-@interface iTermHackAroundBigSurBugView: NSView
+@interface iTermHackAroundBigSurBugView : NSView
 @end
 
-@implementation iTermHackAroundBigSurBugView: NSView
+@implementation iTermHackAroundBigSurBugView : NSView
 - (BOOL)isFlipped {
     return YES;
 }

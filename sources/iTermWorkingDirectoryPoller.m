@@ -34,21 +34,21 @@ typedef void (^iTermWorkingDirectoryPollerClosure)(NSString * _Nullable);
 }
 
 - (instancetype)initWithTmuxGateway:(TmuxGateway *)gateway
-                              scope:(iTermVariableScope *)scope
-                         windowPane:(int)windowPane {
+    scope:(iTermVariableScope *)scope
+    windowPane:(int)windowPane {
     self = [self init];
     if (self) {
         __weak __typeof(self) weakSelf = self;
         _completions = [NSMutableArray array];
         _tmuxOptionMonitor = [[iTermTmuxOptionMonitor alloc] initWithGateway:gateway
-                                                                       scope:scope
-                                                        fallbackVariableName:nil
-                                                                      format:@"#{pane_current_path}"
-                                                                      target:[NSString stringWithFormat:@"%%%@", @(windowPane)]
-                                                                variableName:nil
-                                                                       block:^(NSString * _Nonnull directory) {
-                                                                           [weakSelf tmuxOptionMonitorDidProduceDirectory:directory];
-                                                                       }];
+                                                             scope:scope
+                                                             fallbackVariableName:nil
+                                                             format:@"#{pane_current_path}"
+                                                             target:[NSString stringWithFormat:@"%%%@", @(windowPane)]
+                                                             variableName:nil
+                                       block:^(NSString * _Nonnull directory) {
+                                           [weakSelf tmuxOptionMonitorDidProduceDirectory:directory];
+                                       }];
     }
     return self;
 }
@@ -114,7 +114,7 @@ typedef void (^iTermWorkingDirectoryPollerClosure)(NSString * _Nullable);
     __weak __typeof(self) weakSelf = self;
     NSInteger generation = _generation;
     [iTermLSOF asyncWorkingDirectoryOfProcess:pid queue:dispatch_get_main_queue() block:^(NSString *pwd) {
-        DLog(@"Got: %@", pwd);
+                  DLog(@"Got: %@", pwd);
         [weakSelf setDirectory:pwd generation:generation];
     }];
 }
@@ -137,10 +137,10 @@ typedef void (^iTermWorkingDirectoryPollerClosure)(NSString * _Nullable);
     NSArray<iTermWorkingDirectoryPollerClosure> *completions = [_completions copy];
     [_completions removeAllObjects];
     [completions enumerateObjectsUsingBlock:^(iTermWorkingDirectoryPollerClosure  _Nonnull completion, NSUInteger idx, BOOL * _Nonnull stop) {
-        completion(pwd);
-    }];
+                    completion(pwd);
+                }];
     [self.delegate workingDirectoryPollerDidFindWorkingDirectory:pwd
-                                                     invalidated:!valid];
+                   invalidated:!valid];
 }
 
 - (void)tmuxOptionMonitorDidProduceDirectory:(NSString *)directory {

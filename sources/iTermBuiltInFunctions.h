@@ -28,11 +28,11 @@ typedef void (^iTermBuiltInFunctionsExecutionBlock)(NSDictionary * _Nonnull para
 @property (nonatomic, readonly) iTermBuiltInFunctionsExecutionBlock block;
 
 - (instancetype)initWithName:(NSString *)name
-                   arguments:(NSDictionary<NSString *, Class> *)argumentsAndTypes
-           optionalArguments:(NSSet<NSString *> *)optionalArguments
-               defaultValues:(NSDictionary<NSString *, NSString *> *)defaultValues  // arg name -> variable name
-                     context:(iTermVariablesSuggestionContext)context
-                       block:(iTermBuiltInFunctionsExecutionBlock)block NS_DESIGNATED_INITIALIZER;
+    arguments:(NSDictionary<NSString *, Class> *)argumentsAndTypes
+    optionalArguments:(NSSet<NSString *> *)optionalArguments
+    defaultValues:(NSDictionary<NSString *, NSString *> *)defaultValues  // arg name -> variable name
+    context:(iTermVariablesSuggestionContext)context
+    block:(iTermBuiltInFunctionsExecutionBlock)block NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 @end
@@ -40,15 +40,15 @@ typedef void (^iTermBuiltInFunctionsExecutionBlock)(NSDictionary * _Nonnull para
 @interface iTermBuiltInMethod : iTermBuiltInFunction
 
 - (instancetype)initWithName:(NSString *)name
-               defaultValues:(NSDictionary<NSString *, NSString *> *)defaultValues  // arg name -> variable name
-                       types:(NSDictionary<NSString *, Class> *)types
-           optionalArguments:(NSSet<NSString *> *)optionalArguments
-                     context:(iTermVariablesSuggestionContext)context
-                      target:(id<iTermObject>)target
-                      action:(SEL)action;
+    defaultValues:(NSDictionary<NSString *, NSString *> *)defaultValues  // arg name -> variable name
+    types:(NSDictionary<NSString *, Class> *)types
+    optionalArguments:(NSSet<NSString *> *)optionalArguments
+    context:(iTermVariablesSuggestionContext)context
+    target:(id<iTermObject>)target
+    action:(SEL)action;
 
 - (void)callWithArguments:(NSDictionary<NSString *, id> *)arguments
-               completion:(iTermBuiltInFunctionCompletionBlock)block;
+    completion:(iTermBuiltInFunctionCompletionBlock)block;
 
 - (BOOL)matchedBySignature:(NSString *)signature inNamespace:(NSString *)namespace;
 
@@ -64,17 +64,17 @@ typedef void (^iTermBuiltInFunctionsExecutionBlock)(NSDictionary * _Nonnull para
 - (void)restoreState:(id)savedState;
 
 - (void)registerFunction:(iTermBuiltInFunction *)function
-               namespace:(nullable NSString *)namespace;
+    namespace:(nullable NSString *)namespace;
 
 - (BOOL)haveFunctionWithName:(NSString *)name
-                   namespace:(NSString *)namespace
-                   arguments:(NSArray<NSString *> *)arguments;
+    namespace:(NSString *)namespace
+    arguments:(NSArray<NSString *> *)arguments;
 
 - (void)callFunctionWithName:(NSString *)name
-                   namespace:(NSString *)namespace
-                  parameters:(NSDictionary<NSString *, id> *)parameters
-                       scope:(iTermVariableScope *)scope
-                  completion:(iTermBuiltInFunctionCompletionBlock)completion;
+    namespace:(NSString *)namespace
+    parameters:(NSDictionary<NSString *, id> *)parameters
+    scope:(iTermVariableScope *)scope
+    completion:(iTermBuiltInFunctionCompletionBlock)completion;
 
 - (NSError *)undeclaredIdentifierError:(NSString *)identifier;
 - (NSError *)invalidReferenceError:(NSString *)reference name:(NSString *)name;

@@ -8,8 +8,8 @@
 // and |value|. If |name| is nil then it is the feature's title. |highlight|
 // gives indices that should be highlighted, and may be nil.
 - (id)openQuicklyModelDisplayStringForFeatureNamed:(NSString *)name
-                                             value:(NSString *)value
-                                highlightedIndexes:(NSIndexSet *)highlight;
+    value:(NSString *)value
+    highlightedIndexes:(NSIndexSet *)highlight;
 - (NSAttributedString *)openQuicklyModelAttributedStringForDetail:(NSString *)detail;
 
 @end

@@ -35,12 +35,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)newPythonScript;
 
 - (void)launchScriptWithRelativePath:(NSString *)path
-                           arguments:(NSArray<NSString *> *)arguments
-                  explicitUserAction:(BOOL)explicitUserAction;
+    arguments:(NSArray<NSString *> *)arguments
+    explicitUserAction:(BOOL)explicitUserAction;
 
 - (void)launchScriptWithAbsolutePath:(NSString *)fullPath
-                           arguments:(NSArray<NSString *> *)arguments
-                  explicitUserAction:(BOOL)explicitUserAction;
+    arguments:(NSArray<NSString *> *)arguments
+    explicitUserAction:(BOOL)explicitUserAction;
 - (BOOL)couldLaunchScriptWithAbsolutePath:(NSString *)fullPath;
 
 - (void)chooseAndExportScript;
@@ -51,8 +51,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)couldMoveScriptToAutoLaunch:(NSString *)fullPath;
 
 - (void)importDidFinishWithErrorMessage:(nullable NSString *)errorMessage
-                               location:(NSURL *)location
-                            originalURL:(NSURL *)url;
+    location:(NSURL *)location
+    originalURL:(NSURL *)url;
 
 @end
 

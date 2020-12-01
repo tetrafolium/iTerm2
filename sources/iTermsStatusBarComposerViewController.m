@@ -23,7 +23,7 @@ static NSString *const iTermComposerComboBoxDidBecomeFirstResponder = @"iTermCom
 
 - (BOOL)becomeFirstResponder {
     [[NSNotificationCenter defaultCenter] postNotificationName:iTermComposerComboBoxDidBecomeFirstResponder
-                                                        object:self];
+                                          object:self];
     return [super becomeFirstResponder];
 }
 
@@ -74,9 +74,9 @@ static NSString *const iTermComposerComboBoxDidBecomeFirstResponder = @"iTermCom
 
 - (void)awakeFromNib {
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(comboBoxDidBecomeFirstResponder:)
-                                                 name:iTermComposerComboBoxDidBecomeFirstResponder
-                                               object:_comboBox];
+                                          selector:@selector(comboBoxDidBecomeFirstResponder:)
+                                          name:iTermComposerComboBoxDidBecomeFirstResponder
+                                          object:_comboBox];
 }
 
 - (NSString *)stringValue {
@@ -117,8 +117,8 @@ static NSString *const iTermComposerComboBoxDidBecomeFirstResponder = @"iTermCom
     _popoverVC.textView.font = [self.delegate statusBarComposerFont:self];
     _popoverVC.textView.composerDelegate = self;
     [_popover showRelativeToRect:_comboBox.frame
-                          ofView:self.view
-                   preferredEdge:NSRectEdgeMaxY];
+              ofView:self.view
+              preferredEdge:NSRectEdgeMaxY];
 
 }
 - (void)reallyReloadData {
@@ -165,8 +165,8 @@ static NSString *const iTermComposerComboBoxDidBecomeFirstResponder = @"iTermCom
 }
 
 - (BOOL)control:(NSControl *)control
-       textView:(NSTextView *)textView
-doCommandBySelector:(SEL)commandSelector {
+    textView:(NSTextView *)textView
+    doCommandBySelector:(SEL)commandSelector {
     if (control != _comboBox) {
         return NO;
     }

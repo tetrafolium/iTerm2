@@ -29,9 +29,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) BOOL workingDirectoryIsLocal;
 
 - (instancetype)initWithPrefix:(NSString *)beforeStringIn
-                        suffix:(NSString *)afterStringIn
-              workingDirectory:(NSString *)workingDirectory
-                trimWhitespace:(BOOL)trimWhitespace NS_DESIGNATED_INITIALIZER;
+    suffix:(NSString *)afterStringIn
+    workingDirectory:(NSString *)workingDirectory
+    trimWhitespace:(BOOL)trimWhitespace NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 

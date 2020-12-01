@@ -182,9 +182,9 @@
     if (_selecting && mode == kiTermSelectionModeLine) {
         const long long overflow = _textView.dataSource.totalScrollbackOverflow;
         [_textView.selection beginSelectionAtAbsCoord:VT100GridAbsCoordFromCoord(_start, overflow)
-                                         mode:_mode
-                                       resume:NO
-                                       append:NO];
+                             mode:_mode
+                             resume:NO
+                             append:NO];
         [_textView.selection moveSelectionEndpointTo:VT100GridAbsCoordFromCoord(_coord, overflow)];
         [_textView.selection endLiveSelection];
     }
@@ -194,16 +194,16 @@
 
 - (PTYTextViewSelectionEndpoint)endpointWithDirection:(PTYTextViewSelectionExtensionDirection)direction {
     switch (VT100GridCoordOrder(_start, _coord)) {
-        case NSOrderedSame:
-            if (direction == kPTYTextViewSelectionExtensionDirectionLeft || direction == kPTYTextViewSelectionExtensionDirectionUp) {
-                return kPTYTextViewSelectionEndpointStart;
-            } else {
-                return kPTYTextViewSelectionEndpointEnd;
-            }
-        case NSOrderedAscending:
-            return kPTYTextViewSelectionEndpointEnd;
-        case NSOrderedDescending:
+    case NSOrderedSame:
+        if (direction == kPTYTextViewSelectionExtensionDirectionLeft || direction == kPTYTextViewSelectionExtensionDirectionUp) {
             return kPTYTextViewSelectionEndpointStart;
+        } else {
+            return kPTYTextViewSelectionEndpointEnd;
+        }
+    case NSOrderedAscending:
+        return kPTYTextViewSelectionEndpointEnd;
+    case NSOrderedDescending:
+        return kPTYTextViewSelectionEndpointStart;
     }
 }
 
@@ -226,7 +226,7 @@
 }
 
 - (BOOL)moveInDirection:(PTYTextViewSelectionExtensionDirection)direction
-                   unit:(PTYTextViewSelectionExtensionUnit)unit {
+    unit:(PTYTextViewSelectionExtensionUnit)unit {
     VT100GridCoord before = _coord;
 
     // Move coord
@@ -238,18 +238,18 @@
     const VT100GridAbsWindowedRange absWindowedRange = VT100GridAbsWindowedRangeFromWindowedRange(windowedRange, overflow);
     iTermLogicalMovementHelper *helper = [_textView logicalMovementHelperForCursorCoordinate:_textView.cursorCoord];
     const VT100GridAbsWindowedRange range = [helper absRangeByExtendingRange:absWindowedRange
-                                                                    endpoint:kPTYTextViewSelectionEndpointStart
-                                                                   direction:direction
-                                                                   extractor:extractor
-                                                                        unit:unit];
+                                                   endpoint:kPTYTextViewSelectionEndpointStart
+                                                   direction:direction
+                                                   extractor:extractor
+                                                   unit:unit];
     _coord = VT100GridCoordFromAbsCoord(range.coordRange.start, overflow, nil);
 
     // Make a new selection
     if (_selecting) {
         [_textView.selection beginSelectionAtAbsCoord:VT100GridAbsCoordFromCoord(_start, overflow)
-                                                 mode:_mode
-                                               resume:NO
-                                               append:NO];
+                             mode:_mode
+                             resume:NO
+                             append:NO];
         [_textView.selection moveSelectionEndpointTo:VT100GridAbsCoordFromCoord(_coord, overflow)];
         [_textView.selection endLiveSelection];
     }

@@ -52,61 +52,65 @@ static NSString *const kDeleteKeyString = @"0x7f-0x0";
 
 - (void)awakeFromNib {
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyBindingDidChange)
-                                                 name:kKeyBindingsChangedNotification
-                                               object:nil];
+                                          selector:@selector(keyBindingDidChange)
+                                          name:kKeyBindingsChangedNotification
+                                          object:nil];
     __weak __typeof(self) weakSelf = self;
     [self defineControl:_optionKeySends
-                    key:KEY_OPTION_KEY_SENDS
-            relatedView:_optionKeySendsLabel
-                   type:kPreferenceInfoTypeMatrix
-         settingChanged:^(id sender) { [self optionKeySendsDidChangeForControl:sender]; }
-                 update:^BOOL{
-                     __strong __typeof(weakSelf) strongSelf = weakSelf;
-                     if (strongSelf) {
-                         [strongSelf updateOptionKeySendsForControl:strongSelf->_optionKeySends];
-                         return YES;
-                     } else {
-                         return NO;
-                     }
-                 }];
+          key:KEY_OPTION_KEY_SENDS
+          relatedView:_optionKeySendsLabel
+          type:kPreferenceInfoTypeMatrix
+         settingChanged:^(id sender) {
+             [self optionKeySendsDidChangeForControl:sender];
+         }
+         update:^BOOL{
+             __strong __typeof(weakSelf) strongSelf = weakSelf;
+        if (strongSelf) {
+            [strongSelf updateOptionKeySendsForControl:strongSelf->_optionKeySends];
+            return YES;
+        } else {
+            return NO;
+        }
+    }];
 
     [self defineControl:_rightOptionKeySends
-                    key:KEY_RIGHT_OPTION_KEY_SENDS
-            relatedView:_rightOptionKeySendsLabel
-                   type:kPreferenceInfoTypeMatrix
-         settingChanged:^(id sender) { [self optionKeySendsDidChangeForControl:sender]; }
-                 update:^BOOL{
-                     __strong __typeof(weakSelf) strongSelf = weakSelf;
-                     if (strongSelf) {
-                         [strongSelf updateOptionKeySendsForControl:strongSelf->_rightOptionKeySends];
-                         return YES;
-                     } else {
-                         return NO;
-                     }
-                 }];
+          key:KEY_RIGHT_OPTION_KEY_SENDS
+          relatedView:_rightOptionKeySendsLabel
+          type:kPreferenceInfoTypeMatrix
+         settingChanged:^(id sender) {
+             [self optionKeySendsDidChangeForControl:sender];
+         }
+         update:^BOOL{
+             __strong __typeof(weakSelf) strongSelf = weakSelf;
+        if (strongSelf) {
+            [strongSelf updateOptionKeySendsForControl:strongSelf->_rightOptionKeySends];
+            return YES;
+        } else {
+            return NO;
+        }
+    }];
 
     [self defineControl:_applicationKeypadAllowed
-                    key:KEY_APPLICATION_KEYPAD_ALLOWED
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_APPLICATION_KEYPAD_ALLOWED
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
     [self defineControl:_allowModifyOtherKeys
-                    key:KEY_ALLOW_MODIFY_OTHER_KEYS
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_ALLOW_MODIFY_OTHER_KEYS
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     PreferenceInfo *info = [self defineControl:_useLibTickit
-                                           key:KEY_USE_LIBTICKIT_PROTOCOL
-                                   relatedView:nil
-                                          type:kPreferenceInfoTypeCheckbox];
-    info.onChange = ^{
+                                 key:KEY_USE_LIBTICKIT_PROTOCOL
+                                 relatedView:nil
+                                 type:kPreferenceInfoTypeCheckbox];
+    info.onChange = ^ {
         [weakSelf didToggleLibtickit];
     };
 
     info = [self defineControl:_hasHotkey
-                           key:KEY_HAS_HOTKEY
-                   relatedView:nil
-                          type:kPreferenceInfoTypeCheckbox];
+                 key:KEY_HAS_HOTKEY
+                 relatedView:nil
+                 type:kPreferenceInfoTypeCheckbox];
     info.customSettingChangedHandler = ^(id sender) {
         if ([[self stringForKey:KEY_HOTKEY_CHARACTERS_IGNORING_MODIFIERS] length]) {
             [self setBool:([sender state] == NSControlStateValueOn) forKey:KEY_HAS_HOTKEY];
@@ -122,14 +126,14 @@ static NSString *const kDeleteKeyString = @"0x7f-0x0";
     };
 
     [self addViewToSearchIndex:_configureHotKey
-                   displayName:@"Configure hotkey window"
-                       phrases:@[]
-                           key:nil];
+          displayName:@"Configure hotkey window"
+          phrases:@[]
+          key:nil];
 
     [self addViewToSearchIndex:_keyMappingViewController.view
-                   displayName:@"Profile key bindings"
-                       phrases:@[ @"mapping", @"shortcuts", @"touch bar", @"preset", @"xterm", @"natural", @"terminal.app compatibility", @"numeric keypad" ]
-                           key:nil];
+          displayName:@"Profile key bindings"
+          phrases:@[ @"mapping", @"shortcuts", @"touch bar", @"preset", @"xterm", @"natural", @"terminal.app compatibility", @"numeric keypad" ]
+          key:nil];
 
     [self updateDeleteSendsCtrlH];
     [_keyMappingViewController hideAddTouchBarItem];
@@ -153,7 +157,7 @@ static NSString *const kDeleteKeyString = @"0x7f-0x0";
 - (void)reloadProfile {
     [super reloadProfile];
     [[NSNotificationCenter defaultCenter] postNotificationName:kKeyBindingsChangedNotification
-                                                        object:nil];
+                                          object:nil];
 }
 
 #pragma mark - CSI u
@@ -170,12 +174,12 @@ static NSString *const kDeleteKeyString = @"0x7f-0x0";
     // (Combo) -> (Combo, Action)
     NSDictionary<iTermKeystroke *, NSArray<iTermTuple<iTermKeystroke *, iTermKeyBindingAction *> *> *> *inProfileDict =
     [inProfile classifyWithBlock:^id(iTermTuple<iTermKeystroke *, iTermKeyBindingAction *> *tuple) {
-        return [tuple.firstObject keystrokeWithoutVirtualKeyCode];
-    }];
+                  return [tuple.firstObject keystrokeWithoutVirtualKeyCode];
+              }];
     NSArray<iTermTuple<iTermKeystroke *, iTermKeyBindingAction *> *> *inAnyPreset = [iTermPresetKeyMappings keystrokeTuplesInAllPresets];
 
     return [inAnyPreset mapWithBlock:^id(iTermTuple<iTermKeystroke *, iTermKeyBindingAction *> *inPreset) {
-        iTermKeystroke *key = [inPreset.firstObject keystrokeWithoutVirtualKeyCode];
+                    iTermKeystroke *key = [inPreset.firstObject keystrokeWithoutVirtualKeyCode];
         NSArray<iTermTuple<iTermKeystroke *, iTermKeyBindingAction *> *> *actions = inProfileDict[key];
         if (actions.count == 0) {
             return nil;
@@ -192,10 +196,10 @@ static NSString *const kDeleteKeyString = @"0x7f-0x0";
     }
     // (Combo, Action)
     [bindingsToRemove enumerateObjectsUsingBlock:^(iTermTuple<iTermKeystroke *, iTermKeyBindingAction *> * _Nonnull tuple,
-                                                   NSUInteger idx,
-                                                   BOOL * _Nonnull stop) {
-        const NSUInteger index = [[iTermKeyMappings sortedKeystrokesForProfile:profile] indexOfObject:tuple.firstObject];
-        if (index != NSNotFound) {
+                             NSUInteger idx,
+                     BOOL * _Nonnull stop) {
+                         const NSUInteger index = [[iTermKeyMappings sortedKeystrokesForProfile:profile] indexOfObject:tuple.firstObject];
+                         if (index != NSNotFound) {
             [iTermKeyMappings removeMappingAtIndex:index fromProfile:profile];
         }
     }];
@@ -208,7 +212,7 @@ static NSString *const kDeleteKeyString = @"0x7f-0x0";
     [[self.delegate profilePreferencesCurrentModel] flush];
     [[NSNotificationCenter defaultCenter] postNotificationName:kReloadAllProfiles object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:kKeyBindingsChangedNotification
-                                                        object:nil];
+                                          object:nil];
 }
 
 
@@ -225,28 +229,28 @@ static NSString *const kDeleteKeyString = @"0x7f-0x0";
         return;
     }
     NSArray<NSString *> *descriptions = [incompatibles mapWithBlock:^id(iTermTuple<iTermKeystroke *, iTermKeyBindingAction *> *tuple) {
-        NSString *formattedCombo = [iTermKeystrokeFormatter stringForKeystroke:tuple.firstObject];
-        iTermKeyBindingAction *action = tuple.secondObject;
-        NSString *formattedAction = action.displayName;
+                      NSString *formattedCombo = [iTermKeystrokeFormatter stringForKeystroke:tuple.firstObject];
+                      iTermKeyBindingAction *action = tuple.secondObject;
+                      NSString *formattedAction = action.displayName;
         return [NSString stringWithFormat:@"%@\t%@", formattedCombo, formattedAction];
     }];
     warning.title = [NSString stringWithFormat  :@"This profile has some key bindings from a preset that conflict with CSI u. Remove them?"];
     NSString *message = [descriptions componentsJoinedByString:@"\n"];
 
     iTermScrollingDisclosableView *accessory = [[iTermScrollingDisclosableView alloc] initWithFrame:NSZeroRect
-                                                                                             prompt:@"Show incompatible key bindings"
-                                                                                            message:message
-                                                                                      maximumHeight:150];
+                                                  prompt:@"Show incompatible key bindings"
+                                                  message:message
+                                                  maximumHeight:150];
     NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     paragraphStyle.tabStops = @[ [[NSTextTab alloc] initWithType:NSLeftTabStopType location:100] ];
 
     NSMutableAttributedString *attributedString = [accessory.textView.attributedString mutableCopy];
     [attributedString enumerateAttributesInRange:NSMakeRange(0, attributedString.string.length)
-                                         options:0
-                                      usingBlock:^(NSDictionary<NSAttributedStringKey,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
-                                          attrs = [attrs dictionaryBySettingObject:paragraphStyle forKey:NSParagraphStyleAttributeName];
-                                          [attributedString setAttributes:attrs range:range];
-                                      }];
+                      options:0
+                     usingBlock:^(NSDictionary<NSAttributedStringKey,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
+                         attrs = [attrs dictionaryBySettingObject:paragraphStyle forKey:NSParagraphStyleAttributeName];
+        [attributedString setAttributes:attrs range:range];
+    }];
     [accessory.textView.textStorage setAttributedString:attributedString];
 
     warning.accessory = accessory;
@@ -258,7 +262,7 @@ static NSString *const kDeleteKeyString = @"0x7f-0x0";
     NSArray *actions = @[ [iTermWarningAction warningActionWithLabel:@"Remove" block:^(iTermWarningSelection selection) {
         [self removeKeystrokeBindings:incompatibles];
     }],
-                          [iTermWarningAction warningActionWithLabel:@"Cancel" block:^(iTermWarningSelection selection) {}] ];
+    [iTermWarningAction warningActionWithLabel:@"Cancel" block:^(iTermWarningSelection selection) {}] ];
     warning.warningActions = actions;
     warning.warningType = kiTermWarningTypePersistent;
     warning.window = self.view.window;
@@ -275,9 +279,9 @@ static NSString *const kDeleteKeyString = @"0x7f-0x0";
     model.hasModifierActivation = [self boolForKey:KEY_HOTKEY_ACTIVATE_WITH_MODIFIER];
     model.modifierActivation = [self unsignedIntegerForKey:KEY_HOTKEY_MODIFIER_ACTIVATION];
     model.primaryShortcut = [[iTermShortcut alloc] initWithKeyCode:[self unsignedIntegerForKey:KEY_HOTKEY_KEY_CODE]
-                                                         modifiers:[self unsignedIntegerForKey:KEY_HOTKEY_MODIFIER_FLAGS]
-                                                        characters:[self stringForKey:KEY_HOTKEY_CHARACTERS]
-                                       charactersIgnoringModifiers:[self stringForKey:KEY_HOTKEY_CHARACTERS_IGNORING_MODIFIERS]];
+                                                   modifiers:[self unsignedIntegerForKey:KEY_HOTKEY_MODIFIER_FLAGS]
+                                                   characters:[self stringForKey:KEY_HOTKEY_CHARACTERS]
+                                                   charactersIgnoringModifiers:[self stringForKey:KEY_HOTKEY_CHARACTERS_IGNORING_MODIFIERS]];
     model.autoHide = [self boolForKey:KEY_HOTKEY_AUTOHIDE];
     model.showAutoHiddenWindowOnAppActivation = [self boolForKey:KEY_HOTKEY_REOPEN_ON_ACTIVATION];
     model.animate = [self boolForKey:KEY_HOTKEY_ANIMATE];
@@ -292,8 +296,8 @@ static NSString *const kDeleteKeyString = @"0x7f-0x0";
 
     __weak __typeof(self) weakSelf = self;
     [self.view.window beginSheet:_hotkeyPanel.window completionHandler:^(NSModalResponse returnCode) {
-        __strong __typeof(weakSelf) strongSelf = weakSelf;
-        if (!strongSelf) {
+                         __strong __typeof(weakSelf) strongSelf = weakSelf;
+                         if (!strongSelf) {
             return;
         }
         if (returnCode == NSModalResponseOK) {
@@ -320,13 +324,13 @@ static NSString *const kDeleteKeyString = @"0x7f-0x0";
         [[self.delegate profilePreferencesCurrentProfile] mutableCopy];
     if (sendCtrlH) {
         [iTermKeyMappings setMappingAtIndex:0
-                               forKeystroke:[iTermKeystroke backspace]
-                                     action:[iTermKeyBindingAction withAction:KEY_ACTION_SEND_C_H_BACKSPACE parameter:@""]
-                                  createNew:YES
-                                  inProfile:mutableProfile];
+                          forKeystroke:[iTermKeystroke backspace]
+                          action:[iTermKeyBindingAction withAction:KEY_ACTION_SEND_C_H_BACKSPACE parameter:@""]
+                          createNew:YES
+                          inProfile:mutableProfile];
     } else {
         [iTermKeyMappings removeKeystroke:[iTermKeystroke backspace]
-                              fromProfile:mutableProfile];
+                          fromProfile:mutableProfile];
     }
     [self commitChangesToProfile:mutableProfile];
 }
@@ -336,7 +340,7 @@ static NSString *const kDeleteKeyString = @"0x7f-0x0";
     // delete sends ^h checkbox is correct
     Profile *profile = [self.delegate profilePreferencesCurrentProfile];
     iTermKeyBindingAction *action = [iTermKeyMappings localActionForKeystroke:[iTermKeystroke backspace]
-                                                                  keyMappings:profile[KEY_KEYBOARD_MAP]];
+                                                      keyMappings:profile[KEY_KEYBOARD_MAP]];
     const BOOL sendCH = (action.keyAction == KEY_ACTION_SEND_C_H_BACKSPACE);
     _deleteSendsCtrlHButton.state = (sendCH ? NSControlStateValueOn : NSControlStateValueOff);
 }
@@ -401,25 +405,26 @@ static NSString *const kDeleteKeyString = @"0x7f-0x0";
             [[self.delegate profilePreferencesCurrentModel] flush];
             [[NSNotificationCenter defaultCenter] postNotificationName:kReloadAllProfiles object:nil];
             [[NSNotificationCenter defaultCenter] postNotificationName:kKeyBindingsChangedNotification
-                                                                object:nil];
+                                                  object:nil];
         }
     }
     return YES;
 }
 
 - (void)keyMapping:(iTermKeyMappingViewController *)viewController
-     didChangeItem:(iTermKeystrokeOrTouchbarItem *)item
-           atIndex:(NSInteger)index
-          toAction:(iTermKeyBindingAction *)action
-        isAddition:(BOOL)addition {
+    didChangeItem:(iTermKeystrokeOrTouchbarItem *)item
+    atIndex:(NSInteger)index
+    toAction:(iTermKeyBindingAction *)action
+    isAddition:(BOOL)addition {
     Profile *profile = [self.delegate profilePreferencesCurrentProfile];
     assert(profile);
     NSMutableDictionary *dict = [profile mutableCopy];
 
     __block iTermKeystroke *keystroke;
     [item whenFirst:^(iTermKeystroke * _Nonnull theKeystroke) {
-        keystroke = theKeystroke;
-    } second:^(iTermTouchbarItem * _Nonnull object) {
+             keystroke = theKeystroke;
+         }
+         second:^(iTermTouchbarItem * _Nonnull object) {
         keystroke = nil;
     }];
     if (!keystroke) {
@@ -432,28 +437,28 @@ static NSString *const kDeleteKeyString = @"0x7f-0x0";
     }
 
     [iTermKeyMappings setMappingAtIndex:index
-                           forKeystroke:keystroke
-                                 action:action
-                              createNew:addition
-                              inProfile:dict];
+                      forKeystroke:keystroke
+                      action:action
+                      createNew:addition
+                      inProfile:dict];
     [[self.delegate profilePreferencesCurrentModel] setBookmark:dict withGuid:profile[KEY_GUID]];
     [[self.delegate profilePreferencesCurrentModel] flush];
     [[NSNotificationCenter defaultCenter] postNotificationName:kReloadAllProfiles object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:kKeyBindingsChangedNotification
-                                                        object:nil];
+                                          object:nil];
 }
 
 - (void)keyMapping:(iTermKeyMappingViewController *)viewController
-  removeKeystrokes:(NSSet<iTermKeystroke *> *)keystrokes
-     touchbarItems:(NSSet<iTermTouchbarItem *> *)touchbarItems {
+    removeKeystrokes:(NSSet<iTermKeystroke *> *)keystrokes
+    touchbarItems:(NSSet<iTermTouchbarItem *> *)touchbarItems {
     Profile *profile = [self.delegate profilePreferencesCurrentProfile];
     assert(profile);
 
     MutableProfile *dict = [profile mutableCopy];
     [keystrokes enumerateObjectsUsingBlock:^(iTermKeystroke * _Nonnull keystroke, BOOL * _Nonnull stop) {
-        NSUInteger index =
-            [[iTermKeyMappings sortedKeystrokesForProfile:dict] indexOfObject:keystroke];
-        assert(index != NSNotFound);
+                   NSUInteger index =
+                       [[iTermKeyMappings sortedKeystrokesForProfile:dict] indexOfObject:keystroke];
+                   assert(index != NSNotFound);
 
         [iTermKeyMappings removeMappingAtIndex:index fromProfile:dict];
     }];
@@ -464,7 +469,7 @@ static NSString *const kDeleteKeyString = @"0x7f-0x0";
     [[self.delegate profilePreferencesCurrentModel] flush];
     [[NSNotificationCenter defaultCenter] postNotificationName:kReloadAllProfiles object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:kKeyBindingsChangedNotification
-                                                        object:nil];
+                                          object:nil];
 }
 
 - (NSArray *)keyMappingPresetNames:(iTermKeyMappingViewController *)viewController {
@@ -472,7 +477,7 @@ static NSString *const kDeleteKeyString = @"0x7f-0x0";
 }
 
 - (void)keyMapping:(iTermKeyMappingViewController *)viewController
-  loadPresetsNamed:(NSString *)presetName {
+    loadPresetsNamed:(NSString *)presetName {
     Profile *profile = [self.delegate profilePreferencesCurrentProfile];
     assert(profile);
 
@@ -488,42 +493,42 @@ static NSString *const kDeleteKeyString = @"0x7f-0x0";
     }
 
     Profile *updatedProfile = [iTermPresetKeyMappings profileByLoadingPresetNamed:presetName
-                                                                      intoProfile:profile
-                                                                   byReplacingAll:replaceAll];
+                                                      intoProfile:profile
+                                                      byReplacingAll:replaceAll];
     [[self.delegate profilePreferencesCurrentModel] setBookmark:updatedProfile
-                                                       withGuid:profile[KEY_GUID]];
+                                                    withGuid:profile[KEY_GUID]];
     [[self.delegate profilePreferencesCurrentModel] flush];
 
     [[NSNotificationCenter defaultCenter] postNotificationName:kReloadAllProfiles object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:kKeyBindingsChangedNotification
-                                                        object:nil];
+                                          object:nil];
 }
 
 #pragma mark - Warnings
 
 - (BOOL)warnAboutOverride {
     switch ([iTermWarning showWarningWithTitle:@"The keyboard shortcut you have set for this profile "
-                                               @"will take precedence over an existing shortcut for "
-                                               @"the same key combination in a global shortcut."
-                                       actions:@[ @"OK", @"Cancel" ]
-                                    identifier:@"NeverWarnAboutOverrides"
-                                   silenceable:kiTermWarningTypePermanentlySilenceable
-                                        window:self.view.window]) {
-        case kiTermWarningSelection1:
-            return NO;
-        default:
-            return YES;
+                          @"will take precedence over an existing shortcut for "
+                          @"the same key combination in a global shortcut."
+                          actions:@[ @"OK", @"Cancel" ]
+                          identifier:@"NeverWarnAboutOverrides"
+                          silenceable:kiTermWarningTypePermanentlySilenceable
+                          window:self.view.window]) {
+    case kiTermWarningSelection1:
+        return NO;
+    default:
+        return YES;
     }
 }
 
 - (void)maybeWarnAboutMeta {
     [iTermWarning showWarningWithTitle:@"You have chosen to have an option key act as Meta. "
-                                       @"This option is useful for backward compatibility with older "
-                                       @"systems. The \"+Esc\" option is recommended for most users."
-                               actions:@[ @"OK" ]
-                            identifier:@"NeverWarnAboutMeta"
-                           silenceable:kiTermWarningTypePermanentlySilenceable
-                                window:self.view.window];
+                  @"This option is useful for backward compatibility with older "
+                  @"systems. The \"+Esc\" option is recommended for most users."
+                  actions:@[ @"OK" ]
+                  identifier:@"NeverWarnAboutMeta"
+                  silenceable:kiTermWarningTypePermanentlySilenceable
+                  window:self.view.window];
 }
 
 @end

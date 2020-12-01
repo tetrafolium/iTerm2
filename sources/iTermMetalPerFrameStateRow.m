@@ -22,13 +22,13 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation iTermMetalPerFrameStateRow
 
 - (instancetype)initWithDrawingHelper:(iTermTextDrawingHelper *)drawingHelper
-                             textView:(PTYTextView *)textView
-                               screen:(VT100Screen *)screen
-                              rowSize:(size_t)rowSize
-                  allowOtherMarkStyle:(BOOL)allowOtherMarkStyle
-                    timestampsEnabled:(BOOL)timestampsEnabled
-                                  row:(int)i
-              totalScrollbackOverflow:(long long)totalScrollbackOverflow {
+    textView:(PTYTextView *)textView
+    screen:(VT100Screen *)screen
+    rowSize:(size_t)rowSize
+    allowOtherMarkStyle:(BOOL)allowOtherMarkStyle
+    timestampsEnabled:(BOOL)timestampsEnabled
+    row:(int)i
+    totalScrollbackOverflow:(long long)totalScrollbackOverflow {
     self = [super init];
     if (self) {
         if (timestampsEnabled) {
@@ -54,17 +54,17 @@ NS_ASSUME_NONNULL_BEGIN
         const long long absoluteLine = totalScrollbackOverflow + i;
         _underlinedRange = [drawingHelper underlinedRangeOnLine:absoluteLine];
         _markStyle = @([self markStyleForLine:i
-                                      enabled:drawingHelper.drawMarkIndicators
-                                     textView:textView
-                          allowOtherMarkStyle:allowOtherMarkStyle]);
+                             enabled:drawingHelper.drawMarkIndicators
+                             textView:textView
+                             allowOtherMarkStyle:allowOtherMarkStyle]);
     }
     return self;
 }
 
 - (iTermMarkStyle)markStyleForLine:(int)i
-                           enabled:(BOOL)enabled
-                          textView:(PTYTextView *)textView
-               allowOtherMarkStyle:(BOOL)allowOtherMarkStyle {
+    enabled:(BOOL)enabled
+    textView:(PTYTextView *)textView
+    allowOtherMarkStyle:(BOOL)allowOtherMarkStyle {
     if (!enabled) {
         return iTermMarkStyleNone;
     }
@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
         return iTermMarkStyleSuccess;
     }
     if (allowOtherMarkStyle &&
-        mark.code >= 128 && mark.code <= 128 + 32) {
+            mark.code >= 128 && mark.code <= 128 + 32) {
         return iTermMarkStyleOther;
     }
     return iTermMarkStyleFailure;
@@ -97,10 +97,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithDrawingHelper:(iTermTextDrawingHelper *)drawingHelper
-                             textView:(PTYTextView *)textView
-                               screen:(VT100Screen *)screen
-                        configuration:(iTermMetalPerFrameStateConfiguration *)configuration
-                                width:(int)width {
+    textView:(PTYTextView *)textView
+    screen:(VT100Screen *)screen
+    configuration:(iTermMetalPerFrameStateConfiguration *)configuration
+    width:(int)width {
     self = [super init];
     if (self) {
         _drawingHelper = drawingHelper;
@@ -116,13 +116,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (iTermMetalPerFrameStateRow *)newRowForLine:(int)line {
     return [[iTermMetalPerFrameStateRow alloc] initWithDrawingHelper:_drawingHelper
-                                                            textView:_textView
-                                                              screen:_screen
-                                                             rowSize:(_width + 1) * sizeof(screen_char_t)
-                                                 allowOtherMarkStyle:_allowOtherMarkStyle
-                                                   timestampsEnabled:_timestampsEnabled
-                                                                 row:line
-                                             totalScrollbackOverflow:_totalScrollbackOverflow];
+                                               textView:_textView
+                                               screen:_screen
+                                               rowSize:(_width + 1) * sizeof(screen_char_t)
+                                               allowOtherMarkStyle:_allowOtherMarkStyle
+                                               timestampsEnabled:_timestampsEnabled
+                                               row:line
+                                               totalScrollbackOverflow:_totalScrollbackOverflow];
 }
 
 @end

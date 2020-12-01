@@ -207,8 +207,8 @@
         return -1;
     }
     iTermProcessInfo *firstChild = [parentInfo.children minWithBlock:^NSComparisonResult(iTermProcessInfo *obj1, iTermProcessInfo *obj2) {
-        return [obj1.startTime compare:obj2.startTime];
-    }];
+                            return [obj1.startTime compare:obj2.startTime];
+                        }];
     if (!firstChild) {
         DLog(@"Process is childless");
         return -1;
@@ -238,42 +238,42 @@
     DLog(@"Want working directory of process %@ - SYNCHRONOUS METHOD!", @(pid));
     static dispatch_queue_t queue;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         queue = dispatch_queue_create("com.iterm2.pwd", DISPATCH_QUEUE_SERIAL);
     });
     dispatch_group_t group = dispatch_group_create();
     dispatch_group_enter(group);
     __block NSString *result = nil;
     [self asyncWorkingDirectoryOfProcess:pid queue:queue block:^(NSString *pwd) {
-        DLog(@"Get result for pid %@: %@", @(pid), pwd);
-        result = pwd;
-        dispatch_group_leave(group);
+             DLog(@"Get result for pid %@: %@", @(pid), pwd);
+             result = pwd;
+             dispatch_group_leave(group);
     }];
     dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW,
-                                             0.5 * NSEC_PER_SEC));
+                        0.5 * NSEC_PER_SEC));
     DLog(@"Result is %@", result);
     return result;
 }
 
 + (void)asyncWorkingDirectoryOfProcess:(pid_t)pid
-                                 queue:(dispatch_queue_t)queue
-                                 block:(void (^)(NSString *pwd))block {
+    queue:(dispatch_queue_t)queue
+    block:(void (^)(NSString *pwd))block {
     [self asyncWorkingDirectoryOfProcess:pid
-                             canFallBack:YES
-                                   queue:queue
-                                   block:block];
+          canFallBack:YES
+          queue:queue
+          block:block];
 }
 
 + (void)asyncWorkingDirectoryOfProcess:(pid_t)pid
-                           canFallBack:(BOOL)canFallBack
-                                 queue:(dispatch_queue_t)queue
-                                 block:(void (^)(NSString *pwd))block {
+    canFallBack:(BOOL)canFallBack
+    queue:(dispatch_queue_t)queue
+    block:(void (^)(NSString *pwd))block {
     DLog(@"Want working directory of %@", @(pid));
     [[iTermPidInfoClient sharedInstance] getWorkingDirectoryOfProcessWithID:pid
-                                                                      queue:queue
-                                                                 completion:^(NSString *rawDir) {
-        DLog(@"getWorkingDirectoyrOfProcessWithID:%@ returned %@", @(pid), rawDir);
-        if (!rawDir) {
+                                         queue:queue
+                                        completion:^(NSString *rawDir) {
+                                            DLog(@"getWorkingDirectoyrOfProcessWithID:%@ returned %@", @(pid), rawDir);
+                                            if (!rawDir) {
             DLog(@"Failed to get working directory of %@", @(pid));
         }
         if (!rawDir && canFallBack) {
@@ -287,9 +287,9 @@
             // pid might be owned by root. Try again with its eldest child.
             DLog(@"Try again with eldest child");
             [self asyncWorkingDirectoryOfProcess:childPid
-                                     canFallBack:NO
-                                           queue:queue
-                                           block:block];
+                  canFallBack:NO
+                  queue:queue
+                  block:block];
             return;
         }
         if (!rawDir) {

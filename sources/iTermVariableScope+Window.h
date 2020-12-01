@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface iTermVariableScope(Window)<iTermWindowScope>
 
 + (instancetype)newWindowScopeWithVariables:(iTermVariables *)variables
-                               tabVariables:(iTermVariables *)tabVariables;
+    tabVariables:(iTermVariables *)tabVariables;
 @end
 
 NS_ASSUME_NONNULL_END

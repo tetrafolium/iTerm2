@@ -9,9 +9,9 @@
 @class iTerm2Application, iTerm2Window, iTerm2Tab, iTerm2Session;
 
 enum iTerm2SaveOptions {
-	iTerm2SaveOptionsYes = 'yes ' /* Save the file. */,
-	iTerm2SaveOptionsNo = 'no  ' /* Do not save the file. */,
-	iTerm2SaveOptionsAsk = 'ask ' /* Ask the user whether or not to save the file. */
+    iTerm2SaveOptionsYes = 'yes ' /* Save the file. */,
+    iTerm2SaveOptionsNo = 'no  ' /* Do not save the file. */,
+    iTerm2SaveOptionsAsk = 'ask ' /* Ask the user whether or not to save the file. */
 };
 typedef enum iTerm2SaveOptions iTerm2SaveOptions;
 

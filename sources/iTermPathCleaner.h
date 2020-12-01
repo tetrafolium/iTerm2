@@ -36,8 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSFileManager *fileManager;
 
 - (instancetype)initWithPath:(NSString *)path
-                      suffix:(nullable NSString *)suffix
-            workingDirectory:(NSString *)workingDirectory NS_DESIGNATED_INITIALIZER;
+    suffix:(nullable NSString *)suffix
+    workingDirectory:(NSString *)workingDirectory NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 

@@ -16,7 +16,7 @@
 + (instancetype)sharedInstance {
     static id instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -28,8 +28,8 @@
         NSPointerFunctionsOptions weakOptions = (NSPointerFunctionsWeakMemory | NSPointerFunctionsObjectPersonality);
         NSPointerFunctionsOptions strongOptions = (NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPersonality);
         _dict = [[NSMapTable alloc] initWithKeyOptions:strongOptions
-                                          valueOptions:weakOptions
-                                              capacity:1];
+                                    valueOptions:weakOptions
+                                    capacity:1];
     }
     return self;
 }

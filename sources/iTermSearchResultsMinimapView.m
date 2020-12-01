@@ -40,9 +40,9 @@ static NSString *const iTermBaseMinimapViewInvalidateNotification = @"iTermBaseM
         self.layer.delegate = self;
         self.hidden = YES;
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(performInvalidateIfNeeded)
-                                                     name:iTermBaseMinimapViewInvalidateNotification
-                                                   object:nil];
+                                              selector:@selector(performInvalidateIfNeeded)
+                                              name:iTermBaseMinimapViewInvalidateNotification
+                                              object:nil];
     }
     return self;
 }
@@ -51,7 +51,7 @@ static NSString *const iTermBaseMinimapViewInvalidateNotification = @"iTermBaseM
 - (iTermRateLimitedUpdate *)rateLimit {
     static iTermRateLimitedUpdate *rateLimit;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         rateLimit = [[iTermRateLimitedUpdate alloc] init];
         rateLimit.minimumInterval = 0.25;
     });
@@ -111,9 +111,9 @@ static inline void iTermSearchResultsMinimapViewDrawItem(CGFloat offset, CGFloat
              @(height),
              series.fillColor);
         [indexes enumerateIndexesInRange:rangeOfVisibleLines options:0 usingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
-            const CGFloat fraction = (CGFloat)(idx - rangeOfVisibleLines.location) / numberOfLines;
-            const CGFloat flippedFraction = 1.0 - fraction;
-            const CGFloat pointOffset = round(flippedFraction * height);
+                    const CGFloat fraction = (CGFloat)(idx - rangeOfVisibleLines.location) / numberOfLines;
+                    const CGFloat flippedFraction = 1.0 - fraction;
+                    const CGFloat pointOffset = round(flippedFraction * height);
             if (pointOffset + 2 > lastPointOffset) {
                 return;
             }
@@ -147,13 +147,13 @@ static inline void iTermSearchResultsMinimapViewDrawItem(CGFloat offset, CGFloat
     DLog(@"Invalidate");
     _invalid = YES;
     [self.rateLimit performRateLimitedSelector:@selector(postInvalidateNotification)
-                                      onTarget:[iTermBaseMinimapView class]
-                                    withObject:nil];
+                    onTarget:[iTermBaseMinimapView class]
+                    withObject:nil];
 }
 
 + (void)postInvalidateNotification {
     [[NSNotificationCenter defaultCenter] postNotificationName:iTermBaseMinimapViewInvalidateNotification
-                                                        object:nil];
+                                          object:nil];
 }
 
 // All minimaps get this called when any minimaps anywhere was invalidated.
@@ -242,7 +242,7 @@ static inline void iTermSearchResultsMinimapViewDrawItem(CGFloat offset, CGFloat
         _numberOfSeries = colors.count;
         memset((void *)_series, 0, sizeof(*_series) * colors.count);
         [colors enumerateObjectsUsingBlock:^(iTermTuple<NSColor *,NSColor *> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            _series[idx].outlineColor = [colors[idx].firstObject CGColor];
+                   _series[idx].outlineColor = [colors[idx].firstObject CGColor];
             CFRetain(_series[idx].outlineColor);
             _series[idx].fillColor = [colors[idx].secondObject CGColor];
             CFRetain(_series[idx].fillColor);
@@ -281,7 +281,7 @@ static inline void iTermSearchResultsMinimapViewDrawItem(CGFloat offset, CGFloat
 }
 
 - (void)setFirstVisibleLine:(NSInteger)firstVisibleLine
-       numberOfVisibleLines:(NSInteger)numberOfVisibleLines {
+    numberOfVisibleLines:(NSInteger)numberOfVisibleLines {
     _visibleLines = NSMakeRange(firstVisibleLine, numberOfVisibleLines);
     [self updateHidden];
 }

@@ -25,9 +25,9 @@
 }
 
 + (instancetype)announcementWithTitle:(NSString *)title
-                                style:(iTermAnnouncementViewStyle)style
-                          withActions:(NSArray *)actions
-                           completion:(void (^)(int))completion {
+    style:(iTermAnnouncementViewStyle)style
+    withActions:(NSArray *)actions
+    completion:(void (^)(int))completion {
     iTermAnnouncementViewController *announcement = [[self alloc] init];
     announcement.title = title;
     announcement.actions = actions;
@@ -38,17 +38,17 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p title=\"%@\" dismissing=%d>",
-            self.class, self, self.title, (int)_dismissing];
+                     self.class, self, self.title, (int)_dismissing];
 }
 
 - (void)loadView {
     __weak __typeof(self) weakSelf = self;
     self.view = [iTermAnnouncementView announcementViewWithTitle:self.title
-                                                           style:_style
-                                                         actions:self.actions
-                                                           block:^(int index) {
-        [weakSelf didInvoke:index];
-    }];
+                                       style:_style
+                                       actions:self.actions
+                          block:^(int index) {
+                              [weakSelf didInvoke:index];
+                          }];
 }
 
 - (void)setTitle:(NSString *)title {
@@ -88,8 +88,8 @@
     }
     const NSUInteger i =
     [self.actions indexOfObjectPassingTest:^BOOL(NSString *action, NSUInteger i, BOOL * _Nonnull stop) {
-        const NSRange range = [action rangeOfString:@"_"];
-        if (range.location == NSNotFound) {
+                     const NSRange range = [action rangeOfString:@"_"];
+                     if (range.location == NSNotFound) {
             return NO;
         }
         NSString *shortcut = [[action substringWithRange:NSMakeRange(NSMaxRange(range), 1)] uppercaseString];
@@ -130,10 +130,10 @@
     _timeout = timeout;
     [_timer invalidate];
     _timer = [NSTimer scheduledTimerWithTimeInterval:timeout
-                                              target:self
-                                            selector:@selector(didTimeout)
-                                            userInfo:nil
-                                             repeats:NO];
+                      target:self
+                      selector:@selector(didTimeout)
+                      userInfo:nil
+                      repeats:NO];
 }
 
 - (void)didTimeout {

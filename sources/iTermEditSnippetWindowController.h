@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, copy) void (^completion)(iTermSnippet * _Nullable snippet);
 
 - (instancetype)initWithSnippet:(iTermSnippet * _Nullable)snippet
-                     completion:(void (^)(iTermSnippet * _Nullable snippet))completion;
+    completion:(void (^)(iTermSnippet * _Nullable snippet))completion;
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;
 - (instancetype)initWithWindowNibName:(NSNibName)windowNibName NS_UNAVAILABLE;

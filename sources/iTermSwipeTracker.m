@@ -61,9 +61,9 @@ NSString *const iTermSwipeHandlerCancelSwipe = @"iTermSwipeHandlerCancelSwipe";
     // drags that aren't horizontal enough after collecting more data.
     const NSEventMask eventMask = NSEventMaskScrollWheel;
     event = [NSApp nextEventMatchingMask:eventMask
-                               untilDate:[NSDate distantFuture]
-                                  inMode:NSEventTrackingRunLoopMode
-                                 dequeue:YES];
+                   untilDate:[NSDate distantFuture]
+                   inMode:NSEventTrackingRunLoopMode
+                   dequeue:YES];
     DLog(@"Got event %@", iTermShortEventPhasesString(event));
     while (1) {
         @autoreleasepool {
@@ -76,9 +76,9 @@ NSString *const iTermSwipeHandlerCancelSwipe = @"iTermSwipeHandlerCancelSwipe";
                 break;
             }
             event = [NSApp nextEventMatchingMask:eventMask
-                                       untilDate:[NSDate dateWithTimeIntervalSinceNow:1.0 / 60.0]
-                                          inMode:NSEventTrackingRunLoopMode
-                                         dequeue:YES];
+                           untilDate:[NSDate dateWithTimeIntervalSinceNow:1.0 / 60.0]
+                           inMode:NSEventTrackingRunLoopMode
+                           dequeue:YES];
             DLog(@"Got event %@", event);
         }
     }
@@ -89,7 +89,7 @@ NSString *const iTermSwipeHandlerCancelSwipe = @"iTermSwipeHandlerCancelSwipe";
 - (BOOL)internalHandleEvent:(NSEvent *)event {
     DLog(@"internalHandleEvent: %@", iTermShortEventPhasesString(event));
     if (![NSEvent isSwipeTrackingFromScrollEventsEnabled] ||
-        ![iTermAdvancedSettingsModel allowInteractiveSwipeBetweenTabs]) {
+            ![iTermAdvancedSettingsModel allowInteractiveSwipeBetweenTabs]) {
         DLog(@"Swipe tracking not enabled");
         return NO;
     }
@@ -119,10 +119,10 @@ NSString *const iTermSwipeHandlerCancelSwipe = @"iTermSwipeHandlerCancelSwipe";
 }
 
 - (BOOL)createStateForEventIfNeeded:(NSEvent *)event
-                         transition:(iTermScrollWheelStateMachineStateTransition)transition {
+    transition:(iTermScrollWheelStateMachineStateTransition)transition {
     if (transition.before == iTermScrollWheelStateMachineStateStartDrag ||
-        transition.after == iTermScrollWheelStateMachineStateDrag ||
-        transition.after == iTermScrollWheelStateMachineStateGround) {
+            transition.after == iTermScrollWheelStateMachineStateDrag ||
+            transition.after == iTermScrollWheelStateMachineStateGround) {
         DLog(@"Can't create state for transition %@ -> %@", @(transition.before),
              @(transition.after));
         return NO;
@@ -152,8 +152,8 @@ NSString *const iTermSwipeHandlerCancelSwipe = @"iTermSwipeHandlerCancelSwipe";
     }
     DLog(@"Schedule timer");
     _timer = [[iTermGCDTimer alloc] initWithInterval:1.0 / 60
-                                              target:self
-                                            selector:@selector(update:)];
+                                    target:self
+                                    selector:@selector(update:)];
 }
 
 - (void)update:(iTermGCDTimer *)timer {

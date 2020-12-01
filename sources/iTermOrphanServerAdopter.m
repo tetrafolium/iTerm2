@@ -31,14 +31,14 @@
 + (instancetype)sharedInstance {
     static id instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] init];
     });
     return instance;
 }
 
 static void iTermOrphanServerAdopterFindMonoServers(void (^completion)(NSArray<NSString *> *)) {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
         NSMutableArray *array = [NSMutableArray array];
         NSString *dir = [NSString stringWithUTF8String:iTermFileDescriptorDirectory()];
         for (NSString *filename in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dir error:nil]) {
@@ -54,14 +54,14 @@ static void iTermOrphanServerAdopterFindMonoServers(void (^completion)(NSArray<N
 }
 
 static void iTermOrphanServerAdopterFindMultiServers(void (^completion)(NSArray<NSString *> *)) {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
         NSMutableArray<NSString *> *result = [NSMutableArray array];
         NSString *appSupportPath = [[NSFileManager defaultManager] applicationSupportDirectory];
         NSDirectoryEnumerator *enumerator =
         [[NSFileManager defaultManager] enumeratorAtURL:[NSURL fileURLWithPath:appSupportPath]
-                             includingPropertiesForKeys:nil
-                                                options:NSDirectoryEnumerationSkipsSubdirectoryDescendants
-                                           errorHandler:nil];
+                                        includingPropertiesForKeys:nil
+                                        options:NSDirectoryEnumerationSkipsSubdirectoryDescendants
+                                        errorHandler:nil];
         for (NSURL *url in enumerator) {
             if (![url.path.lastPathComponent stringMatchesGlobPattern:@"iterm2-daemon-*.socket" caseSensitive:YES]) {
                 continue;
@@ -108,7 +108,7 @@ static void iTermOrphanServerAdopterFindMultiServers(void (^completion)(NSArray<
 }
 
 - (void)openWindowWithOrphansWithCompletion:(void (^)(void))completion {
-    dispatch_group_notify(_group, dispatch_get_main_queue(), ^{
+    dispatch_group_notify(_group, dispatch_get_main_queue(), ^ {
         [self reallyOpenWindowWithOrphansWithCompletion:completion];
     });
 }
@@ -118,17 +118,17 @@ static void iTermOrphanServerAdopterFindMultiServers(void (^completion)(NSArray<
     dispatch_group_t group = dispatch_group_create();
     for (NSString *path in _pathsOfOrphanedMonoServers) {
         dispatch_group_enter(group);
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^ {
             [self adoptMonoServerOrphanWithPath:path completion:^(PTYSession *session) {
-                dispatch_group_leave(group);
-            }];
+                     dispatch_group_leave(group);
+                 }];
         });
     }
     for (NSString *path in _pathsOfMultiServers) {
         dispatch_group_enter(group);
-        [self enqueueAdoptionsOfMultiServerOrphansWithPath:path completion:^{
-            dispatch_group_leave(group);
-        }];
+        [self enqueueAdoptionsOfMultiServerOrphansWithPath:path completion:^ {
+                 dispatch_group_leave(group);
+             }];
     }
     if (completion) {
         dispatch_group_notify(group, dispatch_get_main_queue(), completion);
@@ -151,10 +151,10 @@ static void iTermOrphanServerAdopterFindMultiServers(void (^completion)(NSArray<
             .mono = serverConnection
         };
         [self.delegate orphanServerAdopterOpenSessionForConnection:generalConnection
-                                                          inWindow:_window
-                                                        completion:^(PTYSession *session) {
-            assert(dispatch_queue_get_label(dispatch_get_main_queue()) == dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL));
-            if (!self->_window) {
+                       inWindow:_window
+                      completion:^(PTYSession *session) {
+                          assert(dispatch_queue_get_label(dispatch_get_main_queue()) == dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL));
+                          if (!self->_window) {
                 self->_window = [[iTermController sharedInstance] terminalWithSession:session];
             }
             completion(session);
@@ -178,14 +178,15 @@ static void iTermOrphanServerAdopterFindMultiServers(void (^completion)(NSArray<
     }
     DLog(@"iTermOrphanServerAdopter: get connection for multiserver socket %@", @(number));
     [iTermMultiServerConnection getConnectionForSocketNumber:number
-                                            createIfPossible:NO
-                                                    callback:[iTermThread.main newCallbackWithBlock:^(iTermMainThreadState *state, iTermResult<iTermMultiServerConnection *> *result) {
-        [result handleObject:^(iTermMultiServerConnection * _Nonnull connection) {
-            [self didEstablishMultiserverConnection:connection
-                                       socketNumber:number
-                                              state:state
-                                         completion:completion];
-        } error:^(NSError * _Nonnull error) {
+                                createIfPossible:NO
+                               callback:[iTermThread.main newCallbackWithBlock:^(iTermMainThreadState *state, iTermResult<iTermMultiServerConnection *> *result) {
+                                   [result handleObject:^(iTermMultiServerConnection * _Nonnull connection) {
+                                       [self didEstablishMultiserverConnection:connection
+                                        socketNumber:number
+                                        state:state
+                                        completion:completion];
+                                   }
+                                   error:^(NSError * _Nonnull error) {
             XLog(@"Orphan server adopter: Failed to connect to %@", filename);
             completion();
         }];
@@ -193,9 +194,9 @@ static void iTermOrphanServerAdopterFindMultiServers(void (^completion)(NSArray<
 }
 
 - (void)didEstablishMultiserverConnection:(iTermMultiServerConnection *)connection
-                             socketNumber:(NSInteger)number
-                                    state:(iTermMainThreadState *)state
-                               completion:(void (^)(void))completion {
+    socketNumber:(NSInteger)number
+    state:(iTermMainThreadState *)state
+    completion:(void (^)(void))completion {
     dispatch_group_t group = dispatch_group_create();
 
     DLog(@"Multiserver adoption beginning.");
@@ -211,12 +212,12 @@ static void iTermOrphanServerAdopterFindMultiServers(void (^completion)(NSArray<
         dispatch_group_enter(group);
         DLog(@"Orphan server adopter wants to open session for pid %@ on socket %@", @(child.pid), @(number));
         [self.delegate orphanServerAdopterOpenSessionForConnection:generalConnection
-                                                          inWindow:self->_window
-                                                        completion:^(PTYSession *session) {
-            if (!self->_window) {
-                self->_window = [[iTermController sharedInstance] terminalWithSession:session];
-            }
-            dispatch_group_leave(group);
+                       inWindow:self->_window
+                      completion:^(PTYSession *session) {
+                          if (!self->_window) {
+                              self->_window = [[iTermController sharedInstance] terminalWithSession:session];
+                          }
+                          dispatch_group_leave(group);
         }];
     }
     dispatch_group_notify(group, dispatch_get_main_queue(), completion);
@@ -224,13 +225,13 @@ static void iTermOrphanServerAdopterFindMultiServers(void (^completion)(NSArray<
 
 - (void)adoptPartialAttachments:(NSArray<id<iTermPartialAttachment>> *)partialAttachments {
     [partialAttachments enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [self.delegate orphanServerAdopterOpenSessionForPartialAttachment:obj
-                                                                 inWindow:self->_window
-                                                               completion:^(PTYSession *session) {
-            if (!self->_window) {
-                self->_window = [[iTermController sharedInstance] terminalWithSession:session];
-            }
-        }];
+                           [self.delegate orphanServerAdopterOpenSessionForPartialAttachment:obj
+                            inWindow:self->_window
+                           completion:^(PTYSession *session) {
+                               if (!self->_window) {
+                                   self->_window = [[iTermController sharedInstance] terminalWithSession:session];
+                               }
+                           }];
     }];
 }
 

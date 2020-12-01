@@ -26,7 +26,7 @@
 @interface iTermDynamicProfileManager () <SCEventListenerProtocol>
 @end
 
-@interface iTermFilesAndFolders: NSObject
+@interface iTermFilesAndFolders : NSObject
 @property (nonatomic, readonly) NSSet<NSString *> *files;
 @property (nonatomic, readonly) NSSet<NSString *> *folders;
 @end
@@ -34,7 +34,7 @@
 @implementation iTermFilesAndFolders
 
 - (instancetype)initWithFiles:(NSSet<NSString *> *)files
-                      folders:(NSSet<NSString *> *)folders {
+    folders:(NSSet<NSString *> *)folders {
     self = [super init];
     if (self) {
         _files = files.copy;
@@ -45,10 +45,10 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p files=%@ folders=%@>",
-            NSStringFromClass(self.class),
-            self,
-            [_files.allObjects componentsJoinedByString:@", "],
-            [_folders.allObjects componentsJoinedByString:@", "]];
+                     NSStringFromClass(self.class),
+                     self,
+                     [_files.allObjects componentsJoinedByString:@", "],
+                     [_folders.allObjects componentsJoinedByString:@", "]];
 }
 
 - (BOOL)isEqual:(id)other {
@@ -67,39 +67,39 @@
 }
 
 + (instancetype)sharedInstance {
-  static dispatch_once_t onceToken;
-  static id instance;
-  dispatch_once(&onceToken, ^{
-    instance = [[self alloc] init];
-  });
-  return instance;
+    static dispatch_once_t onceToken;
+    static id instance;
+    dispatch_once(&onceToken, ^ {
+        instance = [[self alloc] init];
+    });
+    return instance;
 }
 
 - (instancetype)init {
-  self = [super init];
-  if (self) {
-      _guidToPathMap = [[NSMutableDictionary alloc] init];
-      NSString *path = [self dynamicProfilesPath];
-      if (path == nil) {
-          ELog(@"Dynamic profiles path is nil");
-          return nil;
-      }
-      _events = [[SCEvents alloc] init];
-      _events.delegate = self;
-      _paths = self.pathsToWatch;
-      DLog(@"Watching files: %@, folders: %@", _paths.files, _paths.folders);
-      [self startWatching];
-  }
-  return self;
+    self = [super init];
+    if (self) {
+        _guidToPathMap = [[NSMutableDictionary alloc] init];
+        NSString *path = [self dynamicProfilesPath];
+        if (path == nil) {
+            ELog(@"Dynamic profiles path is nil");
+            return nil;
+        }
+        _events = [[SCEvents alloc] init];
+        _events.delegate = self;
+        _paths = self.pathsToWatch;
+        DLog(@"Watching files: %@, folders: %@", _paths.files, _paths.folders);
+        [self startWatching];
+    }
+    return self;
 }
 
 - (void)startWatching {
     [_events startWatchingPaths:_paths.folders.allObjects];
     __weak __typeof(self) weakSelf = self;
     _tokens = [_paths.files.allObjects mapWithBlock:^id(NSString *file) {
-        return [[NSFileManager defaultManager] monitorFile:file block:^(long flags) {
-            [weakSelf somethingChanged];
-        }];
+                                return [[NSFileManager defaultManager] monitorFile:file block:^(long flags) {
+                                    [weakSelf somethingChanged];
+                                }];
     }];
 }
 
@@ -154,18 +154,18 @@
     if (_pendingErrors > 1) {
         return;
     }
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         [self reallyReportError:error file:file];
     });
 }
 
 - (void)reallyReportError:(NSString *)error file:(NSString *)file {
     NSString *message =
-    [NSString stringWithFormat:@"There was a problem with one of your Dynamic Profiles:\n\n%@", error];
+        [NSString stringWithFormat:@"There was a problem with one of your Dynamic Profiles:\n\n%@", error];
     if (_pendingErrors > 1) {
         const NSInteger count = _pendingErrors - 1;
         message = [message stringByAppendingFormat:@"\n\n%@ additional error%@ may be seen in the log.",
-                   @(count), count == 1 ? @"" : @"s"];
+                           @(count), count == 1 ? @"" : @"s"];
     }
     _pendingErrors = 0;
     NSButton *button = nil;
@@ -180,13 +180,13 @@
         [button sizeToFit];
     }
     const iTermWarningSelection selection =
-    [iTermWarning showWarningWithTitle:message
-                               actions:@[ @"OK", @"View Log" ]
-                             accessory:button
-                            identifier:@"NoSyncDynamicProfilesWarning"
-                           silenceable:kiTermWarningTypeTemporarilySilenceable
-                               heading:@"Dynamic Profiles Error"
-                                window:nil];
+        [iTermWarning showWarningWithTitle:message
+                      actions:@[ @"OK", @"View Log" ]
+                      accessory:button
+                      identifier:@"NoSyncDynamicProfilesWarning"
+                      silenceable:kiTermWarningTypeTemporarilySilenceable
+                      heading:@"Dynamic Profiles Error"
+                      window:nil];
     if (selection == 1) {
         [[iTermScriptConsole sharedInstance] revealTailOfHistoryEntry:[iTermScriptHistoryEntry dynamicProfilesEntry]];
     }
@@ -208,7 +208,7 @@
     NSString *fullPath = _guidToPathMap[guid];
     if (!fullPath) {
         [[NSWorkspace sharedWorkspace] openFile:self.dynamicProfilesPath
-                                withApplication:@"Finder"];
+                                       withApplication:@"Finder"];
         return;
     }
     [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[ [NSURL fileURLWithPath:fullPath] ]];
@@ -223,9 +223,9 @@
     NSString *appSupport = [fileManager applicationSupportDirectory];
     NSString *thePath = [appSupport stringByAppendingPathComponent:@"DynamicProfiles"];
     [fileManager createDirectoryAtPath:thePath
-           withIntermediateDirectories:YES
-                            attributes:nil
-                                 error:NULL];
+                 withIntermediateDirectories:YES
+                 attributes:nil
+                 error:NULL];
     return thePath;
 }
 
@@ -250,10 +250,10 @@
 }
 
 - (void)reloadDynamicProfiles {
-    [[ProfileModel sharedInstance] performBlockWithCoalescedNotifications:^{
-        [ITAddressBookMgr performBlockWithCoalescedNotifications:^{
-            [self reallyReloadDynamicProfiles];
-        }];
+    [[ProfileModel sharedInstance] performBlockWithCoalescedNotifications:^ {
+                                      [ITAddressBookMgr performBlockWithCoalescedNotifications:^{
+                                          [self reallyReloadDynamicProfiles];
+                                      }];
     }];
 }
 
@@ -281,7 +281,7 @@
         NSString *fullName = [path stringByAppendingPathComponent:file];
         if (![self loadDynamicProfilesFromFile:fullName intoArray:newProfiles guids:guids]) {
             [self reportError:[NSString stringWithFormat:@"Ignoring dynamic profiles in “%@” because of an error.", fullName]
-                         file:fullName];
+                  file:fullName];
         }
     }
 
@@ -314,8 +314,8 @@
     if (shouldReload) {
         DLog(@"Post reload notification");
         [[NSNotificationCenter defaultCenter] postNotificationName:kReloadAllProfiles
-                                                            object:nil
-                                                          userInfo:nil];
+                                              object:nil
+                                              userInfo:nil];
     }
 }
 
@@ -334,21 +334,21 @@
         if (!data) {
             [self reportError:[NSString stringWithFormat:@"Dynamic Profiles file %@ is not readable: %@.",
                                filename, error.localizedDescription]
-                         file:filename];
+                  file:filename];
             return nil;
         }
         dict = [NSJSONSerialization JSONObjectWithData:data
-                                               options:0
-                                                 error:&error];
+                                    options:0
+                                    error:&error];
         if (!dict) {
             [self reportError:[NSString stringWithFormat:@"Dynamic Profiles file %@ contains invalid JSON: %@", filename, error.localizedDescription]
-                         file:filename];
+                  file:filename];
             return nil;
         }
         dict = [NSDictionary castFrom:dict];
         if (!dict) {
             [self reportError:[NSString stringWithFormat:@"Dynamic Profiles file %@ does not have an Object (i.e., a dictionary) as its root element", filename]
-                         file:filename];
+                  file:filename];
             return nil;
         }
         if (fileType) {
@@ -360,7 +360,7 @@
         XLog(@"Property list in %@ has no entries", entries);
         [self reportError:[NSString stringWithFormat:@"Dynamic Profiles file %@ does not have a “Profiles” key at the root.",
                            filename]
-                     file:filename];
+              file:filename];
         return nil;
     }
 
@@ -368,18 +368,18 @@
     for (Profile *profile in entries) {
         if (![profile[KEY_GUID] isKindOfClass:[NSString class]]) {
             [self reportError:[NSString stringWithFormat:@"Dynamic profile is missing the Guid field in file %@", filename]
-                         file:filename];
+                  file:filename];
             continue;
         }
         if (![profile[KEY_NAME] isKindOfClass:[NSString class]]) {
             [self reportError:[NSString stringWithFormat:@"Dynamic profile with Guid %@ is missing the “name” field", profile[KEY_GUID]]
-                         file:filename];
+                  file:filename];
             continue;
         }
         if ([self nonDynamicProfileHasGuid:profile[KEY_GUID]]) {
             [self reportError:[NSString stringWithFormat:@"Dynamic profile with Guid %@ conflicts with non-dynamic profile with same Guid",
-                 profile[KEY_GUID]]
-                         file:filename];
+                               profile[KEY_GUID]]
+                  file:filename];
             continue;
         }
         [profiles addObject:profile];
@@ -388,12 +388,12 @@
 }
 
 - (NSDictionary *)dictionaryForProfiles:(NSArray<Profile *> *)profiles {
-    return @{ @"Profiles": profiles };
+    return @ { @"Profiles": profiles };
 }
 
 - (BOOL)loadDynamicProfilesFromFile:(NSString *)filename
-                          intoArray:(NSMutableArray *)profiles
-                              guids:(NSMutableSet *)guids {
+    intoArray:(NSMutableArray *)profiles
+    guids:(NSMutableSet *)guids {
     NSArray<Profile *> *allProfiles = [self profilesInFile:filename fileType:nil];
     if (!allProfiles) {
         return NO;
@@ -402,7 +402,7 @@
     for (Profile *profile in allProfiles) {
         if ([guids containsObject:profile[KEY_GUID]]) {
             [self reportError:[NSString stringWithFormat:@"Two dynamic profiles have the same Guid: %@", profile[KEY_GUID]]
-                         file:filename];
+                  file:filename];
             continue;
         }
         DLog(@"Read profile name=%@ guid=%@", profile[KEY_NAME], profile[KEY_GUID]);
@@ -452,16 +452,16 @@
     DLog(@"Updating dynamic profile name=%@ guid=%@", newProfile[KEY_NAME], newProfile[KEY_GUID]);
     Profile *prototype = [self prototypeForDynamicProfile:newProfile];
     NSMutableDictionary *merged = [self profileByMergingProfile:newProfile
-                                                    intoProfile:prototype];
+                                        intoProfile:prototype];
     [merged profileAddDynamicTagIfNeeded];
     [[ProfileModel sharedInstance] setBookmark:merged
-                                      withGuid:merged[KEY_GUID]];
+                                   withGuid:merged[KEY_GUID]];
 }
 
 // Copies fields from |profile| over those in |prototype| and returns a new
 // mutable dictionary.
 - (NSMutableDictionary *)profileByMergingProfile:(Profile *)profile
-                                     intoProfile:(Profile *)prototype {
+    intoProfile:(Profile *)prototype {
     NSMutableDictionary *merged = [profile mutableCopy];
     for (NSString *key in prototype) {
         if (profile[key]) {
@@ -481,7 +481,7 @@
         if (!prototype) {
             [self reportError:[NSString stringWithFormat:@"Dynamic profile %@ references unknown parent name %@. Using default profile as parent.",
                                profile[KEY_NAME], parentName]
-                         file:profile[KEY_DYNAMIC_PROFILE_FILENAME]];
+                  file:profile[KEY_DYNAMIC_PROFILE_FILENAME]];
         }
     }
     if (!prototype) {
@@ -495,7 +495,7 @@
     DLog(@"Add dynamic profile name=%@ guid=%@", profile[KEY_NAME], profile[KEY_GUID]);
     Profile *prototype = [self prototypeForDynamicProfile:profile];
     NSMutableDictionary *merged = [self profileByMergingProfile:profile
-                                                    intoProfile:prototype];
+                                        intoProfile:prototype];
     // Don't inherit the deprecated KEY_DEFAULT_BOOKMARK value, which in issue 4115 we learn can
     // cause a dynamic profile to become the default profile!
     [merged removeObjectForKey:KEY_DEFAULT_BOOKMARK];

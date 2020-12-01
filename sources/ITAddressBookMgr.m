@@ -62,61 +62,61 @@ iTermWindowType iTermWindowDefaultType(void) {
 
 iTermWindowType iTermThemedWindowType(iTermWindowType windowType) {
     switch (windowType) {
-        case WINDOW_TYPE_COMPACT:
-        case WINDOW_TYPE_NORMAL:
-            if (@available(macOS 10.14, *)) {} else {
-                // 10.13 and earlier do not support compact
-                return WINDOW_TYPE_NORMAL;
-            }
-            switch ((iTermPreferencesTabStyle)[iTermPreferences intForKey:kPreferenceKeyTabStyle]) {
-                case TAB_STYLE_COMPACT:
-                case TAB_STYLE_MINIMAL:
-                    return WINDOW_TYPE_COMPACT;
+    case WINDOW_TYPE_COMPACT:
+    case WINDOW_TYPE_NORMAL:
+        if (@available(macOS 10.14, *)) {} else {
+            // 10.13 and earlier do not support compact
+            return WINDOW_TYPE_NORMAL;
+        }
+        switch ((iTermPreferencesTabStyle)[iTermPreferences intForKey:kPreferenceKeyTabStyle]) {
+        case TAB_STYLE_COMPACT:
+        case TAB_STYLE_MINIMAL:
+            return WINDOW_TYPE_COMPACT;
 
-                case TAB_STYLE_AUTOMATIC:
-                case TAB_STYLE_LIGHT:
-                case TAB_STYLE_DARK:
-                case TAB_STYLE_LIGHT_HIGH_CONTRAST:
-                case TAB_STYLE_DARK_HIGH_CONTRAST:
-                    return WINDOW_TYPE_NORMAL;
-            }
-            assert(false);
-            return windowType;
+        case TAB_STYLE_AUTOMATIC:
+        case TAB_STYLE_LIGHT:
+        case TAB_STYLE_DARK:
+        case TAB_STYLE_LIGHT_HIGH_CONTRAST:
+        case TAB_STYLE_DARK_HIGH_CONTRAST:
+            return WINDOW_TYPE_NORMAL;
+        }
+        assert(false);
+        return windowType;
 
-        case WINDOW_TYPE_COMPACT_MAXIMIZED:
-        case WINDOW_TYPE_MAXIMIZED:
-            if (@available(macOS 10.14, *)) {} else {
-                // 10.13 and earlier do not support compact
-                return WINDOW_TYPE_MAXIMIZED;
-            }
-            switch ((iTermPreferencesTabStyle)[iTermPreferences intForKey:kPreferenceKeyTabStyle]) {
-                case TAB_STYLE_COMPACT:
-                case TAB_STYLE_MINIMAL:
-                    return WINDOW_TYPE_COMPACT_MAXIMIZED;
+    case WINDOW_TYPE_COMPACT_MAXIMIZED:
+    case WINDOW_TYPE_MAXIMIZED:
+        if (@available(macOS 10.14, *)) {} else {
+            // 10.13 and earlier do not support compact
+            return WINDOW_TYPE_MAXIMIZED;
+        }
+        switch ((iTermPreferencesTabStyle)[iTermPreferences intForKey:kPreferenceKeyTabStyle]) {
+        case TAB_STYLE_COMPACT:
+        case TAB_STYLE_MINIMAL:
+            return WINDOW_TYPE_COMPACT_MAXIMIZED;
 
-                case TAB_STYLE_AUTOMATIC:
-                case TAB_STYLE_LIGHT:
-                case TAB_STYLE_DARK:
-                case TAB_STYLE_LIGHT_HIGH_CONTRAST:
-                case TAB_STYLE_DARK_HIGH_CONTRAST:
-                    return WINDOW_TYPE_MAXIMIZED;
-            }
-            assert(false);
-            return windowType;
+        case TAB_STYLE_AUTOMATIC:
+        case TAB_STYLE_LIGHT:
+        case TAB_STYLE_DARK:
+        case TAB_STYLE_LIGHT_HIGH_CONTRAST:
+        case TAB_STYLE_DARK_HIGH_CONTRAST:
+            return WINDOW_TYPE_MAXIMIZED;
+        }
+        assert(false);
+        return windowType;
 
-        case WINDOW_TYPE_TOP:
-        case WINDOW_TYPE_LEFT:
-        case WINDOW_TYPE_RIGHT:
-        case WINDOW_TYPE_BOTTOM:
-        case WINDOW_TYPE_ACCESSORY:
-        case WINDOW_TYPE_TRADITIONAL_FULL_SCREEN:
-        case WINDOW_TYPE_LION_FULL_SCREEN:
-        case WINDOW_TYPE_TOP_PARTIAL:
-        case WINDOW_TYPE_LEFT_PARTIAL:
-        case WINDOW_TYPE_BOTTOM_PARTIAL:
-        case WINDOW_TYPE_RIGHT_PARTIAL:
-        case WINDOW_TYPE_NO_TITLE_BAR:
-            return windowType;
+    case WINDOW_TYPE_TOP:
+    case WINDOW_TYPE_LEFT:
+    case WINDOW_TYPE_RIGHT:
+    case WINDOW_TYPE_BOTTOM:
+    case WINDOW_TYPE_ACCESSORY:
+    case WINDOW_TYPE_TRADITIONAL_FULL_SCREEN:
+    case WINDOW_TYPE_LION_FULL_SCREEN:
+    case WINDOW_TYPE_TOP_PARTIAL:
+    case WINDOW_TYPE_LEFT_PARTIAL:
+    case WINDOW_TYPE_BOTTOM_PARTIAL:
+    case WINDOW_TYPE_RIGHT_PARTIAL:
+    case WINDOW_TYPE_NO_TITLE_BAR:
+        return windowType;
     }
     ITAssertWithMessage(NO, @"Unknown window type %@", @(windowType));
     return WINDOW_TYPE_NORMAL;
@@ -146,8 +146,8 @@ iTermWindowType iTermThemedWindowType(iTermWindowType windowType) {
         NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
         _dynamicProfileManager = [iTermDynamicProfileManager sharedInstance];
         if ([prefs objectForKey:KEY_DEPRECATED_BOOKMARKS] &&
-            [[prefs objectForKey:KEY_DEPRECATED_BOOKMARKS] isKindOfClass:[NSDictionary class]] &&
-            ![prefs objectForKey:KEY_NEW_BOOKMARKS]) {
+                [[prefs objectForKey:KEY_DEPRECATED_BOOKMARKS] isKindOfClass:[NSDictionary class]] &&
+                ![prefs objectForKey:KEY_NEW_BOOKMARKS]) {
             // Have only old-style bookmarks. Load them and convert them to new-style
             // bookmarks.
             [iTermMigrationHelper recursiveMigrateBookmarks:[prefs objectForKey:KEY_DEPRECATED_BOOKMARKS] path:@[]];
@@ -163,15 +163,15 @@ iTermWindowType iTermThemedWindowType(iTermWindowType windowType) {
         NSString *originalDefaultGuid = [[prefs objectForKey:KEY_DEFAULT_GUID] copy];
         if ([newBookmarks isKindOfClass:[NSArray class]]) {
             [self setBookmarks:newBookmarks
-                   defaultGuid:[prefs objectForKey:KEY_DEFAULT_GUID]];
+                  defaultGuid:[prefs objectForKey:KEY_DEFAULT_GUID]];
         } else if ([newBookmarks isKindOfClass:[NSString class]]) {
             NSLog(@"Loading profiles from %@", newBookmarks);
             NSMutableArray *profiles = [NSMutableArray array];
             NSMutableSet *guids = [NSMutableSet set];
             if ([_dynamicProfileManager loadDynamicProfilesFromFile:(NSString *)newBookmarks
-                                                          intoArray:profiles
-                                                              guids:guids] &&
-                [profiles count] > 0) {
+                                           intoArray:profiles
+                                           guids:guids] &&
+                    [profiles count] > 0) {
                 NSString *defaultGuid = profiles[0][KEY_GUID];
                 for (Profile *profile in profiles) {
                     if ([profile[KEY_DEFAULT_BOOKMARK] isEqualToString:@"Yes"]) {
@@ -199,20 +199,20 @@ iTermWindowType iTermThemedWindowType(iTermWindowType windowType) {
         }
 
         [iTermPreferences addObserverForKey:kPreferenceKeyAddBonjourHostsToProfiles
-                                      block:^(id previousValue, id newValue) {
-                                          if ([newValue boolValue]) {
-                                              [self locateBonjourServices];
-                                          } else {
-                                              [self stopLocatingBonjourServices];
-                                              [self removeBonjourProfiles];
-                                          }
-                                      }];
+                         block:^(id previousValue, id newValue) {
+                             if ([newValue boolValue]) {
+                                 [self locateBonjourServices];
+                             } else {
+                [self stopLocatingBonjourServices];
+                [self removeBonjourProfiles];
+            }
+        }];
 
         BOOL bookmarkWithDefaultGuidExisted =
             ([[ProfileModel sharedInstance] bookmarkWithGuid:originalDefaultGuid] != nil);
         [_dynamicProfileManager reloadDynamicProfiles];
         if (!bookmarkWithDefaultGuidExisted &&
-            [[ProfileModel sharedInstance] bookmarkWithGuid:originalDefaultGuid] != nil) {
+                [[ProfileModel sharedInstance] bookmarkWithGuid:originalDefaultGuid] != nil) {
             // One of the dynamic profiles has the default guid.
             [[ProfileModel sharedInstance] setDefaultByGuid:originalDefaultGuid];
         }
@@ -309,8 +309,8 @@ iTermWindowType iTermThemedWindowType(iTermWindowType windowType) {
 
 // NSNetServiceBrowser delegate methods
 - (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser
-           didFindService:(NSNetService *)aNetService
-               moreComing:(BOOL)moreComing
+    didFindService:(NSNetService *)aNetService
+    moreComing:(BOOL)moreComing
 {
     if ([self verbose]) {
         NSLog(@"netServiceBrowser:%@ didFindService:%@ moreComing:%d",
@@ -324,8 +324,8 @@ iTermWindowType iTermThemedWindowType(iTermWindowType windowType) {
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser
-         didRemoveService:(NSNetService *)aNetService
-               moreComing:(BOOL)moreComing {
+    didRemoveService:(NSNetService *)aNetService
+    moreComing:(BOOL)moreComing {
     if (aNetService == nil) {
         return;
     }
@@ -345,9 +345,9 @@ iTermWindowType iTermThemedWindowType(iTermWindowType windowType) {
         NSString* bookmarkName = [bookmark objectForKey:KEY_NAME];
         if ([bookmarkName isEqualToString:[aNetService name]]
 #ifdef SUPPORT_SFTP
-            || [bookmarkName isEqualToString:sftpName]
+                || [bookmarkName isEqualToString:sftpName]
 #endif
-            ) {
+           ) {
             if ([self verbose]) {
                 NSLog(@"remove profile with name %@", bookmarkName);
             }
@@ -363,8 +363,8 @@ iTermWindowType iTermThemedWindowType(iTermWindowType windowType) {
 
 + (void)setDefaultsInBookmark:(NSMutableDictionary*)aDict {
     NSString* plistFile = [[NSBundle bundleForClass:[self class]]
-                                    pathForResource:@"DefaultBookmark"
-                                             ofType:@"plist"];
+                                                                pathForResource:@"DefaultBookmark"
+                                                                ofType:@"plist"];
     NSDictionary* presetsDict = [NSDictionary dictionaryWithContentsOfFile: plistFile];
     [aDict addEntriesFromDictionary:presetsDict];
     [aDict setObject:@"xterm-256color" forKey:KEY_TERMINAL_TYPE];
@@ -372,30 +372,30 @@ iTermWindowType iTermThemedWindowType(iTermWindowType windowType) {
     NSString *aName;
 
     aName = NSLocalizedStringFromTableInBundle(@"Default",
-                                               @"iTerm",
-                                               [NSBundle bundleForClass: [self class]],
-                                               @"Terminal Profiles");
+            @"iTerm",
+            [NSBundle bundleForClass: [self class]],
+            @"Terminal Profiles");
     [aDict setObject:aName forKey: KEY_NAME];
     [aDict setObject:kProfilePreferenceCommandTypeLoginShellValue forKey:KEY_CUSTOM_COMMAND];
     [aDict setObject:@"" forKey: KEY_COMMAND_LINE];
     [aDict setObject:aName forKey: KEY_DESCRIPTION];
     [aDict setObject:kProfilePreferenceInitialDirectoryHomeValue
-              forKey:KEY_CUSTOM_DIRECTORY];
+           forKey:KEY_CUSTOM_DIRECTORY];
     [aDict setObject:NSHomeDirectory() forKey: KEY_WORKING_DIRECTORY];
 }
 
 - (BOOL)usernameIsSafe:(NSString *)username {
     NSCharacterSet *unsafeSet = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyz_1234567890"] invertedSet];
     const NSRange range = [username rangeOfCharacterFromSet:unsafeSet
-                                                    options:NSCaseInsensitiveSearch];
+                                    options:NSCaseInsensitiveSearch];
     return range.location == NSNotFound;
 }
 
 - (void)_addBonjourHostProfileWithName:(NSString *)serviceName
-                       ipAddressString:(NSString *)address
-                                  port:(int)port
-                           serviceType:(NSString *)serviceType
-                              userName:(NSString *)username {
+    ipAddressString:(NSString *)address
+    port:(int)port
+    serviceType:(NSString *)serviceType
+    userName:(NSString *)username {
     NSArray<NSString *> *allowedServices = @[ @"ssh", @"scp", @"sftp" ];
     if (![allowedServices containsObject:serviceType]) {
         return;
@@ -427,11 +427,11 @@ iTermWindowType iTermThemedWindowType(iTermWindowType windowType) {
         }
     }
     [newBookmark setObject:[NSString stringWithFormat:@"%@ %@%@%@", serviceType, userNameArg, optionalPortArg, destination]
-                    forKey:KEY_COMMAND_LINE];
+                 forKey:KEY_COMMAND_LINE];
     [newBookmark setObject:@"" forKey:KEY_WORKING_DIRECTORY];
     [newBookmark setObject:kProfilePreferenceCommandTypeCustomValue forKey:KEY_CUSTOM_COMMAND];
     [newBookmark setObject:kProfilePreferenceInitialDirectoryHomeValue
-                    forKey:KEY_CUSTOM_DIRECTORY];
+                 forKey:KEY_CUSTOM_DIRECTORY];
     [newBookmark setObject:destination forKey:KEY_BONJOUR_SERVICE_ADDRESS];
     [newBookmark setObject:[NSArray arrayWithObjects:@"bonjour",nil] forKey:KEY_TAGS];
     [newBookmark setObject:[ProfileModel freshGuid] forKey:KEY_GUID];
@@ -520,13 +520,13 @@ iTermWindowType iTermThemedWindowType(iTermWindowType windowType) {
         if ([self verbose]) {
             NSLog(@"netServiceDidResolveAddress add profile with address %s", strAddr);
         }
-        
+
         NSString *username = [self usernameFromTXTRecord:sender.TXTRecordData];
         [self _addBonjourHostProfileWithName:serviceName
-                             ipAddressString:[NSString stringWithFormat:@"%s", strAddr]
-                                        port:[self portFromSockaddr:socketAddress]
-                                 serviceType:serviceType
-                                    userName:username];
+              ipAddressString:[NSString stringWithFormat:@"%s", strAddr]
+              port:[self portFromSockaddr:socketAddress]
+              serviceType:serviceType
+              userName:username];
 
         // remove from array now that resolving is done
         if ([bonjourServices containsObject:sender]) {
@@ -589,36 +589,36 @@ iTermWindowType iTermThemedWindowType(iTermWindowType windowType) {
     NSString *sanitizedCustomShell = [self sanitizedCustomShell:customShell];
     NSString *customShellArg = sanitizedCustomShell ? [@" SHELL=" stringByAppendingString:sanitizedCustomShell] : @"";
     return [NSString stringWithFormat:@"/usr/bin/login -f%@pl %@ %@ --launch_shell%@",
-            [self hushlogin] ? @"q" : @"",
-            [NSUserName() stringWithBackslashEscapedShellCharactersIncludingNewlines:YES],
-            [[[NSBundle mainBundle] executablePath] stringWithBackslashEscapedShellCharactersIncludingNewlines:YES],
-            customShellArg];
+                     [self hushlogin] ? @"q" : @"",
+                     [NSUserName() stringWithBackslashEscapedShellCharactersIncludingNewlines:YES],
+                     [[[NSBundle mainBundle] executablePath] stringWithBackslashEscapedShellCharactersIncludingNewlines:YES],
+                     customShellArg];
 }
 
 + (NSString*)loginShellCommandForBookmark:(Profile*)profile
-                            forObjectType:(iTermObjectType)objectType {
+    forObjectType:(iTermObjectType)objectType {
     NSString *customDirectoryString;
     if ([profile[KEY_CUSTOM_DIRECTORY] isEqualToString:kProfilePreferenceInitialDirectoryAdvancedValue]) {
         switch (objectType) {
-            case iTermWindowObject:
-                customDirectoryString = profile[KEY_AWDS_WIN_OPTION];
-                break;
-            case iTermTabObject:
-                customDirectoryString = profile[KEY_AWDS_TAB_OPTION];
-                break;
-            case iTermPaneObject:
-                customDirectoryString = profile[KEY_AWDS_PANE_OPTION];
-                break;
-            default:
-                NSLog(@"Bogus object type %d", (int)objectType);
-                customDirectoryString = kProfilePreferenceInitialDirectoryHomeValue;
+        case iTermWindowObject:
+            customDirectoryString = profile[KEY_AWDS_WIN_OPTION];
+            break;
+        case iTermTabObject:
+            customDirectoryString = profile[KEY_AWDS_TAB_OPTION];
+            break;
+        case iTermPaneObject:
+            customDirectoryString = profile[KEY_AWDS_PANE_OPTION];
+            break;
+        default:
+            NSLog(@"Bogus object type %d", (int)objectType);
+            customDirectoryString = kProfilePreferenceInitialDirectoryHomeValue;
         }
     } else {
         customDirectoryString = profile[KEY_CUSTOM_DIRECTORY];
     }
 
     if ([customDirectoryString isEqualToString:kProfilePreferenceInitialDirectoryHomeValue] &&
-        [[self customShellForProfile:profile] length] == 0) {
+            [[self customShellForProfile:profile] length] == 0) {
         // Run login without -l argument: this is a login session and will use the home dir.
         return [self standardLoginCommand];
     } else {
@@ -650,13 +650,13 @@ iTermWindowType iTermThemedWindowType(iTermWindowType windowType) {
     userName = [userName stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
     userName = [userName stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
     return [NSString stringWithFormat:@"login -f%@p \"%@\"", [self hushlogin] ? @"q" : @"",
-            userName];
+                     userName];
 }
 
 + (void)computeCommandForProfile:(Profile *)profile
-                      objectType:(iTermObjectType)objectType
-                           scope:(iTermVariableScope *)scope
-                      completion:(void (^)(NSString *command))completion {
+    objectType:(iTermObjectType)objectType
+    scope:(iTermVariableScope *)scope
+    completion:(void (^)(NSString *command))completion {
     BOOL custom = [profile[KEY_CUSTOM_COMMAND] isEqualToString:kProfilePreferenceCommandTypeCustomValue];
     NSString *swifty = [self bookmarkCommandSwiftyString:profile forObjectType:objectType];
     if (!custom) {
@@ -667,15 +667,15 @@ iTermWindowType iTermThemedWindowType(iTermWindowType windowType) {
 
     DLog(@"Must evaluate swifty string: %@", swifty);
     iTermExpressionEvaluator *evaluator =
-    [[iTermExpressionEvaluator alloc] initWithStrictInterpolatedString:swifty
-                                                                 scope:scope];
+        [[iTermExpressionEvaluator alloc] initWithStrictInterpolatedString:swifty
+                                          scope:scope];
     [evaluator evaluateWithTimeout:5 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-        NSString *string = [NSString castFrom:evaluator.value];
-        DLog(@"Evaluation finished with value %@", string);
+                  NSString *string = [NSString castFrom:evaluator.value];
+                  DLog(@"Evaluation finished with value %@", string);
         string = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         if (!string.length) {
             string = [ITAddressBookMgr loginShellCommandForBookmark:profile
-                                                      forObjectType:objectType];
+                                       forObjectType:objectType];
         }
         DLog(@"Finish with %@", string);
         completion(string);
@@ -683,7 +683,7 @@ iTermWindowType iTermThemedWindowType(iTermWindowType windowType) {
 }
 
 + (NSString *)bookmarkCommandSwiftyString:(Profile *)bookmark
-                            forObjectType:(iTermObjectType)objectType {
+    forObjectType:(iTermObjectType)objectType {
     BOOL custom = [bookmark[KEY_CUSTOM_COMMAND] isEqualToString:kProfilePreferenceCommandTypeCustomValue];
     if (custom) {
         NSString *command = bookmark[KEY_COMMAND_LINE];
@@ -692,7 +692,7 @@ iTermWindowType iTermThemedWindowType(iTermWindowType windowType) {
         }
     }
     return [ITAddressBookMgr loginShellCommandForBookmark:bookmark
-                                            forObjectType:objectType];
+                             forObjectType:objectType];
 }
 
 + (NSString *)customShellForProfile:(Profile *)profile {
@@ -708,7 +708,7 @@ iTermWindowType iTermThemedWindowType(iTermWindowType windowType) {
 }
 
 + (NSString *)_advancedWorkingDirWithOption:(NSString *)option
-                                  directory:(NSString *)pwd
+    directory:(NSString *)pwd
 {
     if ([option isEqualToString:kProfilePreferenceInitialDirectoryCustomValue]) {
         return pwd;
@@ -789,8 +789,8 @@ iTermWindowType iTermThemedWindowType(iTermWindowType windowType) {
     if (sDelayedNotifications) {
         for (NSNotification *existing in sDelayedNotifications) {
             if ([existing.name isEqualToString:notification.name] &&
-                (existing.object == notification.object || [existing.object isEqual:notification.object]) &&
-                (existing.userInfo == notification.userInfo || [existing.userInfo isEqual:notification.userInfo])) {
+                    (existing.object == notification.object || [existing.object isEqual:notification.object]) &&
+                    (existing.userInfo == notification.userInfo || [existing.userInfo isEqual:notification.userInfo])) {
                 // Already have a notification like this
                 return;
             }

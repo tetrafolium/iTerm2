@@ -52,7 +52,7 @@ typedef NS_ENUM(NSInteger, TransferrableFileStatus) {
 #pragma mark - Utility
 
 - (NSString *)finalDestinationForPath:(NSString *)baseName
-                 destinationDirectory:(NSString *)destinationDirectory;
+    destinationDirectory:(NSString *)destinationDirectory;
 - (NSString *)downloadsDirectory;
 - (BOOL)quarantine:(NSString *)path sourceURL:(NSURL *)sourceURL;
 - (void)failedToRemoveUnquarantinedFileAt:(NSString *)path;

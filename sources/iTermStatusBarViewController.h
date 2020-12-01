@@ -34,8 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)statusBarEditSnippets;
 - (void)statusBarResignFirstResponder;
 - (void)statusBarReportScriptingError:(NSError *)error
-                        forInvocation:(NSString *)invocation
-                               origin:(NSString *)origin;
+    forInvocation:(NSString *)invocation
+    origin:(NSString *)origin;
 
 // Takes into account theme, dark/light mode (if relevant), and advanced config background color.
 - (BOOL)statusBarHasDarkBackground;
@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL mustShowSearchComponent;
 
 - (instancetype)initWithLayout:(iTermStatusBarLayout *)layout
-                         scope:(iTermVariableScope *)scope NS_DESIGNATED_INITIALIZER;
+    scope:(iTermVariableScope *)scope NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithNibName:(nullable NSNibName)nibNameOrNil bundle:(nullable NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
 - (nullable instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;

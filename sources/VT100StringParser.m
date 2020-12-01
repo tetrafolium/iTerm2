@@ -68,16 +68,16 @@ static void DecodeEUCCNBytes(unsigned char *datap,
     while (len > 0) {
         if (iseuccn(*p) && len > 1) {
             if ((*(p+1) >= 0x40 &&
-                 *(p+1) <= 0x7e) ||
-                (*(p+1) >= 0x80 &&
-                 *(p+1) <= 0xfe)) {
-                    p += 2;
-                    len -= 2;
-                } else {
-                    *p = ONECHAR_UNKNOWN;
-                    p++;
-                    len--;
-                }
+                    *(p+1) <= 0x7e) ||
+                    (*(p+1) >= 0x80 &&
+                     *(p+1) <= 0xfe)) {
+                p += 2;
+                len -= 2;
+            } else {
+                *p = ONECHAR_UNKNOWN;
+                p++;
+                len--;
+            }
         } else {
             break;
         }
@@ -102,16 +102,16 @@ static void DecodeBIG5Bytes(unsigned char *datap,
     while (len > 0) {
         if (isbig5(*p) && len > 1) {
             if ((*(p+1) >= 0x40 &&
-                 *(p+1) <= 0x7e) ||
-                (*(p+1) >= 0xa1 &&
-                 *(p+1)<=0xfe)) {
-                    p += 2;
-                    len -= 2;
-                } else {
-                    *p = ONECHAR_UNKNOWN;
-                    p++;
-                    len--;
-                }
+                    *(p+1) <= 0x7e) ||
+                    (*(p+1) >= 0xa1 &&
+                     *(p+1)<=0xfe)) {
+                p += 2;
+                len -= 2;
+            } else {
+                *p = ONECHAR_UNKNOWN;
+                p++;
+                len--;
+            }
         } else {
             break;
         }
@@ -276,8 +276,8 @@ static NSString* SetReplacementCharInArray(unsigned char* datap, int* lenPtr, in
     // q###x
     *lenPtr += 2;
     return [[[NSString alloc] initWithBytes:datap
-                                     length:*lenPtr
-                                   encoding:NSUTF8StringEncoding] autorelease];
+                               length:*lenPtr
+                               encoding:NSUTF8StringEncoding] autorelease];
 }
 
 static void DecodeASCIIBytes(unsigned char *datap,
@@ -353,8 +353,8 @@ void ParseString(unsigned char *datap,
         result->type = VT100_STRING;
     } else if (result->type != VT100_WAIT && !isAscii) {
         result.string = [[[NSString alloc] initWithBytes:datap
-                                                    length:*rmlen
-                                                  encoding:encoding] autorelease];
+                                            length:*rmlen
+                                            encoding:encoding] autorelease];
         if (result.string == nil) {
             // Invalid bytes, can't encode.
             int i;
@@ -371,8 +371,8 @@ void ParseString(unsigned char *datap,
                 for (i = *rmlen - 1; i >= 0 && !result.string; i--) {
                     datap[i] = ONECHAR_UNKNOWN;
                     result.string = [[[NSString alloc] initWithBytes:datap
-                                                                 length:*rmlen
-                                                               encoding:encoding] autorelease];
+                                                        length:*rmlen
+                                                        encoding:encoding] autorelease];
                 }
             }
         }

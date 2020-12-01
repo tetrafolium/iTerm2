@@ -16,13 +16,13 @@
 @implementation iTermStatusBarBaseLayoutAlgorithm
 
 - (instancetype)initWithContainerViews:(NSArray<iTermStatusBarContainerView *> *)containerViews
-                         mandatoryView:(nonnull iTermStatusBarContainerView *)mandatoryView
-                        statusBarWidth:(CGFloat)statusBarWidth
-                 removeEmptyComponents:(BOOL)removeEmptyComponents {
+    mandatoryView:(nonnull iTermStatusBarContainerView *)mandatoryView
+    statusBarWidth:(CGFloat)statusBarWidth
+    removeEmptyComponents:(BOOL)removeEmptyComponents {
     self = [super initWithContainerViews:containerViews
-                           mandatoryView:mandatoryView
-                          statusBarWidth:statusBarWidth
-                   removeEmptyComponents:removeEmptyComponents];
+                  mandatoryView:mandatoryView
+                  statusBarWidth:statusBarWidth
+                  removeEmptyComponents:removeEmptyComponents];
     if (self) {
         _statusBarWidth = statusBarWidth;
         _containerViews = [containerViews copy];
@@ -43,8 +43,8 @@
     DLog(@"availableWidthAfterInitializingDesiredWidthForViews available=%@", @(availableWidth));
     // Allocate minimum widths
     [views enumerateObjectsUsingBlock:^(iTermStatusBarContainerView * _Nonnull view, NSUInteger idx, BOOL * _Nonnull stop) {
-        view.desiredWidth = [self minimumWidthForComponent:view.component];
-        if (view.component.statusBarComponentIcon) {
+              view.desiredWidth = [self minimumWidthForComponent:view.component];
+              if (view.component.statusBarComponentIcon) {
             view.desiredWidth = view.desiredWidth + iTermStatusBarViewControllerIconWidth;
         }
         availableWidth -= view.desiredWidth;
@@ -55,8 +55,8 @@
 
 - (NSArray<iTermStatusBarContainerView *> *)viewsThatCanGrowFromViews:(NSArray<iTermStatusBarContainerView *> *)views {
     return [views filteredArrayUsingBlock:^BOOL(iTermStatusBarContainerView *view) {
-        double preferredWidth = view.component.statusBarComponentPreferredWidth;
-        if (view.component.statusBarComponentIcon) {
+              double preferredWidth = view.component.statusBarComponentPreferredWidth;
+              if (view.component.statusBarComponentIcon) {
             preferredWidth += iTermStatusBarViewControllerIconWidth;
         }
         return ([view.component statusBarComponentCanStretch] &&
@@ -76,8 +76,8 @@
 
 - (NSArray<iTermStatusBarContainerView *> *)viewsByRemovingViewThatCannotGrow:(NSArray<iTermStatusBarContainerView *> *)views {
     return [views filteredArrayUsingBlock:^BOOL(iTermStatusBarContainerView *view) {
-        double preferredWidth = view.component.statusBarComponentPreferredWidth;
-        if (view.component.statusBarComponentIcon) {
+              double preferredWidth = view.component.statusBarComponentPreferredWidth;
+              if (view.component.statusBarComponentIcon) {
             preferredWidth += iTermStatusBarViewControllerIconWidth;
         }
         const BOOL unsatisfied = floor(preferredWidth) > ceil(view.desiredWidth);
@@ -89,8 +89,8 @@
 }
 
 - (double)totalGrowthAfterUpdatingDesiredWidthsForAvailableWidth:(CGFloat)availableWidth
-                                            sumOfSpringConstants:(double)sumOfSpringConstants
-                                                           views:(NSArray<iTermStatusBarContainerView *> *)views {
+    sumOfSpringConstants:(double)sumOfSpringConstants
+    views:(NSArray<iTermStatusBarContainerView *> *)views {
     return 0;
 }
 
@@ -112,8 +112,8 @@
              @(views.count), @(availableWidth));
 
         const double growth = [self totalGrowthAfterUpdatingDesiredWidthsForAvailableWidth:availableWidth
-                                                                      sumOfSpringConstants:sumOfSpringConstants
-                                                                                     views:views];
+                                    sumOfSpringConstants:sumOfSpringConstants
+                                    views:views];
         availableWidth -= growth;
         DLog(@"updateDesiredWidths after divvying: available = %@", @(availableWidth));
 
@@ -138,18 +138,18 @@
     }
 
     return [_containerViews filteredArrayUsingBlock:
-            ^BOOL(iTermStatusBarContainerView *view) {
-        return !view.component.statusBarComponentIsEmpty;
-    }];
+                    ^BOOL(iTermStatusBarContainerView *view) {
+                        return !view.component.statusBarComponentIsEmpty;
+                    }];
 }
 
 - (NSArray<iTermStatusBarContainerView *> *)containerViewsSortedByPriority:(NSArray<iTermStatusBarContainerView *> *)eligibleContainerViews {
     NSView *mandatoryView = self.mandatoryView;
     NSArray<iTermStatusBarContainerView *> *prioritized = [eligibleContainerViews sortedArrayUsingComparator:^NSComparisonResult(iTermStatusBarContainerView * _Nonnull obj1, iTermStatusBarContainerView * _Nonnull obj2) {
-        if (obj1 == mandatoryView && obj2 != mandatoryView) {
-            return NSOrderedDescending;
-        }
-        if (obj1 != mandatoryView && obj2 == mandatoryView) {
+                               if (obj1 == mandatoryView && obj2 != mandatoryView) {
+                                   return NSOrderedDescending;
+                               }
+                               if (obj1 != mandatoryView && obj2 == mandatoryView) {
             return NSOrderedAscending;
         }
         if (obj1 == obj2) {
@@ -170,8 +170,8 @@
 - (void)updateMargins:(NSArray<iTermStatusBarContainerView *> *)views {
     __block BOOL foundMargin = NO;
     [views enumerateObjectsUsingBlock:^(iTermStatusBarContainerView * _Nonnull view, NSUInteger idx, BOOL * _Nonnull stop) {
-        const BOOL hasMargins = view.component.statusBarComponentHasMargins;
-        if (hasMargins) {
+              const BOOL hasMargins = view.component.statusBarComponentHasMargins;
+              if (hasMargins) {
             view.leftMargin = iTermStatusBarViewControllerMargin / 2 + 1;
         } else {
             view.leftMargin = 0;
@@ -180,8 +180,8 @@
 
     foundMargin = NO;
     [views enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(iTermStatusBarContainerView * _Nonnull view, NSUInteger idx, BOOL * _Nonnull stop) {
-        const BOOL hasMargins = view.component.statusBarComponentHasMargins;
-        if (hasMargins && !foundMargin) {
+              const BOOL hasMargins = view.component.statusBarComponentHasMargins;
+              if (hasMargins && !foundMargin) {
             view.rightMargin = iTermStatusBarViewControllerMargin;
             foundMargin = YES;
         } else if (hasMargins) {
@@ -195,8 +195,8 @@
 - (CGFloat)minimumWidthOfContainerViews:(NSArray<iTermStatusBarContainerView *> *)views {
     [self updateMargins:views];
     NSNumber *sumOfMinimumWidths = [views reduceWithFirstValue:@0 block:^id(NSNumber *sum, iTermStatusBarContainerView *containerView) {
-        CGFloat minimumWidth = [self minimumWidthForComponent:containerView.component];
-        if (containerView.component.statusBarComponentIcon != nil) {
+              CGFloat minimumWidth = [self minimumWidthForComponent:containerView.component];
+              if (containerView.component.statusBarComponentIcon != nil) {
             minimumWidth += iTermStatusBarViewControllerIconWidth;
         }
         DLog(@"Minimum width of %@ is %@", containerView.component.class, @(minimumWidth));
@@ -206,15 +206,15 @@
 }
 
 - (iTermStatusBarContainerView *)viewToRemoveAdjacentToViewBeingRemoved:(iTermStatusBarContainerView *)view
-                                                              fromViews:(NSArray<iTermStatusBarContainerView *> *)views {
+    fromViews:(NSArray<iTermStatusBarContainerView *> *)views {
     return nil;
 }
 
 - (NSArray<iTermStatusBarContainerView *> *)viewsFrom:(NSArray<iTermStatusBarContainerView *> *)allowedViewsSubset
-                                       keepingOrderIn:(NSArray<iTermStatusBarContainerView *> *)orderedViewsSuperset {
+    keepingOrderIn:(NSArray<iTermStatusBarContainerView *> *)orderedViewsSuperset {
     return [orderedViewsSuperset filteredArrayUsingBlock:^BOOL(iTermStatusBarContainerView *view) {
-        return [allowedViewsSubset containsObject:view];
-    }];
+                             return [allowedViewsSubset containsObject:view];
+                         }];
 }
 
 // Returns a subset of views by removing the lowest priority item until their minimum sizes all fit within the status bar's width.
@@ -226,13 +226,13 @@
 
     NSMutableArray<iTermStatusBarContainerView *> *prioritized = [self containerViewsSortedByPriority:views].mutableCopy;
     NSMutableArray<iTermStatusBarContainerView *> *prioritizedNonzerominimum = [prioritized filteredArrayUsingBlock:^BOOL(iTermStatusBarContainerView *anObject) {
-        return [self minimumWidthForComponent:anObject.component] > 0 || anObject.component.statusBarComponentIcon != nil;
-    }].mutableCopy;
+                    return [self minimumWidthForComponent:anObject.component] > 0 || anObject.component.statusBarComponentIcon != nil;
+                }].mutableCopy;
     CGFloat desiredWidth = [self minimumWidthOfContainerViews:prioritized];
     while (desiredWidth > allowedWidth) {
         iTermStatusBarContainerView *viewToRemove = prioritizedNonzerominimum.firstObject;
         iTermStatusBarContainerView *adjacentViewToRemove = [self viewToRemoveAdjacentToViewBeingRemoved:viewToRemove
-                                                                                               fromViews:[self viewsFrom:prioritized keepingOrderIn:_containerViews]];
+                     fromViews:[self viewsFrom:prioritized keepingOrderIn:_containerViews]];
 
         // Remove the view with the lowest priority
         [prioritized removeObject:viewToRemove];

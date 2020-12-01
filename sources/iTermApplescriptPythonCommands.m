@@ -27,8 +27,8 @@
     NSArray<NSString *> *args = self.evaluatedArguments[@"arguments"];
     if ([scriptName hasPrefix:@"/"]) {
         [[[[iTermApplication sharedApplication] delegate] scriptsMenuController] launchScriptWithAbsolutePath:scriptName
-                                                                                                    arguments:args
-                                                                                           explicitUserAction:NO];
+                                                arguments:args
+                                                explicitUserAction:NO];
         return nil;
     }
     NSArray<NSString *> *relativeFilenames = [[[[iTermApplication sharedApplication] delegate] scriptsMenuController] allScripts];
@@ -64,8 +64,8 @@
 
 - (void)launchPythonScript:(NSString *)script arguments:(NSArray<NSString *> *)arguments {
     [[[[iTermApplication sharedApplication] delegate] scriptsMenuController] launchScriptWithRelativePath:script
-                                                                                                arguments:arguments
-                                                                                       explicitUserAction:NO];
+                                            arguments:arguments
+                                            explicitUserAction:NO];
 }
 
 @end
@@ -80,47 +80,47 @@
         return nil;
     }
     iTermParsedExpression *parsedExpression =
-    [[iTermExpressionParser expressionParser] parse:invocation
-                                              scope:[iTermVariableScope globalsScope]];
+        [[iTermExpressionParser expressionParser] parse:invocation
+                                                  scope:[iTermVariableScope globalsScope]];
 
     BOOL sync = NO;
     switch (parsedExpression.expressionType) {
-        case iTermParsedExpressionTypeError:
-            [self setScriptErrorNumber:1];
-            [self setScriptErrorString:parsedExpression.error.localizedDescription];
-            return nil;
+    case iTermParsedExpressionTypeError:
+        [self setScriptErrorNumber:1];
+        [self setScriptErrorString:parsedExpression.error.localizedDescription];
+        return nil;
 
-        case iTermParsedExpressionTypeNil:
-        case iTermParsedExpressionTypeNumber:
-        case iTermParsedExpressionTypeString:
-        case iTermParsedExpressionTypeArrayLookup:
-        case iTermParsedExpressionTypeArrayOfValues:
-        case iTermParsedExpressionTypeVariableReference:
-            sync = YES;
-            break;
+    case iTermParsedExpressionTypeNil:
+    case iTermParsedExpressionTypeNumber:
+    case iTermParsedExpressionTypeString:
+    case iTermParsedExpressionTypeArrayLookup:
+    case iTermParsedExpressionTypeArrayOfValues:
+    case iTermParsedExpressionTypeVariableReference:
+        sync = YES;
+        break;
 
-        case iTermParsedExpressionTypeArrayOfExpressions:
-        case iTermParsedExpressionTypeInterpolatedString:
-        case iTermParsedExpressionTypeFunctionCall:
-            sync = NO;
-            break;
+    case iTermParsedExpressionTypeArrayOfExpressions:
+    case iTermParsedExpressionTypeInterpolatedString:
+    case iTermParsedExpressionTypeFunctionCall:
+        sync = NO;
+        break;
     }
     iTermExpressionEvaluator *evaluator =
-    [[iTermExpressionEvaluator alloc] initWithParsedExpression:parsedExpression
-                                                    invocation:invocation
-                                                         scope:[iTermVariableScope globalsScope]];
+        [[iTermExpressionEvaluator alloc] initWithParsedExpression:parsedExpression
+                                          invocation:invocation
+                                          scope:[iTermVariableScope globalsScope]];
     [self suspendExecution];
     __weak __typeof(self) weakSelf = self;
     [evaluator evaluateWithTimeout:sync ? 0 : 10 completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-        if (evaluator.error) {
-            [self setScriptErrorNumber:2];
+                  if (evaluator.error) {
+                      [self setScriptErrorNumber:2];
             [self setScriptErrorString:evaluator.error.localizedDescription];
-            dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_main_queue(), ^ {
                 [weakSelf resumeExecutionWithResult:nil];
             });
             return;
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^ {
             [weakSelf resumeExecutionWithResult:[NSString stringWithFormat:@"%@", evaluator.value]];
         });
     }];

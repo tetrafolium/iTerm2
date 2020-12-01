@@ -41,12 +41,12 @@
     [super resetCursorRects];
     NSRect frame = [self frame];
     [self addCursorRect:NSMakeRect(0, 0, frame.size.width, frame.size.height)
-                 cursor:[NSCursor arrowCursor]];
+          cursor:[NSCursor arrowCursor]];
 }
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p frame=%@ isHidden=%@ alpha=%@>",
-            [self class], self, NSStringFromRect(self.frame), @(self.hidden), @(self.alphaValue)];
+                     [self class], self, NSStringFromRect(self.frame), @(self.hidden), @(self.alphaValue)];
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
@@ -57,10 +57,10 @@
 
     PseudoTerminal* term = [[self window] windowController];
     if ([term isKindOfClass:[PseudoTerminal class]]) {
-      [term fillPath:path];
+        [term fillPath:path];
     } else {
-      [[NSColor windowBackgroundColor] set];
-      [path fill];
+        [[NSColor windowBackgroundColor] set];
+        [path fill];
     }
     [[NSGraphicsContext currentContext] restoreGraphicsState];
 }
@@ -99,12 +99,12 @@
     [super resetCursorRects];
     NSRect frame = [self frame];
     [self addCursorRect:NSMakeRect(0, 0, frame.size.width, frame.size.height)
-                 cursor:[NSCursor arrowCursor]];
+          cursor:[NSCursor arrowCursor]];
 }
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p frame=%@ isHidden=%@ alpha=%@>",
-            [self class], self, NSStringFromRect(self.frame), @(self.hidden), @(self.alphaValue)];
+                     [self class], self, NSStringFromRect(self.frame), @(self.hidden), @(self.alphaValue)];
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
@@ -117,8 +117,8 @@
     NSRect bounds = NSInsetRect(self.bounds, 8.5, 8.5);
     const CGFloat radius = 6;
     NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:bounds
-                                                         xRadius:radius
-                                                         yRadius:radius];
+                                       xRadius:radius
+                                       yRadius:radius];
     [[NSColor controlColor] set];
     [path fill];
 
@@ -128,8 +128,8 @@
 
     bounds = NSInsetRect(bounds, 0.25, 0.25);
     path = [NSBezierPath bezierPathWithRoundedRect:bounds
-                                           xRadius:radius
-                                           yRadius:radius];
+                         xRadius:radius
+                         yRadius:radius];
     [path setLineWidth:0.25];
     [[NSColor colorWithCalibratedWhite:0.5 alpha:1] set];
     [path stroke];

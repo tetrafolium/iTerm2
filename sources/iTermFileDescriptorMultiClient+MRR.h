@@ -20,8 +20,8 @@ typedef NS_ENUM(NSUInteger, iTermFileDescriptorMultiClientAttachStatus) {
 };
 
 iTermFileDescriptorMultiClientAttachStatus iTermConnectToUnixDomainSocket(NSString *path,
-                                                                          int *fdOut,
-                                                                          int async);
+        int *fdOut,
+        int async);
 
 typedef struct {
     BOOL ok;
@@ -39,14 +39,14 @@ typedef struct {
 } iTermUnixDomainSocketConnectResult;
 
 iTermUnixDomainSocketConnectResult iTermCreateConnectedUnixDomainSocket(NSString *path,
-                                                                        int closeAfterAccept);
+        int closeAfterAccept);
 
 @interface iTermFileDescriptorMultiClient (MRR)
 
 - (iTermForkState)launchWithSocketPath:(NSString *)path
-                            executable:(NSString *)executable
-                                readFD:(int *)readFDOut
-                               writeFD:(int *)writeFDOut;
+    executable:(NSString *)executable
+    readFD:(int *)readFDOut
+    writeFD:(int *)writeFDOut;
 @end
 
 NS_ASSUME_NONNULL_END

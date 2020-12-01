@@ -54,9 +54,9 @@ static const CGFloat gSwipeFriction = 0.1;
         _parameters = [handler swipeHandlerParameters];
         _identifier = [[NSUUID UUID] UUIDString];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(cancelSwipe:)
-                                                     name:iTermSwipeHandlerCancelSwipe
-                                                   object:_identifier];
+                                              selector:@selector(cancelSwipe:)
+                                              name:iTermSwipeHandlerCancelSwipe
+                                              object:_identifier];
         if (_parameters.count == 0 || _parameters.width <= 0) {
             return nil;
         }
@@ -71,15 +71,15 @@ static const CGFloat gSwipeFriction = 0.1;
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p width=%@ offset=%@ (%@) momentum=%@ state=%@ momentumStage=%@ targetIndex=%@>",
-            NSStringFromClass(self.class),
-            self,
-            @(_parameters.width),
-            @(self.squashedOffset),
-            @(_rawOffset),
-            @(_momentum),
-            @(_state),
-            @(self.momentumStage),
-            _targetIndexNumber];
+                     NSStringFromClass(self.class),
+                     self,
+                     @(_parameters.width),
+                     @(self.squashedOffset),
+                     @(_rawOffset),
+                     @(_momentum),
+                     @(_state),
+                     @(self.momentumStage),
+                     _targetIndexNumber];
 }
 
 - (void)cancelSwipe:(NSNotification *)notification {
@@ -108,7 +108,7 @@ static const CGFloat gSwipeFriction = 0.1;
     self.momentumStage = iTermSwipeStateMomentumStageNone;
     _isRetired = YES;
     [self.swipeHandler swipeHandlerEndSession:self.userInfo
-                                      atIndex:_targetIndexNumber ? _targetIndexNumber.integerValue : NSNotFound];
+                       atIndex:_targetIndexNumber ? _targetIndexNumber.integerValue : NSNotFound];
     _targetIndexNumber = nil;
 }
 
@@ -136,35 +136,35 @@ static const CGFloat gSwipeFriction = 0.1;
 - (void)reallyUpdate {
     const CGFloat force = -_momentum * gSwipeFriction;
     switch (self.momentumStage) {
-        case iTermSwipeStateMomentumStageNone:
-            DLog(@"Nothing to do");
+    case iTermSwipeStateMomentumStageNone:
+        DLog(@"Nothing to do");
+        return;
+    case iTermSwipeStateMomentumStagePositive:
+    case iTermSwipeStateMomentumStageNegative:
+        if (self.squashedOffset == [self offsetOfTargetIndex]) {
+            // Super unlikely. This should only happen if the offset was just right when the touch up occurred.
+            [self retire];
             return;
-        case iTermSwipeStateMomentumStagePositive:
-        case iTermSwipeStateMomentumStageNegative:
-            if (self.squashedOffset == [self offsetOfTargetIndex]) {
-                // Super unlikely. This should only happen if the offset was just right when the touch up occurred.
-                [self retire];
-                return;
-            }
-            if (fabs(force) > 0.1) {
-                [self applyForce:force];
-                return;
-            }
-            DLog(@"Force less than threshold (%f). Will retire.", force);
-            if (force < 0) {
-                if ([self offsetIsAfterTargetIndex:self.squashedOffset]) {
-                    [self didCrossZero];
-                    return;
-                }
-                [self retire];
-                return;
-            }
-            if (![self offsetIsAfterTargetIndex:self.squashedOffset]) {
+        }
+        if (fabs(force) > 0.1) {
+            [self applyForce:force];
+            return;
+        }
+        DLog(@"Force less than threshold (%f). Will retire.", force);
+        if (force < 0) {
+            if ([self offsetIsAfterTargetIndex:self.squashedOffset]) {
                 [self didCrossZero];
                 return;
             }
             [self retire];
             return;
+        }
+        if (![self offsetIsAfterTargetIndex:self.squashedOffset]) {
+            [self didCrossZero];
+            return;
+        }
+        [self retire];
+        return;
     }
 }
 
@@ -175,7 +175,7 @@ static const CGFloat gSwipeFriction = 0.1;
     _momentum += force;
     DLog(@"After applying force: %@", self);
     if (([self offsetIsAfterTargetIndex:offsetBefore] && ![self offsetIsAfterTargetIndex:self.squashedOffset]) ||
-        (![self offsetIsAfterTargetIndex:offsetBefore] && [self offsetIsAfterTargetIndex:self.squashedOffset])) {
+            (![self offsetIsAfterTargetIndex:offsetBefore] && [self offsetIsAfterTargetIndex:self.squashedOffset])) {
         [self didCrossZero];
         return;
     }
@@ -212,7 +212,7 @@ static const CGFloat gSwipeFriction = 0.1;
     const CGFloat slopeThreshold = 0.4;
 
     if ((_preScrollAccumulatedDeltaY + _preScrollAccumulatedDeltaX) >= 10 &&
-        _preScrollAccumulatedDeltaY > slopeThreshold * _preScrollAccumulatedDeltaX) {
+            _preScrollAccumulatedDeltaY > slopeThreshold * _preScrollAccumulatedDeltaX) {
         [self retire];
         DLog(@"Abort: Accumulated pre-scroll deltas are dx=%0.1f dy=%0.1f",
              _preScrollAccumulatedDeltaX, _preScrollAccumulatedDeltaY);
@@ -251,7 +251,7 @@ static const CGFloat gSwipeFriction = 0.1;
         _initialOffset = _parameters.currentIndex * -_parameters.width;
         _rawOffset = _initialOffset;
         _userInfo = [self.swipeHandler swipeHandlerBeginSessionAtOffset:_initialOffset
-                                                             identifier:_identifier];
+                                       identifier:_identifier];
         if (fabs(_initialOffset - _rawOffset) >= 1) {
             [self.swipeHandler swipeHandlerSetOffset:self.squashedOffset forSession:_userInfo];
         }
@@ -267,92 +267,92 @@ static const CGFloat gSwipeFriction = 0.1;
 }
 
 - (void)badStateTransition:(iTermScrollWheelStateMachineStateTransition)transition
-                     event:(NSEvent *)event {
+    event:(NSEvent *)event {
     ITBetaAssert(NO, @"Unexpected state transition %@ -> %@: %@", @(transition.before), @(transition.after), event);
     [self retire];
 }
 
 - (BOOL)handleEvent:(NSEvent *)event
-         transition:(iTermScrollWheelStateMachineStateTransition)transition {
+    transition:(iTermScrollWheelStateMachineStateTransition)transition {
     DLog(@"handleEvent:%@ before=%@ after=%@ dy=%0.1f", iTermShortEventPhasesString(event), @(transition.before), @(transition.after), event.scrollingDeltaY);
     _state = transition.after;
 
     switch (transition.before) {
-        case iTermScrollWheelStateMachineStateGround:
-            switch (transition.after) {
-                case iTermScrollWheelStateMachineStateStartDrag:
-                case iTermScrollWheelStateMachineStateDrag:
-                    self.momentumStage = iTermSwipeStateMomentumStageNone;
-                    if ([self shouldDrag:event state:transition.after]) {
-                        [self dragBy:event.scrollingDeltaX];
-                    } else {
-                        return NO;
-                    }
-                    break;
-                case iTermScrollWheelStateMachineStateTouchAndHold:
-                    break;
-                case iTermScrollWheelStateMachineStateGround:
-                    break;
-            }
-            break;
+    case iTermScrollWheelStateMachineStateGround:
+        switch (transition.after) {
         case iTermScrollWheelStateMachineStateStartDrag:
-            switch (transition.after) {
-                case iTermScrollWheelStateMachineStateDrag:
-                    if ([self shouldDrag:event state:transition.after]) {
-                        [self dragBy:event.scrollingDeltaX];
-                    } else {
-                        return NO;
-                    }
-                    break;
-                case iTermScrollWheelStateMachineStateGround:
-                    [self retire];
-                    break;
-                case iTermScrollWheelStateMachineStateStartDrag:
-                case iTermScrollWheelStateMachineStateTouchAndHold:
-                    [self badStateTransition:transition event:event];
-                    break;
+        case iTermScrollWheelStateMachineStateDrag:
+            self.momentumStage = iTermSwipeStateMomentumStageNone;
+            if ([self shouldDrag:event state:transition.after]) {
+                [self dragBy:event.scrollingDeltaX];
+            } else {
+                return NO;
             }
             break;
         case iTermScrollWheelStateMachineStateTouchAndHold:
-            switch (transition.after) {
-                case iTermScrollWheelStateMachineStateStartDrag:
-                case iTermScrollWheelStateMachineStateDrag:
-                    if ([self shouldDrag:event state:transition.after]) {
-                        [self dragBy:event.scrollingDeltaX];
-                    } else {
-                        return NO;
-                    }
-                    break;
-                case iTermScrollWheelStateMachineStateGround:
-                    [self retire];
-                    break;
-                case iTermScrollWheelStateMachineStateTouchAndHold:
-                    break;
-            }
             break;
+        case iTermScrollWheelStateMachineStateGround:
+            break;
+        }
+        break;
+    case iTermScrollWheelStateMachineStateStartDrag:
+        switch (transition.after) {
         case iTermScrollWheelStateMachineStateDrag:
-            switch (transition.after) {
-                case iTermScrollWheelStateMachineStateDrag:
-                    if ([self shouldDrag:event state:transition.after]) {
-                        [self dragBy:event.scrollingDeltaX];
-                    } else {
-                        return NO;
-                    }
-                    break;
-                case iTermScrollWheelStateMachineStateGround:
-                    if (!_dragStarted) {
-                        [self retire];
-                        return NO;
-                    }
-                    self.momentumStage = [self desiredMomentumStage];
-                    assert(self.momentumStage != iTermSwipeStateMomentumStageNone);
-                    break;
-                case iTermScrollWheelStateMachineStateStartDrag:
-                case iTermScrollWheelStateMachineStateTouchAndHold:
-                    [self badStateTransition:transition event:event];
-                    break;
+            if ([self shouldDrag:event state:transition.after]) {
+                [self dragBy:event.scrollingDeltaX];
+            } else {
+                return NO;
             }
             break;
+        case iTermScrollWheelStateMachineStateGround:
+            [self retire];
+            break;
+        case iTermScrollWheelStateMachineStateStartDrag:
+        case iTermScrollWheelStateMachineStateTouchAndHold:
+            [self badStateTransition:transition event:event];
+            break;
+        }
+        break;
+    case iTermScrollWheelStateMachineStateTouchAndHold:
+        switch (transition.after) {
+        case iTermScrollWheelStateMachineStateStartDrag:
+        case iTermScrollWheelStateMachineStateDrag:
+            if ([self shouldDrag:event state:transition.after]) {
+                [self dragBy:event.scrollingDeltaX];
+            } else {
+                return NO;
+            }
+            break;
+        case iTermScrollWheelStateMachineStateGround:
+            [self retire];
+            break;
+        case iTermScrollWheelStateMachineStateTouchAndHold:
+            break;
+        }
+        break;
+    case iTermScrollWheelStateMachineStateDrag:
+        switch (transition.after) {
+        case iTermScrollWheelStateMachineStateDrag:
+            if ([self shouldDrag:event state:transition.after]) {
+                [self dragBy:event.scrollingDeltaX];
+            } else {
+                return NO;
+            }
+            break;
+        case iTermScrollWheelStateMachineStateGround:
+            if (!_dragStarted) {
+                [self retire];
+                return NO;
+            }
+            self.momentumStage = [self desiredMomentumStage];
+            assert(self.momentumStage != iTermSwipeStateMomentumStageNone);
+            break;
+        case iTermScrollWheelStateMachineStateStartDrag:
+        case iTermScrollWheelStateMachineStateTouchAndHold:
+            [self badStateTransition:transition event:event];
+            break;
+        }
+        break;
     }
     return YES;
 }
@@ -368,7 +368,7 @@ static const CGFloat gSwipeFriction = 0.1;
 - (CGFloat)momentumForDistance:(CGFloat)distance {
     static CGFloat sumOfFrictionPowers;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         // This is only approximate because animation stops whens velocity drops under 1. The
         // actual duration could end up being quite a bit shorter than the target, especially
         // if the distance is small compared to the duration.
@@ -434,8 +434,8 @@ static const CGFloat gSwipeFriction = 0.1;
     const CGFloat wiggle = _parameters.width / 4.0;
     const CGFloat shifted = relativeOffset + softMovementLimit;
     const CGFloat squashedShifted = iTermSquash(shifted,
-                                                softMovementLimit * 2,
-                                                wiggle);
+                                    softMovementLimit * 2,
+                                    wiggle);
     const CGFloat squashedRelativeOffset = squashedShifted - softMovementLimit;
     const CGFloat squashed = squashedRelativeOffset + _initialOffset;
     DLog(@"Squash %0.0f (initial=%0.0f) -> %0.0f (width=%0.0f)",

@@ -44,7 +44,7 @@
 + (id)sharedInstance {
     static iTermNotificationController *instance;
     static dispatch_once_t once;
-    dispatch_once(&once, ^{
+    dispatch_once(&once, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -64,39 +64,43 @@
 }
 
 - (void)notify:(NSString *)title withDescription:(NSString *)description {
-      [self notify:title
-        withDescription:description
-            windowIndex:-1
-               tabIndex:-1
-              viewIndex:-1];
+    [self notify:title
+          withDescription:description
+          windowIndex:-1
+          tabIndex:-1
+          viewIndex:-1];
 }
 
 - (BOOL)notify:(NSString *)title
     withDescription:(NSString *)description
-        windowIndex:(int)windowIndex
-           tabIndex:(int)tabIndex
-          viewIndex:(int)viewIndex {
+    windowIndex:(int)windowIndex
+    tabIndex:(int)tabIndex
+    viewIndex:(int)viewIndex {
     return [self notify:title
-             withDescription:description
+                 withDescription:description
                  windowIndex:windowIndex
-                    tabIndex:tabIndex
-                   viewIndex:viewIndex
-                      sticky:NO];
+                 tabIndex:tabIndex
+                 viewIndex:viewIndex
+                 sticky:NO];
 }
 
 - (BOOL)notify:(NSString *)title
     withDescription:(NSString *)description
-        windowIndex:(int)windowIndex
-           tabIndex:(int)tabIndex
-          viewIndex:(int)viewIndex
-             sticky:(BOOL)sticky {
+    windowIndex:(int)windowIndex
+    tabIndex:(int)tabIndex
+    viewIndex:(int)viewIndex
+    sticky:(BOOL)sticky {
     DLog(@"Notify title=%@ description=%@ window=%@ tab=%@ view=%@ sticky=%@",
          title, description, @(windowIndex), @(tabIndex), @(viewIndex), @(sticky));
     NSDictionary *context = nil;
     if (windowIndex >= 0) {
-        context = @{ @"win": @(windowIndex),
-                     @"tab": @(tabIndex),
-                     @"view": @(viewIndex) };
+        context = @ { @"win":
+                      @(windowIndex),
+                      @"tab":
+                      @(tabIndex),
+                      @"view":
+                      @(viewIndex)
+                    };
     }
 
     // Send to NSUserDefaults directly
@@ -116,7 +120,7 @@
     NSUserNotification *notification = [[[NSUserNotification alloc] init] autorelease];
     notification.title = title;
     notification.informativeText = detail;
-    NSDictionary *context = @{ @"URL": url.absoluteString };
+    NSDictionary *context = @ { @"URL": url.absoluteString };
     notification.userInfo = context;
     notification.soundName = NSUserNotificationDefaultSoundName;
     DLog(@"Post notification %@", notification);
@@ -124,14 +128,17 @@
 }
 
 - (void)postNotificationWithTitle:(NSString *)title
-                           detail:(NSString *)detail
-         callbackNotificationName:(NSString *)name
-     callbackNotificationUserInfo:(NSDictionary *)userInfo {
+    detail:(NSString *)detail
+    callbackNotificationName:(NSString *)name
+    callbackNotificationUserInfo:(NSDictionary *)userInfo {
     NSUserNotification *notification = [[[NSUserNotification alloc] init] autorelease];
     notification.title = title;
     notification.informativeText = detail;
-    NSDictionary *context = @{ @"CallbackNotificationName": name,
-                               @"CallbackUserInfo": userInfo ?: @{} };
+    NSDictionary *context = @ { @"CallbackNotificationName":
+                                name,
+                                @"CallbackUserInfo":
+                                userInfo ?: @{}
+                              };
     notification.userInfo = context;
     notification.soundName = NSUserNotificationDefaultSoundName;
     DLog(@"Post notification %@", notification);

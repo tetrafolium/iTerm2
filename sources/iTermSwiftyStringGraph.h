@@ -16,13 +16,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) iTermVariableScope *scope;
 
 - (void)addSwiftyString:(iTermSwiftyString *)swiftyString
-         withFormatPath:(nullable NSString *)formatPath
-         evaluationPath:(NSString *)evaluationPath
-                  scope:(iTermVariableScope *)scope;
+    withFormatPath:(nullable NSString *)formatPath
+    evaluationPath:(NSString *)evaluationPath
+    scope:(iTermVariableScope *)scope;
 
 - (void)addEdgeFromPath:(NSString *)fromPath
-                 toPath:(NSString *)toPath
-                  scope:(iTermVariableScope *)scope;
+    toPath:(NSString *)toPath
+    scope:(iTermVariableScope *)scope;
 
 - (BOOL)containsCycle;
 @end

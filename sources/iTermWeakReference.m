@@ -29,7 +29,7 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p weak ref to %@>",
-                             NSStringFromClass([self class]), self, _object];
+                     NSStringFromClass([self class]), self, _object];
 }
 
 - (id)weaklyReferencedObject {

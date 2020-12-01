@@ -11,8 +11,8 @@
 @implementation iTermIntegerNumberFormatter
 
 - (BOOL)isPartialStringValid:(NSString *)partialString
-            newEditingString:(NSString **)newString
-            errorDescription:(NSString **)error {
+    newEditingString:(NSString **)newString
+    errorDescription:(NSString **)error {
     if([partialString length] == 0) {
         return YES;
     }

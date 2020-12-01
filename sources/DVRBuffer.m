@@ -98,12 +98,19 @@
 
 - (NSDictionary *)dictionaryValue {
     NSDictionary *dict =
-        @{ @"store": [NSData dataWithBytes:store_ length:capacity_],
-           @"index": [self exportedIndex],
-           @"firstKey": @(firstKey_),
-           @"nextKey": @(nextKey_),
-           @"begin": @(begin_),
-           @"end": @(end_) };
+        @ { @"store":
+            [NSData dataWithBytes:store_ length:capacity_],
+            @"index":
+            [self exportedIndex],
+            @"firstKey":
+            @(firstKey_),
+            @"nextKey":
+            @(nextKey_),
+            @"begin":
+            @(begin_),
+            @"end":
+            @(end_)
+          };
     return [dict dictionaryByRemovingNullValues];
 }
 
@@ -230,16 +237,16 @@
 - (DVRIndexEntry *)firstEntryWithTimestampAfter:(long long)timestamp {
     NSArray<NSNumber *> *frameNumbers = [[index_ allKeys] sortedArrayUsingSelector:@selector(compare:)];
     NSArray<NSNumber *> *timestamps = [frameNumbers mapWithBlock:^NSNumber *(NSNumber *frameNumber) {
-        DVRIndexEntry *entry = index_[frameNumber];
-        return @(entry->info.timestamp);
+                     DVRIndexEntry *entry = index_[frameNumber];
+                     return @(entry->info.timestamp);
     }];
     NSUInteger frameNumberIndex = [timestamps indexOfObject:@(timestamp + 1)
                                               inSortedRange:NSMakeRange(0, frameNumbers.count)
-                                                    options:NSBinarySearchingInsertionIndex
-                                            usingComparator:
-                                   ^NSComparisonResult(NSNumber * _Nonnull timestamp1, NSNumber * _Nonnull timestamp2) {
-                                       return [timestamp1 compare:timestamp2];
-                                   }];
+                                              options:NSBinarySearchingInsertionIndex
+                                              usingComparator:
+               ^NSComparisonResult(NSNumber * _Nonnull timestamp1, NSNumber * _Nonnull timestamp2) {
+                   return [timestamp1 compare:timestamp2];
+               }];
     if (frameNumberIndex == NSNotFound || frameNumberIndex == index_.count) {
         return nil;
     }

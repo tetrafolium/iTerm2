@@ -8,7 +8,7 @@
 @implementation iTermPreviousState
 
 - (instancetype)initWithBundleIdentifier:(NSString *)bundleIdentifier
-                               processID:(pid_t)processID {
+    processID:(pid_t)processID {
     self = [super init];
     if (self) {
         if ([bundleIdentifier isEqualToString:[[NSBundle mainBundle] bundleIdentifier]]) {
@@ -26,12 +26,12 @@
     NSRunningApplication *runningApp = [[NSWorkspace sharedWorkspace] frontmostApplication];
     DLog(@"Saving state: active app is %@", runningApp);
     return [self initWithBundleIdentifier:runningApp.bundleIdentifier
-                                processID:runningApp.processIdentifier];
+                 processID:runningApp.processIdentifier];
 }
 
 - (instancetype)initWithRunningApp:(NSRunningApplication *)runningApp {
     return [self initWithBundleIdentifier:runningApp.bundleIdentifier
-                                processID:runningApp.processIdentifier];
+                 processID:runningApp.processIdentifier];
 }
 
 - (void)dealloc {
@@ -87,12 +87,12 @@
 
     __block NSInteger result = -1;
     [[[iTermController sharedInstance] terminals] enumerateObjectsUsingBlock:^(PseudoTerminal *_Nonnull term,
-                                                                               NSUInteger idx,
-                                                                               BOOL *_Nonnull stop) {
-        if (!term.isHotKeyWindow && [[term window] isKeyWindow]) {
-            result = idx;
-        }
-    }];
+                                              NSUInteger idx,
+                                      BOOL *_Nonnull stop) {
+                                          if (!term.isHotKeyWindow && [[term window] isKeyWindow]) {
+                                              result = idx;
+                                          }
+                                      }];
 
     return result;
 }

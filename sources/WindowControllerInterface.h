@@ -174,7 +174,7 @@
 - (void)toggleFullScreenMode:(id)sender;
 
 - (void)toggleFullScreenMode:(id)sender
-                  completion:(void (^)(BOOL))completion;
+    completion:(void (^)(BOOL))completion;
 
 // Is the window title transient?
 - (void)clearTransientTitle;
@@ -293,7 +293,7 @@
 
 // End instant replay, subbing in a live session for the fake IR session.
 - (void)showLiveSession:(PTYSession*)liveSession
-              inPlaceOf:(PTYSession*)replaySession;
+    inPlaceOf:(PTYSession*)replaySession;
 
 // Is the window currently in IR mode?
 - (BOOL)inInstantReplay;
@@ -321,8 +321,8 @@
 
 // Call writeTask: for each session's shell with the given data.
 - (void)sendInputToAllSessions:(NSString *)string
-                      encoding:(NSStringEncoding)optionalEncoding
-                 forceEncoding:(BOOL)forceEncoding;
+    encoding:(NSStringEncoding)optionalEncoding
+    forceEncoding:(BOOL)forceEncoding;
 
 - (iTermRestorableSession *)restorableSessionForSession:(PTYSession *)session;
 
@@ -341,8 +341,8 @@
 // Fit the window to the tabs after a tmux layout change. A change is trivial
 // if views are resized but the view hierarchy is not changed.
 - (void)tmuxTabLayoutDidChange:(BOOL)nontrivialChange
-                           tab:(PTYTab *)tab
-            variableWindowSize:(BOOL)variableWindowSize;
+    tab:(PTYTab *)tab
+    variableWindowSize:(BOOL)variableWindowSize;
 
 // Returns an array of unique tmux controllers present in this window.
 - (NSArray *)uniqueTmuxControllers;
@@ -350,30 +350,30 @@
 // Opens a new tmux tab. window gives the tmux window id. name gives the new
 // window title.
 - (void)loadTmuxLayout:(NSMutableDictionary *)parseTree
-                window:(int)window
-        tmuxController:(TmuxController *)tmuxController
-                  name:(NSString *)name;
+    window:(int)window
+    tmuxController:(TmuxController *)tmuxController
+    name:(NSString *)name;
 
 #pragma mark - Splits
 
 // Create a new split with a specified bookmark. `targetSession` is the session
 // to split.
 - (void)asyncSplitVertically:(BOOL)isVertical
-                      before:(BOOL)before
-                     profile:(Profile *)theBookmark
-               targetSession:(PTYSession *)targetSession
-                  completion:(void (^)(PTYSession *, BOOL ok))completion
-                       ready:(void (^)(PTYSession *, BOOL ok))ready;
+    before:(BOOL)before
+    profile:(Profile *)theBookmark
+    targetSession:(PTYSession *)targetSession
+    completion:(void (^)(PTYSession *, BOOL ok))completion
+    ready:(void (^)(PTYSession *, BOOL ok))ready;
 
 // Create a new split with the specified bookmark. The passed-in session is
 // inserted either before (left/above) or after (right/below) the target
 // session. If performSetup is set, then setupSession:withSize: is
 // called.
 - (void)splitVertically:(BOOL)isVertical
-                 before:(BOOL)before
-          addingSession:(PTYSession*)newSession
-          targetSession:(PTYSession*)targetSession
-           performSetup:(BOOL)performSetup;
+    before:(BOOL)before
+    addingSession:(PTYSession*)newSession
+    targetSession:(PTYSession*)targetSession
+    performSetup:(BOOL)performSetup;
 // Indicates if the current session can be split.
 - (BOOL)canSplitPaneVertically:(BOOL)isVertical withBookmark:(Profile*)theBookmark;
 

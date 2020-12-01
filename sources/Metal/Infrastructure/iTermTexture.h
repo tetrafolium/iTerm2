@@ -12,9 +12,9 @@ NS_CLASS_AVAILABLE(10_11, NA)
 @interface iTermTexture : NSObject
 
 + (void)setBytesPerRow:(int)bytesPerRow
-           rawDataSize:(int)size
-       samplesPerPixel:(int)samplesPerPixel
-            forTexture:(id<MTLTexture>)texture;
+    rawDataSize:(int)size
+    samplesPerPixel:(int)samplesPerPixel
+    forTexture:(id<MTLTexture>)texture;
 
 + (int)samplesPerPixelForTexture:(id<MTLTexture>)texture;
 + (int)bytesPerRowForForTexture:(id<MTLTexture>)texture;

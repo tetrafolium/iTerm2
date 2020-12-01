@@ -19,11 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) void (^completion)(void);
 
 - (instancetype)initWithSplitView:(NSSplitView *)splitView
-                   dividerAtIndex:(NSInteger)dividerIndex
-                             from:(CGFloat)startPosition
-                               to:(CGFloat)endPosition
-                         duration:(NSTimeInterval)duration
-                       completion:(void (^ _Nullable)(void))completion;
+    dividerAtIndex:(NSInteger)dividerIndex
+    from:(CGFloat)startPosition
+    to:(CGFloat)endPosition
+    duration:(NSTimeInterval)duration
+    completion:(void (^ _Nullable)(void))completion;
 @end
 
 

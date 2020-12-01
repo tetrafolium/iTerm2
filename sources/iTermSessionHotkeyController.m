@@ -33,9 +33,9 @@
         _shortcut = [shortcut retain];
         _weakSessions = [[NSMutableArray alloc] init];
         _hotKey = [[iTermCarbonHotKeyController sharedInstance] registerShortcut:shortcut
-                                                                          target:self
-                                                                        selector:@selector(hotkeyPressed:siblings:)
-                                                                        userData:nil];
+                                                                target:self
+                                                                selector:@selector(hotkeyPressed:siblings:)
+                                                                userData:nil];
     }
     return self;
 }
@@ -55,22 +55,22 @@
 - (NSUInteger)indexOfSession:(id<iTermHotKeyNavigableSession>)session {
     __block NSUInteger result = NSNotFound;
     [_weakSessions enumerateObjectsUsingBlock:^(iTermWeakReference<id<iTermHotKeyNavigableSession>> * _Nonnull obj,
-                                                NSUInteger idx,
-                                                BOOL * _Nonnull stop) {
-        if (obj.weaklyReferencedObject == session) {
-            result = idx;
-            *stop = YES;
-        }
-    }];
+                          NSUInteger idx,
+                  BOOL * _Nonnull stop) {
+                      if (obj.weaklyReferencedObject == session) {
+                          result = idx;
+                          *stop = YES;
+                      }
+                  }];
     return result;
 }
 
 - (NSArray<iTermHotKey *> *)hotkeyPressed:(NSDictionary *)userData siblings:(NSArray *)siblings {
     NSUInteger index = [self.weakSessions indexOfObjectPassingTest:^BOOL(iTermWeakReference<id<iTermHotKeyNavigableSession>> * _Nonnull obj,
-                                                                         NSUInteger idx,
-                                                                         BOOL * _Nonnull stop) {
-        return [obj.weaklyReferencedObject sessionHotkeyIsAlreadyFirstResponder];
-    }];
+                                          NSUInteger idx,
+                      BOOL * _Nonnull stop) {
+                          return [obj.weaklyReferencedObject sessionHotkeyIsAlreadyFirstResponder];
+                      }];
 
     id<iTermHotKeyNavigableSession> session = self.weakSessions.firstObject.weaklyReferencedObject;
     if (index != NSNotFound) {
@@ -78,10 +78,10 @@
         session = [self.weakSessions[next] weaklyReferencedObject];
     } else {
         index = [self.weakSessions indexOfObjectPassingTest:^BOOL(iTermWeakReference<id<iTermHotKeyNavigableSession>> * _Nonnull obj,
-                                                                  NSUInteger idx,
-                                                                  BOOL * _Nonnull stop) {
-            return [obj.weaklyReferencedObject sessionHotkeyIsAlreadyActiveInNonkeyWindow];
-        }];
+                                   NSUInteger idx,
+                          BOOL * _Nonnull stop) {
+                              return [obj.weaklyReferencedObject sessionHotkeyIsAlreadyActiveInNonkeyWindow];
+                          }];
         if (index != NSNotFound) {
             session = [self.weakSessions[index] weaklyReferencedObject];
         }
@@ -99,7 +99,7 @@
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     static id instance;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -130,10 +130,10 @@
 
 - (iTermSessionHotkeyRegistration *)registrationForShortcut:(iTermShortcut *)shortcut {
     NSUInteger index = [_registrations indexOfObjectPassingTest:^BOOL(iTermSessionHotkeyRegistration * _Nonnull obj,
-                                                                      NSUInteger idx,
-                                                                      BOOL * _Nonnull stop) {
-        return [obj.shortcut isEqualToShortcut:shortcut];
-    }];
+                                       NSUInteger idx,
+                   BOOL * _Nonnull stop) {
+                       return [obj.shortcut isEqualToShortcut:shortcut];
+                   }];
     if (index == NSNotFound) {
         return nil;
     } else {

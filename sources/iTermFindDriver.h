@@ -50,10 +50,10 @@
 
 // Perform a search
 - (void)findString:(NSString *)aString
-  forwardDirection:(BOOL)direction
-              mode:(iTermFindMode)mode
-        withOffset:(int)offset
-scrollToFirstResult:(BOOL)scrollToFirstResult;
+    forwardDirection:(BOOL)direction
+    mode:(iTermFindMode)mode
+    withOffset:(int)offset
+    scrollToFirstResult:(BOOL)scrollToFirstResult;
 
 // The search view became (in)visible.
 - (void)findViewControllerVisibilityDidChange:(id<iTermFindViewController>)sender;
@@ -98,7 +98,7 @@ scrollToFirstResult:(BOOL)scrollToFirstResult;
 // navigate with with next-previous. When the find window is opened, the state
 // is restored.
 - (void)closeViewAndDoTemporarySearchForString:(NSString *)string
-                                          mode:(iTermFindMode)mode;
+    mode:(iTermFindMode)mode;
 
 - (void)owningViewDidBecomeFirstResponder;
 

@@ -29,19 +29,19 @@ typedef struct {
     shouldHandleKeyDown:(NSEvent *)event;
 
 - (void)keyboardHandler:(iTermKeyboardHandler *)keyboardhandler
-            loadContext:(iTermKeyboardHandlerContext *)context
-               forEvent:(NSEvent *)event;
+    loadContext:(iTermKeyboardHandlerContext *)context
+    forEvent:(NSEvent *)event;
 
 - (void)keyboardHandler:(iTermKeyboardHandler *)keyboardhandler
-     interpretKeyEvents:(NSArray<NSEvent *> *)events;
+    interpretKeyEvents:(NSArray<NSEvent *> *)events;
 
 - (void)keyboardHandler:(iTermKeyboardHandler *)keyboardhandler
-  sendEventToController:(NSEvent *)event;
+    sendEventToController:(NSEvent *)event;
 
 - (NSRange)keyboardHandlerMarkedTextRange:(iTermKeyboardHandler *)keyboardhandler;
 
 - (void)keyboardHandler:(iTermKeyboardHandler *)keyboardhandler
-             insertText:(NSString *)aString;
+    insertText:(NSString *)aString;
 
 @end
 

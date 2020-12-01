@@ -64,8 +64,8 @@ int decode_utf8_char(const unsigned char * restrict datap,
 
 + (NSString *)stringWithInt:(int)num;
 + (BOOL)isDoubleWidthCharacter:(int)unicode
-        ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
-                unicodeVersion:(NSInteger)version;
+    ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
+    unicodeVersion:(NSInteger)version;
 + (NSString *)stringWithLongCharacter:(UTF32Char)longCharacter;
 
 // Returns the current string on the pasteboard (if any).
@@ -128,8 +128,8 @@ int decode_utf8_char(const unsigned char * restrict datap,
 // Returns a substring of contiguous characters only from a given character set
 // including some character in the middle of the target.
 - (NSString *)substringIncludingOffset:(int)offset
-                      fromCharacterSet:(NSCharacterSet *)charSet
-                  charsTakenFromPrefix:(int*)charsTakenFromPrefixPtr;
+    fromCharacterSet:(NSCharacterSet *)charSet
+    charsTakenFromPrefix:(int*)charsTakenFromPrefixPtr;
 
 - (NSArray *)componentsBySplittingStringWithQuotesAndBackslashEscaping:(NSDictionary *)escapes;
 
@@ -220,9 +220,9 @@ int decode_utf8_char(const unsigned char * restrict datap,
 // high surrogate, then |simple| will be valid and |complex| will be nil. Otherwise, |complex| will
 // be non-nil.
 - (void)enumerateComposedCharacters:(void (^)(NSRange range,
-                                              unichar simple,
-                                              NSString *complexString,
-                                              BOOL *stop))block;
+    unichar simple,
+    NSString *complexString,
+    BOOL *stop))block;
 
 - (NSString *)firstComposedCharacter:(NSString **)rest;
 - (NSString *)lastComposedCharacter;
@@ -231,7 +231,7 @@ int decode_utf8_char(const unsigned char * restrict datap,
 
 // It is safe to modify, delete, or insert characters in `range` within `block`.
 - (void)reverseEnumerateSubstringsEqualTo:(NSString *)query
-                                    block:(void (^ NS_NOESCAPE)(NSRange range))block;
+    block:(void (^ NS_NOESCAPE)(NSRange range))block;
 
 - (NSUInteger)iterm_unsignedIntegerValue;
 
@@ -328,7 +328,7 @@ int decode_utf8_char(const unsigned char * restrict datap,
 // Perform substitutions in order.
 - (NSString *)stringByPerformingOrderedSubstitutions:(iTermOrderedDictionary<NSString *, NSString *> *)substitutions;
 - (NSString *)stringByReplacingCharactersAtIndices:(NSIndexSet *)indexSet
-                               withStringFromBlock:(NSString *(^ NS_NOESCAPE)(void))replacement;
+    withStringFromBlock:(NSString *(^ NS_NOESCAPE)(void))replacement;
 - (BOOL)caseInsensitiveHasPrefix:(NSString *)prefix;
 @end
 

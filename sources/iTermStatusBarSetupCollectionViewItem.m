@@ -69,24 +69,24 @@
 
     const CGFloat boxMinY = self.hideDetail ? 0 : _boxMinY;
     self.view.frame = [self.view retinaRoundRect:NSMakeRect(self.view.frame.origin.x,
-                                                            self.view.frame.origin.y,
-                                                            totalWidth,
-                                                            boxMinY + _box.frame.size.height)];
+                                 self.view.frame.origin.y,
+                                 totalWidth,
+                                 boxMinY + _box.frame.size.height)];
 
     const CGFloat boxWidth = textFieldFrame.size.width + _textFieldInsets.left + _textFieldInsets.right;
     _box.frame = [self.view retinaRoundRect:NSMakeRect(round((totalWidth - boxWidth) / 2),
-                                                       boxMinY,
-                                                       boxWidth,
-                                                       textFieldSize.height + _textFieldInsets.top + _textFieldInsets.bottom)];
+                            boxMinY,
+                            boxWidth,
+                            textFieldSize.height + _textFieldInsets.top + _textFieldInsets.bottom)];
     self.textField.frame = [self.view retinaRoundRect:NSMakeRect(_textFieldInsets.left,
-                                                                 _textFieldInsets.bottom,
-                                                                 textFieldSize.width,
-                                                                 textFieldSize.height)];
+                                      _textFieldInsets.bottom,
+                                      textFieldSize.width,
+                                      textFieldSize.height)];
     if (!self.hideDetail) {
         _description.frame = [self.view retinaRoundRect:NSMakeRect(_textFieldInsets.left,
-                                                                   _descriptionMinY,
-                                                                   textFieldSize.width,
-                                                                   _description.frame.size.height)];
+                                        _descriptionMinY,
+                                        textFieldSize.width,
+                                        _description.frame.size.height)];
     }
 }
 
@@ -113,17 +113,17 @@
         _box.fillColor = [NSColor selectedControlColor];
     } else {
         switch (self.highlightState) {
-            case NSCollectionViewItemHighlightNone:
-                _box.fillColor = _backgroundColor ?: [NSColor controlColor];
-                break;
+        case NSCollectionViewItemHighlightNone:
+            _box.fillColor = _backgroundColor ?: [NSColor controlColor];
+            break;
 
-            case NSCollectionViewItemHighlightAsDropTarget:
-            case NSCollectionViewItemHighlightForSelection:
-                _box.fillColor = [NSColor controlHighlightColor];
-                break;
-            case NSCollectionViewItemHighlightForDeselection:
-                _box.fillColor = [NSColor controlLightHighlightColor];
-                break;
+        case NSCollectionViewItemHighlightAsDropTarget:
+        case NSCollectionViewItemHighlightForSelection:
+            _box.fillColor = [NSColor controlHighlightColor];
+            break;
+        case NSCollectionViewItemHighlightForDeselection:
+            _box.fillColor = [NSColor controlLightHighlightColor];
+            break;
         }
     }
     [self.view setNeedsDisplay:YES];

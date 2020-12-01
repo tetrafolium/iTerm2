@@ -47,7 +47,7 @@ static const CGFloat iTermStatusBarViewControllerBottomMargin = 0;
 }
 
 - (instancetype)initWithLayout:(iTermStatusBarLayout *)layout
-                         scope:(nonnull iTermVariableScope *)scope {
+    scope:(nonnull iTermVariableScope *)scope {
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
         _scope = scope;
@@ -55,9 +55,9 @@ static const CGFloat iTermStatusBarViewControllerBottomMargin = 0;
         _autoRainbowController = [[iTermStatusBarAutoRainbowController alloc] initWithStyle:layout.advancedConfiguration.autoRainbowStyle];
         _autoRainbowController.delegate = self;
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(unreadCountDidChange:)
-                                                     name:iTermStatusBarUnreadCountDidChange
-                                                   object:nil];
+                                              selector:@selector(unreadCountDidChange:)
+                                              name:iTermStatusBarUnreadCountDidChange
+                                              object:nil];
     }
     return self;
 }
@@ -79,16 +79,16 @@ static const CGFloat iTermStatusBarViewControllerBottomMargin = 0;
         return nil;
     }
     return [_containerViews objectPassingTest:^BOOL(iTermStatusBarContainerView *containerView, NSUInteger index, BOOL *stop) {
-        return containerView.component.statusBarComponentSearchViewController != nil;
-    }];
+                        return containerView.component.statusBarComponentSearchViewController != nil;
+                    }];
 }
 
 - (iTermStatusBarLayoutAlgorithm *)layoutAlgorithm {
     return [iTermStatusBarLayoutAlgorithm layoutAlgorithmWithContainerViews:_containerViews
-                                                              mandatoryView:self.mandatoryView
-                                                             statusBarWidth:self.view.frame.size.width
-                                                                    setting:_layout.advancedConfiguration.layoutAlgorithm
-                                                      removeEmptyComponents:_layout.advancedConfiguration.removeEmptyComponents];
+                                          mandatoryView:self.mandatoryView
+                                          statusBarWidth:self.view.frame.size.width
+                                          setting:_layout.advancedConfiguration.layoutAlgorithm
+                                          removeEmptyComponents:_layout.advancedConfiguration.removeEmptyComponents];
 }
 
 - (NSArray<NSNumber *> *)desiredSeparatorOffsets {
@@ -138,7 +138,7 @@ static const CGFloat iTermStatusBarViewControllerBottomMargin = 0;
 
 - (NSArray<iTermTuple<NSColor *, NSNumber *> *> *)desiredBackgroundColors {
     return [_visibleContainerViews mapWithBlock:^id(iTermStatusBarContainerView *containerView) {
-        NSColor *color = containerView.backgroundColor;
+                               NSColor *color = containerView.backgroundColor;
         const BOOL isSpring = [containerView.component isKindOfClass:[iTermStatusBarSpringComponent class]];
         const CGFloat margin = isSpring ? 0 : iTermStatusBarViewControllerMargin / 2.0;
         NSNumber *offset = @(containerView.desiredOrigin + containerView.desiredWidth + margin + 0.5);
@@ -154,15 +154,15 @@ static const CGFloat iTermStatusBarViewControllerBottomMargin = 0;
 
     _updating++;
     [_visibleContainerViews enumerateObjectsUsingBlock:
-     ^(iTermStatusBarContainerView * _Nonnull view, NSUInteger idx, BOOL * _Nonnull stop) {
-         view.frame = NSMakeRect(round(view.desiredOrigin),
-                                 iTermStatusBarViewControllerBottomMargin,
-                                 ceil(view.desiredWidth),
-                                 iTermGetStatusBarHeight() - iTermStatusBarViewControllerBottomMargin);
-         [view.component statusBarComponentWidthDidChangeTo:view.desiredWidth];
-         [view layoutSubviews];
-         view.rightSeparatorOffset = -1;
-     }];
+                           ^(iTermStatusBarContainerView * _Nonnull view, NSUInteger idx, BOOL * _Nonnull stop) {
+                               view.frame = NSMakeRect(round(view.desiredOrigin),
+                                iTermStatusBarViewControllerBottomMargin,
+                                ceil(view.desiredWidth),
+                                iTermGetStatusBarHeight() - iTermStatusBarViewControllerBottomMargin);
+        [view.component statusBarComponentWidthDidChangeTo:view.desiredWidth];
+        [view layoutSubviews];
+        view.rightSeparatorOffset = -1;
+    }];
     _updating--;
     // Remove defunct views
     for (iTermStatusBarContainerView *view in previouslyVisible) {
@@ -204,8 +204,8 @@ static const CGFloat iTermStatusBarViewControllerBottomMargin = 0;
 
 - (NSViewController<iTermFindViewController> *)searchViewController {
     return [_containerViews mapWithBlock:^id(iTermStatusBarContainerView *containerView) {
-        return containerView.component.statusBarComponentSearchViewController;
-    }].firstObject;
+                        return containerView.component.statusBarComponentSearchViewController;
+                    }].firstObject;
 }
 
 - (void)setMustShowSearchComponent:(BOOL)mustShowSearchComponent {
@@ -228,8 +228,8 @@ static const CGFloat iTermStatusBarViewControllerBottomMargin = 0;
 
 - (iTermStatusBarContainerView *)containerViewForComponent:(id<iTermStatusBarComponent>)component {
     return [_containerViews objectPassingTest:^BOOL(iTermStatusBarContainerView *containerView, NSUInteger index, BOOL *stop) {
-        return [containerView.component isEqualToComponent:component];
-    }];
+                        return [containerView.component isEqualToComponent:component];
+                    }];
 }
 
 - (void)updateViews {
@@ -245,9 +245,9 @@ static const CGFloat iTermStatusBarViewControllerBottomMargin = 0;
     }
     if (!components.count) {
         NSDictionary *placeholderConfiguration =
-            @{iTermStatusBarComponentConfigurationKeyLayoutAdvancedConfigurationDictionaryValue: _layout.advancedConfiguration.dictionaryValue };
+            @ {iTermStatusBarComponentConfigurationKeyLayoutAdvancedConfigurationDictionaryValue: _layout.advancedConfiguration.dictionaryValue };
         [components addObject:[[iTermStatusBarPlaceholderComponent alloc] initWithConfiguration:placeholderConfiguration
-                                                                                          scope:nil]];
+                               scope:nil]];
     }
     for (id<iTermStatusBarComponent> component in components) {
         iTermStatusBarContainerView *view = [self containerViewForComponent:component];
@@ -263,13 +263,13 @@ static const CGFloat iTermStatusBarViewControllerBottomMargin = 0;
     NSString *const sessionID = [_scope valueForVariableName:iTermVariableKeySessionID] ?: @"";
 
     [_containerViews enumerateObjectsUsingBlock:^(iTermStatusBarContainerView * _Nonnull view, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSString *identifier = view.component.statusBarComponentIdentifier;
-        if (!identifier) {
+                        NSString *identifier = view.component.statusBarComponentIdentifier;
+                        if (!identifier) {
             [view setUnreadCount:0];
             return;
         }
         [view setUnreadCount:[[iTermStatusBarUnreadCountController sharedInstance] unreadCountForComponentWithIdentifier:identifier
-                                                                                                               sessionID:sessionID]];
+                              sessionID:sessionID]];
     }];
     // setDelegate: may have side effects that expect _containerViews to be populated.
     for (id<iTermStatusBarComponent> component in components) {
@@ -295,14 +295,14 @@ static const CGFloat iTermStatusBarViewControllerBottomMargin = 0;
 
 - (nullable id<iTermStatusBarComponent>)componentWithIdentifier:(NSString *)identifier {
     return [_containerViews objectPassingTest:^BOOL(iTermStatusBarContainerView *element, NSUInteger index, BOOL *stop) {
-        return [element.component.statusBarComponentIdentifier isEqual:identifier];
-    }].component;
+                        return [element.component.statusBarComponentIdentifier isEqual:identifier];
+                    }].component;
 }
 
 - (nullable __kindof id<iTermStatusBarComponent>)visibleComponentWithIdentifier:(NSString *)identifier {
     return [_visibleContainerViews objectPassingTest:^BOOL(iTermStatusBarContainerView *element, NSUInteger index, BOOL *stop) {
-        return [element.component.statusBarComponentIdentifier isEqual:identifier];
-    }].component;
+                               return [element.component.statusBarComponentIdentifier isEqual:identifier];
+                           }].component;
 }
 
 #pragma mark - iTermStatusBarLayoutDelegate
@@ -371,9 +371,9 @@ static const CGFloat iTermStatusBarViewControllerBottomMargin = 0;
 }
 
 - (void)statusBarComponent:(id<iTermStatusBarComponent>)component
-      reportScriptingError:(NSError *)error
-             forInvocation:(NSString *)invocation
-                    origin:(NSString *)origin {
+    reportScriptingError:(NSError *)error
+    forInvocation:(NSString *)invocation
+    origin:(NSString *)origin {
     [self.delegate statusBarReportScriptingError:error forInvocation:invocation origin:origin];
 }
 
@@ -382,10 +382,10 @@ static const CGFloat iTermStatusBarViewControllerBottomMargin = 0;
 
 - (void)statusBarContainerView:(iTermStatusBarContainerView *)sender hideComponent:(id<iTermStatusBarComponent>)component {
     iTermStatusBarLayout *layout = [[iTermStatusBarLayout alloc] initWithDictionary:[self.layout dictionaryValue]
-                                                                              scope:_scope];
+                                                                 scope:_scope];
     layout.components = [layout.components it_arrayByRemovingObjectsPassingTest:^BOOL(id<iTermStatusBarComponent> anObject) {
-        return anObject.class == component.class;
-    }];
+                          return anObject.class == component.class;
+                      }];
     [self.delegate statusBarSetLayout:layout];
 }
 
@@ -406,8 +406,8 @@ static const CGFloat iTermStatusBarViewControllerBottomMargin = 0;
 - (void)unreadCountDidChange:(NSNotification *)notification {
     NSString *const sessionID = [_scope valueForVariableName:iTermVariableKeySessionID] ?: @"";
     [_containerViews enumerateObjectsUsingBlock:^(iTermStatusBarContainerView * _Nonnull view, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSString *identifier = view.component.statusBarComponentIdentifier;
-        if (!identifier) {
+                        NSString *identifier = view.component.statusBarComponentIdentifier;
+                        if (!identifier) {
             [view setUnreadCount:0];
             return;
         }
@@ -415,7 +415,7 @@ static const CGFloat iTermStatusBarViewControllerBottomMargin = 0;
             return;
         }
         [view setUnreadCount:[[iTermStatusBarUnreadCountController sharedInstance] unreadCountForComponentWithIdentifier:identifier
-                                                                                                               sessionID:sessionID]];
+                              sessionID:sessionID]];
     }];
 }
 
@@ -430,7 +430,7 @@ static const CGFloat iTermStatusBarViewControllerBottomMargin = 0;
         return;
     }
     [_autoRainbowController enumerateColorsWithCount:_visibleContainerViews.count block:^(NSInteger i, NSColor * _Nonnull color) {
-        id<iTermStatusBarComponent> component = _visibleContainerViews[i].component;
+                               id<iTermStatusBarComponent> component = _visibleContainerViews[i].component;
         NSMutableDictionary *knobValues = [component.configuration[iTermStatusBarComponentConfigurationKeyKnobValues] mutableCopy];
         NSDictionary *colorDict = [color dictionaryValue];
         if ([knobValues[iTermStatusBarSharedTextColorKey] isEqualToDictionary:colorDict]) {

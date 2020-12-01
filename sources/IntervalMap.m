@@ -85,7 +85,7 @@
 - (IntRange *)intersectionWithRange:(IntRange *)other
 {
     return [IntRange rangeWithMin:MAX(min, other->min)
-                            limit:MIN([self limit], [other limit])];
+                     limit:MIN([self limit], [other limit])];
 }
 
 - (NSArray *)rangesAfterSubtractingRange:(IntRange *)other
@@ -167,7 +167,7 @@
         NSArray *fragments = [elt.range rangesAfterSubtractingRange:range];
         for (IntRange *fragment in fragments) {
             [self insertElement:[IntervalMapElement elementWithRange:fragment
-                                                               value:elt.value]];
+                                 value:elt.value]];
         }
     }
     // Insert a new element with just 'range' and its new value.

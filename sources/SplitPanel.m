@@ -31,8 +31,8 @@
             [splitPanel.label setStringValue:@"Split current pane horizontally with profile:"];
         }
         [parent.window beginSheet:splitPanel.window completionHandler:^(NSModalResponse returnCode) {
-            [NSApp stopModal];
-        }];
+                          [NSApp stopModal];
+                      }];
 
         NSWindow *panel = [splitPanel window];
         [NSApp runModalForWindow:panel];
@@ -67,8 +67,8 @@
 }
 
 - (void)sheetDidEnd:(NSWindow *)sheet
-         returnCode:(NSInteger)returnCode
-        contextInfo:(void *)contextInfo
+    returnCode:(NSInteger)returnCode
+    contextInfo:(void *)contextInfo
 {
     [self _close];
 }

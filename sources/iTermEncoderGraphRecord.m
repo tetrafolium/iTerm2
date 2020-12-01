@@ -17,34 +17,34 @@
 @implementation iTermEncoderGraphRecord
 
 + (instancetype)withPODs:(NSDictionary<NSString *, id> *)pod
-                  graphs:(NSArray<iTermEncoderGraphRecord *> *)graphRecords
-              generation:(NSInteger)generation
-                     key:(NSString *)key
-              identifier:(NSString *)identifier
-                   rowid:(NSNumber *_Nullable)rowid {
+    graphs:(NSArray<iTermEncoderGraphRecord *> *)graphRecords
+    generation:(NSInteger)generation
+    key:(NSString *)key
+    identifier:(NSString *)identifier
+    rowid:(NSNumber *_Nullable)rowid {
     assert(identifier);
     return [[self alloc] initWithPODs:pod
-                               graphs:graphRecords
-                           generation:generation
-                                  key:key
-                           identifier:identifier
-                                rowid:rowid];
+                         graphs:graphRecords
+                         generation:generation
+                         key:key
+                         identifier:identifier
+                         rowid:rowid];
 }
 
 - (instancetype)initWithPODs:(NSDictionary<NSString *, id> *)pods
-                      graphs:(NSArray<iTermEncoderGraphRecord *> *)graphRecords
-                  generation:(NSInteger)generation
-                         key:(NSString *)key
-                  identifier:(NSString *)identifier
-                       rowid:(NSNumber *)rowid {
+    graphs:(NSArray<iTermEncoderGraphRecord *> *)graphRecords
+    generation:(NSInteger)generation
+    key:(NSString *)key
+    identifier:(NSString *)identifier
+    rowid:(NSNumber *)rowid {
     assert(key);
     self = [super init];
     if (self) {
         _pod = pods;
         _graphRecords = graphRecords ?: @[];
         [graphRecords enumerateObjectsUsingBlock:^(iTermEncoderGraphRecord * _Nonnull child, NSUInteger idx, BOOL * _Nonnull stop) {
-            child->_parent = self;
-        }];
+                         child->_parent = self;
+                     }];
         _generation = generation;
         _identifier = identifier;
         _key = key;
@@ -63,7 +63,7 @@
 
 - (void)dumpWithIndent:(NSString *)indent {
     NSLog(@"%@%@[%@] rowid=%@ %@", indent, self.key, self.identifier, self.rowid,
-          [[self.pod.allKeys mapWithBlock:^id(NSString *key) {
+    [[self.pod.allKeys mapWithBlock:^id(NSString *key) {
         return [NSString stringWithFormat:@"%@=%@", key, self.pod[key]];
     }] componentsJoinedByString:@", "]);
     for (iTermEncoderGraphRecord *child in _graphRecords) {
@@ -73,22 +73,22 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<iTermEncoderGraphRecord: rowid=%@ key=%@ gen=%@ id=%@ pod=%@ graphs=%@>",
-            self.rowid,
-            self.key,
-            @(self.generation),
-            self.identifier,
-            self.pod,
-            [[self.graphRecords mapWithBlock:^id(iTermEncoderGraphRecord *anObject) {
-        return [NSString stringWithFormat:@"<graph rowid=%@ key=%@ id=%@>",
-                anObject.rowid, anObject.key, anObject.identifier];
-    }] componentsJoinedByString:@", "]];
+                     self.rowid,
+                     self.key,
+                     @(self.generation),
+                     self.identifier,
+                     self.pod,
+             [[self.graphRecords mapWithBlock:^id(iTermEncoderGraphRecord *anObject) {
+                 return [NSString stringWithFormat:@"<graph rowid=%@ key=%@ id=%@>",
+                         anObject.rowid, anObject.key, anObject.identifier];
+             }] componentsJoinedByString:@", "]];
 }
 
 - (void)setRowid:(NSNumber *)rowid {
     if (_rowid != nil) {
         @throw [NSException exceptionWithName:@"DuplicateRowID"
-                                       reason:[NSString stringWithFormat:@"_rowid=%@ setRowid:%@", _rowid, rowid]
-                                     userInfo:nil];
+                            reason:[NSString stringWithFormat:@"_rowid=%@ setRowid:%@", _rowid, rowid]
+                            userInfo:nil];
     }
     assert(_rowid == nil);
     _rowid = rowid;
@@ -143,11 +143,11 @@
 }
 
 - (iTermEncoderGraphRecord * _Nullable)childRecordWithKey:(NSString *)key
-                                               identifier:(NSString *)identifier {
+    identifier:(NSString *)identifier {
     return [_graphRecords objectPassingTest:^BOOL(iTermEncoderGraphRecord *element, NSUInteger index, BOOL *stop) {
-        return ([element.key isEqualToString:key] &&
-                [identifier isEqualToString:element.identifier]);
-    }];
+                      return ([element.key isEqualToString:key] &&
+                              [identifier isEqualToString:element.identifier]);
+                  }];
 }
 
 - (iTermEncoderGraphRecord * _Nullable)childArrayWithKey:(NSString *)key {
@@ -159,10 +159,10 @@
 }
 
 - (void)enumerateArrayWithKey:(NSString *)key
-                        block:(void (^NS_NOESCAPE)(NSString *identifier,
-                                                   NSInteger index,
-                                                   id obj,
-                                                   BOOL *stop))block {
+    block:(void (^NS_NOESCAPE)(NSString *identifier,
+    NSInteger index,
+    id obj,
+    BOOL *stop))block {
     iTermEncoderGraphRecord *record = [self childArrayWithKey:key];
     if (!record) {
         return;
@@ -176,8 +176,8 @@
         return object.firstObject.propertyListValue;
     }];
     [order enumerateObjectsUsingBlock:^(NSString * _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
-        id item = items[key] ?: record->_pod[key];
-        if (item) {
+              id item = items[key] ?: record->_pod[key];
+              if (item) {
             block(key, idx, item, stop);
         }
     }];
@@ -186,8 +186,8 @@
 - (NSArray *)arrayWithKey:(NSString *)key {
     NSMutableArray *result = [NSMutableArray array];
     [self enumerateArrayWithKey:key block:^(NSString * _Nonnull identifier, NSInteger index, id _Nonnull obj, BOOL * _Nonnull stop) {
-        [result addObject:obj];
-    }];
+             [result addObject:obj];
+         }];
     return result;
 }
 
@@ -205,15 +205,15 @@
     NSArray<NSString *> *order = [[NSString castFrom:record.pod[@"__order"]] componentsSeparatedByString:@"\t"] ?: @[];
     order = [order arrayByRemovingDuplicatesStably];
     return [order mapWithBlock:^id(NSString *key) {
-        return items[key];
-    }];
+              return items[key];
+          }];
 }
 
 - (id)objectWithKey:(NSString *)key class:(Class)desiredClass error:(out NSError *__autoreleasing  _Nullable * _Nullable)error {
     id instance = [desiredClass castFrom:_pod[key]];
     if (!instance) {
         if (error) {
-            *error = [[NSError alloc] initWithDomain:@"com.iterm2.graph-record" code:1 userInfo:@{ NSLocalizedDescriptionKey: @"No such record or wrong type" }];
+            *error = [[NSError alloc] initWithDomain:@"com.iterm2.graph-record" code:1 userInfo:@ { NSLocalizedDescriptionKey: @"No such record or wrong type" }];
         }
         return nil;
     }
@@ -248,9 +248,9 @@
         return object.firstObject.propertyListValue;
     }];
     NSArray *array = [order mapWithBlock:^id(NSString *key) {
-        // Arrays encoded using `-[iTermGraphEncoder encodeObject:key:]` use __arrayValue for their key in the POD.
-        return items[key][@"__arrayValue"] ?: items[key];
-    }];
+              // Arrays encoded using `-[iTermGraphEncoder encodeObject:key:]` use __arrayValue for their key in the POD.
+              return items[key][@"__arrayValue"] ?: items[key];
+          }];
     return array;
 }
 
@@ -276,14 +276,14 @@
     if (self.graphRecords.count == 0) {
         return self.pod;
     }
-    NSMutableDictionary *result = [self.pod ?: @{} mutableCopy];
+    NSMutableDictionary *result = [self.pod ?: @ {} mutableCopy];
     [self.graphRecords enumerateObjectsUsingBlock:^(iTermEncoderGraphRecord * _Nonnull child,
-                                                    NSUInteger idx,
-                                                    BOOL * _Nonnull stop) {
-        if (child.identifier.length == 0) {
-            result[child.key] = child.propertyListValue;
-            return;
-        }
+                              NSUInteger idx,
+                      BOOL * _Nonnull stop) {
+                          if (child.identifier.length == 0) {
+                              result[child.key] = child.propertyListValue;
+                              return;
+                          }
         if ([child.key isEqualToString:@"__array"]) {
             result[child.identifier] = [child arrayValue];
         } else if ([child.key isEqualToString:@"__dict"]) {
@@ -326,8 +326,8 @@
 - (void)eraseRowIDs {
     _rowid = nil;
     [_graphRecords enumerateObjectsUsingBlock:^(iTermEncoderGraphRecord * _Nonnull child, NSUInteger idx, BOOL * _Nonnull stop) {
-        [child eraseRowIDs];
-    }];
+                      [child eraseRowIDs];
+                  }];
 }
 
 @end

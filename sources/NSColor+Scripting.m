@@ -25,8 +25,8 @@ static const CGFloat kRGBColorCoefficient = 65535;
 
     // Build a descriptor from it.
     return [NSAppleEventDescriptor descriptorWithDescriptorType:typeRGBColor
-                                                          bytes:&rgbColor
-                                                         length:sizeof(RGBColor)];
+                                   bytes:&rgbColor
+                                   length:sizeof(RGBColor)];
 }
 
 + (NSColor *)scriptingRGBColorWithDescriptor:(NSAppleEventDescriptor *)descriptor {
@@ -45,9 +45,9 @@ static const CGFloat kRGBColorCoefficient = 65535;
     // And turn it into a NSColor.
     const RGBColor *rgbColor = (const RGBColor *)data.bytes;
     return [NSColor colorWithCalibratedRed:(CGFloat)rgbColor->red / kRGBColorCoefficient
-                                     green:(CGFloat)rgbColor->green / kRGBColorCoefficient
-                                      blue:(CGFloat)rgbColor->blue / kRGBColorCoefficient
-                                     alpha:1.0];
+                    green:(CGFloat)rgbColor->green / kRGBColorCoefficient
+                    blue:(CGFloat)rgbColor->blue / kRGBColorCoefficient
+                    alpha:1.0];
 }
 
 @end

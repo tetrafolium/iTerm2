@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, weak, readonly) iTermProcessMonitor *parent;
 
 - (instancetype)initWithQueue:(dispatch_queue_t)queue
-                     callback:(void (^)(iTermProcessMonitor *, dispatch_source_proc_flags_t))callback NS_DESIGNATED_INITIALIZER;
+    callback:(void (^)(iTermProcessMonitor *, dispatch_source_proc_flags_t))callback NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 

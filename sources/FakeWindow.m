@@ -58,7 +58,7 @@
 }
 
 - (instancetype)initFromRealWindow:(NSWindowController<iTermWindowController> *)aTerm
-                           session:(PTYSession*)aSession {
+    session:(PTYSession*)aSession {
     self = [super init];
     if (!self) {
         return nil;

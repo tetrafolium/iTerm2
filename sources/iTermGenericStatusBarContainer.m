@@ -71,17 +71,17 @@
 - (void)updateBackingVisible {
     if (@available(macOS 10.14, *)) {
         switch ((iTermPreferencesTabStyle)[iTermPreferences intForKey:kPreferenceKeyTabStyle]) {
-            case TAB_STYLE_MINIMAL:
-                _backing.hidden = YES;
-                break;
+        case TAB_STYLE_MINIMAL:
+            _backing.hidden = YES;
+            break;
 
-            case TAB_STYLE_DARK:
-            case TAB_STYLE_LIGHT:
-            case TAB_STYLE_AUTOMATIC:
-            case TAB_STYLE_COMPACT:
-            case TAB_STYLE_DARK_HIGH_CONTRAST:
-            case TAB_STYLE_LIGHT_HIGH_CONTRAST:
-                _backing.hidden = NO;
+        case TAB_STYLE_DARK:
+        case TAB_STYLE_LIGHT:
+        case TAB_STYLE_AUTOMATIC:
+        case TAB_STYLE_COMPACT:
+        case TAB_STYLE_DARK_HIGH_CONTRAST:
+        case TAB_STYLE_LIGHT_HIGH_CONTRAST:
+            _backing.hidden = NO;
         }
     }
 }
@@ -110,31 +110,31 @@
             [self insertSubview:_backing atIndex:0];
             __weak __typeof(self) weakSelf = self;
             [iTermPreferenceDidChangeNotification subscribe:self block:^(iTermPreferenceDidChangeNotification * _Nonnull notification) {
-                if ([notification.key isEqualToString:kPreferenceKeyTabStyle]) {
-                    [weakSelf updateBackingVisible];
-                }
-            }];
+                                                     if ([notification.key isEqualToString:kPreferenceKeyTabStyle]) {
+                                                         [weakSelf updateBackingVisible];
+                                                     }
+                                                 }];
         }
     }
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     if (self.window) {
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(redraw)
-                                                     name:NSWindowDidBecomeKeyNotification
-                                                   object:self.window];
+                                              selector:@selector(redraw)
+                                              name:NSWindowDidBecomeKeyNotification
+                                              object:self.window];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(redraw)
-                                                     name:NSWindowDidResignKeyNotification
-                                                   object:self.window];
+                                              selector:@selector(redraw)
+                                              name:NSWindowDidResignKeyNotification
+                                              object:self.window];
     }
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(redraw)
-                                                 name:NSApplicationDidBecomeActiveNotification
-                                               object:nil];
+                                          selector:@selector(redraw)
+                                          name:NSApplicationDidBecomeActiveNotification
+                                          object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(redraw)
-                                                 name:NSApplicationDidResignActiveNotification
-                                               object:nil];
+                                          selector:@selector(redraw)
+                                          name:NSApplicationDidResignActiveNotification
+                                          object:nil];
 }
 
 - (void)redraw {

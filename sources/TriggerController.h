@@ -34,11 +34,11 @@ extern NSString *const kBackgroundColorWellIdentifier;
 
 + (NSArray<Class> *)triggerClasses;
 + (NSView *)viewForParameterForTrigger:(Trigger *)trigger
-                                  size:(CGSize)size
-                                 value:(id)value
-                              receiver:(id<iTermTriggerParameterController>)receiver
-                   interpolatedStrings:(BOOL)interpolatedStrings
-                           wellFactory:(CPKColorWell *(^ NS_NOESCAPE)(NSRect, NSColor *))wellFactory;
+    size:(CGSize)size
+    value:(id)value
+    receiver:(id<iTermTriggerParameterController>)receiver
+    interpolatedStrings:(BOOL)interpolatedStrings
+    wellFactory:(CPKColorWell *(^ NS_NOESCAPE)(NSRect, NSColor *))wellFactory;
 
 - (void)windowWillOpen;
 - (void)profileDidChange;

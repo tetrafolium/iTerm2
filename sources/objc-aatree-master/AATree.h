@@ -55,17 +55,17 @@
 
 @interface AATree : NSMutableDictionary <NSCopying> {
 
-	// The root node of the tree.
-	AATreeNode *root;
+    // The root node of the tree.
+    AATreeNode *root;
 
-	// The NSComparator used to compare the keys of the nodes.
-	NSComparator keyComparator;
+    // The NSComparator used to compare the keys of the nodes.
+    NSComparator keyComparator;
 
-	// The number of nodes in the tree.
-	NSUInteger count;
+    // The number of nodes in the tree.
+    NSUInteger count;
 
-	// The readers/writer lock for thread safety.
-	pthread_rwlock_t rwLock;
+    // The readers/writer lock for thread safety.
+    pthread_rwlock_t rwLock;
 
     // A list of nodes that changed in the current operation.
     NSMutableSet *changedNodes;

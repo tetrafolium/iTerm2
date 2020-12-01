@@ -29,7 +29,7 @@
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     static id instance;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -65,7 +65,7 @@
         NSString *url = [dict[@"url"] absoluteString];
         NSString *params = dict[@"params"];
         if (url) {
-            [_store removeObjectForKey:@{ @"url": url, @"params": params }];
+            [_store removeObjectForKey:@ { @"url": url, @"params": params }];
         }
     }
 }
@@ -75,7 +75,7 @@
         DLog(@"codeForURL:%@ withParams:%@ returning 0 because of nil value", url.absoluteString, params);
         return 0;
     }
-    NSDictionary *key = @{ @"url": url.absoluteString, @"params": params };
+    NSDictionary *key = @ { @"url": url.absoluteString, @"params": params };
     NSNumber *number = _store[key];
     unsigned short truncatedCode;
     if (number == nil) {
@@ -90,7 +90,7 @@
         _nextCode++;
         _store[key] = number;
         truncatedCode = [iTermURLStore truncatedCodeForCode:number.integerValue];
-        _reverseStore[@(truncatedCode)] = @{ @"url": url, @"params": params };
+        _reverseStore[@(truncatedCode)] = @ { @"url": url, @"params": params };
         [NSApp invalidateRestorableState];
         _generation++;
         return truncatedCode;
@@ -140,8 +140,11 @@
     [_referenceCounts encodeWithCoder:coder];
     [coder finishEncoding];
 
-    return @{ @"store": _store,
-              @"refcounts": coder.encodedData };
+    return @ { @"store":
+               _store,
+               @"refcounts":
+               coder.encodedData
+             };
 }
 
 - (void)loadFromDictionary:(NSDictionary *)dictionary {
@@ -155,11 +158,11 @@
         return;
     }
     [store enumerateKeysAndObjectsUsingBlock:^(NSDictionary * _Nonnull key, NSNumber * _Nonnull obj, BOOL * _Nonnull stop) {
-        if (![key isKindOfClass:[NSDictionary class]] ||
-            ![obj isKindOfClass:[NSNumber class]]) {
-            ELog(@"Unexpected types when loading dictionary: %@ -> %@", key.class, obj.class);
-            return;
-        }
+              if (![key isKindOfClass:[NSDictionary class]] ||
+                  ![obj isKindOfClass:[NSNumber class]]) {
+                  ELog(@"Unexpected types when loading dictionary: %@ -> %@", key.class, obj.class);
+                  return;
+              }
         NSURL *url = [NSURL URLWithString:key[@"url"]];
         if (url == nil) {
             XLog(@"Bogus key not a URL: %@", url);
@@ -168,10 +171,10 @@
         self->_store[key] = obj;
 
         unsigned short truncated = [iTermURLStore truncatedCodeForCode:obj.integerValue];
-        self->_reverseStore[@(truncated)] = @{ @"url": url, @"params": key[@"params"] ?: @"" };
+        self->_reverseStore[@(truncated)] = @ { @"url": url, @"params": key[@"params"] ?: @"" };
         self->_nextCode = MAX(self->_nextCode, obj.integerValue + 1);
     }];
-    
+
     NSError *error = nil;
     NSKeyedUnarchiver *decoder = [[NSKeyedUnarchiver alloc] initForReadingFromData:refcounts error:&error];
     if (error) {

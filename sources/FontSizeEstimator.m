@@ -52,8 +52,8 @@
     [layoutManager addTextContainer:textContainer];
     [textStorage addLayoutManager:layoutManager];
     [textStorage addAttribute:NSFontAttributeName
-                        value:aFont
-                        range:NSMakeRange(0, [textStorage length])];
+                 value:aFont
+                 range:NSMakeRange(0, [textStorage length])];
     [textContainer setLineFragmentPadding:0.0];
     [layoutManager glyphRangeForTextContainer:textContainer];
     return layoutManager;
@@ -118,7 +118,7 @@
         if ([iTermAdvancedSettingsModel useExperimentalFontMetrics]) {
             NSTextContainer *textContainer = [self textContainer];
             NSLayoutManager *layoutManager = [self layoutManagerForFont:aFont
-                                                          textContainer:textContainer];
+                                                   textContainer:textContainer];
             NSRect usedRect = [layoutManager usedRectForTextContainer:textContainer];
 
             fse.size = usedRect.size;

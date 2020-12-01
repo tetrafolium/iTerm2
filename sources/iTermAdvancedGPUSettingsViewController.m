@@ -39,12 +39,12 @@
 
 - (IBAction)ok:(id)sender {
     [self.window.sheetParent endSheet:self.window
-                           returnCode:NSModalResponseOK];
+                             returnCode:NSModalResponseOK];
 }
 
 - (IBAction)cancel:(id)sender {
     [self.window.sheetParent endSheet:self.window
-                           returnCode:NSModalResponseCancel];
+                             returnCode:NSModalResponseCancel];
 }
 
 @end

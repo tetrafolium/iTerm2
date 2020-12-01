@@ -9,10 +9,10 @@
 #import <Cocoa/Cocoa.h>
 
 @interface ToolDirectoriesView : NSView <
-  NSMenuDelegate,
-  NSTableViewDataSource,
-  NSTableViewDelegate,
-  NSTextFieldDelegate>
+    NSMenuDelegate,
+    NSTableViewDataSource,
+    NSTableViewDelegate,
+    NSTextFieldDelegate>
 
 @property(nonatomic, readonly) NSTableView *tableView;
 

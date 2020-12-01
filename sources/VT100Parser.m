@@ -80,51 +80,51 @@
         int rmlen = 0;
         const NSStringEncoding encoding = self.encoding;
         const BOOL support8BitControlCharacters = (encoding == NSASCIIStringEncoding || encoding == NSISOLatin1StringEncoding);
-        
+
         if (isAsciiString(datap) && !_dcsHooked) {
             ParseString(datap, datalen, &rmlen, token, encoding);
             position = datap;
         } else if (iscontrol(datap[0]) || _dcsHooked || (support8BitControlCharacters && isc1(datap[0]))) {
             [_controlParser parseControlWithData:datap
-                                         datalen:datalen
-                                           rmlen:&rmlen
-                                     incidentals:vector
-                                           token:token
-                                        encoding:encoding
-                                      savedState:_savedStateForPartialParse
-                                       dcsHooked:&_dcsHooked];
+                            datalen:datalen
+                            rmlen:&rmlen
+                            incidentals:vector
+                            token:token
+                            encoding:encoding
+                            savedState:_savedStateForPartialParse
+                            dcsHooked:&_dcsHooked];
             if (token->type != VT100_WAIT) {
                 [_savedStateForPartialParse removeAllObjects];
             }
             // Some tokens have synchronous side-effects.
             switch (token->type) {
-                case XTERMCC_SET_KVP:
-                    if ([token.kvpKey isEqualToString:@"CopyToClipboard"]) {
-                        _saveData = YES;
-                    } else if ([token.kvpKey isEqualToString:@"EndCopy"]) {
-                        _saveData = NO;
-                    }
-                    break;
-
-                case DCS_TMUX_CODE_WRAP: {
-                    VT100Parser *tempParser = [[[VT100Parser alloc] init] autorelease];
-                    tempParser.encoding = encoding;
-                    NSData *data = [token.string dataUsingEncoding:encoding];
-                    [tempParser putStreamData:data.bytes length:data.length];
-                    [tempParser addParsedTokensToVector:vector];
-                    break;
+            case XTERMCC_SET_KVP:
+                if ([token.kvpKey isEqualToString:@"CopyToClipboard"]) {
+                    _saveData = YES;
+                } else if ([token.kvpKey isEqualToString:@"EndCopy"]) {
+                    _saveData = NO;
                 }
+                break;
 
-                case ISO2022_SELECT_LATIN_1:
-                    _encoding = NSISOLatin1StringEncoding;
-                    break;
+            case DCS_TMUX_CODE_WRAP: {
+                VT100Parser *tempParser = [[[VT100Parser alloc] init] autorelease];
+                tempParser.encoding = encoding;
+                NSData *data = [token.string dataUsingEncoding:encoding];
+                [tempParser putStreamData:data.bytes length:data.length];
+                [tempParser addParsedTokensToVector:vector];
+                break;
+            }
 
-                case ISO2022_SELECT_UTF_8:
-                    _encoding = NSUTF8StringEncoding;
-                    break;
+            case ISO2022_SELECT_LATIN_1:
+                _encoding = NSISOLatin1StringEncoding;
+                break;
 
-                default:
-                    break;
+            case ISO2022_SELECT_UTF_8:
+                _encoding = NSUTF8StringEncoding;
+                break;
+
+            default:
+                break;
             }
             position = datap;
         } else {
@@ -226,7 +226,7 @@
 - (NSData *)streamData {
     @synchronized(self) {
         return [NSData dataWithBytes:_stream + _streamOffset
-                              length:_currentStreamLength - _streamOffset];
+                       length:_currentStreamLength - _streamOffset];
     }
 }
 

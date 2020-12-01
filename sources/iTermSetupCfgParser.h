@@ -24,11 +24,11 @@
 @property (nonatomic) NSInteger minimumEnvironmentVersion;
 
 + (void)writeSetupCfgToFile:(NSString *)file
-                       name:(NSString *)name
-               dependencies:(NSArray<NSString *> *)dependencies
-        ensureiTerm2Present:(BOOL)ensureiTerm2Present
-              pythonVersion:(NSString *)pythonVersion
-         environmentVersion:(NSInteger)environmentVersion;
+    name:(NSString *)name
+    dependencies:(NSArray<NSString *> *)dependencies
+    ensureiTerm2Present:(BOOL)ensureiTerm2Present
+    pythonVersion:(NSString *)pythonVersion
+    environmentVersion:(NSInteger)environmentVersion;
 
 - (instancetype)initWithPath:(NSString *)path NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;

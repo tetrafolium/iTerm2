@@ -13,7 +13,7 @@
 + (BOOL)it_isNightlyBuild {
     static dispatch_once_t onceToken;
     static BOOL result;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         NSString *testingFeed = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"SUFeedURLForTesting"];
         result = [testingFeed containsString:@"nightly"];
     });

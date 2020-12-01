@@ -36,11 +36,11 @@ static int unblockPipeW;
 + (instancetype)sharedInstance {
     static id instance;
     static dispatch_once_t once;
-    dispatch_once(&once, ^{
+    dispatch_once(&once, ^ {
         instance = [[self alloc] init];
         [NSThread detachNewThreadSelector:@selector(run)
-                                 toTarget:instance
-                               withObject:nil];
+                  toTarget:instance
+                  withObject:nil];
     });
     return instance;
 }
@@ -84,8 +84,8 @@ static int unblockPipeW;
     assert(pid >= 0);
     [tasksLock lock];
     const NSInteger i = [_tasks indexOfObjectPassingTest:^BOOL(id<iTermTask>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        return obj.pid == pid;
-    }];
+               return obj.pid == pid;
+           }];
     if (i == NSNotFound) {
         [tasksLock unlock];
         // This is the normal case — usually there'll be an error status on the FD and
@@ -206,9 +206,9 @@ void UnblockTaskNotifier(void) {
 }
 
 - (void)handleReadOnFileDescriptor:(int)fd
-                              task:(id<iTermTask>)task
-                     withCoprocess:(Coprocess *)coprocess
-                             fdSet:(fd_set *)fdSet {
+    task:(id<iTermTask>)task
+    withCoprocess:(Coprocess *)coprocess
+    fdSet:(fd_set *)fdSet {
     if (![coprocess eof] && FD_ISSET(fd, fdSet)) {
         PtyTaskDebugLog(@"Reading from coprocess");
         [coprocess read];
@@ -218,8 +218,8 @@ void UnblockTaskNotifier(void) {
 }
 
 - (void)handleErrorOnFileDescriptor:(int)fd
-                      withCoprocess:(Coprocess *)coprocess
-                              fdSet:(fd_set *)fdSet {
+    withCoprocess:(Coprocess *)coprocess
+    fdSet:(fd_set *)fdSet {
     if (FD_ISSET(fd, fdSet)) {
         PtyTaskDebugLog(@"EOF on coprocess %@", coprocess);
         coprocess.eof = YES;
@@ -227,8 +227,8 @@ void UnblockTaskNotifier(void) {
 }
 
 - (void)handleWriteOnFileDescriptor:(int)coprocessWriteFd
-                      withCoprocess:(Coprocess *)coprocess
-                              fdSet:(fd_set *)fdSet {
+    withCoprocess:(Coprocess *)coprocess
+    fdSet:(fd_set *)fdSet {
     if (FD_ISSET(coprocessWriteFd, fdSet)) {
         if (![coprocess eof]) {
             PtyTaskDebugLog(@"Write to coprocess %@", coprocess);
@@ -356,11 +356,11 @@ void UnblockTaskNotifier(void) {
         // Poll...
         if (select(highfd+1, &rfds, &wfds, &efds, NULL) <= 0) {
             switch(errno) {
-                case EAGAIN:
-                case EINTR:
-                default:
-                    goto breakloop;
-                    // If the file descriptor is closed in the main thread there's a race where sometimes you'll get an EBADF.
+            case EAGAIN:
+            case EINTR:
+            default:
+                goto breakloop;
+                // If the file descriptor is closed in the main thread there's a race where sometimes you'll get an EBADF.
             }
         }
 
@@ -446,11 +446,11 @@ void UnblockTaskNotifier(void) {
         [tasksLock unlock];
         if (notifyOfCoprocessChange) {
             [self performSelectorOnMainThread:@selector(notifyCoprocessChange)
-                                   withObject:nil
-                                waitUntilDone:YES];
+                  withObject:nil
+                  waitUntilDone:YES];
         }
 
-    breakloop:
+breakloop:
         [handledFds release];
         [autoreleasePool drain];
         autoreleasePool = [[NSAutoreleasePool alloc] init];
@@ -461,7 +461,7 @@ void UnblockTaskNotifier(void) {
 // This is run in the main thread.
 - (void)notifyCoprocessChange {
     [[NSNotificationCenter defaultCenter] postNotificationName:kCoprocessStatusChangeNotification
-                                                        object:nil];
+                                          object:nil];
 }
 
 - (void)lock {

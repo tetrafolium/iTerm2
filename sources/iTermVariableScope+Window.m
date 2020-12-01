@@ -13,7 +13,7 @@
 @implementation iTermVariableScope (Window)
 
 + (instancetype)newWindowScopeWithVariables:(iTermVariables *)variables
-                               tabVariables:(iTermVariables *)tabVariables {
+    tabVariables:(iTermVariables *)tabVariables {
     iTermVariableScope<iTermWindowScope> *scope = [[self alloc] init];
     [scope addVariables:variables toScopeNamed:nil];
     [scope addVariables:[iTermVariables globalInstance] toScopeNamed:iTermVariableKeyGlobalScopeName];

@@ -18,14 +18,14 @@ NS_CLASS_AVAILABLE(10_11, NA)
 @property (nonatomic, readonly) CGSize atlasSize;
 
 + (CGSize)atlasSizeForUnitSize:(CGSize)unitSize
-                   arrayLength:(NSUInteger)length
-                   cellsPerRow:(out NSInteger *)cellsPerRowOut;
+    arrayLength:(NSUInteger)length
+    cellsPerRow:(out NSInteger *)cellsPerRowOut;
 
 - (instancetype)initWithTextureWidth:(uint32_t)width
-                       textureHeight:(uint32_t)height
-                         arrayLength:(NSUInteger)length
-                                bgra:(BOOL)bgra
-                              device:(id <MTLDevice>)device;
+    textureHeight:(uint32_t)height
+    arrayLength:(NSUInteger)length
+    bgra:(BOOL)bgra
+    device:(id <MTLDevice>)device;
 
 - (BOOL)addSliceWithContentsOfFile:(NSString *)path;
 - (void)addSliceWithImage:(NSImage *)image;
@@ -33,9 +33,9 @@ NS_CLASS_AVAILABLE(10_11, NA)
 - (void)setSlice:(NSUInteger)slice withBitmap:(iTermCharacterBitmap *)bitmap;
 
 - (void)copyTextureAtIndex:(NSInteger)index
-                   toArray:(iTermTextureArray *)destination
-                     index:(NSInteger)destinationIndex
-                   blitter:(id<MTLBlitCommandEncoder>)blitter;
+    toArray:(iTermTextureArray *)destination
+    index:(NSInteger)destinationIndex
+    blitter:(id<MTLBlitCommandEncoder>)blitter;
 - (MTLOrigin)offsetForIndex:(NSInteger)index;
 
 @end

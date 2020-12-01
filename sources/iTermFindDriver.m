@@ -41,11 +41,11 @@ static NSString *gSearchString;
 @implementation iTermFindDriver {
     FindState *_savedState;
     FindState *_state;
-    
+
     // Find runs out of a timer so that if you have a huge buffer then it
     // doesn't lock up. This timer runs the show.
     NSTimer *_timer;
-    
+
     // Last time the text field was edited.
     NSTimeInterval _lastEditTime;
     enum {
@@ -64,7 +64,7 @@ static NSString *gSearchString;
         NSNumber *ignoreCase = [[NSUserDefaults standardUserDefaults] objectForKey:@"findIgnoreCase_iTerm"];
         BOOL caseSensitive = ignoreCase ? ![ignoreCase boolValue] : NO;
         BOOL isRegex = [[NSUserDefaults standardUserDefaults] boolForKey:@"findRegex_iTerm"];
-        
+
         if (caseSensitive && isRegex) {
             gFindMode = iTermFindModeCaseSensitiveRegex;
         } else if (!caseSensitive && isRegex) {
@@ -86,15 +86,15 @@ static NSString *gSearchString;
         _viewController = viewController;
         viewController.driver = self;
         static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
+        dispatch_once(&onceToken, ^ {
             [iTermFindDriver loadUserDefaults];
         });
         _state = [[FindState alloc] init];
         _state.mode = gFindMode;
         __weak __typeof(self) weakSelf = self;
         [[iTermFindPasteboard sharedInstance] addObserver:self block:^(NSString *newValue) {
-            [weakSelf loadFindStringFromSharedPasteboard:newValue];
-        }];
+                                                 [weakSelf loadFindStringFromSharedPasteboard:newValue];
+                                             }];
     }
     return self;
 }
@@ -141,7 +141,7 @@ static NSString *gSearchString;
         [self restoreState];
         _viewController.findString = _state.string;
     }
-    
+
     _isVisible = YES;
     [self.delegate findViewControllerVisibilityDidChange:_viewController];
     [self.viewController open];
@@ -179,7 +179,7 @@ static NSString *gSearchString;
 }
 
 - (void)userDidEditSearchQuery:(NSString *)updatedQuery
-                   fieldEditor:(NSTextView *)fieldEditor {
+    fieldEditor:(NSTextView *)fieldEditor {
     // A query becomes stale when it is 1 or 2 chars long and it hasn't been edited in 3 seconds (or
     // the search field has lost focus since the last char was entered).
     static const CGFloat kStaleTime = 3;
@@ -187,7 +187,7 @@ static NSString *gSearchString;
                     updatedQuery.length > 0 &&
                     [self queryIsShort:updatedQuery]);
 
-    void (^search)(void) = ^{
+    void (^search)(void) = ^ {
         [[iTermSearchHistory sharedInstance] addQuery:updatedQuery];
         [self doSearch];
     };
@@ -220,68 +220,68 @@ static NSString *gSearchString;
     //   ActiveLong -> Empty
     // }
     switch (_delayState) {
-        case kFindViewDelayStateEmpty:
-            if (updatedQuery.length == 0) {
-                break;
-            } else if ([self queryIsShort:updatedQuery]) {
-                [self startDelay];
-            } else {
-                [self becomeActive];
-            }
+    case kFindViewDelayStateEmpty:
+        if (updatedQuery.length == 0) {
             break;
+        } else if ([self queryIsShort:updatedQuery]) {
+            [self startDelay];
+        } else {
+            [self becomeActive];
+        }
+        break;
 
-        case kFindViewDelayStateDelaying:
-            if (updatedQuery.length == 0) {
-                _delayState = kFindViewDelayStateEmpty;
-            } else if (![self queryIsShort:updatedQuery]) {
-                [self becomeActive];
-            }
+    case kFindViewDelayStateDelaying:
+        if (updatedQuery.length == 0) {
+            _delayState = kFindViewDelayStateEmpty;
+        } else if (![self queryIsShort:updatedQuery]) {
+            [self becomeActive];
+        }
+        break;
+
+    case kFindViewDelayStateActiveShort:
+        // This differs from ActiveMedium in that it will not enter the Empty state.
+        if (isStale) {
+            [self startDelay];
             break;
+        }
 
-        case kFindViewDelayStateActiveShort:
-            // This differs from ActiveMedium in that it will not enter the Empty state.
-            if (isStale) {
-                [self startDelay];
-                break;
-            }
+        search();
+        if ([self queryIsLong:updatedQuery]) {
+            _delayState = kFindViewDelayStateActiveLong;
+        } else if (![self queryIsShort:updatedQuery]) {
+            _delayState = kFindViewDelayStateActiveMedium;
+        }
+        break;
 
+    case kFindViewDelayStateActiveMedium:
+        if (isStale) {
+            [self startDelay];
+            break;
+        }
+        if (updatedQuery.length == 0) {
+            _delayState = kFindViewDelayStateEmpty;
+        } else if ([self queryIsLong:updatedQuery]) {
+            _delayState = kFindViewDelayStateActiveLong;
+        }
+        // This state intentionally does not transition to ActiveShort. If you backspace over
+        // the whole query, the delay must be done again.
+        search();
+        break;
+
+    case kFindViewDelayStateActiveLong:
+        if (updatedQuery.length == 0) {
+            _delayState = kFindViewDelayStateEmpty;
             search();
-            if ([self queryIsLong:updatedQuery]) {
-                _delayState = kFindViewDelayStateActiveLong;
-            } else if (![self queryIsShort:updatedQuery]) {
-                _delayState = kFindViewDelayStateActiveMedium;
-            }
-            break;
-
-        case kFindViewDelayStateActiveMedium:
-            if (isStale) {
-                [self startDelay];
-                break;
-            }
-            if (updatedQuery.length == 0) {
-                _delayState = kFindViewDelayStateEmpty;
-            } else if ([self queryIsLong:updatedQuery]) {
-                _delayState = kFindViewDelayStateActiveLong;
-            }
-            // This state intentionally does not transition to ActiveShort. If you backspace over
-            // the whole query, the delay must be done again.
+        } else if ([self queryIsShort:updatedQuery]) {
+            // long->short transition. Common when select-all followed by typing.
+            [self startDelay];
+        } else if (![self queryIsLong:updatedQuery]) {
+            _delayState = kFindViewDelayStateActiveMedium;
             search();
-            break;
-
-        case kFindViewDelayStateActiveLong:
-            if (updatedQuery.length == 0) {
-                _delayState = kFindViewDelayStateEmpty;
-                search();
-            } else if ([self queryIsShort:updatedQuery]) {
-                // long->short transition. Common when select-all followed by typing.
-                [self startDelay];
-            } else if (![self queryIsLong:updatedQuery]) {
-                _delayState = kFindViewDelayStateActiveMedium;
-                search();
-            } else {
-                search();
-            }
-            break;
+        } else {
+            search();
+        }
+        break;
     }
     _lastEditTime = [NSDate timeIntervalSinceReferenceDate];
 }
@@ -298,10 +298,10 @@ static NSString *gSearchString;
     self.needsUpdateOnFocus = NO;
     _savedState = nil;
     [self findSubString:_viewController.findString
-       forwardDirection:![iTermAdvancedSettingsModel swapFindNextPrevious]
-                   mode:_state.mode
-             withOffset:-1
-    scrollToFirstResult:NO];
+          forwardDirection:![iTermAdvancedSettingsModel swapFindNextPrevious]
+          mode:_state.mode
+          withOffset:-1
+          scrollToFirstResult:NO];
 }
 
 - (NSInteger)numberOfResults {
@@ -431,20 +431,20 @@ static NSString *gSearchString;
 }
 
 - (void)findSubString:(NSString *)subString
-     forwardDirection:(BOOL)direction
-                 mode:(iTermFindMode)mode
-           withOffset:(int)offset
-  scrollToFirstResult:(BOOL)scrollToFirstResult {
+    forwardDirection:(BOOL)direction
+    mode:(iTermFindMode)mode
+    withOffset:(int)offset
+    scrollToFirstResult:(BOOL)scrollToFirstResult {
     BOOL ok = NO;
     if ([_delegate canSearch]) {
         if ([subString length] <= 0) {
             [_delegate findViewControllerClearSearch];
         } else {
             [_delegate findString:subString
-                 forwardDirection:direction
-                             mode:mode
+                       forwardDirection:direction
+                       mode:mode
                        withOffset:offset
-              scrollToFirstResult:scrollToFirstResult];
+                       scrollToFirstResult:scrollToFirstResult];
             ok = YES;
         }
     }
@@ -453,10 +453,10 @@ static NSString *gSearchString;
         [_viewController setProgress:0];
         if ([self continueSearch]) {
             _timer = [NSTimer scheduledTimerWithTimeInterval:0.01
-                                                      target:self
-                                                    selector:@selector(continueSearch)
-                                                    userInfo:nil
-                                                     repeats:YES];
+                              target:self
+                              selector:@selector(continueSearch)
+                              userInfo:nil
+                              repeats:YES];
             [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
         }
     } else if (!ok && _timer) {
@@ -469,31 +469,31 @@ static NSString *gSearchString;
 - (void)searchNext {
     [self setSearchDefaults];
     [self findSubString:_savedState ? _state.string : gSearchString
-       forwardDirection:YES
-                   mode:_state.mode
-             withOffset:1
-    scrollToFirstResult:YES];
+          forwardDirection:YES
+          mode:_state.mode
+          withOffset:1
+          scrollToFirstResult:YES];
 }
 
 - (void)searchPrevious {
     [self setSearchDefaults];
     [self findSubString:_savedState ? _state.string : gSearchString
-       forwardDirection:NO
-                   mode:_state.mode
-             withOffset:1
-    scrollToFirstResult:YES];
+          forwardDirection:NO
+          mode:_state.mode
+          withOffset:1
+          scrollToFirstResult:YES];
 }
 
 - (void)startDelay {
     _delayState = kFindViewDelayStateDelaying;
     NSTimeInterval delay = [iTermAdvancedSettingsModel findDelaySeconds];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)),
-                   dispatch_get_main_queue(), ^{
-                       if (!self.viewController.view.isHidden &&
-                           self->_delayState == kFindViewDelayStateDelaying) {
-                           [self becomeActive];
-                       }
-                   });
+    dispatch_get_main_queue(), ^ {
+        if (!self.viewController.view.isHidden &&
+                self->_delayState == kFindViewDelayStateDelaying) {
+            [self becomeActive];
+        }
+    });
 }
 
 - (BOOL)queryIsLong:(NSString *)query {
@@ -527,17 +527,17 @@ static NSString *gSearchString;
     // Search.
     [self setSearchDefaults];
     [self findSubString:theString
-       forwardDirection:![iTermAdvancedSettingsModel swapFindNextPrevious]
-                   mode:_state.mode
-             withOffset:-1
-    scrollToFirstResult:YES];
+          forwardDirection:![iTermAdvancedSettingsModel swapFindNextPrevious]
+          mode:_state.mode
+          withOffset:-1
+          scrollToFirstResult:YES];
 }
 
 - (NSArray<NSString *> *)completionsForText:(NSString *)text
-                                      range:(NSRange)range {
+    range:(NSRange)range {
     return [[[iTermSearchHistory sharedInstance] queries] filteredArrayUsingBlock:^BOOL(NSString *historyEntry) {
-        return [[historyEntry localizedLowercaseString] it_hasPrefix:[text localizedLowercaseString]];
-    }];
+                                             return [[historyEntry localizedLowercaseString] it_hasPrefix:[text localizedLowercaseString]];
+                                         }];
 }
 
 - (void)doCommandBySelector:(SEL)selector {
@@ -548,7 +548,7 @@ static NSString *gSearchString;
 
 - (void)moveDown:(id)sender {
     NSTextView *fieldEditor = [NSTextView castFrom:[_viewController.view.window fieldEditor:YES
-                                                                                  forObject:_viewController.view]];
+                                          forObject:_viewController.view]];
     [fieldEditor complete:nil];
 }
 

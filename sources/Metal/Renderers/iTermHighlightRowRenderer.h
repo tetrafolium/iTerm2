@@ -6,8 +6,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermHighlightRowRendererTransientState : iTermMetalCellRendererTransientState
 - (void)setOpacity:(CGFloat)opacity
-             color:(vector_float3)color
-               row:(int)row;
+    color:(vector_float3)color
+    row:(int)row;
 @end
 
 @interface iTermHighlightRowRenderer : NSObject<iTermMetalCellRenderer>

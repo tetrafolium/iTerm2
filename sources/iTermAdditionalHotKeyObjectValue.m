@@ -11,7 +11,7 @@
 @implementation iTermAdditionalHotKeyObjectValue
 
 + (instancetype)objectValueWithShortcut:(iTermShortcut *)shortcut
-                       inUseDescriptors:(NSArray<iTermHotKeyDescriptor *> *)descriptors {
+    inUseDescriptors:(NSArray<iTermHotKeyDescriptor *> *)descriptors {
     iTermAdditionalHotKeyObjectValue *objectValue = [[[iTermAdditionalHotKeyObjectValue alloc] init] autorelease];
     objectValue.shortcut = shortcut;
     objectValue.descriptorsInUseByOtherProfiles = descriptors;

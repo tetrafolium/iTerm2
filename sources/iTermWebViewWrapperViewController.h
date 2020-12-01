@@ -23,7 +23,7 @@ typedef NS_ENUM(NSUInteger, iTermWebViewErrorCode) {
 
 @protocol iTermWebViewDelegate<NSObject>
 - (void)itermWebViewScriptInvocation:(NSString *)invocation
-                    didFailWithError:(NSError *)error;
+    didFailWithError:(NSError *)error;
 - (iTermVariableScope *)itermWebViewScriptScopeForUserContentController:(WKUserContentController *)userContentController;
 - (void)itermWebViewJavascriptError:(NSString *)errorText;
 - (void)itermWebViewWillExecuteJavascript:(NSString *)javascript;

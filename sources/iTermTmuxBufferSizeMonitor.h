@@ -14,9 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 @class iTermTmuxBufferSizeMonitor;
 @protocol iTermTmuxBufferSizeMonitorDelegate<NSObject>
 - (void)tmuxBufferSizeMonitor:(iTermTmuxBufferSizeMonitor *)sender
-                   updatePane:(int)wp
-                          ttl:(NSTimeInterval)ttl
-                      redzone:(BOOL)redzone;
+    updatePane:(int)wp
+    ttl:(NSTimeInterval)ttl
+    redzone:(BOOL)redzone;
 @end
 
 @interface iTermTmuxBufferSizeMonitor : NSObject
@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSTimeInterval pauseAge;
 
 - (instancetype)initWithController:(TmuxController *)controller
-                          pauseAge:(NSTimeInterval)pauseAge NS_DESIGNATED_INITIALIZER;
+    pauseAge:(NSTimeInterval)pauseAge NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (void)setCurrentLatency:(NSTimeInterval)latency forPane:(int)wp;

@@ -18,23 +18,23 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation NSURL(iTerm)
 
 + (nullable NSURL *)urlByReplacingFormatSpecifier:(NSString *)formatSpecifier
-                                         inString:(NSString *)string
-                                        withValue:(NSString *)value {
+    inString:(NSString *)string
+    withValue:(NSString *)value {
     if (![string containsString:formatSpecifier]) {
         return [NSURL URLWithString:string];
     }
 
     NSString *placeholder = [[[NSUUID UUID] UUIDString] stringByReplacingOccurrencesOfString:@"-" withString:@""];
     NSString *urlString = [string stringByReplacingOccurrencesOfString:formatSpecifier
-                                                            withString:placeholder];
+                                  withString:placeholder];
     NSURLComponents *components = [[NSURLComponents alloc] initWithString:urlString];
 
     // Query item value?
     {
         NSMutableArray<NSURLQueryItem *> *queryItems = [components.queryItems mutableCopy];
         const NSUInteger i = [queryItems indexOfObjectPassingTest:^BOOL(NSURLQueryItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            return [obj.value isEqualToString:placeholder];
-        }];
+                       return [obj.value isEqualToString:placeholder];
+                   }];
         if (queryItems && i != NSNotFound) {
             queryItems[i] = [NSURLQueryItem queryItemWithName:queryItems[i].name value:value];
             components.queryItems = queryItems;
@@ -46,8 +46,8 @@ NS_ASSUME_NONNULL_BEGIN
     {
         NSMutableArray<NSURLQueryItem *> *queryItems = [components.queryItems mutableCopy];
         const NSUInteger i = [queryItems indexOfObjectPassingTest:^BOOL(NSURLQueryItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            return [obj.name isEqualToString:placeholder];
-        }];
+                       return [obj.name isEqualToString:placeholder];
+                   }];
         if (queryItems && i != NSNotFound) {
             queryItems[i] = [NSURLQueryItem queryItemWithName:value value:queryItems[i].value];
             components.queryItems = queryItems;
@@ -188,9 +188,9 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableString *stringWithPlaceholders = [string mutableCopy];
     NSMutableDictionary<NSString *, NSString *> *map = [NSMutableDictionary dictionary];
     [nonReservedSymbolIndices enumerateRangesWithOptions:NSEnumerationReverse
-                                              usingBlock:^(NSRange range, BOOL * _Nonnull stop) {
-        NSString *placeholder = [NSString stringWithFormat:@"%08d", count++];
-        if (range.location == 0) {
+                             usingBlock:^(NSRange range, BOOL * _Nonnull stop) {
+                                 NSString *placeholder = [NSString stringWithFormat:@"%08d", count++];
+                                 if (range.location == 0) {
             // Schemes can't start with a number. In case the first thing is a scheme, start it
             // with a letter. This is safe because ports are the only thing that must be a number
             // but they can't come first!
@@ -214,8 +214,8 @@ NS_ASSUME_NONNULL_BEGIN
     NSString *(^glue)(NSString *) = ^NSString *(NSString *encoded) {
         NSMutableString *result = [encoded mutableCopy];
         [map enumerateKeysAndObjectsUsingBlock:^(NSString *_Nonnull key, NSString *_Nonnull obj, BOOL * _Nonnull stop) {
-            const NSRange range = [result rangeOfString:key];
-            if (range.location == NSNotFound) {
+                const NSRange range = [result rangeOfString:key];
+                if (range.location == NSNotFound) {
                 return;
             }
             [result replaceCharactersInRange:range withString:obj];
@@ -253,9 +253,9 @@ NS_ASSUME_NONNULL_BEGIN
     }
     if (components.queryItems.count) {
         components.queryItems = [components.queryItems mapWithBlock:^id(NSURLQueryItem *item) {
-            return [NSURLQueryItem queryItemWithName:glue(item.name) ?: @""
-                                               value:glue(item.value)];
-        }];
+                                  return [NSURLQueryItem queryItemWithName:glue(item.name) ?: @""
+                                          value:glue(item.value)];
+                              }];
     }
     DLog(@"Final result: %@", components.URL);
     return components.URL;
@@ -299,9 +299,9 @@ NS_ASSUME_NONNULL_BEGIN
 
         NSError *error;
         [fileManager createDirectoryAtURL:sourceDir
-              withIntermediateDirectories:YES
-                               attributes:nil
-                                    error:&error];
+                     withIntermediateDirectories:YES
+                     attributes:nil
+                     error:&error];
         if (error) {
             return NO;
         }
@@ -318,13 +318,13 @@ NS_ASSUME_NONNULL_BEGIN
     NSFileCoordinator *coordinator = [[NSFileCoordinator alloc] init];
     __block NSError *error = nil;
     [coordinator coordinateReadingItemAtURL:sourceDir
-                                    options:NSFileCoordinatorReadingForUploading
-                                      error:&error
-                                 byAccessor:^(NSURL * _Nonnull zippedURL) {
-                                     [fileManager copyItemAtURL:zippedURL
-                                                          toURL:destination
-                                                          error:&error];
-                                 }];
+                 options:NSFileCoordinatorReadingForUploading
+                 error:&error
+                byAccessor:^(NSURL * _Nonnull zippedURL) {
+                    [fileManager copyItemAtURL:zippedURL
+                     toURL:destination
+                     error:&error];
+                }];
     if (sourceDirIsTemporary) {
         [fileManager removeItemAtURL:sourceDir error:NULL];
     }

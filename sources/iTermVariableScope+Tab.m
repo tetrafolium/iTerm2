@@ -64,7 +64,7 @@
 
 - (iTermVariableScope<iTermWindowScope> *)window {
     return [iTermVariableScope newWindowScopeWithVariables:[self valueForVariableName:iTermVariableKeyTabWindow]
-                                              tabVariables:[[self variablesInScopeNamed:nil] lastObject]];
+                               tabVariables:[[self variablesInScopeNamed:nil] lastObject]];
 }
 
 - (NSString *)tmuxWindowName {

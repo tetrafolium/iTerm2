@@ -70,7 +70,7 @@
     NSRect rect = self.view.frame;
     rect.size = size;
     self.view.frame = rect;
-    
+
     [self updateSubviews];
 }
 
@@ -138,20 +138,20 @@
     if (round(progress * 100) != round(cell.fraction * 100)) {
         [_searchField setNeedsDisplay:YES];
     }
-    
+
     [cell setFraction:progress];
     if (cell.needsAnimation && !_animationTimer) {
         _animationTimer = [NSTimer scheduledTimerWithTimeInterval:1/60.0
-                                                           target:self
-                                                         selector:@selector(redrawSearchField:)
-                                                         userInfo:nil
-                                                          repeats:YES];
+                                   target:self
+                                   selector:@selector(redrawSearchField:)
+                                   userInfo:nil
+                                   repeats:YES];
     }
 }
 
 - (void)deselectFindBarTextField {
     NSText *fieldEditor = [self.view.window fieldEditor:YES
-                                              forObject:_searchField];
+                                            forObject:_searchField];
     [fieldEditor setSelectedRange:NSMakeRange(fieldEditor.string.length, 0)];
     [fieldEditor setNeedsDisplay:YES];
 }
@@ -196,7 +196,7 @@
         [self.driver searchNext];
     }
     [sender setSelected:NO
-             forSegment:[sender selectedSegment]];
+            forSegment:[sender selectedSegment]];
 }
 
 - (IBAction)changeMode:(id)sender {
@@ -239,19 +239,19 @@
     if (field != _searchField) {
         return;
     }
-    
+
     [self.driver userDidEditSearchQuery:_searchField.stringValue
-                            fieldEditor:aNotification.userInfo[@"NSFieldEditor"]];
+                 fieldEditor:aNotification.userInfo[@"NSFieldEditor"]];
 }
 
 - (NSArray *)control:(NSControl *)control
-            textView:(NSTextView *)textView
-         completions:(NSArray *)words  // Dictionary words
- forPartialWordRange:(NSRange)charRange
- indexOfSelectedItem:(NSInteger *)index {
+    textView:(NSTextView *)textView
+    completions:(NSArray *)words  // Dictionary words
+    forPartialWordRange:(NSRange)charRange
+    indexOfSelectedItem:(NSInteger *)index {
     *index = -1;
     return [self.driver completionsForText:[textView string]
-                                     range:charRange];
+                        range:charRange];
 }
 
 - (BOOL)becomeFirstResponder {
@@ -260,12 +260,12 @@
 }
 
 - (BOOL)control:(NSControl *)control
-       textView:(NSTextView *)textView
-doCommandBySelector:(SEL)commandSelector {
+    textView:(NSTextView *)textView
+    doCommandBySelector:(SEL)commandSelector {
     if (control != _searchField) {
         return NO;
     }
-    
+
     if (commandSelector == @selector(cancelOperation:)) {
         // Have the esc key close the find bar instead of erasing its contents.
         [self.driver close];
@@ -291,24 +291,24 @@ doCommandBySelector:(SEL)commandSelector {
     if (postingObject != _searchField) {
         return;
     }
-    
+
     int move = [[[aNotification userInfo] objectForKey:@"NSTextMovement"] intValue];
     switch (move) {
-        case NSOtherTextMovement:
-            // Focus lost
-            [self.driver didLoseFocus];
-            break;
-        case NSReturnTextMovement: {
-            // Return key
-            const BOOL shiftPressed = !!([[NSApp currentEvent] it_modifierFlags] & NSEventModifierFlagShift);
-            const BOOL swap = [iTermAdvancedSettingsModel swapFindNextPrevious];
-            if  (!shiftPressed ^ swap) {
-                [self.driver searchNext];
-            } else {
-                [self.driver searchPrevious];
-            }
-            break;
+    case NSOtherTextMovement:
+        // Focus lost
+        [self.driver didLoseFocus];
+        break;
+    case NSReturnTextMovement: {
+        // Return key
+        const BOOL shiftPressed = !!([[NSApp currentEvent] it_modifierFlags] & NSEventModifierFlagShift);
+        const BOOL swap = [iTermAdvancedSettingsModel swapFindNextPrevious];
+        if  (!shiftPressed ^ swap) {
+            [self.driver searchNext];
+        } else {
+            [self.driver searchPrevious];
         }
+        break;
+    }
     }
     return;
 }

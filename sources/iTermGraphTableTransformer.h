@@ -12,7 +12,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 // Converts a table from a db into a graph record.
-@interface iTermGraphTableTransformer: NSObject
+@interface iTermGraphTableTransformer : NSObject
 @property (nonatomic, readonly, nullable) iTermEncoderGraphRecord *root;
 @property (nonatomic, readonly) NSArray *nodeRows;
 @property (nonatomic, readonly) NSArray *valueRows;
@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSDictionary<NSNumber *, NSMutableDictionary *> * _Nullable)nodes:(out NSNumber **)rootNodeIDOut;
 - (BOOL)attachChildrenToParents:(NSDictionary<NSNumber *, NSMutableDictionary *> *)nodes
-              ignoringRootRowID:(NSNumber *)rootRowID;
+    ignoringRootRowID:(NSNumber *)rootRowID;
 @end
 
 NS_ASSUME_NONNULL_END

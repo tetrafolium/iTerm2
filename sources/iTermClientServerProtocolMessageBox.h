@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface iTermClientServerProtocolMessageBox: NSObject
+@interface iTermClientServerProtocolMessageBox : NSObject
 @property (nonatomic) iTermMultiServerMessage *message;
 @property (nullable, nonatomic, readonly) iTermMultiServerServerOriginatedMessage *decoded;
 

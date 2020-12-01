@@ -26,16 +26,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSArray<iTermStatusBarComponentKnob *> *)statusBarComponentKnobs {
     iTermStatusBarComponentKnob *textColorKnob =
         [[iTermStatusBarComponentKnob alloc] initWithLabelText:@"Text Color:"
-                                                          type:iTermStatusBarComponentKnobTypeColor
-                                                   placeholder:nil
-                                                  defaultValue:nil
-                                                           key:iTermStatusBarSharedTextColorKey];
+                                             type:iTermStatusBarComponentKnobTypeColor
+                                             placeholder:nil
+                                             defaultValue:nil
+                                             key:iTermStatusBarSharedTextColorKey];
     iTermStatusBarComponentKnob *backgroundColorKnob =
         [[iTermStatusBarComponentKnob alloc] initWithLabelText:@"Background Color:"
-                                                          type:iTermStatusBarComponentKnobTypeColor
-                                                   placeholder:nil
-                                                  defaultValue:nil
-                                                           key:iTermStatusBarSharedBackgroundColorKey];
+                                             type:iTermStatusBarComponentKnobTypeColor
+                                             placeholder:nil
+                                             defaultValue:nil
+                                             key:iTermStatusBarSharedBackgroundColorKey];
 
     return [@[ textColorKnob, backgroundColorKnob, [super statusBarComponentKnobs], [self minMaxWidthKnobs]] flattenedArray];
 }
@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
         return result;
     }
-    
+
     return NO;
 }
 
@@ -149,7 +149,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray<iTermTuple<NSString *,NSNumber *> *> *)widthStringTuples {
     return [self.stringVariants mapWithBlock:^id(NSString *anObject) {
-        CGFloat width = [self widthForString:anObject];
+                            CGFloat width = [self widthForString:anObject];
         return [iTermTuple tupleWithObject:anObject andObject:@(width)];
     }];
 }
@@ -157,11 +157,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable NSString *)stringForWidth:(CGFloat)width {
     NSArray<iTermTuple<NSString *,NSNumber *> *> *tuples = [self widthStringTuples];
     tuples = [tuples filteredArrayUsingBlock:^BOOL(iTermTuple<NSString *,NSNumber *> *anObject) {
-        return ceil(anObject.secondObject.doubleValue) <= ceil(width);
-    }];
+               return ceil(anObject.secondObject.doubleValue) <= ceil(width);
+           }];
     return [tuples maxWithBlock:^NSComparisonResult(iTermTuple<NSString *,NSNumber *> *obj1, iTermTuple<NSString *,NSNumber *> *obj2) {
-        return [obj1.secondObject compare:obj2.secondObject];
-    }].firstObject ?: @"";
+               return [obj1.secondObject compare:obj2.secondObject];
+           }].firstObject ?: @"";
 }
 
 - (CGFloat)statusBarComponentPreferredWidth {
@@ -202,8 +202,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (CGFloat)statusBarComponentMinimumWidth {
     NSArray<iTermTuple<NSString *,NSNumber *> *> *tuples = [self widthStringTuples];
     NSNumber *number = [tuples minWithBlock:^NSComparisonResult(iTermTuple<NSString *,NSNumber *> *obj1, iTermTuple<NSString *,NSNumber *> *obj2) {
-        return [obj1.secondObject compare:obj2.secondObject];
-    }].secondObject;
+               return [obj1.secondObject compare:obj2.secondObject];
+           }].secondObject;
     return number.doubleValue;
 }
 

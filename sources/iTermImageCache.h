@@ -17,13 +17,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 
 - (NSImage *)imageWithName:(NSString *)name
-                      size:(NSSize)size
-                     color:(nullable NSColor *)color;
+    size:(NSSize)size
+    color:(nullable NSColor *)color;
 
 - (void)addImage:(NSImage *)image
-            name:(NSString *)name
-            size:(NSSize)size
-           color:(nullable NSColor *)color;
+    name:(NSString *)name
+    size:(NSSize)size
+    color:(nullable NSColor *)color;
 
 @end
 

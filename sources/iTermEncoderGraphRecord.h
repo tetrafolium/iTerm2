@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface iTermEncoderGraphRecord: NSObject
+@interface iTermEncoderGraphRecord : NSObject
 @property (nonatomic, readonly) NSDictionary<NSString *, id> *pod;
 @property (nonatomic, readonly) NSArray<iTermEncoderGraphRecord *> *graphRecords;
 @property (nonatomic, readonly) NSInteger generation;
@@ -22,23 +22,23 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSString *compactDescription;
 
 + (instancetype)withPODs:(NSDictionary<NSString *, id> *)pod
-                  graphs:(NSArray<iTermEncoderGraphRecord *> *)graphRecords
-              generation:(NSInteger)generation
-                     key:(NSString *)key
-              identifier:(NSString *)identifier
-                   rowid:(NSNumber *_Nullable)rowid;
+    graphs:(NSArray<iTermEncoderGraphRecord *> *)graphRecords
+    generation:(NSInteger)generation
+    key:(NSString *)key
+    identifier:(NSString *)identifier
+    rowid:(NSNumber *_Nullable)rowid;
 
 - (NSComparisonResult)compareGraphRecord:(iTermEncoderGraphRecord *)other;
 
 // You probably want to use arrayWithKey or dictionaryWithKey. This is very low level.
 - (iTermEncoderGraphRecord * _Nullable)childRecordWithKey:(NSString *)key
-                                               identifier:(NSString *)identifier;
+    identifier:(NSString *)identifier;
 
 - (void)enumerateArrayWithKey:(NSString *)key
-                        block:(void (^NS_NOESCAPE)(NSString *identifier,
-                                                   NSInteger index,
-                                                   id obj,  // could be POD or plist
-                                                   BOOL *stop))block;
+    block:(void (^NS_NOESCAPE)(NSString *identifier,
+    NSInteger index,
+    id obj,  // could be POD or plist
+    BOOL *stop))block;
 - (NSArray<iTermEncoderGraphRecord *> * _Nullable)recordArrayWithKey:(NSString *)key;
 // Note: this doesn't work for arrays encoded as property lists.
 - (NSArray *)arrayWithKey:(NSString *)key;

@@ -12,9 +12,9 @@
 @interface VT100OtherParser : NSObject
 
 + (void)decodeBytes:(unsigned char *)datap
-             length:(int)datalen
-          bytesUsed:(int *)rmlen
-              token:(VT100Token *)result
-           encoding:(NSStringEncoding)encoding;
+    length:(int)datalen
+    bytesUsed:(int *)rmlen
+    token:(VT100Token *)result
+    encoding:(NSStringEncoding)encoding;
 
 @end

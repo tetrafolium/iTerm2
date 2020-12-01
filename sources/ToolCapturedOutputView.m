@@ -139,7 +139,7 @@ static NSString *const iTermCapturedOutputToolTableViewCellIdentifier = @"ToolCa
         tableView_.menu.delegate = self;
         NSMenuItem *item;
         item = [[NSMenuItem alloc] initWithTitle:@"Toggle Checkmark"
-                                          action:@selector(toggleCheckmark:)
+                                   action:@selector(toggleCheckmark:)
                                    keyEquivalent:@""];
         [tableView_.menu addItem:item];
         if (@available(macOS 10.14, *)) {
@@ -156,9 +156,9 @@ static NSString *const iTermCapturedOutputToolTableViewCellIdentifier = @"ToolCa
         [self relayout];
 
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(capturedOutputDidChange:)
-                                                     name:kPTYSessionCapturedOutputDidChange
-                                                   object:nil];
+                                              selector:@selector(capturedOutputDidChange:)
+                                              name:kPTYSessionCapturedOutputDidChange
+                                              object:nil];
         [self updateCapturedOutput];
     }
     return self;
@@ -197,8 +197,8 @@ static NSString *const iTermCapturedOutputToolTableViewCellIdentifier = @"ToolCa
     NSMutableArray *temp = [NSMutableArray array];
     for (CapturedOutput *capturedOutput in allCapturedOutput_) {
         if (!searchField_.stringValue.length ||
-            [[self labelForCapturedOutput:capturedOutput] rangeOfString:searchField_.stringValue
-                                                                options:NSCaseInsensitiveSearch].location != NSNotFound) {
+                [[self labelForCapturedOutput:capturedOutput] rangeOfString:searchField_.stringValue
+                                                              options:NSCaseInsensitiveSearch].location != NSNotFound) {
             [temp addObject:capturedOutput];
         }
     }
@@ -253,7 +253,7 @@ static NSString *const iTermCapturedOutputToolTableViewCellIdentifier = @"ToolCa
                                         _clearButton.frame.size.width,
                                         _clearButton.frame.size.height);
     }
-    
+
     // Scroll view
     [scrollView_ setFrame:NSMakeRect(0,
                                      searchFieldFrame.size.height + kMargin,
@@ -304,13 +304,13 @@ static NSString *const iTermCapturedOutputToolTableViewCellIdentifier = @"ToolCa
     textField.translatesAutoresizingMaskIntoConstraints = NO;
     NSDictionary *views = NSDictionaryOfVariableBindings(textField);
     [cellView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[textField]-0-|"
-                                                                     options:0
-                                                                     metrics:nil
-                                                                       views:views]];
+                              options:0
+                              metrics:nil
+                              views:views]];
     [cellView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[textField]-0-|"
-                                                                     options:0
-                                                                     metrics:nil
-                                                                       views:views]];
+                              options:0
+                              metrics:nil
+                              views:views]];
     return cellView;
 }
 
@@ -354,8 +354,8 @@ static NSString *const iTermCapturedOutputToolTableViewCellIdentifier = @"ToolCa
 }
 
 - (NSCell *)tableView:(NSTableView *)tableView
-        dataCellForTableColumn:(NSTableColumn *)tableColumn
-                           row:(NSInteger)row {
+    dataCellForTableColumn:(NSTableColumn *)tableColumn
+    row:(NSInteger)row {
     return [self cell];
 }
 
@@ -369,7 +369,7 @@ static NSString *const iTermCapturedOutputToolTableViewCellIdentifier = @"ToolCa
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification {
     _ignoreClick = YES;
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         self->_ignoreClick = NO;
     });
     [self revealSelection];
@@ -443,10 +443,10 @@ static NSString *const iTermCapturedOutputToolTableViewCellIdentifier = @"ToolCa
 }
 
 - (NSArray *)control:(NSControl *)control
-            textView:(NSTextView *)textView
-         completions:(NSArray *)words
- forPartialWordRange:(NSRange)charRange
- indexOfSelectedItem:(NSInteger *)index {
+    textView:(NSTextView *)textView
+    completions:(NSArray *)words
+    forPartialWordRange:(NSRange)charRange
+    indexOfSelectedItem:(NSInteger *)index {
     return @[];
 }
 

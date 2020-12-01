@@ -12,8 +12,8 @@
 @implementation PreferenceInfo
 
 + (instancetype)infoForPreferenceWithKey:(NSString *)key
-                                    type:(PreferenceInfoType)type
-                                 control:(NSControl *)control {
+    type:(PreferenceInfoType)type
+    control:(NSControl *)control {
     PreferenceInfo *info = [[self alloc] init];
     info.key = key;
     info.type = type;
@@ -29,9 +29,9 @@
         // Observers' initial execution happens from the notification because it gives the current
         // profile a chance to get set before the observer runs.
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(preferencePanelDidLoad:)
-                                                     name:kPreferencePanelDidLoadNotification
-                                                   object:nil];
+                                              selector:@selector(preferencePanelDidLoad:)
+                                              name:kPreferencePanelDidLoadNotification
+                                              object:nil];
     }
     return self;
 }

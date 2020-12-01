@@ -18,10 +18,10 @@
 // Reads a message on the socket, and fills in receivedFileDescriptorPtr with a
 // file descriptor if one was passed.
 static ssize_t ReceiveMessageAndFileDescriptor(int fd,
-                                               void *buffer,
-                                               size_t bufferCapacity,
-                                               int *receivedFileDescriptorPtr,
-                                               int deadMansPipeReadEnd) {
+        void *buffer,
+        size_t bufferCapacity,
+        int *receivedFileDescriptorPtr,
+        int deadMansPipeReadEnd) {
     // Loop because sometimes the dynamic loader spews warnings (for example, when malloc logging
     // is enabled)
     while (1) {
@@ -160,7 +160,7 @@ iTermFileDescriptorServerConnection iTermFileDescriptorClientRun(pid_t pid) {
     iTermFileDescriptorServerConnection result = iTermFileDescriptorClientRead(socketFd, -1);
     result.serverPid = pid;
     FDLog(LOG_DEBUG, "Success: process id is %d, pty master fd is %d\n\n",
-           (int)pid, result.ptyMasterFd);
+          (int)pid, result.ptyMasterFd);
 
     return result;
 }
@@ -168,10 +168,10 @@ iTermFileDescriptorServerConnection iTermFileDescriptorClientRun(pid_t pid) {
 iTermFileDescriptorServerConnection iTermFileDescriptorClientRead(int socketFd, int deadMansPipeReadEnd) {
     iTermFileDescriptorServerConnection result = { 0 };
     int rc = ReceiveMessageAndFileDescriptor(socketFd,
-                                             &result.childPid,
-                                             sizeof(result.childPid),
-                                             &result.ptyMasterFd,
-                                             deadMansPipeReadEnd);
+             &result.childPid,
+             sizeof(result.childPid),
+             &result.ptyMasterFd,
+             deadMansPipeReadEnd);
     if (rc == -1 || result.ptyMasterFd == -1) {
         result.error = "Failed to read message from server";
         close(socketFd);

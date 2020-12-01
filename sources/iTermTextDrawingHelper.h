@@ -25,7 +25,7 @@ BOOL CheckFindMatchAtIndex(NSData *findMatches, int index);
 @protocol iTermTextDrawingHelperDelegate <NSObject>
 
 - (void)drawingHelperDrawBackgroundImageInRect:(NSRect)rect
-                        blendDefaultBackground:(BOOL)blendDefaultBackground;
+    blendDefaultBackground:(BOOL)blendDefaultBackground;
 
 - (VT100ScreenMark *)drawingHelperMarkOnLine:(int)line;
 
@@ -43,17 +43,17 @@ BOOL CheckFindMatchAtIndex(NSData *findMatches, int index);
 - (NSDate *)drawingHelperTimestampForLine:(int)line;
 
 - (NSColor *)drawingHelperColorForCode:(int)theIndex
-                                 green:(int)green
-                                  blue:(int)blue
-                             colorMode:(ColorMode)theMode
-                                  bold:(BOOL)isBold
-                                 faint:(BOOL)isFaint
-                          isBackground:(BOOL)isBackground;
+    green:(int)green
+    blue:(int)blue
+    colorMode:(ColorMode)theMode
+    bold:(BOOL)isBold
+    faint:(BOOL)isFaint
+    isBackground:(BOOL)isBackground;
 
 - (PTYFontInfo *)drawingHelperFontForChar:(UniChar)ch
-                                isComplex:(BOOL)isComplex
-                               renderBold:(BOOL *)renderBold
-                             renderItalic:(BOOL *)renderItalic;
+    isComplex:(BOOL)isComplex
+    renderBold:(BOOL *)renderBold
+    renderItalic:(BOOL *)renderItalic;
 
 - (NSData *)drawingHelperMatchesOnLine:(int)line;
 
@@ -301,26 +301,26 @@ BOOL CheckFindMatchAtIndex(NSData *findMatches, int index);
 //
 // Returns: destination frame to draw to
 + (NSRect)rectForBadgeImageOfSize:(NSSize)imageSize
-                  destinationRect:(NSRect)destinationRect
-             destinationFrameSize:(NSSize)destinationFrameSize
-                      visibleSize:(NSSize)visibleSize
-                    sourceRectPtr:(NSRect *)sourceRectPtr
-                          margins:(NSEdgeInsets)margins;
+    destinationRect:(NSRect)destinationRect
+    destinationFrameSize:(NSSize)destinationFrameSize
+    visibleSize:(NSSize)visibleSize
+    sourceRectPtr:(NSRect *)sourceRectPtr
+    margins:(NSEdgeInsets)margins;
 
 // Indicates whether the cursor should take its color from the background (if YES) or text color (if NO).
 + (BOOL)cursorUsesBackgroundColorForScreenChar:(screen_char_t)screenChar
-                                wantBackground:(BOOL)wantBackgroundColor
-                                  reverseVideo:(BOOL)reverseVideo;
+    wantBackground:(BOOL)wantBackgroundColor
+    reverseVideo:(BOOL)reverseVideo;
 
 + (NSRect)frameForMarkContainedInRect:(NSRect)container
-                             cellSize:(CGSize)cellSize
-               cellSizeWithoutSpacing:(CGSize)cellSizeWithoutSpacing
-                                scale:(CGFloat)scale;
+    cellSize:(CGSize)cellSize
+    cellSizeWithoutSpacing:(CGSize)cellSizeWithoutSpacing
+    scale:(CGFloat)scale;
 
 // Updates self.blinkingFound.
 - (void)drawTextViewContentInRect:(NSRect)rect
-                         rectsPtr:(const NSRect *)rectArray
-                        rectCount:(NSInteger)rectCount;
+    rectsPtr:(const NSRect *)rectArray
+    rectCount:(NSInteger)rectCount;
 
 // If timestamps are to be shown, call this just before drawing.
 - (void)createTimestampDrawingHelper;
@@ -342,20 +342,20 @@ BOOL CheckFindMatchAtIndex(NSData *findMatches, int index);
 @end
 
 NS_INLINE BOOL iTermTextDrawingHelperIsCharacterDrawable(const screen_char_t *const c,
-                                                         const screen_char_t *const predecessor,
-                                                         BOOL isStringifiable,
-                                                         BOOL blinkingItemsVisible,
-                                                         BOOL blinkAllowed,
-                                                         BOOL preferSpeedToFullLigatureSupport) {
+        const screen_char_t *const predecessor,
+        BOOL isStringifiable,
+        BOOL blinkingItemsVisible,
+        BOOL blinkAllowed,
+        BOOL preferSpeedToFullLigatureSupport) {
     const unichar code = c->code;
     if (c->image) {
         return YES;
     }
     if (!c->complexChar) {
         if (code == DWC_RIGHT ||
-            code == DWC_SKIP ||
-            code == TAB_FILLER ||
-            code < ' ') {
+                code == DWC_SKIP ||
+                code == TAB_FILLER ||
+                code < ' ') {
             return NO;
         } else if (preferSpeedToFullLigatureSupport &&
                    code == ' ' &&

@@ -15,21 +15,21 @@
 }
 
 - (instancetype)initWithShortcuts:(NSArray<iTermShortcut *> *)shortcuts
-            hasModifierActivation:(BOOL)hasModifierActivation
-               modifierActivation:(iTermHotKeyModifierActivation)modifierActivation {
+    hasModifierActivation:(BOOL)hasModifierActivation
+    modifierActivation:(iTermHotKeyModifierActivation)modifierActivation {
     self = [super initWithShortcuts:shortcuts
-              hasModifierActivation:hasModifierActivation
-                 modifierActivation:modifierActivation];
+                  hasModifierActivation:hasModifierActivation
+                  modifierActivation:modifierActivation];
     if (self) {
         _previousState = [[iTermPreviousState alloc] init];
         [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
-                                                               selector:@selector(workspaceDidDeactivateApplication:)
-                                                                   name:NSWorkspaceDidDeactivateApplicationNotification
-                                                                 object:nil];
+                                        selector:@selector(workspaceDidDeactivateApplication:)
+                                        name:NSWorkspaceDidDeactivateApplicationNotification
+                                        object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(applicationDidBecomeActive:)
-                                                     name:NSApplicationDidBecomeActiveNotification
-                                                   object:nil];
+                                              selector:@selector(applicationDidBecomeActive:)
+                                              name:NSApplicationDidBecomeActiveNotification
+                                              object:nil];
     }
     return self;
 }
@@ -50,7 +50,7 @@
         NSWindow *prefsWindow = [prefsWindowController window];
         NSWindow *keyWindow = [[NSApplication sharedApplication] keyWindow];
         if (prefsWindow != keyWindow ||
-            prefsWindowController.window.firstResponder != prefsWindowController.hotkeyField) {
+                prefsWindowController.window.firstResponder != prefsWindowController.hotkeyField) {
             if (_previousState && (keyWindow.styleMask & NSWindowStyleMaskFullScreen)) {
                 [_previousState restorePreviouslyActiveApp];
             } else {

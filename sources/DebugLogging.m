@@ -26,7 +26,7 @@ BOOL gDebugLogging = NO;
 static NSRecursiveLock *GetDebugLogLock(void) {
     static NSRecursiveLock *gDebugLogLock = nil;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         gDebugLogLock = [[NSRecursiveLock alloc] init];
     });
     return gDebugLogLock;
@@ -34,8 +34,8 @@ static NSRecursiveLock *GetDebugLogLock(void) {
 
 static void AppendWindowDescription(NSWindow *window, NSMutableString *windows) {
     [windows appendFormat:@"\nWindow %@\n%@\n",
-     window,
-     [window.contentView iterm_recursiveDescription]];
+             window,
+             [window.contentView iterm_recursiveDescription]];
 }
 
 static void WriteDebugLogHeader() {
@@ -48,36 +48,36 @@ static void WriteDebugLogHeader() {
         [pinnedMessages appendString:gPinnedMessages[key]];
     }
     NSString *header = [NSString stringWithFormat:
-                        @"iTerm2 version: %@\n"
-                        @"Date: %@ (%lld)\n"
-                        @"Key window: %@\n"
-                        @"Windows: %@\n"
-                        @"Ordered windows: %@\n"
-                        @"Pinned messages: %@\n"
-                        @"------ END HEADER ------\n\n",
-                        [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"],
-                        [NSDate date],
-                        (long long)[[NSDate date] timeIntervalSince1970],
-                        [[NSApplication sharedApplication] keyWindow],
-                        windows,
-                        [(iTermApplication *)NSApp orderedWindowsPlusAllHotkeyPanels],
-                        pinnedMessages];
+                                 @"iTerm2 version: %@\n"
+                                 @"Date: %@ (%lld)\n"
+                                 @"Key window: %@\n"
+                                 @"Windows: %@\n"
+                                 @"Ordered windows: %@\n"
+                                 @"Pinned messages: %@\n"
+                                 @"------ END HEADER ------\n\n",
+                                 [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"],
+                                 [NSDate date],
+                                 (long long)[[NSDate date] timeIntervalSince1970],
+                                 [[NSApplication sharedApplication] keyWindow],
+                                 windows,
+                                 [(iTermApplication *)NSApp orderedWindowsPlusAllHotkeyPanels],
+                                 pinnedMessages];
     [gDebugLogHeader release];
     gDebugLogHeader = [header copy];
 }
 
 static void WriteDebugLogFooter() {
-  NSMutableString *windows = [NSMutableString string];
-  for (NSWindow *window in [[NSApplication sharedApplication] windows]) {
-      AppendWindowDescription(window, windows);
-  }
-  NSString *footer = [NSString stringWithFormat:
-                      @"------ BEGIN FOOTER -----\n"
-                      @"Windows: %@\n"
-                      @"Ordered windows: %@\n",
-                      windows,
-                      [(iTermApplication *)NSApp orderedWindowsPlusAllHotkeyPanels]];
-  [gDebugLogStr appendString:footer];
+    NSMutableString *windows = [NSMutableString string];
+    for (NSWindow *window in [[NSApplication sharedApplication] windows]) {
+        AppendWindowDescription(window, windows);
+    }
+    NSString *footer = [NSString stringWithFormat:
+                                 @"------ BEGIN FOOTER -----\n"
+                                 @"Windows: %@\n"
+                                 @"Ordered windows: %@\n",
+                                 windows,
+                                 [(iTermApplication *)NSApp orderedWindowsPlusAllHotkeyPanels]];
+    [gDebugLogStr appendString:footer];
 }
 
 static void FlushDebugLog() {
@@ -88,7 +88,7 @@ static void FlushDebugLog() {
     [log appendString:gDebugLogStr ?: @""];
 
     if ([iTermAdvancedSettingsModel appendToExistingDebugLog] &&
-        [[NSFileManager defaultManager] fileExistsAtPath:kDebugLogFilename]) {
+            [[NSFileManager defaultManager] fileExistsAtPath:kDebugLogFilename]) {
         NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:kDebugLogFilename];
         [fileHandle seekToEndOfFile];
         [fileHandle writeData:[log dataUsingEncoding:NSUTF8StringEncoding]];
@@ -175,13 +175,13 @@ int DebugLogImpl(const char *file, int line, const char *function, NSString* val
             lastSlash++;
         }
         [gDebugLogStr appendFormat:@"%lld.%06lld %s:%d (%s): ",
-            (long long)tv.tv_sec, (long long)tv.tv_usec, lastSlash, line, function];
+                      (long long)tv.tv_sec, (long long)tv.tv_usec, lastSlash, line, function];
         [gDebugLogStr appendString:value];
         [gDebugLogStr appendString:@"\n"];
         static const NSInteger kMaxLogSize = 100000000;
         if ([gDebugLogStr length] > kMaxLogSize) {
             [gDebugLogStr replaceCharactersInRange:NSMakeRange(0, kMaxLogSize / 2)
-                                        withString:@"*GIANT LOG TRUNCATED*\n"];
+                          withString:@"*GIANT LOG TRUNCATED*\n"];
         }
         [GetDebugLogLock() unlock];
     }
@@ -193,7 +193,7 @@ void LogForNextCrash(const char *file, int line, const char *function, NSString*
     NSFileHandle *handleToUse;
     static dispatch_once_t onceToken;
     static NSObject *object;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         object = [[NSObject alloc] init];
     });
     @synchronized (object) {
@@ -207,8 +207,8 @@ void LogForNextCrash(const char *file, int line, const char *function, NSString*
             handle = [[NSFileHandle fileHandleForWritingAtPath:path] retain];
             NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
             dateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"yyyy-MM-dd HH:mm:ss.SSS ZZZ"
-                                                                       options:0
-                                                                        locale:nil];
+                                                        options:0
+                                                        locale:nil];
             NSDate *date = [NSDate dateWithTimeIntervalSinceNow:-clock()/CLOCKS_PER_SEC];
             NSString *string = [NSString stringWithFormat:@"%@ %@\n", @(getpid()), [dateFormatter stringFromDate:date]];
             [handle writeData:[string dataUsingEncoding:NSUTF8StringEncoding]];
@@ -226,7 +226,7 @@ void LogForNextCrash(const char *file, int line, const char *function, NSString*
         lastSlash++;
     }
     NSString *string = [NSString stringWithFormat:@"%lld.%06lld %s:%d (%s): %@\n",
-                        (long long)tv.tv_sec, (long long)tv.tv_usec, lastSlash, line, function, value];
+                                 (long long)tv.tv_sec, (long long)tv.tv_usec, lastSlash, line, function, value];
     @synchronized (object) {
         [handleToUse writeData:[string dataUsingEncoding:NSUTF8StringEncoding]];
         [handleToUse synchronizeFile];
@@ -240,7 +240,7 @@ static void StartDebugLogging() {
     if (!gDebugLogging) {
         if (![iTermAdvancedSettingsModel appendToExistingDebugLog]) {
             [[NSFileManager defaultManager] removeItemAtURL:[NSURL fileURLWithPath:kDebugLogFilename]
-                                                      error:nil];
+                                            error:nil];
         }
         gDebugLogStr = [[NSMutableString alloc] init];
         gDebugLogging = !gDebugLogging;
@@ -314,8 +314,8 @@ void DLogC(const char *format, va_list args) {
         userInfo = temp;
     }
     @throw [NSException exceptionWithName:self.name
-                                   reason:[NSString stringWithFormat:@"%@:\n%@", string, self.reason]
-                                 userInfo:userInfo];
+                        reason:[NSString stringWithFormat:@"%@:\n%@", string, self.reason]
+                        userInfo:userInfo];
 }
 
 - (NSArray<NSString *> *)it_originalCallStackSymbols {

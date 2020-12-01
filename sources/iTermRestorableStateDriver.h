@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)loadRestorableStateIndexWithCompletion:(void (^)(id<iTermRestorableStateIndex> _Nullable))completion;
 
 - (void)restoreWindowWithRecord:(id<iTermRestorableStateRecord>)record
-                     completion:(void (^)(void))completion;
+    completion:(void (^)(void))completion;
 
 - (void)restoreApplicationState;
 
@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)restorableStateWindowNeedsRestoration:(NSWindow *)window;
 
 - (void)restorableStateEncodeWithCoder:(NSCoder *)coder
-                                window:(NSWindow *)window;
+    window:(NSWindow *)window;
 
 @end
 
@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
 // ready is called after all windows have been asked to restore.
 // completion is called when they are actually restored.
 - (void)restoreWithReady:(void (^)(void))ready
-              completion:(void (^)(void))completion;
+    completion:(void (^)(void))completion;
 - (void)save;
 - (void)saveSynchronously;
 - (void)eraseSynchronously:(BOOL)sync;

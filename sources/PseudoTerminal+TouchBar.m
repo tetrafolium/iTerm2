@@ -140,7 +140,7 @@ ITERM_IGNORE_PARTIAL_BEGIN
             self.touchBar = replacement;
         } else {
             NSScrubber *scrubber = (NSScrubber *)self.tabsTouchBarItem.view;
-            dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_main_queue(), ^ {
                 [scrubber reloadData];
                 [scrubber setSelectedIndex:[self.tabs indexOfObject:self.currentTab]];
             });
@@ -157,8 +157,8 @@ ITERM_IGNORE_PARTIAL_BEGIN
                           iTermTouchBarIdentifierStatus ];
         NSArray<iTermTouchbarItem *> *items = [iTermTouchbarMappings sortedTouchbarItemsInDictionary:[iTermTouchbarMappings globalTouchBarMap]];
         NSArray<NSString *> *customIDs = [items mapWithBlock:^id(iTermTouchbarItem *anObject) {
-            return anObject.identifier;
-        }];
+                  return anObject.identifier;
+              }];
         customIDs = [self idsByAddingVersions:customIDs];
         ids = [ids arrayByAddingObjectsFromArray:customIDs];
         self.touchBar.customizationAllowedItemIdentifiers = ids;
@@ -189,7 +189,7 @@ ITERM_IGNORE_PARTIAL_BEGIN
     assert(binding);
     static NSMutableDictionary<NSString *, NSDictionary *> *table;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         table = [[NSMutableDictionary alloc] init];
     });
     NSString *const bindingKey = @"binding";
@@ -200,19 +200,19 @@ ITERM_IGNORE_PARTIAL_BEGIN
         return entry[versionKey];
     }
     if (!existingBinding) {
-        table[identifier] = @{ bindingKey: binding, versionKey: @0 };
+        table[identifier] = @ { bindingKey: binding, versionKey: @0 };
         return @0;
     }
     NSNumber *const lastVersion = entry[versionKey];
     NSNumber *const currentVersion = @(lastVersion.integerValue + 1);
-    table[identifier] = @{ bindingKey: binding, versionKey: currentVersion };
+    table[identifier] = @ { bindingKey: binding, versionKey: currentVersion };
     return currentVersion;
 }
 
 - (NSArray<NSString *> *)idsByAddingVersions:(NSArray<NSString *> *)unversioned {
     NSDictionary *map = [iTermTouchbarMappings globalTouchBarMap];
     return [unversioned mapWithBlock:^id(NSString *string) {
-        NSDictionary *binding = map[string];
+                    NSDictionary *binding = map[string];
         return [string stringByAppendingFormat:@"/v%@", [self versionFor:string withValue:binding]];
     }];
 }
@@ -250,8 +250,8 @@ ITERM_IGNORE_PARTIAL_BEGIN
             button.imagePosition = NSImageLeft;
             button.enabled = YES;
             NSString *manCommand = [NSString stringWithFormat:[iTermAdvancedSettingsModel viewManPageCommand],
-                                    [word stringWithEscapedShellCharactersIncludingNewlines:YES]];
-            button.keyBindingAction = @{ @"command": manCommand };
+                                             [word stringWithEscapedShellCharactersIncludingNewlines:YES]];
+            button.keyBindingAction = @ { @"command": manCommand };
         }
     } else if (button.enabled) {
         button.title = @"";
@@ -294,54 +294,54 @@ ITERM_IGNORE_PARTIAL_BEGIN
     if (previous == nil) {
         // Constrain the first item's left to the document view's left
         [documentView addConstraint:[NSLayoutConstraint constraintWithItem:button
-                                                                 attribute:NSLayoutAttributeLeft
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:documentView
-                                                                 attribute:NSLayoutAttributeLeft
-                                                                multiplier:1
-                                                                  constant:0]];
+                                     attribute:NSLayoutAttributeLeft
+                                     relatedBy:NSLayoutRelationEqual
+                                     toItem:documentView
+                                     attribute:NSLayoutAttributeLeft
+                                     multiplier:1
+                                     constant:0]];
     } else {
         // Constrain non-first button's left to predecessor's right + 8pt
         [documentView addConstraint:[NSLayoutConstraint constraintWithItem:button
-                                                                 attribute:NSLayoutAttributeLeft
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:previous
-                                                                 attribute:NSLayoutAttributeRight
-                                                                multiplier:1
-                                                                  constant:8]];
+                                     attribute:NSLayoutAttributeLeft
+                                     relatedBy:NSLayoutRelationEqual
+                                     toItem:previous
+                                     attribute:NSLayoutAttributeRight
+                                     multiplier:1
+                                     constant:8]];
     }
     // Constrain top and bottom to document view's top and bottom
     [documentView addConstraint:[NSLayoutConstraint constraintWithItem:button
-                                                             attribute:NSLayoutAttributeTop
-                                                             relatedBy:NSLayoutRelationEqual
-                                                                toItem:documentView
-                                                             attribute:NSLayoutAttributeTop
-                                                            multiplier:1
-                                                              constant:0]];
+                                 attribute:NSLayoutAttributeTop
+                                 relatedBy:NSLayoutRelationEqual
+                                 toItem:documentView
+                                 attribute:NSLayoutAttributeTop
+                                 multiplier:1
+                                 constant:0]];
     [documentView addConstraint:[NSLayoutConstraint constraintWithItem:button
-                                                             attribute:NSLayoutAttributeBottom
-                                                             relatedBy:NSLayoutRelationEqual
-                                                                toItem:documentView
-                                                             attribute:NSLayoutAttributeBottom
-                                                            multiplier:1
-                                                              constant:0]];
+                                 attribute:NSLayoutAttributeBottom
+                                 relatedBy:NSLayoutRelationEqual
+                                 toItem:documentView
+                                 attribute:NSLayoutAttributeBottom
+                                 multiplier:1
+                                 constant:0]];
 }
 
 - (void)constrainButton:(NSButton *)previous toRightOfSuperview:(NSView *)documentView {
     // Constrain button's right to document view's right
     [documentView addConstraint:[NSLayoutConstraint constraintWithItem:previous
-                                                             attribute:NSLayoutAttributeRight
-                                                             relatedBy:NSLayoutRelationEqual
-                                                                toItem:documentView
-                                                             attribute:NSLayoutAttributeRight
-                                                            multiplier:1
-                                                              constant:0]];
+                                 attribute:NSLayoutAttributeRight
+                                 relatedBy:NSLayoutRelationEqual
+                                 toItem:documentView
+                                 attribute:NSLayoutAttributeRight
+                                 multiplier:1
+                                 constant:0]];
 }
 
 - (void)addButtonsToColorPresetsDocumentView:(NSView *)documentView {
     NSButton *previous = nil;
-    for (NSDictionary *dict in @[ [iTermColorPresets builtInColorPresets] ?: @{},
-                                  [iTermColorPresets customColorPresets] ?: @{} ]) {
+    for (NSDictionary *dict in @[ [iTermColorPresets builtInColorPresets] ?: @ {},
+                                                                          [iTermColorPresets customColorPresets] ?: @ {} ]) {
         for (NSString *name in dict) {
             iTermTouchBarButton *button;
             NSColor *textColor = nil;
@@ -351,16 +351,16 @@ ITERM_IGNORE_PARTIAL_BEGIN
                 continue;
             }
             backgroundColor = [ITAddressBookMgr decodeColor:[dict objectForKey:name][KEY_BACKGROUND_COLOR]];
-            NSDictionary *attributes = @{ NSForegroundColorAttributeName: textColor };
+            NSDictionary *attributes = @ { NSForegroundColorAttributeName: textColor };
             NSAttributedString *title = [[[NSAttributedString alloc] initWithString:name
-                                                                         attributes:attributes] autorelease];
+                                                                      attributes:attributes] autorelease];
             button = [iTermTouchBarButton buttonWithTitle:@""
-                                                   target:self
-                                                   action:@selector(colorPresetTouchBarItemSelected:)];
+                                          target:self
+                                          action:@selector(colorPresetTouchBarItemSelected:)];
             [button sizeToFit];
             button.attributedTitle = title;
             button.bezelColor = backgroundColor;
-            button.keyBindingAction = @{ @"presetName": name };
+            button.keyBindingAction = @ { @"presetName": name };
             [documentView addSubview:button];
             button.translatesAutoresizingMaskIntoConstraints = NO;
             [self addConstraintsToButton:button superView:documentView previous:previous];;
@@ -418,7 +418,7 @@ ITERM_IGNORE_PARTIAL_BEGIN
         // Reload the scrubber after a spin of the runloop because it gets laid out tighter after the
         // rest of the toolbar is created. If we reloadData now then it jumps the first time we change
         // tabs.
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^ {
             [scrubber reloadData];
             [scrubber setSelectedIndex:[self.tabs indexOfObject:self.currentTab]];
         });
@@ -430,8 +430,8 @@ ITERM_IGNORE_PARTIAL_BEGIN
         self.autocompleteCandidateListItem.delegate = self;
         self.autocompleteCandidateListItem.customizationLabel = @"Autocomplete Suggestions";
         NSAttributedString *(^commandUseToAttributedString)(NSString *commandUse,
-                                                            NSInteger index) = ^(NSString *command,
-                                                                                 NSInteger index) {
+                NSInteger index) = ^(NSString *command,
+        NSInteger index) {
             return [[[NSAttributedString alloc] initWithString:command ?: @""] autorelease];
         };
         self.autocompleteCandidateListItem.attributedStringForCandidate = commandUseToAttributedString;
@@ -508,7 +508,7 @@ ITERM_IGNORE_PARTIAL_BEGIN
         }
         return item;
     }
-    
+
     // Custom action
     NSString *unversionedIdentifier = [self idByRemovingVersion:identifier];
     NSDictionary *map = [iTermTouchbarMappings globalTouchBarMap];
@@ -523,8 +523,8 @@ ITERM_IGNORE_PARTIAL_BEGIN
     }
     NSCustomTouchBarItem *item = [[[NSCustomTouchBarItem alloc] initWithIdentifier:identifier] autorelease];
     iTermTouchBarButton *button = [iTermTouchBarButton buttonWithTitle:action.label
-                                                                target:self
-                                                                action:@selector(touchBarItemSelected:)];
+                                                       target:self
+                                                       action:@selector(touchBarItemSelected:)];
     button.keyBindingAction = binding;
     item.view = button;
     item.view.identifier = identifier;
@@ -566,13 +566,13 @@ ITERM_IGNORE_PARTIAL_BEGIN
     NSString *command = sender.keyBindingAction[@"command"];
     if (command) {
         [[iTermController sharedInstance] openSingleUseWindowWithCommand:command
-                                                                  inject:nil
-                                                             environment:nil
-                                                                     pwd:nil
-                                                                 options:(iTermSingleUseWindowOptionsDoNotEscapeArguments |
-                                                                          iTermSingleUseWindowOptionsCloseOnTermination)
-                                                          didMakeSession:nil
-                                                              completion:nil];
+                                          inject:nil
+                                          environment:nil
+                                          pwd:nil
+                                          options:(iTermSingleUseWindowOptionsDoNotEscapeArguments |
+                                                   iTermSingleUseWindowOptionsCloseOnTermination)
+                                          didMakeSession:nil
+                                          completion:nil];
     }
 }
 
@@ -624,15 +624,15 @@ ITERM_IGNORE_PARTIAL_BEGIN
     NSString *chars = [NSString stringWithFormat:@"%C", (unichar)(NSF1FunctionKey + number - 1)];
     NSPoint screenPoint = [NSEvent mouseLocation];
     NSEvent *event = [NSEvent keyEventWithType:NSEventTypeKeyDown
-                                      location:[self.window convertRectFromScreen:NSMakeRect(screenPoint.x, screenPoint.y, 0, 0)].origin
-                                 modifierFlags:([NSEvent modifierFlags] | NSEventModifierFlagFunction)
-                                     timestamp:[currentEvent timestamp]
-                                  windowNumber:self.window.windowNumber
-                                       context:nil
-                                    characters:chars
-                   charactersIgnoringModifiers:chars
-                                     isARepeat:NO
-                                       keyCode:keyCodes[number - 1]];
+                              location:[self.window convertRectFromScreen:NSMakeRect(screenPoint.x, screenPoint.y, 0, 0)].origin
+                              modifierFlags:([NSEvent modifierFlags] | NSEventModifierFlagFunction)
+                              timestamp:[currentEvent timestamp]
+                              windowNumber:self.window.windowNumber
+                              context:nil
+                              characters:chars
+                              charactersIgnoringModifiers:chars
+                              isARepeat:NO
+                              keyCode:keyCodes[number - 1]];
 
     iTermApplication *app = [iTermApplication sharedApplication];
     if ([app routeEventToShortcutInputView:event]) {
@@ -681,8 +681,8 @@ ITERM_IGNORE_PARTIAL_BEGIN
 
     NSString *title = [self scrubber:scrubber labelAtIndex:itemIndex];
     NSRect textRect = [title boundingRectWithSize:size
-                                          options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
-                                       attributes:@{ NSFontAttributeName: [NSFont systemFontOfSize:0]}];
+                             options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                             attributes:@ { NSFontAttributeName: [NSFont systemFontOfSize:0]}];
     // Apple says: "+10: NSTextField horizontal padding, no good way to retrieve this though. +6 for spacing."
     // 8 is because the items become smaller the first time you change tabs for some mysterious reason
     // and that leaves enough room for them. :(

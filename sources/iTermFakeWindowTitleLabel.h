@@ -25,8 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 // center-aligned in caller-defined circumstances (e.g., when long) based on
 // the fitting size.
 - (void)setTitle:(NSString *)title
-            icon:(NSImage *)icon
-alignmentProvider:(NSTextAlignment (^NS_NOESCAPE)(NSTextField *scratch))alignmentProvider;
+    icon:(NSImage *)icon
+    alignmentProvider:(NSTextAlignment (^NS_NOESCAPE)(NSTextField *scratch))alignmentProvider;
 
 @end
 

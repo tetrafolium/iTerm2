@@ -35,7 +35,7 @@
 
 @end
 
-@interface iTermTabColorMenuItem: NSMenuItem
+@interface iTermTabColorMenuItem : NSMenuItem
 @property (nonatomic, readonly) ColorsMenuItemView *colorsView;
 @end
 

@@ -33,8 +33,8 @@
 @property(nonatomic, assign) id<iTermHotKeyDelegate> delegate;
 
 - (instancetype)initWithShortcuts:(NSArray<iTermShortcut *> *)shortcuts
-            hasModifierActivation:(BOOL)hasModifierActivation
-               modifierActivation:(iTermHotKeyModifierActivation)modifierActivation NS_DESIGNATED_INITIALIZER;
+    hasModifierActivation:(BOOL)hasModifierActivation
+    modifierActivation:(iTermHotKeyModifierActivation)modifierActivation NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -42,7 +42,7 @@
 - (void)unregister;
 - (void)setShortcuts:(NSArray<iTermShortcut *> *)shortcuts
     hasModifierActivation:(BOOL)hasModifierActivation
-      modifierActivation:(iTermHotKeyModifierActivation)modifierActivation;
+    modifierActivation:(iTermHotKeyModifierActivation)modifierActivation;
 @end
 
 @interface iTermBaseHotKey(Internal)

@@ -30,22 +30,22 @@
     NSData *gzipped = [NSData dataWithContentsOfURL:url options:0 error:&error];
     if (!gzipped) {
         [iTermWarning showWarningWithTitle:error.localizedDescription ?: @"Unknown error"
-                                   actions:@[ @"OK" ]
-                                 accessory:nil
-                                identifier:@"RecordingMalformed"
-                               silenceable:kiTermWarningTypePersistent
-                                   heading:@"Could not read the file: its envelope was malformed."
-                                    window:nil];
+                      actions:@[ @"OK" ]
+                      accessory:nil
+                      identifier:@"RecordingMalformed"
+                      silenceable:kiTermWarningTypePersistent
+                      heading:@"Could not read the file: its envelope was malformed."
+                      window:nil];
         return;
     }
 
     NSData *data = [gzipped gunzippedData];
     if (!data) {
         [iTermWarning showWarningWithTitle:@"Could not read the file: decompression failed."
-                                   actions:@[ @"OK" ]
-                                identifier:@"RecordingMalformed"
-                               silenceable:kiTermWarningTypePersistent
-                                    window:nil];
+                      actions:@[ @"OK" ]
+                      identifier:@"RecordingMalformed"
+                      silenceable:kiTermWarningTypePersistent
+                      window:nil];
         return;
     }
     // I don't know why, but if you only give it a dictionary it fails to
@@ -54,19 +54,19 @@
     NSDictionary *dict = [data it_unarchivedObjectOfClasses:@[ [NSDictionary class], [NSArray class] ]];
     if (![dict isKindOfClass:[NSDictionary class]]) {
         [iTermWarning showWarningWithTitle:@"Could not read the file: unarchiving decompressed data failed."
-                                   actions:@[ @"OK" ]
-                                identifier:@"RecordingMalformed"
-                               silenceable:kiTermWarningTypePersistent
-                                    window:nil];
+                      actions:@[ @"OK" ]
+                      identifier:@"RecordingMalformed"
+                      silenceable:kiTermWarningTypePersistent
+                      window:nil];
         return;
     }
 
     if (![dict[@"version"] isEqual:@1]) {
         [iTermWarning showWarningWithTitle:@"This recording is from a newer version of iTerm2 and cannot be replayed in this version."
-                                   actions:@[ @"OK" ]
-                                identifier:@"RecordingMalformed"
-                               silenceable:kiTermWarningTypePersistent
-                                    window:nil];
+                      actions:@[ @"OK" ]
+                      identifier:@"RecordingMalformed"
+                      silenceable:kiTermWarningTypePersistent
+                      window:nil];
         return;
     }
 
@@ -74,10 +74,10 @@
     Profile *dictProfile = dict[@"profile"];
     if (!dvrDict || !dictProfile) {
         [iTermWarning showWarningWithTitle:@"This recording could not be loaded because it is missing critical information."
-                                   actions:@[ @"OK" ]
-                                identifier:@"RecordingMalformed"
-                               silenceable:kiTermWarningTypePersistent
-                                    window:nil];
+                      actions:@[ @"OK" ]
+                      identifier:@"RecordingMalformed"
+                      silenceable:kiTermWarningTypePersistent
+                      window:nil];
         return;
     }
 
@@ -86,46 +86,46 @@
     }
 
     [iTermSessionLauncher launchBookmark:dictProfile
-                              inTerminal:nil
-                                 withURL:nil
-                        hotkeyWindowType:iTermHotkeyWindowTypeNone
-                                 makeKey:YES
-                             canActivate:YES
-                      respectTabbingMode:NO
-                                 command:nil
-                             makeSession:^(NSDictionary *profile, PseudoTerminal *windowController, void (^makeSessionCompletion)(PTYSession *)) {
-        PTYSession *newSession = [[PTYSession alloc] initSynthetic:YES];
-        newSession.profile = profile;
+                          inTerminal:nil
+                          withURL:nil
+                          hotkeyWindowType:iTermHotkeyWindowTypeNone
+                          makeKey:YES
+                          canActivate:YES
+                          respectTabbingMode:NO
+                          command:nil
+                         makeSession:^(NSDictionary *profile, PseudoTerminal *windowController, void (^makeSessionCompletion)(PTYSession *)) {
+                             PTYSession *newSession = [[PTYSession alloc] initSynthetic:YES];
+                             newSession.profile = profile;
         [newSession.screen.dvr loadDictionary:dvrDict];
         [windowController setupSession:newSession withSize:nil];
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^ {
             [windowController replaySession:newSession];
         });
         [windowController insertSession:newSession atIndex:0];
         makeSessionCompletion(newSession);
     }
-                          didMakeSession:nil
-                              completion:nil];
+    didMakeSession:nil
+    completion:nil];
 }
 
 + (void)exportRecording:(PTYSession *)session {
     [self exportRecording:session
-                     from:session.screen.dvr.firstTimeStamp
-                       to:session.screen.dvr.lastTimeStamp];
+          from:session.screen.dvr.firstTimeStamp
+          to:session.screen.dvr.lastTimeStamp];
 }
 
 + (void)exportRecording:(PTYSession *)session from:(long long)from to:(long long)to {
     iTermSavePanel *savePanel = [iTermSavePanel showWithOptions:0
-                                                     identifier:@"ExportRecording"
-                                               initialDirectory:NSHomeDirectory()
+                                                identifier:@"ExportRecording"
+                                                initialDirectory:NSHomeDirectory()
                                                 defaultFilename:@"Recording.itr"
-                                               allowedFileTypes:@[ @"itr" ]];
+                                                allowedFileTypes:@[ @"itr" ]];
     if (savePanel.path) {
         NSURL *url = [NSURL fileURLWithPath:savePanel.path];
         if (url) {
             NSDictionary *dvrDict = [session.screen.dvr dictionaryValueFrom:from to:to];
             if (dvrDict) {
-                NSMutableDictionary *profile = [session.profile ?: @{} mutableCopy];
+                NSMutableDictionary *profile = [session.profile ?: @ {} mutableCopy];
                 // Remove any private info that isn't visible.
                 [profile removeObjectForKey:KEY_NAME];
                 [profile removeObjectForKey:KEY_COMMAND_LINE];
@@ -143,27 +143,31 @@
                 // Make sure the GUID doesn't match an existing one.
                 profile[KEY_GUID] = [[NSUUID UUID] UUIDString];
 
-                NSDictionary *dict = @{ @"dvr": dvrDict,
-                                        @"profile": profile,
-                                        @"version": @1 };
+                NSDictionary *dict = @ { @"dvr":
+                                         dvrDict,
+                                         @"profile":
+                                         profile,
+                                         @"version":
+                                         @1
+                                       };
                 NSData *dictData = [[NSData it_dataWithArchivedObject:dict] gzippedData];
                 NSError *error = nil;
                 BOOL ok = [dictData writeToURL:url options:0 error:&error];
                 if (!ok) {
                     [iTermWarning showWarningWithTitle:error.localizedDescription
-                                               actions:@[ @"OK" ]
-                                             accessory:nil
-                                            identifier:@"ErrorSavingRecording"
-                                           silenceable:kiTermWarningTypePersistent
-                                               heading:@"The recording could not be saved."
-                                                window:nil];
+                                  actions:@[ @"OK" ]
+                                  accessory:nil
+                                  identifier:@"ErrorSavingRecording"
+                                  silenceable:kiTermWarningTypePersistent
+                                  heading:@"The recording could not be saved."
+                                  window:nil];
                 }
             } else {
                 [iTermWarning showWarningWithTitle:@"Error encoding recording."
-                                           actions:@[ @"OK" ]
-                                        identifier:@"ErrorSavingRecording"
-                                       silenceable:kiTermWarningTypePersistent
-                                            window:nil];
+                              actions:@[ @"OK" ]
+                              identifier:@"ErrorSavingRecording"
+                              silenceable:kiTermWarningTypePersistent
+                              window:nil];
             }
         }
     }

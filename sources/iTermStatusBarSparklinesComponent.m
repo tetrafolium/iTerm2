@@ -55,21 +55,21 @@ static const CGFloat iTermStatusBarSparklineBottomMargin = 2;
         return self;
     }
     return [[iTermStatusBarTimeSeriesRendition alloc] initWithTimeSeries:[self.timeSeries timeSeriesWithLastN:n]
-                                                                   color:self.color];
+                                                      color:self.color];
 }
 
 @end
 
-@interface iTermStatusBarTimeSeriesLayer: CALayer
+@interface iTermStatusBarTimeSeriesLayer : CALayer
 @property (nonatomic, strong) iTermStatusBarTimeSeriesRendition *rendition;
 @property (nonatomic, readonly, copy) NSString *label;
 @property (nonatomic, readonly) NSInteger maximumNumberOfValues;
 @property (nonatomic) double ceiling;
 
 - (instancetype)initWithLabel:(NSString *)label
-                    rendition:(iTermStatusBarTimeSeriesRendition *)rendition
-        maximumNumberOfValues:(NSInteger)maximumNumberOfValues
-                      ceiling:(double)ceiling NS_DESIGNATED_INITIALIZER;
+    rendition:(iTermStatusBarTimeSeriesRendition *)rendition
+    maximumNumberOfValues:(NSInteger)maximumNumberOfValues
+    ceiling:(double)ceiling NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;
 - (instancetype)initWithLayer:(id)layer NS_UNAVAILABLE;
@@ -83,9 +83,9 @@ static const CGFloat iTermStatusBarSparklineBottomMargin = 2;
 }
 
 - (instancetype)initWithLabel:(NSString *)label
-                    rendition:(iTermStatusBarTimeSeriesRendition *)rendition
-        maximumNumberOfValues:(NSInteger)maximumNumberOfValues
-                      ceiling:(double)ceiling {
+    rendition:(iTermStatusBarTimeSeriesRendition *)rendition
+    maximumNumberOfValues:(NSInteger)maximumNumberOfValues
+    ceiling:(double)ceiling {
     self = [super init];
     if (self) {
         _label = [label copy];
@@ -106,8 +106,8 @@ static const CGFloat iTermStatusBarSparklineBottomMargin = 2;
 }
 
 - (void)setRendition:(iTermStatusBarTimeSeriesRendition *)rendition
-             ceiling:(double)ceiling
-            animated:(BOOL)animated {
+    ceiling:(double)ceiling
+    animated:(BOOL)animated {
     _rendition = rendition;
     _ceiling = ceiling;
     [self updateAnimated:animated];
@@ -171,7 +171,7 @@ static const CGFloat iTermStatusBarSparklineBottomMargin = 2;
 - (CGPathRef)desiredPathDroppingFirst:(NSInteger)count {
     NSArray<NSNumber *> *values = [[self.rendition.timeSeries.values subarrayFromIndex:count] it_arrayByKeepingLastN:self.maximumNumberOfValues];
     return [self bezierPathWithValues:values
-                               inRect:self.bounds].iterm_openCGPath;
+                 inRect:self.bounds].iterm_openCGPath;
 }
 
 - (CGPathRef)desiredPathFromLast:(NSInteger)count offset:(CGFloat)offset {
@@ -180,7 +180,7 @@ static const CGFloat iTermStatusBarSparklineBottomMargin = 2;
     NSRect rect = self.bounds;
     rect.origin.x += offset;
     return [self bezierPathWithValues:values
-                               inRect:rect].iterm_openCGPath;
+                 inRect:rect].iterm_openCGPath;
 }
 
 - (void)updateAnimated:(BOOL)animated {
@@ -196,14 +196,14 @@ static const CGFloat iTermStatusBarSparklineBottomMargin = 2;
             [self initializeSublayerFramesAndPaths:NO];
             _shapeLayers[0].path = _shapeLayers[1].path;
             _shapeLayers[1].path = [self desiredPathFromLast:_offset / barWidth + 2
-                                                      offset:0];
+                                    offset:0];
             [CATransaction commit];
         } else {
             // Both layers are visible
             [CATransaction begin];
             [CATransaction setDisableActions:YES];
             _shapeLayers[1].path = [self desiredPathFromLast:_offset / barWidth + 2
-                                                      offset:0];
+                                    offset:0];
             [CATransaction commit];
         }
         _offset += barWidth;
@@ -226,7 +226,7 @@ static const CGFloat iTermStatusBarSparklineBottomMargin = 2;
 }
 
 - (NSArray<NSNumber *> *)postPaddedValues:(NSArray<NSNumber *> *)values
-                                 toLength:(NSInteger)length {
+    toLength:(NSInteger)length {
     if (values.count >= length) {
         return values;
     }
@@ -244,7 +244,7 @@ static const CGFloat iTermStatusBarSparklineBottomMargin = 2;
 }
 
 - (NSBezierPath *)bezierPathWithValues:(NSArray<NSNumber *> *)originalValues
-                                inRect:(NSRect)rect {
+    inRect:(NSRect)rect {
     if (self.maximumNumberOfValues == 0) {
         return nil;
     }
@@ -294,8 +294,8 @@ static const CGFloat iTermStatusBarSparklineBottomMargin = 2;
 
 - (iTermStatusBarSparklinesModel *)modelKeepingLast:(NSInteger)n {
     return [[iTermStatusBarSparklinesModel alloc] initWithDictionary:[_timeSeriesDict mapValuesWithBlock:^id(NSString *key, iTermStatusBarTimeSeriesRendition *object) {
-        return [object renditionKeepingLast:n];
-    }]];
+                                              return [object renditionKeepingLast:n];
+                                          }]];
 }
 
 - (NSInteger)count {
@@ -310,11 +310,11 @@ static const CGFloat iTermStatusBarSparklineBottomMargin = 2;
     }
     NSArray<NSNumber *> *allValues =
     [_timeSeriesDict.allValues flatMapWithBlock:^NSArray *(iTermStatusBarTimeSeriesRendition *rendition) {
-        return rendition.timeSeries.values;
-    }];
+                                  return rendition.timeSeries.values;
+                              }];
     return [allValues maxWithComparator:^NSComparisonResult(NSNumber *a, NSNumber *b) {
-        return [a compare:b];
-    }];
+                  return [a compare:b];
+              }];
 }
 
 @end
@@ -350,7 +350,7 @@ static const CGFloat iTermStatusBarSparklineBottomMargin = 2;
         if (preferredWidth != nil) {
             *preferredWidth = 0;
         }
-        return [[iTermStatusBarSparklinesModel alloc] initWithDictionary:@{}];
+        return [[iTermStatusBarSparklinesModel alloc] initWithDictionary:@ {}];
     }
 
     iTermStatusBarSparklinesModel *model = [self.sparklinesModel modelKeepingLast:maximumWidth];
@@ -370,13 +370,13 @@ static const CGFloat iTermStatusBarSparklineBottomMargin = 2;
         self.view.contentView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
         [self.view addSubview:self.view.contentView];
         _layers = [model.timeSeriesDict mapValuesWithBlock:^id(NSString *key, iTermStatusBarTimeSeriesRendition *rendition) {
-            iTermStatusBarTimeSeriesLayer *layer =
-            [[iTermStatusBarTimeSeriesLayer alloc] initWithLabel:key
-                                                       rendition:rendition
-                                           maximumNumberOfValues:self.maximumNumberOfValues
-                                                         ceiling:ceiling];
-            layer.frame = self.view.contentView.layer.bounds;
-            layer.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+                                 iTermStatusBarTimeSeriesLayer *layer =
+                                     [[iTermStatusBarTimeSeriesLayer alloc] initWithLabel:key
+                                      rendition:rendition
+                                      maximumNumberOfValues:self.maximumNumberOfValues
+                                      ceiling:ceiling];
+                                 layer.frame = self.view.contentView.layer.bounds;
+                                 layer.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
             [self.view.contentView.layer addSublayer:layer];
             return layer;
         }];
@@ -384,10 +384,10 @@ static const CGFloat iTermStatusBarSparklineBottomMargin = 2;
         return;
     }
     [_layers enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, iTermStatusBarTimeSeriesLayer * _Nonnull layer, BOOL * _Nonnull stop) {
-        layer.frame = self.view.contentView.layer.bounds;
+                layer.frame = self.view.contentView.layer.bounds;
         [layer setRendition:model.timeSeriesDict[key]
-                    ceiling:ceiling
-                   animated:animated];
+               ceiling:ceiling
+               animated:animated];
     }];
     [self updateAccessories];
 }
@@ -417,7 +417,7 @@ static const CGFloat iTermStatusBarSparklineBottomMargin = 2;
         [self.view addSubview:_leftTextView];
     }
     _leftTextView.attributedStringValue = [[NSAttributedString alloc] initWithString:leftText
-                                                                          attributes:self.leftAttributes ?: @{}];
+                                                                      attributes:self.leftAttributes ?: @ {}];
     [_leftTextView sizeToFit];
     _leftTextView.frame = NSMakeRect(0,
                                      -self.textOffset,
@@ -429,7 +429,7 @@ static const CGFloat iTermStatusBarSparklineBottomMargin = 2;
         [self.view addSubview:_rightTextView];
     }
     _rightTextView.attributedStringValue = [[NSAttributedString alloc] initWithString:rightText
-                                                                          attributes:self.rightAttributes ?: @{}];
+                                                                       attributes:self.rightAttributes ?: @ {}];
     [_rightTextView sizeToFit];
     _rightTextView.frame = NSMakeRect(NSWidth(self.view.frame) - self.rightSize.width,
                                       -self.textOffset,

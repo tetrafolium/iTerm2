@@ -13,13 +13,14 @@ const char *iTermTextureMetadataKey = "iTermTextureMetadataKey";
 @implementation iTermTexture
 
 + (void)setBytesPerRow:(int)bytesPerRow
-           rawDataSize:(int)size
-       samplesPerPixel:(int)samplesPerPixel
-            forTexture:(id<MTLTexture>)texture {
-    [self attachMetadata:@{ @"bytesPerRow": @(bytesPerRow),
-                            @"rawDataSize": @(size),
-                            @"samplesPerPixel": @(samplesPerPixel) }
-               toTexture:texture];
+    rawDataSize:(int)size
+    samplesPerPixel:(int)samplesPerPixel
+    forTexture:(id<MTLTexture>)texture {
+    [self attachMetadata:@ { @"bytesPerRow": @(bytesPerRow),
+                             @"rawDataSize": @(size),
+                             @"samplesPerPixel": @(samplesPerPixel)
+                           }
+          toTexture:texture];
 }
 
 + (void)attachMetadata:(NSDictionary *)metadata toTexture:(id<MTLTexture>)texture {

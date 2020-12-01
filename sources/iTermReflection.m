@@ -14,7 +14,7 @@
 @implementation iTermReflectionMethodArgument
 
 - (instancetype)initWithObjectHavingClassName:(NSString *)className
-                                 argumentName:(NSString *)argumentName {
+    argumentName:(NSString *)argumentName {
     self = [super init];
     if (self) {
         _argumentName = argumentName.copy;
@@ -25,7 +25,7 @@
 }
 
 - (instancetype)initWithType:(iTermReflectionMethodArgumentType)type
-                argumentName:(NSString *)argumentName {
+    argumentName:(NSString *)argumentName {
     self = [super init];
     if (self) {
         _argumentName = argumentName.copy;
@@ -35,29 +35,31 @@
 }
 
 + (iTermReflectionMethodArgument *)argumentForTypeString:(NSString *)typeString
-                                            argumentName:(NSString *)argumentName {
+    argumentName:(NSString *)argumentName {
     static dispatch_once_t onceToken;
     static NSDictionary<NSString *, NSNumber *> *simpleTypes;
-    dispatch_once(&onceToken, ^{
-        simpleTypes = @{ @(@encode(char)): @(iTermReflectionMethodArgumentTypeScalar),
-                         @(@encode(int)): @(iTermReflectionMethodArgumentTypeScalar),
-                         @(@encode(short)): @(iTermReflectionMethodArgumentTypeScalar),
-                         @(@encode(long)): @(iTermReflectionMethodArgumentTypeScalar),
-                         @(@encode(long)): @(iTermReflectionMethodArgumentTypeScalar),
-                         @(@encode(long long)): @(iTermReflectionMethodArgumentTypeScalar),
-                         @(@encode(unsigned char)): @(iTermReflectionMethodArgumentTypeScalar),
-                         @(@encode(unsigned int)): @(iTermReflectionMethodArgumentTypeScalar),
-                         @(@encode(unsigned short)): @(iTermReflectionMethodArgumentTypeScalar),
-                         @(@encode(unsigned long)): @(iTermReflectionMethodArgumentTypeScalar),
-                         @(@encode(unsigned long long)): @(iTermReflectionMethodArgumentTypeScalar),
-                         @(@encode(float)): @(iTermReflectionMethodArgumentTypeScalar),
-                         @(@encode(double)): @(iTermReflectionMethodArgumentTypeScalar),
-                         @(@encode(_Bool)): @(iTermReflectionMethodArgumentTypeScalar),
-                         @(@encode(void)): @(iTermReflectionMethodArgumentTypeVoid),
-                         @(@encode(char *)): @(iTermReflectionMethodArgumentTypePointer),
-                         @"#": @(iTermReflectionMethodArgumentTypeClass),
-                         @":": @(iTermReflectionMethodArgumentTypeSelector),
-                         @"?": @(iTermReflectionMethodArgumentTypeUnknown) };
+    dispatch_once(&onceToken, ^ {
+        simpleTypes = @{
+            @(@encode(char)): @(iTermReflectionMethodArgumentTypeScalar),
+                @(@encode(int)): @(iTermReflectionMethodArgumentTypeScalar),
+                @(@encode(short)): @(iTermReflectionMethodArgumentTypeScalar),
+                @(@encode(long)): @(iTermReflectionMethodArgumentTypeScalar),
+                @(@encode(long)): @(iTermReflectionMethodArgumentTypeScalar),
+                @(@encode(long long)): @(iTermReflectionMethodArgumentTypeScalar),
+                @(@encode(unsigned char)): @(iTermReflectionMethodArgumentTypeScalar),
+                @(@encode(unsigned int)): @(iTermReflectionMethodArgumentTypeScalar),
+                @(@encode(unsigned short)): @(iTermReflectionMethodArgumentTypeScalar),
+                @(@encode(unsigned long)): @(iTermReflectionMethodArgumentTypeScalar),
+                @(@encode(unsigned long long)): @(iTermReflectionMethodArgumentTypeScalar),
+                @(@encode(float)): @(iTermReflectionMethodArgumentTypeScalar),
+                @(@encode(double)): @(iTermReflectionMethodArgumentTypeScalar),
+                @(@encode(_Bool)): @(iTermReflectionMethodArgumentTypeScalar),
+                @(@encode(void)): @(iTermReflectionMethodArgumentTypeVoid),
+                @(@encode(char *)): @(iTermReflectionMethodArgumentTypePointer),
+@"#": @(iTermReflectionMethodArgumentTypeClass),
+@":": @(iTermReflectionMethodArgumentTypeSelector),
+@"?": @(iTermReflectionMethodArgumentTypeUnknown)
+            };
     });
 
     NSNumber *type = simpleTypes[typeString];
@@ -68,7 +70,7 @@
 
     if ([typeString hasPrefix:@"@"]) {
         return [self argumentForObjectTypeString:[typeString substringFromIndex:1]
-                                    argumentName:argumentName];
+                     argumentName:argumentName];
     }
     if ([typeString hasPrefix:@"^"]) {
         return [[iTermReflectionMethodArgument alloc] initWithType:iTermReflectionMethodArgumentTypePointer
@@ -88,14 +90,14 @@
     }
     if ([typeString hasPrefix:@"["]) {
         return [self argumentForArrayTypeString:[typeString substringWithRange:NSMakeRange(1, typeString.length - 2)]
-                                   argumentName:argumentName];
+                     argumentName:argumentName];
     }
     return [[iTermReflectionMethodArgument alloc] initWithType:iTermReflectionMethodArgumentTypeUnknown
                                                   argumentName:argumentName];
 }
 
 + (iTermReflectionMethodArgument *)argumentForObjectTypeString:(NSString *)typeString
-                                                  argumentName:(NSString *)argumentName {
+    argumentName:(NSString *)argumentName {
     if ([typeString hasPrefix:@"?"]) {
         return [[iTermReflectionMethodArgument alloc] initWithType:iTermReflectionMethodArgumentTypeBlock
                                                       argumentName:argumentName];
@@ -103,17 +105,17 @@
     if (![typeString hasPrefix:@"\""]) {
         // Really, this is an id, but I don't care about non-NSObject objects.
         return [[iTermReflectionMethodArgument alloc] initWithObjectHavingClassName:@"NSObject"
-                                                                       argumentName:argumentName];
+                                                      argumentName:argumentName];
     }
     NSRange closeQuote = [typeString rangeOfString:@"\"" options:0 range:NSMakeRange(1, typeString.length - 1)];
     assert(closeQuote.location != NSNotFound);
     NSString *className = [typeString substringWithRange:NSMakeRange(1, closeQuote.location - 2)];
     return [[iTermReflectionMethodArgument alloc] initWithObjectHavingClassName:className
-                                                                   argumentName:argumentName];
+                                                  argumentName:argumentName];
 }
 
 + (iTermReflectionMethodArgument *)argumentForArrayTypeString:(NSString *)typeString
-                                                 argumentName:(NSString *)argumentName {
+    argumentName:(NSString *)argumentName {
     //iTermReflectionMethodArgument *inner = [self argumentForTypeString:typeString];
     // TODO
     return [[iTermReflectionMethodArgument alloc] initWithType:iTermReflectionMethodArgumentTypeArray
@@ -129,7 +131,7 @@
 }
 
 - (instancetype)initWithClass:(Class)theClass
-                     selector:(SEL)selector {
+    selector:(SEL)selector {
     self = [super init];
     if (self) {
         _class = theClass;
@@ -164,7 +166,7 @@
                                buffer,
                                sizeof(buffer));
         iTermReflectionMethodArgument *arg = [iTermReflectionMethodArgument argumentForTypeString:@(buffer)
-                                                                                     argumentName:parts[i - 2]];
+                                                                            argumentName:parts[i - 2]];
         [args addObject:arg];
     }
     return args;

@@ -63,16 +63,16 @@ const CGFloat kDragAreaSize = 5;
 
 - (NSColor *)defaultBackgroundColor {
     return [NSColor colorWithCalibratedRed:252.0/255.0
-                                     green:250.0/255.0
-                                      blue:198.0/255.0
-                                     alpha:1];
+                    green:250.0/255.0
+                    blue:198.0/255.0
+                    alpha:1];
 }
 
 - (NSColor *)borderColor {
     return [NSColor colorWithCalibratedRed:255.0/255.0
-                                     green:229.0/255.0
-                                      blue:114.0/255.0
-                                     alpha:0.95];
+                    green:229.0/255.0
+                    blue:114.0/255.0
+                    alpha:0.95];
 }
 
 static NSPoint FlipPoint(NSPoint p, CGFloat height) {
@@ -84,9 +84,9 @@ static NSRect FlipRect(NSRect rect, CGFloat height) {
 }
 
 - (NSPoint)leadingCornerOfRoundedRect:(NSRect)frame
-                               radius:(CGFloat)radius
-                                   dx:(int)dx
-                                   dy:(int)dy {
+    radius:(CGFloat)radius
+    dx:(int)dx
+    dy:(int)dy {
     assert(dx == 0 || dy == 0);
     assert((dx == 0) ^ (dy == 0));
     NSPoint p = frame.origin;
@@ -108,9 +108,9 @@ static NSRect FlipRect(NSRect rect, CGFloat height) {
 }
 
 - (NSPoint)trailingCornerOfRoundedRect:(NSRect)frame
-                                radius:(CGFloat)radius
-                                    dx:(int)dx
-                                    dy:(int)dy {
+    radius:(CGFloat)radius
+    dx:(int)dx
+    dy:(int)dy {
     assert(dx == 0 || dy == 0);
     assert((dx == 0) ^ (dy == 0));
 
@@ -146,69 +146,69 @@ static NSRect FlipRect(NSRect rect, CGFloat height) {
 }
 
 - (NSPoint)projectionOfPoint:(NSPoint)p
-                    ontoEdge:(PTYNoteViewTipEdge)edge
-                     ofFrame:(NSRect)frame {
+    ontoEdge:(PTYNoteViewTipEdge)edge
+    ofFrame:(NSRect)frame {
     switch (edge) {
-        case kPTYNoteViewTipEdgeTop:
-            return NSMakePoint(p.x, NSMinY(frame));
+    case kPTYNoteViewTipEdgeTop:
+        return NSMakePoint(p.x, NSMinY(frame));
 
-        case kPTYNoteViewTipEdgeLeft:
-            return NSMakePoint(NSMinX(frame), p.y);
+    case kPTYNoteViewTipEdgeLeft:
+        return NSMakePoint(NSMinX(frame), p.y);
 
-        case kPTYNoteViewTipEdgeBottom:
-            return NSMakePoint(p.x, NSMaxY(frame));
+    case kPTYNoteViewTipEdgeBottom:
+        return NSMakePoint(p.x, NSMaxY(frame));
 
-        case kPTYNoteViewTipEdgeRight:
-            return NSMakePoint(NSMaxX(frame), p.y);
+    case kPTYNoteViewTipEdgeRight:
+        return NSMakePoint(NSMaxX(frame), p.y);
 
-        default:
-            assert(false);
+    default:
+        assert(false);
     }
 }
 
 - (NSRect)bubbleFrameInRect:(NSRect)frame
-                      inset:(CGFloat)inset
-              pointerLength:(CGFloat)pointerLength
-                  tipOnEdge:(PTYNoteViewTipEdge)tipEdge {
+    inset:(CGFloat)inset
+    pointerLength:(CGFloat)pointerLength
+    tipOnEdge:(PTYNoteViewTipEdge)tipEdge {
     CGFloat left = frame.origin.x + 0.5;
     CGFloat top = frame.origin.y + 0.5;
     CGFloat right = NSMaxX(frame) - inset - 0.5;
     CGFloat bottom = NSMaxY(frame) - inset - 0.5;
 
     switch (tipEdge) {
-        case kPTYNoteViewTipEdgeRight:
-            right -= pointerLength;
-            break;
+    case kPTYNoteViewTipEdgeRight:
+        right -= pointerLength;
+        break;
 
-        case kPTYNoteViewTipEdgeLeft:
-            left += pointerLength;
-            break;
+    case kPTYNoteViewTipEdgeLeft:
+        left += pointerLength;
+        break;
 
-        case kPTYNoteViewTipEdgeBottom:
-            bottom -= pointerLength;
-            break;
+    case kPTYNoteViewTipEdgeBottom:
+        bottom -= pointerLength;
+        break;
 
-        case kPTYNoteViewTipEdgeTop:
-            top += pointerLength;
-            break;
+    case kPTYNoteViewTipEdgeTop:
+        top += pointerLength;
+        break;
     }
     NSRect bubbleFrame = NSMakeRect(left, top, right - left, bottom - top);
     return bubbleFrame;
 }
 
 - (NSBezierPath *)roundedRectangleWithPointerInRect:(NSRect)frame
-                                              inset:(CGFloat)inset
-                                             radius:(CGFloat)radius
-                                        pointerBase:(CGFloat)pointerBase
-                                      pointerLength:(CGFloat)pointerLength
-                                       pointerTipAt:(NSPoint)tipPoint
-                                          tipOnEdge:(PTYNoteViewTipEdge)tipEdge {
+    inset:(CGFloat)inset
+    radius:(CGFloat)radius
+    pointerBase:(CGFloat)pointerBase
+    pointerLength:(CGFloat)pointerLength
+    pointerTipAt:(NSPoint)tipPoint
+    tipOnEdge:(PTYNoteViewTipEdge)tipEdge {
     CGFloat height = self.frame.size.height;
     NSPoint controlPoint;
     NSRect bubbleFrame = [self bubbleFrameInRect:frame
-                                           inset:inset
-                                   pointerLength:pointerLength
-                                       tipOnEdge:tipEdge];
+                               inset:inset
+                               pointerLength:pointerLength
+                               tipOnEdge:tipEdge];
     NSBezierPath *path = [[[NSBezierPath alloc] init] autorelease];
 
     // start on the left edge
@@ -232,16 +232,16 @@ static NSRect FlipRect(NSRect rect, CGFloat height) {
 
         // Get the location of the point just before the rounded rect at the end of this edge
         p = [self leadingCornerOfRoundedRect:bubbleFrame
-                                      radius:radius
-                                          dx:dx
-                                          dy:dy];
+                  radius:radius
+                  dx:dx
+                  dy:dy];
 
         if (edge == tipEdge) {
             // This edge has the arrow. Compute the points where the arrow's base intersects
             // the edge.
             NSPoint baseCenter = [self projectionOfPoint:tipPoint
-                                                ontoEdge:edge
-                                                 ofFrame:bubbleFrame];
+                                       ontoEdge:edge
+                                       ofFrame:bubbleFrame];
             NSPoint bases[2];
             bases[0] = NSMakePoint(baseCenter.x - dx * pointerBase / 2,
                                    baseCenter.y - dy * pointerBase / 2);
@@ -288,14 +288,14 @@ static NSRect FlipRect(NSRect rect, CGFloat height) {
         // The control point is the corner of the bubbleFrame near the arc.
         controlPoint = [self controlPointOfRect:bubbleFrame forDx:dx dy:dy];
         p = [self trailingCornerOfRoundedRect:bubbleFrame
-                                       radius:radius
-                                           dx:dx
-                                           dy:dy];
+                  radius:radius
+                  dx:dx
+                  dy:dy];
 
         // Draw the arc in the corner
         [path curveToPoint:FlipPoint(p, height)
-             controlPoint1:FlipPoint(controlPoint, height)
-             controlPoint2:FlipPoint(controlPoint, height)];
+              controlPoint1:FlipPoint(controlPoint, height)
+              controlPoint2:FlipPoint(controlPoint, height)];
     }
 
     return path;
@@ -306,12 +306,12 @@ static NSRect FlipRect(NSRect rect, CGFloat height) {
     [super drawRect:dirtyRect];
 
     NSBezierPath *path = [self roundedRectangleWithPointerInRect:self.bounds
-                                                           inset:kInset
-                                                          radius:kRadius
-                                                     pointerBase:kPointerBase
-                                                   pointerLength:kPointerLength
-                                                    pointerTipAt:point_
-                                                       tipOnEdge:[self tipEdge]];
+                               inset:kInset
+                               radius:kRadius
+                               pointerBase:kPointerBase
+                               pointerLength:kPointerLength
+                               pointerTipAt:point_
+                               tipOnEdge:[self tipEdge]];
 
     [[self backgroundColor] set];
     [path fill];
@@ -363,9 +363,9 @@ static NSRect FlipRect(NSRect rect, CGFloat height) {
 
 - (NSRect)rightDragRect {
     NSRect bubbleFrame = [self bubbleFrameInRect:self.bounds
-                                           inset:0
-                                   pointerLength:kPointerLength
-                                       tipOnEdge:self.tipEdge];
+                               inset:0
+                               pointerLength:kPointerLength
+                               tipOnEdge:self.tipEdge];
     return FlipRect(NSMakeRect(NSMaxX(bubbleFrame) - kDragAreaSize,
                                NSMinY(bubbleFrame) + kDragAreaSize,
                                kDragAreaSize,
@@ -375,9 +375,9 @@ static NSRect FlipRect(NSRect rect, CGFloat height) {
 
 - (NSRect)bottomRightDragRect {
     NSRect bubbleFrame = [self bubbleFrameInRect:self.bounds
-                                           inset:0
-                                   pointerLength:kPointerLength
-                                       tipOnEdge:self.tipEdge];
+                               inset:0
+                               pointerLength:kPointerLength
+                               tipOnEdge:self.tipEdge];
     return FlipRect(NSMakeRect(NSMaxX(bubbleFrame) - kDragAreaSize,
                                NSMaxY(bubbleFrame) - kDragAreaSize,
                                kDragAreaSize,
@@ -387,9 +387,9 @@ static NSRect FlipRect(NSRect rect, CGFloat height) {
 
 - (NSRect)bottomDragRect {
     NSRect bubbleFrame = [self bubbleFrameInRect:self.bounds
-                                           inset:0
-                                   pointerLength:kPointerLength
-                                       tipOnEdge:self.tipEdge];
+                               inset:0
+                               pointerLength:kPointerLength
+                               tipOnEdge:self.tipEdge];
     return FlipRect(NSMakeRect(NSMinX(bubbleFrame),
                                NSMaxY(bubbleFrame) - kDragAreaSize,
                                NSWidth(bubbleFrame) - kDragAreaSize,
@@ -404,7 +404,7 @@ static NSRect FlipRect(NSRect rect, CGFloat height) {
 
     [self addCursorRect:bottomDragRegion cursor:[NSCursor resizeUpDownCursor]];
     [self addCursorRect:bottomRightDragRegion
-                 cursor:[iTermMouseCursor mouseCursorOfType:iTermMouseCursorTypeNorthwestSoutheastArrow]];
+          cursor:[iTermMouseCursor mouseCursorOfType:iTermMouseCursorTypeNorthwestSoutheastArrow]];
     [self addCursorRect:rightDragRegion cursor:[NSCursor resizeLeftRightCursor]];
     [self addCursorRect:killButton_.frame cursor:[NSCursor arrowCursor]];
 }
@@ -428,14 +428,14 @@ static NSRect FlipRect(NSRect rect, CGFloat height) {
 
 - (void)layoutSubviews {
     NSRect bubbleFrame = [self bubbleFrameInRect:self.bounds
-                                           inset:kInset
-                                   pointerLength:kPointerLength
-                                       tipOnEdge:[self tipEdge]];
+                               inset:kInset
+                               pointerLength:kPointerLength
+                               tipOnEdge:[self tipEdge]];
     bubbleFrame = NSIntegralRect(bubbleFrame);
     self.contentView.frame = FlipRect(NSMakeRect(NSMinX(bubbleFrame) + kLeftMargin,
-                                                 NSMinY(bubbleFrame) + kTopMargin,
-                                                 bubbleFrame.size.width - kLeftMargin - kRightMargin,
-                                                 bubbleFrame.size.height - kTopMargin - kBottomMargin),
+                                      NSMinY(bubbleFrame) + kTopMargin,
+                                      bubbleFrame.size.width - kLeftMargin - kRightMargin,
+                                      bubbleFrame.size.height - kTopMargin - kBottomMargin),
                                       self.frame.size.height);
     killButton_.frame = FlipRect(NSMakeRect(NSMaxX(bubbleFrame) - kButtonSize,
                                             NSMinY(bubbleFrame) + kKillButtonTopMargin,
@@ -447,15 +447,15 @@ static NSRect FlipRect(NSRect rect, CGFloat height) {
 
 - (NSSize)sizeThatFitsContentView {
     switch (tipEdge_) {
-        case kPTYNoteViewTipEdgeBottom:
-        case kPTYNoteViewTipEdgeTop:
-            return NSMakeSize(contentView_.frame.size.width + kLeftMargin + kRightMargin + kInset,
-                              contentView_.frame.size.height + kBottomMargin + kTopMargin + kPointerLength + kInset);
+    case kPTYNoteViewTipEdgeBottom:
+    case kPTYNoteViewTipEdgeTop:
+        return NSMakeSize(contentView_.frame.size.width + kLeftMargin + kRightMargin + kInset,
+                          contentView_.frame.size.height + kBottomMargin + kTopMargin + kPointerLength + kInset);
 
-        case kPTYNoteViewTipEdgeLeft:
-        case kPTYNoteViewTipEdgeRight:
-            return NSMakeSize(contentView_.frame.size.width + kLeftMargin + kRightMargin + kPointerLength + kInset,
-                              contentView_.frame.size.height + kBottomMargin + kTopMargin + kInset);
+    case kPTYNoteViewTipEdgeLeft:
+    case kPTYNoteViewTipEdgeRight:
+        return NSMakeSize(contentView_.frame.size.width + kLeftMargin + kRightMargin + kPointerLength + kInset,
+                          contentView_.frame.size.height + kBottomMargin + kTopMargin + kInset);
     }
     assert(false);
     return NSMakeSize(0, 0);

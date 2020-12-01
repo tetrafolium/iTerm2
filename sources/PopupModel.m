@@ -114,7 +114,7 @@
 {
     NSSortDescriptor *sortDescriptor;
     sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"score"
-                                                  ascending:NO] autorelease];
+                                                 ascending:NO] autorelease];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
     NSArray *sortedArray;
     sortedArray = [values_ sortedArrayUsingDescriptors:sortDescriptors];

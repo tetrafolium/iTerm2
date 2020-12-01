@@ -57,8 +57,8 @@
     while (remaining > 0) {
         @autoreleasepool {
             NSString *chunk = [[[NSString alloc] initWithBytes:bytes + offset
-                                                        length:MIN(77, remaining)
-                                                      encoding:NSUTF8StringEncoding] autorelease];
+                                                  length:MIN(77, remaining)
+                                                  encoding:NSUTF8StringEncoding] autorelease];
             [string appendString:chunk];
             [string appendString:lineBreak];
             remaining -= chunk.length;
@@ -70,12 +70,12 @@
 
 + (NSData *)dataWithTGZContainingFiles:(NSArray<NSString *> *)files relativeToPath:(NSString *)basePath error:(NSError **)error {
     NSArray<NSString *> *args = @[ @"-c",  // Create
-                                   @"-z",  // gzip
-                                   @"-b",
-                                   @"1",  // Block size
-                                   @"-f",
-                                   @"-",  // write to stdout
-                                   [NSString stringWithFormat:@"-C%@", basePath] ];  // Base path
+                                           @"-z",  // gzip
+                                           @"-b",
+                                           @"1",  // Block size
+                                           @"-f",
+                                           @"-",  // write to stdout
+                                           [NSString stringWithFormat:@"-C%@", basePath] ];  // Base path
     args = [args arrayByAddingObjectsFromArray:files];  // Files to zip
 
     NSTask *task = [[[NSTask alloc] init] autorelease];
@@ -94,7 +94,7 @@
         NSString *errorString = [errorMessage stringWithEncoding:NSUTF8StringEncoding];
         if (errorString) {
             if (error) {
-                *error = [NSError errorWithDomain:@"com.googlecode.iterm2" code:1 userInfo:@{ @"errorMessage": errorString }];
+                *error = [NSError errorWithDomain:@"com.googlecode.iterm2" code:1 userInfo:@ { @"errorMessage": errorString }];
             }
         } else {
             XLog(@"Error %s", errorMessage.bytes);
@@ -148,7 +148,7 @@
 
     for (int i = 0; i < sizeof(identifiers) / sizeof(*identifiers); i++) {
         if (self.length >= identifiers[i].length &&
-            !memcmp(self.bytes, identifiers[i].fingerprint, identifiers[i].length)) {
+                !memcmp(self.bytes, identifiers[i].fingerprint, identifiers[i].length)) {
             return (NSString *)identifiers[i].uti;
         }
     }
@@ -230,17 +230,17 @@
 
 - (id)it_unarchivedObjectOfBasicClassesWithError:(NSError **)error {
     NSArray<Class> *classes = @[ [NSDictionary class],
-                                 [NSNumber class],
-                                 [NSString class],
-                                 [NSDate class],
-                                 [NSData class],
-                                 [NSArray class],
-                                 [NSNull class],
-                                 [NSValue class] ];
+                                                     [NSNumber class],
+                                                     [NSString class],
+                                                     [NSDate class],
+                                                     [NSData class],
+                                                     [NSArray class],
+                                                     [NSNull class],
+                                                     [NSValue class] ];
     NSError *innerError = nil;
     id obj = [NSKeyedUnarchiver unarchivedObjectOfClasses:[NSSet setWithArray:classes]
-                                                 fromData:self
-                                                    error:&innerError];
+                                fromData:self
+                                error:&innerError];
     if (innerError) {
         XLog(@"Error %@ decoding %@", innerError, self);
     }
@@ -262,7 +262,7 @@
     unsigned char result[CC_SHA256_DIGEST_LENGTH];
     CC_SHA256(self.bytes, (CC_LONG)self.length, result);
     return [NSData dataWithBytes:result
-                          length:CC_SHA256_DIGEST_LENGTH];
+                   length:CC_SHA256_DIGEST_LENGTH];
 }
 
 - (NSString *)it_hexEncoded {
@@ -342,12 +342,12 @@
 
 
 - (NSData *)aesCBCEncryptedDataWithPCKS7PaddingAndKey:(NSData *)key
-                                                   iv:(NSData *)iv {
+    iv:(NSData *)iv {
     assert(iv.length == 16);
     assert(key.length == 16);
-    
+
     NSMutableData *ciphertext = [NSMutableData dataWithLength:self.length + kCCBlockSizeAES128];
-    
+
     size_t length;
     const CCCryptorStatus result = CCCrypt(kCCEncrypt,
                                            kCCAlgorithmAES,
@@ -360,23 +360,23 @@
                                            ciphertext.mutableBytes,
                                            ciphertext.length,
                                            &length);
-    
+
     if (result == kCCSuccess) {
         ciphertext.length = length;
     } else {
         return nil;
     }
-    
+
     return ciphertext;
 }
 
 - (NSData *)decryptedAESCBCDataWithPCKS7PaddingAndKey:(NSData *)key
-                                                   iv:(NSData *)iv {
+    iv:(NSData *)iv {
     assert(iv.length == 16);
     assert(key.length == 16);
-    
+
     NSMutableData *plaintext = [NSMutableData dataWithLength:self.length];
-    
+
     size_t length;
     const CCCryptorStatus result = CCCrypt(kCCDecrypt,
                                            kCCAlgorithmAES,
@@ -389,13 +389,13 @@
                                            plaintext.mutableBytes,
                                            plaintext.length,
                                            &length);
-    
+
     if (result == kCCSuccess) {
         plaintext.length = length;
     } else {
         return nil;
     }
-    
+
     return plaintext;
 
 }
@@ -403,12 +403,12 @@
 + (NSData *)randomAESKey {
     const NSUInteger length = 16;
     NSMutableData *data = [NSMutableData dataWithLength:length];
-    
+
     const int result = SecRandomCopyBytes(kSecRandomDefault,
                                           length,
                                           data.mutableBytes);
     assert(result == 0);
-    
+
     return data;
 }
 
@@ -417,7 +417,7 @@
 
     // Unlink file if it already exists.
     unlink(url.path.UTF8String);
-    
+
     // Create it exclusively. If another instance of iTerm2 is trying to create it, back off.
     int fd = -1;
     do {
@@ -426,7 +426,7 @@
     if (fd == -1) {
         return;
     }
-    
+
     // Append the data.
     NSUInteger written = 0;
     while (written < self.length) {

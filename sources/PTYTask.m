@@ -125,12 +125,12 @@ static void HandleSigChld(int n) {
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p jobManager=%@ pid=%@ fd=%@ tmuxClientProcessID=%@>",
-            NSStringFromClass([self class]),
-            self,
-            self.jobManager,
-            @(self.pid),
-            @(self.fd),
-            _tmuxClientProcessID];
+                     NSStringFromClass([self class]),
+                     self,
+                     self.jobManager,
+                     @(self.pid),
+                     @(self.fd),
+                     _tmuxClientProcessID];
 }
 
 #pragma mark - APIs
@@ -235,9 +235,9 @@ static void HandleSigChld(int n) {
 - (BOOL)passwordInput {
     struct termios termAttributes;
     if ([iTermAdvancedSettingsModel detectPasswordInput] &&
-        self.fd > 0 &&
-        isatty(self.fd) &&
-        tcgetattr(self.fd, &termAttributes) == 0) {
+            self.fd > 0 &&
+            isatty(self.fd) &&
+            tcgetattr(self.fd, &termAttributes) == 0) {
         return !(termAttributes.c_lflag & ECHO) && (termAttributes.c_lflag & ICANON);
     } else {
         return NO;
@@ -255,13 +255,13 @@ static void HandleSigChld(int n) {
 }
 
 - (void)launchWithPath:(NSString *)progpath
-             arguments:(NSArray *)args
-           environment:(NSDictionary *)env
-           customShell:(NSString *)customShell
-              gridSize:(VT100GridSize)gridSize
-              viewSize:(NSSize)viewSize
-                isUTF8:(BOOL)isUTF8
-            completion:(void (^)(void))completion {
+    arguments:(NSArray *)args
+    environment:(NSDictionary *)env
+    customShell:(NSString *)customShell
+    gridSize:(VT100GridSize)gridSize
+    viewSize:(NSSize)viewSize
+    isUTF8:(BOOL)isUTF8
+    completion:(void (^)(void))completion {
     DLog(@"launchWithPath:%@ args:%@ env:%@ grisSize:%@ isUTF8:%@",
          progpath, args, env, VT100GridSizeDescription(gridSize), @(isUTF8));
 
@@ -273,22 +273,22 @@ static void HandleSigChld(int n) {
             env = [env dictionaryBySettingObject:@"1" forKey:@"ITERM2_DISABLE_BOOTSTRAP"];
         }
         [self reallyLaunchWithPath:[[NSBundle mainBundle] executablePath]
-                         arguments:updatedArgs
-                       environment:env
-                       customShell:customShell
-                          gridSize:gridSize
-                          viewSize:viewSize
-                            isUTF8:isUTF8
-                        completion:completion];
+              arguments:updatedArgs
+              environment:env
+              customShell:customShell
+              gridSize:gridSize
+              viewSize:viewSize
+              isUTF8:isUTF8
+              completion:completion];
     } else {
         [self reallyLaunchWithPath:progpath
-                         arguments:args
-                       environment:env
-                       customShell:customShell
-                          gridSize:gridSize
-                          viewSize:viewSize
-                            isUTF8:isUTF8
-                        completion:completion];
+              arguments:args
+              environment:env
+              customShell:customShell
+              gridSize:gridSize
+              viewSize:viewSize
+              isUTF8:isUTF8
+              completion:completion];
     }
 }
 
@@ -344,9 +344,9 @@ static void HandleSigChld(int n) {
     }
     _haveBumpedProcessCache = YES;
     DLog(@"Requesting immediate update");
-    [[iTermProcessCache sharedInstance] requestImmediateUpdateWithCompletionBlock:^{
-        completion([[iTermProcessCache sharedInstance] deepestForegroundJobForPid:pid]);
-    }];
+    [[iTermProcessCache sharedInstance] requestImmediateUpdateWithCompletionBlock:^ {
+                                           completion([[iTermProcessCache sharedInstance] deepestForegroundJobForPid:pid]);
+                                       }];
 }
 
 - (iTermProcessInfo *)cachedProcessInfoIfAvailable {
@@ -368,7 +368,7 @@ static void HandleSigChld(int n) {
     if (_isTmuxTask) {
         // Send keypresses to tmux.
         NSData *copyOfData = [data copy];
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^ {
             [self.delegate tmuxClientWrite:copyOfData];
         });
         return;
@@ -410,7 +410,7 @@ static void HandleSigChld(int n) {
 
     _desiredSize.cellSize = iTermTTYCellSizeMake(size.width, size.height);
     _desiredSize.pixelSize = iTermTTYPixelSizeMake(viewSize.width * scaleFactor,
-                                                   viewSize.height * scaleFactor);
+                             viewSize.height * scaleFactor);
 
     if (PTYTaskSizeEqual(_lastSize, _desiredSize)) {
         DLog(@"Size didn't change");
@@ -518,29 +518,29 @@ static void HandleSigChld(int n) {
         [[TaskNotifier sharedInstance] waitForPid:thePid];
     }
     [[TaskNotifier sharedInstance] performSelectorOnMainThread:@selector(notifyCoprocessChange)
-                                                    withObject:nil
-                                                 waitUntilDone:NO];
+                                   withObject:nil
+                                   waitUntilDone:NO];
 }
 
 - (void)setJobManagerType:(iTermGeneralServerConnectionType)type {
     assert([self canAttach]);
     assert([NSThread isMainThread]);
     switch (type) {
-        case iTermGeneralServerConnectionTypeMono:
-            if ([self.jobManager isKindOfClass:[iTermMonoServerJobManager class]]) {
-                return;
-            }
-            DLog(@"Replace jobmanager %@ with monoserver instance", self.jobManager);
-            self.jobManager = [[iTermMonoServerJobManager alloc] initWithQueue:self->_jobManagerQueue];
+    case iTermGeneralServerConnectionTypeMono:
+        if ([self.jobManager isKindOfClass:[iTermMonoServerJobManager class]]) {
             return;
+        }
+        DLog(@"Replace jobmanager %@ with monoserver instance", self.jobManager);
+        self.jobManager = [[iTermMonoServerJobManager alloc] initWithQueue:self->_jobManagerQueue];
+        return;
 
-        case iTermGeneralServerConnectionTypeMulti:
-            if ([self.jobManager isKindOfClass:[iTermMultiServerJobManager class]]) {
-                return;
-            }
-            DLog(@"Replace jobmanager %@ with multiserver instance", self.jobManager);
-            self.jobManager = [[iTermMultiServerJobManager alloc] initWithQueue:self->_jobManagerQueue];
+    case iTermGeneralServerConnectionTypeMulti:
+        if ([self.jobManager isKindOfClass:[iTermMultiServerJobManager class]]) {
             return;
+        }
+        DLog(@"Replace jobmanager %@ with multiserver instance", self.jobManager);
+        self.jobManager = [[iTermMultiServerJobManager alloc] initWithQueue:self->_jobManagerQueue];
+        return;
     }
     ITAssertWithMessage(NO, @"Unrecognized job type %@", @(type));
 }
@@ -548,13 +548,13 @@ static void HandleSigChld(int n) {
 // This works for any kind of connection. It finishes the process of attaching a PTYTask to a child
 // that we know is in a server, either newly launched or an orphan.
 - (void)attachToServer:(iTermGeneralServerConnection)serverConnection
-            completion:(void (^)(iTermJobManagerAttachResults))completion {
+    completion:(void (^)(iTermJobManagerAttachResults))completion {
     assert([self canAttach]);
     [self setJobManagerType:serverConnection.type];
     [_jobManager attachToServer:serverConnection
-                  withProcessID:nil
-                           task:self
-                     completion:completion];
+                 withProcessID:nil
+                 task:self
+                 completion:completion];
 }
 
 - (iTermJobManagerAttachResults)attachToServer:(iTermGeneralServerConnection)serverConnection {
@@ -564,8 +564,8 @@ static void HandleSigChld(int n) {
         DLog(@"PTYTask: attach to multiserver %@", @(serverConnection.multi.number));
     }
     return [_jobManager attachToServer:serverConnection
-                         withProcessID:nil
-                                  task:self];
+                        withProcessID:nil
+                        task:self];
 }
 
 - (BOOL)canAttach {
@@ -599,9 +599,9 @@ static void HandleSigChld(int n) {
     [self setJobManagerType:general.type];
     // This assumes the monoserver finishes synchronously and can't fail.
     [self.jobManager attachToServer:general
-                      withProcessID:@(thePid)
-                               task:self
-                         completion:^(iTermJobManagerAttachResults results) {}];
+                     withProcessID:@(thePid)
+                     task:self
+                    completion:^(iTermJobManagerAttachResults results) {}];
     [self setTty:tty];
     return YES;
 }
@@ -614,7 +614,7 @@ static void HandleSigChld(int n) {
     }
     iTermGeneralServerConnection generalConnection;
     if (![iTermMultiServerJobManager getGeneralConnection:&generalConnection
-                                fromRestorationIdentifier:restorationIdentifier]) {
+                                       fromRestorationIdentifier:restorationIdentifier]) {
         return 0;
     }
 
@@ -623,14 +623,14 @@ static void HandleSigChld(int n) {
 }
 
 - (void)partiallyAttachToMultiserverWithRestorationIdentifier:(NSDictionary *)restorationIdentifier
-                                                   completion:(void (^)(id<iTermJobManagerPartialResult>))completion {
+    completion:(void (^)(id<iTermJobManagerPartialResult>))completion {
     if (!self.canAttach) {
         completion(0);
         return;
     }
     iTermGeneralServerConnection generalConnection;
     if (![iTermMultiServerJobManager getGeneralConnection:&generalConnection
-                                fromRestorationIdentifier:restorationIdentifier]) {
+                                       fromRestorationIdentifier:restorationIdentifier]) {
         completion(0);
         return;
     }
@@ -638,13 +638,13 @@ static void HandleSigChld(int n) {
         assert(NO);
     }
     [_jobManager asyncPartialAttachToServer:generalConnection
-                              withProcessID:@(generalConnection.multi.pid)
-                                 completion:completion];
+                 withProcessID:@(generalConnection.multi.pid)
+                 completion:completion];
 }
 
 - (iTermJobManagerAttachResults)finishAttachingToMultiserver:(id<iTermJobManagerPartialResult>)partialResult
-                                                  jobManager:(id<iTermJobManager>)jobManager
-                                                       queue:(dispatch_queue_t)queue {
+    jobManager:(id<iTermJobManager>)jobManager
+    queue:(dispatch_queue_t)queue {
     assert([NSThread isMainThread]);
     self.jobManager = jobManager;
     _jobManagerQueue = queue;
@@ -720,7 +720,7 @@ static void HandleSigChld(int n) {
     } else {
         __weak id<PTYTaskDelegate> delegate = self.delegate;
         __weak __typeof(self) weakSelf = self;
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^ {
             __strong __typeof(self) strongSelf = weakSelf;
             if (strongSelf) {
                 [delegate taskDidChangeTTY:strongSelf];
@@ -730,13 +730,13 @@ static void HandleSigChld(int n) {
 }
 
 - (void)reallyLaunchWithPath:(NSString *)progpath
-                   arguments:(NSArray *)args
-                 environment:(NSDictionary *)env
-                 customShell:(NSString *)customShell
-                    gridSize:(VT100GridSize)gridSize
-                    viewSize:(NSSize)viewSize
-                      isUTF8:(BOOL)isUTF8
-                  completion:(void (^)(void))completion {
+    arguments:(NSArray *)args
+    environment:(NSDictionary *)env
+    customShell:(NSString *)customShell
+    gridSize:(VT100GridSize)gridSize
+    viewSize:(NSSize)viewSize
+    isUTF8:(BOOL)isUTF8
+    completion:(void (^)(void))completion {
     DLog(@"reallyLaunchWithPath:%@ args:%@ env:%@ gridSize:%@ viewSize:%@ isUTF8:%@",
          progpath, args, env,VT100GridSizeDescription(gridSize), NSStringFromSize(viewSize), @(isUTF8));
 
@@ -782,18 +782,18 @@ static void HandleSigChld(int n) {
     NSString *initialPwd = [[env objectForKey:@"PWD"] stringByStandardizingPath];
     DLog(@"initialPwd=%@", initialPwd);
     [self.jobManager forkAndExecWithTtyState:ttyState
-                                     argpath:commandToExec
-                                        argv:argv
-                                  initialPwd:initialPwd
-                                  newEnviron:newEnviron
-                                        task:self
-                                  completion:
-     ^(iTermJobManagerForkAndExecStatus status) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self didForkAndExec:progpath
-                      withStatus:status
-                     errorNumber:errno];
-            if (completion) {
+                     argpath:commandToExec
+                     argv:argv
+                     initialPwd:initialPwd
+                     newEnviron:newEnviron
+                     task:self
+                     completion:
+                    ^(iTermJobManagerForkAndExecStatus status) {
+                        dispatch_async(dispatch_get_main_queue(), ^ {
+                            [self didForkAndExec:progpath
+                             withStatus:status
+                             errorNumber:errno];
+                            if (completion) {
                 completion();
             }
         });
@@ -802,30 +802,30 @@ static void HandleSigChld(int n) {
 
 // Main queue
 - (void)didForkAndExec:(NSString *)progpath
-            withStatus:(iTermJobManagerForkAndExecStatus)status
-           errorNumber:(int)errorNumber {
+    withStatus:(iTermJobManagerForkAndExecStatus)status
+    errorNumber:(int)errorNumber {
     switch (status) {
-        case iTermJobManagerForkAndExecStatusSuccess:
-            // Parent
-            [self setTty:self.jobManager.tty];
-            DLog(@"finished succesfully");
-            break;
+    case iTermJobManagerForkAndExecStatusSuccess:
+        // Parent
+        [self setTty:self.jobManager.tty];
+        DLog(@"finished succesfully");
+        break;
 
-        case iTermJobManagerForkAndExecStatusTempFileError:
-            [self showFailedToCreateTempSocketError];
-            break;
+    case iTermJobManagerForkAndExecStatusTempFileError:
+        [self showFailedToCreateTempSocketError];
+        break;
 
-        case iTermJobManagerForkAndExecStatusFailedToFork:
-            DLog(@"Unable to fork %@: %s", progpath, strerror(errorNumber));
-            [[iTermNotificationController sharedInstance] notify:@"Unable to fork!"
-                                                 withDescription:@"You may have too many processes already running."];
-            break;
+    case iTermJobManagerForkAndExecStatusFailedToFork:
+        DLog(@"Unable to fork %@: %s", progpath, strerror(errorNumber));
+        [[iTermNotificationController sharedInstance] notify:@"Unable to fork!"
+                                                      withDescription:@"You may have too many processes already running."];
+        break;
 
-        case iTermJobManagerForkAndExecStatusTaskDiedImmediately:
-        case iTermJobManagerForkAndExecStatusServerError:
-        case iTermJobManagerForkAndExecStatusServerLaunchFailed:
-            [self.delegate taskDiedImmediately];
-            break;
+    case iTermJobManagerForkAndExecStatusTaskDiedImmediately:
+    case iTermJobManagerForkAndExecStatusServerError:
+    case iTermJobManagerForkAndExecStatusServerLaunchFailed:
+        [self.delegate taskDiedImmediately];
+        break;
 
     }
 }
@@ -871,7 +871,7 @@ static void HandleSigChld(int n) {
 - (void)readTask:(char *)buffer length:(int)length {
     if (self.loggingHelper) {
         [self.loggingHelper logData:[NSData dataWithBytes:buffer
-                                                   length:length]];
+                                     length:length]];
     }
 
     // The delegate is responsible for parsing VT100 tokens here and sending them off to the
@@ -907,7 +907,7 @@ static void HandleSigChld(int n) {
         // change. For example, issue 5096 and 4494.
         _rateLimitedSetSizeToDesiredSizePending = YES;
         DLog(@" ** Rate limiting **");
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kDelayBetweenSizeChanges * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kDelayBetweenSizeChanges * NSEC_PER_SEC)), dispatch_get_main_queue(), ^ {
             self->_rateLimitedSetSizeToDesiredSizePending = NO;
             [self setTerminalSizeToDesiredSize];
         });

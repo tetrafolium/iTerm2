@@ -66,7 +66,7 @@
     }
 
     SolidColorView *solidColorView = [[SolidColorView alloc] initWithFrame:frame
-                                                                     color:[NSColor controlBackgroundColor]];
+                                                             color:[NSColor controlBackgroundColor]];
     return solidColorView;
 }
 

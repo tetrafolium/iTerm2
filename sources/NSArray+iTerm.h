@@ -101,7 +101,7 @@
 - (NSArray<ObjectType> *)subarrayToIndexInclusive:(NSUInteger)index;
 
 - (void)enumerateCoalescedObjectsWithComparator:(BOOL (^)(ObjectType obj1, ObjectType obj2))comparator
-                                          block:(void (^)(ObjectType object, NSUInteger count))block;
+    block:(void (^)(ObjectType object, NSUInteger count))block;
 
 - (NSArray<iTermTuple *> *)tuplesWithFirstObjectEqualTo:(id)firstObject;
 - (NSDictionary<id, NSArray<ObjectType> *> *)classifyWithBlock:(id (^)(ObjectType))block;

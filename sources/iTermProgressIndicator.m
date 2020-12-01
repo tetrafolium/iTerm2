@@ -40,16 +40,16 @@
     if ([self lightMode]) {
         // Light
         return [NSColor colorWithSRGBRed:221 / 255.0
-                                   green:221 / 255.0
-                                    blue:221 / 255.0
-                                   alpha:1];
+                        green:221 / 255.0
+                        blue:221 / 255.0
+                        alpha:1];
     }
     if ([self darkMode]) {
         // Dark
         return [NSColor colorWithSRGBRed:78 / 255.0
-                                   green:80 / 255.0
-                                    blue:82 / 255.0
-                                   alpha:1];
+                        green:80 / 255.0
+                        blue:82 / 255.0
+                        alpha:1];
     }
     return [NSColor colorWithCalibratedRed:0.5 green:0.7 blue:1.0 alpha:1.0];
 }
@@ -58,16 +58,16 @@
     if ([self lightMode]) {
         // Light
         return [NSColor colorWithSRGBRed:59 / 255.0
-                                   green:136 / 255.0
-                                    blue:253 / 255.0
-                                   alpha:1];
+                        green:136 / 255.0
+                        blue:253 / 255.0
+                        alpha:1];
     }
     if ([self darkMode]) {
         // Dark
         return [NSColor colorWithSRGBRed:23 / 255.0
-                                   green:105 / 255.0
-                                    blue:230 / 255.0
-                                   alpha:1];
+                        green:105 / 255.0
+                        blue:230 / 255.0
+                        alpha:1];
     }
     return [NSColor colorWithCalibratedRed:0.5 green:0.7 blue:1.0 alpha:1.0];
 }

@@ -23,11 +23,11 @@
 }
 
 - (instancetype)initWithQuery:(NSString *)query
-                     sessions:(NSArray<PTYSession *> *)sessions
-                         mode:(iTermFindMode)mode
-                      handler:(void (^)(PTYSession *,
-                                        NSArray<iTermGlobalSearchResult *> *,
-                                        double))handler {
+    sessions:(NSArray<PTYSession *> *)sessions
+    mode:(iTermFindMode)mode
+    handler:(void (^)(PTYSession *,
+    NSArray<iTermGlobalSearchResult *> *,
+    double))handler {
     self = [super init];
     if (self) {
         _query = [query copy];
@@ -36,13 +36,13 @@
         _cursors = [[sessions mapWithBlock:^id(PTYSession *session) {
             FindContext *findContext = [[FindContext alloc] init];
             [session.screen setFindString:query
-                         forwardDirection:NO
-                                     mode:mode
-                              startingAtX:0
-                              startingAtY:session.screen.numberOfLines + 1 + session.screen.totalScrollbackOverflow
-                               withOffset:0
-                                inContext:findContext
-                          multipleResults:YES];
+                            forwardDirection:NO
+                            mode:mode
+                            startingAtX:0
+                            startingAtY:session.screen.numberOfLines + 1 + session.screen.totalScrollbackOverflow
+                            withOffset:0
+                            inContext:findContext
+                            multipleResults:YES];
             iTermGlobalSearchEngineCursor *cursor = [[iTermGlobalSearchEngineCursor alloc] init];
             cursor.session = session;
             cursor.findContext = findContext;
@@ -50,10 +50,10 @@
             return cursor;
         }] mutableCopy];
         _timer = [NSTimer scheduledWeakTimerWithTimeInterval:0
-                                                      target:self
-                                                    selector:@selector(searchMore:)
-                                                    userInfo:nil
-                                                     repeats:YES];
+                          target:self
+                          selector:@selector(searchMore:)
+                          userInfo:nil
+                          repeats:YES];
     }
     return self;
 }
@@ -83,22 +83,26 @@
 
 - (NSAttributedString *)snippetFromExtractor:(iTermTextExtractor *)extractor result:(SearchResult *)result {
     const VT100GridAbsCoordRange range = VT100GridAbsCoordRangeMake(result.startX,
-                                                                    result.absStartY,
-                                                                    result.endX + 1,
-                                                                    result.absEndY);
-    NSDictionary *matchAttributes = @{
-        NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle),
-        NSBackgroundColorAttributeName: [NSColor colorWithRed:1 green:1 blue:0 alpha:0.35],
-        NSFontAttributeName: [NSFont systemFontOfSize:[NSFont systemFontSize]]
+                                         result.absStartY,
+                                         result.endX + 1,
+                                         result.absEndY);
+    NSDictionary *matchAttributes = @ {
+NSUnderlineStyleAttributeName:
+        @(NSUnderlineStyleSingle),
+NSBackgroundColorAttributeName:
+        [NSColor colorWithRed:1 green:1 blue:0 alpha:0.35],
+NSFontAttributeName:
+        [NSFont systemFontOfSize:[NSFont systemFontSize]]
     };
-    NSDictionary *regularAttributes = @{
-        NSFontAttributeName: [NSFont systemFontOfSize:[NSFont systemFontSize]]
+    NSDictionary *regularAttributes = @ {
+NSFontAttributeName:
+        [NSFont systemFontOfSize:[NSFont systemFontSize]]
     };
     return [extractor attributedStringForSnippetForRange:range
-                                       regularAttributes:regularAttributes
-                                         matchAttributes:matchAttributes
-                                     maximumPrefixLength:20
-                                     maximumSuffixLength:256];
+                      regularAttributes:regularAttributes
+                      matchAttributes:matchAttributes
+                      maximumPrefixLength:20
+                      maximumSuffixLength:256];
 }
 
 - (BOOL)searchWithCursor:(iTermGlobalSearchEngineCursor *)cursor {
@@ -106,9 +110,9 @@
     const BOOL more = [cursor.session.screen continueFindAllResults:results inContext:cursor.findContext];
     iTermTextExtractor *extractor = [[iTermTextExtractor alloc] initWithDataSource:cursor.session.screen];
     NSArray<iTermGlobalSearchResult *> *mapped = [results mapWithBlock:^id(SearchResult *anObject) {
-        iTermGlobalSearchResult *result = [[iTermGlobalSearchResult alloc] init];
-        result.session = cursor.session;
-        result.result = anObject;
+                iTermGlobalSearchResult *result = [[iTermGlobalSearchResult alloc] init];
+                result.session = cursor.session;
+                result.result = anObject;
         result.snippet = [self snippetFromExtractor:extractor result:anObject];
         return result;
     }];

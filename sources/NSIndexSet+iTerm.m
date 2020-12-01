@@ -22,8 +22,8 @@
 - (NSArray<NSNumber *> *)it_array {
     NSMutableArray<NSNumber *> *result = [NSMutableArray array];
     [self enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
-        [result addObject:@(idx)];
-    }];
+             [result addObject:@(idx)];
+         }];
     return result;
 }
 

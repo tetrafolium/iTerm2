@@ -35,12 +35,12 @@ extern NSString *const iTermSessionDidChangeTabNotification;
 - (void)beginDrag:(PTYSession *)session;
 - (BOOL)isMovingSession:(PTYSession *)s;
 - (BOOL)dropInSession:(PTYSession *)dest
-                 half:(SplitSessionHalf)half
-              atPoint:(NSPoint)point;
+    half:(SplitSessionHalf)half
+    atPoint:(NSPoint)point;
 - (BOOL)dropTab:(PTYTab *)tab
-      inSession:(PTYSession *)dest
-           half:(SplitSessionHalf)half
-        atPoint:(NSPoint)point;
+    inSession:(PTYSession *)dest
+    half:(SplitSessionHalf)half
+    atPoint:(NSPoint)point;
 
 // Clears the session so that the normal drop handler (e.g., -[SessionView draggedImage:endedAt:operation:])
 // doesn't do anything.
@@ -49,7 +49,7 @@ extern NSString *const iTermSessionDidChangeTabNotification;
 // Returns an autoreleased session view. Add the session view to something useful and release it.
 - (SessionView *)removeAndClearSession;
 - (void)moveSessionToNewWindow:(PTYSession *)movingSession
-                       atPoint:(NSPoint)point;
+    atPoint:(NSPoint)point;
 
 // Move the window by |distance|.
 - (void)moveWindowBy:(NSPoint)distance;

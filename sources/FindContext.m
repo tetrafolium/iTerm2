@@ -53,7 +53,7 @@ static const NSTimeInterval kDefaultMaxTime = 0.1;
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p absBlockNum=%@ substring=%@ options=%@ dir=%@ offset=%@ stopAt=%@ status=%@ matchLength=%@ results=%@ hasWrapped=%@ maxTime=%@>",
-            self.class, self, @(absBlockNum_), substring_, @(options_), @(dir_), @(offset_), @(stopAt_), @(status_), @(matchLength_), results_, @(hasWrapped_), @(maxTime_)];
+                     self.class, self, @(absBlockNum_), substring_, @(options_), @(dir_), @(offset_), @(stopAt_), @(status_), @(matchLength_), results_, @(hasWrapped_), @(maxTime_)];
 }
 
 - (void)copyFromFindContext:(FindContext *)other {

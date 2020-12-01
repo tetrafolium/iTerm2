@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 // much as the second-to-most-recent bucket, etc. Smaller buckets bias recent history more and also
 // increase variance, especially if buckets approach having only values of 0 or 1.
 - (instancetype)initWithHistoryOfDuration:(NSTimeInterval)historyDuration
-                         secondsPerBucket:(NSTimeInterval)secondsPerBucket;
+    secondsPerBucket:(NSTimeInterval)secondsPerBucket;
 
 - (void)addByteCount:(NSInteger)count;
 

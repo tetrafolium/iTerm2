@@ -243,17 +243,17 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 + (NSImage *)imageForNewOutputWithAppearance:(NSAppearance *)appearance {
     iTermPreferencesTabStyle preferredStyle = [iTermPreferences intForKey:kPreferenceKeyTabStyle];
     switch ((iTermPreferencesTabStyle)[appearance it_tabStyle:preferredStyle]) {
-        case TAB_STYLE_AUTOMATIC:
-        case TAB_STYLE_COMPACT:
-        case TAB_STYLE_MINIMAL:
-            assert(NO);
-            
-        case TAB_STYLE_LIGHT:
-        case TAB_STYLE_LIGHT_HIGH_CONTRAST:
-            return [NSImage it_imageNamed:@"NewOutput" forClass:self.class];
-        case TAB_STYLE_DARK:
-        case TAB_STYLE_DARK_HIGH_CONTRAST:
-            return [NSImage it_imageNamed:@"NewOutputForDarkTheme" forClass:self.class];
+    case TAB_STYLE_AUTOMATIC:
+    case TAB_STYLE_COMPACT:
+    case TAB_STYLE_MINIMAL:
+        assert(NO);
+
+    case TAB_STYLE_LIGHT:
+    case TAB_STYLE_LIGHT_HIGH_CONTRAST:
+        return [NSImage it_imageNamed:@"NewOutput" forClass:self.class];
+    case TAB_STYLE_DARK:
+    case TAB_STYLE_DARK_HIGH_CONTRAST:
+        return [NSImage it_imageNamed:@"NewOutputForDarkTheme" forClass:self.class];
     }
 
     return [NSImage it_imageNamed:@"NewOutput" forClass:self.class];
@@ -269,16 +269,16 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 + (NSImage *)deadImageWithAppearance:(NSAppearance *)appearance {
     iTermPreferencesTabStyle preferredStyle = [iTermPreferences intForKey:kPreferenceKeyTabStyle];
     switch ((iTermPreferencesTabStyle)[appearance it_tabStyle:preferredStyle]) {
-        case TAB_STYLE_AUTOMATIC:
-        case TAB_STYLE_COMPACT:
-        case TAB_STYLE_MINIMAL:
-            assert(NO);
-        case TAB_STYLE_LIGHT:
-        case TAB_STYLE_LIGHT_HIGH_CONTRAST:
-            return [NSImage it_imageNamed:@"dead" forClass:self.class];
-        case TAB_STYLE_DARK:
-        case TAB_STYLE_DARK_HIGH_CONTRAST:
-            return [NSImage it_imageNamed:@"DeadForDarkTheme" forClass:self.class];
+    case TAB_STYLE_AUTOMATIC:
+    case TAB_STYLE_COMPACT:
+    case TAB_STYLE_MINIMAL:
+        assert(NO);
+    case TAB_STYLE_LIGHT:
+    case TAB_STYLE_LIGHT_HIGH_CONTRAST:
+        return [NSImage it_imageNamed:@"dead" forClass:self.class];
+    case TAB_STYLE_DARK:
+    case TAB_STYLE_DARK_HIGH_CONTRAST:
+        return [NSImage it_imageNamed:@"DeadForDarkTheme" forClass:self.class];
     }
     return [NSImage it_imageNamed:@"dead" forClass:self.class];
 }
@@ -309,15 +309,20 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     const CGFloat hspace = [[bookmark objectForKey:KEY_HORIZONTAL_SPACING] doubleValue];
     const CGFloat vspace = [[bookmark objectForKey:KEY_VERTICAL_SPACING] doubleValue];
     return [PTYTextView charSizeForFont:font
-                      horizontalSpacing:hspace
+                        horizontalSpacing:hspace
                         verticalSpacing:vspace];
 }
 
 + (NSDictionary *)frameToDict:(NSRect)frame {
-    return @{ TAB_X: @(frame.origin.x),
-              TAB_Y: @(frame.origin.y),
-              TAB_WIDTH: @(frame.size.width),
-              TAB_HEIGHT: @(frame.size.height) };
+    return @ { TAB_X:
+               @(frame.origin.x),
+               TAB_Y:
+               @(frame.origin.y),
+               TAB_WIDTH:
+               @(frame.size.width),
+               TAB_HEIGHT:
+               @(frame.size.height)
+             };
 }
 
 + (NSRect)dictToFrame:(NSDictionary*)dict {
@@ -329,9 +334,9 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 
 + (NSString *)htmlNameForColor:(NSColor *)color {
     return [NSString stringWithFormat:@"%02x%02x%02x",
-            (int) (color.redComponent * 255.0),
-            (int) (color.greenComponent * 255.0),
-            (int) (color.blueComponent * 255.0)];
+                     (int) (color.redComponent * 255.0),
+                     (int) (color.greenComponent * 255.0),
+                     (int) (color.blueComponent * 255.0)];
 }
 
 + (NSColor *)colorForHtmlName:(NSString *)name {
@@ -344,13 +349,13 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     CGFloat g = (i >> 8) & 0xff;
     CGFloat b = (i >> 0) & 0xff;
     return [NSColor colorWithCalibratedRed:r / 255.0
-                                     green:g / 255.0
-                                      blue:b / 255.0
-                                     alpha:1.0];
+                    green:g / 255.0
+                    blue:b / 255.0
+                    alpha:1.0];
 }
 
 + (NSSize)sizeForTmuxWindowWithAffinity:(NSString *)affinity
-                             controller:(TmuxController *)controller {
+    controller:(TmuxController *)controller {
     if (affinity != nil) {
         NSSet *siblings = [controller savedAffinitiesForWindow:affinity];
         NSSize size = [controller sizeOfSmallestWindowAmong:siblings];
@@ -373,7 +378,7 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 #pragma mark - NSObject
 
 - (instancetype)initWithSession:(PTYSession *)session
-                   parentWindow:(NSWindowController<iTermWindowController> *)parentWindow {
+    parentWindow:(NSWindowController<iTermWindowController> *)parentWindow {
     self = [super init];
     if (self) {
         PtyLog(@"PTYTab initWithSession %p", self);
@@ -403,7 +408,7 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 // This is used when restoring a window arrangement. A tree of splits and
 // sessionviews is passed in but the sessionviews don't have sessions yet.
 - (instancetype)initWithRoot:(NSSplitView *)root
-                    sessions:(NSMapTable<SessionView *, PTYSession *> *)sessions {
+    sessions:(NSMapTable<SessionView *, PTYSession *> *)sessions {
     self = [super init];
     if (self) {
         PtyLog(@"PTYTab initWithRoot %p", self);
@@ -420,15 +425,15 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 - (void)commonInit {
     _guid = [[NSUUID UUID] UUIDString];
     self.viewToSessionMap = [[NSMapTable alloc] initWithKeyOptions:NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPersonality
-                                                      valueOptions:NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPersonality
-                                                          capacity:1];
+                                                valueOptions:NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPersonality
+                                                capacity:1];
     _tabNumberForItermSessionId = -1;
     hiddenLiveViews_ = [[NSMutableArray alloc] init];
     _variables = [[iTermVariables alloc] initWithContext:iTermVariablesSuggestionContextTab
-                                                   owner:self];
+                                         owner:self];
     _variables.primaryKey = @"id";
     _userVariables = [[iTermVariables alloc] initWithContext:iTermVariablesSuggestionContextTab
-                                                       owner:self];
+                                             owner:self];
     [self.variablesScope setValue:_userVariables forVariableNamed:@"user"];
     [self.variablesScope setValue:[iTermVariables globalInstance] forVariableNamed:iTermVariableKeyGlobalScopeName];
     [self.variablesScope setValue:[@(self.uniqueId) stringValue] forVariableNamed:iTermVariableKeyTabID];
@@ -437,25 +442,25 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     _sessionsWithDeferredFontChanges = [[NSMutableArray alloc] init];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(_refreshLabels:)
-                                                 name:kUpdateLabelsNotification
-                                               object:nil];
+                                          selector:@selector(_refreshLabels:)
+                                          name:kUpdateLabelsNotification
+                                          object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateUseMetal)
-                                                 name:iTermPowerManagerStateDidChange
-                                               object:nil];
+                                          selector:@selector(updateUseMetal)
+                                          name:iTermPowerManagerStateDidChange
+                                          object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(metalSettingsDidChange:)
-                                                 name:iTermMetalSettingsDidChangeNotification
-                                               object:nil];
+                                          selector:@selector(metalSettingsDidChange:)
+                                          name:iTermMetalSettingsDidChangeNotification
+                                          object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(tmuxDidFetchSetTitlesStringOption:)
-                                                 name:kTmuxControllerDidFetchSetTitlesStringOption
-                                               object:nil];
+                                          selector:@selector(tmuxDidFetchSetTitlesStringOption:)
+                                          name:kTmuxControllerDidFetchSetTitlesStringOption
+                                          object:nil];
     [iTermPreferenceDidChangeNotification subscribe:self selector:@selector(preferenceDidChange:)];
     _tabTitleOverrideSwiftyString = [[iTermSwiftyString alloc] initWithScope:self.variablesScope
-                                                                  sourcePath:iTermVariableKeyTabTitleOverrideFormat
-                                                             destinationPath:iTermVariableKeyTabTitleOverride];
+                                                               sourcePath:iTermVariableKeyTabTitleOverrideFormat
+                                                               destinationPath:iTermVariableKeyTabTitleOverride];
     __weak __typeof(self) weakSelf = self;
     _tabTitleOverrideSwiftyString.observer = ^(NSString * _Nonnull newValue, NSError *error) {
         if (error) {
@@ -474,8 +479,8 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 - (void)dealloc {
     // Post a notification
     [[NSNotificationCenter defaultCenter] postNotificationName:@"iTermTabClosing"
-                                                        object:self
-                                                      userInfo:nil];
+                                          object:self
+                                          userInfo:nil];
     PtyLog(@"PTYTab dealloc");
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     for (PTYSession *aSession in [self sessions]) {
@@ -497,18 +502,18 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 - (NSString *)description {
     if (self.tmuxTab) {
         return [NSString stringWithFormat:@"<%@: %p label=%@ objectCount=%@ tmuxWindow=%@ tmuxController=%@>",
-                NSStringFromClass([self class]),
-                self,
-                tabViewItem_.label,
-                @(objectCount_),
-                @(self.tmuxWindow),
-                self.tmuxController];
+                         NSStringFromClass([self class]),
+                         self,
+                         tabViewItem_.label,
+                         @(objectCount_),
+                         @(self.tmuxWindow),
+                         self.tmuxController];
     }
     return [NSString stringWithFormat:@"<%@: %p label=%@ objectCount=%@>",
-            NSStringFromClass([self class]),
-            self,
-            tabViewItem_.label,
-            @(objectCount_)];
+                     NSStringFromClass([self class]),
+                     self,
+                     tabViewItem_.label,
+                     @(objectCount_)];
 }
 
 #pragma mark - NSCopying
@@ -517,14 +522,14 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     DLog(@"Making a copy of tab %@", self);
     NSDictionary *arrangement = [self arrangementWithNewGUID];
     PTYTab *theCopy = [PTYTab tabWithArrangement:arrangement
-                                           named:nil
-                                      inTerminal:[self realParentWindow]
-                                 hasFlexibleView:flexibleView_ != nil
-                                         viewMap:nil
-                                      sessionMap:nil
-                                  tmuxController:tmuxController_
+                              named:nil
+                              inTerminal:[self realParentWindow]
+                              hasFlexibleView:flexibleView_ != nil
+                              viewMap:nil
+                              sessionMap:nil
+                              tmuxController:tmuxController_
                               partialAttachments:nil
-                                reservedTabGUIDs:[NSSet set]];
+                              reservedTabGUIDs:[NSSet set]];
     return theCopy;
 }
 
@@ -533,8 +538,8 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 - (void)setDelegate:(id<PTYTabDelegate>)delegate {
     _delegate = delegate;
     [self.variablesScope setValue:[delegate tabWindowVariables:self]
-                 forVariableNamed:iTermVariableKeyTabWindow
-                             weak:YES];
+                         forVariableNamed:iTermVariableKeyTabWindow
+                         weak:YES];
 }
 
 - (NSView *)rootView {
@@ -566,18 +571,18 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     const BOOL statusBarsOnTop = (([iTermPreferences unsignedIntegerForKey:kPreferenceKeyStatusBarPosition] == iTermStatusBarPositionTop) &&
                                   perPaneStatusBars);
     const BOOL anySessionHasTopStatusBar = statusBarsOnTop && [sessions anyWithBlock:^BOOL(PTYSession *session) {
-        return [iTermProfilePreferences boolForKey:KEY_SHOW_STATUS_BAR inProfile:session.profile];
-    }];
+                 return [iTermProfilePreferences boolForKey:KEY_SHOW_STATUS_BAR inProfile:session.profile];
+             }];
     const BOOL shouldShowTitles = (showTitles && [sessions count] > 1) || anySessionHasTopStatusBar;
     for (PTYSession *aSession in sessions) {
         const BOOL shouldShowBottomStatusBar = (perPaneStatusBars &&
                                                 !statusBarsOnTop &&
                                                 [iTermProfilePreferences boolForKey:KEY_SHOW_STATUS_BAR
-                                                                          inProfile:aSession.profile]);
+                                                                                inProfile:aSession.profile]);
         const BOOL changedTitle = [[aSession view] setShowTitle:shouldShowTitles
-                                     adjustScrollView:![self isTmuxTab]];
+                                                   adjustScrollView:![self isTmuxTab]];
         const BOOL changedBottomStatusBar = [aSession.view setShowBottomStatusBar:shouldShowBottomStatusBar
-                                                                 adjustScrollView:!self.isTmuxTab];
+                                                           adjustScrollView:!self.isTmuxTab];
         if (changedTitle || changedBottomStatusBar) {
             if (![self isTmuxTab]) {
                 if ([self fitSessionToCurrentViewSize:aSession]) {
@@ -587,7 +592,7 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
                 // Get the proper size and return yes if it should change.
                 NSSize size = [self sessionSizeForViewSize:aSession];
                 if (size.width != [aSession columns] ||
-                    size.height != [aSession rows]) {
+                        size.height != [aSession rows]) {
                     anyChange = YES;
                 }
             }
@@ -788,15 +793,15 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     [self updateLabelAttributes];
     [self.variablesScope setValue:activeSession_.variables forVariableNamed:iTermVariableKeyTabCurrentSession];
     [[NSNotificationCenter defaultCenter] postNotificationName:iTermSessionBecameKey
-                                                        object:activeSession_
-                                                      userInfo:@{ @"changed": @(changed) }];
+                                          object:activeSession_
+                                          userInfo:@ { @"changed": @(changed) }];
     // If the active session changed in the active tab in the key window then update the
     // focused state of all sessions in that window.
     if ([[self realParentWindow] currentTab] == self &&
-        [[[self realParentWindow] window] isKeyWindow]) {
-      for (PTYSession *aSession in [[self realParentWindow] allSessions]) {
-        [aSession setFocused:(aSession == session)];
-      }
+            [[[self realParentWindow] window] isKeyWindow]) {
+        for (PTYSession *aSession in [[self realParentWindow] allSessions]) {
+            [aSession setFocused:(aSession == session)];
+        }
     }
 
     [realParentWindow_ invalidateRestorableState];
@@ -804,9 +809,9 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     if (changed) {
         [[self realParentWindow] tabActiveSessionDidChange];
         [self.delegate tab:self
-        setBackgroundImage:self.activeSession.backgroundImage
-                      mode:self.activeSession.backgroundImageMode
-           backgroundColor:self.activeSession.processedBackgroundColor];
+                       setBackgroundImage:self.activeSession.backgroundImage
+                       mode:self.activeSession.backgroundImageMode
+                       backgroundColor:self.activeSession.processedBackgroundColor];
     }
 
     [[self realParentWindow] updateTabColors];
@@ -845,7 +850,7 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 - (NSPoint)rootRelativeOriginOfSession:(PTYSession *)session {
     if (!isMaximized_) {
         return [root_ convertPoint:session.view.frame.origin
-                          fromView:session.view.superview];
+                      fromView:session.view.superview];
     } else {
         return session.savedRootRelativeOrigin;
     }
@@ -855,12 +860,12 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     if ([iTermAdvancedSettingsModel navigatePanesInReadingOrder]) {
         if (self.isMaximized) {
             return [_orderedGUIDs mapWithBlock:^id(NSString *guid) {
-                return [self sessionWithGUID:guid];
-            }];
+                              return [self sessionWithGUID:guid];
+                          }];
         }
         BOOL useTrueReadingOrder = !root_.isVertical;
         return [[self sessions] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-            NSPoint origin1 = [self rootRelativeOriginOfSession:obj1];
+                            NSPoint origin1 = [self rootRelativeOriginOfSession:obj1];
             NSPoint origin2 = [self rootRelativeOriginOfSession:obj2];
             if (useTrueReadingOrder) {
                 // True reading order--top to bottom, then left to right.
@@ -881,8 +886,8 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
         }];
     } else {
         return [[self sessions] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-            PTYSession *session1 = obj1;
-            PTYSession *session2 = obj2;
+                            PTYSession *session1 = obj1;
+                            PTYSession *session2 = obj2;
             return [session1.activityCounter compare:session2.activityCounter];
         }];
     }
@@ -898,7 +903,7 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     }
     if (isMaximized_) {
         [root_ replaceSubview:[[root_ subviews] objectAtIndex:0]
-                         with:[session view]];
+               with:[session view]];
     }
     [self setActiveSession:session updateActivityCounter:NO];
     if (maximize) {
@@ -920,7 +925,7 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
         index = (index + orderedSessions.count + offset) % orderedSessions.count;
         if (isMaximized_) {
             [root_ replaceSubview:[[root_ subviews] objectAtIndex:0]
-                             with:[orderedSessions[index] view]];
+                   with:[orderedSessions[index] view]];
         }
         [self setActiveSession:orderedSessions[index] updateActivityCounter:NO];
     }
@@ -976,8 +981,8 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     const NSSize delta = NSMakeSize(flexibleView_.frame.size.width - root_.frame.size.width,
                                     flexibleView_.frame.size.height - root_.frame.size.height);
     if (![realParentWindow_ anyFullScreen] &&
-        delta.width >= 0 && delta.width < cellSize.width &&
-        delta.height >= 0 && delta.height < cellSize.height) {
+            delta.width >= 0 && delta.width < cellSize.width &&
+            delta.height >= 0 && delta.height < cellSize.height) {
         DLog(@"Root is slightly smaller than flexible view so use terminal background color for flexible view's background");
         // Root is just slightly smaller than flexibleView, by less than the size of a character.
         // Set flexible view's color to the default background color for tmux tabs.
@@ -1112,7 +1117,7 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
         return @[self.activeSession];
     }
     return [self.sessions minimumsWithComparator:^NSComparisonResult(PTYSession *_Nonnull session1, PTYSession *_Nonnull session2) {
-        const CGFloat y1 = round(NSMinY([root_ convertRect:session1.view.bounds fromView:session1.view]));
+                      const CGFloat y1 = round(NSMinY([root_ convertRect:session1.view.bounds fromView:session1.view]));
         const CGFloat y2 = round(NSMinY([root_ convertRect:session2.view.bounds fromView:session2.view]));
         return [@(y1) compare:@(y2)];
     }];
@@ -1123,7 +1128,7 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
         return @[self.activeSession];
     }
     return [self.sessions minimumsWithComparator:^NSComparisonResult(PTYSession *_Nonnull session1, PTYSession *_Nonnull session2) {
-        const CGFloat y1 = round(NSMinX([root_ convertRect:session1.view.bounds fromView:session1.view]));
+                      const CGFloat y1 = round(NSMinX([root_ convertRect:session1.view.bounds fromView:session1.view]));
         const CGFloat y2 = round(NSMinX([root_ convertRect:session2.view.bounds fromView:session2.view]));
         return [@(y1) compare:@(y2)];
     }];
@@ -1134,7 +1139,7 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
         return @[self.activeSession];
     }
     return [self.sessions maximumsWithComparator:^NSComparisonResult(PTYSession *_Nonnull session1, PTYSession *_Nonnull session2) {
-        const CGFloat y1 = round(NSMaxY([root_ convertRect:session1.view.bounds fromView:session1.view]));
+                      const CGFloat y1 = round(NSMaxY([root_ convertRect:session1.view.bounds fromView:session1.view]));
         const CGFloat y2 = round(NSMaxY([root_ convertRect:session2.view.bounds fromView:session2.view]));
         return [@(y1) compare:@(y2)];
     }];
@@ -1181,13 +1186,13 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 
 - (NSArray<PTYSession *> *)sessionsSatisfying:(BOOL (^)(PTYSession *otherSession))condition {
     return [self.sessions filteredArrayUsingBlock:^BOOL(PTYSession *anObject) {
-        return condition(anObject);
-    }];
+                      return condition(anObject);
+                  }];
 }
 
 - (NSArray<PTYSession *> *)sessionsInProjectionOfSession:(PTYSession *)aSession
-                                       verticalDirection:(BOOL)verticalDirection
-                                                   after:(BOOL)after {
+    verticalDirection:(BOOL)verticalDirection
+    after:(BOOL)after {
     NSRect aRect = [root_ convertRect:aSession.view.frame fromView:aSession.view.superview];
     if (verticalDirection) {
         SwapSize(&aRect.size);
@@ -1199,9 +1204,9 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     const CGFloat safetyMargin = 1;
 
     return [self sessionsSatisfying:^BOOL(PTYSession *b) {
-        if (b == aSession) {
-            return NO;
-        }
+             if (b == aSession) {
+                 return NO;
+             }
         NSRect bRect = [self->root_ convertRect:b.view.frame fromView:b.view.superview];
         if (verticalDirection) {
             SwapSize(&bRect.size);
@@ -1221,13 +1226,13 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 }
 
 - (NSArray<PTYSession *> *)sessionsAdjacentToSession:(PTYSession *)aSession
-                                         verticalDir:(BOOL)verticalDir
-                                               after:(BOOL)after {
+    verticalDir:(BOOL)verticalDir
+    after:(BOOL)after {
     NSArray<PTYSession *> *bCandidates = [self sessionsInProjectionOfSession:aSession verticalDirection:verticalDir after:after];
     return [bCandidates filteredArrayUsingBlock:^BOOL(PTYSession *b) {
-        BOOL cExists = [bCandidates anyWithBlock:^BOOL(PTYSession *cCandidate) {
-            return [self session:cCandidate sitsBetween:aSession and:b verticalDir:verticalDir after:after];
-        }];
+                    BOOL cExists = [bCandidates anyWithBlock:^BOOL(PTYSession *cCandidate) {
+                        return [self session:cCandidate sitsBetween:aSession and:b verticalDir:verticalDir after:after];
+                    }];
         return !cExists;
     }];
 }
@@ -1273,17 +1278,17 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 }
 
 - (PTYSession *)sessionAdjacentTo:(PTYSession *)session
-                      verticalDir:(BOOL)verticalDir
-                            after:(BOOL)after {
+    verticalDir:(BOOL)verticalDir
+    after:(BOOL)after {
     NSArray<PTYSession *> *sessions = [self sessionsAdjacentToSession:session verticalDir:verticalDir after:after];
     if (sessions.count || ![iTermAdvancedSettingsModel wrapFocus]) {
         return [sessions maxWithComparator:^NSComparisonResult(PTYSession *a, PTYSession *b) {
-            return [a.activityCounter compare:b.activityCounter];
-        }];
+                     return [a.activityCounter compare:b.activityCounter];
+                 }];
     } else {
         sessions = [self sessionsInProjectionOfSession:session verticalDirection:verticalDir after:!after];
         NSArray<PTYSession *> *wraparounds = [sessions minimumsWithComparator:^NSComparisonResult(PTYSession *a, PTYSession *b) {
-            NSRect aRect = [self->root_ convertRect:a.view.frame fromView:a.view.superview];
+                     NSRect aRect = [self->root_ convertRect:a.view.frame fromView:a.view.superview];
             NSRect bRect = [self->root_ convertRect:b.view.frame fromView:b.view.superview];
             if (verticalDir) {
                 SwapSize(&aRect.size);
@@ -1297,8 +1302,8 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
             return [@(aLeft) compare:@(bLeft)];
         }];
         return [wraparounds maxWithComparator:^NSComparisonResult(PTYSession *a, PTYSession *b) {
-            return [a.activityCounter compare:b.activityCounter];
-        }];
+                        return [a.activityCounter compare:b.activityCounter];
+                    }];
     }
 }
 
@@ -1378,7 +1383,7 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 }
 
 - (NSArray<PTYSession *> *)_recursiveSessions:(NSMutableArray<PTYSession *> *)sessions
-                                       atNode:(NSSplitView *)node {
+    atNode:(NSSplitView *)node {
     for (id subview in [node subviews]) {
         if ([subview isKindOfClass:[NSSplitView class]]) {
             [self _recursiveSessions:sessions atNode:(NSSplitView*)subview];
@@ -1402,7 +1407,7 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 }
 
 - (NSArray<SessionView *> *)_recursiveSessionViews:(NSMutableArray<SessionView *> *)sessionViews
-                                            atNode:(NSSplitView*)node {
+    atNode:(NSSplitView*)node {
     for (id subview in [node subviews]) {
         if ([subview isKindOfClass:[NSSplitView class]]) {
             [self _recursiveSessionViews:sessionViews atNode:(NSSplitView*)subview];
@@ -1424,7 +1429,7 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     [hiddenLiveViews_ addObject:live.view];
     synthetic.liveSession = live;
     [self setFakeParentWindow:[[FakeWindow alloc] initFromRealWindow:realParentWindow_
-                                                             session:live]];
+                               session:live]];
     [realParentWindow_.window makeFirstResponder:synthetic.textview];
     [self.viewToSessionMap setObject:live forKey:live.view];
 }
@@ -1452,7 +1457,7 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     // time after cmd-d was pressed (but before the present) has the wrong
     // window size.
     [self setFakeParentWindow:[[FakeWindow alloc] initFromRealWindow:realParentWindow_
-                                                             session:oldSession]];
+                               session:oldSession]];
 
     // This starts the new session's update timer
     [newSession updateDisplayBecause:@"replacing active session with synthetic"];
@@ -1694,9 +1699,9 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     for (PTYSession *theSession in [self sessions]) {
         NSSize theSize = [theSession idealScrollViewSizeWithStyle:[parentWindow_ scrollerStyle]];
         [[theSession.view scrollview] setFrame:NSMakeRect(0,
-                                                          0,
-                                                          theSize.width,
-                                                          theSize.height)];
+                                             0,
+                                             theSize.width,
+                                             theSize.height)];
         [[theSession view] updateTitleFrame];
     }
 }
@@ -1719,7 +1724,7 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 }
 
 - (void)sessionDidChangeFontSize:(PTYSession *)session
-                    adjustWindow:(BOOL)adjustWindow {
+    adjustWindow:(BOOL)adjustWindow {
     if (self.deferFontChanges) {
         if (![_sessionsWithDeferredFontChanges containsObject:session]) {
             [_sessionsWithDeferredFontChanges addObject:session];
@@ -1730,10 +1735,10 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 }
 
 - (void)reallyChangeSessionFontSize:(PTYSession *)session
-                       adjustWindow:(BOOL)adjustWindow {
+    adjustWindow:(BOOL)adjustWindow {
     if (adjustWindow &&
-        ![[self parentWindow] anyFullScreen] &&
-        [iTermPreferences boolForKey:kPreferenceKeyAdjustWindowForFontSizeChange]) {
+            ![[self parentWindow] anyFullScreen] &&
+            [iTermPreferences boolForKey:kPreferenceKeyAdjustWindowForFontSizeChange]) {
         [[self parentWindow] fitWindowToTab:self];
     }
 
@@ -1900,9 +1905,9 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 }
 
 - (void)splitVertically:(BOOL)isVertical
-             newSession:(PTYSession *)newSession
-                 before:(BOOL)before
-          targetSession:(PTYSession *)targetSession  {
+    newSession:(PTYSession *)newSession
+    before:(BOOL)before
+    targetSession:(PTYSession *)targetSession  {
     if (isMaximized_) {
         [self unmaximize];
     }
@@ -1975,10 +1980,10 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 }
 
 + (NSSize)_sessionSizeWithCellSize:(NSSize)cellSize
-                        dimensions:(NSSize)dimensions
-                        showTitles:(BOOL)showTitles
-               showBottomStatusBar:(BOOL)showBottomStatusBar
-                        inTerminal:(id<WindowControllerInterface>)term {
+    dimensions:(NSSize)dimensions
+    showTitles:(BOOL)showTitles
+    showBottomStatusBar:(BOOL)showBottomStatusBar
+    inTerminal:(id<WindowControllerInterface>)term {
     int rows = dimensions.height;
     int columns = dimensions.width;
     double charWidth = cellSize.width;
@@ -1994,10 +1999,10 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     NSSize outerSize =
         [PTYScrollView frameSizeForContentSize:size
                        horizontalScrollerClass:nil
-                         verticalScrollerClass:hasScrollbar ? [PTYScroller class] : nil
-                                    borderType:NSNoBorder
-                                   controlSize:NSControlSizeRegular
-                                 scrollerStyle:[term scrollerStyle]];
+                       verticalScrollerClass:hasScrollbar ? [PTYScroller class] : nil
+                       borderType:NSNoBorder
+                       controlSize:NSControlSizeRegular
+                       scrollerStyle:[term scrollerStyle]];
     if (showTitles) {
         outerSize.height += [SessionView titleHeight];
     }
@@ -2012,10 +2017,10 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     PTYSession *session = [self sessionForSessionView:sessionView];
     DLog(@"Compute size of session %@", session);
     return [PTYTab _sessionSizeWithCellSize:NSMakeSize([[session textview] charWidth], [[session textview] lineHeight])
-                                 dimensions:NSMakeSize([session columns], [session rows])
-                                 showTitles:[sessionView showTitle]
-                        showBottomStatusBar:sessionView.showBottomStatusBar
-                                 inTerminal:parentWindow_];
+                   dimensions:NSMakeSize([session columns], [session rows])
+                   showTitles:[sessionView showTitle]
+                   showBottomStatusBar:sessionView.showBottomStatusBar
+                   inTerminal:parentWindow_];
 }
 
 - (NSSize)_minSessionSize:(SessionView*)sessionView {
@@ -2028,10 +2033,10 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     NSSize scrollViewSize =
         [PTYScrollView frameSizeForContentSize:size
                        horizontalScrollerClass:nil
-                         verticalScrollerClass:hasScrollbar ? [PTYScroller class] : nil
-                                    borderType:NSNoBorder
-                                   controlSize:NSControlSizeRegular
-                                 scrollerStyle:[parentWindow_ scrollerStyle]];
+                       verticalScrollerClass:hasScrollbar ? [PTYScroller class] : nil
+                       borderType:NSNoBorder
+                       controlSize:NSControlSizeRegular
+                       scrollerStyle:[parentWindow_ scrollerStyle]];
     return scrollViewSize;
 }
 
@@ -2233,15 +2238,15 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     origin.y = [viewImage size].height - [textviewImage size].height - origin.y;
     [viewImage lockFocus];
     [textviewImage drawAtPoint:origin
-                      fromRect:NSZeroRect
-                     operation:NSCompositingOperationSourceOver
-                      fraction:1];
+                   fromRect:NSZeroRect
+                   operation:NSCompositingOperationSourceOver
+                   fraction:1];
     [viewImage unlockFocus];
 }
 
 - (void)_recursiveDrawSplit:(NSSplitView *)splitView
-                    inImage:(NSImage *)viewImage
-                   atOrigin:(NSPoint)splitOrigin {
+    inImage:(NSImage *)viewImage
+    atOrigin:(NSPoint)splitOrigin {
     NSPoint origin = splitOrigin;
     CGFloat myHeight = [viewImage size].height;
     BOOL first = YES;
@@ -2282,8 +2287,8 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
             // flip the y coordinate for drawing
             CGFloat y = myHeight - origin.y - [subview frame].size.height;
             [self _drawSession:[self sessionForSessionView:sessionView]
-                       inImage:viewImage
-                      atOrigin:NSMakePoint(origin.x, y)];
+                  inImage:viewImage
+                  atOrigin:NSMakePoint(origin.x, y)];
         }
         if ([splitView isVertical]) {
             origin.x += [subview frame].size.width;
@@ -2301,19 +2306,19 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     CGFloat xOrigin = 0;
     if (withSpaceForFrame) {
         switch ([iTermPreferences intForKey:kPreferenceKeyTabPosition]) {
-            case PSMTab_BottomTab:
-                viewSize.height += tabFrame.size.height;
-                yOrigin += tabFrame.size.height;
-                break;
+        case PSMTab_BottomTab:
+            viewSize.height += tabFrame.size.height;
+            yOrigin += tabFrame.size.height;
+            break;
 
-            case PSMTab_TopTab:
-                viewSize.height += tabFrame.size.height;
-                break;
+        case PSMTab_TopTab:
+            viewSize.height += tabFrame.size.height;
+            break;
 
-            case PSMTab_LeftTab:
-                xOrigin = tabFrame.size.width;
-                viewSize.width += tabFrame.size.width;
-                break;
+        case PSMTab_LeftTab:
+            xOrigin = tabFrame.size.width;
+            viewSize.width += tabFrame.size.width;
+            break;
         }
     }
 
@@ -2382,7 +2387,7 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     PtyLog(@"PTYTab fitSessionToCurrentViewSzie");
     PtyLog(@"fitSessionToCurrentViewSize begins");
     [aSession setScrollBarVisible:[parentWindow_ scrollbarShouldBeVisible]
-                            style:[parentWindow_ scrollerStyle]];
+              style:[parentWindow_ scrollerStyle]];
     NSSize size = [[aSession view] maximumPossibleScrollViewContentSize];
     DLog(@"Max size is %@", [NSValue valueWithSize:size]);
     int width = (size.width - [iTermPreferences intForKey:kPreferenceKeySideMargins] * 2) / [[aSession textview] charWidth];
@@ -2414,7 +2419,7 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 
 - (BOOL)resizeSession:(PTYSession *)aSession toSize:(VT100GridSize)newSize {
     if ([aSession rows] == newSize.height &&
-        [aSession columns] == newSize.width) {
+            [aSession columns] == newSize.width) {
         PtyLog(@"PTYTab fitSessionToCurrentViewSize: noop");
         return NO;
     }
@@ -2471,8 +2476,8 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     NSArray<PTYSession *> *sessions = [self sessions];
     for (PTYSession *session in sessions) {
         if ([session transparency] > 0 &&
-            [[session textview] useTransparency] &&
-            [[[session profile] objectForKey:KEY_BLUR] boolValue]) {
+                [[session textview] useTransparency] &&
+                [[[session profile] objectForKey:KEY_BLUR] boolValue]) {
             ++y;
         } else {
             ++n;
@@ -2502,7 +2507,7 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 - (void)recheckBlur {
     PtyLog(@"PTYTab recheckBlur");
     if ([realParentWindow_ currentTab] == self &&
-        ![[realParentWindow_ window] isMiniaturized]) {
+            ![[realParentWindow_ window] isMiniaturized]) {
         if ([self blur]) {
             [parentWindow_ enableBlur:[self blurRadius]];
         } else {
@@ -2517,10 +2522,10 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 // NOTE: This has a side effect of updating idMap. It maps a number (the "arrangement ID") to a
 // sessionView. It also calls -[SessionView saveFrameSize].
 - (BOOL)_recursiveEncodeArrangementForView:(NSView *)view
-                                     idMap:(NSMutableDictionary<NSNumber *, SessionView *> *)idMap
-                               isMaximized:(BOOL)isMaximized
-                                  contents:(BOOL)contents
-                                   encoder:(id<iTermEncoderAdapter>)encoder {
+    idMap:(NSMutableDictionary<NSNumber *, SessionView *> *)idMap
+    isMaximized:(BOOL)isMaximized
+    contents:(BOOL)contents
+    encoder:(id<iTermEncoderAdapter>)encoder {
     DLog(@"Encode view %@", view);
     if (isMaximized) {
         encoder[TAB_ARRANGEMENT_IS_MAXIMIZED] = @YES;
@@ -2534,28 +2539,28 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
         encoder[SPLITTER_IS_VERTICAL] = @(splitView.isVertical);
 
         iTermOrderedDictionary<NSString *, __kindof NSView *> *index =
-        [iTermOrderedDictionary byMapping:splitView.subviews
-                                    block:^id _Nonnull(NSUInteger i, __kindof NSView *_Nonnull view) {
-            if ([view isKindOfClass:[PTYSplitView class]]) {
-                PTYSplitView *splitView = view;
-                return splitView.stringUniqueIdentifier;
-            }
+            [iTermOrderedDictionary byMapping:splitView.subviews
+                               block:^id _Nonnull(NSUInteger i, __kindof NSView *_Nonnull view) {
+                                   if ([view isKindOfClass:[PTYSplitView class]]) {
+                                       PTYSplitView *splitView = view;
+                                       return splitView.stringUniqueIdentifier;
+                                   }
             PTYSession *session = [self sessionForSessionView:view];
             return session.stringUniqueIdentifier;
         }];
         [encoder encodeArrayWithKey:SUBVIEWS
-                        identifiers:index.keys
-                         generation:iTermGenerationAlwaysEncode
-                              block:^BOOL(id<iTermEncoderAdapter>  _Nonnull encoder,
-                                          NSInteger i,
-                                          NSString * _Nonnull identifier,
-                                          BOOL *stop) {
-            return [self _recursiveEncodeArrangementForView:index[identifier]
-                                                      idMap:idMap
-                                                isMaximized:isMaximized
-                                                   contents:contents
-                                                    encoder:encoder];
-        }];
+                 identifiers:index.keys
+                 generation:iTermGenerationAlwaysEncode
+                 block:^BOOL(id<iTermEncoderAdapter>  _Nonnull encoder,
+                     NSInteger i,
+                     NSString * _Nonnull identifier,
+                BOOL *stop) {
+                    return [self _recursiveEncodeArrangementForView:index[identifier]
+                    idMap:idMap
+                    isMaximized:isMaximized
+                    contents:contents
+                    encoder:encoder];
+                }];
         DLog(@"Done encoding splitter view %@", view);
         return YES;
     }
@@ -2569,10 +2574,10 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     encoder[TAB_ARRANGEMENT_VIEW_TYPE] = VIEW_TYPE_SESSIONVIEW;
     encoder[TAB_ARRANGEMENT_SESSIONVIEW_FRAME] = [PTYTab frameToDict:[view frame]];
     [encoder encodeDictionaryWithKey:TAB_ARRANGEMENT_SESSION
-                          generation:iTermGenerationAlwaysEncode
-                               block:^BOOL(id<iTermEncoderAdapter>  _Nonnull encoder) {
-        return [session encodeArrangementWithContents:contents encoder:encoder];
-    }];
+             generation:iTermGenerationAlwaysEncode
+            block:^BOOL(id<iTermEncoderAdapter>  _Nonnull encoder) {
+                return [session encodeArrangementWithContents:contents encoder:encoder];
+            }];
     encoder[TAB_ARRANGEMENT_IS_ACTIVE] = @(session == [self activeSession]);
 
     if (idMap) {
@@ -2631,13 +2636,13 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 }
 
 + (__kindof NSView *)_recursiveRestoreSplitters:(NSDictionary<NSString *, id> *)arrangement
-                                      fromIdMap:(NSDictionary<NSNumber *, SessionView *> *)idMap
-                                     sessionMap:(NSDictionary<NSString *, PTYSession *> *)sessionMap
-                                revivedSessions:(NSMutableArray<PTYSession *> *)revivedSessions {
+    fromIdMap:(NSDictionary<NSNumber *, SessionView *> *)idMap
+    sessionMap:(NSDictionary<NSString *, PTYSession *> *)sessionMap
+    revivedSessions:(NSMutableArray<PTYSession *> *)revivedSessions {
     if ([[arrangement objectForKey:TAB_ARRANGEMENT_VIEW_TYPE] isEqualToString:VIEW_TYPE_SPLITTER]) {
         NSRect frame = [PTYTab dictToFrame:[arrangement objectForKey:TAB_ARRANGEMENT_SPLITTER_FRAME]];
         NSSplitView *splitter = [[PTYSplitView alloc] initWithFrame:frame
-                                                   uniqueIdentifier:arrangement[TAB_ARRANGEMENT_SPLITTER_ID]];
+                                                      uniqueIdentifier:arrangement[TAB_ARRANGEMENT_SPLITTER_ID]];
         if (USE_THIN_SPLITTERS) {
             [splitter setDividerStyle:NSSplitViewDividerStyleThin];
         }
@@ -2646,9 +2651,9 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
         NSArray<NSDictionary *> *subviews = [arrangement objectForKey:SUBVIEWS];
         for (NSDictionary *subArrangement in subviews) {
             NSView* subView = [PTYTab _recursiveRestoreSplitters:subArrangement
-                                                       fromIdMap:idMap
-                                                      sessionMap:sessionMap
-                                                 revivedSessions:revivedSessions];
+                                      fromIdMap:idMap
+                                      sessionMap:sessionMap
+                                      revivedSessions:revivedSessions];
             if (subView) {
                 [splitter addSubview:subView];
             }
@@ -2699,14 +2704,14 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 }
 
 + (NSDictionary *)recursiveRepairedArrangementNode:(NSDictionary *)arrangement
-                          replacingProfileWithGUID:(NSString *)badGuid
-                                       withProfile:(Profile *)goodProfile {
+    replacingProfileWithGUID:(NSString *)badGuid
+    withProfile:(Profile *)goodProfile {
     if ([[arrangement objectForKey:TAB_ARRANGEMENT_VIEW_TYPE] isEqualToString:VIEW_TYPE_SPLITTER]) {
         NSMutableArray *repairedSubviews = [NSMutableArray array];
         for (NSDictionary<NSString *, id> *subArrangement in arrangement[SUBVIEWS]) {
             [repairedSubviews addObject:[PTYTab recursiveRepairedArrangementNode:subArrangement
-                                                        replacingProfileWithGUID:badGuid
-                                                                     withProfile:goodProfile]];
+                                         replacingProfileWithGUID:badGuid
+                                         withProfile:goodProfile]];
         }
         NSMutableDictionary *result = [arrangement mutableCopy];
         result[SUBVIEWS] = repairedSubviews;
@@ -2720,26 +2725,26 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 }
 
 + (NSDictionary *)recursiveRepairedArrangementNode:(NSDictionary *)arrangement
-                  replacingOldCWDOfSessionWithGUID:(NSString *)guid
-                                        withOldCWD:(NSString *)replacementOldCWD {
+    replacingOldCWDOfSessionWithGUID:(NSString *)guid
+    withOldCWD:(NSString *)replacementOldCWD {
     if ([arrangement[TAB_ARRANGEMENT_VIEW_TYPE] isEqualToString:VIEW_TYPE_SPLITTER]) {
         NSArray *subviews = arrangement[SUBVIEWS];
         NSArray *repairedSubviews = [subviews mapWithBlock:^id(NSDictionary<NSString *, id> *subArrangement) {
-            return [PTYTab recursiveRepairedArrangementNode:subArrangement
-                           replacingOldCWDOfSessionWithGUID:guid
-                                                 withOldCWD:replacementOldCWD];
-        }];
+                     return [PTYTab recursiveRepairedArrangementNode:subArrangement
+                             replacingOldCWDOfSessionWithGUID:guid
+                             withOldCWD:replacementOldCWD];
+                 }];
         return [arrangement dictionaryBySettingObject:repairedSubviews forKey:SUBVIEWS];
     }
 
     return [arrangement dictionaryBySettingObject:[PTYSession repairedArrangement:arrangement[TAB_ARRANGEMENT_SESSION]
-                                                 replacingOldCWDOfSessionWithGUID:guid
-                                                                       withOldCWD:replacementOldCWD]
-                                           forKey:TAB_ARRANGEMENT_SESSION];
+                        replacingOldCWDOfSessionWithGUID:guid
+                        withOldCWD:replacementOldCWD]
+                        forKey:TAB_ARRANGEMENT_SESSION];
 }
 
 + (NSDictionary *)recursiveFindSessionArrangementWithGUID:(NSString *)sessionGUID
-                                                     node:(NSDictionary *)arrangement {
+    node:(NSDictionary *)arrangement {
     if ([[arrangement objectForKey:TAB_ARRANGEMENT_VIEW_TYPE] isEqualToString:VIEW_TYPE_SPLITTER]) {
         for (NSDictionary<NSString *, id> *subArrangement in arrangement[SUBVIEWS]) {
             NSDictionary *result = [PTYTab recursiveFindSessionArrangementWithGUID:sessionGUID node:subArrangement];
@@ -2758,11 +2763,11 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 
 
 - (PTYSession *)_recursiveRestoreSessions:(NSDictionary<NSString *, id> *)arrangement
-                                    named:(NSString *)arrangementName
-                                   atNode:(__kindof NSView *)view
-                                    inTab:(PTYTab *)theTab
-                            forObjectType:(iTermObjectType)objectType
-                       partialAttachments:(NSDictionary *)partialAttachments {
+    named:(NSString *)arrangementName
+    atNode:(__kindof NSView *)view
+    inTab:(PTYTab *)theTab
+    forObjectType:(iTermObjectType)objectType
+    partialAttachments:(NSDictionary *)partialAttachments {
     if ([[arrangement objectForKey:TAB_ARRANGEMENT_VIEW_TYPE] isEqualToString:VIEW_TYPE_SPLITTER]) {
         assert([view isKindOfClass:[NSSplitView class]]);
         NSSplitView* splitter = (NSSplitView*)view;
@@ -2772,11 +2777,11 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
         for (NSInteger i = 0; i < [subArrangements count] && i < splitter.subviews.count; ++i) {
             NSDictionary<NSString *, id> *subArrangement = subArrangements[i];
             PTYSession *session = [self _recursiveRestoreSessions:subArrangement
-                                                            named:arrangementName
-                                                           atNode:[[splitter subviews] objectAtIndex:i]
-                                                            inTab:theTab
-                                                    forObjectType:subObjectType
-                                               partialAttachments:partialAttachments];
+                                        named:arrangementName
+                                        atNode:[[splitter subviews] objectAtIndex:i]
+                                        inTab:theTab
+                                        forObjectType:subObjectType
+                                        partialAttachments:partialAttachments];
             if (session) {
                 active = session;
             }
@@ -2801,11 +2806,11 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
             [session setSizeFromArrangement:[arrangement objectForKey:TAB_ARRANGEMENT_SESSION]];
         } else {
             session = [PTYSession sessionFromArrangement:[arrangement objectForKey:TAB_ARRANGEMENT_SESSION]
-                                                   named:arrangementName
-                                                  inView:view
-                                            withDelegate:theTab
-                                           forObjectType:objectType
-                                      partialAttachments:partialAttachments];
+                                  named:arrangementName
+                                  inView:view
+                                  withDelegate:theTab
+                                  forObjectType:objectType
+                                  partialAttachments:partialAttachments];
             [self.viewToSessionMap setObject:session forKey:view];
         }
         if ([[arrangement objectForKey:TAB_ARRANGEMENT_IS_ACTIVE] boolValue]) {
@@ -2818,11 +2823,11 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 
 + (void)drawArrangementPreview:(NSDictionary*)arrangement frame:(NSRect)frame {
     [PTYTab _recursiveDrawArrangementPreview:[arrangement objectForKey:TAB_ARRANGEMENT_ROOT]
-                                       frame:frame];
+            frame:frame];
 }
 
 - (NSArray *)_recursiveSplittersFromNode:(NSSplitView *)node
-                               splitters:(NSArray<NSSplitView *> *)splitters {
+    splitters:(NSArray<NSSplitView *> *)splitters {
     NSArray<NSSplitView *> *result = [splitters arrayByAddingObject:node];
     for (id subview in node.subviews) {
         if ([subview isKindOfClass:[NSSplitView class]]) {
@@ -2860,7 +2865,7 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     }
     for (SessionView *sessionView in tabToGut.viewToSessionMap) {
         [self.viewToSessionMap setObject:[tabToGut.viewToSessionMap objectForKey:sessionView]
-                                  forKey:sessionView];
+                               forKey:sessionView];
     }
     [tabToGut.viewToSessionMap removeAllObjects];
 }
@@ -2869,7 +2874,7 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     assert(!flexibleView_);
     // Interpose a vew between the tab and the root so the root can be smaller than the tab.
     flexibleView_ = [[iTermFlexibleView alloc] initWithFrame:root_.frame
-                                                       color:[self flexibleViewColor]];
+                                               color:[self flexibleViewColor]];
     [flexibleView_ setFlipped:YES];
     tabView_ = flexibleView_;
     [root_ setAutoresizingMask:NSViewMaxXMargin | NSViewMaxYMargin];
@@ -2894,7 +2899,7 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 }
 
 + (void)_recursiveOpenPartialAttachments:(NSDictionary *)arrangement
-                              completion:(void (^)(NSDictionary *))completion {
+    completion:(void (^)(NSDictionary *))completion {
     if ([arrangement[TAB_ARRANGEMENT_VIEW_TYPE] isEqualToString:VIEW_TYPE_SPLITTER]) {
         DLog(@"_recursiveOpenPartialAttachments: found splitter");
         NSArray<NSDictionary<NSString *, id> *> *subArrangements = [arrangement objectForKey:SUBVIEWS];
@@ -2904,47 +2909,47 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
             dispatch_group_enter(group);
             DLog(@"_recursiveOpenPartialAttachments: recurse");
             [self _recursiveOpenPartialAttachments:subArrangement completion:^(NSDictionary *dict) {
-                DLog(@"_recursiveOpenPartialAttachments: got a result from a subview");
+                     DLog(@"_recursiveOpenPartialAttachments: got a result from a subview");
                 [result it_mergeFrom:dict];
                 dispatch_group_leave(group);
             }];
         }
-        dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        dispatch_group_notify(group, dispatch_get_main_queue(), ^ {
             DLog(@"_recursiveOpenPartialAttachments: got results from all subviews");
             completion(result);
         });
     } else {
         DLog(@"_recursiveOpenPartialAttachments: found session");
         [PTYSession openPartialAttachmentsForArrangement:arrangement[TAB_ARRANGEMENT_SESSION]
-                                              completion:completion];
+                    completion:completion];
     }
 }
 
 + (void)openPartialAttachmentsForArrangement:(NSDictionary *)arrangement
-                                  completion:(void (^)(NSDictionary *))completion {
+    completion:(void (^)(NSDictionary *))completion {
     [self _recursiveOpenPartialAttachments:arrangement[TAB_ARRANGEMENT_ROOT]
-                                completion:completion];
+          completion:completion];
 }
 
 // reservedTabGUIDs gives GUIDs of other tabs which are not reachable through
 // iTermController.terminals because they are siblings of a window that is still being created.
 // It's passed in to ensure that tab GUIDs are truly globally unique.
 + (PTYTab *)tabWithArrangement:(NSDictionary*)arrangement
-                         named:(NSString *)arrangementName
-                    inTerminal:(NSWindowController<iTermWindowController> *)term
-               hasFlexibleView:(BOOL)hasFlexible
-                       viewMap:(NSDictionary<NSNumber *, SessionView *> *)viewMap
-                    sessionMap:(NSDictionary<NSString *, PTYSession *> *)sessionMap
-                tmuxController:(TmuxController *)tmuxController
-            partialAttachments:(NSDictionary *)partialAttachments
-              reservedTabGUIDs:(NSSet<NSString *> *)reservedTabGUIDs {
+    named:(NSString *)arrangementName
+    inTerminal:(NSWindowController<iTermWindowController> *)term
+    hasFlexibleView:(BOOL)hasFlexible
+    viewMap:(NSDictionary<NSNumber *, SessionView *> *)viewMap
+    sessionMap:(NSDictionary<NSString *, PTYSession *> *)sessionMap
+    tmuxController:(TmuxController *)tmuxController
+    partialAttachments:(NSDictionary *)partialAttachments
+    reservedTabGUIDs:(NSSet<NSString *> *)reservedTabGUIDs {
     PTYTab *theTab;
     NSMutableArray<PTYSession *> *revivedSessions = [NSMutableArray array];
     // Build a tree with splitters and SessionViews but no PTYSessions.
     NSSplitView *newRoot = (NSSplitView *)[PTYTab _recursiveRestoreSplitters:[arrangement objectForKey:TAB_ARRANGEMENT_ROOT]
-                                                                   fromIdMap:viewMap
-                                                                  sessionMap:sessionMap
-                                                             revivedSessions:revivedSessions];
+                                                  fromIdMap:viewMap
+                                                  sessionMap:sessionMap
+                                                  revivedSessions:revivedSessions];
 
     // Create a tab.
     theTab = [[PTYTab alloc] initWithRoot:newRoot sessions:nil];
@@ -2972,16 +2977,16 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
         [theTab.viewToSessionMap setObject:session forKey:session.view];
     }
     [theTab setActiveSession:[theTab _recursiveRestoreSessions:[arrangement objectForKey:TAB_ARRANGEMENT_ROOT]
-                                                         named:arrangementName
-                                                        atNode:theTab->root_
-                                                         inTab:theTab
-                                                 forObjectType:objectType
-                                            partialAttachments:partialAttachments]];
+                              named:arrangementName
+                              atNode:theTab->root_
+                              inTab:theTab
+                              forObjectType:objectType
+                              partialAttachments:partialAttachments]];
     theTab.titleOverride = [arrangement[TAB_ARRANGEMENT_TITLE_OVERRIDE] nilIfNull];
     NSString *guid = arrangement[TAB_GUID];
     if (guid) {
         if ([[iTermController sharedInstance] tabWithGUID:guid] ||
-            [reservedTabGUIDs containsObject:guid]) {
+                [reservedTabGUIDs containsObject:guid]) {
             theTab->_guid = [[NSUUID UUID] UUIDString];
         } else {
             theTab->_guid = arrangement[TAB_GUID];
@@ -2992,37 +2997,37 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 }
 
 + (NSDictionary *)repairedArrangement:(NSDictionary *)arrangement
-             replacingProfileWithGUID:(NSString *)badGuid
-                          withProfile:(Profile *)goodProfile {
+    replacingProfileWithGUID:(NSString *)badGuid
+    withProfile:(Profile *)goodProfile {
     NSDictionary *newRoot = [PTYTab recursiveRepairedArrangementNode:arrangement[TAB_ARRANGEMENT_ROOT]
-                                            replacingProfileWithGUID:badGuid
-                                                         withProfile:goodProfile];
+                                    replacingProfileWithGUID:badGuid
+                                    withProfile:goodProfile];
     NSMutableDictionary *result = [arrangement mutableCopy];
     result[TAB_ARRANGEMENT_ROOT] = newRoot;
     return result;
 }
 
 + (NSDictionary *)repairedArrangement:(NSDictionary *)arrangement
-     replacingOldCWDOfSessionWithGUID:(NSString *)guid
-                           withOldCWD:(NSString *)replacementOldCWD {
+    replacingOldCWDOfSessionWithGUID:(NSString *)guid
+    withOldCWD:(NSString *)replacementOldCWD {
     NSDictionary *newRoot = [PTYTab recursiveRepairedArrangementNode:arrangement[TAB_ARRANGEMENT_ROOT]
                                     replacingOldCWDOfSessionWithGUID:guid
-                                                          withOldCWD:replacementOldCWD];
+                                    withOldCWD:replacementOldCWD];
     NSMutableDictionary *result = [arrangement mutableCopy];
     result[TAB_ARRANGEMENT_ROOT] = newRoot;
     return result;
 }
 
 + (NSDictionary *)arrangementForSessionWithGUID:(NSString *)sessionGUID
-                                  inArrangement:(NSDictionary *)arrangement {
+    inArrangement:(NSDictionary *)arrangement {
     return [PTYTab recursiveFindSessionArrangementWithGUID:sessionGUID
-                                                      node:arrangement[TAB_ARRANGEMENT_ROOT]];
+                   node:arrangement[TAB_ARRANGEMENT_ROOT]];
 }
 
 // This can only be used in conjunction with
 // +[tabWithArrangement:inTerminal:hasFlexibleView:viewMap:].
 - (void)didAddToTerminal:(NSWindowController<iTermWindowController> *)term
-         withArrangement:(NSDictionary *)arrangement {
+    withArrangement:(NSDictionary *)arrangement {
     NSDictionary* root = [arrangement objectForKey:TAB_ARRANGEMENT_ROOT];
     if ([root[TAB_ARRANGEMENT_IS_MAXIMIZED] boolValue]) {
         [self maximize];
@@ -3036,8 +3041,9 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     NSColor *tabColor = [[self class] colorForHtmlName:colorName];
     if (tabColor) {
         PTYSession *session = [self activeSession];
-        [session setSessionSpecificProfileValues:@{ KEY_TAB_COLOR: [tabColor dictionaryValue],
-                                                    KEY_USE_TAB_COLOR: @YES }];
+        [session setSessionSpecificProfileValues:@ { KEY_TAB_COLOR: [tabColor dictionaryValue],
+                KEY_USE_TAB_COLOR: @YES
+                                                   }];
     } else {
         [term updateTabColors];
     }
@@ -3046,40 +3052,40 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 // Uses idMap_ to reconstitute the TAB_ARRANGEMENT_SESSION elements of an arrangement including their
 // contents.
 - (BOOL)encodeArrangementNodeWithContents:(BOOL)includeContents
-                      fromArrangementNode:(NSDictionary *)node
-                                  encoder:(id<iTermEncoderAdapter>)encoder {
+    fromArrangementNode:(NSDictionary *)node
+    encoder:(id<iTermEncoderAdapter>)encoder {
     DLog(@"Encode arragnement for %@ from node %@", self, node);
     if ([node[TAB_ARRANGEMENT_VIEW_TYPE] isEqual:VIEW_TYPE_SPLITTER]) {
         // Add everything in node except SUBVIEWS
         [node enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-            if ([key isEqual:SUBVIEWS]) {
-                return;
-            }
+                 if ([key isEqual:SUBVIEWS]) {
+                     return;
+                 }
             encoder[key] = obj;
         }];
 
         iTermOrderedDictionary<NSString *, NSDictionary *> *index =
-        [iTermOrderedDictionary byMapping:node[SUBVIEWS]
+            [iTermOrderedDictionary byMapping:node[SUBVIEWS]
                                     block:^id _Nonnull(NSUInteger i,
-                                                       NSDictionary * _Nonnull subnode) {
-            if ([subnode[TAB_ARRANGEMENT_VIEW_TYPE] isEqual:VIEW_TYPE_SPLITTER]) {
-                return subnode[TAB_ARRANGEMENT_SPLITTER_ID] ?: [@(i) stringValue];
-            } else {
+                               NSDictionary * _Nonnull subnode) {
+                                   if ([subnode[TAB_ARRANGEMENT_VIEW_TYPE] isEqual:VIEW_TYPE_SPLITTER]) {
+                                       return subnode[TAB_ARRANGEMENT_SPLITTER_ID] ?: [@(i) stringValue];
+                                   } else {
                 return [PTYSession guidInArrangement:subnode[TAB_ARRANGEMENT_SESSION]] ?: [@(i) stringValue];
             }
         }];
         __block BOOL ok = YES;
         [encoder encodeArrayWithKey:SUBVIEWS
-                        identifiers:index.keys
-                         generation:iTermGenerationAlwaysEncode
-                              block:^BOOL(id<iTermEncoderAdapter>  _Nonnull encoder,
-                                          NSInteger i,
-                                          NSString * _Nonnull identifier,
-                                          BOOL *stop) {
-            NSDictionary *subnode = index[identifier];
+                 identifiers:index.keys
+                 generation:iTermGenerationAlwaysEncode
+                 block:^BOOL(id<iTermEncoderAdapter>  _Nonnull encoder,
+                     NSInteger i,
+                     NSString * _Nonnull identifier,
+                BOOL *stop) {
+                    NSDictionary *subnode = index[identifier];
             if (![self encodeArrangementNodeWithContents:includeContents
-                                     fromArrangementNode:subnode
-                                                 encoder:encoder]) {
+                         fromArrangementNode:subnode
+                         encoder:encoder]) {
                 // If one leaf fails to encode, toss the whole tab out because it'll be a disaster
                 // trying to restore it.
                 ok = NO;
@@ -3093,9 +3099,9 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     // Leaf node case.
     // Add everything in node except TAB_ARRANGEMENT_SESSION.
     [node enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        if ([key isEqual:TAB_ARRANGEMENT_SESSION]) {
-            return;
-        }
+             if ([key isEqual:TAB_ARRANGEMENT_SESSION]) {
+                 return;
+             }
         encoder[key] = obj;
     }];
 
@@ -3118,11 +3124,11 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
         return NO;
     }
     return [encoder encodeDictionaryWithKey:TAB_ARRANGEMENT_SESSION
-                                 generation:iTermGenerationAlwaysEncode
-                                      block:^BOOL(id<iTermEncoderAdapter>  _Nonnull encoder) {
-        return [session encodeArrangementWithContents:includeContents
-                                              encoder:encoder];
-    }];
+                    generation:iTermGenerationAlwaysEncode
+            block:^BOOL(id<iTermEncoderAdapter>  _Nonnull encoder) {
+                return [session encodeArrangementWithContents:includeContents
+                        encoder:encoder];
+            }];
 }
 
 // This method used to take a gross shortcut and call -unmaximize and
@@ -3131,12 +3137,12 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 // In the future make sure this method doesn't do anything that could affect
 // the view's appearance, such as temporary resizing.
 - (NSDictionary *)arrangementConstructingIdMap:(BOOL)constructIdMap
-                                      contents:(BOOL)contents {
+    contents:(BOOL)contents {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     iTermMutableDictionaryEncoderAdapter *adapter = [[iTermMutableDictionaryEncoderAdapter alloc] initWithMutableDictionary:dict];
     const BOOL commit = [self encodeWithContents:contents
-                                  constructIdMap:constructIdMap
-                                         encoder:adapter];
+                              constructIdMap:constructIdMap
+                              encoder:adapter];
     if (!commit) {
         return nil;
     }
@@ -3144,13 +3150,13 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 }
 
 - (BOOL)encodeWithContents:(BOOL)contents
-                   encoder:(id<iTermEncoderAdapter>)encoder {
+    encoder:(id<iTermEncoderAdapter>)encoder {
     return [self encodeWithContents:contents constructIdMap:NO encoder:encoder];
 }
 
 - (BOOL)encodeWithContents:(BOOL)contents
-            constructIdMap:(BOOL)constructIdMap
-                   encoder:(id<iTermEncoderAdapter>)encoder {
+    constructIdMap:(BOOL)constructIdMap
+    encoder:(id<iTermEncoderAdapter>)encoder {
     DLog(@"Encode tab %@", self);
     encoder[TAB_GUID] = _guid;
     encoder[TAB_ARRANGEMENT_TITLE_OVERRIDE] = self.titleOverride.length ? self.titleOverride : nil;
@@ -3175,12 +3181,12 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 
         // Fill in the contents.
         return [encoder encodeDictionaryWithKey:TAB_ARRANGEMENT_ROOT
-                                     generation:iTermGenerationAlwaysEncode
-                                          block:^BOOL(id<iTermEncoderAdapter>  _Nonnull encoder) {
-            return [self encodeArrangementNodeWithContents:contents
-                                       fromArrangementNode:mutableRootNode
-                                                   encoder:encoder];
-        }];
+                        generation:iTermGenerationAlwaysEncode
+                block:^BOOL(id<iTermEncoderAdapter>  _Nonnull encoder) {
+                    return [self encodeArrangementNodeWithContents:contents
+                            fromArrangementNode:mutableRootNode
+                            encoder:encoder];
+                }];
     }
     // Build a new arrangement. If |constructIdMap| is set then pass in
     // idMap_, and it will get filled in with number->SessionView entries.
@@ -3189,14 +3195,14 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     }
     DLog(@"Will encode each view in tab");
     return [encoder encodeDictionaryWithKey:TAB_ARRANGEMENT_ROOT
-                                 generation:iTermGenerationAlwaysEncode
-                                      block:^BOOL(id<iTermEncoderAdapter>  _Nonnull encoder) {
-        return [self _recursiveEncodeArrangementForView:root_
-                                                  idMap:constructIdMap ? idMap_ : nil
-                                            isMaximized:NO
-                                               contents:contents
-                                                encoder:encoder];
-    }];
+                    generation:iTermGenerationAlwaysEncode
+            block:^BOOL(id<iTermEncoderAdapter>  _Nonnull encoder) {
+                return [self _recursiveEncodeArrangementForView:root_
+                        idMap:constructIdMap ? idMap_ : nil
+                        isMaximized:NO
+                        contents:contents
+                        encoder:encoder];
+            }];
 }
 
 
@@ -3215,13 +3221,13 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 }
 
 + (BOOL)_recursiveBuildSessionMap:(NSMutableDictionary<NSString *, PTYSession *> *)sessionMap
-                  withArrangement:(NSDictionary *)arrangement
-                         sessions:(NSArray *)sessions {
+    withArrangement:(NSDictionary *)arrangement
+    sessions:(NSArray *)sessions {
     if ([arrangement[TAB_ARRANGEMENT_VIEW_TYPE] isEqualToString:VIEW_TYPE_SPLITTER]) {
         for (NSDictionary *subviewDict in arrangement[SUBVIEWS]) {
             if (![self _recursiveBuildSessionMap:sessionMap
-                                 withArrangement:subviewDict
-                                        sessions:sessions]) {
+                         withArrangement:subviewDict
+                         sessions:sessions]) {
                 return NO;
             }
         }
@@ -3248,11 +3254,11 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
 }
 
 + (NSDictionary<NSString *, PTYSession *> *)sessionMapWithArrangement:(NSDictionary *)arrangement
-                                                             sessions:(NSArray *)sessions {
+    sessions:(NSArray *)sessions {
     NSMutableDictionary<NSString *, PTYSession *> *sessionMap = [NSMutableDictionary dictionary];
     if (![self _recursiveBuildSessionMap:sessionMap
-                         withArrangement:arrangement[TAB_ARRANGEMENT_ROOT]
-                                sessions:sessions]) {
+                 withArrangement:arrangement[TAB_ARRANGEMENT_ROOT]
+                 sessions:sessions]) {
         return nil;
     } else {
         return sessionMap;
@@ -3265,10 +3271,10 @@ typedef struct {
 } iTermSizeRange;
 
 + (iTermSizeRange)_recursiveSetSizesInTmuxParseTree:(NSMutableDictionary *)parseTree
-                                 showTitles:(BOOL)showTitles
-                        showBottomStatusBar:(BOOL)showBottomStatusBar
-                                   bookmark:(Profile *)profile
-                                 inTerminal:(NSWindowController<iTermWindowController> *)term {
+    showTitles:(BOOL)showTitles
+    showBottomStatusBar:(BOOL)showBottomStatusBar
+    bookmark:(Profile *)profile
+    inTerminal:(NSWindowController<iTermWindowController> *)term {
     CGFloat splitterSize = 1;  // hack: should use -[NSSplitView dividerThickness], but don't have an instance yet.
     iTermSizeRange totalSize = { NSZeroSize, NSZeroSize };
 
@@ -3276,149 +3282,151 @@ typedef struct {
 
     BOOL isVertical = NO;
     switch ([[parseTree objectForKey:kLayoutDictNodeType] intValue]) {
-        case kLeafLayoutNode: {
-            DLog(@"Leaf node. Compute size of session");
-            const NSSize cellSize = [self cellSizeForBookmark:profile];
-            const NSSize size = [PTYTab _sessionSizeWithCellSize:cellSize
-                                                      dimensions:NSMakeSize([parseTree[kLayoutDictWidthKey] intValue],
-                                                                            [parseTree[kLayoutDictHeightKey] intValue])
-                                                      showTitles:showTitles
-                                             showBottomStatusBar:showBottomStatusBar
-                                                      inTerminal:term];
-            parseTree[kLayoutDictPixelWidthKey] = @(size.width);
-            parseTree[kLayoutDictPixelHeightKey] = @(size.height);
+    case kLeafLayoutNode: {
+        DLog(@"Leaf node. Compute size of session");
+        const NSSize cellSize = [self cellSizeForBookmark:profile];
+        const NSSize size = [PTYTab _sessionSizeWithCellSize:cellSize
+                                    dimensions:NSMakeSize([parseTree[kLayoutDictWidthKey] intValue],
+                                     [parseTree[kLayoutDictHeightKey] intValue])
+                                    showTitles:showTitles
+                                    showBottomStatusBar:showBottomStatusBar
+                                    inTerminal:term];
+        parseTree[kLayoutDictPixelWidthKey] = @(size.width);
+        parseTree[kLayoutDictPixelHeightKey] = @(size.height);
 
-            const NSSize maximumSize = NSMakeSize(size.width + cellSize.width,
-                                                  size.height + cellSize.height);
-            parseTree[kLayoutDictMaximumPixelWidthKey] = @(maximumSize.width);
-            parseTree[kLayoutDictMaximumPixelHeightKey] = @(maximumSize.height);
-            return (iTermSizeRange){ size, maximumSize };
+        const NSSize maximumSize = NSMakeSize(size.width + cellSize.width,
+                                              size.height + cellSize.height);
+        parseTree[kLayoutDictMaximumPixelWidthKey] = @(maximumSize.width);
+        parseTree[kLayoutDictMaximumPixelHeightKey] = @(maximumSize.height);
+        return (iTermSizeRange) {
+            size, maximumSize
+        };
+    }
+    case kVSplitLayoutNode:
+        isVertical = YES;
+    case kHSplitLayoutNode: {
+        BOOL isFirst = YES;
+        for (NSMutableDictionary *node in parseTree[kLayoutDictChildrenKey]) {
+            const iTermSizeRange sizeRange =
+                [self _recursiveSetSizesInTmuxParseTree:node
+                      showTitles:showTitles
+                      showBottomStatusBar:showBottomStatusBar
+                      bookmark:profile
+                      inTerminal:term];
+
+            const CGFloat splitter = isFirst ? 0 : splitterSize;
+            SetWithGrainDim(isVertical,
+                            &totalSize.minimumSize,
+                            (WithGrainDim(isVertical, totalSize.minimumSize) +
+                             WithGrainDim(isVertical, sizeRange.minimumSize) +
+                             splitter));
+            SetAgainstGrainDim(isVertical,
+                               &totalSize.minimumSize,
+                               MAX(AgainstGrainDim(isVertical, totalSize.minimumSize),
+                                   AgainstGrainDim(isVertical, sizeRange.minimumSize)));
+            SetWithGrainDim(isVertical,
+                            &totalSize.maximumSize,
+                            (WithGrainDim(isVertical, totalSize.maximumSize) +
+                             WithGrainDim(isVertical, sizeRange.maximumSize) +
+                             splitter));
+            SetAgainstGrainDim(isVertical,
+                               &totalSize.maximumSize,
+                               MAX(AgainstGrainDim(isVertical, totalSize.maximumSize),
+                                   AgainstGrainDim(isVertical, sizeRange.maximumSize)));
+            isFirst = NO;
         }
-        case kVSplitLayoutNode:
-            isVertical = YES;
-        case kHSplitLayoutNode: {
-            BOOL isFirst = YES;
-            for (NSMutableDictionary *node in parseTree[kLayoutDictChildrenKey]) {
-                const iTermSizeRange sizeRange =
-                    [self _recursiveSetSizesInTmuxParseTree:node
-                                                 showTitles:showTitles
-                                        showBottomStatusBar:showBottomStatusBar
-                                                   bookmark:profile
-                                                 inTerminal:term];
+        parseTree[kLayoutDictPixelWidthKey] = @(totalSize.minimumSize.width);
+        parseTree[kLayoutDictPixelHeightKey] = @(totalSize.minimumSize.height);
 
-                const CGFloat splitter = isFirst ? 0 : splitterSize;
-                SetWithGrainDim(isVertical,
-                                &totalSize.minimumSize,
-                                (WithGrainDim(isVertical, totalSize.minimumSize) +
-                                 WithGrainDim(isVertical, sizeRange.minimumSize) +
-                                 splitter));
-                SetAgainstGrainDim(isVertical,
-                                   &totalSize.minimumSize,
-                                   MAX(AgainstGrainDim(isVertical, totalSize.minimumSize),
-                                       AgainstGrainDim(isVertical, sizeRange.minimumSize)));
-                SetWithGrainDim(isVertical,
-                                &totalSize.maximumSize,
-                                (WithGrainDim(isVertical, totalSize.maximumSize) +
-                                 WithGrainDim(isVertical, sizeRange.maximumSize) +
-                                 splitter));
-                SetAgainstGrainDim(isVertical,
-                                   &totalSize.maximumSize,
-                                   MAX(AgainstGrainDim(isVertical, totalSize.maximumSize),
-                                       AgainstGrainDim(isVertical, sizeRange.maximumSize)));
-                isFirst = NO;
-            }
-            parseTree[kLayoutDictPixelWidthKey] = @(totalSize.minimumSize.width);
-            parseTree[kLayoutDictPixelHeightKey] = @(totalSize.minimumSize.height);
-
-            parseTree[kLayoutDictMaximumPixelWidthKey] = @(totalSize.maximumSize.width);
-            parseTree[kLayoutDictMaximumPixelHeightKey] = @(totalSize.maximumSize.height);
-            break;
-        }
+        parseTree[kLayoutDictMaximumPixelWidthKey] = @(totalSize.maximumSize.width);
+        parseTree[kLayoutDictMaximumPixelHeightKey] = @(totalSize.maximumSize.height);
+        break;
+    }
     }
     return totalSize;
 }
 
 + (NSDictionary *)_recursiveArrangementForDecoratedTmuxParseTree:(NSDictionary *)parseTree
-                                                        bookmark:(Profile *)bookmark
-                                                          origin:(NSPoint)origin
-                                                activeWindowPane:(int)activeWp
-                                                  tmuxController:(TmuxController *)tmuxController
-                                                          window:(int)window {
+    bookmark:(Profile *)bookmark
+    origin:(NSPoint)origin
+    activeWindowPane:(int)activeWp
+    tmuxController:(TmuxController *)tmuxController
+    window:(int)window {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     BOOL isVertical = YES;
     switch ([[parseTree objectForKey:kLayoutDictNodeType] intValue]) {
-        case kLeafLayoutNode: {
-            [dict setObject:VIEW_TYPE_SESSIONVIEW forKey:TAB_ARRANGEMENT_VIEW_TYPE];
-            NSRect frame;
-            frame.origin = origin;
-            frame.size.width = [[parseTree objectForKey:kLayoutDictPixelWidthKey] intValue];
-            frame.size.height = [[parseTree objectForKey:kLayoutDictPixelHeightKey] intValue];
-            [dict setObject:[PTYTab frameToDict:frame] forKey:TAB_ARRANGEMENT_SESSIONVIEW_FRAME];
-            [dict setObject:[PTYSession arrangementFromTmuxParsedLayout:parseTree
-                                                               bookmark:bookmark
-                                                         tmuxController:tmuxController
-                                                                 window:window]
-                     forKey:TAB_ARRANGEMENT_SESSION];
-            int wp = [[parseTree objectForKey:kLayoutDictWindowPaneKey] intValue];
-            [dict setObject:[NSNumber numberWithInt:wp]
-                     forKey:TAB_ARRANGEMENT_TMUX_WINDOW_PANE];
-            if (wp == activeWp) {
-                [dict setObject:[NSNumber numberWithBool:YES] forKey:TAB_ARRANGEMENT_IS_ACTIVE];
-            }
-            break;
+    case kLeafLayoutNode: {
+        [dict setObject:VIEW_TYPE_SESSIONVIEW forKey:TAB_ARRANGEMENT_VIEW_TYPE];
+        NSRect frame;
+        frame.origin = origin;
+        frame.size.width = [[parseTree objectForKey:kLayoutDictPixelWidthKey] intValue];
+        frame.size.height = [[parseTree objectForKey:kLayoutDictPixelHeightKey] intValue];
+        [dict setObject:[PTYTab frameToDict:frame] forKey:TAB_ARRANGEMENT_SESSIONVIEW_FRAME];
+        [dict setObject:[PTYSession arrangementFromTmuxParsedLayout:parseTree
+                         bookmark:bookmark
+                         tmuxController:tmuxController
+                         window:window]
+              forKey:TAB_ARRANGEMENT_SESSION];
+        int wp = [[parseTree objectForKey:kLayoutDictWindowPaneKey] intValue];
+        [dict setObject:[NSNumber numberWithInt:wp]
+              forKey:TAB_ARRANGEMENT_TMUX_WINDOW_PANE];
+        if (wp == activeWp) {
+            [dict setObject:[NSNumber numberWithBool:YES] forKey:TAB_ARRANGEMENT_IS_ACTIVE];
         }
+        break;
+    }
 
-        case kHSplitLayoutNode:
-            isVertical = NO;
-            // fall through
-        case kVSplitLayoutNode: {
-            [dict setObject:VIEW_TYPE_SPLITTER forKey:TAB_ARRANGEMENT_VIEW_TYPE];
-            [dict setObject:[NSNumber numberWithBool:isVertical] forKey:SPLITTER_IS_VERTICAL];
-            NSRect frame;
-            frame.origin = origin;
-            frame.size.width = [[parseTree objectForKey:kLayoutDictPixelWidthKey] intValue];
-            frame.size.height = [[parseTree objectForKey:kLayoutDictPixelHeightKey] intValue];
-            [dict setObject:[PTYTab frameToDict:frame] forKey:TAB_ARRANGEMENT_SPLITTER_FRAME];
+    case kHSplitLayoutNode:
+        isVertical = NO;
+    // fall through
+    case kVSplitLayoutNode: {
+        [dict setObject:VIEW_TYPE_SPLITTER forKey:TAB_ARRANGEMENT_VIEW_TYPE];
+        [dict setObject:[NSNumber numberWithBool:isVertical] forKey:SPLITTER_IS_VERTICAL];
+        NSRect frame;
+        frame.origin = origin;
+        frame.size.width = [[parseTree objectForKey:kLayoutDictPixelWidthKey] intValue];
+        frame.size.height = [[parseTree objectForKey:kLayoutDictPixelHeightKey] intValue];
+        [dict setObject:[PTYTab frameToDict:frame] forKey:TAB_ARRANGEMENT_SPLITTER_FRAME];
 
-            NSMutableArray *subviews = [NSMutableArray array];
-            NSArray *children = [parseTree objectForKey:kLayoutDictChildrenKey];
-            NSPoint childOrigin = NSZeroPoint;
-            double dividerThickness = 1;  // HACK! Don't have a splitter yet :(
-            for (NSDictionary *child in children) {
-                NSDictionary *childDict = [PTYTab _recursiveArrangementForDecoratedTmuxParseTree:child
-                                                                                        bookmark:bookmark
-                                                                                          origin:childOrigin
-                                                                                activeWindowPane:activeWp
-                                                                                  tmuxController:tmuxController
-                                                                                          window:window];
-                [subviews addObject:childDict];
-                NSRect childFrame = [PTYTab dictToFrame:[childDict objectForKey:TAB_ARRANGEMENT_SESSIONVIEW_FRAME]];
-                if (isVertical) {
-                    childOrigin.x += dividerThickness + childFrame.size.width;
-                } else {
-                    childOrigin.y += dividerThickness + childFrame.size.height;
-                }
+        NSMutableArray *subviews = [NSMutableArray array];
+        NSArray *children = [parseTree objectForKey:kLayoutDictChildrenKey];
+        NSPoint childOrigin = NSZeroPoint;
+        double dividerThickness = 1;  // HACK! Don't have a splitter yet :(
+        for (NSDictionary *child in children) {
+            NSDictionary *childDict = [PTYTab _recursiveArrangementForDecoratedTmuxParseTree:child
+                                              bookmark:bookmark
+                                              origin:childOrigin
+                                              activeWindowPane:activeWp
+                                              tmuxController:tmuxController
+                                              window:window];
+            [subviews addObject:childDict];
+            NSRect childFrame = [PTYTab dictToFrame:[childDict objectForKey:TAB_ARRANGEMENT_SESSIONVIEW_FRAME]];
+            if (isVertical) {
+                childOrigin.x += dividerThickness + childFrame.size.width;
+            } else {
+                childOrigin.y += dividerThickness + childFrame.size.height;
             }
-            [dict setObject:subviews forKey:SUBVIEWS];
-            break;
         }
+        [dict setObject:subviews forKey:SUBVIEWS];
+        break;
+    }
     }
     return dict;
 }
 
 + (NSDictionary *)arrangementForDecoratedTmuxParseTree:(NSDictionary *)parseTree
-                                              bookmark:(Profile *)bookmark
-                                      activeWindowPane:(int)activeWp
-                                        tmuxController:(TmuxController *)tmuxController
-                                                window:(int)window {
+    bookmark:(Profile *)bookmark
+    activeWindowPane:(int)activeWp
+    tmuxController:(TmuxController *)tmuxController
+    window:(int)window {
     NSMutableDictionary *arrangement = [NSMutableDictionary dictionary];
     [arrangement setObject:[PTYTab _recursiveArrangementForDecoratedTmuxParseTree:parseTree
-                                                                         bookmark:bookmark
-                                                                           origin:NSZeroPoint
-                                                                 activeWindowPane:activeWp
-                                                                   tmuxController:tmuxController
-                                                                           window:window]
-                    forKey:TAB_ARRANGEMENT_ROOT];
+                            bookmark:bookmark
+                            origin:NSZeroPoint
+                            activeWindowPane:activeWp
+                            tmuxController:tmuxController
+                            window:window]
+                 forKey:TAB_ARRANGEMENT_ROOT];
     // -- BEGIN HACK --
     // HACK! Set the first session we find as the active one.
     NSMutableDictionary *temp = [arrangement objectForKey:TAB_ARRANGEMENT_ROOT];
@@ -3461,20 +3469,20 @@ typedef struct {
 }
 
 - (void)setTmuxFont:(NSFont *)font
-       nonAsciiFont:(NSFont *)nonAsciiFont
-           hSpacing:(double)hs
-           vSpacing:(double)vs {
+    nonAsciiFont:(NSFont *)nonAsciiFont
+    hSpacing:(double)hs
+    vSpacing:(double)vs {
     [self.tmuxController setTmuxFont:font
-                        nonAsciiFont:nonAsciiFont
-                            hSpacing:hs
-                            vSpacing:vs
-                              window:self.tmuxWindow];
+                         nonAsciiFont:nonAsciiFont
+                         hSpacing:hs
+                         vSpacing:vs
+                         window:self.tmuxWindow];
 }
 
 + (void)setSizesInTmuxParseTree:(NSMutableDictionary *)parseTree
-                     inTerminal:(NSWindowController<iTermWindowController> *)term
-                         zoomed:(BOOL)zoomed
-                        profile:(Profile *)profile {
+    inTerminal:(NSWindowController<iTermWindowController> *)term
+    zoomed:(BOOL)zoomed
+    profile:(Profile *)profile {
     NSArray *theChildren = [parseTree objectForKey:kLayoutDictChildrenKey];
     BOOL haveMultipleSessions = ([theChildren count] > 1);
     const BOOL perPaneTitleBarEnabled = [iTermPreferences boolForKey:kPreferenceKeyShowPaneTitles];
@@ -3484,10 +3492,10 @@ typedef struct {
 
     // Begin by decorating the tree with pixel sizes.
     [PTYTab _recursiveSetSizesInTmuxParseTree:parseTree
-                                   showTitles:showTitles
-                          showBottomStatusBar:NO
-                                     bookmark:profile
-                                   inTerminal:term];
+            showTitles:showTitles
+            showBottomStatusBar:NO
+            bookmark:profile
+            inTerminal:term];
 }
 
 + (NSMutableDictionary *)parseTreeWithInjectedRootSplit:(NSMutableDictionary *)parseTree
@@ -3516,9 +3524,9 @@ typedef struct {
         [self unmaximize];
     }
     [PTYTab setSizesInTmuxParseTree:parseTree_
-                         inTerminal:realParentWindow_
-                             zoomed:isMaximized_
-                            profile:[self.tmuxController profileForWindow:self.tmuxWindow]];
+            inTerminal:realParentWindow_
+            zoomed:isMaximized_
+            profile:[self.tmuxController profileForWindow:self.tmuxWindow]];
     [self resizeViewsInViewHierarchy:root_ forNewLayout:parseTree_];
     if (shouldZoom) {
         [self maximizeAfterApplyingTmuxParseTree:parseTree_ tmuxController:self.tmuxController];
@@ -3527,14 +3535,14 @@ typedef struct {
 }
 
 + (PTYTab *)openTabWithTmuxLayout:(NSMutableDictionary *)parseTree
-                       inTerminal:(NSWindowController<iTermWindowController> *)term
-                       tmuxWindow:(int)tmuxWindow
-                   tmuxController:(TmuxController *)tmuxController {
+    inTerminal:(NSWindowController<iTermWindowController> *)term
+    tmuxWindow:(int)tmuxWindow
+    tmuxController:(TmuxController *)tmuxController {
     Profile *profile = [tmuxController profileForWindow:tmuxWindow];
     [PTYTab setSizesInTmuxParseTree:parseTree
-                         inTerminal:term
-                             zoomed:NO
-                            profile:profile];
+            inTerminal:term
+            zoomed:NO
+            profile:profile];
     parseTree = [PTYTab parseTreeWithInjectedRootSplit:parseTree];
 
     // Grow the window to fit the tab before adding it
@@ -3544,19 +3552,19 @@ typedef struct {
 
     // Now we can make an arrangement and restore it.
     NSDictionary *arrangement = [PTYTab arrangementForDecoratedTmuxParseTree:parseTree
-                                                                    bookmark:profile
-                                                            activeWindowPane:0
-                                                              tmuxController:tmuxController
-                                                                      window:tmuxWindow];
+                                        bookmark:profile
+                                        activeWindowPane:0
+                                        tmuxController:tmuxController
+                                        window:tmuxWindow];
     PTYTab *theTab = [self tabWithArrangement:arrangement
-                                        named:nil
-                                   inTerminal:term
-                              hasFlexibleView:YES
-                                      viewMap:nil
-                                   sessionMap:nil
-                               tmuxController:tmuxController
+                           named:nil
+                           inTerminal:term
+                           hasFlexibleView:YES
+                           viewMap:nil
+                           sessionMap:nil
+                           tmuxController:tmuxController
                            partialAttachments:nil
-                             reservedTabGUIDs:[NSSet set]];
+                           reservedTabGUIDs:[NSSet set]];
 
     NSArray *theChildren = [parseTree objectForKey:kLayoutDictChildrenKey];
     BOOL haveMultipleSessions = ([theChildren count] > 1);
@@ -3592,9 +3600,9 @@ typedef struct {
 }
 
 - (void)addSplitter:(NSSplitView *)splitter
-        toIntervalMap:(IntervalMap *)intervalMap
-          forHeight:(BOOL)forHeight
-             origin:(NSPoint)origin {
+    toIntervalMap:(IntervalMap *)intervalMap
+    forHeight:(BOOL)forHeight
+    origin:(NSPoint)origin {
     BOOL first = YES;
     int minPos, size;
     NSSize cellSize = [PTYTab cellSizeForBookmark:[self.tmuxController profileForWindow:self.tmuxWindow]];
@@ -3624,8 +3632,8 @@ typedef struct {
             NSSplitView *sub = (NSSplitView *)view;
             [self addSplitter:sub
                   toIntervalMap:intervalMap
-                    forHeight:forHeight
-                       origin:origin];
+                  forHeight:forHeight
+                  origin:origin];
         } else {
             SessionView *sv = (SessionView *)view;
             PTYSession *session = [self sessionForSessionView:sv];
@@ -3635,20 +3643,20 @@ typedef struct {
             NSRect sessionViewFrame = [session.view.scrollview frame];
             NSSize contentSize = [NSScrollView contentSizeForFrameSize:sessionViewFrame.size
                                                horizontalScrollerClass:nil
-                                                 verticalScrollerClass:[realParentWindow_ scrollbarShouldBeVisible] ? [[session.view.scrollview verticalScroller] class] : nil
-                                                            borderType:session.view.scrollview.borderType
-                                                           controlSize:NSControlSizeRegular
-                                                         scrollerStyle:session.view.scrollview.scrollerStyle];
+                                               verticalScrollerClass:[realParentWindow_ scrollbarShouldBeVisible] ? [[session.view.scrollview verticalScroller] class] : nil
+                                               borderType:session.view.scrollview.borderType
+                                               controlSize:NSControlSizeRegular
+                                               scrollerStyle:session.view.scrollview.scrollerStyle];
 
             int chars = forHeight ? (contentSize.height - [iTermPreferences intForKey:kPreferenceKeyTopBottomMargins] * 2) / cellSize.height :
-                                    (contentSize.width - [iTermPreferences intForKey:kPreferenceKeySideMargins] * 2) / cellSize.width;
+                        (contentSize.width - [iTermPreferences intForKey:kPreferenceKeySideMargins] * 2) / cellSize.width;
             [intervalMap incrementNumbersBy:chars
-                                    inRange:[IntRange rangeWithMin:minPos size:size]];
+                         inRange:[IntRange rangeWithMin:minPos size:size]];
         }
         if (!first && [splitter isVertical] != forHeight) {
             // Splitters have to be counted and there is a splitter before this view
             [intervalMap incrementNumbersBy:1
-                                    inRange:[IntRange rangeWithMin:minPos size:size]];
+                         inRange:[IntRange rangeWithMin:minPos size:size]];
         }
         first = NO;
         if ([splitter isVertical]) {
@@ -3676,8 +3684,8 @@ typedef struct {
     IntervalMap *intervalMap = [[IntervalMap alloc] init];
     [self addSplitter:root_
           toIntervalMap:intervalMap
-            forHeight:forHeight
-               origin:NSZeroPoint];
+          forHeight:forHeight
+          origin:NSZeroPoint];
     NSArray *values = [intervalMap allValues];
     NSArray *sortedValues = [values sortedArrayUsingSelector:@selector(compare:)];
     return [[sortedValues lastObject] intValue];
@@ -3751,11 +3759,11 @@ typedef struct {
     } else {
         SessionView *sessionView = view;
         const NSSize scrollViewDecorationSize = [NSScrollView frameSizeForContentSize:NSMakeSize(0, 0)
-                                                              horizontalScrollerClass:nil
-                                                                verticalScrollerClass:sessionView.scrollview.hasVerticalScroller ? sessionView.scrollview.verticalScroller.class : nil
-                                                                           borderType:sessionView.scrollview.borderType
-                                                                          controlSize:NSControlSizeRegular
-                                                                        scrollerStyle:sessionView.scrollview.scrollerStyle];
+                                                             horizontalScrollerClass:nil
+                                                             verticalScrollerClass:sessionView.scrollview.hasVerticalScroller ? sessionView.scrollview.verticalScroller.class : nil
+                                                             borderType:sessionView.scrollview.borderType
+                                                             controlSize:NSControlSizeRegular
+                                                             scrollerStyle:sessionView.scrollview.scrollerStyle];
         const CGFloat titleBarHeight = sessionView.showTitle ? SessionView.titleHeight : 0;
         // NOTE: At the time of writing tmux tabs can’t have per-pane status bars. Should that ever
         // change, this line of code might prevent a bug.
@@ -3765,7 +3773,7 @@ typedef struct {
         return (PTYTabDecorationSize) {
             .points = NSMakeSize(scrollViewDecorationSize.width + margins.width,
                                  titleBarHeight + statusBarHeight + margins.height),
-            .cells = VT100GridSizeMake(0, 0)
+                      .cells = VT100GridSizeMake(0, 0)
         };
     }
 }
@@ -3865,12 +3873,12 @@ typedef struct {
     // Construct slice points for columns
     NSMutableIndexSet *columnSlicePoints = [NSMutableIndexSet indexSet];
     [horizontalInfos enumerateObjectsUsingBlock:^(PTYSplitViewDividerInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [columnSlicePoints addIndex:MAX(0, NSMinX(obj.frame))];
+                        [columnSlicePoints addIndex:MAX(0, NSMinX(obj.frame))];
         [columnSlicePoints addIndex:MAX(0, NSMaxX(obj.frame))];
     }];
     [verticalInfos enumerateObjectsUsingBlock:^(PTYSplitViewDividerInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [columnSlicePoints addIndex:MAX(0, NSMinX(obj.frame))];
-    }];
+                      [columnSlicePoints addIndex:MAX(0, NSMinX(obj.frame))];
+                  }];
     [columnSlicePoints addIndex:0];
     [columnSlicePoints addIndex:MAX(0, currentSize.width)];
     DLog(@"Column slice points: %@", columnSlicePoints);
@@ -3878,19 +3886,19 @@ typedef struct {
     baseTmuxSize.height = -1;
     __block NSInteger last = -1;
     [columnSlicePoints enumerateIndexesUsingBlock:^(NSUInteger point, BOOL * _Nonnull stop) {
-        if (last == -1) {
-            last = point;
-            return;
-        }
-        // Column slice is [last, point).
-        const NSRect columnFrame = NSMakeRect(last, 0, point - last, currentSize.height);
+                          if (last == -1) {
+                              last = point;
+                              return;
+                          }
+                          // Column slice is [last, point).
+                          const NSRect columnFrame = NSMakeRect(last, 0, point - last, currentSize.height);
         DLog(@"Consider column frame %@", NSStringFromRect(columnFrame));
 
         // Find sessions in this column.
         NSArray<SessionView *> *sessionViewsInSlice =
         [allSessionViews filteredArrayUsingBlock:^BOOL(SessionView *view) {
-            const NSRect sessionViewFrame = [root convertRect:view.bounds fromView:view];
-            return NSIntersectsRect(sessionViewFrame, columnFrame);
+                            const NSRect sessionViewFrame = [root convertRect:view.bounds fromView:view];
+                            return NSIntersectsRect(sessionViewFrame, columnFrame);
         }];
         DLog(@"Contains these session views: %@", sessionViewsInSlice);
 
@@ -3902,12 +3910,12 @@ typedef struct {
 
         NSArray<NSNumber *> *decorationSizes =
         [sessionViewsInSlice mapWithBlock:^id(SessionView *sessionView) {
-            DLog(@"%@ showTitle=%@ showBototmStatusBar=%@",
-                 sessionView, @(sessionView.showTitle), @(sessionView.showBottomStatusBar));
-            const CGFloat titleBarHeight = sessionView.showTitle ? SessionView.titleHeight : 0;
-            // NOTE: At the time of writing tmux tabs can’t have per-pane status bars. Should that ever
-            // change, this line of code might prevent a bug.
-            const CGFloat statusBarHeight = sessionView.showBottomStatusBar ? iTermGetStatusBarHeight() : 0;
+                                DLog(@"%@ showTitle=%@ showBototmStatusBar=%@",
+                                     sessionView, @(sessionView.showTitle), @(sessionView.showBottomStatusBar));
+                                const CGFloat titleBarHeight = sessionView.showTitle ? SessionView.titleHeight : 0;
+                                // NOTE: At the time of writing tmux tabs can’t have per-pane status bars. Should that ever
+                                // change, this line of code might prevent a bug.
+                                const CGFloat statusBarHeight = sessionView.showBottomStatusBar ? iTermGetStatusBarHeight() : 0;
             return @(titleBarHeight + statusBarHeight + margins.height);
         }];
         DLog(@"Decoration sizes are %@", decorationSizes);
@@ -3933,12 +3941,12 @@ typedef struct {
     // Construct slice points for rows
     NSMutableIndexSet *rowSlicePoints = [NSMutableIndexSet indexSet];
     [verticalInfos enumerateObjectsUsingBlock:^(PTYSplitViewDividerInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [rowSlicePoints addIndex:MAX(0, NSMinY(obj.frame))];
+                      [rowSlicePoints addIndex:MAX(0, NSMinY(obj.frame))];
         [rowSlicePoints addIndex:MAX(0, NSMaxY(obj.frame))];
     }];
     [horizontalInfos enumerateObjectsUsingBlock:^(PTYSplitViewDividerInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [rowSlicePoints addIndex:MAX(0, NSMinY(obj.frame))];
-    }];
+                        [rowSlicePoints addIndex:MAX(0, NSMinY(obj.frame))];
+                    }];
     [rowSlicePoints addIndex:0];
     [rowSlicePoints addIndex:MAX(0, currentSize.height)];
 
@@ -3949,19 +3957,19 @@ typedef struct {
     baseTmuxSize.width = -1;
     last = -1;
     [rowSlicePoints enumerateIndexesUsingBlock:^(NSUInteger point, BOOL * _Nonnull stop) {
-        if (last == -1) {
-            last = point;
-            return;
-        }
-        // Row slice is [last, point).
-        const NSRect rowFrame = NSMakeRect(0, last, currentSize.width, point - last);
+                       if (last == -1) {
+                           last = point;
+                           return;
+                       }
+                       // Row slice is [last, point).
+                       const NSRect rowFrame = NSMakeRect(0, last, currentSize.width, point - last);
         DLog(@"Row slice frame is %@", NSStringFromRect(rowFrame));
 
         // Find sessions in this row.
         NSArray<SessionView *> *sessionViewsInSlice =
         [allSessionViews filteredArrayUsingBlock:^BOOL(SessionView *view) {
-            const NSRect sessionViewFrame = [root convertRect:view.bounds fromView:view];
-            return NSIntersectsRect(sessionViewFrame, rowFrame);
+                            const NSRect sessionViewFrame = [root convertRect:view.bounds fromView:view];
+                            return NSIntersectsRect(sessionViewFrame, rowFrame);
         }];
         DLog(@"Contains sessions: %@", sessionViewsInSlice);
 
@@ -3973,13 +3981,13 @@ typedef struct {
 
         NSArray<NSNumber *> *decorationSizes =
         [sessionViewsInSlice mapWithBlock:^id(SessionView *sessionView) {
-            const NSSize scrollViewDecorationSize = [NSScrollView frameSizeForContentSize:NSMakeSize(0, 0)
-                                                                  horizontalScrollerClass:nil
-                                                                    verticalScrollerClass:sessionView.scrollview.hasVerticalScroller ? sessionView.scrollview.verticalScroller.class : nil
-                                                                               borderType:sessionView.scrollview.borderType
-                                                                              controlSize:NSControlSizeRegular
-                                                                            scrollerStyle:sessionView.scrollview.scrollerStyle];
-            return @(margins.width + scrollViewDecorationSize.width);
+                                const NSSize scrollViewDecorationSize = [NSScrollView frameSizeForContentSize:NSMakeSize(0, 0)
+                                                    horizontalScrollerClass:nil
+                                                    verticalScrollerClass:sessionView.scrollview.hasVerticalScroller ? sessionView.scrollview.verticalScroller.class : nil
+                                                    borderType:sessionView.scrollview.borderType
+                                                    controlSize:NSControlSizeRegular
+                                                    scrollerStyle:sessionView.scrollview.scrollerStyle];
+                                return @(margins.width + scrollViewDecorationSize.width);
         }];
         const CGFloat totalDecorationSize = [decorationSizes sumOfNumbers] + numberOfDividers * dividerThickness;
         DLog(@"total decoration size is %@", @(totalDecorationSize));
@@ -4019,7 +4027,7 @@ typedef struct {
     const NSSize tmuxSize = NSMakeSize(floor(baseTmuxSize.width + charsDiff.width),
                                        floor(baseTmuxSize.height + charsDiff.height));
     DLog(@"RETURN: tmuxSize = %@ currentSize=%@ targetSize=%@", NSStringFromSize(tmuxSize),
-          NSStringFromSize(currentSize), NSStringFromSize(targetSizePoints));
+         NSStringFromSize(currentSize), NSStringFromSize(targetSizePoints));
     return tmuxSize;
 }
 
@@ -4111,7 +4119,7 @@ typedef struct {
     }
     for (int i = 0; i < treeChildren.count; i++) {
         if (![self _recursiveParseTree:[treeChildren objectAtIndex:i]
-                  matchesViewHierarchy:[subviews objectAtIndex:i]]) {
+                     matchesViewHierarchy:[subviews objectAtIndex:i]]) {
             return NO;
         }
     }
@@ -4128,7 +4136,7 @@ typedef struct {
 // NOTE: This is only called on tmux tabs.
 // It updates the SessionView and nested PTYSplitView frames for a new layout.
 - (void)_recursiveResizeViewsInViewHierarchy:(NSView *)view
-                              forArrangement:(NSDictionary *)arrangement
+    forArrangement:(NSDictionary *)arrangement
 {
     assert(arrangement);
     [view setNeedsDisplay:YES];
@@ -4141,7 +4149,7 @@ typedef struct {
         NSArray *subarrangements = [arrangement objectForKey:SUBVIEWS];
         for (NSView *child in [view subviews]) {
             [self _recursiveResizeViewsInViewHierarchy:child
-                                        forArrangement:[subarrangements objectAtIndex:i]];
+                  forArrangement:[subarrangements objectAtIndex:i]];
             i++;
         }
     } else {
@@ -4164,14 +4172,14 @@ typedef struct {
                                 (!sumWidths && node.vertical));
     for (ITMSplitTreeNode_SplitTreeLink *link in node.linksArray) {
         switch (link.childOneOfCase) {
-            case ITMSplitTreeNode_SplitTreeLink_Child_OneOfCase_Node:
-                sum += [self nodeSize:link.node width:sumWidths];
-                break;
-            case ITMSplitTreeNode_SplitTreeLink_Child_OneOfCase_Session:
-                sum += link.session.gridSize.width;
-                break;
-            case ITMSplitTreeNode_SplitTreeLink_Child_OneOfCase_GPBUnsetOneOfCase:
-                assert(NO);
+        case ITMSplitTreeNode_SplitTreeLink_Child_OneOfCase_Node:
+            sum += [self nodeSize:link.node width:sumWidths];
+            break;
+        case ITMSplitTreeNode_SplitTreeLink_Child_OneOfCase_Session:
+            sum += link.session.gridSize.width;
+            break;
+        case ITMSplitTreeNode_SplitTreeLink_Child_OneOfCase_GPBUnsetOneOfCase:
+            assert(NO);
         }
         if (perpindicular) {
             return sum;
@@ -4186,38 +4194,38 @@ typedef struct {
         return nil;
     }
     return [[iTermTmuxLayoutBuilderLeafNode alloc] initWithSessionOfSize:VT100GridSizeMake(link.session.gridSize.width,
-                                                                                           link.session.gridSize.height)
-                                                              windowPane:session.tmuxPane];
+                                                   link.session.gridSize.height)
+                                                   windowPane:session.tmuxPane];
 }
 
 - (iTermTmuxLayoutBuilderNode *)layoutBuilderNodeForSplitTreeNode:(ITMSplitTreeNode *)node {
     if (node.linksArray.count == 1 &&
-        node.linksArray[0].childOneOfCase == ITMSplitTreeNode_SplitTreeLink_Child_OneOfCase_Node) {
+            node.linksArray[0].childOneOfCase == ITMSplitTreeNode_SplitTreeLink_Child_OneOfCase_Node) {
         ITMSplitTreeNode_SplitTreeLink *link = node.linksArray[0];
         return [self layoutBuilderLeafNodeForLink:link];
     }
-    
+
     iTermTmuxLayoutBuilderInteriorNode *result = [[iTermTmuxLayoutBuilderInteriorNode alloc] initWithVerticalDividers:node.vertical];
     for (ITMSplitTreeNode_SplitTreeLink *link in node.linksArray) {
         switch (link.childOneOfCase) {
-            case ITMSplitTreeNode_SplitTreeLink_Child_OneOfCase_Node: {
-                iTermTmuxLayoutBuilderNode *childNode = [self layoutBuilderNodeForSplitTreeNode:link.node];
-                if (!childNode) {
-                    return nil;
-                }
-                [result addNode:childNode];
-                break;
-            }
-            case ITMSplitTreeNode_SplitTreeLink_Child_OneOfCase_Session: {
-                iTermTmuxLayoutBuilderLeafNode *leafNode = [self layoutBuilderLeafNodeForLink:link];
-                if (!leafNode) {
-                    return nil;
-                }
-                [result addNode:leafNode];
-                break;
-            }
-            case ITMSplitTreeNode_SplitTreeLink_Child_OneOfCase_GPBUnsetOneOfCase:
+        case ITMSplitTreeNode_SplitTreeLink_Child_OneOfCase_Node: {
+            iTermTmuxLayoutBuilderNode *childNode = [self layoutBuilderNodeForSplitTreeNode:link.node];
+            if (!childNode) {
                 return nil;
+            }
+            [result addNode:childNode];
+            break;
+        }
+        case ITMSplitTreeNode_SplitTreeLink_Child_OneOfCase_Session: {
+            iTermTmuxLayoutBuilderLeafNode *leafNode = [self layoutBuilderLeafNodeForLink:link];
+            if (!leafNode) {
+                return nil;
+            }
+            [result addNode:leafNode];
+            break;
+        }
+        case ITMSplitTreeNode_SplitTreeLink_Child_OneOfCase_GPBUnsetOneOfCase:
+            return nil;
         }
     }
     return result;
@@ -4229,7 +4237,7 @@ typedef struct {
     if (!self.realParentWindow.anyFullScreen) {
         VT100GridSize clientSize = builder.clientSize;
         [self.tmuxController setSize:NSMakeSize(clientSize.width, clientSize.height)
-                              window:self.tmuxWindow];
+                             window:self.tmuxWindow];
     }
     [self.tmuxController setLayoutInWindow:self.tmuxWindow toLayout:builder.layoutString];
 }
@@ -4267,11 +4275,11 @@ typedef struct {
         } else if (sessionView) {
             PTYSession *session = (PTYSession *)sessionView.delegate;
             newSubviewSize = [PTYTab _sessionSizeWithCellSize:[PTYTab cellSizeForBookmark:session.profile]
-                                                   dimensions:NSMakeSize(link.session.gridSize.width,
-                                                                         link.session.gridSize.height)
-                                                   showTitles:sessionView.showTitle
-                                          showBottomStatusBar:sessionView.showBottomStatusBar
-                                                   inTerminal:realParentWindow_];
+                                     dimensions:NSMakeSize(link.session.gridSize.width,
+                                                    link.session.gridSize.height)
+                                     showTitles:sessionView.showTitle
+                                     showBottomStatusBar:sessionView.showBottomStatusBar
+                                     inTerminal:realParentWindow_];
         } else {
             assert(false);
         }
@@ -4305,11 +4313,11 @@ typedef struct {
 - (void)resizeViewsInViewHierarchy:(NSView *)view forNewLayout:(NSMutableDictionary *)parseTree {
     Profile *bookmark = [[ProfileModel sharedInstance] defaultBookmark];
     NSDictionary *arrangement = [PTYTab _recursiveArrangementForDecoratedTmuxParseTree:parseTree
-                                                                              bookmark:bookmark
-                                                                                origin:NSZeroPoint
-                                                                      activeWindowPane:[activeSession_ tmuxPane]
-                                                                        tmuxController:nil
-                                                                                window:self.tmuxWindow];
+                                        bookmark:bookmark
+                                        origin:NSZeroPoint
+                                        activeWindowPane:[activeSession_ tmuxPane]
+                                        tmuxController:nil
+                                        window:self.tmuxWindow];
     ++tmuxOriginatedResizeInProgress_;
     [realParentWindow_ beginTmuxOriginatedResize];
     [self _recursiveResizeViewsInViewHierarchy:view forArrangement:arrangement];
@@ -4348,12 +4356,12 @@ typedef struct {
         return;
     }
     _tmuxTitleMonitor = [[iTermTmuxOptionMonitor alloc] initWithGateway:tmuxController_.gateway
-                                                                  scope:self.variablesScope
-                                                   fallbackVariableName:iTermVariableKeySessionWindowName
-                                                                 format:@"#{T:set-titles-string}"
-                                                                 target:[NSString stringWithFormat:@"@%@", @(self.tmuxWindow)]
-                                                           variableName:iTermVariableKeyTabTmuxWindowTitle
-                                                                  block:nil];
+                                                        scope:self.variablesScope
+                                                        fallbackVariableName:iTermVariableKeySessionWindowName
+                                                        format:@"#{T:set-titles-string}"
+                                                        target:[NSString stringWithFormat:@"@%@", @(self.tmuxWindow)]
+                                                        variableName:iTermVariableKeyTabTmuxWindowTitle
+                                                        block:nil];
     [_tmuxTitleMonitor updateOnce];
     if (self.titleOverride.length == 0) {
         // Show the tmux window title if both the tmux option set-titles is on and the user hasn't
@@ -4377,7 +4385,7 @@ typedef struct {
 
 // Adjust the parse tree to minimize "holes" by allowing sessions to grow by just under one cell in size.
 + (NSMutableDictionary *)tweakedParseTree:(NSDictionary *)parseTree
-                        fillingRootOfSize:(NSSize)desiredSize {
+    fillingRootOfSize:(NSSize)desiredSize {
     NSMutableDictionary *dict = [parseTree mutableCopy];
 
     const NSSize actualSize = NSMakeSize([parseTree[kLayoutDictPixelWidthKey] intValue],
@@ -4385,74 +4393,74 @@ typedef struct {
 
     BOOL isVertical = NO;
     switch ((LayoutNodeType)[parseTree[kLayoutDictNodeType] intValue]) {
-        case kLeafLayoutNode: {
-            const NSSize maximumSize = NSMakeSize([parseTree[kLayoutDictMaximumPixelWidthKey] intValue],
-                                                  [parseTree[kLayoutDictMaximumPixelHeightKey] intValue]);
-            NSSize tweakedSize = actualSize;
+    case kLeafLayoutNode: {
+        const NSSize maximumSize = NSMakeSize([parseTree[kLayoutDictMaximumPixelWidthKey] intValue],
+                                              [parseTree[kLayoutDictMaximumPixelHeightKey] intValue]);
+        NSSize tweakedSize = actualSize;
 
-            if (actualSize.width < desiredSize.width) {
-                tweakedSize.width = MIN(desiredSize.width, maximumSize.width);
-            }
-            if (actualSize.height < desiredSize.height) {
-                tweakedSize.height = MIN(desiredSize.height, maximumSize.height);
-            }
-            dict[kLayoutDictPixelWidthKey] = @(tweakedSize.width);
-            dict[kLayoutDictPixelHeightKey] = @(tweakedSize.height);
-            break;
+        if (actualSize.width < desiredSize.width) {
+            tweakedSize.width = MIN(desiredSize.width, maximumSize.width);
         }
-
-        case kVSplitLayoutNode:
-            isVertical = YES;
-        case kHSplitLayoutNode: {
-            NSMutableArray *replacementChildren = [NSMutableArray array];
-            NSSize desiredGrowth = NSMakeSize(desiredSize.width - actualSize.width,
-                                              desiredSize.height - actualSize.height);
-            NSSize tweakedSize = actualSize;
-            for (NSMutableDictionary *node in parseTree[kLayoutDictChildrenKey]) {
-                // Figure out how much this node would need to grow by and set `exaggeratedSize` to that size.
-                const NSSize originalSize = NSMakeSize([node[kLayoutDictPixelWidthKey] intValue],
-                                                       [node[kLayoutDictPixelHeightKey] intValue]);
-                NSSize exaggeratedSize = originalSize;
-                if (desiredGrowth.width > 0) {
-                    exaggeratedSize.width += desiredGrowth.width;
-                }
-                if (desiredGrowth.height > 0) {
-                    exaggeratedSize.height += desiredGrowth.height;
-                }
-
-                // Create an updated node that is hopefully larger.
-                NSMutableDictionary *replacement = [self tweakedParseTree:node
-                                                        fillingRootOfSize:exaggeratedSize];
-
-                // Deduct its actual growth from the desired growth. It may take many siblings’
-                // growth to satisfy all of the desired growth.
-                const NSSize updatedSize = NSMakeSize([replacement[kLayoutDictPixelWidthKey] intValue],
-                                                      [replacement[kLayoutDictPixelHeightKey] intValue]);
-                const NSSize growth = NSMakeSize(updatedSize.width - originalSize.width,
-                                                 updatedSize.height - originalSize.height);
-                if (isVertical) {
-                    desiredGrowth.width -= growth.width;
-                    tweakedSize.width += growth.width;
-                    tweakedSize.height = MAX(tweakedSize.height, updatedSize.height);
-                } else {
-                    desiredGrowth.height -= growth.height;
-                    tweakedSize.height += growth.height;
-                    tweakedSize.width = MAX(tweakedSize.width, updatedSize.width);
-                }
-
-                [replacementChildren addObject:replacement];
-            }
-            dict[kLayoutDictChildrenKey] = replacementChildren;
-            dict[kLayoutDictPixelWidthKey] = @(tweakedSize.width);
-            dict[kLayoutDictPixelHeightKey] = @(tweakedSize.height);
-            break;
+        if (actualSize.height < desiredSize.height) {
+            tweakedSize.height = MIN(desiredSize.height, maximumSize.height);
         }
+        dict[kLayoutDictPixelWidthKey] = @(tweakedSize.width);
+        dict[kLayoutDictPixelHeightKey] = @(tweakedSize.height);
+        break;
+    }
+
+    case kVSplitLayoutNode:
+        isVertical = YES;
+    case kHSplitLayoutNode: {
+        NSMutableArray *replacementChildren = [NSMutableArray array];
+        NSSize desiredGrowth = NSMakeSize(desiredSize.width - actualSize.width,
+                                          desiredSize.height - actualSize.height);
+        NSSize tweakedSize = actualSize;
+        for (NSMutableDictionary *node in parseTree[kLayoutDictChildrenKey]) {
+            // Figure out how much this node would need to grow by and set `exaggeratedSize` to that size.
+            const NSSize originalSize = NSMakeSize([node[kLayoutDictPixelWidthKey] intValue],
+                                                   [node[kLayoutDictPixelHeightKey] intValue]);
+            NSSize exaggeratedSize = originalSize;
+            if (desiredGrowth.width > 0) {
+                exaggeratedSize.width += desiredGrowth.width;
+            }
+            if (desiredGrowth.height > 0) {
+                exaggeratedSize.height += desiredGrowth.height;
+            }
+
+            // Create an updated node that is hopefully larger.
+            NSMutableDictionary *replacement = [self tweakedParseTree:node
+                                                     fillingRootOfSize:exaggeratedSize];
+
+            // Deduct its actual growth from the desired growth. It may take many siblings’
+            // growth to satisfy all of the desired growth.
+            const NSSize updatedSize = NSMakeSize([replacement[kLayoutDictPixelWidthKey] intValue],
+                                                  [replacement[kLayoutDictPixelHeightKey] intValue]);
+            const NSSize growth = NSMakeSize(updatedSize.width - originalSize.width,
+                                             updatedSize.height - originalSize.height);
+            if (isVertical) {
+                desiredGrowth.width -= growth.width;
+                tweakedSize.width += growth.width;
+                tweakedSize.height = MAX(tweakedSize.height, updatedSize.height);
+            } else {
+                desiredGrowth.height -= growth.height;
+                tweakedSize.height += growth.height;
+                tweakedSize.width = MAX(tweakedSize.width, updatedSize.width);
+            }
+
+            [replacementChildren addObject:replacement];
+        }
+        dict[kLayoutDictChildrenKey] = replacementChildren;
+        dict[kLayoutDictPixelWidthKey] = @(tweakedSize.width);
+        dict[kLayoutDictPixelHeightKey] = @(tweakedSize.height);
+        break;
+    }
     }
     return dict;
 }
 
 - (void)replaceViewHierarchyWithParseTree:(NSMutableDictionary *)parseTree
-                           tmuxController:(TmuxController *)tmuxController {
+    tmuxController:(TmuxController *)tmuxController {
     SessionView *nearestNeighbor = [self nearestNeighborOfSession:self.activeSession];
 
     NSMutableDictionary *arrangement = [NSMutableDictionary dictionary];
@@ -4462,12 +4470,12 @@ typedef struct {
         DLog(@"Tweaked parse tree:\n%@", parseTree);
     }
     [arrangement setObject:[PTYTab _recursiveArrangementForDecoratedTmuxParseTree:parseTree
-                                                                         bookmark:[self.tmuxController profileForWindow:self.tmuxWindow]
-                                                                           origin:NSZeroPoint
-                                                                 activeWindowPane:[activeSession_ tmuxPane]
-                                                                   tmuxController:tmuxController
-                                                                           window:self.tmuxWindow]
-                    forKey:TAB_ARRANGEMENT_ROOT];
+                            bookmark:[self.tmuxController profileForWindow:self.tmuxWindow]
+                            origin:NSZeroPoint
+                            activeWindowPane:[activeSession_ tmuxPane]
+                            tmuxController:tmuxController
+                            window:self.tmuxWindow]
+                 forKey:TAB_ARRANGEMENT_ROOT];
 
     // Create a map of window pane -> SessionView *
     NSMutableDictionary<NSNumber *, SessionView *> *idMap = [NSMutableDictionary dictionary];
@@ -4476,9 +4484,9 @@ typedef struct {
     }
     NSArray *preexistingPanes = [[idMap allKeys] copy];
     NSSplitView *newRoot = (NSSplitView *)[PTYTab _recursiveRestoreSplitters:[arrangement objectForKey:TAB_ARRANGEMENT_ROOT]
-                                                                   fromIdMap:idMap
-                                                                  sessionMap:nil
-                                                             revivedSessions:nil];
+                                                  fromIdMap:idMap
+                                                  sessionMap:nil
+                                                  revivedSessions:nil];
     // Instantiate sessions in the skeleton view tree.
     iTermObjectType objectType;
     if ([realParentWindow_ numberOfTabs] == 0) {
@@ -4488,11 +4496,11 @@ typedef struct {
     }
     // TODO does this preserve the active session correctly? i don't think so
     PTYSession *activeSession = [self _recursiveRestoreSessions:[arrangement objectForKey:TAB_ARRANGEMENT_ROOT]
-                                                          named:nil
-                                                         atNode:newRoot
-                                                          inTab:self
-                                                  forObjectType:objectType
-                                             partialAttachments:nil];
+                                      named:nil
+                                      atNode:newRoot
+                                      inTab:self
+                                      forObjectType:objectType
+                                      partialAttachments:nil];
     if (activeSession) {
         [self setActiveSession:activeSession];
     }
@@ -4532,8 +4540,8 @@ typedef struct {
         if (![preexistingPanes containsObject:n]) {
             // This is a new pane so register it.
             [tmuxController_ registerSession:aSession
-                                    withPane:[aSession tmuxPane]
-                                    inWindow:self.tmuxWindow];
+                             withPane:[aSession tmuxPane]
+                             inWindow:self.tmuxWindow];
             [aSession setTmuxController:tmuxController_];
         }
         [aSession.view setShowTitle:showTitles adjustScrollView:NO];
@@ -4561,33 +4569,33 @@ typedef struct {
     // TODO: For tmux 2.2, we can use window_visible_layout to fix up the parse tree earlier.
     // The approach below is to construct a fake parse tree with a single session whose size
     // equals that of the window. See issue 5233.
-    NSMutableDictionary *child = [@{
-                                    kLayoutDictWidthKey: parseTree[kLayoutDictWidthKey],
-                                    kLayoutDictHeightKey: parseTree[kLayoutDictHeightKey],
-                                    kLayoutDictNodeType: @(kLeafLayoutNode),
-                                    kLayoutDictWindowPaneKey: @(self.activeSession.tmuxPane),
-                                    kLayoutDictXOffsetKey: @0,
-                                    kLayoutDictYOffsetKey: @0,
-                                    } mutableCopy];
+    NSMutableDictionary *child = [@ {
+  kLayoutDictWidthKey: parseTree[kLayoutDictWidthKey],
+  kLayoutDictHeightKey: parseTree[kLayoutDictHeightKey],
+  kLayoutDictNodeType: @(kLeafLayoutNode),
+  kLayoutDictWindowPaneKey: @(self.activeSession.tmuxPane),
+  kLayoutDictXOffsetKey: @0,
+  kLayoutDictYOffsetKey: @0,
+      } mutableCopy];
     NSMutableDictionary *maximizedParseTree =
-    [@{ kLayoutDictChildrenKey: @[ child ],
-        kLayoutDictWidthKey: parseTree[kLayoutDictWidthKey],
-        kLayoutDictHeightKey: parseTree[kLayoutDictHeightKey],
-        kLayoutDictNodeType: @(kVSplitLayoutNode),
-        kLayoutDictXOffsetKey: @0,
-        kLayoutDictYOffsetKey: @0,
-        } mutableCopy];
+        [@ { kLayoutDictChildrenKey: @[ child ],
+             kLayoutDictWidthKey: parseTree[kLayoutDictWidthKey],
+             kLayoutDictHeightKey: parseTree[kLayoutDictHeightKey],
+             kLayoutDictNodeType: @(kVSplitLayoutNode),
+             kLayoutDictXOffsetKey: @0,
+             kLayoutDictYOffsetKey: @0,
+           } mutableCopy];
     [PTYTab setSizesInTmuxParseTree:maximizedParseTree
-                         inTerminal:realParentWindow_
-                             zoomed:YES
-                            profile:[tmuxController profileForWindow:self.tmuxWindow]];
+            inTerminal:realParentWindow_
+            zoomed:YES
+            profile:[tmuxController profileForWindow:self.tmuxWindow]];
     [self resizeViewsInViewHierarchy:root_ forNewLayout:maximizedParseTree];
     [self fitSubviewsToRoot];
 }
 
 - (void)setTmuxLayout:(NSMutableDictionary *)parseTree
-       tmuxController:(TmuxController *)tmuxController
-               zoomed:(NSNumber *)zoomed {
+    tmuxController:(TmuxController *)tmuxController
+    zoomed:(NSNumber *)zoomed {
     DLog(@"setTmuxLayout:tmuxController:%@zoomed:%@", tmuxController, zoomed);
     BOOL shouldZoom = isMaximized_;
     if (isMaximized_) {
@@ -4598,9 +4606,9 @@ typedef struct {
         shouldZoom = zoomed.boolValue;
     }
     [PTYTab setSizesInTmuxParseTree:parseTree
-                         inTerminal:realParentWindow_
-                             zoomed:shouldZoom
-                            profile:[tmuxController profileForWindow:self.tmuxWindow]];
+            inTerminal:realParentWindow_
+            zoomed:shouldZoom
+            profile:[tmuxController profileForWindow:self.tmuxWindow]];
     DLog(@"Parse tree including sizes:\n%@", parseTree);
     if ([self parseTree:parseTree matchesViewHierarchy:root_]) {
         DLog(@"Parse tree matches the root's view hierarchy.");
@@ -4616,7 +4624,7 @@ typedef struct {
             [[self realParentWindow] showHideInstantReplay];
         }
         [self replaceViewHierarchyWithParseTree:parseTree
-                                 tmuxController:tmuxController];
+              tmuxController:tmuxController];
         shouldZoom = NO;
     }
     [self updateFlexibleViewColors];
@@ -4716,8 +4724,8 @@ typedef struct {
     assert(!isMaximized_);
 
     _orderedGUIDs = [[self orderedSessions] mapWithBlock:^id(PTYSession *session) {
-        return session.guid;
-    }];
+                               return session.guid;
+                           }];
 
     SessionView* temp = [activeSession_ view];
     savedSize_ = [temp frame].size;
@@ -4743,7 +4751,7 @@ typedef struct {
         DLog(@"Is a tmux tab");
         // Resize the session (VT100Screen, etc.) to the size of the tmux window.
         VT100GridSize gridSize = VT100GridSizeMake([parseTree_[kLayoutDictWidthKey] intValue],
-                                                   [parseTree_[kLayoutDictHeightKey] intValue]);
+                                 [parseTree_[kLayoutDictHeightKey] intValue]);
         [self resizeSession:self.activeSession toSize:gridSize];
 
         // Resize the scroll view
@@ -4759,10 +4767,10 @@ typedef struct {
     const BOOL perPanelTitleBarsEnabled = [iTermPreferences boolForKey:kPreferenceKeyShowPaneTitles];
     const BOOL showTitles = perPanelTitleBarsEnabled;
     NSSize size = [PTYTab _sessionSizeWithCellSize:[PTYTab cellSizeForBookmark:[self.tmuxController profileForWindow:self.tmuxWindow]]
-                                        dimensions:NSMakeSize(gridSize.width, gridSize.height)
-                                        showTitles:showTitles
-                               showBottomStatusBar:NO
-                                        inTerminal:self.realParentWindow];
+                          dimensions:NSMakeSize(gridSize.width, gridSize.height)
+                          showTitles:showTitles
+                          showBottomStatusBar:NO
+                          inTerminal:self.realParentWindow];
     NSRect frame = {
         .origin = sessionView.frame.origin,
         .size = size
@@ -4785,9 +4793,9 @@ typedef struct {
 
     // Build a tree with splitters and SessionViews/PTYSessions from idMap.
     NSSplitView *newRoot = [PTYTab _recursiveRestoreSplitters:[savedArrangement_ objectForKey:TAB_ARRANGEMENT_ROOT]
-                                                    fromIdMap:idMap_
-                                                   sessionMap:nil
-                                              revivedSessions:nil];
+                                   fromIdMap:idMap_
+                                   sessionMap:nil
+                                   revivedSessions:nil];
     [PTYTab _recursiveSetDelegateIn:newRoot to:self];
 
     // Create a tab.
@@ -4860,11 +4868,11 @@ typedef struct {
 // it's not allowed, then it returns null. This combines the "can move" with
 // the "move" into a single function.
 - (void (^)(void))blockToMoveView:(NSView *)view
-                          inSplit:(NSView *)possibleSplit
-                     horizontally:(BOOL)horizontally
-                               by:(int)direction {
+    inSplit:(NSView *)possibleSplit
+    horizontally:(BOOL)horizontally
+    by:(int)direction {
     if (![possibleSplit isKindOfClass:[PTYSplitView class]] ||
-        possibleSplit.subviews.count == 1) {
+            possibleSplit.subviews.count == 1) {
         return NULL;
     }
 
@@ -4903,16 +4911,16 @@ typedef struct {
     if (direction > 0) {
         const CGFloat proposedMinusDivider = proposed - split.dividerThickness;
         const CGFloat constraint = [self splitView:split
-                            constrainMaxCoordinate:proposedMinusDivider
-                                       ofSubviewAt:splitterIndex];
+                                         constrainMaxCoordinate:proposedMinusDivider
+                                         ofSubviewAt:splitterIndex];
         if (constraint < proposed) {
             return NULL;
         }
 
     } else {
         const CGFloat constraint = [self splitView:split
-                            constrainMinCoordinate:proposed
-                                       ofSubviewAt:splitterIndex];
+                                         constrainMinCoordinate:proposed
+                                         ofSubviewAt:splitterIndex];
         if (constraint > proposed) {
             return NULL;
         }
@@ -4930,26 +4938,26 @@ typedef struct {
 }
 
 - (void)moveView:(NSView *)view
-         inSplit:(NSView *)possibleSplit
+    inSplit:(NSView *)possibleSplit
     horizontally:(BOOL)horizontally
-              by:(int)direction {
+    by:(int)direction {
     void (^block)(void) = [self blockToMoveView:view
-                                        inSplit:possibleSplit
-                                   horizontally:horizontally
-                                             by:direction];
+                                inSplit:possibleSplit
+                                horizontally:horizontally
+                                by:direction];
     if (block) {
         block();
     }
 }
 
 - (BOOL)canMoveView:(NSView *)view
-            inSplit:(NSView *)possibleSplit
-       horizontally:(BOOL)horizontally
-                 by:(int)direction {
+    inSplit:(NSView *)possibleSplit
+    horizontally:(BOOL)horizontally
+    by:(int)direction {
     void (^block)(void) = [self blockToMoveView:view
-                                        inSplit:possibleSplit
-                                   horizontally:horizontally
-                                             by:direction];
+                                inSplit:possibleSplit
+                                horizontally:horizontally
+                                by:direction];
     return block != nil;
 }
 
@@ -4966,15 +4974,15 @@ typedef struct {
         return;
     }
     if (session1.isTmuxClient &&
-        session2.isTmuxClient &&
-        session1.tmuxController == session2.tmuxController) {
+            session2.isTmuxClient &&
+            session1.tmuxController == session2.tmuxController) {
         [session1.tmuxController swapPane:session1.tmuxPane withPane:session2.tmuxPane];
         return;
     }
     if ([session1 isTmuxClient] ||
-        [session2 isTmuxClient] ||
-        [session1 isTmuxGateway] ||
-        [session2 isTmuxGateway]) {
+            [session2 isTmuxClient] ||
+            [session1 isTmuxGateway] ||
+            [session2 isTmuxGateway]) {
         return;
     }
 
@@ -5019,9 +5027,9 @@ typedef struct {
     [session2Tab updatePaneTitles];
 
     for (PTYTab *aTab in @[ session1Tab, session2Tab ]) {
-          for (PTYSession *aSession in aTab.sessions) {
-              [aTab fitSessionToCurrentViewSize:aSession];
-          }
+        for (PTYSession *aSession in aTab.sessions) {
+            [aTab fitSessionToCurrentViewSize:aSession];
+        }
     }
 
     [session1Tab fitSessionToCurrentViewSize:session1];
@@ -5043,7 +5051,7 @@ typedef struct {
 }
 
 - (void)_recursivePopulateSplitTreeNode:(ITMSplitTreeNode *)node
-                                   from:(NSSplitView *)splitview {
+    from:(NSSplitView *)splitview {
     node.vertical = splitview.isVertical;
 
     for (__kindof NSView *view in splitview.subviews) {
@@ -5066,7 +5074,7 @@ typedef struct {
             link.session.gridSize.height = session.screen.height;
 
             link.session.title = session.name;
-            
+
             [node.linksArray addObject:link];
         }
     }
@@ -5098,8 +5106,8 @@ typedef struct {
     if (self.tmuxTab) {
         if (titleOverride) {
             [self.tmuxController renameWindowWithId:self.tmuxWindow
-                                    inSessionNumber:nil
-                                             toName:titleOverride];
+                                 inSessionNumber:nil
+                                 toName:titleOverride];
         }
         return;
     }
@@ -5143,8 +5151,8 @@ typedef struct {
 }
 
 - (void)splitView:(PTYSplitView *)splitView
-  draggingDidEndOfSplit:(int)splitterIndex
-           pixels:(NSSize)pxMoved {
+    draggingDidEndOfSplit:(int)splitterIndex
+    pixels:(NSSize)pxMoved {
     DLog(@"%@: draggingDidEndOfSplit:%@", self, @(splitterIndex));
     _numberOfSplitViewDragsInProgress--;
     DLog(@"%@ split drags in progress", @(_numberOfSplitViewDragsInProgress));
@@ -5177,8 +5185,8 @@ typedef struct {
     // it finishes.
     if (amount != 0) {
         [tmuxController_ windowPane:[session tmuxPane]
-                          resizedBy:amount
-                       horizontally:[splitView isVertical]];
+                         resizedBy:amount
+                         horizontally:[splitView isVertical]];
     }
     [self updateUseMetal];
 }
@@ -5206,7 +5214,7 @@ typedef struct {
 // a divider's movement.
 - (CGFloat)splitView:(NSSplitView *)splitView
     constrainMaxCoordinate:(CGFloat)proposedMax
-               ofSubviewAt:(NSInteger)dividerIndex {
+    ofSubviewAt:(NSInteger)dividerIndex {
     if (tmuxOriginatedResizeInProgress_) {
         // Whoever's doing the resizing is responsible for making everything
         // perfect.
@@ -5273,7 +5281,7 @@ typedef struct {
                                AgainstGrainDim(isVertical, [splitView frame].size));
             if ([[lockedSession_ view] superview] != subview) {
                 double fractionOfUnlockedSpace = WithGrainDim(isVertical,
-                                                              [subview frame].size) / unlockedSize;
+                                                 [subview frame].size) / unlockedSize;
                 SetWithGrainDim(isVertical,
                                 &newRect.size,
                                 (newSize - lockedSize - overage) * fractionOfUnlockedSpace);
@@ -5408,9 +5416,9 @@ typedef struct {
 
 
 - (void)_recursiveLockedSize:(NSView *)theSubview
-                   ancestors:(NSSet<NSView *> *)ancestors
-                     minSize:(NSSize *)minSize
-                     maxSize:(NSSize *)maxSizeOut {
+    ancestors:(NSSet<NSView *> *)ancestors
+    minSize:(NSSize *)minSize
+    maxSize:(NSSize *)maxSizeOut {
     if ([theSubview isKindOfClass:[SessionView class]]) {
         // This must be the locked session. Its min and max size are exactly its ideal size.
         assert(theSubview == [lockedSession_ view]);
@@ -5462,10 +5470,10 @@ typedef struct {
 }
 
 - (void)_redistributeQuantizationError:(const double)targetSize
-                     currentSumOfSizes:(double)currentSumOfSizes
-                                 sizes:(NSMutableArray *)sizes
-                              minSizes:(NSArray *)minSizes
-                              maxSizes:(NSArray *)maxSizes {
+    currentSumOfSizes:(double)currentSumOfSizes
+    sizes:(NSMutableArray *)sizes
+    minSizes:(NSArray *)minSizes
+    maxSizes:(NSArray *)maxSizes {
     ITCriticalError(sizes.count == minSizes.count && sizes.count == maxSizes.count,
                     @"Mismatch in sizes array. sizes=%@ minSizes=%@ maxSizes=%@ self=%@ root=%@",
                     sizes, minSizes, maxSizes, self, [root_ iterm_recursiveDescription]);
@@ -5582,9 +5590,9 @@ typedef struct {
             double theMaxSize;
             if (aSubview == [lockedSession_ view] || [ancestors containsObject:aSubview]) {
                 [self _recursiveLockedSize:aSubview
-                                 ancestors:ancestors
-                                   minSize:&minLockedSize
-                                   maxSize:&maxLockedSize];
+                      ancestors:ancestors
+                      minSize:&minLockedSize
+                      maxSize:&maxLockedSize];
                 theMinSize = WithGrainDim(isVertical, minLockedSize);
                 theMaxSize = WithGrainDim(isVertical, maxLockedSize);
                 PtyLog(@"splitView:resizeSubviewsWithOldSize - this subview is LOCKED");
@@ -5673,10 +5681,10 @@ typedef struct {
                     PtyLog(@"splitView:resizeSubviewsWithOldSize - redistribute quantization error");
                     SetPinnedDebugLogMessage(@"Current split view for redistribution", @"oldTotalSize=%@ ignoreConstraints=%@ splitView.recursiveDescription=%@", @(oldTotalSize), @(ignoreConstraints), [splitView iterm_recursiveDescription]);
                     [self _redistributeQuantizationError:targetSize
-                                       currentSumOfSizes:currentSumOfSizes
-                                                   sizes:sizes
-                                                minSizes:minSizes
-                                                maxSizes:maxSizes];
+                          currentSumOfSizes:currentSumOfSizes
+                          sizes:sizes
+                          minSizes:minSizes
+                          maxSizes:maxSizes];
                     SetPinnedDebugLogMessage(@"Current split view for redistribution", nil);
                 }
                 break;
@@ -5711,10 +5719,10 @@ typedef struct {
 
         SetPinnedDebugLogMessage(@"Current split view for redistribution", @"oldTotalSize=%@ ignoreConstraints=%@ splitView.recursiveDescription=%@", @(oldTotalSize), @(ignoreConstraints), [splitView iterm_recursiveDescription]);
         [self _redistributeQuantizationError:targetSize
-                           currentSumOfSizes:currentSumOfSizes
-                                       sizes:sizes
-                                    minSizes:minSizes
-                                    maxSizes:maxSizes];
+              currentSumOfSizes:currentSumOfSizes
+              sizes:sizes
+              minSizes:minSizes
+              maxSizes:maxSizes];
         SetPinnedDebugLogMessage(@"Current split view for redistribution", nil);
     }
 
@@ -5853,7 +5861,7 @@ typedef struct {
 }
 
 - (CGFloat)stepForMovementOfDividerIndex:(NSInteger)dividerIndex
-                             ofSplitView:(NSSplitView *)splitView {
+    ofSplitView:(NSSplitView *)splitView {
     NSArray<NSView *> *subviews = [splitView subviews];
     NSView *childBefore = subviews[dividerIndex];
     NSView *childAfter = subviews[dividerIndex + 1];
@@ -5866,15 +5874,15 @@ typedef struct {
 // Make splitters jump by char widths/line heights. If there is a difference,
 // pick the largest on either side of the divider.
 - (CGFloat)splitView:(NSSplitView *)splitView
-        constrainSplitPosition:(CGFloat)proposedPosition
-                   ofSubviewAt:(NSInteger)dividerIndex {
+    constrainSplitPosition:(CGFloat)proposedPosition
+    ofSubviewAt:(NSInteger)dividerIndex {
     if (tmuxOriginatedResizeInProgress_) {
         return proposedPosition;
     }
     PtyLog(@"PTYTab splitView:constraintSplitPosition%f divider:%d case ", (float)proposedPosition, (int)dividerIndex);
     NSArray<NSView *> *subviews = [splitView subviews];
     if (dividerIndex < 0 ||
-        subviews.count < dividerIndex + 2) {
+            subviews.count < dividerIndex + 2) {
         DLog(@"Have %@ subviews. Aborting.", @(subviews.count));
         return proposedPosition;
     }
@@ -5944,21 +5952,21 @@ typedef struct {
             anySessionHasNewOutput = YES;
 
             if (session.isIdle &&
-                [[NSDate date] timeIntervalSinceDate:[SessionView lastResizeDate]] > POST_WINDOW_RESIZE_SILENCE_SEC) {
+                    [[NSDate date] timeIntervalSinceDate:[SessionView lastResizeDate]] > POST_WINDOW_RESIZE_SILENCE_SEC) {
                 // Idle after new output
 
                 // See if a notification should be posted.
                 if (!session.havePostedIdleNotification && [session shouldPostUserNotification]) {
                     NSString *theDescription =
                         [NSString stringWithFormat:@"Session %@ in tab #%d became idle.",
-                            [session name],
-                            [self tabNumber]];
+                                  [session name],
+                                  [self tabNumber]];
                     if ([iTermProfilePreferences boolForKey:KEY_SEND_IDLE_ALERT inProfile:session.profile]) {
                         [[iTermNotificationController sharedInstance] notify:@"Idle"
-                                                         withDescription:theDescription
-                                                             windowIndex:[session screenWindowIndex]
-                                                                tabIndex:[session screenTabIndex]
-                                                               viewIndex:[session screenViewIndex]];
+                                                                      withDescription:theDescription
+                                                                      windowIndex:[session screenWindowIndex]
+                                                                      tabIndex:[session screenTabIndex]
+                                                                      viewIndex:[session screenViewIndex]];
                     }
                     session.havePostedIdleNotification = YES;
                     session.havePostedNewOutputNotification = NO;
@@ -5989,20 +5997,20 @@ typedef struct {
     [self setIsProcessing:[self anySessionIsProcessing] && ![self isForegroundTab]];
 
     if (![[self activeSession] havePostedNewOutputNotification] &&
-        [[self realParentWindow] broadcastMode] == BROADCAST_OFF &&
-        notify &&
-        [[NSDate date] timeIntervalSinceDate:[SessionView lastResizeDate]] > POST_WINDOW_RESIZE_SILENCE_SEC) {
+            [[self realParentWindow] broadcastMode] == BROADCAST_OFF &&
+            notify &&
+            [[NSDate date] timeIntervalSinceDate:[SessionView lastResizeDate]] > POST_WINDOW_RESIZE_SILENCE_SEC) {
         if ([iTermProfilePreferences boolForKey:KEY_SEND_NEW_OUTPUT_ALERT inProfile:self.activeSession.profile]) {
             [[iTermNotificationController sharedInstance] notify:NSLocalizedStringFromTableInBundle(@"New Output",
-                                                                                                @"iTerm",
-                                                                                                [NSBundle bundleForClass:[self class]],
-                                                                                                @"User Alerts")
-                                             withDescription:[NSString stringWithFormat:@"New output was received in %@, tab #%d.",
-                                                              [[self activeSession] name],
-                                                              [self tabNumber]]
-                                                 windowIndex:[[self activeSession] screenWindowIndex]
-                                                    tabIndex:[[self activeSession] screenTabIndex]
-                                                   viewIndex:[[self activeSession] screenViewIndex]];
+                                                                 @"iTerm",
+                                                                 [NSBundle bundleForClass:[self class]],
+                                                                 @"User Alerts")
+                                                          withDescription:[NSString stringWithFormat:@"New output was received in %@, tab #%d.",
+                                                                           [[self activeSession] name],
+                                                                           [self tabNumber]]
+                                                          windowIndex:[[self activeSession] screenWindowIndex]
+                                                          tabIndex:[[self activeSession] screenTabIndex]
+                                                          viewIndex:[[self activeSession] screenViewIndex]];
         }
         [[self activeSession] setHavePostedNewOutputNotification:YES];
         [[self activeSession] setHavePostedIdleNotification:NO];
@@ -6026,8 +6034,8 @@ typedef struct {
     BOOL shouldResetLabel = NO;
     for (PTYSession *aSession in [self sessions]) {
         if (!amProcessing &&
-            !aSession.havePostedNewOutputNotification &&
-            !aSession.newOutput) {
+                !aSession.havePostedNewOutputNotification &&
+                !aSession.newOutput) {
             // Avoid calling the potentially expensive -shouldPostUserNotification if there's
             // nothing to do here, which is normal.
             continue;
@@ -6052,21 +6060,21 @@ typedef struct {
     const BOOL powerOK = [[iTermPowerManager sharedInstance] metalAllowed];
     __block iTermMetalUnavailableReason sessionReason = iTermMetalUnavailableReasonNone;
     NSArray<PTYSession *> *nonHiddenSessions = [self.sessions filteredArrayUsingBlock:^BOOL(PTYSession *session) {
-        if (!self->isMaximized_) {
-            // Invisible sessions in a maximized tab aren't in the view hierarchy and so will always
-            // say Metal is disallowed.
-            return YES;
-        }
-        return session == self.activeSession;
-    }];
+                      if (!self->isMaximized_) {
+                          // Invisible sessions in a maximized tab aren't in the view hierarchy and so will always
+                          // say Metal is disallowed.
+                          return YES;
+                      }
+                      return session == self.activeSession;
+                  }];
     const BOOL allSessionsAllowMetal = [nonHiddenSessions allWithBlock:^BOOL(PTYSession *anObject) {
-        return [anObject metalAllowed:&sessionReason];
-    }];
+                          return [anObject metalAllowed:&sessionReason];
+                      }];
     const BOOL allSessionsIdle = (allSessionsAllowMetal &&
                                   [iTermAdvancedSettingsModel disableMetalWhenIdle] &&
-                                  [self.sessions allWithBlock:^BOOL(PTYSession *anObject) {
-        return anObject.idleForMetal;
-    }]);
+    [self.sessions allWithBlock:^BOOL(PTYSession *anObject) {
+                      return anObject.idleForMetal;
+                  }]);
 
     // Limit the number of split panes using metal because each gets its own thread and I've seen
     // some crazy stuff where people have over 50 split panes.
@@ -6090,9 +6098,9 @@ typedef struct {
     } else if (!numberOfSplitPanesIsReasonable) {
         static NSString *tooManyPanesReason;
         static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
+        dispatch_once(&onceToken, ^ {
             tooManyPanesReason = [NSString stringWithFormat:@"there are more than %@ split frames in this tab.",
-                                  @(maxNumberOfSplitPanesForMetal - 1)];
+                                           @(maxNumberOfSplitPanesForMetal - 1)];
         });
         _metalUnavailableReason = iTermMetalUnavailableReasonTooManyPanesReason;
     } else if (![_delegate tabCanUseMetal:self reason:&reason]) {
@@ -6120,8 +6128,8 @@ typedef struct {
     BOOL useMetal = NO;
     if (allowed && satisfiesKeyRequirement && foregroundTab) {
         useMetal = [nonHiddenSessions allWithBlock:^BOOL(PTYSession *session) {
-            return [session willEnableMetal];
-        }];
+                              return [session willEnableMetal];
+                          }];
         if (!useMetal) {
             DLog(@"Not enabling metal. A session failed in willEnableMetal.");
             _metalUnavailableReason = iTermMetalUnavailableReasonContextAllocationFailure;
@@ -6129,12 +6137,12 @@ typedef struct {
     }
     DLog(@"_metalUnavailableReason = %@", iTermMetalUnavailableReasonDescription(_metalUnavailableReason));
     [self.sessions enumerateObjectsUsingBlock:^(PTYSession * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (self->isMaximized_) {
-            obj.useMetal = useMetal && (obj == self.activeSession);
-            return;
-        }
-        obj.useMetal = useMetal;
-    }];
+                      if (self->isMaximized_) {
+                          obj.useMetal = useMetal && (obj == self.activeSession);
+                          return;
+                      }
+                      obj.useMetal = useMetal;
+                  }];
     [_delegate tab:self didSetMetalEnabled:useMetal];
 }
 
@@ -6153,9 +6161,9 @@ typedef struct {
 - (void)preferenceDidChange:(iTermPreferenceDidChangeNotification *)notification {
     static NSSet<NSString *> *keysAffectingMetal;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         keysAffectingMetal = [[NSSet alloc] initWithArray:@[ kPreferenceKeyPerPaneBackgroundImage,
-                                                             kPreferenceKeyUseMetal ]];
+                                            kPreferenceKeyUseMetal ]];
     });
     if ([keysAffectingMetal containsObject:notification.key]) {
         [self updateUseMetal];
@@ -6183,7 +6191,7 @@ typedef struct {
     _bounceMetal = YES;
     [self updateUseMetal];
     _bounceMetal = NO;
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         [self updateUseMetal];
     });
 }
@@ -6222,14 +6230,14 @@ typedef struct {
             return NO;
         }
         return [[MovePaneController sharedInstance] dropInSession:session
-                                                             half:[session.view removeSplitSelectionView]
-                                                          atPoint:[sender draggingLocation]];
+                                                    half:[session.view removeSplitSelectionView]
+                                                    atPoint:[sender draggingLocation]];
     } else {
         // Drag a tab into a split
         PTYTab *theTab = (PTYTab *)[[[[PSMTabDragAssistant sharedDragAssistant] draggedCell] representedObject] identifier];
         return [[MovePaneController sharedInstance] dropTab:theTab
-                                                  inSession:session
-                                                       half:[session.view removeSplitSelectionView]
+                                                    inSession:session
+                                                    half:[session.view removeSplitSelectionView]
                                                     atPoint:[sender draggingLocation]];
     }
 }
@@ -6310,10 +6318,10 @@ typedef struct {
 
         NSSize contentSize = [NSScrollView contentSizeForFrameSize:frameSize
                                            horizontalScrollerClass:nil
-                                             verticalScrollerClass:[realParentWindow_ scrollbarShouldBeVisible] ? [[anySession.view.scrollview verticalScroller] class] : nil
-                                                        borderType:anySession.view.scrollview.borderType
-                                                       controlSize:NSControlSizeRegular
-                                                     scrollerStyle:anySession.view.scrollview.scrollerStyle];
+                                           verticalScrollerClass:[realParentWindow_ scrollbarShouldBeVisible] ? [[anySession.view.scrollview verticalScroller] class] : nil
+                                           borderType:anySession.view.scrollview.borderType
+                                           controlSize:NSControlSizeRegular
+                                           scrollerStyle:anySession.view.scrollview.scrollerStyle];
         NSSize cellSize = [PTYTab cellSizeForBookmark:profile];
         return VT100GridSizeMake((contentSize.width - [iTermPreferences intForKey:kPreferenceKeySideMargins] * 2) / cellSize.width,
                                  (contentSize.height - [iTermPreferences intForKey:kPreferenceKeyTopBottomMargins] * 2) / cellSize.height);
@@ -6354,15 +6362,15 @@ typedef struct {
 - (void)sessionDidChangeGraphic:(PTYSession *)session shouldShow:(BOOL)shouldShow image:(NSImage *)image {
     if (session == self.activeSession) {
         [self.delegate tabDidChangeGraphic:self
-                                shouldShow:shouldShow
-                                     image:image];
+                       shouldShow:shouldShow
+                       image:image];
     }
 }
 
 - (PTYSession *)sessionWithGUID:(NSString *)guid {
     return [self.sessions objectPassingTest:^BOOL(PTYSession *session, NSUInteger index, BOOL *stop) {
-        return [session.guid isEqualToString:guid];
-    }];
+                      return [session.guid isEqualToString:guid];
+                  }];
 }
 
 - (NSView *)sessionContainerView:(PTYSession *)session {
@@ -6411,9 +6419,9 @@ typedef struct {
 
 - (void)sessionAddSwiftyStringsToGraph:(iTermSwiftyStringGraph *)graph {
     [graph addSwiftyString:_tabTitleOverrideSwiftyString
-            withFormatPath:iTermVariableKeyTabTitleOverrideFormat
-            evaluationPath:iTermVariableKeyTabTitleOverride
-                     scope:self.variablesScope];
+           withFormatPath:iTermVariableKeyTabTitleOverrideFormat
+           evaluationPath:iTermVariableKeyTabTitleOverride
+           scope:self.variablesScope];
 
     [self.realParentWindow tabAddSwiftyStringsToGraph:graph];
 }
@@ -6465,9 +6473,9 @@ typedef struct {
 }
 
 - (void)session:(PTYSession *)session
-setBackgroundImage:(NSImage *)image
-           mode:(iTermBackgroundImageMode)imageMode
-backgroundColor:(NSColor *)backgroundColor {
+    setBackgroundImage:(NSImage *)image
+    mode:(iTermBackgroundImageMode)imageMode
+    backgroundColor:(NSColor *)backgroundColor {
     if (session != self.activeSession) {
         return;
     }
@@ -6485,34 +6493,34 @@ backgroundColor:(NSColor *)backgroundColor {
         _methods = [[iTermBuiltInFunctions alloc] init];
         iTermBuiltInMethod *method;
         method = [[iTermBuiltInMethod alloc] initWithName:@"set_title"
-                                            defaultValues:@{}
-                                                    types:@{ @"title": [NSString class] }
-                                        optionalArguments:[NSSet set]
-                                                  context:iTermVariablesSuggestionContextSession
-                                                   target:self
-                                                   action:@selector(setTitleWithCompletion:title:)];
+                                             defaultValues:@ {}
+                                             types:@ { @"title": [NSString class] }
+                                             optionalArguments:[NSSet set]
+                                             context:iTermVariablesSuggestionContextSession
+                                             target:self
+                                             action:@selector(setTitleWithCompletion:title:)];
         [_methods registerFunction:method namespace:@"iterm2"];
 
         method = [[iTermBuiltInMethod alloc] initWithName:@"select_pane_in_direction"
-                                            defaultValues:@{}
-                                                    types:@{ @"direction": [NSString class] }
-                                        optionalArguments:[NSSet set]
-                                                  context:iTermVariablesSuggestionContextSession
-                                                   target:self
-                                                   action:@selector(selectPaneInDirectionWithCompletion:direction:)];
+                                             defaultValues:@ {}
+                                             types:@ { @"direction": [NSString class] }
+                                             optionalArguments:[NSSet set]
+                                             context:iTermVariablesSuggestionContextSession
+                                             target:self
+                                             action:@selector(selectPaneInDirectionWithCompletion:direction:)];
         [_methods registerFunction:method namespace:@"iterm2"];
     }
     return _methods;
 }
 
 - (void)setTitleWithCompletion:(void (^)(id, NSError *))completion
-                         title:(NSString *)title {
+    title:(NSString *)title {
     [self setTitleOverride:title];
     completion(nil, nil);
 }
 
 - (void)selectPaneInDirectionWithCompletion:(void (^)(id, NSError *))completion
-                                  direction:(NSString *)direction {
+    direction:(NSString *)direction {
     PTYSession *activeSession = [self activeSession];
     PTYSession *session;
     if ([direction isEqualToString:@"left"]) {
@@ -6525,8 +6533,8 @@ backgroundColor:(NSColor *)backgroundColor {
         session = [self sessionBelow:activeSession];
     } else {
         NSError *error = [NSError errorWithDomain:@"com.iterm2.select-pane-in-direction"
-                                             code:0
-                                         userInfo:@{ NSLocalizedDescriptionKey: @"Invalid direction. Should be left, right, above or below." }];
+                                  code:0
+                                  userInfo:@ { NSLocalizedDescriptionKey: @"Invalid direction. Should be left, right, above or below." }];
         completion(nil, error);
         return;
     }

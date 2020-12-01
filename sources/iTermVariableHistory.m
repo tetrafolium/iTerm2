@@ -77,17 +77,17 @@
                                     iTermVariableKeySessionSelectionLength,
                                     iTermVariableKeySessionBellCount];
     [names enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [self recordUseOfVariableNamed:obj inContext:iTermVariablesSuggestionContextSession];
-    }];
+              [self recordUseOfVariableNamed:obj inContext:iTermVariablesSuggestionContextSession];
+          }];
     [self recordUseOfNonterminalVariableNamed:iTermVariableKeyGlobalScopeName
-                                    inContext:iTermVariablesSuggestionContextSession
-                             leadingToContext:iTermVariablesSuggestionContextApp];
+          inContext:iTermVariablesSuggestionContextSession
+          leadingToContext:iTermVariablesSuggestionContextApp];
     [self recordUseOfNonterminalVariableNamed:iTermVariableKeySessionTab
-                                    inContext:iTermVariablesSuggestionContextSession
-                             leadingToContext:iTermVariablesSuggestionContextTab];
+          inContext:iTermVariablesSuggestionContextSession
+          leadingToContext:iTermVariablesSuggestionContextTab];
     [self recordUseOfNonterminalVariableNamed:iTermVariableKeySessionParent
-                                    inContext:iTermVariablesSuggestionContextSession
-                             leadingToContext:iTermVariablesSuggestionContextSession];
+          inContext:iTermVariablesSuggestionContextSession
+          leadingToContext:iTermVariablesSuggestionContextSession];
 
     // Tab context
     [self recordUseOfVariableNamed:iTermVariableKeyTabTitleOverride inContext:iTermVariablesSuggestionContextTab];
@@ -97,36 +97,36 @@
     [self recordUseOfVariableNamed:iTermVariableKeyTabTmuxWindow inContext:iTermVariablesSuggestionContextTab];
     [self recordUseOfVariableNamed:iTermVariableKeyTabID inContext:iTermVariablesSuggestionContextTab];
     [self recordUseOfNonterminalVariableNamed:iTermVariableKeyTabWindow
-                                    inContext:iTermVariablesSuggestionContextTab
-                             leadingToContext:iTermVariablesSuggestionContextWindow];
+          inContext:iTermVariablesSuggestionContextTab
+          leadingToContext:iTermVariablesSuggestionContextWindow];
 
     [self recordUseOfNonterminalVariableNamed:iTermVariableKeyGlobalScopeName
-                                    inContext:iTermVariablesSuggestionContextTab
-                             leadingToContext:iTermVariablesSuggestionContextApp];
+          inContext:iTermVariablesSuggestionContextTab
+          leadingToContext:iTermVariablesSuggestionContextApp];
 
     [self recordUseOfNonterminalVariableNamed:iTermVariableKeyTabCurrentSession
-                                    inContext:iTermVariablesSuggestionContextTab
-                             leadingToContext:iTermVariablesSuggestionContextSession];
+          inContext:iTermVariablesSuggestionContextTab
+          leadingToContext:iTermVariablesSuggestionContextSession];
     [self recordUseOfNonterminalVariableNamed:iTermVariableKeyTabTitle
-                                    inContext:iTermVariablesSuggestionContextTab
-                             leadingToContext:iTermVariablesSuggestionContextSession];
+          inContext:iTermVariablesSuggestionContextTab
+          leadingToContext:iTermVariablesSuggestionContextSession];
 
     // Window context
     [self recordUseOfVariableNamed:iTermVariableKeyWindowTitleOverrideFormat
-                         inContext:iTermVariablesSuggestionContextWindow];
+          inContext:iTermVariablesSuggestionContextWindow];
     [self recordUseOfVariableNamed:iTermVariableKeyWindowID inContext:iTermVariablesSuggestionContextWindow];
     [self recordUseOfNonterminalVariableNamed:iTermVariableKeyWindowCurrentTab
-                                    inContext:iTermVariablesSuggestionContextWindow
-                             leadingToContext:iTermVariablesSuggestionContextTab];
+          inContext:iTermVariablesSuggestionContextWindow
+          leadingToContext:iTermVariablesSuggestionContextTab];
     [self recordUseOfNonterminalVariableNamed:iTermVariableKeyGlobalScopeName
-                                    inContext:iTermVariablesSuggestionContextWindow
-                             leadingToContext:iTermVariablesSuggestionContextApp];
+          inContext:iTermVariablesSuggestionContextWindow
+          leadingToContext:iTermVariablesSuggestionContextApp];
     [self recordUseOfVariableNamed:iTermVariableKeyWindowFrame
-                         inContext:iTermVariablesSuggestionContextWindow];
+          inContext:iTermVariablesSuggestionContextWindow];
     [self recordUseOfVariableNamed:iTermVariableKeyWindowStyle
-                         inContext:iTermVariablesSuggestionContextWindow];
+          inContext:iTermVariablesSuggestionContextWindow];
     [self recordUseOfVariableNamed:iTermVariableKeyWindowNumber
-                         inContext:iTermVariablesSuggestionContextWindow];
+          inContext:iTermVariablesSuggestionContextWindow];
 
     // App context
     [self recordUseOfVariableNamed:iTermVariableKeyApplicationPID inContext:iTermVariablesSuggestionContextApp];
@@ -139,18 +139,18 @@
 }
 
 + (NSSet<NSString *> * _Nonnull (^)(NSString * _Nonnull))pathSourceForContext:(iTermVariablesSuggestionContext)context
-                                                                augmentedWith:(NSSet<NSString *> *)augmentations {
+    augmentedWith:(NSSet<NSString *> *)augmentations {
     return ^NSSet<NSString *> *(NSString *prefix) {
         return [self recordedVariableNamesInContext:context augmentedWith:augmentations prefix:prefix];
     };
 }
 
 + (void)recordUseOfVariableNamed:(NSString *)namePossiblyContainingNonterminals
-                       inContext:(iTermVariablesSuggestionContext)originalContext {
+    inContext:(iTermVariablesSuggestionContext)originalContext {
     iTermVariablesSuggestionContext context = originalContext;
     NSString *name = [self pathByConsumingNonterminalsInPath:namePossiblyContainingNonterminals
-                                                     context:originalContext
-                                                  contextOut:&context];
+                           context:originalContext
+                           contextOut:&context];
     assert(name);
 
     iTermRecordedVariable *record = [[iTermRecordedVariable alloc] initTerminalWithName:name];
@@ -167,7 +167,7 @@
 + (NSMutableDictionary<NSNumber *, NSMutableSet<iTermRecordedVariable *> *> *)mutableRecordedNames {
     static NSMutableDictionary<NSNumber *, NSMutableSet<iTermRecordedVariable *> *> *records;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         NSDictionary *dict = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"NoSyncRecordedVariables"] ?: @{};
         records = [NSMutableDictionary dictionary];
         for (id key in dict) {
@@ -177,8 +177,8 @@
             }
             NSNumber *context = @([stringContext integerValue]);
             NSArray<iTermRecordedVariable *> *names = [[NSArray castFrom:dict[key]] mapWithBlock:^id(id anObject) {
-                return [[iTermRecordedVariable alloc] initWithDictionary:anObject];
-            }];
+                                           return [[iTermRecordedVariable alloc] initWithDictionary:anObject];
+                                       }];
             if (!names) {
                 continue;
             }
@@ -190,13 +190,13 @@
 
 + (void)synchronizeRecordedNames {
     NSDictionary *plist = [[self mutableRecordedNames] mapValuesWithBlock:^id(NSNumber *key, NSMutableSet<iTermRecordedVariable *> *object) {
-        return [object.allObjects mapWithBlock:^id(iTermRecordedVariable *anObject) {
-            return [anObject dictionaryValue];
-        }];
+                                    return [object.allObjects mapWithBlock:^id(iTermRecordedVariable *anObject) {
+                                        return [anObject dictionaryValue];
+                                    }];
     }];
     plist = [plist mapKeysWithBlock:^id(id key, id object) {
-        return [key stringValue];
-    }];
+              return [key stringValue];
+          }];
     [[NSUserDefaults standardUserDefaults] setObject:plist forKey:@"NoSyncRecordedVariables"];
 }
 
@@ -210,32 +210,32 @@
 }
 
 + (NSSet<NSString *> *(^)(NSString *))pathSourceForContext:(iTermVariablesSuggestionContext)context
-                                                 excluding:(NSSet<NSString *> *)exclusions
-                                             allowUserVars:(BOOL)allowUserVars {
+    excluding:(NSSet<NSString *> *)exclusions
+    allowUserVars:(BOOL)allowUserVars {
     return ^NSSet<NSString *> *(NSString *prefix) {
         return [self recordedVariableNamesInContext:context
-                                      augmentedWith:[NSSet set]
-                                          excluding:exclusions
-                                             prefix:prefix
-                                      allowUserVars:allowUserVars];
+                     augmentedWith:[NSSet set]
+                     excluding:exclusions
+                     prefix:prefix
+                     allowUserVars:allowUserVars];
     };
 }
 
 + (NSSet<NSString *> *)recordedVariableNamesInContext:(iTermVariablesSuggestionContext)context
-                                        augmentedWith:(NSSet<NSString *> *)augmentations
-                                               prefix:(NSString *)prefix {
+    augmentedWith:(NSSet<NSString *> *)augmentations
+    prefix:(NSString *)prefix {
     return [self recordedVariableNamesInContext:context
-                                  augmentedWith:augmentations
-                                      excluding:[NSSet set]
-                                         prefix:prefix
-                                  allowUserVars:YES];
+                 augmentedWith:augmentations
+                 excluding:[NSSet set]
+                 prefix:prefix
+                 allowUserVars:YES];
 }
 
 + (NSSet<NSString *> *)recordedVariableNamesInContext:(iTermVariablesSuggestionContext)context
-                                        augmentedWith:(NSSet<NSString *> *)augmentations
-                                            excluding:(NSSet<NSString *> *)exclusions
-                                               prefix:(NSString *)prefix
-                                        allowUserVars:(BOOL)allowUserVars {
+    augmentedWith:(NSSet<NSString *> *)augmentations
+    excluding:(NSSet<NSString *> *)exclusions
+    prefix:(NSString *)prefix
+    allowUserVars:(BOOL)allowUserVars {
     NSMutableSet<NSString *> *terminalCandidates = [[self recordedTerminalVariableNamesInContext:context] mutableCopy];
     [terminalCandidates unionSet:augmentations];
 
@@ -277,8 +277,8 @@
 }
 
 + (NSString *)pathByConsumingNonterminalsInPath:(NSString *)prefix
-                                        context:(iTermVariablesSuggestionContext)context
-                                     contextOut:(out iTermVariablesSuggestionContext *)contextPtr {
+    context:(iTermVariablesSuggestionContext)context
+    contextOut:(out iTermVariablesSuggestionContext *)contextPtr {
     NSSet<NSString *> *candidates = [self recordedTerminalVariableNamesInContext:context];
     if ([candidates containsObject:prefix]) {
         *contextPtr = context;
@@ -298,9 +298,9 @@
 // "tab.currentSession.tab.foo" in the context of a session and candidate
 // "tab", return "foo" in the context of a tab.
 + (NSString *)pathByConsumingNonterminalsInPath:(NSString *)prefix
-                                      candidate:(NSString *)candidate
-                                        context:(iTermVariablesSuggestionContext)context
-                                     contextOut:(out iTermVariablesSuggestionContext *)contextPtr {
+    candidate:(NSString *)candidate
+    context:(iTermVariablesSuggestionContext)context
+    contextOut:(out iTermVariablesSuggestionContext *)contextPtr {
     NSArray<NSString *> *candidateParts = [candidate componentsSeparatedByString:@"."];
     NSArray<NSString *> *prefixParts = [prefix componentsSeparatedByString:@"."];
     NSMutableArray<NSString *> *accum = [NSMutableArray array];
@@ -338,8 +338,8 @@
 }
 
 + (NSSet<NSString *> *)recordedVariableNamesInContext:(iTermVariablesSuggestionContext)context
-                                        fromCandidate:(NSString *)candidate
-                                               prefix:(NSString *)prefix {
+    fromCandidate:(NSString *)candidate
+    prefix:(NSString *)prefix {
     NSArray<NSString *> *candidateParts = [candidate componentsSeparatedByString:@"."];
     NSArray<NSString *> *prefixParts = [prefix componentsSeparatedByString:@"."];
     NSMutableArray<NSString *> *accum = [NSMutableArray array];
@@ -369,19 +369,19 @@
 
     NSString *updatedPrefix = [prefixParts componentsJoinedByString:@"."];
     NSSet<NSString *> *innerNames = [self recordedVariableNamesInContext:currentContext
-                                                           augmentedWith:[NSSet set]
-                                                                  prefix:updatedPrefix];
+                                          augmentedWith:[NSSet set]
+                                          prefix:updatedPrefix];
     NSString *commonPrefix = [accumulatedPath stringByAppendingString:@"."];
     return [NSSet setWithArray:[innerNames.allObjects mapWithBlock:^id(NSString *innerName) {
-        return [commonPrefix stringByAppendingString:innerName];
-    }]];
+              return [commonPrefix stringByAppendingString:innerName];
+          }]];
 }
 
 + (BOOL)pathIsNonterminal:(NSString *)path inContext:(inout iTermVariablesSuggestionContext *)contextPtr {
     NSSet<iTermRecordedVariable *> *vars = [self recordedVariablesInContext:*contextPtr];
     iTermRecordedVariable *record = [[vars allObjects] objectPassingTest:^BOOL(iTermRecordedVariable *record, NSUInteger index, BOOL *stop) {
-        return [record.name isEqualToString:path];
-    }];
+                          return [record.name isEqualToString:path];
+                      }];
     if (record.isTerminal) {
         return NO;
     }
@@ -400,36 +400,36 @@
         }
     }
     if ((context & (iTermVariablesSuggestionContextSession | iTermVariablesSuggestionContextTab)) &&
-        !(context & iTermVariablesSuggestionContextApp)) {
+            !(context & iTermVariablesSuggestionContextApp)) {
         NSSet<iTermRecordedVariable *> *appVariables = [self recordedVariablesInContext:iTermVariablesSuggestionContextApp];
         result = [NSSet setWithArray:[result.allObjects arrayByAddingObjectsFromArray:[appVariables.allObjects mapWithBlock:^id(iTermRecordedVariable *appVariable) {
-            return [appVariable recordByPrependingPath:@"iterm2."];
-        }]]];
+                  return [appVariable recordByPrependingPath:@"iterm2."];
+              }]]];
     }
     return result;
 }
 
 + (NSSet<NSString *> *)recordedTerminalVariableNamesInContext:(iTermVariablesSuggestionContext)context {
     return [NSSet setWithArray:[[[self recordedVariablesInContext:context] allObjects] mapWithBlock:^id(iTermRecordedVariable *record) {
-        if (!record.isTerminal) {
-            return nil;
-        }
-        return record.name;
-    }]];
+              if (!record.isTerminal) {
+                  return nil;
+              }
+              return record.name;
+          }]];
 }
 
 + (NSSet<NSString *> *)recordedNonterminalVariableNamesInContext:(iTermVariablesSuggestionContext)context {
     return [NSSet setWithArray:[[[self recordedVariablesInContext:context] allObjects] mapWithBlock:^id(iTermRecordedVariable *record) {
-        if (record.isTerminal) {
-            return nil;
-        }
-        return record.name;
-    }]];
+              if (record.isTerminal) {
+                  return nil;
+              }
+              return record.name;
+          }]];
 }
 
 + (void)recordUseOfNonterminalVariableNamed:(NSString *)name
-                                  inContext:(iTermVariablesSuggestionContext)context
-                           leadingToContext:(iTermVariablesSuggestionContext)leadingToContext {
+    inContext:(iTermVariablesSuggestionContext)context
+    leadingToContext:(iTermVariablesSuggestionContext)leadingToContext {
     iTermRecordedVariable *record = [[iTermRecordedVariable alloc] initNonterminalWithName:name context:leadingToContext];
     NSMutableSet<iTermRecordedVariable *> *records = [self mutableRecordedVariableNamesInContext:context];
     if (![records containsObject:record]) {

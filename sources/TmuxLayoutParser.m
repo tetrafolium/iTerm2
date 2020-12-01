@@ -109,18 +109,18 @@ NSString *kLayoutDictTabColorKey = @"x-tab-color";
 }
 
 - (id)depthFirstSearchParseTree:(NSMutableDictionary *)parseTree
-                callingSelector:(SEL)selector
-                       onTarget:(id)target
-                     withObject:(id)obj
+    callingSelector:(SEL)selector
+    onTarget:(id)target
+    withObject:(id)obj
 {
     if ([[parseTree objectForKey:kLayoutDictNodeType] intValue] == kLeafLayoutNode) {
         return [target performSelector:selector withObject:parseTree withObject:obj];
     } else {
         for (NSMutableDictionary *child in [parseTree objectForKey:kLayoutDictChildrenKey]) {
             id ret = [self depthFirstSearchParseTree:child
-                                     callingSelector:selector
-                                            onTarget:target
-                                          withObject:obj];
+                           callingSelector:selector
+                           onTarget:target
+                           withObject:obj];
             if (ret) {
                 return ret;
             }
@@ -132,9 +132,9 @@ NSString *kLayoutDictTabColorKey = @"x-tab-color";
 - (NSMutableDictionary *)windowPane:(int)windowPane inParseTree:(NSMutableDictionary *)parseTree
 {
     return [self depthFirstSearchParseTree:parseTree
-                           callingSelector:@selector(searchParseTree:forWindowPane:)
-                                  onTarget:self
-                                withObject:[NSNumber numberWithInt:windowPane]];
+                 callingSelector:@selector(searchParseTree:forWindowPane:)
+                 onTarget:self
+                 withObject:[NSNumber numberWithInt:windowPane]];
 }
 
 - (NSArray *)windowPanesInParseTree:(NSDictionary *)parseTree
@@ -155,13 +155,13 @@ NSString *kLayoutDictTabColorKey = @"x-tab-color";
 - (LayoutNodeType)nodeTypeInLayout:(NSString *)layout range:(NSRange)range
 {
     NSRange squareRange = [layout rangeOfString:@"["
-                                        options:0
-                                          range:range];
+                                  options:0
+                                  range:range];
     NSRange curlyRange = [layout rangeOfString:@"{"
-                                       options:0
-                                         range:range];
+                                 options:0
+                                 range:range];
     if (squareRange.location == NSNotFound &&
-        curlyRange.location == NSNotFound) {
+            curlyRange.location == NSNotFound) {
         return kLeafLayoutNode;
     } else if (squareRange.location != NSNotFound &&
                curlyRange.location != NSNotFound) {
@@ -181,32 +181,32 @@ NSString *kLayoutDictTabColorKey = @"x-tab-color";
 - (NSMutableDictionary *)dictForLeafNodeInLayout:(NSString *)layout range:(NSRange)range
 {
     NSArray *components = [layout captureComponentsMatchedByRegex:@"([0-9]+)x([0-9]+),([0-9]+),([0-9]+),?([0-9]+)?"
-                                                          options:0
-                                                            range:range
-                                                            error:nil];
+                                  options:0
+                                  range:range
+                                  error:nil];
     if (components.count != 6 && components.count != 5) {
         NSLog(@"Matched wrong number of components in singleton layout \"%@\"", [layout substringWithRange:range]);
         return nil;
     }
 
     NSMutableDictionary *result = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                   [components objectAtIndex:1], kLayoutDictWidthKey,
-                                   [components objectAtIndex:2], kLayoutDictHeightKey,
-                                   [components objectAtIndex:3], kLayoutDictXOffsetKey,
-                                   [components objectAtIndex:4], kLayoutDictYOffsetKey,
-                                   [NSNumber numberWithInt:kLeafLayoutNode], kLayoutDictNodeType,
-                                   nil];
+                                                       [components objectAtIndex:1], kLayoutDictWidthKey,
+                                                       [components objectAtIndex:2], kLayoutDictHeightKey,
+                                                       [components objectAtIndex:3], kLayoutDictXOffsetKey,
+                                                       [components objectAtIndex:4], kLayoutDictYOffsetKey,
+                                                       [NSNumber numberWithInt:kLeafLayoutNode], kLayoutDictNodeType,
+                                                       nil];
     if (components.count == 6) {
         [result setObject:[NSNumber numberWithInt:[[components objectAtIndex:5] intValue]]
-                   forKey:kLayoutDictWindowPaneKey];
+                forKey:kLayoutDictWindowPaneKey];
     }
     return result;
 }
 
 - (NSRange)rangeOfChildrenInLayout:(NSString *)layout
-                             range:(NSRange)range
-                              open:(NSString *)openChar
-                             close:(NSString *)closeChar
+    range:(NSRange)range
+    open:(NSString *)openChar
+    close:(NSString *)closeChar
 {
     NSRange openRange = [layout rangeOfString:openChar options:0 range:range];
     int count = 0;
@@ -228,7 +228,7 @@ NSString *kLayoutDictTabColorKey = @"x-tab-color";
 - (NSMutableDictionary *)splitDictWithType:(LayoutNodeType)nodeType
 {
     return [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:nodeType]
-                                              forKey:kLayoutDictNodeType];
+                                forKey:kLayoutDictNodeType];
 
 }
 
@@ -264,16 +264,16 @@ NSString *kLayoutDictTabColorKey = @"x-tab-color";
         } else if (c == '[' || c == '{') {
             // Find matching close bracket/brace
             NSRange childrenRange = [self rangeOfChildrenInLayout:suffix
-                                                            range:NSMakeRange(0, suffix.length)
-                                                             open:c == '[' ? @"[" : @"{"
-                                                            close:c == '[' ? @"]" : @"}"];
+                                          range:NSMakeRange(0, suffix.length)
+                                          open:c == '[' ? @"[" : @"{"
+                                          close:c == '[' ? @"]" : @"}"];
             int nextItemOffset = childrenRange.location + childrenRange.length + 1;
             [rest setString:[suffix substringWithRange:NSMakeRange(nextItemOffset,
-                                                                   suffix.length - nextItemOffset)]];
+                             suffix.length - nextItemOffset)]];
             return [NSString stringWithFormat:@"%@%@",
-                    [components objectAtIndex:1],
-                    [suffix substringWithRange:NSMakeRange(childrenRange.location - 1,
-                                                           childrenRange.length + 2)]];
+                             [components objectAtIndex:1],
+                             [suffix substringWithRange:NSMakeRange(childrenRange.location - 1,
+                            childrenRange.length + 2)]];
         } else {
             NSLog(@"Bad layouts (c=%d): %@", (int) c, layouts);
             return nil;
@@ -286,15 +286,15 @@ NSString *kLayoutDictTabColorKey = @"x-tab-color";
     // layout,layout,...
     NSMutableString *rest = [NSMutableString string];
     NSString *first = [self splitOffFirstLayoutInLayoutArray:[layout substringWithRange:range]
-                                                        rest:rest];
+                            rest:rest];
     while (first) {
         if (![self parseLayout:first
-                         range:NSMakeRange(0, first.length)
-                      intoTree:tree]) {
+                     range:NSMakeRange(0, first.length)
+                     intoTree:tree]) {
             return NO;
         }
         first = [self splitOffFirstLayoutInLayoutArray:rest
-                                                  rest:rest];
+                      rest:rest];
     }
     return YES;
 }
@@ -306,42 +306,42 @@ NSString *kLayoutDictTabColorKey = @"x-tab-color";
     LayoutNodeType nodeType = [self nodeTypeInLayout:layout range:range];
     NSDictionary *dict;
     switch (nodeType) {
-        case kLeafLayoutNode:
-            dict = [self dictForLeafNodeInLayout:layout range:range];
-            if (!dict) {
-                return NO;
-            }
-            [tree addObject:dict];
-            break;
-
-        case kVSplitLayoutNode:
-            openChar = @"{";
-            closeChar = @"}";
-            // fall through
-        case kHSplitLayoutNode: {
-            NSRange childrenRange = [self rangeOfChildrenInLayout:layout
-                                                            range:range
-                                                             open:openChar
-                                                            close:closeChar];
-            NSMutableArray *children = [NSMutableArray array];
-            NSMutableDictionary *splitDict = [self splitDictWithType:nodeType];
-            if (!splitDict) {
-                return NO;
-            }
-            if (![self parseLayoutArray:layout range:childrenRange intoTree:children]) {
-                return NO;
-            }
-            [splitDict setObject:children forKey:kLayoutDictChildrenKey];
-            [tree addObject:splitDict];
-            break;
+    case kLeafLayoutNode:
+        dict = [self dictForLeafNodeInLayout:layout range:range];
+        if (!dict) {
+            return NO;
         }
+        [tree addObject:dict];
+        break;
+
+    case kVSplitLayoutNode:
+        openChar = @"{";
+        closeChar = @"}";
+    // fall through
+    case kHSplitLayoutNode: {
+        NSRange childrenRange = [self rangeOfChildrenInLayout:layout
+                                      range:range
+                                      open:openChar
+                                      close:closeChar];
+        NSMutableArray *children = [NSMutableArray array];
+        NSMutableDictionary *splitDict = [self splitDictWithType:nodeType];
+        if (!splitDict) {
+            return NO;
+        }
+        if (![self parseLayoutArray:layout range:childrenRange intoTree:children]) {
+            return NO;
+        }
+        [splitDict setObject:children forKey:kLayoutDictChildrenKey];
+        [tree addObject:splitDict];
+        break;
+    }
     }
     return YES;
 }
 
 
 - (NSMutableDictionary *)searchParseTree:(NSMutableDictionary *)parseTree
-                           forWindowPane:(NSNumber *)wp
+    forWindowPane:(NSNumber *)wp
 {
     if ([[parseTree objectForKey:kLayoutDictWindowPaneKey] intValue] == [wp intValue]) {
         return parseTree;

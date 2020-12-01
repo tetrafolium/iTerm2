@@ -57,7 +57,7 @@
 
 - (instancetype)initWithSize:(VT100GridSize)size delegate:(id<VT100GridDelegate>)delegate;
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary
-                          delegate:(id<VT100GridDelegate>)delegate;
+    delegate:(id<VT100GridDelegate>)delegate;
 
 - (screen_char_t *)screenCharsAtLineNumber:(int)lineNumber;
 
@@ -88,7 +88,7 @@
 
 // Append the first numLines to the given line buffer. Returns the number of lines appended.
 - (int)appendLines:(int)numLines
-      toLineBuffer:(LineBuffer *)lineBuffer;
+    toLineBuffer:(LineBuffer *)lineBuffer;
 
 // Number of used chars in line at lineNumber.
 - (int)lengthOfLineNumber:(int)lineNumber;
@@ -98,9 +98,9 @@
 // present, the lineBuffer is only added to if useScrollbackWithRegion is set. willScroll is called
 // if the region will need to scroll up by one line.
 - (int)moveCursorDownOneLineScrollingIntoLineBuffer:(LineBuffer *)lineBuffer
-                                unlimitedScrollback:(BOOL)unlimitedScrollback
-                            useScrollbackWithRegion:(BOOL)useScrollbackWithRegion
-                                         willScroll:(void (^)(void))willScroll;
+    unlimitedScrollback:(BOOL)unlimitedScrollback
+    useScrollbackWithRegion:(BOOL)useScrollbackWithRegion
+    willScroll:(void (^)(void))willScroll;
 
 // Move cursor to the left by n steps. Does not wrap around when it hits the left margin.
 // If it starts left of the scroll region, clamp it to the left. If it starts right of the scroll
@@ -130,14 +130,14 @@
 // If |softBreak| is YES then the soft line break on the top line (when scrolling down) or bottom
 // line (when scrolling up) is preserved. Otherwise it is made hard.
 - (int)scrollUpIntoLineBuffer:(LineBuffer *)lineBuffer
-          unlimitedScrollback:(BOOL)unlimitedScrollback
-      useScrollbackWithRegion:(BOOL)useScrollbackWithRegion
-                    softBreak:(BOOL)softBreak;
+    unlimitedScrollback:(BOOL)unlimitedScrollback
+    useScrollbackWithRegion:(BOOL)useScrollbackWithRegion
+    softBreak:(BOOL)softBreak;
 
 // Scroll the whole screen into the line buffer by one line. Returns the number of lines dropped.
 // Scroll regions are ignored.
 - (int)scrollWholeScreenUpIntoLineBuffer:(LineBuffer *)lineBuffer
-                     unlimitedScrollback:(BOOL)unlimitedScrollback;
+    unlimitedScrollback:(BOOL)unlimitedScrollback;
 
 // Scroll the scroll region down by one line.
 - (void)scrollDown;
@@ -146,9 +146,9 @@
 // non-empty line at the top of the screen. Some lines may be left behind by giving a positive value
 // for |leave|.
 - (int)resetWithLineBuffer:(LineBuffer *)lineBuffer
-       unlimitedScrollback:(BOOL)unlimitedScrollback
-        preserveCursorLine:(BOOL)preserveCursorLine
-     additionalLinesToSave:(int)additionalLinesToSave;
+    unlimitedScrollback:(BOOL)unlimitedScrollback
+    preserveCursorLine:(BOOL)preserveCursorLine
+    additionalLinesToSave:(int)additionalLinesToSave;
 
 // Move the grid contents up, leaving only the whole wrapped line the cursor is on at the top.
 - (void)moveWrappedCursorLineToTopOfGrid;
@@ -165,17 +165,17 @@
 // Append a string starting from the cursor's current position.
 // Returns number of scrollback lines dropped from lineBuffer.
 - (int)appendCharsAtCursor:(screen_char_t *)buffer
-                    length:(int)len
-   scrollingIntoLineBuffer:(LineBuffer *)lineBuffer
-       unlimitedScrollback:(BOOL)unlimitedScrollback
-   useScrollbackWithRegion:(BOOL)useScrollbackWithRegion
-                wraparound:(BOOL)wraparound
-                      ansi:(BOOL)ansi
-                    insert:(BOOL)insert;
+    length:(int)len
+    scrollingIntoLineBuffer:(LineBuffer *)lineBuffer
+    unlimitedScrollback:(BOOL)unlimitedScrollback
+    useScrollbackWithRegion:(BOOL)useScrollbackWithRegion
+    wraparound:(BOOL)wraparound
+    ansi:(BOOL)ansi
+    insert:(BOOL)insert;
 
 // Delete some number of chars starting at a given location, moving chars to the right of them back.
 - (void)deleteChars:(int)num
-         startingAt:(VT100GridCoord)startCoord;
+    startingAt:(VT100GridCoord)startCoord;
 
 // Scroll a rectangular area of the screen down (positive direction) or up (negative direction).
 // Clears the left-over region.
@@ -192,14 +192,14 @@
 
 // Set background/foreground colors in a range.
 - (void)setBackgroundColor:(screen_char_t)bg
-           foregroundColor:(screen_char_t)fg
-                inRectFrom:(VT100GridCoord)from
-                        to:(VT100GridCoord)to;
+    foregroundColor:(screen_char_t)fg
+    inRectFrom:(VT100GridCoord)from
+    to:(VT100GridCoord)to;
 
 // Set URLCode in a range.
 - (void)setURLCode:(unsigned short)code
-        inRectFrom:(VT100GridCoord)from
-                to:(VT100GridCoord)to;
+    inRectFrom:(VT100GridCoord)from
+    to:(VT100GridCoord)to;
 
 // Converts a range relative to the start of a row into a grid run. If row is negative, a smaller-
 // than-range.length (but valid!) grid run will be returned.
@@ -209,8 +209,8 @@
 // popping, lines to be modified will first be filled with defaultChar.
 // Returns whether the cursor position was set.
 - (BOOL)restoreScreenFromLineBuffer:(LineBuffer *)lineBuffer
-                    withDefaultChar:(screen_char_t)defaultChar
-                  maxLinesToRestore:(int)maxLines;
+    withDefaultChar:(screen_char_t)defaultChar
+    maxLinesToRestore:(int)maxLines;
 
 // Ensure the cursor and savedCursor positions are valid.
 - (void)clampCursorPositionToValid;
@@ -239,8 +239,8 @@
 // with c (normally -defaultChar). If there's a DWC_SKIP + EOL_DWC on the preceding line
 // when offset==0 then those are converted to a null and EOL_HARD. Returns true if a DWC was erased.
 - (BOOL)erasePossibleDoubleWidthCharInLineNumber:(int)lineNumber
-                                startingAtOffset:(int)offset
-                                        withChar:(screen_char_t)c;
+    startingAtOffset:(int)offset
+    withChar:(screen_char_t)c;
 
 // Moves the cursor to the left margin (either 0 or scrollRegionCols.location, depending on
 // useScrollRegionCols).

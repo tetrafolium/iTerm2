@@ -39,9 +39,9 @@ extern NSString *const iTermScriptHistoryEntryFieldRPCValue;  // RPC changed
 + (instancetype)dynamicProfilesEntry;
 + (instancetype)smartSelectionAnctionsEntry;
 - (instancetype)initWithName:(NSString *)name
-                    fullPath:(nullable NSString *)fullPath
-                  identifier:(NSString *)identifier
-                    relaunch:(void (^ _Nullable)(void))relaunch NS_DESIGNATED_INITIALIZER;
+    fullPath:(nullable NSString *)fullPath
+    identifier:(NSString *)identifier
+    relaunch:(void (^ _Nullable)(void))relaunch NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (void)addOutput:(NSString *)output;

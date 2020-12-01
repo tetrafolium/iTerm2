@@ -19,7 +19,7 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p hostname=%@ username=%@ path=%@>",
-            self.class, self, self.hostname, self.username, self.path];
+                     self.class, self, self.hostname, self.username, self.path];
 }
 
 - (NSString *)stringValue {

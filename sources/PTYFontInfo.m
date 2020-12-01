@@ -17,7 +17,7 @@
 - (BOOL)it_fontIsOnLigatureBlacklist {
     static NSSet<NSString *> *blacklist;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         blacklist = [[NSSet setWithArray:@[ @"AndaleMono",
                                             @"Courier",
                                             @"LetterGothicStd",
@@ -53,7 +53,7 @@
     // you ligatures whether you like it or not.
     static NSSet *fontsWithDefaultLigatures;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         fontsWithDefaultLigatures = [[NSSet setWithArray:@[ ]] retain];
     });
     BOOL result = [fontsWithDefaultLigatures containsObject:self.fontName];
@@ -74,13 +74,13 @@
 @synthesize italicVersion = italicVersion_;
 
 + (PTYFontInfo *)fontForAsciiCharacter:(BOOL)isAscii
-                             asciiFont:(PTYFontInfo *)asciiFont
-                          nonAsciiFont:(PTYFontInfo *)nonAsciiFont
-                           useBoldFont:(BOOL)useBoldFont
-                         useItalicFont:(BOOL)useItalicFont
-                      usesNonAsciiFont:(BOOL)useNonAsciiFont
-                            renderBold:(BOOL *)renderBold
-                          renderItalic:(BOOL *)renderItalic {
+    asciiFont:(PTYFontInfo *)asciiFont
+    nonAsciiFont:(PTYFontInfo *)nonAsciiFont
+    useBoldFont:(BOOL)useBoldFont
+    useItalicFont:(BOOL)useItalicFont
+    usesNonAsciiFont:(BOOL)useNonAsciiFont
+    renderBold:(BOOL *)renderBold
+    renderItalic:(BOOL *)renderItalic {
     BOOL isBold = *renderBold && useBoldFont;
     BOOL isItalic = *renderItalic && useItalicFont;
     *renderBold = NO;
@@ -173,15 +173,18 @@
     NSLayoutManager *layoutManager = [[[NSLayoutManager alloc] init] autorelease];
     NSTextContainer *textContainer = [[[NSTextContainer alloc] init] autorelease];
     [layoutManager addTextContainer:textContainer];
-    NSDictionary *attributes = @{ NSFontAttributeName: font_,
-                                  NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle) };
+    NSDictionary *attributes = @ { NSFontAttributeName:
+                                   font_,
+                                   NSUnderlineStyleAttributeName:
+                                   @(NSUnderlineStyleSingle)
+                                 };
     NSAttributedString *attributedString = [[[NSAttributedString alloc] initWithString:@"M" attributes:attributes] autorelease];
     NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithAttributedString:attributedString] autorelease];
     [textStorage addLayoutManager:layoutManager];
 
     NSUInteger glyphIndex = [layoutManager glyphIndexForCharacterAtIndex:0];
     return [[layoutManager typesetter] baselineOffsetInLayoutManager:layoutManager
-                                                          glyphIndex:glyphIndex] / -2.0;
+                                       glyphIndex:glyphIndex] / -2.0;
 }
 
 // Issue 4294 reveals that merely upconverting the weight of a font once is not sufficient because
@@ -199,14 +202,14 @@
     // Sometimes the heavier version of a font is oblique (issue 4442). So
     // check the traits to make sure nothing significant changes.
     const NSFontTraitMask kImmutableTraits = (NSItalicFontMask |
-                                              NSNarrowFontMask |
-                                              NSExpandedFontMask |
-                                              NSCondensedFontMask |
-                                              NSSmallCapsFontMask |
-                                              NSPosterFontMask |
-                                              NSCompressedFontMask |
-                                              NSFixedPitchFontMask |
-                                              NSUnitalicFontMask);
+            NSNarrowFontMask |
+            NSExpandedFontMask |
+            NSCondensedFontMask |
+            NSSmallCapsFontMask |
+            NSPosterFontMask |
+            NSCompressedFontMask |
+            NSFixedPitchFontMask |
+            NSUnitalicFontMask);
     NSFontTraitMask requiredTraits = ([fontManager traitsOfFont:font] & kImmutableTraits);
     DLog(@"Required traits: %x", (int)requiredTraits);
     NSMutableArray<NSFont *> *fonts = [NSMutableArray array];

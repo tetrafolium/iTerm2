@@ -14,10 +14,10 @@ typedef NS_ENUM(NSInteger, ITermCursorType) {
 @protocol iTermCursorDelegate <iTermSmartCursorColorDelegate>
 
 - (void)cursorDrawCharacterAt:(VT100GridCoord)coord
-                  doubleWidth:(BOOL)doubleWidth
-                overrideColor:(NSColor*)overrideColor
-                      context:(CGContextRef)ctx
-              backgroundColor:(NSColor *)backgroundColor;
+    doubleWidth:(BOOL)doubleWidth
+    overrideColor:(NSColor*)overrideColor
+    context:(CGContextRef)ctx
+    backgroundColor:(NSColor *)backgroundColor;
 
 @end
 
@@ -30,14 +30,14 @@ typedef NS_ENUM(NSInteger, ITermCursorType) {
 
 // No default implementation.
 - (void)drawWithRect:(NSRect)rect
-         doubleWidth:(BOOL)doubleWidth
-          screenChar:(screen_char_t)screenChar
-     backgroundColor:(NSColor *)backgroundColor
-     foregroundColor:(NSColor *)foregroundColor
-               smart:(BOOL)smart
-             focused:(BOOL)focused
-               coord:(VT100GridCoord)coord
-             outline:(BOOL)outline;
+    doubleWidth:(BOOL)doubleWidth
+    screenChar:(screen_char_t)screenChar
+    backgroundColor:(NSColor *)backgroundColor
+    foregroundColor:(NSColor *)foregroundColor
+    smart:(BOOL)smart
+    focused:(BOOL)focused
+    coord:(VT100GridCoord)coord
+    outline:(BOOL)outline;
 
 
 @end

@@ -22,26 +22,26 @@ static const CGFloat iTermStatusBarSetupPopoverMargin = 5;
 
 static NSViewController<iTermStatusBarKnobViewController> *iTermNewViewControllerForKnob(iTermStatusBarComponentKnob *knob) {
     switch (knob.type) {
-        case iTermStatusBarComponentKnobTypeCheckbox:
-            return [[iTermStatusBarKnobCheckboxViewController alloc] init];
+    case iTermStatusBarComponentKnobTypeCheckbox:
+        return [[iTermStatusBarKnobCheckboxViewController alloc] init];
 
-        case iTermStatusBarComponentKnobTypeText:
-            return [[iTermStatusBarKnobTextViewController alloc] init];
+    case iTermStatusBarComponentKnobTypeText:
+        return [[iTermStatusBarKnobTextViewController alloc] init];
 
-        case iTermStatusBarComponentKnobTypeDouble:
-            return [[iTermStatusBarKnobNumericViewController alloc] init];
+    case iTermStatusBarComponentKnobTypeDouble:
+        return [[iTermStatusBarKnobNumericViewController alloc] init];
 
-        case iTermStatusBarComponentKnobTypeColor:
-            return [[iTermStatusBarKnobColorViewController alloc] init];
+    case iTermStatusBarComponentKnobTypeColor:
+        return [[iTermStatusBarKnobColorViewController alloc] init];
 
-        case iTermStatusBarComponentKnobTypeAction:
-            return [[iTermStatusBarKnobActionViewController alloc] init];
+    case iTermStatusBarComponentKnobTypeAction:
+        return [[iTermStatusBarKnobActionViewController alloc] init];
 
-        case iTermStatusBarComponentKnobTypeInvocation:
-            return [[iTermStatusBarKnobTextViewController alloc] initWithInvocationSuggester];
+    case iTermStatusBarComponentKnobTypeInvocation:
+        return [[iTermStatusBarKnobTextViewController alloc] initWithInvocationSuggester];
 
-        default:
-            return nil;
+    default:
+        return nil;
     }
 }
 
@@ -59,12 +59,12 @@ static NSViewController<iTermStatusBarKnobViewController> *iTermNewViewControlle
         _knobs = [component statusBarComponentKnobs].reverseObjectEnumerator.allObjects;
         NSDictionary *knobValues = component.configuration[iTermStatusBarComponentConfigurationKeyKnobValues];
         [_knobs enumerateObjectsUsingBlock:^(iTermStatusBarComponentKnob * _Nonnull knob, NSUInteger idx, BOOL * _Nonnull stop) {
-            knob.value = knobValues[knob.key] ?: knob.value;
-        }];
+                   knob.value = knobValues[knob.key] ?: knob.value;
+               }];
         _size.height = iTermStatusBarSetupPopoverMargin * 2;
         __block CGFloat maxControlWidth = 0;
         _viewControllers = [_knobs mapWithBlock:^id(iTermStatusBarComponentKnob *knob) {
-            NSViewController<iTermStatusBarKnobViewController> *vc = iTermNewViewControllerForKnob(knob);
+                   NSViewController<iTermStatusBarKnobViewController> *vc = iTermNewViewControllerForKnob(knob);
             [self addChildViewController:vc];
             if (knob.helpURL) {
                 [vc setHelpURL:knob.helpURL];
@@ -126,11 +126,11 @@ static NSViewController<iTermStatusBarKnobViewController> *iTermNewViewControlle
 
 - (NSDictionary *)knobValues {
     NSArray *keys = [_knobs mapWithBlock:^id(iTermStatusBarComponentKnob *anObject) {
-        return anObject.value ? anObject.key : nil;
-    }];
+               return anObject.value ? anObject.key : nil;
+           }];
     NSArray *values = [_knobs mapWithBlock:^id(iTermStatusBarComponentKnob *anObject) {
-        return anObject.value;
-    }];
+               return anObject.value;
+           }];
     return [NSDictionary dictionaryWithObjects:values forKeys:keys];
 }
 

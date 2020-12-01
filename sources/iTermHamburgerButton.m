@@ -19,26 +19,26 @@
 @implementation iTermHamburgerButtonCell
 
 - (BOOL)trackMouse:(NSEvent *)event
-            inRect:(NSRect)cellFrame
-            ofView:(NSView *)controlView
-      untilMouseUp:(BOOL)untilMouseUp {
+    inRect:(NSRect)cellFrame
+    ofView:(NSView *)controlView
+    untilMouseUp:(BOOL)untilMouseUp {
     if (![controlView conformsToProtocol:@protocol(iTermHamburgerButtonCellControl)]) {
         return [super trackMouse:event inRect:cellFrame ofView:controlView untilMouseUp:untilMouseUp];
     }
     id<iTermHamburgerButtonCellControl> control = (id<iTermHamburgerButtonCellControl>)controlView;
     const NSPoint centerPoint = [controlView convertPoint:NSMakePoint(NSMidX(cellFrame),
-                                                                      NSMidY(cellFrame))
-                                                   toView:nil];
+                                             NSMidY(cellFrame))
+                                             toView:nil];
 
     NSEvent *fakeEvent = [NSEvent mouseEventWithType:[event type]
-                                            location:centerPoint
-                                       modifierFlags:[event modifierFlags]
-                                           timestamp:[event timestamp]
-                                        windowNumber:[event windowNumber]
-                                             context:nil
-                                         eventNumber:[event eventNumber]
-                                          clickCount:[event clickCount]
-                                            pressure:[event pressure]];
+                                  location:centerPoint
+                                  modifierFlags:[event modifierFlags]
+                                  timestamp:[event timestamp]
+                                  windowNumber:[event windowNumber]
+                                  context:nil
+                                  eventNumber:[event eventNumber]
+                                  clickCount:[event clickCount]
+                                  pressure:[event pressure]];
     [NSMenu popUpContextMenu:[control hamburgerMenu] withEvent:fakeEvent forView:controlView];
 
     return YES;

@@ -69,13 +69,15 @@ static NSString *const iTermStatusBarLayoutKeyClass = @"class";
 }
 
 - (NSDictionary *)dictionaryValue {
-    NSDictionary *dict = @{ iTermStatusBarLayoutDictionaryKeySeparatorColor: [self.separatorColor dictionaryValue] ?: [NSNull null],
-                            iTermStatusBarLayoutDictionaryKeyBackgroundColor: [self.backgroundColor dictionaryValue] ?: [NSNull null],
-                            iTermStatusBarLayoutDictionaryKeyDefaultTextColor: [self.defaultTextColor dictionaryValue] ?: [NSNull null],
-                            iTermStatusBarLayoutDictionaryKeyAlgorithm: @(self.layoutAlgorithm),
-                            iTermStatusBarLayoutDictionaryKeyRemoveEmptyComponents: @(self.removeEmptyComponents),
-                            iTermStatusBarLayoutDictionaryKeyFont: [self.font stringValue] ?: [NSNull null],
-                            iTermStatusBarLayoutDictionaryKeyAutoRainbowStyle: @(self.autoRainbowStyle) };
+    NSDictionary *dict = @ { iTermStatusBarLayoutDictionaryKeySeparatorColor:
+                             [self.separatorColor dictionaryValue] ?: [NSNull null],
+                             iTermStatusBarLayoutDictionaryKeyBackgroundColor: [self.backgroundColor dictionaryValue] ?: [NSNull null],
+                             iTermStatusBarLayoutDictionaryKeyDefaultTextColor: [self.defaultTextColor dictionaryValue] ?: [NSNull null],
+                             iTermStatusBarLayoutDictionaryKeyAlgorithm: @(self.layoutAlgorithm),
+                             iTermStatusBarLayoutDictionaryKeyRemoveEmptyComponents: @(self.removeEmptyComponents),
+                             iTermStatusBarLayoutDictionaryKeyFont: [self.font stringValue] ?: [NSNull null],
+                             iTermStatusBarLayoutDictionaryKeyAutoRainbowStyle: @(self.autoRainbowStyle)
+                           };
     return [dict dictionaryByRemovingNullValues];
 }
 
@@ -100,7 +102,7 @@ static NSString *const iTermStatusBarLayoutKeyClass = @"class";
 }
 
 + (NSArray<id<iTermStatusBarComponent>> *)componentsArrayFromDictionary:(NSDictionary *)dictionary
-                                                                  scope:(iTermVariableScope *)scope {
+    scope:(iTermVariableScope *)scope {
     NSMutableArray<id<iTermStatusBarComponent>> *result = [NSMutableArray array];
     for (NSDictionary *dict in dictionary[iTermStatusBarLayoutKeyComponents]) {
         NSString *className = dict[iTermStatusBarLayoutKeyClass];
@@ -114,24 +116,24 @@ static NSString *const iTermStatusBarLayoutKeyClass = @"class";
             DLog(@"Missing configuration for %@", dict);
             continue;
         }
-        configuration = [configuration dictionaryBySettingObject:dictionary[iTermStatusBarLayoutKeyAdvancedConfiguration] ?: @{}
-                                                          forKey:iTermStatusBarComponentConfigurationKeyLayoutAdvancedConfigurationDictionaryValue];
+        configuration = [configuration dictionaryBySettingObject:dictionary[iTermStatusBarLayoutKeyAdvancedConfiguration] ?: @ {}
+                                       forKey:iTermStatusBarComponentConfigurationKeyLayoutAdvancedConfigurationDictionaryValue];
         id<iTermStatusBarComponent> component = [[theClass alloc] initWithConfiguration:configuration
-                                                                                  scope:scope];
+                                                                 scope:scope];
         [result addObject:component];
     }
     return result;
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)layout
-                             scope:(nullable iTermVariableScope *)scope {
+    scope:(nullable iTermVariableScope *)scope {
     return [self initWithComponents:[iTermStatusBarLayout componentsArrayFromDictionary:layout
-                                                                                  scope:scope]
-                      advancedConfiguration:[iTermStatusBarAdvancedConfiguration advancedConfigurationFromDictionary:layout[iTermStatusBarLayoutKeyAdvancedConfiguration]]];
+                                     scope:scope]
+                 advancedConfiguration:[iTermStatusBarAdvancedConfiguration advancedConfigurationFromDictionary:layout[iTermStatusBarLayoutKeyAdvancedConfiguration]]];
 }
 
 - (instancetype)initWithComponents:(NSArray<iTermStatusBarComponent> *)components
-             advancedConfiguration:(iTermStatusBarAdvancedConfiguration *)advancedConfiguration {
+    advancedConfiguration:(iTermStatusBarAdvancedConfiguration *)advancedConfiguration {
     self = [super init];
     if (self) {
         _advancedConfiguration = advancedConfiguration;
@@ -141,12 +143,12 @@ static NSString *const iTermStatusBarLayoutKeyClass = @"class";
 }
 
 - (instancetype)initWithScope:(nullable iTermVariableScope *)scope {
-    return [self initWithDictionary:@{} scope:scope];
+    return [self initWithDictionary:@ {} scope:scope];
 }
 
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
     return [self initWithComponents:[aDecoder decodeObjectOfClass:[NSArray class] forKey:@"components"]
-              advancedConfiguration:[aDecoder decodeObjectOfClass:[iTermStatusBarAdvancedConfiguration class] forKey:@"advanced configuration"]];
+                 advancedConfiguration:[aDecoder decodeObjectOfClass:[iTermStatusBarAdvancedConfiguration class] forKey:@"advanced configuration"]];
 }
 
 - (void)setComponents:(NSArray<id<iTermStatusBarComponent>> *)components {
@@ -156,14 +158,16 @@ static NSString *const iTermStatusBarLayoutKeyClass = @"class";
 
 - (NSArray *)arrayValue {
     return [_components mapWithBlock:^id(id<iTermStatusBarComponent> component) {
-        return @{ iTermStatusBarLayoutKeyClass: NSStringFromClass([component class]),
-                  iTermStatusBarLayoutKeyConfiguration: component.configuration };
-    }];
+                    return @ { iTermStatusBarLayoutKeyClass: NSStringFromClass([component class]),
+                               iTermStatusBarLayoutKeyConfiguration: component.configuration
+                             };
+                }];
 }
 
 - (NSDictionary *)dictionaryValue {
-    return [@{ iTermStatusBarLayoutKeyComponents: [self arrayValue],
-               iTermStatusBarLayoutKeyAdvancedConfiguration: [_advancedConfiguration dictionaryValue] ?: [NSNull null] } dictionaryByRemovingNullValues];
+    return [@ { iTermStatusBarLayoutKeyComponents: [self arrayValue],
+                iTermStatusBarLayoutKeyAdvancedConfiguration: [_advancedConfiguration dictionaryValue] ?: [NSNull null]
+              } dictionaryByRemovingNullValues];
 }
 
 #pragma mark - NSSecureCoding

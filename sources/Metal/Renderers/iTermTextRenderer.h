@@ -13,10 +13,10 @@ NS_CLASS_AVAILABLE(10_11, NA)
 - (instancetype)init NS_UNAVAILABLE;
 
 - (void)setASCIICellSize:(CGSize)cellSize
-                  offset:(CGSize)offset
-              descriptor:(iTermCharacterSourceDescriptor *)descriptor
-      creationIdentifier:(id)creationIdentifier
-                creation:(NSDictionary<NSNumber *, iTermCharacterBitmap *> *(^)(char, iTermASCIITextureAttributes))creation;
+    offset:(CGSize)offset
+    descriptor:(iTermCharacterSourceDescriptor *)descriptor
+    creationIdentifier:(id)creationIdentifier
+    creation:(NSDictionary<NSNumber *, iTermCharacterBitmap *> *(^)(char, iTermASCIITextureAttributes))creation;
 
 @end
 

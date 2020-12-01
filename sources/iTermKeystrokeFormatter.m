@@ -17,8 +17,8 @@
 + (NSString *)stringForKeystroke:(iTermKeystroke *)keystroke {
     BOOL isArrow = NO;
     NSString *charactersAsString = [self stringForKeyCode:keystroke.virtualKeyCode
-                                                character:keystroke.character
-                                                  isArrow:&isArrow];
+                                         character:keystroke.character
+                                         isArrow:&isArrow];
 
     NSMutableString *result = [[NSString stringForModifiersWithMask:keystroke.modifierFlags] mutableCopy];
     if ((keystroke.modifierFlags & NSEventModifierFlagNumericPad) && !isArrow) {
@@ -29,8 +29,8 @@
 }
 
 + (NSString *)stringForKeyCode:(CGKeyCode)virtualKeyCode
-                     character:(unichar)character
-                       isArrow:(BOOL *)isArrow {
+    character:(unichar)character
+    isArrow:(BOOL *)isArrow {
     TISInputSourceRef inputSource = NULL;
     NSString *result = nil;
 
@@ -41,7 +41,7 @@
         }
 
         CFDataRef keyLayoutData = TISGetInputSourceProperty(inputSource,
-                                                            kTISPropertyUnicodeKeyLayoutData);
+                                  kTISPropertyUnicodeKeyLayoutData);
         if (keyLayoutData == NULL) {
             goto exit;
         }
@@ -94,163 +94,163 @@ exit:
     BOOL isArrow = NO;
     NSString *aString = nil;
     switch (character) {
-        case NSDownArrowFunctionKey:
-            aString = @"↓";
-            isArrow = YES;
-            break;
-        case NSLeftArrowFunctionKey:
-            aString = @"←";
-            isArrow = YES;
-            break;
-        case NSRightArrowFunctionKey:
-            aString =@"→";
-            isArrow = YES;
-            break;
-        case NSUpArrowFunctionKey:
-            aString = @"↑";
-            isArrow = YES;
-            break;
-        case NSDeleteFunctionKey:
-            aString = NSLocalizedStringFromTableInBundle(@"Del→",
-                                                         @"iTerm",
-                                                         [NSBundle bundleForClass:[self class]],
-                                                         @"Key Names");
-            break;
-        case 0x7f:
-            aString = NSLocalizedStringFromTableInBundle(@"←Delete",
-                                                         @"iTerm",
-                                                         [NSBundle bundleForClass:[self class]],
-                                                         @"Key Names");
-            break;
-        case NSEndFunctionKey:
-            aString = NSLocalizedStringFromTableInBundle(@"End",
-                                                         @"iTerm",
-                                                         [NSBundle bundleForClass:[self class]],
-                                                         @"Key Names");
-            break;
-        case NSF1FunctionKey:
-        case NSF2FunctionKey:
-        case NSF3FunctionKey:
-        case NSF4FunctionKey:
-        case NSF5FunctionKey:
-        case NSF6FunctionKey:
-        case NSF7FunctionKey:
-        case NSF8FunctionKey:
-        case NSF9FunctionKey:
-        case NSF10FunctionKey:
-        case NSF11FunctionKey:
-        case NSF12FunctionKey:
-        case NSF13FunctionKey:
-        case NSF14FunctionKey:
-        case NSF15FunctionKey:
-        case NSF16FunctionKey:
-        case NSF17FunctionKey:
-        case NSF18FunctionKey:
-        case NSF19FunctionKey:
-        case NSF20FunctionKey:
-            aString = [NSString stringWithFormat: @"F%d", (character - NSF1FunctionKey + 1)];
-            break;
-        case NSHelpFunctionKey:
-            aString = NSLocalizedStringFromTableInBundle(@"Help",
-                                                         @"iTerm",
-                                                         [NSBundle bundleForClass:[self class]],
-                                                         @"Key Names");
-            break;
-        case NSHomeFunctionKey:
-            aString = NSLocalizedStringFromTableInBundle(@"Home",
-                                                         @"iTerm",
-                                                         [NSBundle bundleForClass:[self class]],
-                                                         @"Key Names");
-            break;
+    case NSDownArrowFunctionKey:
+        aString = @"↓";
+        isArrow = YES;
+        break;
+    case NSLeftArrowFunctionKey:
+        aString = @"←";
+        isArrow = YES;
+        break;
+    case NSRightArrowFunctionKey:
+        aString =@"→";
+        isArrow = YES;
+        break;
+    case NSUpArrowFunctionKey:
+        aString = @"↑";
+        isArrow = YES;
+        break;
+    case NSDeleteFunctionKey:
+        aString = NSLocalizedStringFromTableInBundle(@"Del→",
+                  @"iTerm",
+                  [NSBundle bundleForClass:[self class]],
+                  @"Key Names");
+        break;
+    case 0x7f:
+        aString = NSLocalizedStringFromTableInBundle(@"←Delete",
+                  @"iTerm",
+                  [NSBundle bundleForClass:[self class]],
+                  @"Key Names");
+        break;
+    case NSEndFunctionKey:
+        aString = NSLocalizedStringFromTableInBundle(@"End",
+                  @"iTerm",
+                  [NSBundle bundleForClass:[self class]],
+                  @"Key Names");
+        break;
+    case NSF1FunctionKey:
+    case NSF2FunctionKey:
+    case NSF3FunctionKey:
+    case NSF4FunctionKey:
+    case NSF5FunctionKey:
+    case NSF6FunctionKey:
+    case NSF7FunctionKey:
+    case NSF8FunctionKey:
+    case NSF9FunctionKey:
+    case NSF10FunctionKey:
+    case NSF11FunctionKey:
+    case NSF12FunctionKey:
+    case NSF13FunctionKey:
+    case NSF14FunctionKey:
+    case NSF15FunctionKey:
+    case NSF16FunctionKey:
+    case NSF17FunctionKey:
+    case NSF18FunctionKey:
+    case NSF19FunctionKey:
+    case NSF20FunctionKey:
+        aString = [NSString stringWithFormat: @"F%d", (character - NSF1FunctionKey + 1)];
+        break;
+    case NSHelpFunctionKey:
+        aString = NSLocalizedStringFromTableInBundle(@"Help",
+                  @"iTerm",
+                  [NSBundle bundleForClass:[self class]],
+                  @"Key Names");
+        break;
+    case NSHomeFunctionKey:
+        aString = NSLocalizedStringFromTableInBundle(@"Home",
+                  @"iTerm",
+                  [NSBundle bundleForClass:[self class]],
+                  @"Key Names");
+        break;
 
-        // These are standard on Apple en_GB keyboards where ~ and ` go on US keyboards (between esc
-        // and tab).
-        case 0xa7:
-            aString = @"§";
-            break;
-        case 0xb1: // shifted version of above.
-            aString = @"±";
-            break;
+    // These are standard on Apple en_GB keyboards where ~ and ` go on US keyboards (between esc
+    // and tab).
+    case 0xa7:
+        aString = @"§";
+        break;
+    case 0xb1: // shifted version of above.
+        aString = @"±";
+        break;
 
-        case '0':
-        case '1':
-        case '2':
-        case '3':
-        case '4':
-        case '5':
-        case '6':
-        case '7':
-        case '8':
-        case '9':
-            aString = [NSString stringWithFormat: @"%d", (character - '0')];
-            break;
-        case '=':
-            aString = @"=";
-            break;
-        case '/':
-            aString = @"/";
-            break;
-        case '*':
-            aString = @"*";
-            break;
-        case '-':
-            aString = @"-";
-            break;
-        case '+':
-            aString = @"+";
-            break;
-        case '.':
-            aString = @".";
-            break;
-        case NSClearLineFunctionKey:
-            aString = @"Numlock";
-            break;
-        case NSPageDownFunctionKey:
-            aString = @"Page Down";
-            break;
-        case NSPageUpFunctionKey:
-            aString = @"Page Up";
-            break;
-        case 0x3: // 'enter' on numeric key pad
-            aString = @"↩";
-            break;
-        case NSInsertFunctionKey:  // Fall through
-        case NSInsertCharFunctionKey:
-            aString = @"Insert";
-            break;
+    case '0':
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
+        aString = [NSString stringWithFormat: @"%d", (character - '0')];
+        break;
+    case '=':
+        aString = @"=";
+        break;
+    case '/':
+        aString = @"/";
+        break;
+    case '*':
+        aString = @"*";
+        break;
+    case '-':
+        aString = @"-";
+        break;
+    case '+':
+        aString = @"+";
+        break;
+    case '.':
+        aString = @".";
+        break;
+    case NSClearLineFunctionKey:
+        aString = @"Numlock";
+        break;
+    case NSPageDownFunctionKey:
+        aString = @"Page Down";
+        break;
+    case NSPageUpFunctionKey:
+        aString = @"Page Up";
+        break;
+    case 0x3: // 'enter' on numeric key pad
+        aString = @"↩";
+        break;
+    case NSInsertFunctionKey:  // Fall through
+    case NSInsertCharFunctionKey:
+        aString = @"Insert";
+        break;
 
-        default:
-            if (character > ' ' && (character < 0xe800 || character > 0xfdff) && character < 0xffff) {
-                aString = [NSString stringWithFormat:@"%C", (unichar)character];
-            } else {
-                switch (character) {
-                    case ' ':
-                        aString = @"Space";
-                        break;
+    default:
+        if (character > ' ' && (character < 0xe800 || character > 0xfdff) && character < 0xffff) {
+            aString = [NSString stringWithFormat:@"%C", (unichar)character];
+        } else {
+            switch (character) {
+            case ' ':
+                aString = @"Space";
+                break;
 
-                    case '\r':
-                        aString = @"Return ↩";
-                        break;
+            case '\r':
+                aString = @"Return ↩";
+                break;
 
-                    case 27:
-                        aString = @"Esc ⎋";
-                        break;
+            case 27:
+                aString = @"Esc ⎋";
+                break;
 
-                    case '\t':
-                        aString = @"Tab ↦";
-                        break;
+            case '\t':
+                aString = @"Tab ↦";
+                break;
 
-                    case 0x19:
-                        // back-tab
-                        aString = @"Tab ↤";
-                        break;
+            case 0x19:
+                // back-tab
+                aString = @"Tab ↤";
+                break;
 
-                    default:
-                        aString = [NSString stringWithFormat: @"Hex Code 0x%x", character];
-                        break;
-                }
+            default:
+                aString = [NSString stringWithFormat: @"Hex Code 0x%x", character];
+                break;
             }
-            break;
+        }
+        break;
     }
     if (isArrowPtr) {
         *isArrowPtr = isArrow;

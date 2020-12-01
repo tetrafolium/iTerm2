@@ -24,24 +24,24 @@ static char iTermAdvancedSettingsModelKVOKey;
 - (void)dealloc {
     for (NSString *key in _blocks) {
         [[NSUserDefaults standardUserDefaults] removeObserver:self
-                                                   forKeyPath:key
-                                                      context:(void *)&iTermAdvancedSettingsModelKVOKey];
+                                               forKeyPath:key
+                                               context:(void *)&iTermAdvancedSettingsModelKVOKey];
     }
 }
 
 - (void)observeKey:(NSString *)key block:(void (^)(void))block {
     _blocks[key] = [block copy];
     [[NSUserDefaults standardUserDefaults] addObserver:self
-                                            forKeyPath:key
-                                               options:NSKeyValueObservingOptionNew
-                                               context:(void *)&iTermAdvancedSettingsModelKVOKey];
+                                           forKeyPath:key
+                                           options:NSKeyValueObservingOptionNew
+                                           context:(void *)&iTermAdvancedSettingsModelKVOKey];
 }
 
 // This is called when user defaults are changed anywhere.
 - (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context {
+    ofObject:(id)object
+    change:(NSDictionary *)change
+    context:(void *)context {
     if (context == &iTermAdvancedSettingsModelKVOKey) {
         void (^block)(void) = _blocks[keyPath];
         if (block) {

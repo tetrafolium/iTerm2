@@ -30,7 +30,7 @@ typedef void(^iTermWarningActionBlock)(iTermWarningSelection);
 @property (nonatomic, strong) NSString *keyEquivalent;
 
 + (instancetype)warningActionWithLabel:(NSString *)label
-                                 block:(iTermWarningActionBlock)block;
+    block:(iTermWarningActionBlock)block;
 
 @property(nonatomic, copy) NSString *label;
 @property(nonatomic, copy) iTermWarningActionBlock block;
@@ -70,25 +70,25 @@ typedef void(^iTermWarningActionBlock)(iTermWarningSelection);
 // Show a warning, optionally with a suppression checkbox. It may not be shown
 // if it was previously suppressed.
 + (iTermWarningSelection)showWarningWithTitle:(NSString *)title
-                                      actions:(NSArray *)actions
-                                   identifier:(NSString *)identifier
-                                  silenceable:(iTermWarningType)warningType
-                                       window:(NSWindow *)window;
+    actions:(NSArray *)actions
+    identifier:(NSString *)identifier
+    silenceable:(iTermWarningType)warningType
+    window:(NSWindow *)window;
 
 + (iTermWarningSelection)showWarningWithTitle:(NSString *)title
-                                      actions:(NSArray *)actions
-                                    accessory:(NSView *)accessory
-                                   identifier:(NSString *)identifier
-                                  silenceable:(iTermWarningType)warningType
-                                       window:(NSWindow *)window;
+    actions:(NSArray *)actions
+    accessory:(NSView *)accessory
+    identifier:(NSString *)identifier
+    silenceable:(iTermWarningType)warningType
+    window:(NSWindow *)window;
 
 + (iTermWarningSelection)showWarningWithTitle:(NSString *)title
-                                      actions:(NSArray *)actions
-                                    accessory:(NSView *)accessory
-                                   identifier:(NSString *)identifier
-                                  silenceable:(iTermWarningType)warningType
-                                      heading:(NSString *)heading
-                                       window:(NSWindow *)window;
+    actions:(NSArray *)actions
+    accessory:(NSView *)accessory
+    identifier:(NSString *)identifier
+    silenceable:(iTermWarningType)warningType
+    heading:(NSString *)heading
+    window:(NSWindow *)window;
 
 // actionToSelectionMap gives the iTermWarningSelection that should be returned for each entry in
 // actions. It must be in 1:1 correspondence with actions. It is useful because it allows you to add
@@ -101,24 +101,24 @@ typedef void(^iTermWarningActionBlock)(iTermWarningSelection);
 // [ kiTermWarningSelection0, kiTermWarningSelection2, kItermWarningSelection1 ], which has the
 // effect of making Cancel return Selection2 even though it's in the second position.
 + (iTermWarningSelection)showWarningWithTitle:(NSString *)title
-                                      actions:(NSArray *)actions
-                                actionMapping:(NSArray<NSNumber *> *)actionToSelectionMap
-                                    accessory:(NSView *)accessory
-                                   identifier:(NSString *)identifier
-                                  silenceable:(iTermWarningType)warningType
-                                      heading:(NSString *)heading
-                                       window:(NSWindow *)window;
+    actions:(NSArray *)actions
+    actionMapping:(NSArray<NSNumber *> *)actionToSelectionMap
+    accessory:(NSView *)accessory
+    identifier:(NSString *)identifier
+    silenceable:(iTermWarningType)warningType
+    heading:(NSString *)heading
+    window:(NSWindow *)window;
 
 // cancelLabel is the action name to treat like "Cancel". It won't be remembered.
 + (iTermWarningSelection)showWarningWithTitle:(NSString *)title
-                                      actions:(NSArray *)actions
-                                actionMapping:(NSArray<NSNumber *> *)actionToSelectionMap
-                                    accessory:(NSView *)accessory
-                                   identifier:(NSString *)identifier
-                                  silenceable:(iTermWarningType)warningType
-                                      heading:(NSString *)heading
-                                  cancelLabel:(NSString *)cancelLabel
-                                       window:(NSWindow *)window;
+    actions:(NSArray *)actions
+    actionMapping:(NSArray<NSNumber *> *)actionToSelectionMap
+    accessory:(NSView *)accessory
+    identifier:(NSString *)identifier
+    silenceable:(iTermWarningType)warningType
+    heading:(NSString *)heading
+    cancelLabel:(NSString *)cancelLabel
+    window:(NSWindow *)window;
 
 
 // If you prefer you can set the properties you care about and then invoke runModal.

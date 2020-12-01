@@ -33,9 +33,9 @@
 
 - (void)log {
     [classes_ enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull key, NSMutableSet<NSObject<NSCopying> *> * _Nonnull obj, BOOL * _Nonnull stop) {
-        DLog(@"Class %@ contains: %@", key, [[obj.allObjects mapWithBlock:^id(NSObject<NSCopying> *anObject) {
-            return [anObject description];
-        }] componentsJoinedByString:@", "]);
+                 DLog(@"Class %@ contains: %@", key, [[obj.allObjects mapWithBlock:^id(NSObject<NSCopying> *anObject) {
+                     return [anObject description];
+                 }] componentsJoinedByString:@", "]);
     }];
 }
 
@@ -113,7 +113,7 @@
 }
 
 - (NSArray *)classes {
-        return [classes_ allValues];
+    return [classes_ allValues];
 }
 
 @end

@@ -58,14 +58,14 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
 - (NSArray<Class> *)commands {
     static NSArray<Class> *commands;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         commands = @[ [iTermOpenQuicklyWindowArrangementCommand class],
-                      [iTermOpenQuicklySearchSessionsCommand class],
-                      [iTermOpenQuicklySwitchProfileCommand class],
-                      [iTermOpenQuicklyCreateTabCommand class],
-                      [iTermOpenQuicklyColorPresetCommand class],
-                      [iTermOpenQuicklyScriptCommand class],
-                      [iTermOpenQuicklyActionCommand class]];
+                                                                      [iTermOpenQuicklySearchSessionsCommand class],
+                                                                      [iTermOpenQuicklySwitchProfileCommand class],
+                                                                      [iTermOpenQuicklyCreateTabCommand class],
+                                                                      [iTermOpenQuicklyColorPresetCommand class],
+                                                                      [iTermOpenQuicklyScriptCommand class],
+                                                                      [iTermOpenQuicklyActionCommand class]];
     });
     return commands;
 }
@@ -115,11 +115,11 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
         iTermOpenQuicklyHelpItem *item = [[iTermOpenQuicklyHelpItem alloc] init];
         item.score = 0;
         item.title = [_delegate openQuicklyModelDisplayStringForFeatureNamed:nil
-                                                                       value:[commandClass tipTitle]
-                                                          highlightedIndexes:nil];
+                                value:[commandClass tipTitle]
+                                highlightedIndexes:nil];
         item.detail = [_delegate openQuicklyModelDisplayStringForFeatureNamed:nil
-                                                                        value:[commandClass tipDetail]
-                                                           highlightedIndexes:nil];
+                                 value:[commandClass tipDetail]
+                                 highlightedIndexes:nil];
         item.identifier = [NSString stringWithFormat:@"/%@ ", [commandClass command]];
         [items addObject:item];
     }
@@ -158,27 +158,27 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
     NSArray<NSString *(^)(PTYSession *)> *functions = @[ pwd, command, hostname, badge ];
     NSMutableArray<NSMutableArray *> *functionValues = [NSMutableArray array];
     [functions enumerateObjectsUsingBlock:^(NSString *(^ _Nonnull obj)(PTYSession *), NSUInteger idx, BOOL * _Nonnull stop) {
-        [functionValues addObject:[NSMutableArray array]];
-    }];
+                  [functionValues addObject:[NSMutableArray array]];
+              }];
     [sessions enumerateObjectsUsingBlock:^(PTYSession * _Nonnull session, NSUInteger sessionIndex, BOOL * _Nonnull stop) {
-        [functions enumerateObjectsUsingBlock:^(NSString *(^ _Nonnull f)(PTYSession *), NSUInteger functionIndex, BOOL * _Nonnull stop) {
-            NSString *value = f(session);
-            if (value) {
+                 [functions enumerateObjectsUsingBlock:^(NSString *(^ _Nonnull f)(PTYSession *), NSUInteger functionIndex, BOOL * _Nonnull stop) {
+                     NSString *value = f(session);
+                     if (value) {
                 [functionValues[functionIndex] addObject:value];
             }
         }];
     }];
     NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
     [functionValues enumerateObjectsUsingBlock:^(NSMutableArray * _Nonnull values, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (values.count == sessions.count) {
-            [indexes addIndex:idx];
-        }
-    }];
+                       if (values.count == sessions.count) {
+                           [indexes addIndex:idx];
+                       }
+                   }];
 
     NSMutableArray<NSString *(^)(PTYSession *)> *filteredFunctions = [NSMutableArray array];
     NSMutableArray<NSMutableArray *> *filteredFunctionValues = [NSMutableArray array];
     [indexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
-        [filteredFunctions addObject:functions[idx]];
+                [filteredFunctions addObject:functions[idx]];
         [filteredFunctionValues addObject:functionValues[idx]];
     }];
     double (^variance)(NSArray<NSString *> *) = ^double(NSArray<NSString *> *strings) {
@@ -186,10 +186,10 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
         return set.count;
     };
     const NSUInteger best = [filteredFunctionValues indexOfMaxWithBlock:
-                             ^NSComparisonResult(NSMutableArray<NSString *> *obj1,
-                                                 NSMutableArray<NSString *> *obj2) {
-        return [@(variance(obj1)) compare:@(variance(obj2))];
-    }];
+                                                    ^NSComparisonResult(NSMutableArray<NSString *> *obj1,
+                           NSMutableArray<NSString *> *obj2) {
+                               return [@(variance(obj1)) compare:@(variance(obj2))];
+                           }];
     if (best == NSNotFound) {
         return nil;
     }
@@ -197,7 +197,7 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
 }
 
 - (void)addSessionLocationToItems:(NSMutableArray<iTermOpenQuicklyItem *> *)items
-                    withMatcher:(iTermMinimumSubsequenceMatcher *)matcher {
+    withMatcher:(iTermMinimumSubsequenceMatcher *)matcher {
     NSString *(^detailFunction)(PTYSession *) = [self detailFunctionForSessions:self.sessions];
 
     for (PTYSession *session in self.sessions) {
@@ -210,17 +210,17 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
 
         NSMutableAttributedString *attributedName = [[NSMutableAttributedString alloc] init];
         item.score = [self scoreForSession:session
-                                   matcher:matcher
-                                  features:features
-                            attributedName:attributedName];
+                           matcher:matcher
+                           features:features
+                           attributedName:attributedName];
         if (item.score > 0) {
             item.detail = [self detailForSession:session features:features];
             if (attributedName.length) {
                 item.title = attributedName;
             } else {
                 item.title = [_delegate openQuicklyModelDisplayStringForFeatureNamed:nil
-                                                                               value:[self documentForSession:session]
-                                                                  highlightedIndexes:nil];
+                                        value:[self documentForSession:session]
+                                        highlightedIndexes:nil];
             }
 
             item.identifier = session.guid;
@@ -233,8 +233,8 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
 }
 
 - (void)addCreateNewTabToItems:(NSMutableArray<iTermOpenQuicklyItem *> *)items
-                   withMatcher:(iTermMinimumSubsequenceMatcher *)matcher
-             haveCurrentWindow:(BOOL)haveCurrentWindow {
+    withMatcher:(iTermMinimumSubsequenceMatcher *)matcher
+    haveCurrentWindow:(BOOL)haveCurrentWindow {
     for (Profile *profile in [[ProfileModel sharedInstance] bookmarks]) {
         iTermOpenQuicklyProfileItem *newSessionWithProfileItem = [[iTermOpenQuicklyProfileItem alloc] init];
         NSMutableAttributedString *attributedName = [[NSMutableAttributedString alloc] init];
@@ -247,8 +247,8 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
                 theValue = @"Create a new tab with this profile";
             }
             newSessionWithProfileItem.detail = [_delegate openQuicklyModelDisplayStringForFeatureNamed:nil
-                                                                                                 value:theValue
-                                                                                    highlightedIndexes:nil];
+                                                          value:theValue
+                                                          highlightedIndexes:nil];
             newSessionWithProfileItem.title = attributedName;
             newSessionWithProfileItem.identifier = profile[KEY_GUID];
             [items addObject:newSessionWithProfileItem];
@@ -257,12 +257,12 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
 }
 
 - (void)addChangeColorPresetToItems:(NSMutableArray<iTermOpenQuicklyItem *> *)items
-                        withMatcher:(iTermMinimumSubsequenceMatcher *)matcher {
+    withMatcher:(iTermMinimumSubsequenceMatcher *)matcher {
     iTermColorPresetDictionary *allPresets = [iTermColorPresets allColorPresets];
     NSColor *defaultColor = [NSColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
     for (NSString *name in allPresets) {
         iTermColorPreset *preset = allPresets[name];
-        
+
         iTermOpenQuicklyColorPresetItem *item = [[iTermOpenQuicklyColorPresetItem alloc] init];
         item.presetName = name;
         item.logoGenerator.textColor = [preset[KEY_FOREGROUND_COLOR] colorValue] ?: [NSColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1];
@@ -275,8 +275,8 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
         if (item.score > 0) {
             NSString *value = [NSString stringWithFormat:@"Load color preset ”%@“", name];
             item.detail = [_delegate openQuicklyModelDisplayStringForFeatureNamed:nil
-                                                                            value:value
-                                                               highlightedIndexes:nil];
+                                     value:value
+                                     highlightedIndexes:nil];
             item.title = attributedName;
             item.identifier = name;
             [items addObject:item];
@@ -285,15 +285,15 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
 }
 
 - (void)addChangeProfileToItems:(NSMutableArray<iTermOpenQuicklyItem *> *)items
-                    withMatcher:(iTermMinimumSubsequenceMatcher *)matcher {
+    withMatcher:(iTermMinimumSubsequenceMatcher *)matcher {
     for (Profile *profile in [[ProfileModel sharedInstance] bookmarks]) {
         iTermOpenQuicklyChangeProfileItem *changeProfileItem = [[iTermOpenQuicklyChangeProfileItem alloc] init];
         NSMutableAttributedString *attributedName = [[NSMutableAttributedString alloc] init];
         changeProfileItem.score = [self scoreForProfile:profile matcher:matcher attributedName:attributedName];
         if (changeProfileItem.score > 0) {
             changeProfileItem.detail = [_delegate openQuicklyModelDisplayStringForFeatureNamed:nil
-                                                                                         value:@"Change current session’s profile"
-                                                                            highlightedIndexes:nil];
+                                                  value:@"Change current session’s profile"
+                                                  highlightedIndexes:nil];
             changeProfileItem.title = attributedName;
             changeProfileItem.identifier = profile[KEY_GUID];
             [items addObject:changeProfileItem];
@@ -302,18 +302,18 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
 }
 
 - (void)addActionsToItems:(NSMutableArray<iTermOpenQuicklyItem *> *)items
-              withMatcher:(iTermMinimumSubsequenceMatcher *)matcher {
+    withMatcher:(iTermMinimumSubsequenceMatcher *)matcher {
     [[[iTermActionsModel sharedInstance] actions] enumerateObjectsUsingBlock:^(iTermAction * _Nonnull action, NSUInteger idx, BOOL * _Nonnull stop) {
-        iTermOpenQuicklyActionItem *actionItem = [self actionItemForAction:action
-                                                                   matcher:matcher];
-        if (actionItem) {
+                                            iTermOpenQuicklyActionItem *actionItem = [self actionItemForAction:action
+                                                    matcher:matcher];
+                                            if (actionItem) {
             [items addObject:actionItem];
         }
     }];
 }
 
 - (iTermOpenQuicklyActionItem *)actionItemForAction:(iTermAction *)action
-                                            matcher:(iTermMinimumSubsequenceMatcher *)matcher {
+    matcher:(iTermMinimumSubsequenceMatcher *)matcher {
     iTermOpenQuicklyActionItem *actionItem = [[iTermOpenQuicklyActionItem alloc] init];
     actionItem.action = action;
     NSMutableAttributedString *attributedName = [[NSMutableAttributedString alloc] init];
@@ -322,26 +322,26 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
         return nil;
     }
     actionItem.detail = [_delegate openQuicklyModelDisplayStringForFeatureNamed:nil
-                                                                          value:action.displayString
-                                                             highlightedIndexes:nil];
+                                   value:action.displayString
+                                   highlightedIndexes:nil];
     actionItem.title = attributedName;
     actionItem.identifier = [@(action.identifier) stringValue];
     return actionItem;
 }
 
 - (void)addSnippetsToItems:(NSMutableArray<iTermOpenQuicklyItem *> *)items
-               withMatcher:(iTermMinimumSubsequenceMatcher *)matcher {
+    withMatcher:(iTermMinimumSubsequenceMatcher *)matcher {
     [[[iTermSnippetsModel sharedInstance] snippets] enumerateObjectsUsingBlock:^(iTermSnippet * _Nonnull snippet, NSUInteger idx, BOOL * _Nonnull stop) {
-        iTermOpenQuicklySnippetItem *snippetItem = [self snippetItemForSnippet:snippet
-                                                                       matcher:matcher];
-        if (snippetItem) {
+                                             iTermOpenQuicklySnippetItem *snippetItem = [self snippetItemForSnippet:snippet
+                                                     matcher:matcher];
+                                             if (snippetItem) {
             [items addObject:snippetItem];
         }
     }];
 }
 
 - (iTermOpenQuicklySnippetItem *)snippetItemForSnippet:(iTermSnippet *)snippet
-                                               matcher:(iTermMinimumSubsequenceMatcher *)matcher {
+    matcher:(iTermMinimumSubsequenceMatcher *)matcher {
     iTermOpenQuicklySnippetItem *snippetItem = [[iTermOpenQuicklySnippetItem alloc] init];
     snippetItem.snippet = snippet;
     NSMutableAttributedString *attributedName = [[NSMutableAttributedString alloc] init];
@@ -350,8 +350,8 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
         return nil;
     }
     snippetItem.detail = [_delegate openQuicklyModelDisplayStringForFeatureNamed:nil
-                                                                           value:[NSString stringWithFormat:@"Send snippet “%@”", snippet.title]
-                                                              highlightedIndexes:nil];
+                                    value:[NSString stringWithFormat:@"Send snippet “%@”", snippet.title]
+                                    highlightedIndexes:nil];
     snippetItem.title = attributedName;
     snippetItem.identifier = [@(snippet.identifier) stringValue];
     return snippetItem;
@@ -359,18 +359,18 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
 
 
 - (iTermOpenQuicklyArrangementItem *)arrangementItemWithName:(NSString *)arrangementName
-                                                     matcher:(iTermMinimumSubsequenceMatcher *)matcher
-                                                      inTabs:(BOOL)inTabs {
+    matcher:(iTermMinimumSubsequenceMatcher *)matcher
+    inTabs:(BOOL)inTabs {
     iTermOpenQuicklyArrangementItem *item = [[iTermOpenQuicklyArrangementItem alloc] init];
     NSMutableAttributedString *attributedName = [[NSMutableAttributedString alloc] init];
     item.score = [self scoreForArrangementWithName:arrangementName
-                                           matcher:matcher
-                                    attributedName:attributedName];
+                       matcher:matcher
+                       attributedName:attributedName];
     if (item.score > 0) {
         item.inTabs = inTabs;
         item.detail = [_delegate openQuicklyModelDisplayStringForFeatureNamed:nil
-                                                                        value:inTabs ? @"Restore window arrangement in tabs" : @"Restore window arrangement"
-                                                           highlightedIndexes:nil];
+                                 value:inTabs ? @"Restore window arrangement in tabs" : @"Restore window arrangement"
+                                 highlightedIndexes:nil];
         item.title = attributedName;
         item.identifier = arrangementName;
         return item;
@@ -380,16 +380,16 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
 }
 
 - (iTermOpenQuicklyScriptItem *)scriptItemWithName:(NSString *)scriptName
-                                           matcher:(iTermMinimumSubsequenceMatcher *)matcher {
+    matcher:(iTermMinimumSubsequenceMatcher *)matcher {
     iTermOpenQuicklyScriptItem *item = [[iTermOpenQuicklyScriptItem alloc] init];
     NSMutableAttributedString *attributedName = [[NSMutableAttributedString alloc] init];
     item.score = [self scoreForScriptWithName:scriptName
-                                      matcher:matcher
-                               attributedName:attributedName];
+                       matcher:matcher
+                       attributedName:attributedName];
     if (item.score > 0) {
         item.detail = [_delegate openQuicklyModelDisplayStringForFeatureNamed:nil
-                                                                        value:@"Run Script"
-                                                           highlightedIndexes:nil];
+                                 value:@"Run Script"
+                                 highlightedIndexes:nil];
         item.title = attributedName;
         item.identifier = scriptName;
         return item;
@@ -399,7 +399,7 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
 }
 
 - (void)addOpenArrangementToItems:(NSMutableArray<iTermOpenQuicklyItem *> *)items
-                      withMatcher:(iTermMinimumSubsequenceMatcher *)matcher {
+    withMatcher:(iTermMinimumSubsequenceMatcher *)matcher {
     for (NSString *arrangementName in [WindowArrangements allNames]) {
         iTermOpenQuicklyArrangementItem *item;
         item = [self arrangementItemWithName:arrangementName matcher:matcher inTabs:NO];
@@ -414,7 +414,7 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
 }
 
 - (void)addScriptToItems:(NSMutableArray<iTermOpenQuicklyItem *> *)items
-             withMatcher:(iTermMinimumSubsequenceMatcher *)matcher {
+    withMatcher:(iTermMinimumSubsequenceMatcher *)matcher {
     NSArray<NSString *> *allScripts = [[[[iTermApplication sharedApplication] delegate] scriptsMenuController] allScripts];
     for (NSString *script in allScripts) {
         iTermOpenQuicklyScriptItem *item;
@@ -474,9 +474,9 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
 
     // Sort from highest to lowest score.
     [items sortUsingComparator:^NSComparisonResult(iTermOpenQuicklyItem *obj1,
-                                                   iTermOpenQuicklyItem *obj2) {
-        return [@(obj2.score) compare:@(obj1.score)];
-    }];
+          iTermOpenQuicklyItem *obj2) {
+              return [@(obj2.score) compare:@(obj1.score)];
+          }];
 
     // To avoid performance issues, only keep the 100 best.
     static const int kMaxItems = 100;
@@ -519,17 +519,17 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
 #pragma mark - Scoring
 
 - (double)scoreForArrangementWithName:(NSString *)arrangementName
-                              matcher:(iTermMinimumSubsequenceMatcher *)matcher
-                       attributedName:(NSMutableAttributedString *)attributedName {
+    matcher:(iTermMinimumSubsequenceMatcher *)matcher
+    attributedName:(NSMutableAttributedString *)attributedName {
     NSMutableArray *nameFeature = [NSMutableArray array];
     double score = [self scoreUsingMatcher:matcher
-                                 documents:@[ arrangementName ?: @"" ]
-                                multiplier:kProfileNameMultiplierForArrangementItem
-                                      name:nil
-                                  features:nameFeature
-                                     limit:2 * kProfileNameMultiplierForArrangementItem];
+                         documents:@[ arrangementName ?: @"" ]
+                         multiplier:kProfileNameMultiplierForArrangementItem
+                         name:nil
+                         features:nameFeature
+                         limit:2 * kProfileNameMultiplierForArrangementItem];
     if (score > 0 &&
-        [[WindowArrangements defaultArrangementName] isEqualToString:arrangementName]) {
+            [[WindowArrangements defaultArrangementName] isEqualToString:arrangementName]) {
         // Make the default arrangement always be the highest-scored arrangement if it matches the query.
         score += 0.2;
     }
@@ -540,15 +540,15 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
 }
 
 - (double)scoreForScriptWithName:(NSString *)arrangementName
-                         matcher:(iTermMinimumSubsequenceMatcher *)matcher
-                  attributedName:(NSMutableAttributedString *)attributedName {
+    matcher:(iTermMinimumSubsequenceMatcher *)matcher
+    attributedName:(NSMutableAttributedString *)attributedName {
     NSMutableArray *nameFeature = [NSMutableArray array];
     double score = [self scoreUsingMatcher:matcher
-                                 documents:@[ arrangementName ?: @"" ]
-                                multiplier:kProfileNameMultiplierForScriptItem
-                                      name:nil
-                                  features:nameFeature
-                                     limit:2 * kProfileNameMultiplierForScriptItem];
+                         documents:@[ arrangementName ?: @"" ]
+                         multiplier:kProfileNameMultiplierForScriptItem
+                         name:nil
+                         features:nameFeature
+                         limit:2 * kProfileNameMultiplierForScriptItem];
     if (nameFeature.count) {
         [attributedName appendAttributedString:nameFeature[0][0]];
     }
@@ -556,15 +556,15 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
 }
 
 - (double)scoreForAction:(iTermAction *)action
-                 matcher:(iTermMinimumSubsequenceMatcher *)matcher
-          attributedName:(NSMutableAttributedString *)attributedName {
+    matcher:(iTermMinimumSubsequenceMatcher *)matcher
+    attributedName:(NSMutableAttributedString *)attributedName {
     NSMutableArray *nameFeature = [NSMutableArray array];
     double score = [self scoreUsingMatcher:matcher
-                                 documents:@[ action.title ?: @"" ]
-                                multiplier:kActionMultiplier
-                                      name:nil
-                                  features:nameFeature
-                                     limit:2 * kActionMultiplier];
+                         documents:@[ action.title ?: @"" ]
+                         multiplier:kActionMultiplier
+                         name:nil
+                         features:nameFeature
+                         limit:2 * kActionMultiplier];
     if (nameFeature.count) {
         [attributedName appendAttributedString:nameFeature[0][0]];
     }
@@ -572,16 +572,16 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
 }
 
 - (double)scoreForSnippet:(iTermSnippet *)snippet
-                  matcher:(iTermMinimumSubsequenceMatcher *)matcher
-           attributedName:(NSMutableAttributedString *)attributedName {
+    matcher:(iTermMinimumSubsequenceMatcher *)matcher
+    attributedName:(NSMutableAttributedString *)attributedName {
     NSMutableArray *nameFeature = [NSMutableArray array];
     double score = [self scoreUsingMatcher:matcher
-                                 documents:@[ snippet.title ?: @"",
-                                              [snippet trimmedValue:80] ?: @"" ]
-                                multiplier:kSnippetMultiplier
-                                      name:nil
-                                  features:nameFeature
-                                     limit:2 * kSnippetMultiplier];
+                         documents:@[ snippet.title ?: @"",
+                                 [snippet trimmedValue:80] ?: @"" ]
+                         multiplier:kSnippetMultiplier
+                         name:nil
+                         features:nameFeature
+                         limit:2 * kSnippetMultiplier];
     if (nameFeature.count) {
         [attributedName appendAttributedString:nameFeature[0][0]];
     }
@@ -589,15 +589,15 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
 }
 
 - (double)scoreForColorPreset:(NSString *)presetName
-                      matcher:(iTermMinimumSubsequenceMatcher *)matcher
-               attributedName:(NSMutableAttributedString *)attributedName {
+    matcher:(iTermMinimumSubsequenceMatcher *)matcher
+    attributedName:(NSMutableAttributedString *)attributedName {
     NSMutableArray *nameFeature = [NSMutableArray array];
     double score = [self scoreUsingMatcher:matcher
-                                 documents:@[ presetName ]
-                                multiplier:kProfileNameMultiplierForColorPresetItem
-                                      name:nil
-                                  features:nameFeature
-                                     limit:2 * kProfileNameMultiplierForColorPresetItem];
+                         documents:@[ presetName ]
+                         multiplier:kProfileNameMultiplierForColorPresetItem
+                         name:nil
+                         features:nameFeature
+                         limit:2 * kProfileNameMultiplierForColorPresetItem];
     if (nameFeature.count) {
         [attributedName appendAttributedString:nameFeature[0][0]];
     }
@@ -605,17 +605,17 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
 }
 
 - (double)scoreForProfile:(Profile *)profile
-                  matcher:(iTermMinimumSubsequenceMatcher *)matcher
-           attributedName:(NSMutableAttributedString *)attributedName {
+    matcher:(iTermMinimumSubsequenceMatcher *)matcher
+    attributedName:(NSMutableAttributedString *)attributedName {
     NSMutableArray *nameFeature = [NSMutableArray array];
     double score = [self scoreUsingMatcher:matcher
-                                 documents:@[ profile[KEY_NAME] ]
-                                multiplier:kProfileNameMultiplierForProfileItem
-                                      name:nil
-                                  features:nameFeature
-                                     limit:2 * kProfileNameMultiplierForProfileItem];
+                         documents:@[ profile[KEY_NAME] ]
+                         multiplier:kProfileNameMultiplierForProfileItem
+                         name:nil
+                         features:nameFeature
+                         limit:2 * kProfileNameMultiplierForProfileItem];
     if (score > 0 &&
-        [[[ProfileModel sharedInstance] defaultBookmark][KEY_GUID] isEqualToString:profile[KEY_GUID]]) {
+            [[[ProfileModel sharedInstance] defaultBookmark][KEY_GUID] isEqualToString:profile[KEY_GUID]]) {
         // Make the default profile always be the highest-scored profile if it matches the query.
         score += 0.2;
     }
@@ -636,19 +636,19 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
 // attributedName: The session's name with matching characters highlighted
 //   (suitable for display) will be appended to this NSMutableAttributedString.
 - (double)scoreForSession:(PTYSession *)session
-                  matcher:(iTermMinimumSubsequenceMatcher *)matcher
-                 features:(NSMutableArray *)features
-           attributedName:(NSMutableAttributedString *)attributedName {
+    matcher:(iTermMinimumSubsequenceMatcher *)matcher
+    features:(NSMutableArray *)features
+    attributedName:(NSMutableAttributedString *)attributedName {
     double score = 0;
     double maxScorePerFeature = 2 + matcher.query.length / 4;
     if (session.name) {
         NSMutableArray *nameFeature = [NSMutableArray array];
         score += [self scoreUsingMatcher:matcher
-                               documents:@[ [self documentForSession:session] ]
-                              multiplier:kSessionNameMultiplier
-                                    name:nil
-                                features:nameFeature
-                                   limit:maxScorePerFeature];
+                       documents:@[ [self documentForSession:session] ]
+                       multiplier:kSessionNameMultiplier
+                       name:nil
+                       features:nameFeature
+                       limit:maxScorePerFeature];
         if (nameFeature.count) {
             [attributedName appendAttributedString:nameFeature[0][0]];
         }
@@ -656,56 +656,56 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
 
     if (session.badgeLabel) {
         score += [self scoreUsingMatcher:matcher
-                               documents:@[ session.badgeLabel ]
-                              multiplier:kSessionBadgeMultiplier
-                                    name:@"Badge"
-                                features:features
-                                   limit:maxScorePerFeature];
+                       documents:@[ session.badgeLabel ]
+                       multiplier:kSessionBadgeMultiplier
+                       name:@"Badge"
+                       features:features
+                       limit:maxScorePerFeature];
     }
 
     score += [self scoreUsingMatcher:matcher
-                           documents:session.commands
-                          multiplier:kCommandMultiplier
-                                name:@"Command"
-                            features:features
-                               limit:maxScorePerFeature];
+                   documents:session.commands
+                   multiplier:kCommandMultiplier
+                   name:@"Command"
+                   features:features
+                   limit:maxScorePerFeature];
 
     score += [self scoreUsingMatcher:matcher
-                           documents:session.directories
-                          multiplier:kDirectoryMultiplier
-                                name:@"Directory"
-                            features:features
-                               limit:maxScorePerFeature];
+                   documents:session.directories
+                   multiplier:kDirectoryMultiplier
+                   name:@"Directory"
+                   features:features
+                   limit:maxScorePerFeature];
 
     score += [self scoreUsingMatcher:matcher
-                           documents:[self hostnamesInHosts:session.hosts]
-                          multiplier:kHostnameMultiplier
-                                name:@"Host"
-                            features:features
-                               limit:maxScorePerFeature];
+                   documents:[self hostnamesInHosts:session.hosts]
+                   multiplier:kHostnameMultiplier
+                   name:@"Host"
+                   features:features
+                   limit:maxScorePerFeature];
 
     score += [self scoreUsingMatcher:matcher
-                           documents:[self usernamesInHosts:session.hosts]
-                          multiplier:kUsernameMultiplier
-                                name:@"User"
-                            features:features
-                               limit:maxScorePerFeature];
+                   documents:[self usernamesInHosts:session.hosts]
+                   multiplier:kUsernameMultiplier
+                   name:@"User"
+                   features:features
+                   limit:maxScorePerFeature];
 
     score += [self scoreUsingMatcher:matcher
-                           documents:@[ session.originalProfile[KEY_NAME] ?: @"" ]
-                          multiplier:kProfileNameMultiplier
-                                name:@"Profile"
-                            features:features
-                               limit:maxScorePerFeature];
+                   documents:@[ session.originalProfile[KEY_NAME] ?: @"" ]
+                   multiplier:kProfileNameMultiplier
+                   name:@"Profile"
+                   features:features
+                   limit:maxScorePerFeature];
 
     NSDictionary<NSString *, NSString *> *userVariablesDict = [[session.variables discouragedValueForVariableName:@"user"] stringValuedDictionary];
     for (NSString *name in userVariablesDict) {
         score += [self scoreUsingMatcher:matcher
-                               documents:@[ userVariablesDict[name] ]
-                              multiplier:kUserDefinedVariableMultiplier
-                                    name:name
-                                features:features
-                                   limit:maxScorePerFeature];
+                       documents:@[ userVariablesDict[name] ]
+                       multiplier:kUserDefinedVariableMultiplier
+                       name:name
+                       features:features
+                       limit:maxScorePerFeature];
     }
 
     // TODO: add a bonus for:
@@ -720,7 +720,7 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
 // detail for the highest scoring one.
 - (NSAttributedString *)detailForSession:(PTYSession *)session features:(NSArray *)features {
     NSArray *sorted = [features sortedArrayUsingComparator:^NSComparisonResult(NSArray *tuple1, NSArray *tuple2) {
-        NSNumber *score1 = tuple1[1];
+                 NSNumber *score1 = tuple1[1];
         NSNumber *score2 = tuple2[1];
         return [score1 compare:score2];
     }];
@@ -738,11 +738,11 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
 //   to this array describing the match, suitable for display.
 // limit: Upper bound for the returned score.
 - (double)scoreUsingMatcher:(iTermMinimumSubsequenceMatcher *)matcher
-                  documents:(NSArray *)documents
-                 multiplier:(double)multiplier
-                       name:(NSString *)name
-                   features:(NSMutableArray *)features
-                      limit:(double)limit {
+    documents:(NSArray *)documents
+    multiplier:(double)multiplier
+    name:(NSString *)name
+    features:(NSMutableArray *)features
+    limit:(double)limit {
     if (multiplier == 0) {
         // Feature is disabled. In the future, we might let users tweak multipliers.
         return 0;
@@ -753,8 +753,8 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
         for (NSString *document in documents) {
             if (features) {
                 id displayString = [_delegate openQuicklyModelDisplayStringForFeatureNamed:name
-                                                                                     value:document
-                                                                        highlightedIndexes:[NSIndexSet indexSet]];
+                                              value:document
+                                              highlightedIndexes:[NSIndexSet indexSet]];
                 [features addObject:@[ displayString, @(score) ]];
             }
         }
@@ -769,8 +769,8 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
     for (NSString *document in documents) {
         [indexSet removeAllIndexes];
         double value = [self qualityOfMatchWithMatcher:matcher
-                                              document:[document lowercaseString]
-                                              indexSet:indexSet];
+                             document:[document lowercaseString]
+                             indexSet:indexSet];
 
         // Discount older documents (which appear at the beginning of the list)
         value /= n;
@@ -789,8 +789,8 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
 
     if (bestFeature && features) {
         id displayString = [_delegate openQuicklyModelDisplayStringForFeatureNamed:name
-                                                                             value:bestFeature
-                                                                highlightedIndexes:bestIndexSet];
+                                      value:bestFeature
+                                      highlightedIndexes:bestIndexSet];
         [features addObject:@[ displayString, @(score) ]];
     }
 
@@ -808,8 +808,8 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
 //       increases the penalty.
 //   0.0 otherwise
 - (double)qualityOfMatchWithMatcher:(iTermMinimumSubsequenceMatcher *)matcher
-                           document:(NSString *)documentString
-                           indexSet:(NSMutableIndexSet *)indexSet {
+    document:(NSString *)documentString
+    indexSet:(NSMutableIndexSet *)indexSet {
     [indexSet addIndexes:[matcher indexSetForDocument:documentString]];
 
     double score;
@@ -832,8 +832,8 @@ static const double kProfileNameMultiplierForScriptItem = 0.09;
 - (NSInteger)numberOfGapsInIndexSet:(NSIndexSet *)indexSet {
     __block NSInteger numRanges = 0;
     [indexSet enumerateRangesUsingBlock:^(NSRange range, BOOL *stop) {
-        ++numRanges;
-    }];
+                 ++numRanges;
+             }];
     return numRanges - 1;
 }
 

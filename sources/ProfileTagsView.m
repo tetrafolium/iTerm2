@@ -34,10 +34,10 @@
         NSSize tableViewSize =
             [NSScrollView contentSizeForFrameSize:_scrollView.frame.size
                           horizontalScrollerClass:nil
-                            verticalScrollerClass:[_scrollView.verticalScroller class]
-                                       borderType:_scrollView.borderType
-                                      controlSize:NSControlSizeRegular
-                                    scrollerStyle:_scrollView.scrollerStyle];
+                          verticalScrollerClass:[_scrollView.verticalScroller class]
+                          borderType:_scrollView.borderType
+                          controlSize:NSControlSizeRegular
+                          scrollerStyle:_scrollView.scrollerStyle];
 
         NSRect tableViewFrame = NSMakeRect(0, 0, tableViewSize.width, tableViewSize.height);
         _tableView = [[NSTableView alloc] initWithFrame:tableViewFrame];
@@ -74,9 +74,9 @@
         _scrollView.autoresizingMask = (NSViewWidthSizable | NSViewHeightSizable);
 
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(reloadAddressBook:)
-                                                     name:kReloadAddressBookNotification
-                                                   object:nil];
+                                              selector:@selector(reloadAddressBook:)
+                                              name:kReloadAddressBookNotification
+                                              object:nil];
     }
     return self;
 }
@@ -104,8 +104,8 @@
 }
 
 - (NSView *)tableView:(NSTableView *)tableView
-   viewForTableColumn:(NSTableColumn *)tableColumn
-                  row:(NSInteger)row {
+    viewForTableColumn:(NSTableColumn *)tableColumn
+    row:(NSInteger)row {
     static NSString *const identifier = @"ProfileTagIdentifier";
     NSTextField *result = [tableView makeViewWithIdentifier:identifier owner:self];
     if (result == nil) {
@@ -183,8 +183,8 @@
             int numPartsMatched = [self numberOfPartsMatchedBetween:previousParts and:currentParts];
             while (numPartsMatched < currentParts.count) {
                 NSString *key = [NSString stringWithFormat:@"%@%@",
-                                 [self stringForIndentLevel:numPartsMatched],
-                                 currentParts[numPartsMatched]];
+                                          [self stringForIndentLevel:numPartsMatched],
+                                          currentParts[numPartsMatched]];
                 NSString *value = [[currentParts subarrayWithRange:NSMakeRange(0, numPartsMatched + 1)] componentsJoinedByString:@"/"];
                 [result addObject:@[ key, value ]];
                 ++numPartsMatched;

@@ -24,9 +24,9 @@
 // take the same keypress. The selector returns an array of iTermHotKey*s that were handled, and they
 // won't have their actions invoked.
 - (iTermHotKey *)registerShortcut:(iTermShortcut *)shortcut
-                           target:(id)target
-                         selector:(SEL)selector
-                         userData:(NSDictionary *)userData;
+    target:(id)target
+    selector:(SEL)selector
+    userData:(NSDictionary *)userData;
 
 // Stop calling [target selector:userData] when the hotkey is pressed.
 - (void)unregisterHotKey:(iTermHotKey *)hotKey;

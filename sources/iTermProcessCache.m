@@ -37,7 +37,7 @@
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     static id instance;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -55,13 +55,13 @@
         [self setNeedsUpdate:YES];
         _blocksLQ = [NSMutableArray array];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(applicationDidBecomeActive:)
-                                                     name:NSApplicationDidBecomeActiveNotification
-                                                   object:nil];
+                                              selector:@selector(applicationDidBecomeActive:)
+                                              name:NSApplicationDidBecomeActiveNotification
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(applicationDidResignActive:)
-                                                     name:NSApplicationDidResignActiveNotification
-                                                   object:nil];
+                                              selector:@selector(applicationDidResignActive:)
+                                              name:NSApplicationDidResignActiveNotification
+                                              object:nil];
     }
     return self;
 }
@@ -71,7 +71,7 @@
 // Main queue
 - (void)setNeedsUpdate:(BOOL)needsUpdate {
     DLog(@"setNeedsUpdate:%@", @(needsUpdate));
-    dispatch_sync(_lockQueue, ^{
+    dispatch_sync(_lockQueue, ^ {
         self->_needsUpdateFlagLQ = needsUpdate;
     });
     if (needsUpdate) {
@@ -82,14 +82,14 @@
 // main queue
 - (void)requestImmediateUpdateWithCompletionBlock:(void (^)(void))completion {
     [self requestImmediateUpdateWithCompletionQueue:dispatch_get_main_queue()
-                                              block:completion];
+          block:completion];
 }
 
 // main queue
 - (void)requestImmediateUpdateWithCompletionQueue:(dispatch_queue_t)queue
-                                            block:(void (^)(void))completion {
+    block:(void (^)(void))completion {
     __block BOOL needsUpdate;
-    dispatch_sync(_lockQueue, ^{
+    dispatch_sync(_lockQueue, ^ {
         void (^wrapper)(void) = ^{
             dispatch_async(queue, completion);
         };
@@ -102,7 +102,7 @@
     }
     DLog(@"request immediate update scheduling update");
     __weak __typeof(self) weakSelf = self;
-    dispatch_async(_workQueue, ^{
+    dispatch_async(_workQueue, ^ {
         [weakSelf collectBlocksAndUpdate];
     });
 }
@@ -111,16 +111,16 @@
 - (void)updateSynchronously {
     dispatch_group_t group = dispatch_group_create();
     dispatch_group_enter(group);
-    [self requestImmediateUpdateWithCompletionQueue:_workQueue block:^{
-        dispatch_group_leave(group);
-    }];
+    [self requestImmediateUpdateWithCompletionQueue:_workQueue block:^ {
+             dispatch_group_leave(group);
+         }];
     dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
 }
 
 // _workQueue
 - (void)collectBlocksAndUpdate {
     __block NSArray<void (^)(void)> *blocks;
-    dispatch_sync(_lockQueue, ^{
+    dispatch_sync(_lockQueue, ^ {
         blocks = self->_blocksLQ.copy;
         [self->_blocksLQ removeAllObjects];
     });
@@ -138,7 +138,7 @@
 // Any queue
 - (iTermProcessInfo *)processInfoForPid:(pid_t)pid {
     __block iTermProcessInfo *info = nil;
-    dispatch_sync(_lockQueue, ^{
+    dispatch_sync(_lockQueue, ^ {
         info = [self->_collectionLQ infoForProcessID:pid];
     });
     return info;
@@ -147,7 +147,7 @@
 // Any queue
 - (iTermProcessInfo *)deepestForegroundJobForPid:(pid_t)pid {
     __block iTermProcessInfo *result;
-    dispatch_sync(_lockQueue, ^{
+    dispatch_sync(_lockQueue, ^ {
         result = self.cachedDeepestForegroundJobLQ[@(pid)];
     });
     return result;
@@ -155,13 +155,13 @@
 
 // Any queue
 - (void)registerTrackedPID:(pid_t)pid {
-    dispatch_async(_lockQueue, ^{
+    dispatch_async(_lockQueue, ^ {
         __weak __typeof(self) weakSelf = self;
         iTermProcessMonitor *monitor = [[iTermProcessMonitor alloc] initWithQueue:self->_lockQueue
-                                                                   callback:
-                                  ^(iTermProcessMonitor * monitor, dispatch_source_proc_flags_t flags) {
-            [weakSelf processMonitor:monitor didChangeFlags:flags];
-        }];
+                                                                    callback:
+                                    ^(iTermProcessMonitor * monitor, dispatch_source_proc_flags_t flags) {
+                                        [weakSelf processMonitor:monitor didChangeFlags:flags];
+                                    }];
         monitor.processInfo = [self->_collectionLQ infoForProcessID:pid];
         self->_trackedPidsLQ[@(pid)] = monitor;
     });
@@ -174,7 +174,7 @@
     const BOOL wasForced = _forcingLQ;
     _forcingLQ = YES;
     if (!wasForced) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^ {
             DLog(@"Forcing update");
             [self->_rateLimit performRateLimitedSelector:@selector(updateIfNeeded) onTarget:self withObject:nil];
             [self->_rateLimit performWithinDuration:0.0167];
@@ -186,7 +186,7 @@
 // Main queue
 - (BOOL)processIsDirty:(pid_t)pid {
     __block BOOL result;
-    dispatch_sync(_lockQueue, ^{
+    dispatch_sync(_lockQueue, ^ {
         result = [_dirtyPIDsLQ containsIndex:pid];
         if (result) {
             DLog(@"Found dirty process %@", @(pid));
@@ -198,7 +198,7 @@
 
 // Any queue
 - (void)unregisterTrackedPID:(pid_t)pid {
-    dispatch_async(_lockQueue, ^{
+    dispatch_async(_lockQueue, ^ {
         [self->_trackedPidsLQ removeObjectForKey:@(pid)];
     });
 }
@@ -209,7 +209,7 @@
 - (void)updateIfNeeded {
     DLog(@"updateIfNeeded");
     __block BOOL needsUpdate;
-    dispatch_sync(_lockQueue, ^{
+    dispatch_sync(_lockQueue, ^ {
         needsUpdate = self->_needsUpdateFlagLQ;
     });
     if (!needsUpdate) {
@@ -217,7 +217,7 @@
         return;
     }
     __weak __typeof(self) weakSelf = self;
-    dispatch_async(_workQueue, ^{
+    dispatch_async(_workQueue, ^ {
         [weakSelf reallyUpdate];
     });
 }
@@ -246,7 +246,7 @@
 - (NSDictionary<NSNumber *, iTermProcessInfo *> *)newDeepestForegroundJobCacheWithCollection:(iTermProcessCollection *)collection {
     NSMutableDictionary<NSNumber *, iTermProcessInfo *> *cache = [NSMutableDictionary dictionary];
     __block NSSet<NSNumber *> *trackedPIDs;
-    dispatch_sync(_lockQueue, ^{
+    dispatch_sync(_lockQueue, ^ {
         trackedPIDs = [self->_trackedPidsLQ.allKeys copy];
     });
     for (NSNumber *root in trackedPIDs) {
@@ -269,12 +269,12 @@
     NSDictionary<NSNumber *, iTermProcessInfo *> *cachedDeepestForegroundJob = [self newDeepestForegroundJobCacheWithCollection:collection];
 
     // Flip to the new state.
-    dispatch_sync(_lockQueue, ^{
+    dispatch_sync(_lockQueue, ^ {
         self->_cachedDeepestForegroundJobLQ = cachedDeepestForegroundJob;
         self->_collectionLQ = collection;
         self->_needsUpdateFlagLQ = NO;
         [_trackedPidsLQ enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull key, iTermProcessMonitor * _Nonnull monitor, BOOL * _Nonnull stop) {
-            iTermProcessInfo *info = [collection infoForProcessID:key.intValue];
+                           iTermProcessInfo *info = [collection infoForProcessID:key.intValue];
             if ([monitor setProcessInfo:info]) {
                 DLog(@"%@ changed! Set dirty", @(info.processID));
                 [_dirtyPIDsLQ addIndex:key.intValue];

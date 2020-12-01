@@ -21,9 +21,9 @@ static BOOL CodePointInPrivateUseArea(unichar c) {
 
 - (BOOL)eventIsControlCodeWithOption:(NSEvent *)event {
     const NSEventModifierFlags allEventModifierFlags = (NSEventModifierFlagControl |
-                                                        NSEventModifierFlagOption |
-                                                        NSEventModifierFlagShift |
-                                                        NSEventModifierFlagCommand);
+            NSEventModifierFlagOption |
+            NSEventModifierFlagShift |
+            NSEventModifierFlagCommand);
     const NSEventModifierFlags controlOption = (NSEventModifierFlagControl | NSEventModifierFlagOption);
     if ((event.it_modifierFlags & allEventModifierFlags) != controlOption) {
         return NO;
@@ -71,9 +71,9 @@ static BOOL CodePointInPrivateUseArea(unichar c) {
 
 - (NSString *)stringForEvent:(NSEvent *)event {
     const NSEventModifierFlags allEventModifierFlags = (NSEventModifierFlagControl |
-                                                        NSEventModifierFlagOption |
-                                                        NSEventModifierFlagShift |
-                                                        NSEventModifierFlagCommand);
+            NSEventModifierFlagOption |
+            NSEventModifierFlagShift |
+            NSEventModifierFlagCommand);
     NSString *charactersIgnoringModifiers = event.charactersIgnoringModifiers;
     if (charactersIgnoringModifiers.length == 0) {
         return nil;
@@ -85,8 +85,8 @@ static BOOL CodePointInPrivateUseArea(unichar c) {
     const UTF32Char codePoint = [self codePointForEvent:event];
     const NSEventModifierFlags maybeFunction = CodePointInPrivateUseArea(codePoint) ? NSEventModifierFlagFunction : 0;
     const NSEventModifierFlags allEventModifierFlagsExShift = (NSEventModifierFlagControl |
-                                                               NSEventModifierFlagOption |
-                                                               maybeFunction);
+            NSEventModifierFlagOption |
+            maybeFunction);
     if ((event.it_modifierFlags & allEventModifierFlagsExShift) == NSEventModifierFlagOption) {
         if ([self optionKeyBehaviorForEvent:event] != OPT_NORMAL) {
             return [self stringWhenOptionPressedForEvent:event];
@@ -105,16 +105,16 @@ static BOOL CodePointInPrivateUseArea(unichar c) {
 
 - (NSString *)stringWhenOptionPressedForEvent:(NSEvent *)event {
     switch ([self optionKeyBehaviorForEvent:event]) {
-        case OPT_NORMAL:
-            return event.charactersIgnoringModifiers;
-        case OPT_ESC:
-        case OPT_META:
-            break;
+    case OPT_NORMAL:
+        return event.charactersIgnoringModifiers;
+    case OPT_ESC:
+    case OPT_META:
+        break;
     }
     const NSEventModifierFlags allEventModifierFlags = (NSEventModifierFlagControl |
-                                                        NSEventModifierFlagOption |
-                                                        NSEventModifierFlagShift |
-                                                        NSEventModifierFlagCommand);
+            NSEventModifierFlagOption |
+            NSEventModifierFlagShift |
+            NSEventModifierFlagCommand);
     const NSEventModifierFlags modifiers = [event it_modifierFlags] & allEventModifierFlags;
     return [self stringForCodePoint:event.charactersIgnoringModifiers.firstCharacter modifiers:modifiers];
 }
@@ -135,74 +135,74 @@ static BOOL CodePointInPrivateUseArea(unichar c) {
 }
 
 - (NSString *)stringForCodePoint:(UTF32Char)codePoint
-                       modifiers:(NSEventModifierFlags)eventModifiers {
+    modifiers:(NSEventModifierFlags)eventModifiers {
     switch (codePoint) {
-        case NSInsertFunctionKey:
-        case NSHelpFunctionKey:  // On Apple keyboards help is where insert belongs.
-            return [self sequenceForNonUnicodeKeypress:@"2" eventModifiers:eventModifiers];
-        case NSDeleteFunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"3" eventModifiers:eventModifiers];
-        case NSPageUpFunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"5" eventModifiers:eventModifiers];
-        case NSPageDownFunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"6" eventModifiers:eventModifiers];
-        case NSF1FunctionKey:
-            return [self sequenceForFunctionKeyWithCode:@"P" eventModifiers:eventModifiers];
-        case NSF2FunctionKey:
-            return [self sequenceForFunctionKeyWithCode:@"Q" eventModifiers:eventModifiers];
-        case NSF3FunctionKey:
-            return [self sequenceForFunctionKeyWithCode:@"R" eventModifiers:eventModifiers];
-        case NSF4FunctionKey:
-            return [self sequenceForFunctionKeyWithCode:@"S" eventModifiers:eventModifiers];
-        case NSF5FunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"15" eventModifiers:eventModifiers];
-        case NSF6FunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"17" eventModifiers:eventModifiers];
-        case NSF7FunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"18" eventModifiers:eventModifiers];
-        case NSF8FunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"19" eventModifiers:eventModifiers];
-        case NSF9FunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"20" eventModifiers:eventModifiers];
-        case NSF10FunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"21" eventModifiers:eventModifiers];
-        case NSF11FunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"23" eventModifiers:eventModifiers];
-        case NSF12FunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"24" eventModifiers:eventModifiers];
-        case NSF13FunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"25" eventModifiers:eventModifiers];
-        case NSF14FunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"26" eventModifiers:eventModifiers];
-        case NSF15FunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"28" eventModifiers:eventModifiers];
-        case NSUpArrowFunctionKey:
-        case NSDownArrowFunctionKey:
-        case NSRightArrowFunctionKey:
-        case NSLeftArrowFunctionKey:
-        case NSHomeFunctionKey:
-        case NSEndFunctionKey:
-            return [self reallySpecialSequenceWithCode:codePoint eventModifiers:eventModifiers];
-        case '\t':
-            if (eventModifiers == NSEventModifierFlagShift) {
-                // Issue 9202 - hack to make vim work. xterm does this on linux but not macos.
-                // See also https://github.com/vim/vim/issues/7189
-                // Private email thread with Thomas Dickey subject line "Shift-tab and modifyOtherKeys=2"
-                return [NSString stringWithFormat:@"\e[Z"];
-            }
-            // fall through
-        default:
-            if (eventModifiers == 0) {
-                return [NSString stringWithLongCharacter:codePoint];
-            }
-            return [NSString stringWithFormat:@"\e[27;%d;%d~",
-                    [self csiModifiersForEventModifiers:eventModifiers],
-                    codePoint];
+    case NSInsertFunctionKey:
+    case NSHelpFunctionKey:  // On Apple keyboards help is where insert belongs.
+        return [self sequenceForNonUnicodeKeypress:@"2" eventModifiers:eventModifiers];
+    case NSDeleteFunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"3" eventModifiers:eventModifiers];
+    case NSPageUpFunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"5" eventModifiers:eventModifiers];
+    case NSPageDownFunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"6" eventModifiers:eventModifiers];
+    case NSF1FunctionKey:
+        return [self sequenceForFunctionKeyWithCode:@"P" eventModifiers:eventModifiers];
+    case NSF2FunctionKey:
+        return [self sequenceForFunctionKeyWithCode:@"Q" eventModifiers:eventModifiers];
+    case NSF3FunctionKey:
+        return [self sequenceForFunctionKeyWithCode:@"R" eventModifiers:eventModifiers];
+    case NSF4FunctionKey:
+        return [self sequenceForFunctionKeyWithCode:@"S" eventModifiers:eventModifiers];
+    case NSF5FunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"15" eventModifiers:eventModifiers];
+    case NSF6FunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"17" eventModifiers:eventModifiers];
+    case NSF7FunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"18" eventModifiers:eventModifiers];
+    case NSF8FunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"19" eventModifiers:eventModifiers];
+    case NSF9FunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"20" eventModifiers:eventModifiers];
+    case NSF10FunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"21" eventModifiers:eventModifiers];
+    case NSF11FunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"23" eventModifiers:eventModifiers];
+    case NSF12FunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"24" eventModifiers:eventModifiers];
+    case NSF13FunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"25" eventModifiers:eventModifiers];
+    case NSF14FunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"26" eventModifiers:eventModifiers];
+    case NSF15FunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"28" eventModifiers:eventModifiers];
+    case NSUpArrowFunctionKey:
+    case NSDownArrowFunctionKey:
+    case NSRightArrowFunctionKey:
+    case NSLeftArrowFunctionKey:
+    case NSHomeFunctionKey:
+    case NSEndFunctionKey:
+        return [self reallySpecialSequenceWithCode:codePoint eventModifiers:eventModifiers];
+    case '\t':
+        if (eventModifiers == NSEventModifierFlagShift) {
+            // Issue 9202 - hack to make vim work. xterm does this on linux but not macos.
+            // See also https://github.com/vim/vim/issues/7189
+            // Private email thread with Thomas Dickey subject line "Shift-tab and modifyOtherKeys=2"
+            return [NSString stringWithFormat:@"\e[Z"];
+        }
+    // fall through
+    default:
+        if (eventModifiers == 0) {
+            return [NSString stringWithLongCharacter:codePoint];
+        }
+        return [NSString stringWithFormat:@"\e[27;%d;%d~",
+                         [self csiModifiersForEventModifiers:eventModifiers],
+                         codePoint];
     }
 }
 
 - (NSString *)sequenceForFunctionKeyWithCode:(NSString *)code
-                              eventModifiers:(NSEventModifierFlags)eventModifiers {
+    eventModifiers:(NSEventModifierFlags)eventModifiers {
     const int csiModifiers = [self csiModifiersForEventModifiers:eventModifiers];
     if (csiModifiers == 1) {
         // esc O code
@@ -214,28 +214,28 @@ static BOOL CodePointInPrivateUseArea(unichar c) {
 }
 
 - (NSString *)reallySpecialSequenceWithCode:(UTF32Char)code
-                             eventModifiers:(NSEventModifierFlags)eventModifiers {
+    eventModifiers:(NSEventModifierFlags)eventModifiers {
     VT100Output *output = [self.delegate modifyOtherKeysOutputFactory:self];
     const BOOL screenlike = [self.delegate modifyOtherKeysTerminalIsScreenlike:self];
     switch (code) {
-        case NSUpArrowFunctionKey:
-            return [[NSString alloc] initWithData:[output keyArrowUp:eventModifiers]
-                                         encoding:NSISOLatin1StringEncoding];
-        case NSDownArrowFunctionKey:
-            return [[NSString alloc] initWithData:[output keyArrowDown:eventModifiers]
-                                         encoding:NSISOLatin1StringEncoding];
-        case NSRightArrowFunctionKey:
-            return [[NSString alloc] initWithData:[output keyArrowRight:eventModifiers]
-                                         encoding:NSISOLatin1StringEncoding];
-        case NSLeftArrowFunctionKey:
-            return [[NSString alloc] initWithData:[output keyArrowLeft:eventModifiers]
-                                         encoding:NSISOLatin1StringEncoding];
-        case NSHomeFunctionKey:
-            return [[NSString alloc] initWithData:[output keyHome:eventModifiers screenlikeTerminal:screenlike]
-                                         encoding:NSISOLatin1StringEncoding];
-        case NSEndFunctionKey:
-            return [[NSString alloc] initWithData:[output keyEnd:eventModifiers screenlikeTerminal:screenlike]
-                                         encoding:NSISOLatin1StringEncoding];
+    case NSUpArrowFunctionKey:
+        return [[NSString alloc] initWithData:[output keyArrowUp:eventModifiers]
+                                 encoding:NSISOLatin1StringEncoding];
+    case NSDownArrowFunctionKey:
+        return [[NSString alloc] initWithData:[output keyArrowDown:eventModifiers]
+                                 encoding:NSISOLatin1StringEncoding];
+    case NSRightArrowFunctionKey:
+        return [[NSString alloc] initWithData:[output keyArrowRight:eventModifiers]
+                                 encoding:NSISOLatin1StringEncoding];
+    case NSLeftArrowFunctionKey:
+        return [[NSString alloc] initWithData:[output keyArrowLeft:eventModifiers]
+                                 encoding:NSISOLatin1StringEncoding];
+    case NSHomeFunctionKey:
+        return [[NSString alloc] initWithData:[output keyHome:eventModifiers screenlikeTerminal:screenlike]
+                                 encoding:NSISOLatin1StringEncoding];
+    case NSEndFunctionKey:
+        return [[NSString alloc] initWithData:[output keyEnd:eventModifiers screenlikeTerminal:screenlike]
+                                 encoding:NSISOLatin1StringEncoding];
     }
 
     ITCriticalError(NO, @"Unexpected code %@", [NSString stringWithLongCharacter:code]  );
@@ -252,7 +252,7 @@ static BOOL CodePointInPrivateUseArea(unichar c) {
 // CSI code ~
 // CSI code ; modifier ~
 - (NSString *)sequenceForNonUnicodeKeypress:(NSString *)code
-                             eventModifiers:(NSEventModifierFlags)eventModifiers {
+    eventModifiers:(NSEventModifierFlags)eventModifiers {
     const int csiModifiers = [self csiModifiersForEventModifiers:eventModifiers];
     if (csiModifiers == 1) {
         return [NSString stringWithFormat:@"%c[%@~", 27, code];
@@ -286,11 +286,11 @@ static BOOL CodePointInPrivateUseArea(unichar c) {
         return nil;
     }
     const NSEventModifierFlags allEventModifierFlags = (NSEventModifierFlagControl |
-                                                        NSEventModifierFlagOption |
-                                                        NSEventModifierFlagShift |
-                                                        NSEventModifierFlagCommand);
+            NSEventModifierFlagOption |
+            NSEventModifierFlagShift |
+            NSEventModifierFlagCommand);
     if (event.keyCode == kVK_Space &&
-        (event.it_modifierFlags & allEventModifierFlags) == NSEventModifierFlagShift) {
+            (event.it_modifierFlags & allEventModifierFlags) == NSEventModifierFlagShift) {
         // Shift+Space is special. No other unicode character + shift reports a control sequence.
         return [self stringForEvent:event];
     }

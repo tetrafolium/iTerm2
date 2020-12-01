@@ -16,7 +16,7 @@
 + (iTermHotKeyProfileBindingController *)sharedInstance {
     static iTermHotKeyProfileBindingController *instance;
     static dispatch_once_t once;
-    dispatch_once(&once, ^{
+    dispatch_once(&once, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -27,13 +27,13 @@
     if (self) {
         _guidToHotKeyMap = [[NSMutableDictionary alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(reloadProfiles:)
-                                                     name:kReloadAllProfiles
-                                                   object:nil];
+                                              selector:@selector(reloadProfiles:)
+                                              name:kReloadAllProfiles
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(reloadProfiles:)
-                                                     name:kReloadAddressBookNotification
-                                                   object:nil];
+                                              selector:@selector(reloadProfiles:)
+                                              name:kReloadAddressBookNotification
+                                              object:nil];
         [self refresh];
     }
     return self;
@@ -86,9 +86,9 @@
 
     iTermProfileHotKey *hotKey =
         [[[iTermProfileHotKey alloc] initWithShortcuts:shortcuts
-                                 hasModifierActivation:hasModifierActivation
-                                    modifierActivation:modifierActivation
-                                               profile:profile] autorelease];
+                                      hasModifierActivation:hasModifierActivation
+                                      modifierActivation:modifierActivation
+                                      profile:profile] autorelease];
     DLog(@"Registered %@", hotKey);
     _guidToHotKeyMap[guid] = hotKey;
     [[iTermHotKeyController sharedInstance] addHotKey:hotKey];
@@ -113,8 +113,8 @@
     // Update the keycode and modifier and re-register.
     DLog(@"Update registration for %@", hotKey);
     [hotKey setShortcuts:[iTermShortcut shortcutsForProfile:profile]
-        hasModifierActivation:hasModifierActivation
-           modifierActivation:modifierActivation];
+            hasModifierActivation:hasModifierActivation
+            modifierActivation:modifierActivation];
 }
 
 #pragma mark - Notifications

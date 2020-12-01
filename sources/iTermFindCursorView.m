@@ -51,9 +51,9 @@ const double kFindCursorHoleRadius = 30;
 // drawLayer:inContext: only gets called if drawRect: is implemented. wtf.
 - (void)drawRect:(CGRect)dirtyRect {
     NSGradient *grad = [[NSGradient alloc] initWithStartingColor:[NSColor whiteColor]
-                                                     endingColor:[NSColor blackColor]];
+                                           endingColor:[NSColor blackColor]];
     NSPoint relativeCursorPosition = NSMakePoint(2 * (self.cursorPosition.x / self.frame.size.width - 0.5),
-                                                 2 * (self.cursorPosition.y / self.frame.size.height - 0.5));
+                                     2 * (self.cursorPosition.y / self.frame.size.height - 0.5));
     NSRect rect = NSMakeRect(0, 0, self.frame.size.width, self.frame.size.height);
     [grad drawInRect:rect relativeCenterPosition:relativeCursorPosition];
     [grad release];
@@ -64,9 +64,9 @@ const double kFindCursorHoleRadius = 30;
     const double focusRadius = kFindCursorHoleRadius;
     [[NSGraphicsContext currentContext] setCompositingOperation:NSCompositingOperationCopy];
     NSBezierPath *circle = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(x - focusRadius,
-                                                                             y - focusRadius,
-                                                                             focusRadius * 2,
-                                                                             focusRadius * 2)];
+                                         y - focusRadius,
+                                         focusRadius * 2,
+                                         focusRadius * 2)];
     [[NSColor clearColor] set];
     [circle fill];
 }
@@ -112,10 +112,10 @@ const double kFindCursorHoleRadius = 30;
         // It works to do 0 -> pi -> 2*pi + epsilon, although it shouldn't.
         // I could do it with three keyframe steps but it's strange to work with 2pi/3, so I use four instead.
         spinAnim.values = @[ [NSValue valueWithCATransform3D:CATransform3DMakeRotation(0, 0, 0, 1)],
-                             [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0, 0, 1)],
-                             [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI, 0, 0, 1)],
-                             [NSValue valueWithCATransform3D:CATransform3DMakeRotation(3.0 * M_PI_2, 0, 0, 1)],
-                             [NSValue valueWithCATransform3D:CATransform3DMakeRotation(0, 0, 0, 1)] ];
+                                                                                                   [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0, 0, 1)],
+                                                                                                   [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI, 0, 0, 1)],
+                                                                                                   [NSValue valueWithCATransform3D:CATransform3DMakeRotation(3.0 * M_PI_2, 0, 0, 1)],
+                                                                                                   [NSValue valueWithCATransform3D:CATransform3DMakeRotation(0, 0, 0, 1)] ];
         spinAnim.repeatCount = HUGE_VALF;
         _arrowLayer.anchorPoint = CGPointMake(1, 0.5);
         [_arrowLayer addAnimation:spinAnim forKey:@"spin"];
@@ -177,9 +177,9 @@ const double kFindCursorHoleRadius = 30;
     outerPath.windingRule = NSEvenOddWindingRule;
 
     NSBezierPath *path = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(cursorPosition.x - 20,
-                                                                           cursorPosition.y - 20,
-                                                                           40,
-                                                                           40)];
+                                       cursorPosition.y - 20,
+                                       40,
+                                       40)];
     [outerPath appendBezierPath:path];
     [outerPath appendBezierPath:[NSBezierPath bezierPathWithRect:self.bounds]];
     mask.fillRule = kCAFillRuleEvenOdd;
@@ -195,11 +195,11 @@ const double kFindCursorHoleRadius = 30;
     float v = 1000;
     float b = 100;
     supercell.emitterCells = @[ [self subcellWithImageNumber:1 birthRate:b/5 velocity:v delay:0],
-                                [self subcellWithImageNumber:2 birthRate:b/5 velocity:v delay:0],
-                                [self subcellWithImageNumber:3 birthRate:b/5 velocity:v delay:0],
-                                [self subcellWithImageNumber:1 birthRate:b velocity:v/10 delay:0],
-                                [self subcellWithImageNumber:2 birthRate:b velocity:v/10 delay:0],
-                                [self subcellWithImageNumber:3 birthRate:b velocity:v/10 delay:0]];
+                                                                                                [self subcellWithImageNumber:2 birthRate:b/5 velocity:v delay:0],
+                                                                                                [self subcellWithImageNumber:3 birthRate:b/5 velocity:v delay:0],
+                                                                                                [self subcellWithImageNumber:1 birthRate:b velocity:v/10 delay:0],
+                                                                                                [self subcellWithImageNumber:2 birthRate:b velocity:v/10 delay:0],
+                                                                                                [self subcellWithImageNumber:3 birthRate:b velocity:v/10 delay:0]];
     return supercell;
 }
 
@@ -224,9 +224,9 @@ const double kFindCursorHoleRadius = 30;
 }
 
 - (CAEmitterCell *)subcellWithImageNumber:(int)imageNumber
-                                birthRate:(float)birthRate
-                                 velocity:(float)v
-                                    delay:(float)delay {
+    birthRate:(float)birthRate
+    velocity:(float)v
+    delay:(float)delay {
     CAEmitterCell *cell = [CAEmitterCell emitterCell];
     [cell setBirthRate:birthRate];
     [cell setEmissionLongitude:M_PI_2];
@@ -284,10 +284,10 @@ const double kFindCursorHoleRadius = 30;
 - (void)startTearDownTimer {
     [self stopTearDownTimer];
     _findCursorTeardownTimer = [NSTimer scheduledTimerWithTimeInterval:kFindCursorHoldTime
-                                                                target:self
-                                                              selector:@selector(startCloseFindCursorWindow:)
-                                                              userInfo:nil
-                                                               repeats:NO];
+                                        target:self
+                                        selector:@selector(startCloseFindCursorWindow:)
+                                        userInfo:nil
+                                        repeats:NO];
 }
 
 - (void)stopTearDownTimer {

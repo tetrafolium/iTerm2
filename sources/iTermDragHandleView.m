@@ -15,7 +15,7 @@
 - (void)resetCursorRects {
     NSRect bounds = self.bounds;
     [self addCursorRect:NSMakeRect(0, 0, bounds.size.width, bounds.size.height)
-                 cursor:[NSCursor resizeLeftRightCursor]];
+          cursor:[NSCursor resizeLeftRightCursor]];
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
@@ -27,21 +27,21 @@
     _origin = [theEvent locationInWindow].x;
     while (!done) {
         NSEvent *event = [NSApp nextEventMatchingMask:mask
-                                            untilDate:[NSDate distantFuture]
-                                               inMode:NSEventTrackingRunLoopMode
-                                              dequeue:YES];
+                                untilDate:[NSDate distantFuture]
+                                inMode:NSEventTrackingRunLoopMode
+                                dequeue:YES];
 
         switch ([event type]) {
-            case NSEventTypeLeftMouseDragged:
-                [self mouseDragged:event];
-                break;
+        case NSEventTypeLeftMouseDragged:
+            [self mouseDragged:event];
+            break;
 
-            case NSEventTypeLeftMouseUp:
-                done = YES;
-                break;
+        case NSEventTypeLeftMouseUp:
+            done = YES;
+            break;
 
-            default:
-                break;
+        default:
+            break;
         }
     }
 

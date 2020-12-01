@@ -29,9 +29,10 @@ void MyLoginTTY(int master, int slave, int serverSocketFd, int deadMansPipeWrite
     // This array keeps track of which file descriptors are in use and should not be dup2()ed over.
     // It has |inuseCount| valid elements. inuse must have inuseCount + arraycount(orig) elements.
     int inuse[3 * kNumFileDescriptorsToDup] = {
-       0, 1, 2, 3,  // FDs get duped to the lowest numbers so reserve them
-       master, slave, serverSocketFd, deadMansPipeWriteEnd,  // FDs to get duped, which mustn't be overwritten
-       -1, -1, -1, -1 };  // Space for temp values to ensure they don't get reused
+        0, 1, 2, 3,  // FDs get duped to the lowest numbers so reserve them
+        master, slave, serverSocketFd, deadMansPipeWriteEnd,  // FDs to get duped, which mustn't be overwritten
+        -1, -1, -1, -1
+    };  // Space for temp values to ensure they don't get reused
     int inuseCount = 2 * kNumFileDescriptorsToDup;
 
     // File descriptors get dup2()ed to temporary numbers first to avoid stepping on each other or
@@ -91,23 +92,23 @@ int MyForkPty(int *amaster,
     iTermFileDescriptorServerLog("Calling fork");
     pid_t pid = fork();
     switch (pid) {
-        case -1:
-            // error
-            iTermFileDescriptorServerLogError(@"Fork failed: %s", strerror(errno));
-            return -1;
+    case -1:
+        // error
+        iTermFileDescriptorServerLogError(@"Fork failed: %s", strerror(errno));
+        return -1;
 
-        case 0:
-            // child
-            MyLoginTTY(master, slave, serverSocketFd, deadMansPipeWriteEnd);
-            return 0;
+    case 0:
+        // child
+        MyLoginTTY(master, slave, serverSocketFd, deadMansPipeWriteEnd);
+        return 0;
 
-        default:
-            // parent
-            *amaster = master;
-            close(slave);
-            close(serverSocketFd);
-            close(deadMansPipeWriteEnd);
-            return pid;
+    default:
+        // parent
+        *amaster = master;
+        close(slave);
+        close(serverSocketFd);
+        close(deadMansPipeWriteEnd);
+        return pid;
     }
 }
 

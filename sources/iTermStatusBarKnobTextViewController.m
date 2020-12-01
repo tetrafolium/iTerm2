@@ -31,8 +31,8 @@
     self = [super init];
     if (self) {
         _suggester = [[iTermFunctionCallTextFieldDelegate alloc] initWithPathSource:[iTermVariableHistory pathSourceForContext:iTermVariablesSuggestionContextSession]
-                                                                        passthrough:self
-                                                                      functionsOnly:YES];
+                                                                 passthrough:self
+                                                                 functionsOnly:YES];
     }
     return self;
 }

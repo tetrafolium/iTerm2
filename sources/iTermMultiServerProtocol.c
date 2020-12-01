@@ -363,7 +363,7 @@ static int ParseHello(iTermClientServerProtocolMessageParser *parser,
 #pragma mark - APIs
 
 int iTermMultiServerProtocolParseMessageFromClient(iTermClientServerProtocolMessage *message,
-                                                   iTermMultiServerClientOriginatedMessage *out) {
+        iTermMultiServerClientOriginatedMessage *out) {
     memset(out, 0, sizeof(*out));
     iTermClientServerProtocolMessageParser parser = {
         .offset = 0,
@@ -374,24 +374,24 @@ int iTermMultiServerProtocolParseMessageFromClient(iTermClientServerProtocolMess
         return iTermMultiServerProtocolErrorMissingType;
     }
     switch (out->type) {
-        case iTermMultiServerRPCTypeHandshake:
-            return ParseHandshakeRequest(&parser, &out->payload.handshake);
-        case iTermMultiServerRPCTypeLaunch:
-            return ParseLaunchReqest(&parser, &out->payload.launch);
-        case iTermMultiServerRPCTypeWait:
-            return ParseWaitRequest(&parser, &out->payload.wait);
+    case iTermMultiServerRPCTypeHandshake:
+        return ParseHandshakeRequest(&parser, &out->payload.handshake);
+    case iTermMultiServerRPCTypeLaunch:
+        return ParseLaunchReqest(&parser, &out->payload.launch);
+    case iTermMultiServerRPCTypeWait:
+        return ParseWaitRequest(&parser, &out->payload.wait);
 
-        case iTermMultiServerRPCTypeReportChild:  // Server-originated, no response.
-        case iTermMultiServerRPCTypeTermination: // Server-originated, no response.
-        case iTermMultiServerRPCTypeHello: // Server-originated, no response.
-            return iTermMultiServerProtocolErrorUnexpectedType;
+    case iTermMultiServerRPCTypeReportChild:  // Server-originated, no response.
+    case iTermMultiServerRPCTypeTermination: // Server-originated, no response.
+    case iTermMultiServerRPCTypeHello: // Server-originated, no response.
+        return iTermMultiServerProtocolErrorUnexpectedType;
     }
     FDLog(LOG_DEBUG, "Parsed message with unknown type %d", (int)out->type);
     return iTermMultiServerProtocolErrorUnknownType;
 }
 
 int iTermMultiServerProtocolGetFileDescriptor(iTermClientServerProtocolMessage *message,
-                                              int *receivedFileDescriptorPtr) {
+        int *receivedFileDescriptorPtr) {
     // Should be this:
 //    struct cmsghdr *messageHeader = CMSG_FIRSTHDR(&message->message);
     // But because the structure is copied you can't trust the pointer.
@@ -410,7 +410,7 @@ int iTermMultiServerProtocolGetFileDescriptor(iTermClientServerProtocolMessage *
 }
 
 int iTermMultiServerProtocolParseMessageFromServer(iTermClientServerProtocolMessage *message,
-                                                   iTermMultiServerServerOriginatedMessage *out) {
+        iTermMultiServerServerOriginatedMessage *out) {
     memset(out, 0, sizeof(*out));
     iTermClientServerProtocolMessage temp = *message;
     // This pointer can dangle if the struct gets copied, so ensure it's a legit internal pointer.
@@ -424,37 +424,37 @@ int iTermMultiServerProtocolParseMessageFromServer(iTermClientServerProtocolMess
         return iTermMultiServerProtocolErrorMissingType;
     }
     switch (out->type) {
-        case iTermMultiServerRPCTypeHandshake:
-            return ParseHandshakeResponse(&parser, &out->payload.handshake);
+    case iTermMultiServerRPCTypeHandshake:
+        return ParseHandshakeResponse(&parser, &out->payload.handshake);
 
-        case iTermMultiServerRPCTypeLaunch: { // Server-originated response to client-originated request
-            int rc = ParseLaunchResponse(&parser, &out->payload.launch);
-            if (rc) {
-                return rc;
-            }
-            return iTermMultiServerProtocolGetFileDescriptor(message, &out->payload.launch.fd);
+    case iTermMultiServerRPCTypeLaunch: { // Server-originated response to client-originated request
+        int rc = ParseLaunchResponse(&parser, &out->payload.launch);
+        if (rc) {
+            return rc;
         }
-        case iTermMultiServerRPCTypeReportChild: {  // Server-originated, no response.
-            int rc = ParseReportChild(&parser, &out->payload.reportChild);
-            if (rc) {
-                return rc;
-            }
-            return iTermMultiServerProtocolGetFileDescriptor(message, &out->payload.reportChild.fd);
+        return iTermMultiServerProtocolGetFileDescriptor(message, &out->payload.launch.fd);
+    }
+    case iTermMultiServerRPCTypeReportChild: {  // Server-originated, no response.
+        int rc = ParseReportChild(&parser, &out->payload.reportChild);
+        if (rc) {
+            return rc;
         }
-        case iTermMultiServerRPCTypeWait:
-            return ParseWaitResponse(&parser, &out->payload.wait);
+        return iTermMultiServerProtocolGetFileDescriptor(message, &out->payload.reportChild.fd);
+    }
+    case iTermMultiServerRPCTypeWait:
+        return ParseWaitResponse(&parser, &out->payload.wait);
 
-        case iTermMultiServerRPCTypeTermination: // Server-originated, no response.
-            return ParseTermination(&parser, &out->payload.termination);
+    case iTermMultiServerRPCTypeTermination: // Server-originated, no response.
+        return ParseTermination(&parser, &out->payload.termination);
 
-        case iTermMultiServerRPCTypeHello:  // Server-originated, no response.
-            return ParseHello(&parser, &out->payload.hello);
+    case iTermMultiServerRPCTypeHello:  // Server-originated, no response.
+        return ParseHello(&parser, &out->payload.hello);
     }
     return iTermMultiServerProtocolErrorUnknownType;
 }
 
 int iTermMultiServerProtocolEncodeMessageFromClient(iTermMultiServerClientOriginatedMessage *obj,
-                                                    iTermClientServerProtocolMessage *message) {
+        iTermClientServerProtocolMessage *message) {
     iTermClientServerProtocolMessageEncoder encoder = {
         .offset = 0,
         .message = message
@@ -465,22 +465,22 @@ int iTermMultiServerProtocolEncodeMessageFromClient(iTermMultiServerClientOrigin
         return status;
     }
     switch (obj->type) {
-        case iTermMultiServerRPCTypeHandshake:
-            status = EncodeHandshakeRequest(&encoder, &obj->payload.handshake);
-            break;
+    case iTermMultiServerRPCTypeHandshake:
+        status = EncodeHandshakeRequest(&encoder, &obj->payload.handshake);
+        break;
 
-        case iTermMultiServerRPCTypeLaunch:
-            status = EncodeLaunchRequest(&encoder, &obj->payload.launch);
-            break;
+    case iTermMultiServerRPCTypeLaunch:
+        status = EncodeLaunchRequest(&encoder, &obj->payload.launch);
+        break;
 
-        case iTermMultiServerRPCTypeWait:
-            status = EncodeWaitRequest(&encoder, &obj->payload.wait);
-            break;
+    case iTermMultiServerRPCTypeWait:
+        status = EncodeWaitRequest(&encoder, &obj->payload.wait);
+        break;
 
-        case iTermMultiServerRPCTypeReportChild:
-        case iTermMultiServerRPCTypeTermination:
-        case iTermMultiServerRPCTypeHello:
-            break;
+    case iTermMultiServerRPCTypeReportChild:
+    case iTermMultiServerRPCTypeTermination:
+    case iTermMultiServerRPCTypeHello:
+        break;
     }
     if (!status) {
         iTermEncoderCommit(&encoder);
@@ -489,7 +489,7 @@ int iTermMultiServerProtocolEncodeMessageFromClient(iTermMultiServerClientOrigin
 }
 
 int iTermMultiServerProtocolEncodeMessageFromServer(iTermMultiServerServerOriginatedMessage *obj,
-                                                    iTermClientServerProtocolMessage *message) {
+        iTermClientServerProtocolMessage *message) {
     iTermClientServerProtocolMessageEncoder encoder = {
         .offset = 0,
         .message = message
@@ -499,24 +499,24 @@ int iTermMultiServerProtocolEncodeMessageFromServer(iTermMultiServerServerOrigin
         return status;
     }
     switch (obj->type) {
-        case iTermMultiServerRPCTypeHandshake:
-            status = EncodeHandshakeResponse(&encoder, &obj->payload.handshake);
-            break;
-        case iTermMultiServerRPCTypeLaunch:
-            status = EncodeLaunchResponse(&encoder, &obj->payload.launch);
-            break;
-        case iTermMultiServerRPCTypeWait:
-            status = EncodeWaitResponse(&encoder, &obj->payload.wait);
-            break;
-        case iTermMultiServerRPCTypeReportChild:
-            status = EncodeReportChild(&encoder, &obj->payload.reportChild);
-            break;
-        case iTermMultiServerRPCTypeTermination:
-            status = EncodeTermination(&encoder, &obj->payload.termination);
-            break;
-        case iTermMultiServerRPCTypeHello:
-            status = EncodeHello(&encoder, &obj->payload.hello);
-            break;
+    case iTermMultiServerRPCTypeHandshake:
+        status = EncodeHandshakeResponse(&encoder, &obj->payload.handshake);
+        break;
+    case iTermMultiServerRPCTypeLaunch:
+        status = EncodeLaunchResponse(&encoder, &obj->payload.launch);
+        break;
+    case iTermMultiServerRPCTypeWait:
+        status = EncodeWaitResponse(&encoder, &obj->payload.wait);
+        break;
+    case iTermMultiServerRPCTypeReportChild:
+        status = EncodeReportChild(&encoder, &obj->payload.reportChild);
+        break;
+    case iTermMultiServerRPCTypeTermination:
+        status = EncodeTermination(&encoder, &obj->payload.termination);
+        break;
+    case iTermMultiServerRPCTypeHello:
+        status = EncodeHello(&encoder, &obj->payload.hello);
+        break;
     }
     if (status) {
         FDLog(LOG_ERR, "Failed to encode message from server:");
@@ -577,42 +577,42 @@ static void FreeLaunchResponse(iTermMultiServerResponseLaunch *launch) {
 
 void iTermMultiServerClientOriginatedMessageFree(iTermMultiServerClientOriginatedMessage *obj) {
     switch (obj->type) {
-        case iTermMultiServerRPCTypeHandshake:
-            FreeHandshakeRequest(&obj->payload.handshake);
-            break;
-        case iTermMultiServerRPCTypeLaunch:
-            FreeLaunchRequest(&obj->payload.launch);
-            break;
-        case iTermMultiServerRPCTypeWait:
-            FreeWaitRequest(&obj->payload.wait);
-            break;
-        case iTermMultiServerRPCTypeReportChild:
-        case iTermMultiServerRPCTypeTermination:
-        case iTermMultiServerRPCTypeHello:
-            break;
+    case iTermMultiServerRPCTypeHandshake:
+        FreeHandshakeRequest(&obj->payload.handshake);
+        break;
+    case iTermMultiServerRPCTypeLaunch:
+        FreeLaunchRequest(&obj->payload.launch);
+        break;
+    case iTermMultiServerRPCTypeWait:
+        FreeWaitRequest(&obj->payload.wait);
+        break;
+    case iTermMultiServerRPCTypeReportChild:
+    case iTermMultiServerRPCTypeTermination:
+    case iTermMultiServerRPCTypeHello:
+        break;
     }
     memset(obj, 0xAB, sizeof(*obj));
 }
 
 void iTermMultiServerServerOriginatedMessageFree(iTermMultiServerServerOriginatedMessage *obj) {
     switch (obj->type) {
-        case iTermMultiServerRPCTypeHandshake:
-            FreeHandshakeResponse(&obj->payload.handshake);
-            break;
-        case iTermMultiServerRPCTypeLaunch:
-            FreeLaunchResponse(&obj->payload.launch);
-            break;
-        case iTermMultiServerRPCTypeWait:
-            FreeWaitResponse(&obj->payload.wait);
-            break;
-        case iTermMultiServerRPCTypeReportChild:
-            FreeReportChild(&obj->payload.reportChild);
-            break;
-        case iTermMultiServerRPCTypeHello:
-            FreeHello(&obj->payload.hello);
-            break;
-        case iTermMultiServerRPCTypeTermination:
-            break;
+    case iTermMultiServerRPCTypeHandshake:
+        FreeHandshakeResponse(&obj->payload.handshake);
+        break;
+    case iTermMultiServerRPCTypeLaunch:
+        FreeLaunchResponse(&obj->payload.launch);
+        break;
+    case iTermMultiServerRPCTypeWait:
+        FreeWaitResponse(&obj->payload.wait);
+        break;
+    case iTermMultiServerRPCTypeReportChild:
+        FreeReportChild(&obj->payload.reportChild);
+        break;
+    case iTermMultiServerRPCTypeHello:
+        FreeHello(&obj->payload.hello);
+        break;
+    case iTermMultiServerRPCTypeTermination:
+        break;
     }
     memset(obj, 0xCD, sizeof(*obj));
 }
@@ -735,26 +735,26 @@ static void LogWaitRequest(iTermMultiServerRequestWait *message) {
 void
 iTermMultiServerProtocolLogMessageFromClient(iTermMultiServerClientOriginatedMessage *message) {
     switch (message->type) {
-        case iTermMultiServerRPCTypeHandshake:
-            LogHandshakeRequest(&message->payload.handshake);
-            break;
+    case iTermMultiServerRPCTypeHandshake:
+        LogHandshakeRequest(&message->payload.handshake);
+        break;
 
-        case iTermMultiServerRPCTypeLaunch:
-            LogLaunchRequest(&message->payload.launch);
-            break;
+    case iTermMultiServerRPCTypeLaunch:
+        LogLaunchRequest(&message->payload.launch);
+        break;
 
-        case iTermMultiServerRPCTypeReportChild:
-            // Server-originated, no response.
-            break;
+    case iTermMultiServerRPCTypeReportChild:
+        // Server-originated, no response.
+        break;
 
-        case iTermMultiServerRPCTypeWait:
-            LogWaitRequest(&message->payload.wait);
-            break;
+    case iTermMultiServerRPCTypeWait:
+        LogWaitRequest(&message->payload.wait);
+        break;
 
-        case iTermMultiServerRPCTypeTermination:
-        case iTermMultiServerRPCTypeHello:
-            // Server-originated, no response.
-            break;
+    case iTermMultiServerRPCTypeTermination:
+    case iTermMultiServerRPCTypeHello:
+        // Server-originated, no response.
+        break;
     }
 }
 
@@ -813,28 +813,28 @@ static void LogHello(iTermMultiServerHello *message) {
 void
 iTermMultiServerProtocolLogMessageFromServer(iTermMultiServerServerOriginatedMessage *message) {
     switch (message->type) {
-        case iTermMultiServerRPCTypeHandshake:
-            LogHandshakeResponse(&message->payload.handshake);
-            break;
+    case iTermMultiServerRPCTypeHandshake:
+        LogHandshakeResponse(&message->payload.handshake);
+        break;
 
-        case iTermMultiServerRPCTypeLaunch:
-            LogLaunchResponse(&message->payload.launch);
-            break;
+    case iTermMultiServerRPCTypeLaunch:
+        LogLaunchResponse(&message->payload.launch);
+        break;
 
-        case iTermMultiServerRPCTypeReportChild:
-            LogReportChild(&message->payload.reportChild);
-            break;
+    case iTermMultiServerRPCTypeReportChild:
+        LogReportChild(&message->payload.reportChild);
+        break;
 
-        case iTermMultiServerRPCTypeWait:
-            LogWaitResponse(&message->payload.wait);
-            break;
+    case iTermMultiServerRPCTypeWait:
+        LogWaitResponse(&message->payload.wait);
+        break;
 
-        case iTermMultiServerRPCTypeTermination:
-            LogTermination(&message->payload.termination);
-            break;
+    case iTermMultiServerRPCTypeTermination:
+        LogTermination(&message->payload.termination);
+        break;
 
-        case iTermMultiServerRPCTypeHello:
-            LogHello(&message->payload.hello);
-            break;
+    case iTermMultiServerRPCTypeHello:
+        LogHello(&message->payload.hello);
+        break;
     }
 }

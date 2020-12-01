@@ -14,7 +14,7 @@
 
 
 - (instancetype)initFromRealWindow:(NSWindowController<iTermWindowController> *)aTerm
-                           session:(PTYSession*)aSession;
+    session:(PTYSession*)aSession;
 
 // PseudoTerminal should call this after adding the session to its tab view.
 - (void)rejoin:(NSWindowController<iTermWindowController> *)aTerm;

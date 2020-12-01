@@ -134,37 +134,41 @@ static const CGFloat kMarginBetweenTitleAndBody = 8;
     NSMutableParagraphStyle *bigTextParagraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
     [bigTextParagraphStyle setParagraphSpacing:4];
     NSDictionary *bigTextAttributes =
-        @{ NSFontAttributeName: [NSFont fontWithName:@"Helvetica Neue Light" size:16] ?: [NSFont systemFontOfSize:16],
-           NSForegroundColorAttributeName: [NSColor colorWithCalibratedWhite:0.2 alpha:1],
-           NSParagraphStyleAttributeName: bigTextParagraphStyle };
+        @ { NSFontAttributeName:
+            [NSFont fontWithName:@"Helvetica Neue Light" size:16] ?: [NSFont systemFontOfSize:16],
+            NSForegroundColorAttributeName: [NSColor colorWithCalibratedWhite:0.2 alpha:1],
+            NSParagraphStyleAttributeName: bigTextParagraphStyle
+          };
 
     NSMutableParagraphStyle *paragraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
     [paragraphStyle setAlignment:NSTextAlignmentRight];
     NSDictionary *signatureAttributes =
-        @{ NSFontAttributeName: [NSFont fontWithName:@"Helvetica Neue Light Italic" size:12] ?: [NSFont systemFontOfSize:12],
-           NSForegroundColorAttributeName: [NSColor colorWithCalibratedWhite:0.3 alpha:1],
-           NSParagraphStyleAttributeName: paragraphStyle};
+        @ { NSFontAttributeName:
+            [NSFont fontWithName:@"Helvetica Neue Light Italic" size:12] ?: [NSFont systemFontOfSize:12],
+            NSForegroundColorAttributeName: [NSColor colorWithCalibratedWhite:0.3 alpha:1],
+            NSParagraphStyleAttributeName: paragraphStyle
+          };
 
     [attributedString iterm_appendString:body
-                          withAttributes:bigTextAttributes];
+                      withAttributes:bigTextAttributes];
     [attributedString iterm_appendString:@"\n"
-                          withAttributes:bigTextAttributes];
+                      withAttributes:bigTextAttributes];
     [attributedString iterm_appendString:@"iTerm2 tip of the day"
-                          withAttributes:signatureAttributes];
+                      withAttributes:signatureAttributes];
 
     _body.attributedStringValue = attributedString;
 }
 
 - (iTermTipCardActionButton *)addActionWithTitle:(NSString *)title
-                                            icon:(NSImage *)image
-                                           block:(void (^)(id card))block {
+    icon:(NSImage *)image
+    block:(void (^)(id card))block {
     return [self addActionWithTitle:title shortcut:nil icon:image block:block];
 }
 
 - (iTermTipCardActionButton *)addActionWithTitle:(NSString *)title
-                                        shortcut:(NSString *)shortcut
-                                            icon:(NSImage *)image
-                                           block:(void (^)(id card))block {
+    shortcut:(NSString *)shortcut
+    icon:(NSImage *)image
+    block:(void (^)(id card))block {
     if (!_actionButtons) {
         _actionButtons = [[NSMutableArray alloc] init];
     }
@@ -228,8 +232,8 @@ static const CGFloat kMarginBetweenTitleAndBody = 8;
 
 - (NSSize)sizeThatFits:(NSSize)size {
     NSRect desiredRect = [self performLayoutForWidth:size.width
-                                                 dry:YES
-                                              origin:self.view.frame.origin];
+                               dry:YES
+                               origin:self.view.frame.origin];
     return desiredRect.size;
 }
 
@@ -240,8 +244,8 @@ static const CGFloat kMarginBetweenTitleAndBody = 8;
 // "dry" means frames are calculated but not changed.
 // Returns what the frame for self.view would be (or will be, if dry==NO)
 - (NSRect)performLayoutForWidth:(CGFloat)width
-                            dry:(BOOL)dry
-                         origin:(NSPoint)newOrigin {
+    dry:(BOOL)dry
+    origin:(NSPoint)newOrigin {
     CGFloat containerWidth = width - kContainerSideInset * 2;
 
     // Compute size of body text.
@@ -257,26 +261,26 @@ static const CGFloat kMarginBetweenTitleAndBody = 8;
 
     for (iTermTipCardActionButton *actionButton in _actionButtons) {
         switch (actionButton.animationState) {
-            case kTipCardButtonAnimatingIn:
-                [actionButton setCollapsed:NO];
-                [actionButton sizeToFit];
-                if (actionButton.indexInRow == 0) {
-                    stagedButtonHeight += actionButton.frame.size.height;
-                }
-                break;
+        case kTipCardButtonAnimatingIn:
+            [actionButton setCollapsed:NO];
+            [actionButton sizeToFit];
+            if (actionButton.indexInRow == 0) {
+                stagedButtonHeight += actionButton.frame.size.height;
+            }
+            break;
 
-            case kTipCardButtonAnimatingOut:
-            case kTipCardButtonNotAnimating:
-                [actionButton sizeToFit];
-                if (actionButton.indexInRow == 0) {
-                    totalButtonHeight += actionButton.frame.size.height;
-                }
-                break;
+        case kTipCardButtonAnimatingOut:
+        case kTipCardButtonNotAnimating:
+            [actionButton sizeToFit];
+            if (actionButton.indexInRow == 0) {
+                totalButtonHeight += actionButton.frame.size.height;
+            }
+            break;
 
-            case kTipCardButtonAnimatingOutCurrently:
-                [actionButton sizeToFit];
-                // Treat as 0 height
-                break;
+        case kTipCardButtonAnimatingOutCurrently:
+            [actionButton sizeToFit];
+            // Treat as 0 height
+            break;
         }
     }
 
@@ -450,15 +454,15 @@ static const CGFloat kMarginBetweenTitleAndBody = 8;
 
 // Animate for a height change.
 - (void)animateCardWithDuration:(CGFloat)duration
-                   heightChange:(CGFloat)heightChange
-              originalCardFrame:(NSRect)originalCardFrame
-             postAnimationFrame:(NSRect)postAnimationFrame
-                 superviewWidth:(CGFloat)superviewWidth
-                          block:(void (^)(void))block {
+    heightChange:(CGFloat)heightChange
+    originalCardFrame:(NSRect)originalCardFrame
+    postAnimationFrame:(NSRect)postAnimationFrame
+    superviewWidth:(CGFloat)superviewWidth
+    block:(void (^)(void))block {
     [CATransaction begin];
     [self retain];
-    [CATransaction setCompletionBlock:^{
-        self.showFakeBottomDivider = NO;
+    [CATransaction setCompletionBlock:^ {
+                      self.showFakeBottomDivider = NO;
         [self hideCollapsedButtons];
         block();
         self.view.frame = postAnimationFrame;

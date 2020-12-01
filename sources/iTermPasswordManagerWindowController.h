@@ -21,7 +21,7 @@
 
 @end
 
-@interface iTermPasswordEntry: NSObject
+@interface iTermPasswordEntry : NSObject
 @property (nonatomic, copy) NSString *accountName;
 @property (nonatomic, copy) NSString *userName;
 @property (nonatomic, readonly) NSString *combinedAccountNameUserName;

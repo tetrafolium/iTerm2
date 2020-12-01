@@ -50,43 +50,43 @@ static BOOL AdvanceAndEatControlChars(iTermParserContext *context,
     unsigned char c;
     while (iTermParserTryPeek(context, &c)) {
         switch (c) {
-            case VT100CC_ENQ:
-            case VT100CC_BEL:
-            case VT100CC_BS:
-            case VT100CC_HT:
-            case VT100CC_LF:
-            case VT100CC_VT:
-            case VT100CC_FF:
-            case VT100CC_CR:
-            case VT100CC_SO:
-            case VT100CC_SI:
-            case VT100CC_DC1:
-            case VT100CC_DC3:
-            case VT100CC_DEL:
-                CVectorAppend(incidentals, [VT100Token newTokenForControlCharacter:c]);
-                break;
+        case VT100CC_ENQ:
+        case VT100CC_BEL:
+        case VT100CC_BS:
+        case VT100CC_HT:
+        case VT100CC_LF:
+        case VT100CC_VT:
+        case VT100CC_FF:
+        case VT100CC_CR:
+        case VT100CC_SO:
+        case VT100CC_SI:
+        case VT100CC_DC1:
+        case VT100CC_DC3:
+        case VT100CC_DEL:
+            CVectorAppend(incidentals, [VT100Token newTokenForControlCharacter:c]);
+            break;
 
-            case VT100CC_CAN:
-            case VT100CC_SUB:
-            case VT100CC_ESC:
+        case VT100CC_CAN:
+        case VT100CC_SUB:
+        case VT100CC_ESC:
+            return NO;
+
+        case VT100CC_C1_ST:
+        case VT100CC_C1_CSI:
+        case VT100CC_C1_SOS:
+        case VT100CC_C1_PM:
+        case VT100CC_C1_APC:
+        case VT100CC_C1_DCS:
+            if (support8BitControlCharacters) {
                 return NO;
+            }
+        // fall through
 
-            case VT100CC_C1_ST:
-            case VT100CC_C1_CSI:
-            case VT100CC_C1_SOS:
-            case VT100CC_C1_PM:
-            case VT100CC_C1_APC:
-            case VT100CC_C1_DCS:
-                if (support8BitControlCharacters) {
-                    return NO;
-                }
-                // fall through
-
-            default:
-                if (c >= 0x20) {
-                    return YES;
-                }
-                break;
+        default:
+            if (c >= 0x20) {
+                return YES;
+            }
+            break;
         }
         iTermParserAdvance(context);
     }
@@ -154,18 +154,18 @@ static BOOL ParseCSIPrefix(iTermParserContext *context,
     if (iTermParserCanAdvance(context)) {
         unsigned char c = iTermParserPeek(context);
         switch (c) {
-            case '<':
-            case '=':
-            case '>':
-            case '?':
-                param->cmd = SetPrefixByteInPackedCommand(param->cmd, c);
-                if (!AdvanceAndEatControlChars(context, support8BitControlCharacters, incidentals)) {
-                    return NO;
-                }
-                break;
+        case '<':
+        case '=':
+        case '>':
+        case '?':
+            param->cmd = SetPrefixByteInPackedCommand(param->cmd, c);
+            if (!AdvanceAndEatControlChars(context, support8BitControlCharacters, incidentals)) {
+                return NO;
+            }
+            break;
 
-            default:
-                break;
+        default:
+            break;
         }
     }
     return YES;
@@ -186,105 +186,105 @@ static BOOL ParseCSIParameters(iTermParserContext *context,
     unsigned char c;
     while (iTermParserTryPeek(context, &c) && c >= 0x30 && c <= 0x3f) {
         switch (c) {
-            case '0':
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-            case '5':
-            case '6':
-            case '7':
-            case '8':
-            case '9': {
-                int n = 0;
-                while (iTermParserTryPeek(context, &c) && isdigit(c)) {
-                    if (n > (INT_MAX - 10) / 10) {
-                        *unrecognized = YES;
-                    } else {
-                        n = n * 10 + (c - '0');
-                    }
-                    if (!AdvanceAndEatControlChars(context, support8BitControlCharacters, incidentals)) {
-                        return NO;
-                    }
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9': {
+            int n = 0;
+            while (iTermParserTryPeek(context, &c) && isdigit(c)) {
+                if (n > (INT_MAX - 10) / 10) {
+                    *unrecognized = YES;
+                } else {
+                    n = n * 10 + (c - '0');
                 }
-
-                if (isSub && param->count > 0) {
-                    // This implementation is not really well aligned with the spec. In ECMA-48
-                    // section 5.4, the format of a CSI code is described. The parameter string,
-                    // which follows CSI, is a semicolon-delimited list of parameter substrings
-                    // A parameter substring is a sequence of digits with colon separators.
-                    // The data structure we use treats each parameter string up to the first
-                    // colon (if any) as the parameter, and parts after the first colon as
-                    // sub-parameters. That doesn't really make sense if a parameter string
-                    // starts with a colon, which is allowed but not defined in the spec.
-                    // Since that never should happen in practice, we'll just ignore a parameter
-                    // string that starts with a colon.
-                    const int paramNum = param->count - 1;
-                    assert(paramNum >= 0 && paramNum < VT100CSIPARAM_MAX);
-                    iTermParserAddCSISubparameter(param, paramNum, n);
-                } else if (param->count < VT100CSIPARAM_MAX) {
-                    param->p[param->count] = n;
-                    // increment the parameter count
-                    param->count++;
+                if (!AdvanceAndEatControlChars(context, support8BitControlCharacters, incidentals)) {
+                    return NO;
                 }
-
-                // set the numeric parameter flag
-                readNumericParameter = YES;
-
-                break;
             }
 
-            case ';':
-                // If we got an implied (blank) parameter, increment the parameter count again
-                if (param->count < VT100CSIPARAM_MAX && readNumericParameter == NO) {
-                    param->count++;
-                }
-                // reset the parameter flag
-                readNumericParameter = NO;
-                isSub = NO;
-                if (!AdvanceAndEatControlChars(context, support8BitControlCharacters, incidentals)) {
-                    return NO;
-                }
-                break;
+            if (isSub && param->count > 0) {
+                // This implementation is not really well aligned with the spec. In ECMA-48
+                // section 5.4, the format of a CSI code is described. The parameter string,
+                // which follows CSI, is a semicolon-delimited list of parameter substrings
+                // A parameter substring is a sequence of digits with colon separators.
+                // The data structure we use treats each parameter string up to the first
+                // colon (if any) as the parameter, and parts after the first colon as
+                // sub-parameters. That doesn't really make sense if a parameter string
+                // starts with a colon, which is allowed but not defined in the spec.
+                // Since that never should happen in practice, we'll just ignore a parameter
+                // string that starts with a colon.
+                const int paramNum = param->count - 1;
+                assert(paramNum >= 0 && paramNum < VT100CSIPARAM_MAX);
+                iTermParserAddCSISubparameter(param, paramNum, n);
+            } else if (param->count < VT100CSIPARAM_MAX) {
+                param->p[param->count] = n;
+                // increment the parameter count
+                param->count++;
+            }
 
-            case ':':
-                // 2013/1/10 H. Saito
-                // TODO: Now colon separator(":") used in SGR sequence by few terminals
-                // (xterm #282, TeraTerm, RLogin, mlterm, tanasinn).
-                // ECMA-48 suggests it may be used as a separator in a parameter sub-string (5.4.2 - (b)),
-                // but it seems the usage of ":" around SGR is confused a little.
-                //
-                // 1. Konsole's 3-byte color mode style:
-                //    CSI 38 ; 2 ; R ; G ; B m (Konsole, xterm, TeraTerm)
-                //
-                // 2. ITU-T T-416 like style:
-                //    CSI 38 ; 2 : R : G : B m (xterm, TeraTerm, RLogin)
-                //    CSI 38 ; 2 ; R : G : B m (xterm, TeraTerm, RLogin)
-                //    CSI 38 ; 2 ; R ; G : B m (xterm, RLogin)
-                //    CSI 38 ; 2 ; R : G ; B m (xterm, TeraTerm)
-                //    CSI 38 : 2 : R : G : B m (xterm, TeraTerm, RLogin)
-                //
-                // (* It seems mlterm/tanasinn don't distinguish ":" from ";")
-                //
-                // In other case, yaft proposes GWREPT(glyph width report, OSC 8900)
-                //
-                //   > OSC 8900 ; Ps ; Pt ; width : from : to ; width : from : to ; ... ST
-                //   http://uobikiemukot.github.io/yaft/glyph_width_report.html
-                //
-                // In this usage, ":" are certainly treated as sub-parameter separators.
-                isSub = YES;
-                if (!AdvanceAndEatControlChars(context, support8BitControlCharacters, incidentals)) {
-                    return NO;
-                }
-                break;
+            // set the numeric parameter flag
+            readNumericParameter = YES;
 
-            default:
-                // '<', '=', '>', or '?'
-                *unrecognized = YES;
-                if (!AdvanceAndEatControlChars(context, support8BitControlCharacters, incidentals)) {
-                    return NO;
-                }
-                break;
+            break;
+        }
+
+        case ';':
+            // If we got an implied (blank) parameter, increment the parameter count again
+            if (param->count < VT100CSIPARAM_MAX && readNumericParameter == NO) {
+                param->count++;
+            }
+            // reset the parameter flag
+            readNumericParameter = NO;
+            isSub = NO;
+            if (!AdvanceAndEatControlChars(context, support8BitControlCharacters, incidentals)) {
+                return NO;
+            }
+            break;
+
+        case ':':
+            // 2013/1/10 H. Saito
+            // TODO: Now colon separator(":") used in SGR sequence by few terminals
+            // (xterm #282, TeraTerm, RLogin, mlterm, tanasinn).
+            // ECMA-48 suggests it may be used as a separator in a parameter sub-string (5.4.2 - (b)),
+            // but it seems the usage of ":" around SGR is confused a little.
+            //
+            // 1. Konsole's 3-byte color mode style:
+            //    CSI 38 ; 2 ; R ; G ; B m (Konsole, xterm, TeraTerm)
+            //
+            // 2. ITU-T T-416 like style:
+            //    CSI 38 ; 2 : R : G : B m (xterm, TeraTerm, RLogin)
+            //    CSI 38 ; 2 ; R : G : B m (xterm, TeraTerm, RLogin)
+            //    CSI 38 ; 2 ; R ; G : B m (xterm, RLogin)
+            //    CSI 38 ; 2 ; R : G ; B m (xterm, TeraTerm)
+            //    CSI 38 : 2 : R : G : B m (xterm, TeraTerm, RLogin)
+            //
+            // (* It seems mlterm/tanasinn don't distinguish ":" from ";")
+            //
+            // In other case, yaft proposes GWREPT(glyph width report, OSC 8900)
+            //
+            //   > OSC 8900 ; Ps ; Pt ; width : from : to ; width : from : to ; ... ST
+            //   http://uobikiemukot.github.io/yaft/glyph_width_report.html
+            //
+            // In this usage, ":" are certainly treated as sub-parameter separators.
+            isSub = YES;
+            if (!AdvanceAndEatControlChars(context, support8BitControlCharacters, incidentals)) {
+                return NO;
+            }
+            break;
+
+        default:
+            // '<', '=', '>', or '?'
+            *unrecognized = YES;
+            if (!AdvanceAndEatControlChars(context, support8BitControlCharacters, incidentals)) {
+                return NO;
+            }
+            break;
         }
     }
 
@@ -396,10 +396,10 @@ static void ParseCSISequence(iTermParserContext *context,
     CSIParamInitialize(param);
 
     if (ParseCSIPrologue(context, support8BitControlCharacters, incidentals) &&
-        ParseCSIPrefix(context, support8BitControlCharacters, incidentals, param) &&
-        ParseCSIParameters(context, support8BitControlCharacters, incidentals, param, &unrecognized) &&
-        ParseCSIIntermediate(context, support8BitControlCharacters, incidentals, param) &&
-        ParseCSIGarbage(context, support8BitControlCharacters, incidentals, &unrecognized)) {
+            ParseCSIPrefix(context, support8BitControlCharacters, incidentals, param) &&
+            ParseCSIParameters(context, support8BitControlCharacters, incidentals, param, &unrecognized) &&
+            ParseCSIIntermediate(context, support8BitControlCharacters, incidentals, param) &&
+            ParseCSIGarbage(context, support8BitControlCharacters, incidentals, &unrecognized)) {
         ParseCSIFinal(context, param, &unrecognized);
     } else {
         param->cmd = INVALID_CSI_CMD;
@@ -408,300 +408,300 @@ static void ParseCSISequence(iTermParserContext *context,
 
 static void SetCSITypeAndDefaultParameters(CSIParam *param, VT100Token *result) {
     switch (param->cmd) {
-        case INVALID_CSI_CMD:
-            result->type = VT100_UNKNOWNCHAR;
-            break;
+    case INVALID_CSI_CMD:
+        result->type = VT100_UNKNOWNCHAR;
+        break;
 
-        case INCOMPLETE_CSI_CMD:
-            result->type = VT100_WAIT;
-            break;
+    case INCOMPLETE_CSI_CMD:
+        result->type = VT100_WAIT;
+        break;
 
-        case PACKED_CSI_COMMAND(0, '#', '|'):  // XTREPORTSGR
-            result->type = VT100CSI_XTREPORTSGR;
-            iTermParserSetCSIParameterIfDefault(param, 0, 1);
-            iTermParserSetCSIParameterIfDefault(param, 1, 1);
-            iTermParserSetCSIParameterIfDefault(param, 2, 1);
-            iTermParserSetCSIParameterIfDefault(param, 3, 1);
-            break;
+    case PACKED_CSI_COMMAND(0, '#', '|'):  // XTREPORTSGR
+        result->type = VT100CSI_XTREPORTSGR;
+        iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        iTermParserSetCSIParameterIfDefault(param, 1, 1);
+        iTermParserSetCSIParameterIfDefault(param, 2, 1);
+        iTermParserSetCSIParameterIfDefault(param, 3, 1);
+        break;
 
-        case 'D':       // Cursor Backward
-            result->type = VT100CSI_CUB;
-            iTermParserSetCSIParameterIfDefault(param, 0, 1);
-            break;
+    case 'D':       // Cursor Backward
+        result->type = VT100CSI_CUB;
+        iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        break;
 
-        case 'b':       // Repeat
-            result->type = VT100CSI_REP;
-            iTermParserSetCSIParameterIfDefault(param, 0, 1);
-            break;
+    case 'b':       // Repeat
+        result->type = VT100CSI_REP;
+        iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        break;
 
-        case 'B':       // Cursor Down
-            result->type = VT100CSI_CUD;
-            iTermParserSetCSIParameterIfDefault(param, 0, 1);
-            break;
+    case 'B':       // Cursor Down
+        result->type = VT100CSI_CUD;
+        iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        break;
 
-        case 'C':       // Cursor Forward
-            result->type = VT100CSI_CUF;
-            iTermParserSetCSIParameterIfDefault(param, 0, 1);
-            break;
+    case 'C':       // Cursor Forward
+        result->type = VT100CSI_CUF;
+        iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        break;
 
-        case 'A':       // Cursor Up
-            result->type = VT100CSI_CUU;
-            iTermParserSetCSIParameterIfDefault(param, 0, 1);
-            break;
+    case 'A':       // Cursor Up
+        result->type = VT100CSI_CUU;
+        iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        break;
 
-        case 'E':       // Cursor Next Line
-            result->type = VT100CSI_CNL;
-            iTermParserSetCSIParameterIfDefault(param, 0, 1);
-            break;
+    case 'E':       // Cursor Next Line
+        result->type = VT100CSI_CNL;
+        iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        break;
 
-        case 'F':       // Cursor Preceding Line
-            result->type = VT100CSI_CPL;
-            iTermParserSetCSIParameterIfDefault(param, 0, 1);
-            break;
+    case 'F':       // Cursor Preceding Line
+        result->type = VT100CSI_CPL;
+        iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        break;
 
-        case 'H':
-            result->type = VT100CSI_CUP;
-            iTermParserSetCSIParameterIfDefault(param, 0, 1);
-            iTermParserSetCSIParameterIfDefault(param, 1, 1);
-            break;
+    case 'H':
+        result->type = VT100CSI_CUP;
+        iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        iTermParserSetCSIParameterIfDefault(param, 1, 1);
+        break;
 
-        case 'I':
-            result->type = VT100CSI_CHT;
-            iTermParserSetCSIParameterIfDefault(param, 0, 1);
-            break;
+    case 'I':
+        result->type = VT100CSI_CHT;
+        iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        break;
 
-        case 'c':
-            result->type = VT100CSI_DA;
-            iTermParserSetCSIParameterIfDefault(param, 0, 0);
-            break;
+    case 'c':
+        result->type = VT100CSI_DA;
+        iTermParserSetCSIParameterIfDefault(param, 0, 0);
+        break;
 
-        case PACKED_CSI_COMMAND('>', 0, 'c'):
-            result->type = VT100CSI_DA2;
-            iTermParserSetCSIParameterIfDefault(param, 0, 0);
-            break;
+    case PACKED_CSI_COMMAND('>', 0, 'c'):
+        result->type = VT100CSI_DA2;
+        iTermParserSetCSIParameterIfDefault(param, 0, 0);
+        break;
 
-        case 'r':
-            result->type = VT100CSI_DECSTBM;
-            break;
+    case 'r':
+        result->type = VT100CSI_DECSTBM;
+        break;
 
-        case 'n':
-            result->type = VT100CSI_DSR;
-            iTermParserSetCSIParameterIfDefault(param, 0, 0);
-            break;
+    case 'n':
+        result->type = VT100CSI_DSR;
+        iTermParserSetCSIParameterIfDefault(param, 0, 0);
+        break;
 
-        case PACKED_CSI_COMMAND('?', 0, 'n'):
-            result->type = VT100CSI_DECDSR;
-            iTermParserSetCSIParameterIfDefault(param, 0, 0);
-            break;
+    case PACKED_CSI_COMMAND('?', 0, 'n'):
+        result->type = VT100CSI_DECDSR;
+        iTermParserSetCSIParameterIfDefault(param, 0, 0);
+        break;
 
-        case 'J':
-            result->type = VT100CSI_ED;
-            iTermParserSetCSIParameterIfDefault(param, 0, 0);
-            break;
+    case 'J':
+        result->type = VT100CSI_ED;
+        iTermParserSetCSIParameterIfDefault(param, 0, 0);
+        break;
 
-        case 'K':
-            result->type = VT100CSI_EL;
-            iTermParserSetCSIParameterIfDefault(param, 0, 0);
-            break;
+    case 'K':
+        result->type = VT100CSI_EL;
+        iTermParserSetCSIParameterIfDefault(param, 0, 0);
+        break;
 
-        case 'f':
-            result->type = VT100CSI_HVP;
-            iTermParserSetCSIParameterIfDefault(param, 0, 1);
-            iTermParserSetCSIParameterIfDefault(param, 1, 1);
-            break;
+    case 'f':
+        result->type = VT100CSI_HVP;
+        iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        iTermParserSetCSIParameterIfDefault(param, 1, 1);
+        break;
 
-        case 'l':
-            result->type = VT100CSI_RM;
-            break;
+    case 'l':
+        result->type = VT100CSI_RM;
+        break;
 
-        case PACKED_CSI_COMMAND('>', 0, 'm'):
-            result->type = VT100CSI_SET_MODIFIERS;
-            break;
+    case PACKED_CSI_COMMAND('>', 0, 'm'):
+        result->type = VT100CSI_SET_MODIFIERS;
+        break;
 
-        case PACKED_CSI_COMMAND('>', 0, 'n'):
-            result->type = VT100CSI_RESET_MODIFIERS;
-            break;
+    case PACKED_CSI_COMMAND('>', 0, 'n'):
+        result->type = VT100CSI_RESET_MODIFIERS;
+        break;
 
-        case 'm':
-            result->type = VT100CSI_SGR;
-            // TODO: Test codes like CSI 1 ; ; m
-            for (int i = 0; i < MAX(1, param->count); ++i) {
-                iTermParserSetCSIParameterIfDefault(param, i, 0);
-            }
-            break;
+    case 'm':
+        result->type = VT100CSI_SGR;
+        // TODO: Test codes like CSI 1 ; ; m
+        for (int i = 0; i < MAX(1, param->count); ++i) {
+            iTermParserSetCSIParameterIfDefault(param, i, 0);
+        }
+        break;
 
-        case 'h':
-            result->type = VT100CSI_SM;
-            break;
+    case 'h':
+        result->type = VT100CSI_SM;
+        break;
 
-        case 'g':
-            result->type = VT100CSI_TBC;
-            iTermParserSetCSIParameterIfDefault(param, 0, 0);
-            break;
+    case 'g':
+        result->type = VT100CSI_TBC;
+        iTermParserSetCSIParameterIfDefault(param, 0, 0);
+        break;
 
-        case PACKED_CSI_COMMAND(0, ' ', 'q'):
-            result->type = VT100CSI_DECSCUSR;
-            iTermParserSetCSIParameterIfDefault(param, 0, 0);
-            break;
+    case PACKED_CSI_COMMAND(0, ' ', 'q'):
+        result->type = VT100CSI_DECSCUSR;
+        iTermParserSetCSIParameterIfDefault(param, 0, 0);
+        break;
 
-        case PACKED_CSI_COMMAND('>', 0, 'q'):
-            result->type = VT100CSI_XDA;
-            iTermParserSetCSIParameterIfDefault(param, 0, 0);
-            break;
+    case PACKED_CSI_COMMAND('>', 0, 'q'):
+        result->type = VT100CSI_XDA;
+        iTermParserSetCSIParameterIfDefault(param, 0, 0);
+        break;
 
-        case PACKED_CSI_COMMAND(0, '!', 'p'):
-            result->type = VT100CSI_DECSTR;
-            break;
+    case PACKED_CSI_COMMAND(0, '!', 'p'):
+        result->type = VT100CSI_DECSTR;
+        break;
 
-        case PACKED_CSI_COMMAND('?', '$', 'p'):
-            result->type = VT100CSI_DECRQM_DEC;
-            iTermParserSetCSIParameterIfDefault(param, 0, 0);
-            break;
+    case PACKED_CSI_COMMAND('?', '$', 'p'):
+        result->type = VT100CSI_DECRQM_DEC;
+        iTermParserSetCSIParameterIfDefault(param, 0, 0);
+        break;
 
-        case PACKED_CSI_COMMAND(0, '$', 'p'):
-            result->type = VT100CSI_DECRQM_ANSI;
-            iTermParserSetCSIParameterIfDefault(param, 0, 0);
-            break;
+    case PACKED_CSI_COMMAND(0, '$', 'p'):
+        result->type = VT100CSI_DECRQM_ANSI;
+        iTermParserSetCSIParameterIfDefault(param, 0, 0);
+        break;
 
-        case PACKED_CSI_COMMAND(0, '*', 'y'):
-            result->type = VT100CSI_DECRQCRA;
-            iTermParserSetCSIParameterIfDefault(param, 2, 1);
-            break;
+    case PACKED_CSI_COMMAND(0, '*', 'y'):
+        result->type = VT100CSI_DECRQCRA;
+        iTermParserSetCSIParameterIfDefault(param, 2, 1);
+        break;
 
-        case '@':
-            result->type = VT100CSI_ICH;
-            iTermParserSetCSIParameterIfDefault(param, 0, 1);
+    case '@':
+        result->type = VT100CSI_ICH;
+        iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        break;
+    case 'L':
+        result->type = XTERMCC_INSLN;
+        iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        break;
+    case 'P':
+        result->type = XTERMCC_DELCH;
+        iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        break;
+    case 'M':
+        result->type = XTERMCC_DELLN;
+        iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        break;
+    case 't':
+        switch (param->p[0]) {
+        case 1:
+            result->type = XTERMCC_DEICONIFY;
             break;
-        case 'L':
-            result->type = XTERMCC_INSLN;
-            iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        case 2:
+            result->type = XTERMCC_ICONIFY;
             break;
-        case 'P':
-            result->type = XTERMCC_DELCH;
-            iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        case 3:
+            result->type = XTERMCC_WINDOWPOS;
+            iTermParserSetCSIParameterIfDefault(param, 1, 0);  // columns or Y
+            iTermParserSetCSIParameterIfDefault(param, 2, 0);  // rows or X
             break;
-        case 'M':
-            result->type = XTERMCC_DELLN;
-            iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        case 4:
+            result->type = XTERMCC_WINDOWSIZE_PIXEL;
             break;
-        case 't':
-            switch (param->p[0]) {
-                case 1:
-                    result->type = XTERMCC_DEICONIFY;
-                    break;
-                case 2:
-                    result->type = XTERMCC_ICONIFY;
-                    break;
-                case 3:
-                    result->type = XTERMCC_WINDOWPOS;
-                    iTermParserSetCSIParameterIfDefault(param, 1, 0);  // columns or Y
-                    iTermParserSetCSIParameterIfDefault(param, 2, 0);  // rows or X
-                    break;
-                case 4:
-                    result->type = XTERMCC_WINDOWSIZE_PIXEL;
-                    break;
-                case 5:
-                    result->type = XTERMCC_RAISE;
-                    break;
-                case 6:
-                    result->type = XTERMCC_LOWER;
-                    break;
-                case 8:
-                    result->type = XTERMCC_WINDOWSIZE;
-                    break;
-                case 11:
-                    result->type = XTERMCC_REPORT_WIN_STATE;
-                    break;
-                case 13:
-                    result->type = XTERMCC_REPORT_WIN_POS;
-                    break;
-                case 14:
-                    result->type = XTERMCC_REPORT_WIN_PIX_SIZE;
-                    break;
-                case 18:
-                    result->type = XTERMCC_REPORT_WIN_SIZE;
-                    break;
-                case 19:
-                    result->type = XTERMCC_REPORT_SCREEN_SIZE;
-                    break;
-                case 20:
-                    result->type = XTERMCC_REPORT_ICON_TITLE;
-                    break;
-                case 21:
-                    result->type = XTERMCC_REPORT_WIN_TITLE;
-                    break;
-                case 22:
-                    result->type = XTERMCC_PUSH_TITLE;
-                    break;
-                case 23:
-                    result->type = XTERMCC_POP_TITLE;
-                    break;
-                default:
-                    result->type = VT100_NOTSUPPORT;
-                    break;
-            }
+        case 5:
+            result->type = XTERMCC_RAISE;
             break;
-        case 'S':
-            result->type = XTERMCC_SU;
-            iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        case 6:
+            result->type = XTERMCC_LOWER;
             break;
-        case 'T':
-            if (param->count < 2) {
-                result->type = XTERMCC_SD;
-                iTermParserSetCSIParameterIfDefault(param, 0, 1);
-            } else {
-                result->type = VT100_NOTSUPPORT;
-            }
+        case 8:
+            result->type = XTERMCC_WINDOWSIZE;
             break;
-
-            // ANSI:
-        case 'Z':
-            result->type = ANSICSI_CBT;
-            iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        case 11:
+            result->type = XTERMCC_REPORT_WIN_STATE;
             break;
-        case 'G':
-            result->type = ANSICSI_CHA;
-            iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        case 13:
+            result->type = XTERMCC_REPORT_WIN_POS;
             break;
-        case 'd':
-            result->type = ANSICSI_VPA;
-            iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        case 14:
+            result->type = XTERMCC_REPORT_WIN_PIX_SIZE;
             break;
-        case 'e':
-            result->type = ANSICSI_VPR;
-            iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        case 18:
+            result->type = XTERMCC_REPORT_WIN_SIZE;
             break;
-        case 'X':
-            result->type = ANSICSI_ECH;
-            iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        case 19:
+            result->type = XTERMCC_REPORT_SCREEN_SIZE;
             break;
-        case 'i':
-            result->type = ANSICSI_PRINT;
-            iTermParserSetCSIParameterIfDefault(param, 0, 0);
+        case 20:
+            result->type = XTERMCC_REPORT_ICON_TITLE;
             break;
-        case 's':
-            result->type = VT100CSI_DECSLRM_OR_ANSICSI_SCP;
+        case 21:
+            result->type = XTERMCC_REPORT_WIN_TITLE;
             break;
-        case 'u':
-            result->type = ANSICSI_RCP;
+        case 22:
+            result->type = XTERMCC_PUSH_TITLE;
             break;
-        case PACKED_CSI_COMMAND('?', 0, 'h'):       // DEC private mode set
-            result->type = VT100CSI_DECSET;
-            break;
-        case PACKED_CSI_COMMAND('?', 0, 'l'):       // DEC private mode reset
-            result->type = VT100CSI_DECRST;
+        case 23:
+            result->type = XTERMCC_POP_TITLE;
             break;
         default:
             result->type = VT100_NOTSUPPORT;
             break;
+        }
+        break;
+    case 'S':
+        result->type = XTERMCC_SU;
+        iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        break;
+    case 'T':
+        if (param->count < 2) {
+            result->type = XTERMCC_SD;
+            iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        } else {
+            result->type = VT100_NOTSUPPORT;
+        }
+        break;
+
+    // ANSI:
+    case 'Z':
+        result->type = ANSICSI_CBT;
+        iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        break;
+    case 'G':
+        result->type = ANSICSI_CHA;
+        iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        break;
+    case 'd':
+        result->type = ANSICSI_VPA;
+        iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        break;
+    case 'e':
+        result->type = ANSICSI_VPR;
+        iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        break;
+    case 'X':
+        result->type = ANSICSI_ECH;
+        iTermParserSetCSIParameterIfDefault(param, 0, 1);
+        break;
+    case 'i':
+        result->type = ANSICSI_PRINT;
+        iTermParserSetCSIParameterIfDefault(param, 0, 0);
+        break;
+    case 's':
+        result->type = VT100CSI_DECSLRM_OR_ANSICSI_SCP;
+        break;
+    case 'u':
+        result->type = ANSICSI_RCP;
+        break;
+    case PACKED_CSI_COMMAND('?', 0, 'h'):       // DEC private mode set
+        result->type = VT100CSI_DECSET;
+        break;
+    case PACKED_CSI_COMMAND('?', 0, 'l'):       // DEC private mode reset
+        result->type = VT100CSI_DECRST;
+        break;
+    default:
+        result->type = VT100_NOTSUPPORT;
+        break;
 
     }
 }
 
 + (void)decodeFromContext:(iTermParserContext *)context
-support8BitControlCharacters:(BOOL)support8BitControlCharacters
-              incidentals:(CVector *)incidentals
-                    token:(VT100Token *)result {
+    support8BitControlCharacters:(BOOL)support8BitControlCharacters
+    incidentals:(CVector *)incidentals
+    token:(VT100Token *)result {
     CSIParam *param = result.csi;
     iTermParserContext savedContext = *context;
 

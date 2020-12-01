@@ -31,9 +31,9 @@
 }
 
 - (instancetype)initWithMode:(SplitSelectionViewMode)mode
-                   withFrame:(NSRect)frame
-                     session:(PTYSession *)session
-                    delegate:(id<SplitSelectionViewDelegate>)delegate {
+    withFrame:(NSRect)frame
+    session:(PTYSession *)session
+    delegate:(id<SplitSelectionViewDelegate>)delegate {
     self = [self initWithFrame:frame];
     if (self) {
         _mode = mode;
@@ -54,9 +54,9 @@
 {
     NSRect frame = self.frame;
     trackingArea_ = [[NSTrackingArea alloc] initWithRect:NSMakeRect(0, 0, frame.size.width, frame.size.height)
-                                                 options:NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved | NSTrackingActiveInActiveApp
-                                                  owner:self
-                                                   userInfo:nil];
+                                            options:NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved | NSTrackingActiveInActiveApp
+                                            owner:self
+                                            userInfo:nil];
     [self addTrackingArea:trackingArea_];
 }
 
@@ -84,12 +84,12 @@
         fontSize--;
         NSDictionary* attrs =
             [NSDictionary dictionaryWithObjectsAndKeys:
-                [NSFont systemFontOfSize:fontSize], NSFontAttributeName,
-                [NSColor whiteColor], NSForegroundColorAttributeName,
-                pStyle, NSParagraphStyleAttributeName,
-                nil];
+                          [NSFont systemFontOfSize:fontSize], NSFontAttributeName,
+                          [NSColor whiteColor], NSForegroundColorAttributeName,
+                          pStyle, NSParagraphStyleAttributeName,
+                          nil];
         attributedString = [[[NSMutableAttributedString alloc] initWithString:message
-                                                                   attributes:attrs] autorelease];
+                                                                attributes:attrs] autorelease];
         rect = NSMakeRect(frame.origin.x,
                           frame.origin.y + frame.size.height * 2.0 / 3.0,
                           frame.size.width,
@@ -108,26 +108,26 @@
     [theShadow setShadowColor:[NSColor blackColor]];
     [theShadow set];
     [attributedString drawWithRect:rect
-                           options:0];
+                      options:0];
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
     switch (_mode) {
-        case SplitSelectionViewModeSourceMove:
-            [self drawSourceWithMessage:@"Select a destination pane" rect:dirtyRect];
-            return;
-        case SplitSelectionViewModeSourceSwap:
-            [self drawSourceWithMessage:@"Select pane to swap with" rect:dirtyRect];
-            return;
-        case SplitSelectionViewModeTargetMove:
-            [self drawTargetWithMessage:@"Click to move source pane to this split"];
-            return;
-        case SplitSelectionViewModeTargetSwap:
-            [self drawTargetWithMessage:@"Click to swap source pane with this one"];
-            return;
-        case SplitSelectionViewModeInspect:
-            [self drawInspectWithMessage:@"Click to inspect" rect:dirtyRect];
-            return;
+    case SplitSelectionViewModeSourceMove:
+        [self drawSourceWithMessage:@"Select a destination pane" rect:dirtyRect];
+        return;
+    case SplitSelectionViewModeSourceSwap:
+        [self drawSourceWithMessage:@"Select pane to swap with" rect:dirtyRect];
+        return;
+    case SplitSelectionViewModeTargetMove:
+        [self drawTargetWithMessage:@"Click to move source pane to this split"];
+        return;
+    case SplitSelectionViewModeTargetSwap:
+        [self drawTargetWithMessage:@"Click to swap source pane with this one"];
+        return;
+    case SplitSelectionViewModeInspect:
+        [self drawInspectWithMessage:@"Click to inspect" rect:dirtyRect];
+        return;
     }
 }
 
@@ -142,31 +142,31 @@
     NSRect clearRect;
     NSRect rect = [self frame];
     switch (half_) {
-        case kNoHalf:
-            highlightRect = NSZeroRect;
-            clearRect = rect;
-            break;
+    case kNoHalf:
+        highlightRect = NSZeroRect;
+        clearRect = rect;
+        break;
 
-        case kSouthHalf:
-            NSDivideRect([self frame], &highlightRect, &clearRect, rect.size.height / 2, NSMinYEdge);
-            break;
+    case kSouthHalf:
+        NSDivideRect([self frame], &highlightRect, &clearRect, rect.size.height / 2, NSMinYEdge);
+        break;
 
-        case kNorthHalf:
-            NSDivideRect([self frame], &highlightRect, &clearRect, rect.size.height / 2, NSMaxYEdge);
-            break;
+    case kNorthHalf:
+        NSDivideRect([self frame], &highlightRect, &clearRect, rect.size.height / 2, NSMaxYEdge);
+        break;
 
-        case kWestHalf:
-            NSDivideRect([self frame], &highlightRect, &clearRect, rect.size.width / 2, NSMinXEdge);
-            break;
+    case kWestHalf:
+        NSDivideRect([self frame], &highlightRect, &clearRect, rect.size.width / 2, NSMinXEdge);
+        break;
 
-        case kEastHalf:
-            NSDivideRect([self frame], &highlightRect, &clearRect, rect.size.width / 2, NSMaxXEdge);
-            break;
+    case kEastHalf:
+        NSDivideRect([self frame], &highlightRect, &clearRect, rect.size.width / 2, NSMaxXEdge);
+        break;
 
-        case kFullPane:
-            highlightRect = [self frame];
-            clearRect = NSZeroRect;
-            break;
+    case kFullPane:
+        highlightRect = [self frame];
+        clearRect = NSZeroRect;
+        break;
     }
 
     [[NSColor colorWithCalibratedRed:0.5 green:0 blue:0 alpha:1] set];
@@ -219,16 +219,16 @@
 - (void)updateAtPoint:(NSPoint)point
 {
     switch (_mode) {
-        case SplitSelectionViewModeTargetSwap:
-        case SplitSelectionViewModeSourceSwap:
-        case SplitSelectionViewModeInspect:
-            half_ = kFullPane;
-            [self setNeedsDisplay:YES];
-            return;
+    case SplitSelectionViewModeTargetSwap:
+    case SplitSelectionViewModeSourceSwap:
+    case SplitSelectionViewModeInspect:
+        half_ = kFullPane;
+        [self setNeedsDisplay:YES];
+        return;
 
-        case SplitSelectionViewModeTargetMove:
-        case SplitSelectionViewModeSourceMove:
-            break;
+    case SplitSelectionViewModeTargetMove:
+    case SplitSelectionViewModeSourceMove:
+        break;
     }
     SplitSessionHalf possibilities[4];
     CGFloat scores[4];
@@ -258,8 +258,8 @@
     }
 
     if (half_ != possibilities[bestIndex] && minScore < 0.4) {
-      half_ = possibilities[bestIndex];
-      [self setNeedsDisplay:YES];
+        half_ = possibilities[bestIndex];
+        [self setNeedsDisplay:YES];
     }
 }
 

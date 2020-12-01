@@ -49,7 +49,7 @@ extern NSString *const kCoprocessStatusChangeNotification;
 - (void)unlock;
 
 - (void)pipeDidBreakForExternalProcessID:(pid_t)pid
-                                  status:(int)status;
+    status:(int)status;
 
 void UnblockTaskNotifier(void);
 

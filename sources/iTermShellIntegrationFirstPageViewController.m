@@ -21,20 +21,20 @@ static NSString *const iTermShellIntegrationInstallUtilitiesUserDefaultsKey = @"
 }
 
 - (NSAttributedString *)attributedStringWithFont:(NSFont *)font
-                                          string:(NSString *)string {
-    NSDictionary *attributes = @{ NSFontAttributeName: font };
+    string:(NSString *)string {
+    NSDictionary *attributes = @ { NSFontAttributeName: font };
     return [[NSAttributedString alloc] initWithString:string attributes:attributes];
 }
 
 - (NSAttributedString *)attributedStringWithLinkToURL:(NSURL *)url title:(NSString *)title {
-    NSDictionary *linkAttributes = @{ NSLinkAttributeName: url };
+    NSDictionary *linkAttributes = @ { NSLinkAttributeName: url };
     NSString *localizedTitle = title;
     return [[NSAttributedString alloc] initWithString:localizedTitle
-                                           attributes:linkAttributes];
+                                       attributes:linkAttributes];
 }
 
 - (void)appendLearnMoreToAttributedString:(NSMutableAttributedString *)attributedString
-                                      url:(NSURL *)url {
+    url:(NSURL *)url {
     [attributedString appendAttributedString:[self attributedStringWithLinkToURL:url title:@"Learn more."]];
 }
 
@@ -45,15 +45,15 @@ static NSString *const iTermShellIntegrationInstallUtilitiesUserDefaultsKey = @"
 
     NSMutableAttributedString *attributedString;
     attributedString = [[self attributedStringWithFont:_descriptionLabel.font
-                                                string:_descriptionLabel.stringValue] mutableCopy];
+                         string:_descriptionLabel.stringValue] mutableCopy];
     [self appendLearnMoreToAttributedString:attributedString
-                                        url:[NSURL URLWithString:@"https://iterm2.com/documentation-shell-integration.html"]];
+          url:[NSURL URLWithString:@"https://iterm2.com/documentation-shell-integration.html"]];
     _descriptionLabel.attributedStringValue = attributedString;
-    
+
     attributedString = [[self attributedStringWithFont:_utilitiesLabel.font
-                                                string:_utilitiesLabel.stringValue] mutableCopy];
+                         string:_utilitiesLabel.stringValue] mutableCopy];
     [self appendLearnMoreToAttributedString:attributedString
-                                        url:[NSURL URLWithString:@"https://www.iterm2.com/documentation-utilities.html"]];
+          url:[NSURL URLWithString:@"https://www.iterm2.com/documentation-utilities.html"]];
     _utilitiesLabel.attributedStringValue = attributedString;
 }
 

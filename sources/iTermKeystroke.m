@@ -17,10 +17,10 @@
 + (instancetype)backspace {
     static iTermKeystroke *backspace;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         backspace = [[iTermKeystroke alloc] initWithVirtualKeyCode:kVK_Delete
-                                                     modifierFlags:0
-                                                         character:0x7f];
+                                            modifierFlags:0
+                                            character:0x7f];
     });
     return backspace;
 }
@@ -29,12 +29,12 @@
     NSString *unmodkeystr = [event charactersIgnoringModifiers];
     const unichar unmodunicode = [unmodkeystr length] > 0 ? [unmodkeystr characterAtIndex:0] : 0;
     return [[self alloc] initWithVirtualKeyCode:event.keyCode
-                                  modifierFlags:event.it_modifierFlags
-                                      character:unmodunicode];
+                         modifierFlags:event.it_modifierFlags
+                         character:unmodunicode];
 }
 
 + (instancetype)withCharacter:(unichar)character
-                modifierFlags:(NSEventModifierFlags)modifierFlags {
+    modifierFlags:(NSEventModifierFlags)modifierFlags {
     return [[self alloc] initWithVirtualKeyCode:0 modifierFlags:modifierFlags character:character];
 }
 
@@ -57,8 +57,8 @@
         unsigned int virtualKeyCode = 0;
         if (sscanf(string.UTF8String, "%x-%llx-%x", &character, &flags, &virtualKeyCode) == 3) {
             return [self initWithVirtualKeyCode:virtualKeyCode
-                                  modifierFlags:flags
-                                      character:character];
+                         modifierFlags:flags
+                         character:character];
         }
     }
     {
@@ -72,8 +72,8 @@
 }
 
 - (instancetype)initWithVirtualKeyCode:(int)virtualKeyCode
-                         modifierFlags:(NSEventModifierFlags)modifierFlags
-                             character:(unsigned int)character {
+    modifierFlags:(NSEventModifierFlags)modifierFlags
+    character:(unsigned int)character {
     self = [super init];
     if (self) {
         _virtualKeyCode = virtualKeyCode;
@@ -99,8 +99,8 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p char=%@ (%C) flags=0x%llx>",
-            NSStringFromClass(self.class), self, @(self.character), (unichar)self.character,
-            (unsigned long long)self.modifierFlags];
+                     NSStringFromClass(self.class), self, @(self.character), (unichar)self.character,
+                     (unsigned long long)self.modifierFlags];
 }
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -113,7 +113,7 @@
 }
 - (NSString *)serialized {
     return [NSString stringWithFormat: @"0x%x-0x%llx-0x%x",
-            self.character, (unsigned long long)self.modifierFlags, self.virtualKeyCode];
+                     self.character, (unsigned long long)self.modifierFlags, self.virtualKeyCode];
 }
 
 - (NSString *)keyInBindingDictionary:(NSDictionary<NSString *, NSDictionary *> *)dict {
@@ -204,22 +204,22 @@
 
 - (NSDictionary<iTermKeystroke *, id> *)it_withDeserializedKeystrokeKeys {
     return [self mapKeysWithBlock:^iTermKeystroke *(NSString * serialized, id object) {
-        return [[iTermKeystroke alloc] initWithSerialized:serialized];
-    }];
+             return [[iTermKeystroke alloc] initWithSerialized:serialized];
+         }];
 }
 
 - (NSDictionary *)it_withSerializedKeystrokeKeys {
     return [self mapKeysWithBlock:^NSString *(iTermKeystroke *key, id object) {
-        return key.serialized;
-    }];
+             return key.serialized;
+         }];
 }
 
 - (NSDictionary *)it_dictionaryByMergingSerializedKeystrokeKeyedDictionary:(NSDictionary *)other {
     NSMutableDictionary *temp = [self mutableCopy];
 
     [other enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull serialized, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        iTermKeystroke *keystroke = [[iTermKeystroke alloc] initWithSerialized:serialized];
-        while (1) {
+              iTermKeystroke *keystroke = [[iTermKeystroke alloc] initWithSerialized:serialized];
+              while (1) {
             id keyToRemove = [keystroke keyInBindingDictionary:temp];
             if (!keyToRemove) {
                 break;

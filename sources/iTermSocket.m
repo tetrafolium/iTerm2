@@ -23,7 +23,7 @@
 }
 
 - (instancetype)initWithAddressFamily:(int)addressFamily
-                           socketType:(int)socketType {
+    socketType:(int)socketType {
     self = [super init];
     if (self) {
         _addressFamily = addressFamily;
@@ -82,7 +82,7 @@
     _acceptQueue = dispatch_queue_create("com.iterm2.accept", NULL);
 
     int fd = _fd;
-    dispatch_async(_acceptQueue, ^{
+    dispatch_async(_acceptQueue, ^ {
         while (1) {
             @autoreleasepool {
                 uid_t euid = (uid_t)-1;

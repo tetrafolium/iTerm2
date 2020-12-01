@@ -51,10 +51,10 @@
     if (reset) {
         NSDictionary *abEntry = [session originalProfile];
         [frontTerminal sessionInitiatedResize:session
-                                        width:MIN(iTermMaxInitialSessionSize,
-                                                  [[abEntry objectForKey:KEY_COLUMNS] intValue])
-                                       height:MIN(iTermMaxInitialSessionSize,
-                                                  [[abEntry objectForKey:KEY_ROWS] intValue])];
+                       width:MIN(iTermMaxInitialSessionSize,
+                                 [[abEntry objectForKey:KEY_COLUMNS] intValue])
+                       height:MIN(iTermMaxInitialSessionSize,
+                                  [[abEntry objectForKey:KEY_ROWS] intValue])];
     }
 }
 
@@ -97,22 +97,22 @@
             NSString *fontDesc = profile[KEY_NORMAL_FONT];
             NSFont *font = [[ITAddressBookMgr fontWithDesc:fontDesc] it_fontByAddingToPointSize:delta];
             profile[KEY_NORMAL_FONT] = font.stringValue;
-            
+
             fontDesc = profile[KEY_NON_ASCII_FONT];
             font = [[ITAddressBookMgr fontWithDesc:fontDesc] it_fontByAddingToPointSize:delta];
             profile[KEY_NON_ASCII_FONT] = font.stringValue;
-            
+
             [[ProfileModel sharedInstance] setBookmark:profile withGuid:guid];
         }
     }
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:kReloadAllProfiles
-                                                        object:nil
-                                                      userInfo:nil];
-    
+                                          object:nil
+                                          userInfo:nil];
+
     // Update user defaults
     [[NSUserDefaults standardUserDefaults] setObject:[[ProfileModel sharedInstance] rawData]
-                                              forKey: @"New Bookmarks"];
+                                           forKey: @"New Bookmarks"];
 }
 
 @end

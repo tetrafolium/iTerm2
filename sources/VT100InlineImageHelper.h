@@ -20,12 +20,12 @@ typedef NS_ENUM(NSInteger, VT100TerminalUnits) {
 
 @protocol VT100InlineImageHelperDelegate<NSObject>
 - (void)inlineImageConfirmBigDownloadWithBeforeSize:(NSInteger)lengthBefore
-                                          afterSize:(NSInteger)lengthAfter
-                                               name:(NSString *)name;
+    afterSize:(NSInteger)lengthAfter
+    name:(NSString *)name;
 - (NSSize)inlineImageCellSize;
 - (void)inlineImageAppendLinefeed;
 - (void)inlineImageSetMarkOnScreenLine:(NSInteger)line
-                                  code:(unichar)code;
+    code:(unichar)code;
 
 @end
 
@@ -36,21 +36,21 @@ typedef NS_ENUM(NSInteger, VT100TerminalUnits) {
 @property (nonatomic, weak) id<VT100InlineImageHelperDelegate> delegate;
 
 - (instancetype)initWithName:(NSString *)name
-                       width:(int)width
-                  widthUnits:(VT100TerminalUnits)widthUnits
-                      height:(int)height
-                 heightUnits:(VT100TerminalUnits)heightUnits
-                 scaleFactor:(CGFloat)scaleFactor
-         preserveAspectRatio:(BOOL)preserveAspectRatio
-                       inset:(NSEdgeInsets)inset
-                preconfirmed:(BOOL)preconfirmed;
+    width:(int)width
+    widthUnits:(VT100TerminalUnits)widthUnits
+    height:(int)height
+    heightUnits:(VT100TerminalUnits)heightUnits
+    scaleFactor:(CGFloat)scaleFactor
+    preserveAspectRatio:(BOOL)preserveAspectRatio
+    inset:(NSEdgeInsets)inset
+    preconfirmed:(BOOL)preconfirmed;
 
 - (instancetype)initWithSixelData:(NSData *)data
-                      scaleFactor:(CGFloat)scaleFactor;
+    scaleFactor:(CGFloat)scaleFactor;
 
 - (instancetype)initWithNativeImageNamed:(NSString *)name
-                           spanningWidth:(int)width
-                             scaleFactor:(CGFloat)scaleFactor;
+    spanningWidth:(int)width
+    scaleFactor:(CGFloat)scaleFactor;
 
 - (instancetype)init NS_UNAVAILABLE;
 

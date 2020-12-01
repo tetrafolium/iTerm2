@@ -27,7 +27,7 @@ typedef NS_OPTIONS(int, kTmuxGatewayCommandOptions) {
 
 extern NSString * const kTmuxGatewayErrorDomain;
 
-@interface iTermTmuxSubscriptionHandle: NSObject
+@interface iTermTmuxSubscriptionHandle : NSObject
 @property (nonatomic, readonly) BOOL isValid;
 @end
 
@@ -35,9 +35,9 @@ extern NSString * const kTmuxGatewayErrorDomain;
 
 - (TmuxController *)tmuxController;
 - (BOOL)tmuxUpdateLayoutForWindow:(int)windowId
-                           layout:(NSString *)layout
-                           zoomed:(NSNumber *)zoomed
-                             only:(BOOL)only;
+    layout:(NSString *)layout
+    zoomed:(NSNumber *)zoomed
+    only:(BOOL)only;
 - (void)tmuxWindowAddedWithId:(int)windowId;
 - (void)tmuxWindowClosedWithId:(int)windowId;
 - (void)tmuxWindowRenamedWithId:(int)windowId to:(NSString *)newName;
@@ -45,7 +45,7 @@ extern NSString * const kTmuxGatewayErrorDomain;
 - (void)tmuxWriteString:(NSString *)string;
 - (void)tmuxReadTask:(NSData *)data windowPane:(int)wp latency:(NSNumber *)latency;
 - (void)tmuxSessionChanged:(NSString *)sessionName
-				 sessionId:(int)sessionId;
+    sessionId:(int)sessionId;
 - (void)tmuxSessionsChanged;
 - (void)tmuxWindowsDidChange;
 - (void)tmuxSession:(int)sessionId renamed:(NSString *)newName;
@@ -97,15 +97,15 @@ typedef NS_ENUM(NSInteger, ControlCommand) {
 - (void)executeToken:(VT100Token *)token;
 
 - (void)sendCommand:(NSString *)command
-     responseTarget:(id)target
-   responseSelector:(SEL)selector;
+    responseTarget:(id)target
+    responseSelector:(SEL)selector;
 
 // flags is one of the kTmuxGateway... constants.
 - (void)sendCommand:(NSString *)command
-     responseTarget:(id)target
-   responseSelector:(SEL)selector
-     responseObject:(id)obj
-              flags:(int)flags;
+    responseTarget:(id)target
+    responseSelector:(SEL)selector
+    responseObject:(id)obj
+    flags:(int)flags;
 
 - (void)sendCommandList:(NSArray *)commandDicts;
 // Set initial to YES when notifications should be accepted after the last
@@ -117,10 +117,10 @@ typedef NS_ENUM(NSInteger, ControlCommand) {
 // Use this to compose a command list for sendCommandList:.
 // flags is one of the kTmuxGateway... constants.
 - (NSDictionary *)dictionaryForCommand:(NSString *)command
-                        responseTarget:(id)target
-                      responseSelector:(SEL)selector
-                        responseObject:(id)obj
-                                 flags:(int)flags;
+    responseTarget:(id)target
+    responseSelector:(SEL)selector
+    responseObject:(id)obj
+    flags:(int)flags;
 
 - (void)sendKeys:(NSString *)string toWindowPane:(int)windowPane;
 - (void)detach;
@@ -129,8 +129,8 @@ typedef NS_ENUM(NSInteger, ControlCommand) {
 - (BOOL)havePendingCommandEqualTo:(NSString *)command;
 
 - (iTermTmuxSubscriptionHandle *)subscribeToFormat:(NSString *)format
-                                            target:(NSString *)target
-                                             block:(void (^)(NSString *, NSArray<NSString *> *))block;
+    target:(NSString *)target
+    block:(void (^)(NSString *, NSArray<NSString *> *))block;
 - (void)unsubscribe:(iTermTmuxSubscriptionHandle *)handle;
 
 @end

@@ -34,41 +34,41 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol iTermContextMenuHelperDelegate<NSObject>
 - (NSPoint)contextMenu:(iTermTextViewContextMenuHelper *)contextMenu
-            clickPoint:(NSEvent *)event
-allowRightMarginOverflow:(BOOL)allowRightMarginOverflow;
+    clickPoint:(NSEvent *)event
+    allowRightMarginOverflow:(BOOL)allowRightMarginOverflow;
 
 - (NSString *)contextMenuSelectedText:(iTermTextViewContextMenuHelper *)contextMenu
-                               capped:(int)maxBytes;
+    capped:(int)maxBytes;
 
 - (VT100ScreenMark *)contextMenu:(iTermTextViewContextMenuHelper *)contextMenu
-                      markOnLine:(int)line;
+    markOnLine:(int)line;
 
 - (NSString *)contextMenu:(iTermTextViewContextMenuHelper *)contextMenu
-   workingDirectoryOnLine:(int)line;
+    workingDirectoryOnLine:(int)line;
 
 - (nullable iTermImageInfo *)contextMenu:(iTermTextViewContextMenuHelper *)contextMenu
-                        imageInfoAtCoord:(VT100GridCoord)coord;
+    imageInfoAtCoord:(VT100GridCoord)coord;
 
 - (long long)contextMenuTotalScrollbackOverflow:(iTermTextViewContextMenuHelper *)contextMenu;
 
 - (iTermSelection *)contextMenuSelection:(iTermTextViewContextMenuHelper *)contextMenu;
 - (void)contextMenu:(iTermTextViewContextMenuHelper *)contextMenu
-       setSelection:(iTermSelection *)newSelection;
+    setSelection:(iTermSelection *)newSelection;
 
 - (BOOL)contextMenuSelectionIsShort:(iTermTextViewContextMenuHelper *)contextMenu;
 
 - (iTermTextExtractor *)contextMenuTextExtractor:(iTermTextViewContextMenuHelper *)contextMenu;
 
 - (BOOL)contextMenu:(iTermTextViewContextMenuHelper *)contextMenu
-  withRelativeCoord:(VT100GridAbsCoord)coord
-              block:(void (^ NS_NOESCAPE)(VT100GridCoord coord))block;
+    withRelativeCoord:(VT100GridAbsCoord)coord
+    block:(void (^ NS_NOESCAPE)(VT100GridCoord coord))block;
 - (BOOL)contextMenu:(iTermTextViewContextMenuHelper *)contextMenu
-withRelativeCoordRange:(VT100GridAbsCoordRange)range
-              block:(void (^ NS_NOESCAPE)(VT100GridCoordRange))block;
+    withRelativeCoordRange:(VT100GridAbsCoordRange)range
+    block:(void (^ NS_NOESCAPE)(VT100GridCoordRange))block;
 
 - (nullable SCPPath *)contextMenu:(iTermTextViewContextMenuHelper *)contextMenu
-                   scpPathForFile:(NSString *)file
-                           onLine:(int)line;
+    scpPathForFile:(NSString *)file
+    onLine:(int)line;
 
 - (NSArray<NSDictionary *> *)contextMenuSmartSelectionRules:(iTermTextViewContextMenuHelper *)contextMenu;
 - (void)contextMenuSplitVertically:(iTermTextViewContextMenuHelper *)contextMenu;
@@ -79,9 +79,9 @@ withRelativeCoordRange:(VT100GridAbsCoordRange)range
 - (void)contextMenuClearBuffer:(iTermTextViewContextMenuHelper *)contextMenu;
 - (void)contextMenuAddAnnotation:(iTermTextViewContextMenuHelper *)contextMenu;
 - (BOOL)contextMenu:(iTermTextViewContextMenuHelper *)contextMenu
-hasOpenAnnotationInRange:(VT100GridCoordRange)coordRange;
+    hasOpenAnnotationInRange:(VT100GridCoordRange)coordRange;
 - (void)contextMenuRevealAnnotations:(iTermTextViewContextMenuHelper *)contextMenu
-                                  at:(VT100GridCoord)coord;
+    at:(VT100GridCoord)coord;
 - (void)contextMenuEditSession:(iTermTextViewContextMenuHelper *)contextMenu;
 - (void)contextMenuToggleBroadcastingInput:(iTermTextViewContextMenuHelper *)contextMenu;
 - (BOOL)contextMenuHasCoprocess:(iTermTextViewContextMenuHelper *)contextMenu;
@@ -93,31 +93,31 @@ hasOpenAnnotationInRange:(VT100GridCoordRange)coordRange;
 - (void)contextMenuBurySession:(iTermTextViewContextMenuHelper *)contextMenu;
 - (void)contextMenu:(iTermTextViewContextMenuHelper *)contextMenu amend:(NSMenu *)menu;
 - (NSControlStateValue)contextMenu:(iTermTextViewContextMenuHelper *)contextMenu
-     terminalStateForMenuItem:(NSMenuItem *)item;
+    terminalStateForMenuItem:(NSMenuItem *)item;
 - (void)contextMenu:(iTermTextViewContextMenuHelper *)contextMenu
-toggleTerminalStateForMenuItem:(NSMenuItem *)item;
+    toggleTerminalStateForMenuItem:(NSMenuItem *)item;
 - (void)contextMenuResetTerminal:(iTermTextViewContextMenuHelper *)contextMenu;
 - (void)contextMenu:(iTermTextViewContextMenuHelper *)contextMenu addContextMenuItems:(NSMenu *)theMenu;
 - (VT100RemoteHost *)contextMenu:(iTermTextViewContextMenuHelper *)contextMenu remoteHostOnLine:(int)line;
 - (void)contextMenu:(iTermTextViewContextMenuHelper *)contextMenu insertText:(NSString *)text;
 - (BOOL)contextMenu:(iTermTextViewContextMenuHelper *)contextMenu hasOutputForCommandMark:(VT100ScreenMark *)commandMark;
 - (VT100GridCoordRange)contextMenu:(iTermTextViewContextMenuHelper *)contextMenu
-       rangeOfOutputForCommandMark:(VT100ScreenMark *)mark;
+    rangeOfOutputForCommandMark:(VT100ScreenMark *)mark;
 - (void)contextMenuCopySelectionAccordingToUserPreferences:(iTermTextViewContextMenuHelper *)contextMenu;
 - (void)contextMenu:(iTermTextViewContextMenuHelper *)contextMenu
- runCommandInWindow:(NSString *)command;
+    runCommandInWindow:(NSString *)command;
 - (void)contextMenu:(iTermTextViewContextMenuHelper *)contextMenu
-runCommandInBackground:(NSString *)command;
+    runCommandInBackground:(NSString *)command;
 - (void)contextMenu:(iTermTextViewContextMenuHelper *)contextMenu
-       runCoprocess:(NSString *)command;
+    runCoprocess:(NSString *)command;
 - (void)contextMenu:(iTermTextViewContextMenuHelper *)contextMenu
-            openURL:(NSURL *)url;
+    openURL:(NSURL *)url;
 - (NSView *)contextMenuViewForMenu:(iTermTextViewContextMenuHelper *)contextMenu;
 - (iTermVariableScope *)contextMenuSessionScope:(iTermTextViewContextMenuHelper *)contextMenu;
 - (void)contextMenu:(iTermTextViewContextMenuHelper *)contextMenu
-         invocation:(NSString *)invocation
+    invocation:(NSString *)invocation
     failedWithError:(NSError *)error
-        forMenuItem:(NSString *)title;
+    forMenuItem:(NSString *)title;
 
 - (void)contextMenu:(iTermTextViewContextMenuHelper *)contextMenu saveImage:(iTermImageInfo *)image;
 - (void)contextMenu:(iTermTextViewContextMenuHelper *)contextMenu copyImage:(iTermImageInfo *)image;

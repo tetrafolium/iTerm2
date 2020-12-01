@@ -17,10 +17,10 @@ NSString *const iTermStatusBarComponentKnobMinimumWidthKey = @"_minimumWidth";
 @implementation iTermStatusBarComponentKnob
 
 - (instancetype)initWithLabelText:(nullable NSString *)labelText
-                             type:(iTermStatusBarComponentKnobType)type
-                      placeholder:(nullable NSString *)placeholder
-                     defaultValue:(nullable id)defaultValue
-                              key:(NSString *)key {
+    type:(iTermStatusBarComponentKnobType)type
+    placeholder:(nullable NSString *)placeholder
+    defaultValue:(nullable id)defaultValue
+    key:(NSString *)key {
     self = [super init];
     if (self) {
         _labelText = [labelText copy];

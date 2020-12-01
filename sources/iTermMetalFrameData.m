@@ -126,8 +126,8 @@ static NSInteger gNextFrameDataNumber;
 #if ENABLE_STATS
         iTermMetalFrameDataStatsBundleInitialize(_stats);
         _statHistograms = [[NSArray sequenceWithRange:NSMakeRange(0, iTermMetalFrameDataStatCount)] mapWithBlock:^id(NSNumber *anObject) {
-            return [[iTermHistogram alloc] init];
-        }];
+                                                                                     return [[iTermHistogram alloc] init];
+                                                                                 }];
         iTermPreciseTimerStatsStartTimer(&_stats[iTermMetalFrameDataStatEndToEnd]);
         iTermPreciseTimerStatsStartTimer(&_stats[iTermMetalFrameDataStatCPU]);
         iTermPreciseTimerStatsStartTimer(&_stats[iTermMetalFrameDataStatMainQueueTotal]);
@@ -140,12 +140,12 @@ static NSInteger gNextFrameDataNumber;
 - (NSString *)description {
     NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
     return [NSString stringWithFormat:@"<%@: %p age=%f frameNumber=%@/%@ status=%@>",
-            self.class,
-            self,
-            now - _creation,
-            @(_frameNumber),
-            @(gNextFrameDataNumber),
-            self.status];
+                     self.class,
+                     self,
+                     now - _creation,
+                     @(_frameNumber),
+                     @(gNextFrameDataNumber),
+                     self.status];
 }
 
 - (void)setRenderPassDescriptor:(MTLRenderPassDescriptor *)renderPassDescriptor {
@@ -158,7 +158,7 @@ static NSInteger gNextFrameDataNumber;
         block();
         return 0;
     }
-    
+
 #if ENABLE_STATS
     self.status = [NSString stringWithUTF8String:_stats[stat].name];
     iTermPreciseTimerStatsStartTimer(&_stats[stat]);
@@ -191,7 +191,7 @@ static NSInteger gNextFrameDataNumber;
 
     iTermPreciseTimerStatsStartTimer(&_stats[iTermMetalFrameDataStatDispatchToPrivateQueue]);
 #endif
-    dispatch_async(queue, ^{
+    dispatch_async(queue, ^ {
 #if ENABLE_STATS
         iTermPreciseTimerStatsStartTimer(&self->_stats[iTermMetalFrameDataStatPrivateQueueTotal]);
         const double duration = iTermPreciseTimerStatsMeasureAndRecordTimer(&self->_stats[iTermMetalFrameDataStatDispatchToPrivateQueue]);
@@ -205,7 +205,7 @@ static NSInteger gNextFrameDataNumber;
 #if ENABLE_STATS
     iTermPreciseTimerStatsStartTimer(&_stats[iTermMetalFrameDataStatDispatchToMainQueue]);
 #endif
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
 #if ENABLE_STATS
         const double duration = iTermPreciseTimerStatsMeasureAndRecordTimer(&self->_stats[iTermMetalFrameDataStatDispatchToMainQueue]);
         [self->_statHistograms[iTermMetalFrameDataStatDispatchToMainQueue] addValue:duration * 1000];
@@ -219,7 +219,7 @@ static NSInteger gNextFrameDataNumber;
 #if ENABLE_STATS
     iTermPreciseTimerStatsStartTimer(&_stats[iTermMetalFrameDataStatDispatchToPrivateQueueForCompletion]);
 #endif
-    dispatch_async(queue, ^{
+    dispatch_async(queue, ^ {
         self.status = @"completion handler on private queue";
 #if ENABLE_STATS
         const double duration = iTermPreciseTimerStatsMeasureAndRecordTimer(&self->_stats[iTermMetalFrameDataStatDispatchToPrivateQueueForCompletion]);
@@ -243,38 +243,38 @@ static NSInteger gNextFrameDataNumber;
 }
 
 - (void)updateRenderEncoderWithRenderPassDescriptor:(MTLRenderPassDescriptor *)renderPassDescriptor
-                                               stat:(iTermMetalFrameDataStat)stat
-                                              label:(NSString *)label {
-    [self measureTimeForStat:stat ofBlock:^{
-        self.renderEncoder = [self newRenderEncoderWithDescriptor:renderPassDescriptor
-                                                    commandBuffer:self.commandBuffer
-                                                     viewportSize:self.viewportSize
-                                                            label:label];
-    }];
+    stat:(iTermMetalFrameDataStat)stat
+    label:(NSString *)label {
+    [self measureTimeForStat:stat ofBlock:^ {
+             self.renderEncoder = [self newRenderEncoderWithDescriptor:renderPassDescriptor
+                              commandBuffer:self.commandBuffer
+                              viewportSize:self.viewportSize
+                              label:label];
+         }];
 }
 
 - (id<MTLRenderCommandEncoder>)newRenderEncoderWithDescriptor:(MTLRenderPassDescriptor *)renderPassDescriptor
-                                                commandBuffer:(id<MTLCommandBuffer>)commandBuffer
-                                                 viewportSize:(vector_uint2)viewportSize
-                                                        label:(NSString *)label {
+    commandBuffer:(id<MTLCommandBuffer>)commandBuffer
+    viewportSize:(vector_uint2)viewportSize
+    label:(NSString *)label {
     id<MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
     renderEncoder.label = label;
 
     // Set the region of the drawable to which we'll draw.
     MTLViewport viewport = {
         -(double)viewportSize.x,
-        0.0,
-        viewportSize.x * 2,
-        viewportSize.y * 2,
-        0.0,
-        1.0
-    };
+            0.0,
+            viewportSize.x * 2,
+            viewportSize.y * 2,
+            0.0,
+            1.0
+        };
     [renderEncoder setViewport:viewport];
     return renderEncoder;
 }
 
 - (MTLRenderPassDescriptor *)newRenderPassDescriptorWithLabel:(NSString *)label
-                                                         fast:(BOOL)fast {
+    fast:(BOOL)fast {
     MTLRenderPassDescriptor *renderPassDescriptor = [MTLRenderPassDescriptor renderPassDescriptor];
     MTLRenderPassColorAttachmentDescriptor *colorAttachment = renderPassDescriptor.colorAttachments[0];
     colorAttachment.storeAction = MTLStoreActionStore;
@@ -303,9 +303,9 @@ static NSInteger gNextFrameDataNumber;
     if (!colorAttachment.texture) {
         // Allocate a new texture.
         MTLTextureDescriptor *textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatBGRA8Unorm
-                                                                                                     width:self.viewportSize.x
-                                                                                                    height:self.viewportSize.y
-                                                                                                 mipmapped:NO];
+                                     width:self.viewportSize.x
+                                     height:self.viewportSize.y
+                                     mipmapped:NO];
         if (fast) {
             textureDescriptor.usage = (MTLTextureUsageShaderRead | MTLTextureUsageRenderTarget);
         } else {
@@ -316,9 +316,9 @@ static NSInteger gNextFrameDataNumber;
         }
         colorAttachment.texture = [self.device newTextureWithDescriptor:textureDescriptor];
         [iTermTexture setBytesPerRow:self.viewportSize.x * 4
-                         rawDataSize:self.viewportSize.x * self.viewportSize.y * 4
-                     samplesPerPixel:4
-                          forTexture:colorAttachment.texture];
+                      rawDataSize:self.viewportSize.x * self.viewportSize.y * 4
+                      samplesPerPixel:4
+                      forTexture:colorAttachment.texture];
         colorAttachment.texture.label = label;
         if (fast) {
             [self.fullSizeTexturePool stampTextureWithGeneration:colorAttachment.texture];
@@ -332,30 +332,30 @@ static NSInteger gNextFrameDataNumber;
 }
 
 - (void)createIntermediateRenderPassDescriptor {
-    [self measureTimeForStat:iTermMetalFrameDataStatPqCreateIntermediate ofBlock:^{
-        assert(!self.intermediateRenderPassDescriptor);
+    [self measureTimeForStat:iTermMetalFrameDataStatPqCreateIntermediate ofBlock:^ {
+             assert(!self.intermediateRenderPassDescriptor);
 
         self.intermediateRenderPassDescriptor = [self newRenderPassDescriptorWithLabel:@"Intermediate Texture"
-                                                                                  fast:YES];
+                     fast:YES];
 
         [self->_debugInfo setIntermediateRenderPassDescriptor:self.intermediateRenderPassDescriptor];
     }];
 }
 
 - (void)createTemporaryRenderPassDescriptor {
-    [self measureTimeForStat:iTermMetalFrameDataStatPqCreateTemporary ofBlock:^{
-        assert(!self.temporaryRenderPassDescriptor);
+    [self measureTimeForStat:iTermMetalFrameDataStatPqCreateTemporary ofBlock:^ {
+             assert(!self.temporaryRenderPassDescriptor);
 
         self.temporaryRenderPassDescriptor = [self newRenderPassDescriptorWithLabel:@"Temporary Texture"
-                                                                               fast:YES];
+                                                   fast:YES];
 
         [self->_debugInfo setTemporaryRenderPassDescriptor:self.temporaryRenderPassDescriptor];
     }];
 }
 
 - (void)didCompleteWithAggregateStats:(iTermPreciseTimerStats *)aggregateStats
-                           histograms:(NSArray<iTermHistogram *> *)aggregateHistograms
-                                owner:(NSString *)owner {
+    histograms:(NSArray<iTermHistogram *> *)aggregateHistograms
+    owner:(NSString *)owner {
     self.status = @"complete";
     if (self.intermediateRenderPassDescriptor) {
         [self.fullSizeTexturePool returnTexture:self.intermediateRenderPassDescriptor.colorAttachments[0].texture];
@@ -377,21 +377,21 @@ static NSInteger gNextFrameDataNumber;
     iTermPreciseTimerLogOneEvent(_stats, iTermMetalFrameDataStatCount, YES);
 
     [self.transientStates enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, __kindof iTermMetalRendererTransientState * _Nonnull tState, BOOL * _Nonnull stop) {
-        if ([tState numberOfStats] > 0) {
-            iTermPreciseTimerLogOneEvent([tState stats], [tState numberOfStats], YES);
-        }
-    }];
+                             if ([tState numberOfStats] > 0) {
+                                 iTermPreciseTimerLogOneEvent([tState stats], [tState numberOfStats], YES);
+                             }
+                         }];
 
     NSLog(@"%@", [_framePoolContext summaryStatisticsWithName:@"Frame"]);
     [self.transientStates enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, __kindof iTermMetalRendererTransientState * _Nonnull tState, BOOL * _Nonnull stop) {
-        NSLog(@"%@", [tState.poolContext summaryStatisticsWithName:NSStringFromClass([tState class])]);
-    }];
+                             NSLog(@"%@", [tState.poolContext summaryStatisticsWithName:NSStringFromClass([tState class])]);
+                         }];
 #endif
     [self mergeHistogram:_framePoolContext.histogram name:@"Global buffer sizes"];
     [self mergeHistogram:_framePoolContext.textureHistogram name:@"Global texture sizes"];
     [self mergeHistogram:_framePoolContext.wasteHistogram name:@"Global wasted space"];
     [self.transientStates enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, __kindof iTermMetalRendererTransientState * _Nonnull tState, BOOL * _Nonnull stop) {
-        [self mergeHistogram:tState.poolContext.histogram name:[NSString stringWithFormat:@"%@: buffer sizes", NSStringFromClass(tState.class)]];
+                             [self mergeHistogram:tState.poolContext.histogram name:[NSString stringWithFormat:@"%@: buffer sizes", NSStringFromClass(tState.class)]];
         [self mergeHistogram:tState.poolContext.textureHistogram name:[NSString stringWithFormat:@"%@: texture sizes", NSStringFromClass(tState.class)]];
         [self mergeHistogram:tState.poolContext.wasteHistogram name:[NSString stringWithFormat:@"%@: wasted space", NSStringFromClass(tState.class)]];
     }];
@@ -422,7 +422,7 @@ static NSInteger gNextFrameDataNumber;
         return;
     }
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         sHistograms = [[NSMutableDictionary alloc] init];
     });
     @synchronized(sHistograms) {
@@ -441,7 +441,7 @@ static NSInteger gNextFrameDataNumber;
     NSMutableString *result = [NSMutableString string];
     @synchronized(sHistograms) {
         [[sHistograms.allKeys sortedArrayUsingSelector:@selector(compare:)] enumerateObjectsUsingBlock:^(NSString * _Nonnull name, NSUInteger idx, BOOL * _Nonnull stop) {
-            iTermHistogram *histogram = sHistograms[name];
+                                                                               iTermHistogram *histogram = sHistograms[name];
             [result appendFormat:@"%@: %@\n", name, [histogram sparklines]];
         }];
     }
@@ -467,8 +467,8 @@ static NSInteger gNextFrameDataNumber;
 
 - (void)enqueueDrawCallsWithBlock:(void (^)(void))block {
 #if ENABLE_DISPATCH_TO_MAIN_QUEUE_FOR_ENQUEUEING_DRAW_CALLS
-    [self dispatchToMainQueueForDrawing:^{
-        block();
+    [self dispatchToMainQueueForDrawing:^ {
+             block();
         [self willHandOffToGPU];
     }];
 #else
@@ -480,14 +480,14 @@ static NSInteger gNextFrameDataNumber;
 - (iTermCellRenderConfiguration *)cellConfiguration {
     if (!_cellConfiguration) {
         _cellConfiguration = [[iTermCellRenderConfiguration alloc] initWithViewportSize:self.viewportSize
-                                                                                  scale:self.scale
-                                                                     hasBackgroundImage:self.hasBackgroundImage
-                                                                           extraMargins:self.extraMargins
-                                                                               cellSize:self.cellSize
-                                                                              glyphSize:self.glyphSize
-                                                                 cellSizeWithoutSpacing:self.cellSizeWithoutSpacing
-                                                                               gridSize:self.gridSize
-                                                                  usingIntermediatePass:(self.intermediateRenderPassDescriptor != nil)];
+                                                                   scale:self.scale
+                                                                   hasBackgroundImage:self.hasBackgroundImage
+                                                                   extraMargins:self.extraMargins
+                                                                   cellSize:self.cellSize
+                                                                   glyphSize:self.glyphSize
+                                                                   cellSizeWithoutSpacing:self.cellSizeWithoutSpacing
+                                                                   gridSize:self.gridSize
+                                                                   usingIntermediatePass:(self.intermediateRenderPassDescriptor != nil)];
     }
     return _cellConfiguration;
 }

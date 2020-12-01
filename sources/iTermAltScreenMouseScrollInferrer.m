@@ -45,37 +45,37 @@ typedef NS_ENUM(NSInteger, iTermAltScreenMouseScrollInferrerState) {
 
 - (void)keyDown:(NSEvent *)theEvent {
     switch (_state) {
-        case iTermAltScreenMouseScrollInferrerStateFrustration: {
-            unichar arrowKey = [self arrowKeyInEvent:theEvent];
-            if (arrowKey != NSDownArrowFunctionKey && arrowKey != NSUpArrowFunctionKey) {
-                self.state = iTermAltScreenMouseScrollInferrerStateInitial;
-            }
-            break;
+    case iTermAltScreenMouseScrollInferrerStateFrustration: {
+        unichar arrowKey = [self arrowKeyInEvent:theEvent];
+        if (arrowKey != NSDownArrowFunctionKey && arrowKey != NSUpArrowFunctionKey) {
+            self.state = iTermAltScreenMouseScrollInferrerStateInitial;
         }
+        break;
+    }
 
-        case iTermAltScreenMouseScrollInferrerStateInitial:
-            break;
+    case iTermAltScreenMouseScrollInferrerStateInitial:
+        break;
 
-        case iTermAltScreenMouseScrollInferrerStateScrolledDown: {
-            unichar arrowKey = [self arrowKeyInEvent:theEvent];
-            if (arrowKey == NSDownArrowFunctionKey || arrowKey == NSUpArrowFunctionKey) {
-                // User may have scrolled down and then pressed down arrow, or scrolled up +
-                // been annoyed + scrolled back down + pressed arrow key.
-                self.state = iTermAltScreenMouseScrollInferrerStateFrustration;
-            } else {
-                self.state = iTermAltScreenMouseScrollInferrerStateInitial;
-            }
-            break;
+    case iTermAltScreenMouseScrollInferrerStateScrolledDown: {
+        unichar arrowKey = [self arrowKeyInEvent:theEvent];
+        if (arrowKey == NSDownArrowFunctionKey || arrowKey == NSUpArrowFunctionKey) {
+            // User may have scrolled down and then pressed down arrow, or scrolled up +
+            // been annoyed + scrolled back down + pressed arrow key.
+            self.state = iTermAltScreenMouseScrollInferrerStateFrustration;
+        } else {
+            self.state = iTermAltScreenMouseScrollInferrerStateInitial;
         }
+        break;
+    }
 
-        case iTermAltScreenMouseScrollInferrerStateScrolledUp:
-            if ([self arrowKeyInEvent:theEvent] == NSUpArrowFunctionKey) {
-                // User scrolled up + was frustrated + pressed up arrow key.
-                self.state = iTermAltScreenMouseScrollInferrerStateFrustration;
-            } else {
-                self.state = iTermAltScreenMouseScrollInferrerStateInitial;
-            }
-            break;
+    case iTermAltScreenMouseScrollInferrerStateScrolledUp:
+        if ([self arrowKeyInEvent:theEvent] == NSUpArrowFunctionKey) {
+            // User scrolled up + was frustrated + pressed up arrow key.
+            self.state = iTermAltScreenMouseScrollInferrerStateFrustration;
+        } else {
+            self.state = iTermAltScreenMouseScrollInferrerStateInitial;
+        }
+        break;
     }
 }
 

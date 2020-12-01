@@ -71,7 +71,7 @@
     if ([self shouldModifyOtherKeysForEvent:event modifiedEvent:&event]) {
         [_modifyOther keyMapperSetEvent:event];
     } else {
-         [_standard keyMapperSetEvent:event];
+        [_standard keyMapperSetEvent:event];
     }
 }
 
@@ -112,7 +112,7 @@
 //
 // escPlus means that option is pressed and should send esc+.
 - (BOOL)shouldModifyOtherKeysForEvent:(NSEvent *)event
-                        modifiedEvent:(out NSEvent **)modifiedEvent {
+    modifiedEvent:(out NSEvent **)modifiedEvent {
     if (modifiedEvent) {
         *modifiedEvent = event;
     }
@@ -139,22 +139,22 @@
     unsigned short effectiveKeyCode = event.keyCode;
     NSString *effectiveCharacters = event.characters;
     if ((event.it_modifierFlags & NSEventModifierFlagControl) != 0 &&
-        event.keyCode == kVK_Delete) {
+            event.keyCode == kVK_Delete) {
         effectiveModifiers &= ~NSEventModifierFlagControl;
         effectiveKeyCode = kVK_ForwardDelete;
         unichar c[1] = { NSDeleteFunctionKey };
         effectiveCharacters = [NSString stringWithCharacters:c length:1];
         if (modifiedEvent) {
             *modifiedEvent = [NSEvent keyEventWithType:NSEventTypeKeyDown
-                                              location:event.locationInWindow
-                                         modifierFlags:effectiveModifiers | (event.it_modifierFlags & (~mask)) | NSEventModifierFlagFunction
-                                             timestamp:event.timestamp
-                                          windowNumber:event.windowNumber
-                                               context:nil
-                                            characters:effectiveCharacters
-                           charactersIgnoringModifiers:effectiveCharacters
-                                             isARepeat:NO
-                                               keyCode:effectiveKeyCode];
+                                      location:event.locationInWindow
+                                      modifierFlags:effectiveModifiers | (event.it_modifierFlags & (~mask)) | NSEventModifierFlagFunction
+                                      timestamp:event.timestamp
+                                      windowNumber:event.windowNumber
+                                      context:nil
+                                      characters:effectiveCharacters
+                                      charactersIgnoringModifiers:effectiveCharacters
+                                      isARepeat:NO
+                                      keyCode:effectiveKeyCode];
         }
     }
 
@@ -166,8 +166,8 @@
     unichar specialCode = 0xffff;
     if ((effectiveModifiers & NSEventModifierFlagControl) != 0) {
         specialCode = [iTermStandardKeyMapper codeForSpecialControlCharacter:character
-                                                  characterIgnoringModifiers:characterIgnoringModifiers
-                                                                shiftPressed:shiftPressed];
+                                              characterIgnoringModifiers:characterIgnoringModifiers
+                                              shiftPressed:shiftPressed];
     }
     if (specialCode != 0xffff) {
         return NO;
@@ -177,7 +177,7 @@
     }
 
     if (effectiveKeyCode == kVK_Delete ||
-        effectiveKeyCode == kVK_Escape) {
+            effectiveKeyCode == kVK_Escape) {
         if (escPlus) {
             effectiveModifiers &= ~NSEventModifierFlagOption;
         } else if ((event.it_modifierFlags & mask) == NSEventModifierFlagOption) {
@@ -190,7 +190,7 @@
     }
 
     if (effectiveKeyCode == kVK_Return ||
-        effectiveKeyCode == kVK_Tab) {
+            effectiveKeyCode == kVK_Tab) {
         return YES;
     }
 

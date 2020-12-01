@@ -15,13 +15,13 @@
 @implementation iTermStatusBarTightlyPackedLayoutAlgorithm
 
 - (double)totalGrowthAfterUpdatingDesiredWidthsForAvailableWidth:(CGFloat)availableWidth
-                                            sumOfSpringConstants:(double)sumOfSpringConstants
-                                                           views:(NSArray<iTermStatusBarContainerView *> *)views {
+    sumOfSpringConstants:(double)sumOfSpringConstants
+    views:(NSArray<iTermStatusBarContainerView *> *)views {
     __block double growth = 0;
     // Divvy up space proportionate to spring constants.
     [views enumerateObjectsUsingBlock:^(iTermStatusBarContainerView * _Nonnull view, NSUInteger idx, BOOL * _Nonnull stop) {
-        const double weight = view.component.statusBarComponentSpringConstant / sumOfSpringConstants;
-        double delta = floor(availableWidth * weight);
+              const double weight = view.component.statusBarComponentSpringConstant / sumOfSpringConstants;
+              double delta = floor(availableWidth * weight);
         const CGFloat maxWidth = [self maximumWidthForComponent:view.component];
         if (view.desiredWidth + delta > maxWidth) {
             delta = maxWidth - view.desiredWidth;

@@ -38,9 +38,9 @@ static NSString* kParameterKey = @"parameter";
 }
 
 + (NSString *)titleForActionDict:(NSDictionary *)dict
-           withCaptureComponents:(NSArray *)components
-                workingDirectory:(NSString *)workingDirectory
-                      remoteHost:(VT100RemoteHost *)remoteHost
+    withCaptureComponents:(NSArray *)components
+    workingDirectory:(NSString *)workingDirectory
+    remoteHost:(VT100RemoteHost *)remoteHost
 {
     NSString *title = [dict objectForKey:kTitleKey];
     for (int i = 0; i < 9; i++) {
@@ -60,28 +60,28 @@ static NSString* kParameterKey = @"parameter";
 }
 
 + (NSString *)parameterValue:(NSString *)parameter
-            encodedForAction:(ContextMenuActions)action {
+    encodedForAction:(ContextMenuActions)action {
     switch (action) {
-        case kRunCommandContextMenuAction:
-        case kRunCommandInWindowContextMenuAction:
-        case kRunCoprocessContextMenuAction:
-            return [parameter stringWithBackslashEscapedShellCharactersIncludingNewlines:NO];
-        case kOpenFileContextMenuAction:
-            return parameter;
-        case kOpenUrlContextMenuAction: {
-            return [NSURL URLWithUserSuppliedString:parameter].absoluteString;
-        }
-        case kSendTextContextMenuAction:
-            return parameter;
+    case kRunCommandContextMenuAction:
+    case kRunCommandInWindowContextMenuAction:
+    case kRunCoprocessContextMenuAction:
+        return [parameter stringWithBackslashEscapedShellCharactersIncludingNewlines:NO];
+    case kOpenFileContextMenuAction:
+        return parameter;
+    case kOpenUrlContextMenuAction: {
+        return [NSURL URLWithUserSuppliedString:parameter].absoluteString;
+    }
+    case kSendTextContextMenuAction:
+        return parameter;
     }
 
     return nil;
 }
 
 + (NSString *)parameterForActionDict:(NSDictionary *)dict
-               withCaptureComponents:(NSArray *)components
-                    workingDirectory:(NSString *)workingDirectory
-                          remoteHost:(VT100RemoteHost *)remoteHost
+    withCaptureComponents:(NSArray *)components
+    workingDirectory:(NSString *)workingDirectory
+    remoteHost:(VT100RemoteHost *)remoteHost
 {
     NSString *parameter = [dict objectForKey:kParameterKey];
     ContextMenuActions action = (ContextMenuActions) [[dict objectForKey:kActionKey] intValue];
@@ -89,7 +89,7 @@ static NSString* kParameterKey = @"parameter";
         NSString *repl = @"";
         if (i < components.count) {
             repl = [self parameterValue:[components objectAtIndex:i]
-                       encodedForAction:action];
+                         encodedForAction:action];
         }
         parameter = [parameter stringByReplacingBackreference:i withString:repl ?: @""];
     }
@@ -111,9 +111,9 @@ static NSString* kParameterKey = @"parameter";
 - (IBAction)add:(id)sender
 {
     NSDictionary *defaultAction = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   @"", kTitleKey,
-                                   [NSNumber numberWithInt:kOpenFileContextMenuAction], kActionKey,
-                                   nil];
+                                                @"", kTitleKey,
+                                                [NSNumber numberWithInt:kOpenFileContextMenuAction], kActionKey,
+                                                nil];
     [_model addObject:defaultAction];
     [_tableView reloadData];
 }
@@ -178,17 +178,17 @@ static NSString* kParameterKey = @"parameter";
 {
     // These two arrays and the enum in the header file must be parallel
     NSArray *actionNames = @[ @"Open File…",
-                              @"Open URL…",
-                              @"Run Command…",
-                              @"Run Coprocess…",
-                              @"Send text…",
-                              @"Run Command in Window…" ];
+                                     @"Open URL…",
+                                     @"Run Command…",
+                                     @"Run Coprocess…",
+                                     @"Send text…",
+                                     @"Run Command in Window…" ];
     NSArray *paramPlaceholders = @[ @"Enter file name",
-                                    @"Enter URL",
-                                    @"Enter command",
-                                    @"Enter coprocess command",
-                                    @"Enter text",
-                                    @"Enter command" ];
+                                            @"Enter URL",
+                                            @"Enter command",
+                                            @"Enter coprocess command",
+                                            @"Enter text",
+                                            @"Enter command" ];
 
 
     if (tableColumn == _titleColumn) {
@@ -201,7 +201,7 @@ static NSString* kParameterKey = @"parameter";
         return cell;
     } else if (tableColumn == _actionColumn) {
         NSPopUpButtonCell *cell =
-        [[NSPopUpButtonCell alloc] initTextCell:[actionNames objectAtIndex:0] pullsDown:NO];
+            [[NSPopUpButtonCell alloc] initTextCell:[actionNames objectAtIndex:0] pullsDown:NO];
         for (int i = 0; i < actionNames.count; i++) {
             [cell addItemWithTitle:[actionNames objectAtIndex:i]];
             NSMenuItem *lastItem = [[[cell menu] itemArray] lastObject];

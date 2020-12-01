@@ -95,27 +95,27 @@ static const char *iTermApplicationKVOKey = "iTermApplicationKVOKey";
     __kindof NSApplication *sharedApplication = [super sharedApplication];
     assert([sharedApplication isKindOfClass:[iTermApplication class]]);
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         [sharedApplication addObserver:sharedApplication
-                            forKeyPath:@"modalWindow"
-                               options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
-                               context:(void *)iTermApplicationKVOKey];
+                           forKeyPath:@"modalWindow"
+                           options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
+                           context:(void *)iTermApplicationKVOKey];
         [[NSNotificationCenter defaultCenter] addObserver:sharedApplication
-                                                 selector:@selector(it_windowDidOrderOnScreen:)
-                                                     name:@"NSWindowDidOrderOnScreenAndFinishAnimatingNotification"
-                                                   object:nil];
+                                              selector:@selector(it_windowDidOrderOnScreen:)
+                                              name:@"NSWindowDidOrderOnScreenAndFinishAnimatingNotification"
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:sharedApplication
-                                                 selector:@selector(it_windowDidOrderOffScreen:)
-                                                     name:@"NSWindowDidOrderOffScreenAndFinishAnimatingNotification"
-                                                   object:nil];
+                                              selector:@selector(it_windowDidOrderOffScreen:)
+                                              name:@"NSWindowDidOrderOffScreenAndFinishAnimatingNotification"
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:sharedApplication
-                                                 selector:@selector(it_applicationDidBecomeActive:)
-                                                     name:NSApplicationDidBecomeActiveNotification
-                                                   object:nil];
+                                              selector:@selector(it_applicationDidBecomeActive:)
+                                              name:NSApplicationDidBecomeActiveNotification
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:sharedApplication
-                                                 selector:@selector(it_applicationDidResignActive:)
-                                                     name:NSApplicationDidResignActiveNotification
-                                                   object:nil];
+                                              selector:@selector(it_applicationDidResignActive:)
+                                              name:NSApplicationDidResignActiveNotification
+                                              object:nil];
 
     });
     return sharedApplication;
@@ -148,7 +148,7 @@ static const char *iTermApplicationKVOKey = "iTermApplicationKVOKey";
     _it_active = YES;
     _it_justBecameActive = YES;
     __weak __typeof(self) weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         [weakSelf it_resetJustBecameActive];
     });
 }
@@ -193,24 +193,24 @@ static const char *iTermApplicationKVOKey = "iTermApplicationKVOKey";
     }
     unichar unmodunicode = [unmodkeystr length] > 0 ? [unmodkeystr characterAtIndex:0] : 0;
     switch (unmodunicode) {
-        case NSUpArrowFunctionKey:
-        case NSDownArrowFunctionKey:
-        case NSLeftArrowFunctionKey:
-        case NSRightArrowFunctionKey:
-        case NSInsertFunctionKey:
-        case NSDeleteFunctionKey:
-        case NSDeleteCharFunctionKey:
-        case NSHomeFunctionKey:
-        case NSEndFunctionKey:
-            return YES;
-        default:
-            return NO;
+    case NSUpArrowFunctionKey:
+    case NSDownArrowFunctionKey:
+    case NSLeftArrowFunctionKey:
+    case NSRightArrowFunctionKey:
+    case NSInsertFunctionKey:
+    case NSDeleteFunctionKey:
+    case NSDeleteCharFunctionKey:
+    case NSHomeFunctionKey:
+    case NSEndFunctionKey:
+        return YES;
+    default:
+        return NO;
     }
 }
 
 - (NSEvent *)eventByRemappingForSecureInput:(NSEvent *)event {
     if ([[iTermModifierRemapper sharedInstance] isAnyModifierRemapped] &&
-        (IsSecureEventInputEnabled() || ![[iTermModifierRemapper sharedInstance] isRemappingModifiers])) {
+            (IsSecureEventInputEnabled() || ![[iTermModifierRemapper sharedInstance] isRemappingModifiers])) {
         // The event tap is not working, but we can still remap modifiers for non-system
         // keys. Only things like cmd-tab will not be remapped in this case. Otherwise,
         // the event tap performs the remapping.
@@ -247,33 +247,33 @@ static const char *iTermApplicationKVOKey = "iTermApplicationKVOKey";
 - (int)digitKeyForEvent:(NSEvent *)event {
     if ([iTermPreferences boolForKey:kPreferenceKeyEmulateUSKeyboard]) {
         switch (event.keyCode) {
-            case kVK_ANSI_1:
-            case kVK_ANSI_Keypad1:
-                return 1;
-            case kVK_ANSI_2:
-            case kVK_ANSI_Keypad2:
-                return 2;
-            case kVK_ANSI_3:
-            case kVK_ANSI_Keypad3:
-                return 3;
-            case kVK_ANSI_4:
-            case kVK_ANSI_Keypad4:
-                return 4;
-            case kVK_ANSI_5:
-            case kVK_ANSI_Keypad5:
-                return 5;
-            case kVK_ANSI_6:
-            case kVK_ANSI_Keypad6:
-                return 6;
-            case kVK_ANSI_7:
-            case kVK_ANSI_Keypad7:
-                return 7;
-            case kVK_ANSI_8:
-            case kVK_ANSI_Keypad8:
-                return 8;
-            case kVK_ANSI_9:
-            case kVK_ANSI_Keypad9:
-                return 9;
+        case kVK_ANSI_1:
+        case kVK_ANSI_Keypad1:
+            return 1;
+        case kVK_ANSI_2:
+        case kVK_ANSI_Keypad2:
+            return 2;
+        case kVK_ANSI_3:
+        case kVK_ANSI_Keypad3:
+            return 3;
+        case kVK_ANSI_4:
+        case kVK_ANSI_Keypad4:
+            return 4;
+        case kVK_ANSI_5:
+        case kVK_ANSI_Keypad5:
+            return 5;
+        case kVK_ANSI_6:
+        case kVK_ANSI_Keypad6:
+            return 6;
+        case kVK_ANSI_7:
+        case kVK_ANSI_Keypad7:
+            return 7;
+        case kVK_ANSI_8:
+        case kVK_ANSI_Keypad8:
+            return 8;
+        case kVK_ANSI_9:
+        case kVK_ANSI_Keypad9:
+            return 9;
         }
         return -1;
     } else {
@@ -387,7 +387,7 @@ static const char *iTermApplicationKVOKey = "iTermApplicationKVOKey";
 
 - (BOOL)dispatchHotkeyLocally:(NSEvent *)event {
     if (IsSecureEventInputEnabled() &&
-        [[iTermHotKeyController sharedInstance] eventIsHotkey:event]) {
+            [[iTermHotKeyController sharedInstance] eventIsHotkey:event]) {
         // User pressed the hotkey while secure input is enabled so the event
         // tap won't get it. Do what the event tap would do in this case.
         DLog(@"Directing to hotkey handler");
@@ -488,7 +488,7 @@ static const char *iTermApplicationKVOKey = "iTermApplicationKVOKey";
     }
     while (current) {
         if ([current respondsToSelector:@selector(it_wantsScrollWheelMomentumEvents)] &&
-            [current it_wantsScrollWheelMomentumEvents]) {
+                [current it_wantsScrollWheelMomentumEvents]) {
             DLog(@"Deliver scroll event %@ to %@", event, current);
             [current it_scrollWheelMomentum:event];
             return;
@@ -511,7 +511,7 @@ static const char *iTermApplicationKVOKey = "iTermApplicationKVOKey";
         }
         DLog(@"NSKeyDown event taking the regular path");
     } else if (event.type == NSEventTypeScrollWheel && (event.momentumPhase == NSEventPhaseChanged ||
-                                                        event.momentumPhase == NSEventPhaseEnded)) {
+               event.momentumPhase == NSEventPhaseEnded)) {
         [self handleScrollWheelEvent:event];
     }
 
@@ -532,12 +532,12 @@ static const char *iTermApplicationKVOKey = "iTermApplicationKVOKey";
 
 - (NSArray<iTermScriptingWindow *> *)orderedScriptingWindows {
     return [self.orderedWindows mapWithBlock:^id(NSWindow *window) {
-        if ([window conformsToProtocol:@protocol(PTYWindow)]) {
-            return [iTermScriptingWindow scriptingWindowWithWindow:window];
-        } else {
-            return nil;
-        }
-    }];
+                            if ([window conformsToProtocol:@protocol(PTYWindow)]) {
+                                return [iTermScriptingWindow scriptingWindowWithWindow:window];
+                            } else {
+                                return nil;
+                            }
+                        }];
 }
 
 - (void)setIsUIElement:(BOOL)uiElement {
@@ -549,11 +549,11 @@ static const char *iTermApplicationKVOKey = "iTermApplicationKVOKey";
     ProcessSerialNumber psn = { 0, kCurrentProcess };
     TransformProcessType(&psn,
                          uiElement ? kProcessTransformToUIElementApplication :
-                                     kProcessTransformToForegroundApplication);
+                         kProcessTransformToForegroundApplication);
     if (uiElement) {
         // Gotta wait for a spin of the runloop or else it doesn't activate. That's bad news
         // when toggling the preference because all the windows disappear.
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^ {
             [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
         });
 
@@ -592,14 +592,14 @@ static const char *iTermApplicationKVOKey = "iTermApplicationKVOKey";
         __block id observer;
         DLog(@"Register an observer");
         observer = [[NSNotificationCenter defaultCenter] addObserverForName:NSApplicationDidBecomeActiveNotification
-                                                                     object:nil
-                                                                      queue:NULL
-                                                                 usingBlock:^(NSNotification * _Nonnull note) {
-                                                                     DLog(@"Application did become active. Invoke completion block");
-                                                                     completion();
-                                                                     DLog(@"Application did become active completion block finished. Removing observer.");
-                                                                     [[NSNotificationCenter defaultCenter] removeObserver:observer];
-                                                                 }];
+                                                         object:nil
+                                                         queue:NULL
+                                             usingBlock:^(NSNotification * _Nonnull note) {
+                                                 DLog(@"Application did become active. Invoke completion block");
+                                                 completion();
+            DLog(@"Application did become active completion block finished. Removing observer.");
+            [[NSNotificationCenter defaultCenter] removeObserver:observer];
+        }];
         // It's not clear how this differs from [self activateIgnoringOtherApps:YES], but on 10.13
         // it does not cause previously ordered-out windows to be ordered over other applications'
         // windows. See issue 6875.
@@ -614,19 +614,19 @@ static const char *iTermApplicationKVOKey = "iTermApplicationKVOKey";
 - (void)orderFrontCharacterPalette:(id)sender {
     _it_characterPanelShouldOpenSoon = YES;
     [[NSNotificationCenter defaultCenter] postNotificationName:iTermApplicationCharacterPaletteWillOpen
-                                                        object:nil];
+                                          object:nil];
     [super orderFrontCharacterPalette:sender];
     const NSTimeInterval deadlineToOpen = ([NSDate timeIntervalSinceReferenceDate] +
                                            [iTermAdvancedSettingsModel timeToWaitForEmojiPanel]);
     [iTermWindowHacks pollForCharacterPanelToOpenOrCloseWithCompletion:^BOOL(BOOL open) {
-        if (open && _it_characterPanelShouldOpenSoon) {
-            _it_characterPanelShouldOpenSoon = NO;
-            _it_characterPanelIsOpen = YES;
-        } else if (!open && self.it_characterPanelIsOpen) {
+                         if (open && _it_characterPanelShouldOpenSoon) {
+                             _it_characterPanelShouldOpenSoon = NO;
+                             _it_characterPanelIsOpen = YES;
+                         } else if (!open && self.it_characterPanelIsOpen) {
             self->_it_characterPanelShouldOpenSoon = NO;
             self->_it_characterPanelIsOpen = NO;
             [[NSNotificationCenter defaultCenter] postNotificationName:iTermApplicationCharacterPaletteDidClose
-                                                                object:nil];
+                                                  object:nil];
         }
         return open || ([NSDate timeIntervalSinceReferenceDate] < deadlineToOpen);  // keep running while open
     }];

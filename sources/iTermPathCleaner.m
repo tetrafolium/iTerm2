@@ -17,7 +17,7 @@
 static dispatch_queue_t iTermPathCleanerQueue(void) {
     static dispatch_queue_t queue;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         queue = dispatch_queue_create("com.iterm2.path-cleaner", DISPATCH_QUEUE_SERIAL);
     });
     return queue;
@@ -37,8 +37,8 @@ static dispatch_queue_t iTermPathCleanerQueue(void) {
 }
 
 - (instancetype)initWithPath:(NSString *)path
-                      suffix:(NSString *)suffix
-            workingDirectory:(NSString *)workingDirectory {
+    suffix:(NSString *)suffix
+    workingDirectory:(NSString *)workingDirectory {
     self = [super init];
     if (self) {
         _path = [path copy];
@@ -51,7 +51,7 @@ static dispatch_queue_t iTermPathCleanerQueue(void) {
 }
 
 - (void)cleanWithCompletion:(void (^)(void))completion {
-    dispatch_async(iTermPathCleanerQueue(), ^{
+    dispatch_async(iTermPathCleanerQueue(), ^ {
         [self cleanSynchronously];
         dispatch_async(dispatch_get_main_queue(), ^{
             completion();
@@ -75,7 +75,7 @@ static dispatch_queue_t iTermPathCleanerQueue(void) {
 - (NSString *)reallyCleanSynchronously:(NSString *)path {
     NSString *stringToSearchForLineAndColumn = _suffix;
     NSString *pathWithoutNearbyGunk = [self pathByStrippingEnclosingPunctuationFromPath:path
-                                                                     lineAndColumnMatch:&stringToSearchForLineAndColumn];
+                                            lineAndColumnMatch:&stringToSearchForLineAndColumn];
     if (!pathWithoutNearbyGunk) {
         return nil;
     }
@@ -100,7 +100,7 @@ static dispatch_queue_t iTermPathCleanerQueue(void) {
 }
 
 - (NSString *)getFullPath:(NSString *)pathExLineNumberAndColumn
-         workingDirectory:(NSString *)workingDirectory {
+    workingDirectory:(NSString *)workingDirectory {
     DLog(@"Check if %@ is a valid path in %@", pathExLineNumberAndColumn, workingDirectory);
     // TODO(chendo): Move regex, define capture semantics in config file/prefs
     if (!pathExLineNumberAndColumn || [pathExLineNumberAndColumn length] == 0) {
@@ -145,8 +145,8 @@ static dispatch_queue_t iTermPathCleanerQueue(void) {
 
 - (void)extractFromSuffix:(NSString *)suffix {
     NSArray<NSString *> *regexes = [[self lineAndColumnNumberRegexes] mapWithBlock:^id(NSString *anObject) {
-        return [@"^" stringByAppendingString:anObject];
-    }];
+                                          return [@"^" stringByAppendingString:anObject];
+                                      }];
     for (NSString *regex in regexes) {
         NSString *match = [suffix stringByMatching:regex];
         if (!match) {
@@ -183,7 +183,7 @@ static dispatch_queue_t iTermPathCleanerQueue(void) {
 }
 
 - (NSString *)pathByStrippingEnclosingPunctuationFromPath:(NSString *)path
-                                       lineAndColumnMatch:(NSString **)lineAndColumnMatch {
+    lineAndColumnMatch:(NSString **)lineAndColumnMatch {
     if (!path || [path length] == 0) {
         DLog(@"  no: it is empty");
         return nil;
@@ -195,12 +195,12 @@ static dispatch_queue_t iTermPathCleanerQueue(void) {
     // Strip various trailing characters that are unlikely to be part of the file name.
     NSString *trailingPunctuationRegex = @"[.,:]$";
     path = [path stringByReplacingOccurrencesOfRegex:trailingPunctuationRegex
-                                          withString:@""];
+                 withString:@""];
 
     // Try to chop off a trailing line/column number.
     NSArray<NSString *> *regexes = [self.lineAndColumnNumberRegexes mapWithBlock:^id(NSString *anObject) {
-        return [anObject stringByAppendingString:@"$"];
-    }];
+                                        return [anObject stringByAppendingString:@"$"];
+                                    }];
     for (NSString *regex in regexes) {
         NSString *match = [path stringByMatching:regex];
         if (!match) {
@@ -224,7 +224,7 @@ static dispatch_queue_t iTermPathCleanerQueue(void) {
 
 - (BOOL)fileExistsAtPathLocally:(NSString *)path {
     return [self.fileManager fileExistsAtPathLocally:path
-                              additionalNetworkPaths:_pathsToIgnore];
+                             additionalNetworkPaths:_pathsToIgnore];
 }
 
 - (BOOL)fileHasForbiddenPrefix:(NSString *)path {

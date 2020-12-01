@@ -31,15 +31,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)urlActionHelper:(iTermURLActionHelper *)helper workingDirectoryOnLine:(int)line completion:(void (^)(NSString *workingDirectory))completion;
 
 - (SCPPath *)urlActionHelper:(iTermURLActionHelper *)helper
-       secureCopyPathForFile:(NSString *)path onLine:(int)line;
+    secureCopyPathForFile:(NSString *)path onLine:(int)line;
 
 - (VT100GridCoord)urlActionHelper:(iTermURLActionHelper *)helper
-                    coordForEvent:(NSEvent *)event
-         allowRightMarginOverflow:(BOOL)allowRightMarginOverflow;
+    coordForEvent:(NSEvent *)event
+    allowRightMarginOverflow:(BOOL)allowRightMarginOverflow;
 
 - (VT100GridAbsCoord)urlActionHelper:(iTermURLActionHelper *)helper
-                    absCoordForEvent:(NSEvent *)event
-            allowRightMarginOverflow:(BOOL)allowRightMarginOverflow;
+    absCoordForEvent:(NSEvent *)event
+    allowRightMarginOverflow:(BOOL)allowRightMarginOverflow;
 
 - (long long)urlActionTotalScrollbackOverflow:(iTermURLActionHelper *)helper;
 
@@ -70,40 +70,40 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)ignoreHardNewlinesInURLs;
 
 - (void)urlActionForClickAtCoord:(VT100GridCoord)coord
-                      completion:(void (^)(URLAction * _Nullable))completion;
+    completion:(void (^)(URLAction * _Nullable))completion;
 
 - (void)urlActionForClickAtCoord:(VT100GridCoord)coord
-          respectingHardNewlines:(BOOL)respectHardNewlines
-                      completion:(void (^)(URLAction * _Nullable))completion;
+    respectingHardNewlines:(BOOL)respectHardNewlines
+    completion:(void (^)(URLAction * _Nullable))completion;
 
 - (void)openTargetWithEvent:(NSEvent *)event inBackground:(BOOL)openInBackground;
 
 - (void)findUrlInString:(NSString *)aURLString andOpenInBackground:(BOOL)background;
 
 - (void)downloadFileAtSecureCopyPath:(SCPPath *)scpPath
-                         displayName:(NSString *)name
-                      locationInView:(VT100GridCoordRange)range;
+    displayName:(NSString *)name
+    locationInView:(VT100GridCoordRange)range;
 
 - (SmartMatch *)smartSelectAtAbsoluteCoord:(VT100GridAbsCoord)coord
-                                        to:(VT100GridAbsWindowedRange *)rangePtr
-                          ignoringNewlines:(BOOL)ignoringNewlines
-                            actionRequired:(BOOL)actionRequired
-                           respectDividers:(BOOL)respectDividers;
+    to:(VT100GridAbsWindowedRange *)rangePtr
+    ignoringNewlines:(BOOL)ignoringNewlines
+    actionRequired:(BOOL)actionRequired
+    respectDividers:(BOOL)respectDividers;
 
 - (void)smartSelectWithEvent:(NSEvent *)event;
 
 - (void)smartSelectAndMaybeCopyWithEvent:(NSEvent *)event
-                        ignoringNewlines:(BOOL)ignoringNewlines;
+    ignoringNewlines:(BOOL)ignoringNewlines;
 
 - (void)openSemanticHistoryPath:(NSString *)path
-                  orRawFilename:(NSString *)rawFileName
-                       fragment:(NSString * _Nullable)fragment
-               workingDirectory:(NSString *)workingDirectory
-                     lineNumber:(NSString *)lineNumber
-                   columnNumber:(NSString *)columnNumber
-                         prefix:(NSString *)prefix
-                         suffix:(NSString *)suffix
-                     completion:(void (^)(BOOL ok))completion;
+    orRawFilename:(NSString *)rawFileName
+    fragment:(NSString * _Nullable)fragment
+    workingDirectory:(NSString *)workingDirectory
+    lineNumber:(NSString *)lineNumber
+    columnNumber:(NSString *)columnNumber
+    prefix:(NSString *)prefix
+    suffix:(NSString *)suffix
+    completion:(void (^)(BOOL ok))completion;
 
 @end
 

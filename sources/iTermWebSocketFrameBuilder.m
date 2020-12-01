@@ -29,15 +29,15 @@
     __block BOOL eof = NO;
     while (!eof) {
         iTermWebSocketFrame *frame = [iTermWebSocketFrame frameWithDataSource:^unsigned char *(int64_t bytesWanted) {
-            if (self->_data.length < offset + bytesWanted) {
-                eof = YES;
-                return NULL;
-            } else {
-                unsigned char *result = self->_data.mutableBytes + offset;
-                offset += bytesWanted;
-                return result;
-            }
-        }];
+                                if (self->_data.length < offset + bytesWanted) {
+                                    eof = YES;
+                                    return NULL;
+                                } else {
+                                    unsigned char *result = self->_data.mutableBytes + offset;
+                                    offset += bytesWanted;
+                                    return result;
+                                }
+                            }];
         if (!eof) {
             [_data replaceBytesInRange:NSMakeRange(0, offset) withBytes:"" length:0];
             offset = 0;

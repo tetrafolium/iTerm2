@@ -30,7 +30,7 @@ static void *GetFunctionByName(NSString *library, char *func) {
 CPSGetCurrentProcessFunction *GetCPSGetCurrentProcessFunction(void) {
     static dispatch_once_t onceToken;
     static CPSGetCurrentProcessFunction *function;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         function = GetFunctionByName(kApplicationServicesFramework, "CPSGetCurrentProcess");
     });
     return function;
@@ -39,7 +39,7 @@ CPSGetCurrentProcessFunction *GetCPSGetCurrentProcessFunction(void) {
 CPSStealKeyFocusFunction *GetCPSStealKeyFocusFunction(void) {
     static dispatch_once_t onceToken;
     static CPSStealKeyFocusFunction *function;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         function = GetFunctionByName(kApplicationServicesFramework, "CPSStealKeyFocus");
     });
     return function;
@@ -48,7 +48,7 @@ CPSStealKeyFocusFunction *GetCPSStealKeyFocusFunction(void) {
 CPSReleaseKeyFocusFunction *GetCPSReleaseKeyFocusFunction(void) {
     static dispatch_once_t onceToken;
     static CPSReleaseKeyFocusFunction *function;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         function = GetFunctionByName(kApplicationServicesFramework, "CPSReleaseKeyFocus");
     });
     return function;
@@ -68,7 +68,7 @@ CGSSetWindowBackgroundBlurRadiusFunction* GetCGSSetWindowBackgroundBlurRadiusFun
 MTActuatorCreateFromDeviceIDFunction *iTermGetMTActuatorCreateFromDeviceIDFunction(void) {
     static dispatch_once_t onceToken;
     static MTActuatorCreateFromDeviceIDFunction *function;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         function = GetFunctionByName(kMultitouchSupportFramework,
                                      "MTActuatorCreateFromDeviceID");
     });
@@ -78,7 +78,7 @@ MTActuatorCreateFromDeviceIDFunction *iTermGetMTActuatorCreateFromDeviceIDFuncti
 MTActuatorOpenFunction *iTermGetMTActuatorOpenFunction(void) {
     static dispatch_once_t onceToken;
     static MTActuatorOpenFunction *function;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         function = GetFunctionByName(kMultitouchSupportFramework,
                                      "MTActuatorOpen");
     });
@@ -88,7 +88,7 @@ MTActuatorOpenFunction *iTermGetMTActuatorOpenFunction(void) {
 MTActuatorCloseFunction *iTermGetMTActuatorCloseFunction(void) {
     static dispatch_once_t onceToken;
     static MTActuatorCloseFunction *function;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         function = GetFunctionByName(kMultitouchSupportFramework,
                                      "MTActuatorClose");
     });
@@ -98,7 +98,7 @@ MTActuatorCloseFunction *iTermGetMTActuatorCloseFunction(void) {
 MTActuatorActuateFunction *iTermGetMTActuatorActuateFunction(void) {
     static dispatch_once_t onceToken;
     static MTActuatorActuateFunction *function;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         function = GetFunctionByName(kMultitouchSupportFramework,
                                      "MTActuatorActuate");
     });
@@ -108,7 +108,7 @@ MTActuatorActuateFunction *iTermGetMTActuatorActuateFunction(void) {
 MTActuatorIsOpenFunction *iTermGetMTActuatorIsOpenFunction(void) {
     static dispatch_once_t onceToken;
     static MTActuatorIsOpenFunction *function;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         function = GetFunctionByName(kMultitouchSupportFramework,
                                      "MTActuatorIsOpen");
     });
@@ -122,7 +122,7 @@ MTActuatorIsOpenFunction *iTermGetMTActuatorIsOpenFunction(void) {
     typedef BOOL CTFontShouldAntialiasFunction(CTFontRef);
     static CTFontShouldAntialiasFunction *function = NULL;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         function = GetFunctionByName(@"/System/Library/Frameworks/ApplicationServices.framework",
                                      "CTFontShouldAntiAlias");
     });

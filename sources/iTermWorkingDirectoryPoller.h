@@ -27,8 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithTmuxGateway:(TmuxGateway *)gateway
-                              scope:(iTermVariableScope *)scope
-                         windowPane:(int)windowPane;
+    scope:(iTermVariableScope *)scope
+    windowPane:(int)windowPane;
 
 - (void)poll;
 - (void)didReceiveLineFeed;

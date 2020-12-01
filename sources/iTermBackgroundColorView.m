@@ -15,8 +15,8 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p frame=%@ hidden=%@ alpha=%@ backgroundColor=%@>",
-            NSStringFromClass([self class]), self, NSStringFromRect(self.frame),
-            self.hidden ? @"YES": @"no", @(self.alphaValue), _backgroundColor];
+                     NSStringFromClass([self class]), self, NSStringFromRect(self.frame),
+                     self.hidden ? @"YES": @"no", @(self.alphaValue), _backgroundColor];
 }
 
 - (NSColor *)backgroundColor {

@@ -23,12 +23,12 @@ NS_ASSUME_NONNULL_BEGIN
 // If `fallbackVariableName` is nonnil, the value of the variable named
 // `fallbackVariableName` will be used for tmux 2.8 and earlier.
 - (instancetype)initWithGateway:(TmuxGateway *)gateway
-                          scope:(iTermVariableScope *)scope
-           fallbackVariableName:(nullable NSString *)fallbackVariableName
-                         format:(NSString *)format
-                         target:(NSString *)tmuxTarget
-                   variableName:(nullable NSString *)variableName
-                          block:(void (^ _Nullable)(NSString *))block NS_DESIGNATED_INITIALIZER;
+    scope:(iTermVariableScope *)scope
+    fallbackVariableName:(nullable NSString *)fallbackVariableName
+    format:(NSString *)format
+    target:(NSString *)tmuxTarget
+    variableName:(nullable NSString *)variableName
+    block:(void (^ _Nullable)(NSString *))block NS_DESIGNATED_INITIALIZER;
 
 - (void)updateOnce;
 

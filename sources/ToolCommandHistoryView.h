@@ -13,10 +13,10 @@
 @class iTermCommandHistoryCommandUseMO;
 
 @interface ToolCommandHistoryView : NSView <
-  ToolbeltTool,
-  NSTableViewDataSource,
-  NSTableViewDelegate,
-  NSTextFieldDelegate>
+    ToolbeltTool,
+    NSTableViewDataSource,
+    NSTableViewDelegate,
+    NSTextFieldDelegate>
 
 // For testing
 @property(nonatomic, readonly) NSTableView *tableView;

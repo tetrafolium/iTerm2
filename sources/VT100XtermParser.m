@@ -134,9 +134,9 @@ typedef enum {
 //   Other C1 codes       Fails
 // Other characters are appended to |data|.
 + (iTermXtermParserState)parseNextCharsInStringFromContext:(iTermParserContext *)context
-                              support8BitControlCharacters:(BOOL)support8BitControlCharacters
-                                                      data:(NSMutableData *)data
-                                                      mode:(int)mode {
+    support8BitControlCharacters:(BOOL)support8BitControlCharacters
+    data:(NSMutableData *)data
+    mode:(int)mode {
     iTermXtermParserState nextState = kXtermParserParsingStringState;
     do {
         if (!iTermParserCanAdvance(context)) {
@@ -145,82 +145,82 @@ typedef enum {
             unsigned char c = iTermParserConsume(context);
             BOOL append = YES;
             switch (c) {
-                case VT100CC_ESC:
-                    if (iTermParserTryConsume(context, &c)) {
-                        if (c == ']') {
-                            append = NO;
-                            nextState = kXtermParserParsingStringState;
-                        } else if (c == '\\') {
-                            nextState = kXtermParserFinishedState;
-                        } else {
-                            nextState = kXtermParserFailedState;
-                        }
-                    } else {
-                        // Ended after ESC. Backtrack over the ESC so it can be parsed again when more
-                        // data arrives.
-                        iTermParserBacktrackBy(context, 1);
-                        nextState = kXtermParserOutOfDataState;
-                    }
-                    break;
-
-                case ':':
-                    if ((mode == 50 || mode == 1337) &&
-                        ([data hasPrefixOfBytes:"File=" length:5] ||
-                         [data hasPrefixOfBytes:"Copy=" length:5])) {
-                        // This is a wonky special case for file downloads. The OSC code can be
-                        // really, really big. So we mark it as ended at the colon, and the client
-                        // is responsible for handling this properly.
-                        nextState = kXtermParserHeaderEndState;
-                    } else {
-                        nextState = kXtermParserParsingStringState;
-                    }
-                    break;
-
-                case VT100CC_CAN:
-                case VT100CC_SUB:
-                    nextState = kXtermParserFailedState;
-                    break;
-
-                case VT100CC_BEL:
-                    nextState = kXtermParserFinishedState;
-                    break;
-
-                case VT100CC_C1_ST:
-                    if (support8BitControlCharacters) {
-                        nextState = kXtermParserFinishedState;
-                        break;
-                    }
-                    // fall through
-                case VT100CC_C1_OSC:
-                    if (support8BitControlCharacters) {
+            case VT100CC_ESC:
+                if (iTermParserTryConsume(context, &c)) {
+                    if (c == ']') {
                         append = NO;
                         nextState = kXtermParserParsingStringState;
-                        break;
-                    }
-                    // fall through
-                case VT100CC_C1_IND:
-                case VT100CC_C1_NEL:
-                case VT100CC_C1_HTS:
-                case VT100CC_C1_RI:
-                case VT100CC_C1_SS2:
-                case VT100CC_C1_SS3:
-                case VT100CC_C1_DCS:
-                case VT100CC_C1_SPA:
-                case VT100CC_C1_EPA:
-                case VT100CC_C1_SOS:
-                case VT100CC_C1_DECID:
-                case VT100CC_C1_CSI:
-                case VT100CC_C1_PM:
-                case VT100CC_C1_APC:
-                    if (support8BitControlCharacters) {
+                    } else if (c == '\\') {
+                        nextState = kXtermParserFinishedState;
+                    } else {
                         nextState = kXtermParserFailedState;
-                        break;
                     }
-                    // fall through
+                } else {
+                    // Ended after ESC. Backtrack over the ESC so it can be parsed again when more
+                    // data arrives.
+                    iTermParserBacktrackBy(context, 1);
+                    nextState = kXtermParserOutOfDataState;
+                }
+                break;
 
-                default:
+            case ':':
+                if ((mode == 50 || mode == 1337) &&
+                        ([data hasPrefixOfBytes:"File=" length:5] ||
+                         [data hasPrefixOfBytes:"Copy=" length:5])) {
+                    // This is a wonky special case for file downloads. The OSC code can be
+                    // really, really big. So we mark it as ended at the colon, and the client
+                    // is responsible for handling this properly.
+                    nextState = kXtermParserHeaderEndState;
+                } else {
+                    nextState = kXtermParserParsingStringState;
+                }
+                break;
+
+            case VT100CC_CAN:
+            case VT100CC_SUB:
+                nextState = kXtermParserFailedState;
+                break;
+
+            case VT100CC_BEL:
+                nextState = kXtermParserFinishedState;
+                break;
+
+            case VT100CC_C1_ST:
+                if (support8BitControlCharacters) {
+                    nextState = kXtermParserFinishedState;
+                    break;
+                }
+            // fall through
+            case VT100CC_C1_OSC:
+                if (support8BitControlCharacters) {
+                    append = NO;
                     nextState = kXtermParserParsingStringState;
                     break;
+                }
+            // fall through
+            case VT100CC_C1_IND:
+            case VT100CC_C1_NEL:
+            case VT100CC_C1_HTS:
+            case VT100CC_C1_RI:
+            case VT100CC_C1_SS2:
+            case VT100CC_C1_SS3:
+            case VT100CC_C1_DCS:
+            case VT100CC_C1_SPA:
+            case VT100CC_C1_EPA:
+            case VT100CC_C1_SOS:
+            case VT100CC_C1_DECID:
+            case VT100CC_C1_CSI:
+            case VT100CC_C1_PM:
+            case VT100CC_C1_APC:
+                if (support8BitControlCharacters) {
+                    nextState = kXtermParserFailedState;
+                    break;
+                }
+            // fall through
+
+            default:
+                nextState = kXtermParserParsingStringState;
+                break;
             }
             if (append && nextState == kXtermParserParsingStringState) {
                 [data appendBytes:&c length:1];
@@ -234,29 +234,29 @@ typedef enum {
 + (VT100TerminalTokenType)tokenTypeForMode:(int)mode {
     static NSDictionary *theMap = nil;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         theMap =
-            @{
-               @(kAPCMode): @(XTERMCC_WIN_TITLE),  // tmux treats APC like OSC 2. We must as well for tmux integration.
-               @(kLinuxSetPaletteMode): @(XTERMCC_SET_PALETTE),
-               @0: @(XTERMCC_WINICON_TITLE),
-               @1: @(XTERMCC_ICON_TITLE),
-               @2: @(XTERMCC_WIN_TITLE),
-               @4: @(XTERMCC_SET_RGB),
-               @6: @(XTERMCC_PROPRIETARY_ETERM_EXT),
-               @7: @(XTERMCC_PWD_URL),
-               @8: @(XTERMCC_LINK),
-               @9: @(ITERM_USER_NOTIFICATION),
-               @10: @(XTERMCC_TEXT_FOREGROUND_COLOR),
-               @11: @(XTERMCC_TEXT_BACKGROUND_COLOR),
-               // 50 is a nonstandard escape code implemented by Konsole.
-               // xterm since started using it for setting the font, so 1337 is the preferred code
-               // for this in iTerm2.
-               @50: @(XTERMCC_SET_KVP),
-               @52: @(XTERMCC_PASTE64),
-               @133: @(XTERMCC_FINAL_TERM),
-               @1337: @(XTERMCC_SET_KVP),
-           };
+        @{
+            @(kAPCMode): @(XTERMCC_WIN_TITLE),  // tmux treats APC like OSC 2. We must as well for tmux integration.
+                @(kLinuxSetPaletteMode): @(XTERMCC_SET_PALETTE),
+@0: @(XTERMCC_WINICON_TITLE),
+@1: @(XTERMCC_ICON_TITLE),
+@2: @(XTERMCC_WIN_TITLE),
+@4: @(XTERMCC_SET_RGB),
+@6: @(XTERMCC_PROPRIETARY_ETERM_EXT),
+@7: @(XTERMCC_PWD_URL),
+@8: @(XTERMCC_LINK),
+@9: @(ITERM_USER_NOTIFICATION),
+@10: @(XTERMCC_TEXT_FOREGROUND_COLOR),
+@11: @(XTERMCC_TEXT_BACKGROUND_COLOR),
+                // 50 is a nonstandard escape code implemented by Konsole.
+                // xterm since started using it for setting the font, so 1337 is the preferred code
+                // for this in iTerm2.
+@50: @(XTERMCC_SET_KVP),
+@52: @(XTERMCC_PASTE64),
+@133: @(XTERMCC_FINAL_TERM),
+@1337: @(XTERMCC_SET_KVP),
+            };
         [theMap retain];
     });
 
@@ -270,33 +270,33 @@ typedef enum {
 }
 
 + (void)emitIncidentalForSetKvpHeaderInVector:(CVector *)vector
-                                         data:(NSData *)data
-                                     encoding:(NSStringEncoding)encoding {
+    data:(NSData *)data
+    encoding:(NSStringEncoding)encoding {
     VT100Token *headerToken = [VT100Token token];
     headerToken->type = XTERMCC_MULTITOKEN_HEADER_SET_KVP;
     headerToken.string = [[[NSString alloc] initWithData:data
-                                                encoding:encoding] autorelease];
+                                             encoding:encoding] autorelease];
     [self parseKeyValuePairInToken:headerToken];
     [headerToken retain];
     CVectorAppend(vector, headerToken);
 }
 
 + (void)emitIncidentalForMultitokenBodyInVector:(CVector *)vector
-                                           data:(NSData *)data
-                                       encoding:(NSStringEncoding)encoding {
+    data:(NSData *)data
+    encoding:(NSStringEncoding)encoding {
     VT100Token *token = [VT100Token token];
     token->type = XTERMCC_MULTITOKEN_BODY;
     token.string = [[[NSString alloc] initWithData:data
-                                          encoding:encoding] autorelease];
+                                       encoding:encoding] autorelease];
     [token retain];
     CVectorAppend(vector, token);
 }
 
 + (void)decodeFromContext:(iTermParserContext *)context
-              incidentals:(CVector *)incidentals
-                    token:(VT100Token *)result
-                 encoding:(NSStringEncoding)encoding
-               savedState:(NSMutableDictionary *)savedState {
+    incidentals:(CVector *)incidentals
+    token:(VT100Token *)result
+    encoding:(NSStringEncoding)encoding
+    savedState:(NSMutableDictionary *)savedState {
     // Initialize the state.
     NSMutableData *data = [NSMutableData data];
     int mode = 0;
@@ -339,86 +339,86 @@ typedef enum {
     while (1) {
         iTermXtermParserState stateSwitchedOn = state;
         switch (state) {
-            case kXtermParserParsingModeState:
-                state = [self parseModeFromContext:context mode:&mode];
-                break;
+        case kXtermParserParsingModeState:
+            state = [self parseModeFromContext:context mode:&mode];
+            break;
 
-            case kXtermParserParsingPState:
-                state = [self parsePFromContext:context data:data];
-                break;
+        case kXtermParserParsingPState:
+            state = [self parsePFromContext:context data:data];
+            break;
 
-            case kXtermParserParsingStringState:
-                state = [self parseNextCharsInStringFromContext:context
-                                   support8BitControlCharacters:support8BitControlCharacters
-                                                           data:data mode:mode];
-                break;
+        case kXtermParserParsingStringState:
+            state = [self parseNextCharsInStringFromContext:context
+                          support8BitControlCharacters:support8BitControlCharacters
+                          data:data mode:mode];
+            break;
 
-            case kXtermParserHeaderEndState:
-                // There's currently only one multitoken mode. Emit a header for it as an incidental.
-                assert([self tokenTypeForMode:mode] == XTERMCC_SET_KVP);
-                [self emitIncidentalForSetKvpHeaderInVector:incidentals
-                                                       data:data
-                                                   encoding:encoding];
-                state = kXtermParserParsingStringState;
-                mode = XTERMCC_MULTITOKEN_BODY;
-                multitokenHeaderEmitted = YES;
-                [data setLength:0];
-                break;
+        case kXtermParserHeaderEndState:
+            // There's currently only one multitoken mode. Emit a header for it as an incidental.
+            assert([self tokenTypeForMode:mode] == XTERMCC_SET_KVP);
+            [self emitIncidentalForSetKvpHeaderInVector:incidentals
+                  data:data
+                  encoding:encoding];
+            state = kXtermParserParsingStringState;
+            mode = XTERMCC_MULTITOKEN_BODY;
+            multitokenHeaderEmitted = YES;
+            [data setLength:0];
+            break;
 
-            case kXtermParserFailingState:
-                state = [self parseNextCharsInStringFromContext:context
-                                   support8BitControlCharacters:support8BitControlCharacters
-                                                           data:nil
-                                                           mode:0];
+        case kXtermParserFailingState:
+            state = [self parseNextCharsInStringFromContext:context
+                          support8BitControlCharacters:support8BitControlCharacters
+                          data:nil
+                          mode:0];
 
-                // Convert success states into failure states.
-                if (state == kXtermParserFinishedState) {
-                    state = kXtermParserFailedState;
-                } else if (state == kXtermParserParsingStringState ||  // Shouldn't happen
-                           state == kXtermParserHeaderEndState) {
-                    state = kXtermParserFailingState;
-                }
-                break;
+            // Convert success states into failure states.
+            if (state == kXtermParserFinishedState) {
+                state = kXtermParserFailedState;
+            } else if (state == kXtermParserParsingStringState ||  // Shouldn't happen
+                       state == kXtermParserHeaderEndState) {
+                state = kXtermParserFailingState;
+            }
+            break;
 
-            case kXtermParserFailedState:
-                [savedState removeAllObjects];
-                result->type = VT100_NOTSUPPORT;
-                return;
+        case kXtermParserFailedState:
+            [savedState removeAllObjects];
+            result->type = VT100_NOTSUPPORT;
+            return;
 
-            case kXtermParserFinishedState:
-                if (multitokenHeaderEmitted) {
-                    if (data.length) {
-                        [self emitIncidentalForMultitokenBodyInVector:incidentals
-                                                                 data:data
-                                                             encoding:encoding];
-                        [data setLength:0];
-                    }
-                    result->type = XTERMCC_MULTITOKEN_END;
-                } else {
-                    result.string = [[[NSString alloc] initWithData:data
-                                                           encoding:encoding] autorelease];
-                    result->type = [self tokenTypeForMode:mode];
-                    if (result->type == XTERMCC_SET_KVP) {
-                        [self parseKeyValuePairInToken:result];
-                    }
-                }
-                return;
-
-            case kXtermParserOutOfDataState:
-                if (data.length && multitokenHeaderEmitted) {
+        case kXtermParserFinishedState:
+            if (multitokenHeaderEmitted) {
+                if (data.length) {
                     [self emitIncidentalForMultitokenBodyInVector:incidentals
-                                                             data:data
-                                                         encoding:encoding];
+                          data:data
+                          encoding:encoding];
                     [data setLength:0];
                 }
-                savedState[kXtermParserSavedStateDataKey] = data;
-                savedState[kXtermParserSavedStateBytesUsedKey] = @(iTermParserNumberOfBytesConsumed(context));
-                savedState[kXtermParserSavedStateModeKey] = @(mode);
-                savedState[kXtermParserSavedStateStateKey] = @(previousState);
-                savedState[kXtermParserMultitokenHeaderEmittedkey] = @(multitokenHeaderEmitted);
-                iTermParserBacktrack(context);
-                result->type = VT100_WAIT;
-                return;
+                result->type = XTERMCC_MULTITOKEN_END;
+            } else {
+                result.string = [[[NSString alloc] initWithData:data
+                                                    encoding:encoding] autorelease];
+                result->type = [self tokenTypeForMode:mode];
+                if (result->type == XTERMCC_SET_KVP) {
+                    [self parseKeyValuePairInToken:result];
+                }
+            }
+            return;
+
+        case kXtermParserOutOfDataState:
+            if (data.length && multitokenHeaderEmitted) {
+                [self emitIncidentalForMultitokenBodyInVector:incidentals
+                      data:data
+                      encoding:encoding];
+                [data setLength:0];
+            }
+            savedState[kXtermParserSavedStateDataKey] = data;
+            savedState[kXtermParserSavedStateBytesUsedKey] = @(iTermParserNumberOfBytesConsumed(context));
+            savedState[kXtermParserSavedStateModeKey] = @(mode);
+            savedState[kXtermParserSavedStateStateKey] = @(previousState);
+            savedState[kXtermParserMultitokenHeaderEmittedkey] = @(multitokenHeaderEmitted);
+            iTermParserBacktrack(context);
+            result->type = VT100_WAIT;
+            return;
         }
         previousState = stateSwitchedOn;
     }

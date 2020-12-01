@@ -130,7 +130,7 @@ typedef NS_ENUM(int, VT100TerminalColorIndex) {
 
 // Returns the current cursor style as a DECSCUSR param.
 - (void)terminalGetCursorType:(ITermCursorType *)cursorTypeOut
-                     blinking:(BOOL *)blinking;
+    blinking:(BOOL *)blinking;
 
 // Sets the left/right scroll region.
 - (void)terminalSetLeftMargin:(int)scrollLeft rightMargin:(int)scrollRight;
@@ -309,16 +309,16 @@ typedef NS_ENUM(int, VT100TerminalColorIndex) {
 // Download of a base64-encoded file
 // nil = name unknown, -1 = size unknown. Return YES to accept it.
 - (BOOL)terminalWillReceiveFileNamed:(NSString *)name
-                              ofSize:(NSInteger)size;
+    ofSize:(NSInteger)size;
 
 - (BOOL)terminalWillReceiveInlineFileNamed:(NSString *)name
-                                    ofSize:(NSInteger)size
-                                     width:(int)width
-                                     units:(VT100TerminalUnits)widthUnits
-                                    height:(int)height
-                                     units:(VT100TerminalUnits)heightUnits
-                       preserveAspectRatio:(BOOL)preserveAspectRatio
-                                     inset:(NSEdgeInsets)inset;
+    ofSize:(NSInteger)size
+    width:(int)width
+    units:(VT100TerminalUnits)widthUnits
+    height:(int)height
+    units:(VT100TerminalUnits)heightUnits
+    preserveAspectRatio:(BOOL)preserveAspectRatio
+    inset:(NSEdgeInsets)inset;
 
 // Download completed normally
 - (void)terminalDidFinishReceivingFile;
@@ -422,7 +422,7 @@ typedef NS_ENUM(int, VT100TerminalColorIndex) {
 
 // Custom escape sequences
 - (void)terminalCustomEscapeSequenceWithParameters:(NSDictionary<NSString *, NSString *> *)parameters
-                                           payload:(NSString *)payload;
+    payload:(NSString *)payload;
 
 - (void)terminalRepeatPreviousCharacter:(int)times;
 

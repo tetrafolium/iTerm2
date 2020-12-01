@@ -14,7 +14,7 @@
 }
 
 - (instancetype)initWithBookmark:(Profile*)bookmark
-                 underlyingModel:(ProfileModel*)newUnderlyingModel {
+    underlyingModel:(ProfileModel*)newUnderlyingModel {
     self = [super init];
     if (self) {
         guid = [[bookmark objectForKey:KEY_GUID] retain];

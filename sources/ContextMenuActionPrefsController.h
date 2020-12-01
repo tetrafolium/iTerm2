@@ -36,14 +36,14 @@ typedef NS_ENUM(NSInteger, ContextMenuActions) {
 + (ContextMenuActions)actionForActionDict:(NSDictionary *)dict;
 
 + (NSString *)titleForActionDict:(NSDictionary *)dict
-           withCaptureComponents:(NSArray *)components
-                workingDirectory:(NSString *)workingDirectory
-                      remoteHost:(VT100RemoteHost *)remoteHost;
+    withCaptureComponents:(NSArray *)components
+    workingDirectory:(NSString *)workingDirectory
+    remoteHost:(VT100RemoteHost *)remoteHost;
 
 + (NSString *)parameterForActionDict:(NSDictionary *)dict
-               withCaptureComponents:(NSArray *)components
-                    workingDirectory:(NSString *)workingDirectory
-                          remoteHost:(VT100RemoteHost *)remoteHost;
+    withCaptureComponents:(NSArray *)components
+    workingDirectory:(NSString *)workingDirectory
+    remoteHost:(VT100RemoteHost *)remoteHost;
 
 - (IBAction)ok:(id)sender;
 - (void)setActions:(NSArray *)newActions;

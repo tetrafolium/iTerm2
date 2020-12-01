@@ -61,9 +61,9 @@
 
 - (NSArray<PTYSession *> *)sessions {
     return [[[iTermController sharedInstance] terminals] flatMapWithBlock:^NSArray *(PseudoTerminal *terminal) {
-        return [terminal.tabs flatMapWithBlock:^NSArray *(PTYTab *tab) {
-            return tab.sessions;
-        }];
+                                          return [terminal.tabs flatMapWithBlock:^NSArray *(PTYTab *tab) {
+                                              return tab.sessions;
+                                          }];
     }];
 }
 
@@ -76,10 +76,10 @@
     [cell setFraction:progress];
     if (cell.needsAnimation && !_animationTimer) {
         _animationTimer = [NSTimer scheduledTimerWithTimeInterval:1/60.0
-                                                           target:self
-                                                         selector:@selector(redrawSearchField:)
-                                                         userInfo:nil
-                                                          repeats:YES];
+                                   target:self
+                                   selector:@selector(redrawSearchField:)
+                                   userInfo:nil
+                                   repeats:YES];
     }
 }
 
@@ -94,8 +94,8 @@
 }
 
 - (void)addResults:(NSArray<iTermGlobalSearchResult *> *)results
-        forSession:(PTYSession *)session
-          progress:(double)progress {
+    forSession:(PTYSession *)session
+    progress:(double)progress {
     if (!session && !results) {
         // Finished searching.
         [self setFraction:1];
@@ -121,13 +121,13 @@
         const NSUInteger i = [self.sortedNonEmptyResultSessionGUIDs indexOfObject:session.guid];
         if (i != NSNotFound) {
             [_outlineView insertItemsAtIndexes:[NSIndexSet indexSetWithIndex:i]
-                                      inParent:nil
-                                 withAnimation:NO];
+                          inParent:nil
+                          withAnimation:NO];
         }
     }
     [_outlineView insertItemsAtIndexes:indexes
-                              inParent:session.guid
-                         withAnimation:NO];
+                  inParent:session.guid
+                  withAnimation:NO];
     [_outlineView expandItem:session.guid expandChildren:YES];
     [_outlineView endUpdates];
 }
@@ -267,13 +267,13 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
     }
     __weak __typeof(self) weakSelf = self;
     _engine = [[iTermGlobalSearchEngine alloc] initWithQuery:_searchField.stringValue
-                                                    sessions:self.sessions
-                                                        mode:self.mode
-                                                     handler:^(PTYSession *session,
-                                                               NSArray<iTermGlobalSearchResult *> *results,
-                                                               double progress) {
-        [weakSelf addResults:results forSession:session progress:progress];
-    }];
+                                               sessions:self.sessions
+                                               mode:self.mode
+                                               handler:^(PTYSession *session,
+                                                         NSArray<iTermGlobalSearchResult *> *results,
+                                    double progress) {
+                                        [weakSelf addResults:results forSession:session progress:progress];
+                                    }];
 }
 
 - (void)didClick:(id)sender {
@@ -291,8 +291,8 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
 - (NSInteger)focusReportingSearchFieldNumberOfResults:(iTermFocusReportingSearchField *)sender {
     __block NSInteger count = 0;
     [_results enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSMutableArray<iTermGlobalSearchResult *> * _Nonnull obj, BOOL * _Nonnull stop) {
-        count += obj.count;
-    }];
+                 count += obj.count;
+             }];
     return count;
 }
 
@@ -325,8 +325,8 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
 #pragma mark - NSOutlineViewDelegate
 
 - (nullable NSView *)outlineView:(NSOutlineView *)outlineView
-              viewForTableColumn:(nullable NSTableColumn *)tableColumn
-                            item:(id)item {
+    viewForTableColumn:(nullable NSTableColumn *)tableColumn
+    item:(id)item {
     NSString *guid = [NSString castFrom:item];
     if (guid) {
         // Session
@@ -341,16 +341,16 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
             view.textField = textField;
             [view addSubview:textField];
             [view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[textField]-0-|"
-                                                                         options:0
-                                                                         metrics:nil
-                                                                           views:@{ @"textField": textField }]];
+                                  options:0
+                                  metrics:nil
+                                  views:@ { @"textField": textField }]];
             [view addConstraint:[NSLayoutConstraint constraintWithItem:textField
-                                                             attribute:NSLayoutAttributeCenterY
-                                                             relatedBy:NSLayoutRelationEqual
-                                                                toItem:view
-                                                             attribute:NSLayoutAttributeCenterY
-                                                            multiplier:1
-                                                              constant:0]];
+                                 attribute:NSLayoutAttributeCenterY
+                                 relatedBy:NSLayoutRelationEqual
+                                 toItem:view
+                                 attribute:NSLayoutAttributeCenterY
+                                 multiplier:1
+                                 constant:0]];
             textField.frame = view.bounds;
             textField.autoresizingMask = (NSViewWidthSizable | NSViewHeightSizable);
         }
@@ -371,16 +371,16 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
             view.textField = textField;
             [view addSubview:textField];
             [view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[textField]-0-|"
-                                                                         options:0
-                                                                         metrics:nil
-                                                                           views:@{ @"textField": textField }]];
+                                  options:0
+                                  metrics:nil
+                                  views:@ { @"textField": textField }]];
             [view addConstraint:[NSLayoutConstraint constraintWithItem:textField
-                                                             attribute:NSLayoutAttributeBottom
-                                                             relatedBy:NSLayoutRelationEqual
-                                                                toItem:view
-                                                             attribute:NSLayoutAttributeBottom
-                                                            multiplier:1
-                                                              constant:0]];
+                                 attribute:NSLayoutAttributeBottom
+                                 relatedBy:NSLayoutRelationEqual
+                                 toItem:view
+                                 attribute:NSLayoutAttributeBottom
+                                 multiplier:1
+                                 constant:0]];
             textField.frame = view.bounds;
             textField.autoresizingMask = (NSViewWidthSizable | NSViewHeightSizable);
         }
@@ -395,7 +395,7 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
     _ignoreClick = YES;
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         self->_ignoreClick = NO;
     });
     [self revealSelection];
@@ -405,8 +405,8 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
 
 - (NSDictionary<NSString *, NSMutableArray<iTermGlobalSearchResult *> *> *)nonEmptyResults {
     return [_results filteredWithBlock:^BOOL(NSString *key, NSMutableArray<iTermGlobalSearchResult *> *value) {
-        return value.count > 0;
-    }];
+                 return value.count > 0;
+             }];
 }
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(nullable id)item {

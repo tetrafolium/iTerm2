@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class PTYSession;
 @class SearchResult;
 
-@interface iTermGlobalSearchResult: NSObject
+@interface iTermGlobalSearchResult : NSObject
 @property (nonatomic, readonly) VT100GridCoordRange coordRange;
 
 @property (nonatomic, weak) PTYSession *session;

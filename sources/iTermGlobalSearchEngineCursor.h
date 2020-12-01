@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface iTermGlobalSearchEngineCursor: NSObject
+@interface iTermGlobalSearchEngineCursor : NSObject
 @property (nonatomic, strong) PTYSession *session;
 @property (nonatomic, strong) FindContext *findContext;
 @end

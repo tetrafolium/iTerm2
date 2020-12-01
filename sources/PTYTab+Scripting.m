@@ -15,34 +15,34 @@
 @implementation PTYTab (Scripting)
 
 - (NSScriptObjectSpecifier *)objectSpecifier {
-  id classDescription = [NSClassDescription classDescriptionForClass:[iTermScriptingWindow class]];
-  NSInteger index = [[self realParentWindow] indexOfTab:self];
-  return [[[NSIndexSpecifier alloc] initWithContainerClassDescription:classDescription
-                                                   containerSpecifier:[self.realParentWindow.window objectSpecifier]
-                                                                  key:@"tabs"
-                                                                index:index] autorelease];
+    id classDescription = [NSClassDescription classDescriptionForClass:[iTermScriptingWindow class]];
+    NSInteger index = [[self realParentWindow] indexOfTab:self];
+    return [[[NSIndexSpecifier alloc] initWithContainerClassDescription:classDescription
+                                       containerSpecifier:[self.realParentWindow.window objectSpecifier]
+                                       key:@"tabs"
+                                       index:index] autorelease];
 }
 
 - (id)valueInSessionsAtIndex:(unsigned)anIndex {
-  return [self sessions][anIndex];
+    return [self sessions][anIndex];
 }
 
 - (id)valueForKey:(NSString *)key {
-  if ([key isEqualToString:@"currentSession"]) {
-    return [self activeSession];
-  } else if ([key isEqualToString:@"isProcessing"]) {
-    return @([self isProcessing]);
-  } else if ([key isEqualToString:@"icon"]) {
-    return [self icon];
-  } else if ([key isEqualToString:@"objectCount"]) {
-    return @([self objectCount]);
-  } else if ([key isEqualToString:@"sessions"]) {
-    return [self sessions];
-  } else if ([key isEqualToString:@"indexOfTab"]) {
-    return [self indexOfTab];
-  } else {
-    return nil;
-  }
+    if ([key isEqualToString:@"currentSession"]) {
+        return [self activeSession];
+    } else if ([key isEqualToString:@"isProcessing"]) {
+        return @([self isProcessing]);
+    } else if ([key isEqualToString:@"icon"]) {
+        return [self icon];
+    } else if ([key isEqualToString:@"objectCount"]) {
+        return @([self objectCount]);
+    } else if ([key isEqualToString:@"sessions"]) {
+        return [self sessions];
+    } else if ([key isEqualToString:@"indexOfTab"]) {
+        return [self indexOfTab];
+    } else {
+        return nil;
+    }
 }
 
 - (id)valueWithUniqueID:(id)uniqueID inPropertyWithKey:(NSString *)key {
@@ -62,11 +62,11 @@
 }
 
 - (NSUInteger)countOfSessions {
-  return [[self sessions] count];
+    return [[self sessions] count];
 }
 
 - (NSNumber *)indexOfTab {
-  return @([self number]);
+    return @([self number]);
 }
 
 - (void)handleCloseCommand:(NSScriptCommand *)scriptCommand {

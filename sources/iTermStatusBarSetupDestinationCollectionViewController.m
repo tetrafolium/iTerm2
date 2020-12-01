@@ -83,7 +83,7 @@
     [super viewDidLoad];
     _configureButton.enabled = NO;
     [self.collectionView registerClass:[iTermStatusBarSetupCollectionViewItem class]
-                 forItemWithIdentifier:@"element"];
+                         forItemWithIdentifier:@"element"];
 }
 
 - (void)deleteSelected {
@@ -107,11 +107,11 @@
                           NULL);
     [[[self.collectionView itemAtIndex:index] view] setHidden:YES];
     [self.collectionView.animator performBatchUpdates:
-     ^{
-         [self->_elements removeObjectAtIndex:index];
-         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
-         [self.collectionView deleteItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
-     } completionHandler:^(BOOL finished) {}];
+                                 ^ {
+                                     [self->_elements removeObjectAtIndex:index];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+        [self.collectionView deleteItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
+    } completionHandler:^(BOOL finished) {}];
     [self didChange:YES];
 }
 
@@ -132,7 +132,7 @@
     controller.darkBackground = self.darkBackground;
     _updatingAutoRainbowColors = YES;
     [controller enumerateColorsWithCount:_elements.count block:^(NSInteger i, NSColor *color) {
-        id<iTermStatusBarComponent> component = _elements[i].component;
+                   id<iTermStatusBarComponent> component = _elements[i].component;
         NSMutableDictionary *knobValues = [component.configuration[iTermStatusBarComponentConfigurationKeyKnobValues] mutableCopy];
         knobValues[iTermStatusBarSharedTextColorKey] = [color dictionaryValue];
         [component statusBarComponentSetKnobValues:knobValues];
@@ -151,8 +151,8 @@
 - (void)loadElementsFromLayout:(iTermStatusBarLayout *)layout {
     [self->_elements removeAllObjects];
     [layout.components enumerateObjectsUsingBlock:^(id<iTermStatusBarComponent>  _Nonnull component, NSUInteger idx, BOOL * _Nonnull stop) {
-        iTermStatusBarSetupElement *element = [[iTermStatusBarSetupElement alloc] initWithComponent:component];
-        element.delegate = self;
+                          iTermStatusBarSetupElement *element = [[iTermStatusBarSetupElement alloc] initWithComponent:component];
+                          element.delegate = self;
         [self->_elements addObject:element];
     }];
     [self.collectionView reloadData];
@@ -166,10 +166,10 @@
 
 - (NSDictionary *)layoutDictionary {
     NSArray<id<iTermStatusBarComponent>> *components = [_elements mapWithBlock:^id(iTermStatusBarSetupElement *element) {
-        return element.component;
-    }];
+                  return element.component;
+              }];
     iTermStatusBarLayout *layout = [[iTermStatusBarLayout alloc] initWithComponents:components
-                                                              advancedConfiguration:_advancedConfiguration];
+                                                                 advancedConfiguration:_advancedConfiguration];
     return layout.dictionaryValue;
 }
 
@@ -179,8 +179,8 @@
 
 - (void)configureStatusBarComponentWithIdentifier:(NSString *)identifier {
     NSInteger index = [_elements indexOfObjectPassingTest:^BOOL(iTermStatusBarSetupElement * _Nonnull element, NSUInteger idx, BOOL * _Nonnull stop) {
-        return [element.component.statusBarComponentIdentifier isEqualToString:identifier];
-    }];
+                  return [element.component.statusBarComponentIdentifier isEqualToString:identifier];
+              }];
     if (index == NSNotFound) {
         return;
     }
@@ -205,7 +205,7 @@
 #pragma mark - NSCollectionViewDataSource
 
 - (NSInteger)collectionView:(NSCollectionView *)collectionView
-     numberOfItemsInSection:(NSInteger)section {
+    numberOfItemsInSection:(NSInteger)section {
     return _elements.count;
 }
 
@@ -218,11 +218,11 @@
 }
 
 - (void)initializeItem:(iTermStatusBarSetupCollectionViewItem *)item
-           atIndexPath:(NSIndexPath *)indexPath {
+    atIndexPath:(NSIndexPath *)indexPath {
     const NSInteger index = [indexPath indexAtPosition:1];
     item.textField.attributedStringValue = [_elements[index] exemplarWithBackgroundColor:_advancedConfiguration.backgroundColor
-                                                                               textColor:_advancedConfiguration.defaultTextColor ?: self.defaultTextColor
-                                                                             defaultFont:_advancedConfiguration.font];
+                                                             textColor:_advancedConfiguration.defaultTextColor ?: self.defaultTextColor
+                                                             defaultFont:_advancedConfiguration.font];
 
     item.hideDetail = YES;
     item.textField.toolTip = _elements[index].detailedDescription;
@@ -230,15 +230,15 @@
 }
 
 - (NSCollectionViewItem *)collectionView:(NSCollectionView *)collectionView
-     itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath {
+    itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath {
     return [self newItemWithIndexPath:indexPath];
 }
 
 #pragma mark - NSCollectionViewDelegateFlowLayout
 
 - (NSSize)collectionView:(NSCollectionView *)collectionView
-                  layout:(NSCollectionViewLayout*)collectionViewLayout
-  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    layout:(NSCollectionViewLayout*)collectionViewLayout
+    sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     iTermStatusBarSetupCollectionViewItem *item = [[iTermStatusBarSetupCollectionViewItem alloc] initWithNibName:@"iTermStatusBarSetupCollectionViewItem" bundle:[NSBundle bundleForClass:self.class]];
     [item view];
     [self initializeItem:item atIndexPath:indexPath];
@@ -251,8 +251,8 @@
 #pragma mark Drag and drop support
 
 - (BOOL)collectionView:(NSCollectionView *)collectionView
-canDragItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
-             withEvent:(NSEvent *)event {
+    canDragItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
+    withEvent:(NSEvent *)event {
     _draggingIndexPath = indexPaths.anyObject;
     return YES;
 }
@@ -262,17 +262,17 @@ canDragItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
 }
 
 - (void)collectionView:(NSCollectionView *)collectionView
-       draggingSession:(NSDraggingSession *)session
-          endedAtPoint:(NSPoint)screenPoint
-         dragOperation:(NSDragOperation)operation {
+    draggingSession:(NSDraggingSession *)session
+    endedAtPoint:(NSPoint)screenPoint
+    dragOperation:(NSDragOperation)operation {
     if (!_draggingIndexPath) {
         return;
     }
 
     NSPoint windowPoint = [collectionView.window convertRectFromScreen:NSMakeRect(screenPoint.x,
-                                                                                  screenPoint.y,
-                                                                                  0,
-                                                                                  0)].origin;
+                                                 screenPoint.y,
+                                                 0,
+                                                 0)].origin;
     NSPoint collectionViewPoint = [collectionView convertPoint:windowPoint fromView:nil];
     if (operation == NSDragOperationNone && !NSPointInRect(collectionViewPoint, collectionView.bounds)) {
         [self deleteItemAtIndex:[self->_draggingIndexPath indexAtPosition:1]];
@@ -281,12 +281,12 @@ canDragItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
 }
 
 - (BOOL)collectionView:(NSCollectionView *)collectionView
-writeItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
-          toPasteboard:(NSPasteboard *)pasteboard {
+    writeItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
+    toPasteboard:(NSPasteboard *)pasteboard {
     [pasteboard clearContents];
 
     NSArray *objects = [indexPaths.allObjects mapWithBlock:^id(NSIndexPath *indexPath) {
-        NSUInteger index = [indexPath indexAtPosition:1];
+                              NSUInteger index = [indexPath indexAtPosition:1];
         return self->_elements[index];
     }];
     [pasteboard writeObjects:objects];
@@ -296,9 +296,9 @@ writeItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
 
 //- draggingImageForItemsAtIndexPaths:withEvent:offset:
 - (NSImage *)collectionView:(NSCollectionView *)collectionView
-draggingImageForItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
-                  withEvent:(NSEvent *)event
-                     offset:(NSPointPointer)dragImageOffset {
+    draggingImageForItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
+    withEvent:(NSEvent *)event
+    offset:(NSPointPointer)dragImageOffset {
     NSPoint locationInWindow = event.locationInWindow;
     iTermStatusBarSetupCollectionViewItem *item = [iTermStatusBarSetupCollectionViewItem castFrom:[collectionView itemAtIndexPath:indexPaths.anyObject]];
     assert(item);
@@ -311,11 +311,11 @@ draggingImageForItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
 }
 
 - (NSDragOperation)collectionView:(NSCollectionView *)collectionView
-                     validateDrop:(id <NSDraggingInfo>)draggingInfo
-                proposedIndexPath:(NSIndexPath * __nonnull * __nonnull)proposedDropIndexPath
-                    dropOperation:(NSCollectionViewDropOperation *)proposedDropOperation {
+    validateDrop:(id <NSDraggingInfo>)draggingInfo
+    proposedIndexPath:(NSIndexPath * __nonnull * __nonnull)proposedDropIndexPath
+    dropOperation:(NSCollectionViewDropOperation *)proposedDropOperation {
     if (draggingInfo.draggingSource != collectionView &&
-        draggingInfo.draggingSource != _sourceCollectionView) {
+            draggingInfo.draggingSource != _sourceCollectionView) {
         return NSDragOperationNone;
     }
 
@@ -328,9 +328,9 @@ draggingImageForItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
 }
 
 - (BOOL)collectionView:(NSCollectionView *)collectionView
-            acceptDrop:(id<NSDraggingInfo>)draggingInfo
-             indexPath:(NSIndexPath *)indexPath
-         dropOperation:(NSCollectionViewDropOperation)dropOperation {
+    acceptDrop:(id<NSDraggingInfo>)draggingInfo
+    indexPath:(NSIndexPath *)indexPath
+    dropOperation:(NSCollectionViewDropOperation)dropOperation {
     NSData *data = [draggingInfo.draggingPasteboard dataForType:iTermStatusBarElementPasteboardType];
     NSError *error = nil;
     NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:&error];
@@ -341,21 +341,21 @@ draggingImageForItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
         return NO;
     }
     element.delegate = self;
-    [collectionView.animator performBatchUpdates:^{
-        if (draggingInfo.draggingSource == collectionView) {
-            const NSInteger fromIndex = [self->_draggingIndexPath indexAtPosition:1];
+    [collectionView.animator performBatchUpdates:^ {
+                                if (draggingInfo.draggingSource == collectionView) {
+                                    const NSInteger fromIndex = [self->_draggingIndexPath indexAtPosition:1];
             const NSInteger toIndex = [indexPath indexAtPosition:1];
             NSLog(@"Move element from %@ to %@", @(fromIndex), @(toIndex));
             if (fromIndex >= toIndex) {
                 [self->_elements removeObjectAtIndex:fromIndex];
                 [collectionView moveItemAtIndexPath:self->_draggingIndexPath
-                                        toIndexPath:indexPath];
+                                toIndexPath:indexPath];
             }
             [self->_elements insertObject:element atIndex:toIndex];
             if (fromIndex < toIndex) {
                 [self->_elements removeObjectAtIndex:fromIndex];
                 [collectionView moveItemAtIndexPath:self->_draggingIndexPath
-                                        toIndexPath:[NSIndexPath indexPathForItem:toIndex - 1 inSection:0]];
+                                toIndexPath:[NSIndexPath indexPathForItem:toIndex - 1 inSection:0]];
             }
             NSLog(@"Collection move item from %@ to %@", self->_draggingIndexPath, indexPath);
         } else {
@@ -373,8 +373,8 @@ draggingImageForItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
 
 - (void)collectionView:(NSCollectionView *)collectionView didChangeItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths toHighlightState:(NSCollectionViewItemHighlightState)highlightState {
     [indexPaths enumerateObjectsUsingBlock:^(NSIndexPath * _Nonnull indexPath, BOOL * _Nonnull stop) {
-        [[collectionView itemAtIndexPath:indexPath] setHighlightState:highlightState];
-    }];
+                   [[collectionView itemAtIndexPath:indexPath] setHighlightState:highlightState];
+               }];
     [self didChange:NO];
 }
 
@@ -424,20 +424,20 @@ draggingImageForItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
 }
 
 - (void)itermStatusBarSetupElementDidChange:(iTermStatusBarSetupElement *)element
-                                updatedKeys:(NSSet<NSString *> *)updatedKeys {
+    updatedKeys:(NSSet<NSString *> *)updatedKeys {
     NSInteger index = [_elements indexOfObject:element];
     if (index == NSNotFound) {
         return;
     }
     if (!_updatingAutoRainbowColors &&
-        [self keysContainsTextColor:updatedKeys]) {
+            [self keysContainsTextColor:updatedKeys]) {
         [self disableAutoRainbow];
     }
     [self.collectionView.animator performBatchUpdates:
-     ^{
-         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
-         [self.collectionView reloadItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
-     } completionHandler:^(BOOL finished) {}];
+                                 ^ {
+                                     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+        [self.collectionView reloadItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
+    } completionHandler:^(BOOL finished) {}];
     [self didChange:YES];
 }
 
@@ -448,22 +448,22 @@ draggingImageForItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
     if (!indexPath) {
         return;
     }
-    
+
     iTermStatusBarSetupElement *element = _elements[indexPath.item];
     id<iTermStatusBarComponent> component = element.component;
     if (!component) {
         return;
     }
-    
+
     iTermStatusBarSetupKnobsViewController *viewController = [self viewControllerToConfigureComponent:component];
     viewController.view.frame = NSMakeRect(0, 0, viewController.preferredContentSize.width, viewController.preferredContentSize.height);
     iTermStatusBarSetupConfigureComponentWindowController *windowController =
-    [[iTermStatusBarSetupConfigureComponentWindowController alloc] initWithWindowNibName:@"iTermStatusBarSetupConfigureComponentWindowController"];
+        [[iTermStatusBarSetupConfigureComponentWindowController alloc] initWithWindowNibName:@"iTermStatusBarSetupConfigureComponentWindowController"];
     [windowController window];
     [windowController setKnobsViewController:viewController];
     [self.view.window beginSheet:windowController.window completionHandler:^(NSModalResponse returnCode) {
-        self->_configureButton.enabled = NO;
-        if (returnCode == NSModalResponseOK) {
+                         self->_configureButton.enabled = NO;
+                         if (returnCode == NSModalResponseOK) {
             [viewController commit];
             [component statusBarComponentSetKnobValues:viewController.knobValues];
         }

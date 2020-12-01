@@ -51,19 +51,19 @@ static const CGFloat iTermCharacterSourceAliasedFakeBoldShiftPoints = 1;
 @implementation iTermCharacterSourceDescriptor
 
 + (instancetype)characterSourceDescriptorWithAsciiFont:(PTYFontInfo *)asciiFontInfo
-                                          nonAsciiFont:(PTYFontInfo *)nonAsciiFontInfo
-                                           asciiOffset:(CGSize)asciiOffset
-                                             glyphSize:(CGSize)glyphSize
-                                              cellSize:(CGSize)cellSize
-                                cellSizeWithoutSpacing:(CGSize)cellSizeWithoutSpacing
-                                                 scale:(CGFloat)scale
-                                           useBoldFont:(BOOL)useBoldFont
-                                         useItalicFont:(BOOL)useItalicFont
-                                      usesNonAsciiFont:(BOOL)useNonAsciiFont
-                                      asciiAntiAliased:(BOOL)asciiAntiAliased
-                                   nonAsciiAntiAliased:(BOOL)nonAsciiAntiAliased {
+    nonAsciiFont:(PTYFontInfo *)nonAsciiFontInfo
+    asciiOffset:(CGSize)asciiOffset
+    glyphSize:(CGSize)glyphSize
+    cellSize:(CGSize)cellSize
+    cellSizeWithoutSpacing:(CGSize)cellSizeWithoutSpacing
+    scale:(CGFloat)scale
+    useBoldFont:(BOOL)useBoldFont
+    useItalicFont:(BOOL)useItalicFont
+    usesNonAsciiFont:(BOOL)useNonAsciiFont
+    asciiAntiAliased:(BOOL)asciiAntiAliased
+    nonAsciiAntiAliased:(BOOL)nonAsciiAntiAliased {
     iTermCharacterSourceDescriptor *descriptor = [[iTermCharacterSourceDescriptor alloc] init];
-    
+
     descriptor.asciiFontInfo = asciiFontInfo;
     descriptor.nonAsciiFontInfo = nonAsciiFontInfo;
     descriptor.asciiOffset = asciiOffset;
@@ -83,31 +83,33 @@ static const CGFloat iTermCharacterSourceAliasedFakeBoldShiftPoints = 1;
 - (NSString *)description {
     NSDictionary *dict = [self dictionaryValue];
     NSString *props = [[[dict.allKeys sortedArrayUsingSelector:@selector(compare:)] mapWithBlock:^id(NSString *key) {
-        return [NSString stringWithFormat:@"%@=“%@”", key, dict[key]];
-    }] componentsJoinedByString:@" "];
+                                                                     return [NSString stringWithFormat:@"%@=“%@”", key, dict[key]];
+                                                                 }] componentsJoinedByString:@" "];
     return [NSString stringWithFormat:@"<%@: %p %@>",
-            NSStringFromClass([self class]), self, props];
+                     NSStringFromClass([self class]), self, props];
 }
 
 - (NSDictionary *)dictionaryValue {
-    return @{ @"asciiRegularFont": _asciiFontInfo.font ?: [NSNull null],
-              @"asciiBoldFont": _asciiFontInfo.boldVersion.font ?: [NSNull null],
-              @"asciiItalicFont": _asciiFontInfo.italicVersion.font ?: [NSNull null],
-              @"asciiBoldItalicFont": _asciiFontInfo.boldItalicVersion.font ?: [NSNull null],
-              @"nonAsciiRegularFont": _nonAsciiFontInfo.font ?: [NSNull null],
-              @"nonAsciiBoldFont": _nonAsciiFontInfo.boldVersion.font ?: [NSNull null],
-              @"nonAsciiItalicFont": _nonAsciiFontInfo.italicVersion.font ?: [NSNull null],
-              @"nonAsciiBoldItalicFont": _nonAsciiFontInfo.boldItalicVersion.font ?: [NSNull null],
-              @"asciiOffset": NSStringFromSize(_asciiOffset),
-              @"glyphSize": @(_glyphSize),
-              @"cellSize": @(_cellSize),
-              @"cellSizeWithoutSpacing": @(_cellSizeWithoutSpacing),
-              @"scale": @(_scale),
-              @"useBoldFont": @(_useBoldFont),
-              @"useItalicFont": @(_useItalicFont),
-              @"useNonAsciiFont": @(_useNonAsciiFont),
-              @"asciiAntiAliased": @(_asciiAntiAliased),
-              @"nonAsciiAntiAliased": @(_nonAsciiAntiAliased) };
+    return @ { @"asciiRegularFont":
+               _asciiFontInfo.font ?: [NSNull null],
+               @"asciiBoldFont": _asciiFontInfo.boldVersion.font ?: [NSNull null],
+               @"asciiItalicFont": _asciiFontInfo.italicVersion.font ?: [NSNull null],
+               @"asciiBoldItalicFont": _asciiFontInfo.boldItalicVersion.font ?: [NSNull null],
+               @"nonAsciiRegularFont": _nonAsciiFontInfo.font ?: [NSNull null],
+               @"nonAsciiBoldFont": _nonAsciiFontInfo.boldVersion.font ?: [NSNull null],
+               @"nonAsciiItalicFont": _nonAsciiFontInfo.italicVersion.font ?: [NSNull null],
+               @"nonAsciiBoldItalicFont": _nonAsciiFontInfo.boldItalicVersion.font ?: [NSNull null],
+               @"asciiOffset": NSStringFromSize(_asciiOffset),
+               @"glyphSize": @(_glyphSize),
+               @"cellSize": @(_cellSize),
+               @"cellSizeWithoutSpacing": @(_cellSizeWithoutSpacing),
+               @"scale": @(_scale),
+               @"useBoldFont": @(_useBoldFont),
+               @"useItalicFont": @(_useItalicFont),
+               @"useNonAsciiFont": @(_useNonAsciiFont),
+               @"asciiAntiAliased": @(_asciiAntiAliased),
+               @"nonAsciiAntiAliased": @(_nonAsciiAntiAliased)
+             };
 }
 
 - (CGFloat)baselineOffset {
@@ -115,19 +117,19 @@ static const CGFloat iTermCharacterSourceAliasedFakeBoldShiftPoints = 1;
 }
 
 - (NSFont *)fontForASCII:(BOOL)isAscii
-               attributes:(iTermCharacterSourceAttributes *)attributes
-               renderBold:(BOOL *)renderBold
-             renderItalic:(BOOL *)renderItalic {
+    attributes:(iTermCharacterSourceAttributes *)attributes
+    renderBold:(BOOL *)renderBold
+    renderItalic:(BOOL *)renderItalic {
     *renderBold = attributes.bold;
     *renderItalic = attributes.italic;
     return [PTYFontInfo fontForAsciiCharacter:isAscii
-                                    asciiFont:_asciiFontInfo
-                                 nonAsciiFont:_nonAsciiFontInfo
-                                  useBoldFont:self.useBoldFont
-                                useItalicFont:self.useItalicFont
-                             usesNonAsciiFont:self.useNonAsciiFont
-                                   renderBold:renderBold
-                                 renderItalic:renderItalic].font;
+                        asciiFont:_asciiFontInfo
+                        nonAsciiFont:_nonAsciiFontInfo
+                        useBoldFont:self.useBoldFont
+                        useItalicFont:self.useItalicFont
+                        usesNonAsciiFont:self.useNonAsciiFont
+                        renderBold:renderBold
+                        renderItalic:renderItalic].font;
 }
 
 @end
@@ -141,8 +143,8 @@ static const CGFloat iTermCharacterSourceAliasedFakeBoldShiftPoints = 1;
 @implementation iTermCharacterSourceAttributes
 
 + (instancetype)characterSourceAttributesWithThinStrokes:(BOOL)useThinStrokes
-                                                    bold:(BOOL)bold
-                                                  italic:(BOOL)italic {
+    bold:(BOOL)bold
+    italic:(BOOL)italic {
     iTermCharacterSourceAttributes *attributes = [[iTermCharacterSourceAttributes alloc] init];
     attributes.useThinStrokes = useThinStrokes;
     attributes.bold = bold;
@@ -165,7 +167,7 @@ static const CGFloat iTermCharacterSourceAliasedFakeBoldShiftPoints = 1;
     BOOL _boxDrawing;
     BOOL _useNativePowerlineGlyphs;
     BOOL _postprocessed NS_AVAILABLE_MAC(10_14);
-    
+
     CTLineRef _lineRefs[4];
     CGContextRef _context;
     // These have size _bytesPerRow * _numberOfRows.
@@ -192,16 +194,16 @@ static const CGFloat iTermCharacterSourceAliasedFakeBoldShiftPoints = 1;
 }
 
 + (NSRect)boundingRectForCharactersInRange:(NSRange)range
-                             asciiFontInfo:(PTYFontInfo *)asciiFontInfo
-                          nonAsciiFontInfo:(PTYFontInfo *)nonAsciiFontInfo
-                                     scale:(CGFloat)scale
-                               useBoldFont:(BOOL)useBoldFont
-                             useItalicFont:(BOOL)useItalicFont
-                          usesNonAsciiFont:(BOOL)useNonAsciiFont
-                                   context:(CGContextRef)context {
+    asciiFontInfo:(PTYFontInfo *)asciiFontInfo
+    nonAsciiFontInfo:(PTYFontInfo *)nonAsciiFontInfo
+    scale:(CGFloat)scale
+    useBoldFont:(BOOL)useBoldFont
+    useItalicFont:(BOOL)useItalicFont
+    usesNonAsciiFont:(BOOL)useNonAsciiFont
+    context:(CGContextRef)context {
     static NSMutableDictionary<NSArray *, NSValue *> *cache;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         cache = [NSMutableDictionary dictionary];
     });
     if (!asciiFontInfo) {
@@ -225,36 +227,36 @@ static const CGFloat iTermCharacterSourceAliasedFakeBoldShiftPoints = 1;
     if (cache[key]) {
         return [cache[key] rectValue];
     }
-    
+
     const CGSize bigSize = CGSizeMake(round(pointSize * 10),
                                       round(pointSize * 10));
     iTermCharacterSourceDescriptor *descriptor = [iTermCharacterSourceDescriptor characterSourceDescriptorWithAsciiFont:asciiFontInfo
-                                                                                                           nonAsciiFont:nonAsciiFontInfo
-                                                                                                            asciiOffset:CGSizeZero
-                                                                                                         glyphSize:bigSize
-                                                                                                          cellSize:bigSize
-                                                                                            cellSizeWithoutSpacing:bigSize
-                                                                                                             scale:scale
-                                                                                                            useBoldFont:useBoldFont
-                                                                                                          useItalicFont:useItalicFont
-                                                                                                       usesNonAsciiFont:useNonAsciiFont
-                                                                                                       asciiAntiAliased:YES
-                                                                                                    nonAsciiAntiAliased:YES];
-    
+                                           nonAsciiFont:nonAsciiFontInfo
+                                           asciiOffset:CGSizeZero
+                                           glyphSize:bigSize
+                                           cellSize:bigSize
+                                           cellSizeWithoutSpacing:bigSize
+                                           scale:scale
+                                           useBoldFont:useBoldFont
+                                           useItalicFont:useItalicFont
+                                           usesNonAsciiFont:useNonAsciiFont
+                                           asciiAntiAliased:YES
+                                           nonAsciiAntiAliased:YES];
+
     iTermCharacterSourceAttributes *attributes = [iTermCharacterSourceAttributes characterSourceAttributesWithThinStrokes:NO
-                                                                                                                     bold:YES
-                                                                                                                   italic:YES];
+                                           bold:YES
+                                           italic:YES];
     NSRect unionRect = NSZeroRect;
     for (NSInteger i = 0; i < range.length; i++) {
         @autoreleasepool {
             UTF32Char c = range.location + i;
             iTermCharacterSource *source = [[iTermCharacterSource alloc] initWithCharacter:[NSString stringWithLongCharacter:c]
-                                                                                descriptor:descriptor
-                                                                                attributes:attributes
-                                                                                boxDrawing:NO
-                                                                                    radius:0
-                                                                  useNativePowerlineGlyphs:NO
-                                                                                   context:context];
+                                                                         descriptor:descriptor
+                                                                         attributes:attributes
+                                                                         boxDrawing:NO
+                                                                         radius:0
+                                                                         useNativePowerlineGlyphs:NO
+                                                                         context:context];
             CGRect frame = [source frameFlipped:NO];
             unionRect = NSUnionRect(unionRect, frame);
         }
@@ -268,12 +270,12 @@ static const CGFloat iTermCharacterSourceAliasedFakeBoldShiftPoints = 1;
 }
 
 - (instancetype)initWithCharacter:(NSString *)string
-                       descriptor:(iTermCharacterSourceDescriptor *)descriptor
-                       attributes:(iTermCharacterSourceAttributes *)attributes
-                       boxDrawing:(BOOL)boxDrawing
-                           radius:(int)radius
-         useNativePowerlineGlyphs:(BOOL)useNativePowerlineGlyphs
-                          context:(CGContextRef)context {
+    descriptor:(iTermCharacterSourceDescriptor *)descriptor
+    attributes:(iTermCharacterSourceAttributes *)attributes
+    boxDrawing:(BOOL)boxDrawing
+    radius:(int)radius
+    useNativePowerlineGlyphs:(BOOL)useNativePowerlineGlyphs
+    context:(CGContextRef)context {
     assert(descriptor.glyphSize.width > 0);
     assert(descriptor.glyphSize.height > 0);
     assert(descriptor.scale > 0);
@@ -327,9 +329,9 @@ static const CGFloat iTermCharacterSourceAliasedFakeBoldShiftPoints = 1;
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p font=%@>",
-            NSStringFromClass([self class]),
-            self,
-            _font];
+                     NSStringFromClass([self class]),
+                     self,
+                     _font];
 }
 
 - (int)maxParts {
@@ -419,20 +421,20 @@ static const CGFloat iTermCharacterSourceAliasedFakeBoldShiftPoints = 1;
     BOOL saveBitmapsForDebugging = NO;
     if (saveBitmapsForDebugging) {
         NSImage *image = [NSImage imageWithRawData:[NSData dataWithBytes:bitmapBytes length:bitmap.data.length]
-                                              size:bitmap.size
-                                     bitsPerSample:8
-                                   samplesPerPixel:4
-                                          hasAlpha:YES
-                                    colorSpaceName:NSDeviceRGBColorSpace];
+                                  size:bitmap.size
+                                  bitsPerSample:8
+                                  samplesPerPixel:4
+                                  hasAlpha:YES
+                                  colorSpaceName:NSDeviceRGBColorSpace];
         [image saveAsPNGTo:[NSString stringWithFormat:@"/tmp/%@.%@.png", _string, @(part)]];
 
         NSData *bigData = [NSData dataWithBytes:bitmapBytes length:sourceLength];
         image = [NSImage imageWithRawData:bigData
-                                     size:_size
-                            bitsPerSample:8
-                          samplesPerPixel:4
-                                 hasAlpha:YES
-                           colorSpaceName:NSDeviceRGBColorSpace];
+                         size:_size
+                         bitsPerSample:8
+                         samplesPerPixel:4
+                         hasAlpha:YES
+                         colorSpaceName:NSDeviceRGBColorSpace];
         [image saveAsPNGTo:[NSString stringWithFormat:@"/tmp/big-%@.png", _string]];
     }
 
@@ -445,10 +447,10 @@ static const CGFloat iTermCharacterSourceAliasedFakeBoldShiftPoints = 1;
     ssize_t destOffset = (glyphHeight - 1) * destRowSize;
     ssize_t sourceOffset = (dx * 4 * glyphWidth) + (dy * glyphHeight * sourceRowSize);
     for (int i = 0;
-         (destOffset >= 0 &&
-          i < glyphHeight &&
-          sourceOffset + destRowSize <= sourceLength);
-         i++) {
+            (destOffset >= 0 &&
+             i < glyphHeight &&
+             sourceOffset + destRowSize <= sourceLength);
+            i++) {
         memcpy(dest + destOffset, bitmapBytes + sourceOffset, destRowSize);
         sourceOffset += sourceRowSize;
         destOffset -= destRowSize;
@@ -500,7 +502,7 @@ static const CGFloat iTermCharacterSourceAliasedFakeBoldShiftPoints = 1;
             // This has the side-effect of setting _numberOfIterationsNeeded
             [self drawWithOffset:CGPointMake(_descriptor.glyphSize.width * radius + offset.width,
                                              _descriptor.glyphSize.height * radius + offset.height)
-                       iteration:iteration];
+                  iteration:iteration];
             iteration += 1;
         } while (iteration < _numberOfIterationsNeeded);
     }
@@ -564,7 +566,7 @@ static const CGFloat iTermCharacterSourceAliasedFakeBoldShiftPoints = 1;
     if (flipped) {
         frame.origin.y = _size.height - frame.origin.y - frame.size.height;
     }
-    
+
     CGPoint min = CGPointMake(floor(CGRectGetMinX(frame)),
                               floor(CGRectGetMinY(frame)));
     CGPoint max = CGPointMake(ceil(CGRectGetMaxX(frame)),
@@ -586,12 +588,12 @@ static const CGFloat iTermCharacterSourceAliasedFakeBoldShiftPoints = 1;
 
     [self drawRuns:runs
           atOffset:CGPointMake(offset.x, ty)
-              skew:skew
-         iteration:iteration];
+          skew:skew
+          iteration:iteration];
     _haveDrawn = YES;
     const NSUInteger length = CGBitmapContextGetBytesPerRow(_context) * CGBitmapContextGetHeight(_context);
     NSMutableData *data = [NSMutableData dataWithBytes:CGBitmapContextGetData(_context)
-                                                length:length];
+                                         length:length];
     [_datas addObject:data];
     CGContextRestoreGState(_context);
     CGContextSetTextMatrix(_context, textMatrix);
@@ -650,11 +652,11 @@ static const CGFloat iTermCharacterSourceAliasedFakeBoldShiftPoints = 1;
 }
 
 - (void)drawBackgroundIfNeededForIteration:(NSInteger)iteration
-                                   context:(CGContextRef)context {
+    context:(CGContextRef)context {
     if (iteration >= _nextIterationToDrawBackgroundFor) {
         _nextIterationToDrawBackgroundFor = iteration;
         [self fillBackgroundForIteration:iteration
-                                 context:context];
+              context:context];
     }
 }
 
@@ -667,9 +669,9 @@ static const CGFloat iTermCharacterSourceAliasedFakeBoldShiftPoints = 1;
 
 // Per-iteration initialization. Only call this once per iteration.
 - (void)initializeIteration:(NSInteger)iteration
-                     offset:(CGPoint)offset
-                       skew:(CGFloat)skew
-                    context:(CGContextRef)context {
+    offset:(CGPoint)offset
+    skew:(CGFloat)skew
+    context:(CGContextRef)context {
     CGContextSetShouldAntialias(context, _antialiased);
 
     if (_antialiased) {
@@ -703,39 +705,39 @@ static const CGFloat iTermCharacterSourceAliasedFakeBoldShiftPoints = 1;
         CGContextSetFontSmoothingStyle(context, YES);  // Issue 7394.
     }
     [self initializeTextMatrixInContext:context
-                               withSkew:skew
-                                 offset:offset];
+          withSkew:skew
+          offset:offset];
 }
 
 - (void)prepareToDrawRunAtIteration:(NSInteger)iteration
-                             offset:(CGPoint)offset
-                            runFont:(CTFontRef)runFont
-                               skew:(CGFloat)skew
-                        initialized:(BOOL)haveInitializedThisIteration {
+    offset:(CGPoint)offset
+    runFont:(CTFontRef)runFont
+    skew:(CGFloat)skew
+    initialized:(BOOL)haveInitializedThisIteration {
     [self initializeStateIfNeededWithFont:runFont];
 
     CGContextRef context = _context;
     [self drawBackgroundIfNeededForIteration:iteration
-                                     context:context];
+          context:context];
     [self setTextColorForIteration:iteration
-                           context:context];
+          context:context];
     if (!haveInitializedThisIteration) {
         [self initializeIteration:iteration
-                           offset:offset
-                             skew:skew
-                          context:context];
+              offset:offset
+              skew:skew
+              context:context];
     }
 }
 
 - (void)drawBoxInContext:(CGContextRef)context offset:(CGPoint)offset iteration:(int)iteration {
     assert(context);
     [iTermBoxDrawingBezierCurveFactory drawCodeInCurrentContext:[_string characterAtIndex:0]
-                                                       cellSize:NSMakeSize(_descriptor.cellSize.width * _descriptor.scale,
-                                                                           _descriptor.cellSize.height * _descriptor.scale)
-                                                           scale:_descriptor.scale
-                                                          offset:offset
-                                                          color:[[self textColorForIteration:iteration] CGColor]
-                                                           useNativePowerlineGlyphs:_useNativePowerlineGlyphs];
+                                       cellSize:NSMakeSize(_descriptor.cellSize.width * _descriptor.scale,
+                                                           _descriptor.cellSize.height * _descriptor.scale)
+                                       scale:_descriptor.scale
+                                       offset:offset
+                                       color:[[self textColorForIteration:iteration] CGColor]
+                                       useNativePowerlineGlyphs:_useNativePowerlineGlyphs];
 }
 
 - (void)drawBoxAtOffset:(CGPoint)offset iteration:(int)iteration {
@@ -756,9 +758,9 @@ static const CGFloat iTermCharacterSourceAliasedFakeBoldShiftPoints = 1;
 }
 
 - (void)drawRuns:(CFArrayRef)runs
-        atOffset:(CGPoint)offset
-            skew:(CGFloat)skew
-       iteration:(NSInteger)iteration {
+    atOffset:(CGPoint)offset
+    skew:(CGFloat)skew
+    iteration:(NSInteger)iteration {
     BOOL haveInitializedThisIteration = NO;
     for (CFIndex j = 0; j < CFArrayGetCount(runs); j++) {
         CTRunRef run = CFArrayGetValueAtIndex(runs, j);
@@ -773,38 +775,38 @@ static const CGFloat iTermCharacterSourceAliasedFakeBoldShiftPoints = 1;
 
         if (_boxDrawing) {
             [self drawBoxAtOffset:offset
-                        iteration:iteration];
+                  iteration:iteration];
         } else if (_isEmoji) {
             [self drawEmojiWithFont:runFont
-                             offset:offset
-                             buffer:buffer
-                          positions:positions
-                             length:length
-                          iteration:iteration
-                            context:context];
+                  offset:offset
+                  buffer:buffer
+                  positions:positions
+                  length:length
+                  iteration:iteration
+                  context:context];
         } else {
             CTFontDrawGlyphs(runFont, buffer, (NSPoint *)positions, length, context);
 
             if (_fakeBold) {
                 [self initializeTextMatrixInContext:context
-                                           withSkew:skew
-                                             offset:CGPointMake(offset.x + self.fakeBoldShift * _descriptor.scale,
-                                                                offset.y)];
+                      withSkew:skew
+                      offset:CGPointMake(offset.x + self.fakeBoldShift * _descriptor.scale,
+                                    offset.y)];
                 CTFontDrawGlyphs(runFont, buffer, (NSPoint *)positions, length, context);
             }
 
 #if ENABLE_DEBUG_CHARACTER_SOURCE_ALIGNMENT
             CGContextSetRGBStrokeColor(_contexts[iteration], 0, 0, 1, 1);
             CGContextStrokeRect(_contexts[iteration], CGRectMake(offset.x + positions[0].x,
-                                                                 offset.y + positions[0].y,
-                                                                 _descriptor.glyphSize.width,
-                                                                 _descriptor.glyphSize.height));
+                                offset.y + positions[0].y,
+                                _descriptor.glyphSize.width,
+                                _descriptor.glyphSize.height));
 
             CGContextSetRGBStrokeColor(_contexts[iteration], 1, 0, 1, 1);
             CGContextStrokeRect(_contexts[iteration], CGRectMake(offset.x,
-                                                                 offset.y,
-                                                                 _descriptor.glyphSize.width,
-                                                                 _descriptor.glyphSize.height));
+                                offset.y,
+                                _descriptor.glyphSize.width,
+                                _descriptor.glyphSize.height));
 #endif
         }
     }
@@ -813,14 +815,14 @@ static const CGFloat iTermCharacterSourceAliasedFakeBoldShiftPoints = 1;
 - (NSColor *)textColorForIteration:(NSInteger)iteration {
     if (iTermTextIsMonochrome()) {
         switch (iteration) {
-            case 0:
-                return [NSColor colorWithSRGBRed:0 green:0 blue:0 alpha:1];
-            case 1:
-                return [NSColor colorWithSRGBRed:1 green:0 blue:0 alpha:1];
-            case 2:
-                return [NSColor colorWithSRGBRed:0 green:1 blue:0 alpha:1];
-            case 3:
-                return [NSColor colorWithSRGBRed:1 green:1 blue:1 alpha:1];
+        case 0:
+            return [NSColor colorWithSRGBRed:0 green:0 blue:0 alpha:1];
+        case 1:
+            return [NSColor colorWithSRGBRed:1 green:0 blue:0 alpha:1];
+        case 2:
+            return [NSColor colorWithSRGBRed:0 green:1 blue:0 alpha:1];
+        case 3:
+            return [NSColor colorWithSRGBRed:1 green:1 blue:1 alpha:1];
         }
         ITAssertWithMessage(NO, @"bogus iteration %@", @(iteration));
     }
@@ -828,12 +830,12 @@ static const CGFloat iTermCharacterSourceAliasedFakeBoldShiftPoints = 1;
 }
 
 - (void)drawEmojiWithFont:(CTFontRef)runFont
-                   offset:(CGPoint)offset
-                   buffer:(const CGGlyph *)buffer
-                positions:(CGPoint *)positions
-                   length:(size_t)length
-                iteration:(NSInteger)iteration
-                  context:(CGContextRef)context {
+    offset:(CGPoint)offset
+    buffer:(const CGGlyph *)buffer
+    positions:(CGPoint *)positions
+    length:(size_t)length
+    iteration:(NSInteger)iteration
+    context:(CGContextRef)context {
     CGAffineTransform textMatrix = CGContextGetTextMatrix(context);
     CGContextSaveGState(context);
     // You have to use the CTM with emoji. CGContextSetTextMatrix doesn't work.
@@ -866,13 +868,13 @@ static const CGFloat iTermCharacterSourceAliasedFakeBoldShiftPoints = 1;
 }
 
 - (void)initializeTextMatrixInContext:(CGContextRef)cgContext
-                             withSkew:(CGFloat)skew
-                               offset:(CGPoint)offset {
+    withSkew:(CGFloat)skew
+    offset:(CGPoint)offset {
     if (!_isEmoji) {
         // Can't use this with emoji.
         CGAffineTransform textMatrix = CGAffineTransformMake(_descriptor.scale,        0.0,
-                                                             skew * _descriptor.scale, _descriptor.scale,
-                                                             offset.x,                 offset.y);
+                                       skew * _descriptor.scale, _descriptor.scale,
+                                       offset.x,                 offset.y);
         CGContextSetTextMatrix(cgContext, textMatrix);
     } else {
         CGContextSetTextMatrix(cgContext, CGAffineTransformIdentity);
@@ -880,9 +882,9 @@ static const CGFloat iTermCharacterSourceAliasedFakeBoldShiftPoints = 1;
 }
 
 - (void)initializeCTMWithFont:(CTFontRef)runFont
-                       offset:(CGPoint)offset
-                    iteration:(NSInteger)iteration
-                      context:(CGContextRef)context {
+    offset:(CGPoint)offset
+    iteration:(NSInteger)iteration
+    context:(CGContextRef)context {
     CGContextConcatCTM(context, CTFontGetMatrix(runFont));
     CGContextTranslateCTM(context, offset.x, offset.y);
     CGContextScaleCTM(context, _descriptor.scale, _descriptor.scale);
@@ -891,16 +893,21 @@ static const CGFloat iTermCharacterSourceAliasedFakeBoldShiftPoints = 1;
 - (NSDictionary *)attributesForIteration:(NSInteger)iteration {
     static NSMutableParagraphStyle *paragraphStyle;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         paragraphStyle.lineBreakMode = NSLineBreakByClipping;
         paragraphStyle.tabStops = @[];
         paragraphStyle.baseWritingDirection = NSWritingDirectionLeftToRight;
     });
-    return @{ (NSString *)kCTLigatureAttributeName: @0,
-              (NSString *)kCTForegroundColorAttributeName: (id)[self textColorForIteration:iteration],
-              NSFontAttributeName: _font,
-              NSParagraphStyleAttributeName: paragraphStyle };
+    return @ { (NSString *)kCTLigatureAttributeName:
+               @0,
+               (NSString *)kCTForegroundColorAttributeName:
+               (id)[self textColorForIteration:iteration],
+               NSFontAttributeName:
+               _font,
+               NSParagraphStyleAttributeName:
+               paragraphStyle
+             };
 }
 
 @end

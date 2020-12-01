@@ -17,9 +17,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PTYTextView (ARC)<
-iTermContextMenuHelperDelegate,
-iTermMouseReportingFrustrationDetectorDelegate,
-iTermURLActionHelperDelegate>
+    iTermContextMenuHelperDelegate,
+    iTermMouseReportingFrustrationDetectorDelegate,
+    iTermURLActionHelperDelegate>
 
 - (void)initARC;
 
@@ -32,10 +32,10 @@ iTermURLActionHelperDelegate>
 - (NSPoint)clickPoint:(NSEvent *)event allowRightMarginOverflow:(BOOL)allowRightMarginOverflow;
 
 - (NSPoint)windowLocationToRowCol:(NSPoint)locationInWindow
-         allowRightMarginOverflow:(BOOL)allowRightMarginOverflow;
+    allowRightMarginOverflow:(BOOL)allowRightMarginOverflow;
 
 - (VT100GridCoord)coordForPoint:(NSPoint)locationInTextView
-       allowRightMarginOverflow:(BOOL)allowRightMarginOverflow;
+    allowRightMarginOverflow:(BOOL)allowRightMarginOverflow;
 
 - (NSPoint)pointForCoord:(VT100GridCoord)coord;
 
@@ -49,7 +49,7 @@ iTermURLActionHelperDelegate>
 #pragma mark - Semantic History
 
 - (void)handleSemanticHistoryItemDragWithEvent:(NSEvent *)event
-                                         coord:(VT100GridCoord)coord;
+    coord:(VT100GridCoord)coord;
 
 #pragma mark - Underlined Actions
 

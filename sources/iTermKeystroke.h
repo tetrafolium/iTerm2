@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface iTermKeystroke: NSObject<NSCopying>
+@interface iTermKeystroke : NSObject<NSCopying>
 @property (nonatomic) BOOL hasVirtualKeyCode;
 
 // The virtual key code is not used in ordering or comparison. Its only purpose is to improve the
@@ -25,12 +25,12 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)backspace;
 + (instancetype)withEvent:(NSEvent *)event;
 + (instancetype)withCharacter:(unichar)character
-                modifierFlags:(NSEventModifierFlags)modifierFlags;
+    modifierFlags:(NSEventModifierFlags)modifierFlags;
 
 - (instancetype)initWithSerialized:(NSString *)serialized;
 - (instancetype)initWithVirtualKeyCode:(int)virtualKeyCode
-                         modifierFlags:(NSEventModifierFlags)modifierFlags
-                             character:(unsigned int)character NS_DESIGNATED_INITIALIZER;
+    modifierFlags:(NSEventModifierFlags)modifierFlags
+    character:(unsigned int)character NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (NSString * _Nullable)keyInBindingDictionary:(NSDictionary<NSString *, NSDictionary *> *)dict;
@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface iTermTouchbarItem: NSObject<NSCopying>
+@interface iTermTouchbarItem : NSObject<NSCopying>
 @property (nonatomic, readonly) NSString *identifier;
 
 - (instancetype)initWithIdentifier:(NSString *)identifier NS_DESIGNATED_INITIALIZER;

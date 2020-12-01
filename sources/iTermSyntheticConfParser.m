@@ -29,10 +29,10 @@ static NSString *iTermSyntheticDirectoryStringByPrependingSlashIfNotPresent(NSSt
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p root=%@ target=%@>",
-            NSStringFromClass([self class]),
-            self,
-            _root,
-            _target];
+                     NSStringFromClass([self class]),
+                     self,
+                     _root,
+                     _target];
 }
 
 - (NSString *)pathByReplacingPrefixWithSyntheticRoot:(NSString *)dir {
@@ -43,7 +43,7 @@ static NSString *iTermSyntheticDirectoryStringByPrependingSlashIfNotPresent(NSSt
     NSString *targetPrefix = [_target stringByAppendingString:@"/"];
     if ([dir hasPrefix:targetPrefix]) {
         return [dir stringByReplacingCharactersInRange:NSMakeRange(0, _target.length)
-                                            withString:_root];
+                    withString:_root];
     }
 
     return nil;
@@ -56,7 +56,7 @@ static NSString *iTermSyntheticDirectoryStringByPrependingSlashIfNotPresent(NSSt
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     static id instance;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] initPrivate];
     });
     return instance;
@@ -71,8 +71,8 @@ static NSString *iTermSyntheticDirectoryStringByPrependingSlashIfNotPresent(NSSt
         }
 
         NSString *contents = [NSString stringWithContentsOfFile:@"/etc/synthetic.conf"
-                                                       encoding:NSUTF8StringEncoding
-                                                          error:nil];
+                                       encoding:NSUTF8StringEncoding
+                                       error:nil];
         return contents;
     }
 
@@ -97,8 +97,8 @@ static NSString *iTermSyntheticDirectoryStringByPrependingSlashIfNotPresent(NSSt
         NSMutableArray<iTermSyntheticDirectory *> *directories = [NSMutableArray array];
 
         [[self class] enumerateLinesInContent:contents block:^(NSString *line) {
-            NSArray<NSString *> *mapping = [line componentsSeparatedByString:@"\t"];
-            if (mapping.count != 2) {
+                         NSArray<NSString *> *mapping = [line componentsSeparatedByString:@"\t"];
+                         if (mapping.count != 2) {
                 // An line with a single field is allowed but it's not interesting because such
                 // paths do not need to be transformed.
                 return;

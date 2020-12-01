@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL needsSave;
 
 - (instancetype)initWithURL:(NSURL *)url
-                      erase:(BOOL)erase NS_DESIGNATED_INITIALIZER;
+    erase:(BOOL)erase NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 @end

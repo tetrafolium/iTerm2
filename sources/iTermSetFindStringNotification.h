@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)notificationWithString:(NSString *)string;
 + (void)subscribe:(NSObject *)owner
-            block:(void (^)(iTermSetFindStringNotification * _Nonnull notification))block;
+    block:(void (^)(iTermSetFindStringNotification * _Nonnull notification))block;
 
 @end
 

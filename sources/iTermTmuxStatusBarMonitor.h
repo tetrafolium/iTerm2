@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithGateway:(TmuxGateway *)gateway
-                          scope:(iTermVariableScope *)scope NS_DESIGNATED_INITIALIZER;
+    scope:(iTermVariableScope *)scope NS_DESIGNATED_INITIALIZER;
 
 @end
 

@@ -86,8 +86,8 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
 }
 
 - (instancetype)initWithSelectionScrollHelper:(iTermSelectionScrollHelper *)selectionScrollHelper
-              threeFingerTapGestureRecognizer:(ThreeFingerTapGestureRecognizer *)threeFingerTapGestureRecognizer
-                    pointerControllerDelegate:(id<PointerControllerDelegate>)pointerControllerDelegate
+    threeFingerTapGestureRecognizer:(ThreeFingerTapGestureRecognizer *)threeFingerTapGestureRecognizer
+    pointerControllerDelegate:(id<PointerControllerDelegate>)pointerControllerDelegate
     mouseReportingFrustrationDetectorDelegate:(id<iTermMouseReportingFrustrationDetectorDelegate>)mouseReportingFrustrationDetectorDelegate {
     self = [super init];
     if (self) {
@@ -138,8 +138,8 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
     }
     const BOOL isFocused = [self.mouseDelegate mouseHandlerViewHasFocus:self];
     if (!isFocused &&
-        !cmdPressed &&
-        [iTermPreferences boolForKey:kPreferenceKeyFocusFollowsMouse]) {
+            !cmdPressed &&
+            [iTermPreferences boolForKey:kPreferenceKeyFocusFollowsMouse]) {
         // Clicking in an inactive pane with focus follows mouse makes it active.
         // Because of how FFM works, this would only happen if another app were key.
         // See issue 3163.
@@ -149,8 +149,8 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
         return NO;
     }
     if (_mouseDownWasFirstMouse &&
-        !cmdPressed &&
-        ![iTermAdvancedSettingsModel alwaysAcceptFirstMouse]) {
+            !cmdPressed &&
+            ![iTermAdvancedSettingsModel alwaysAcceptFirstMouse]) {
         // A click in an inactive window without cmd pressed by default just brings the window
         // to the fore and takes no additional action. If you enable alwaysAcceptFirstMouse then
         // it is treated like a normal click (issue 3236). Returning here prevents mouseDown=YES
@@ -186,8 +186,8 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
         } else {
             // Perform user-defined gesture action, if any
             shouldReturnEarly = [pointer_ mouseDown:event
-                                        withTouches:_numTouches
-                                       ignoreOption:[self terminalWantsMouseReports]];
+                                          withTouches:_numTouches
+                                          ignoreOption:[self terminalWantsMouseReports]];
             DLog(@"Set mouseDown=YES because of 3 finger mouseDown (not emulating middle)");
             _mouseDown = YES;
         }
@@ -198,8 +198,8 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
     }
     if ([pointer_ eventEmulatesRightClick:event]) {
         [pointer_ mouseDown:event
-                withTouches:_numTouches
-               ignoreOption:[self terminalWantsMouseReports]];
+                  withTouches:_numTouches
+                  ignoreOption:[self terminalWantsMouseReports]];
         DLog(@"Returning because emulating right click.");
         return NO;
     }
@@ -230,12 +230,12 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
     }
 
     const VT100GridCoord clickPointCoord = [self.mouseDelegate mouseHandler:self
-                                                                 clickPoint:event
-                                                              allowOverflow:YES];
+                                                               clickPoint:event
+                                                               allowOverflow:YES];
     const int x = clickPointCoord.x;
     const int y = clickPointCoord.y;
     if ([self.mouseDelegate mouseHandler:self coordIsMutable:VT100GridCoordMake(x, y)] &&
-        [self reportMouseDrags]) {
+            [self reportMouseDrags]) {
         [_selectionScrollHelper disableUntilMouseUp];
     }
     if (_numTouches <= 1) {
@@ -246,7 +246,7 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
     _mouseDown = YES;
 
     [_mouseReportingFrustrationDetector mouseDown:event
-                                         reported:[self mouseEventIsReportable:event]];
+                                        reported:[self mouseEventIsReportable:event]];
     if ([self reportMouseEvent:event]) {
         DLog(@"Returning because mouse event reported.");
         [self.selection clearSelection];
@@ -302,31 +302,31 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
         } else {
             // start a new selection
             [self.selection beginSelectionAtAbsCoord:VT100GridAbsCoordMake(x, y + overflow)
-                                                mode:mode
-                                              resume:NO
-                                              append:(cmdPressed && !altPressed)];
+                            mode:mode
+                            resume:NO
+                            append:(cmdPressed && !altPressed)];
             self.selection.resumable = YES;
         }
     } else if ([self shouldSelectWordWithClicks:clickCount]) {
         [self.selection beginSelectionAtAbsCoord:VT100GridAbsCoordMake(x, y + overflow)
-                                            mode:kiTermSelectionModeWord
-                                          resume:YES
-                                          append:self.selection.appending];
+                        mode:kiTermSelectionModeWord
+                        resume:YES
+                        append:self.selection.appending];
     } else if (clickCount == 3) {
         BOOL wholeLines =
-        [iTermPreferences boolForKey:kPreferenceKeyTripleClickSelectsFullWrappedLines];
+            [iTermPreferences boolForKey:kPreferenceKeyTripleClickSelectsFullWrappedLines];
         iTermSelectionMode mode =
-        wholeLines ? kiTermSelectionModeWholeLine : kiTermSelectionModeLine;
+            wholeLines ? kiTermSelectionModeWholeLine : kiTermSelectionModeLine;
 
         [self.selection beginSelectionAtAbsCoord:VT100GridAbsCoordMake(x, y + overflow)
-                                            mode:mode
-                                          resume:YES
-                                          append:self.selection.appending];
+                        mode:mode
+                        resume:YES
+                        append:self.selection.appending];
     } else if ([self shouldSmartSelectWithClicks:clickCount]) {
         [self.selection beginSelectionAtAbsCoord:VT100GridAbsCoordMake(x, y + overflow)
-                                            mode:kiTermSelectionModeSmart
-                                          resume:YES
-                                          append:self.selection.appending];
+                        mode:kiTermSelectionModeSmart
+                        resume:YES
+                        append:self.selection.appending];
     }
 
     DLog(@"Mouse down. selection set to %@", self.selection);
@@ -372,7 +372,7 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
     // Make an exception to the first-mouse rule when cmd-click is set to always invoke
     // semantic history.
     const BOOL cmdPressed = cmdActuallyPressed && (!_mouseDownWasFirstMouse ||
-                                                   [iTermAdvancedSettingsModel cmdClickWhenInactiveInvokesSemanticHistory]);
+                            [iTermAdvancedSettingsModel cmdClickWhenInactiveInvokesSemanticHistory]);
     if (mouseDown == NO) {
         DLog(@"Returning from mouseUp because the mouse was never down.");
         [self.selection endLiveSelection];
@@ -444,28 +444,28 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
 
         BOOL altPressed = ([event it_modifierFlags] & NSEventModifierFlagOption) != 0;
         if (altPressed &&
-            [iTermPreferences boolForKey:kPreferenceKeyOptionClickMovesCursor] &&
-            !_mouseDownWasFirstMouse) {
+                [iTermPreferences boolForKey:kPreferenceKeyOptionClickMovesCursor] &&
+                !_mouseDownWasFirstMouse) {
             // This moves the cursor, but not if mouse reporting is on for button clicks.
             // It's also off for first mouse because of issue 2943 (alt-click to activate an app
             // is used to order-back all of the previously active app's windows).
             switch ([self.mouseDelegate mouseHandlerMouseMode:self]) {
-                case MOUSE_REPORTING_NORMAL:
-                case MOUSE_REPORTING_BUTTON_MOTION:
-                case MOUSE_REPORTING_ALL_MOTION:
-                    // Reporting mouse clicks. The remote app gets preference.
-                    break;
+            case MOUSE_REPORTING_NORMAL:
+            case MOUSE_REPORTING_BUTTON_MOTION:
+            case MOUSE_REPORTING_ALL_MOTION:
+                // Reporting mouse clicks. The remote app gets preference.
+                break;
 
-                default: {
-                    // Not reporting mouse clicks, so we'll move the cursor since the remote app
-                    // can't.
-                    VT100GridCoord coord = [self.mouseDelegate mouseHandlerCoordForPointInWindow:[event locationInWindow]];
-                    if (!cmdPressed) {
-                        [self.mouseDelegate mouseHandlerMoveCursorToCoord:coord
-                                                                 forEvent:event];
-                    }
-                    break;
+            default: {
+                // Not reporting mouse clicks, so we'll move the cursor since the remote app
+                // can't.
+                VT100GridCoord coord = [self.mouseDelegate mouseHandlerCoordForPointInWindow:[event locationInWindow]];
+                if (!cmdPressed) {
+                    [self.mouseDelegate mouseHandlerMoveCursorToCoord:coord
+                                        forEvent:event];
                 }
+                break;
+            }
             }
         }
 
@@ -473,20 +473,20 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
             [self.mouseDelegate mouseHandlerOpenTargetWithEvent:event inBackground:altPressed];
         } else {
             const VT100GridCoord clickPoint =
-            [self.mouseDelegate mouseHandler:self
-                                  clickPoint:event
-                               allowOverflow:NO];
+                [self.mouseDelegate mouseHandler:self
+                                    clickPoint:event
+                                    allowOverflow:NO];
             [self.mouseDelegate mouseHandlerSetFindOnPageCursorCoord:clickPoint];
         }
         if ([self.mouseDelegate mouseHandlerAtPasswordPrompt:self] &&
-            !altPressed &&
-            !cmdPressed) {
+                !altPressed &&
+                !cmdPressed) {
             const VT100GridCoord clickCoord =
-            [self.mouseDelegate mouseHandler:self
-                                  clickPoint:event
-                               allowOverflow:NO];
+                [self.mouseDelegate mouseHandler:self
+                                    clickPoint:event
+                                    allowOverflow:NO];
             const VT100GridCoord cursorCoord =
-            [self.mouseDelegate mouseHandlerCursorCoord:self];
+                [self.mouseDelegate mouseHandlerCursorCoord:self];
             if (VT100GridCoordEquals(clickCoord, cursorCoord)) {
                 [self.mouseDelegate mouseHandlerOpenPasswordManager:self];
             }
@@ -496,12 +496,12 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
                ![self.selection hasSelection]) {
         const long long overflow = [_mouseDelegate mouseHandlerTotalScrollbackOverflow:self];
         [self.selection beginSelectionAtAbsCoord:VT100GridAbsCoordFromCoord(findOnPageCursor, overflow)
-                                            mode:kiTermSelectionModeCharacter
-                                          resume:NO
-                                          append:NO];
+                        mode:kiTermSelectionModeCharacter
+                        resume:NO
+                        append:NO];
 
         const VT100GridCoord newEndPoint =
-        [self.mouseDelegate mouseHandler:self clickPoint:event allowOverflow:YES];
+            [self.mouseDelegate mouseHandler:self clickPoint:event allowOverflow:YES];
         [self.selection moveSelectionEndpointTo:VT100GridAbsCoordFromCoord(newEndPoint, overflow)];
         [self.selection endLiveSelection];
 
@@ -510,16 +510,16 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
 
     DLog(@"Has selection=%@, delegate=%@ wasSelecting=%@", @([self.selection hasSelection]), self.mouseDelegate, @(wasSelecting));
     if ([self.selection hasSelection] &&
-        event.clickCount == 1 &&
-        !wasSelecting &&
-        _lastMouseDownOnSelectedText) {
+            event.clickCount == 1 &&
+            !wasSelecting &&
+            _lastMouseDownOnSelectedText) {
         // Click on selection. When the mouse-down was on the selection we delay clearing it until
         // mouse-up so you have the chance to drag it.
         [self.selection clearSelection];
     }
     if ([self.selection hasSelection] &&
-        [self.mouseDelegate mouseHandlerIsValid:self] &&
-        wasSelecting) {
+            [self.mouseDelegate mouseHandlerIsValid:self] &&
+            wasSelecting) {
         // if we want to copy our selection, do so
         DLog(@"selection copies text=%@", @([iTermPreferences boolForKey:kPreferenceKeySelectionCopiesText]));
         if ([iTermPreferences boolForKey:kPreferenceKeySelectionCopiesText]) {
@@ -546,10 +546,10 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
     BOOL dragThresholdMet = NO;
     const NSPoint locationInWindow = [event locationInWindow];
     const NSPoint locationInTextView =
-    [self.mouseDelegate mouseHandler:self viewCoordForEvent:event clipped:YES];
+        [self.mouseDelegate mouseHandler:self viewCoordForEvent:event clipped:YES];
 
     const VT100GridCoord clickPointGridCoord =
-    [self.mouseDelegate mouseHandler:self clickPoint:event allowOverflow:YES];
+        [self.mouseDelegate mouseHandler:self clickPoint:event allowOverflow:YES];
     const int x = clickPointGridCoord.x;
     const int y = clickPointGridCoord.y;
 
@@ -591,8 +591,8 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
         if (_mouseDownOnImage && dragThresholdMet) {
             _committedToDrag = YES;
             [self.mouseDelegate mouseHandler:self
-                                   dragImage:_imageBeingClickedOn
-                                    forEvent:event];
+                                dragImage:_imageBeingClickedOn
+                                forEvent:event];
         } else if (_mouseDownOnSelection == YES && dragThresholdMet) {
             DLog(@"drag and drop a selection");
             // Drag and drop a selection
@@ -614,8 +614,8 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
         return;
     }
     if (_mouseDownOnSelection == YES &&
-        ([event it_modifierFlags] & (NSEventModifierFlagOption | NSEventModifierFlagCommand)) == (NSEventModifierFlagOption | NSEventModifierFlagCommand) &&
-        !dragThresholdMet) {
+            ([event it_modifierFlags] & (NSEventModifierFlagOption | NSEventModifierFlagCommand)) == (NSEventModifierFlagOption | NSEventModifierFlagCommand) &&
+            !dragThresholdMet) {
         // Would be a drag of a rect region but mouse hasn't moved far enough yet. Prevent the
         // selection from changing.
         DLog(@"too-short drag of rect region");
@@ -623,20 +623,20 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
     }
 
     if (![self.selection hasSelection] &&
-        pressingCmdOnly &&
-        _semanticHistoryDragged == NO) {
+            pressingCmdOnly &&
+            _semanticHistoryDragged == NO) {
         // Only one Semantic History check per drag
         _semanticHistoryDragged = YES;
         [self.mouseDelegate mouseHandler:self
-            dragSemanticHistoryWithEvent:event
-                                   coord:VT100GridCoordMake(x, y)];
+                            dragSemanticHistoryWithEvent:event
+                            coord:VT100GridCoordMake(x, y)];
         return;
     }
 
     [_selectionScrollHelper mouseDraggedTo:locationInTextView coord:VT100GridCoordMake(x, y)];
 
     if (!wasMakingThreeFingerSelection &&
-        _makingThreeFingerSelection) {
+            _makingThreeFingerSelection) {
         DLog(@"Just started a three finger selection in mouseDragged (because of macOS bugs)");
         const BOOL shiftPressed = ([event it_modifierFlags] & NSEventModifierFlagShift) != 0;
         const BOOL isExtension = ([self.selection hasSelection] && shiftPressed);
@@ -644,7 +644,7 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
         const BOOL cmdPressed = ([event it_modifierFlags] & NSEventModifierFlagCommand) != 0;
         const long long overflow = [_mouseDelegate mouseHandlerTotalScrollbackOverflow:self];
         if (isExtension &&
-            [self.selection hasSelection]) {
+                [self.selection hasSelection]) {
             if (!self.selection.live) {
                 DLog(@"Begin extending");
                 [self.selection beginExtendingSelectionAt:VT100GridAbsCoordMake(x, y + overflow)];
@@ -659,9 +659,9 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
 
             DLog(@"Begin selection");
             [self.selection beginSelectionAtAbsCoord:VT100GridAbsCoordMake(x, y + overflow)
-                                                mode:mode
-                                              resume:NO
-                                              append:(cmdPressed && !altPressed)];
+                            mode:mode
+                            resume:NO
+                            append:(cmdPressed && !altPressed)];
             self.selection.resumable = YES;
         }
     } else {
@@ -686,8 +686,8 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
         return;
     }
     if ([pointer_ mouseDown:event
-                withTouches:_numTouches
-               ignoreOption:[self terminalWantsMouseReports]]) {
+                     withTouches:_numTouches
+                     ignoreOption:[self terminalWantsMouseReports]]) {
         return;
     }
     if ([self reportMouseEvent:event]) {
@@ -751,8 +751,8 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
     [self reportMouseEvent:event];
 
     [pointer_ mouseDown:event
-            withTouches:_numTouches
-           ignoreOption:[self terminalWantsMouseReports]];
+              withTouches:_numTouches
+              ignoreOption:[self terminalWantsMouseReports]];
 }
 
 - (void)otherMouseDragged:(NSEvent *)event superCaller:(void (^)(void))superCaller {
@@ -809,15 +809,15 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
         const CGFloat deltaY = [self.mouseDelegate mouseHandler:self accumulateVerticalScrollFromEvent:event];
         BOOL forceLatin1 = NO;
         NSString *stringToSend = [self.mouseDelegate mouseHandler:self
-                                                      stringForUp:deltaY >= 0
-                                                            flags:event.it_modifierFlags
-                                                           latin1:&forceLatin1];
+                                                     stringForUp:deltaY >= 0
+                                                     flags:event.it_modifierFlags
+                                                     latin1:&forceLatin1];
 
         if (stringToSend) {
             for (int i = 0; i < ceil(fabs(deltaY)); i++) {
                 [self.mouseDelegate mouseHandler:self
-                                      sendString:stringToSend
-                                          latin1:forceLatin1];
+                                    sendString:stringToSend
+                                    latin1:forceLatin1];
             }
             [self.mouseDelegate mouseHandlerRemoveSelection:self];
         }
@@ -951,14 +951,14 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
 
 - (BOOL)reportMouseDrags {
     switch ([self.mouseDelegate mouseHandlerMouseMode:self]) {
-        case MOUSE_REPORTING_NORMAL:
-        case MOUSE_REPORTING_BUTTON_MOTION:
-        case MOUSE_REPORTING_ALL_MOTION:
-            return YES;
+    case MOUSE_REPORTING_NORMAL:
+    case MOUSE_REPORTING_BUTTON_MOTION:
+    case MOUSE_REPORTING_ALL_MOTION:
+        return YES;
 
-        case MOUSE_REPORTING_NONE:
-        case MOUSE_REPORTING_HIGHLIGHT:
-            break;
+    case MOUSE_REPORTING_NONE:
+    case MOUSE_REPORTING_HIGHLIGHT:
+        break;
     }
     return NO;
 }
@@ -975,11 +975,11 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
 }
 
 - (BOOL)handleMouseEvent:(NSEvent *)event
-                testOnly:(BOOL)testOnly
-               deltaYOut:(CGFloat *)deltaYOut
-           reportableOut:(BOOL *)reportableOut {
+    testOnly:(BOOL)testOnly
+    deltaYOut:(CGFloat *)deltaYOut
+    reportableOut:(BOOL *)reportableOut {
     const NSPoint point =
-    [self.mouseDelegate mouseHandler:self viewCoordForEvent:event clipped:NO];
+        [self.mouseDelegate mouseHandler:self viewCoordForEvent:event clipped:NO];
 
     if (![self shouldReportMouseEvent:event at:point]) {
         if (reportableOut) {
@@ -999,14 +999,14 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
     }
 
     return [self.mouseDelegate mouseHandler:self
-                           reportMouseEvent:event.type
-                                  modifiers:event.it_modifierFlags
-                                     button:[self mouseReportingButtonNumberForEvent:event]
-                                 coordinate:coord
-                                      event:event
-                                     deltaY:deltaY
-                   allowDragBeforeMouseDown:_makingThreeFingerSelection
-                                   testOnly:testOnly];
+                               reportMouseEvent:event.type
+                               modifiers:event.it_modifierFlags
+                               button:[self mouseReportingButtonNumberForEvent:event]
+                               coordinate:coord
+                               event:event
+                               deltaY:deltaY
+                               allowDragBeforeMouseDown:_makingThreeFingerSelection
+                               testOnly:testOnly];
 }
 
 // If mouse reports are sent to the delegate, will it use them? Use with -xtermMouseReporting, which
@@ -1044,19 +1044,19 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
         }
     }
     if ((event.type == NSEventTypeLeftMouseDown || event.type == NSEventTypeLeftMouseUp) &&
-        ![self.mouseDelegate mouseHandlerViewIsFirstResponder:self]) {
+            ![self.mouseDelegate mouseHandlerViewIsFirstResponder:self]) {
         return NO;
     }
     if (![self.mouseDelegate mouseHandlerShouldReportClicksAndDrags:self]) {
         if (event.type == NSEventTypeLeftMouseDown ||
-            event.type == NSEventTypeLeftMouseUp ||
-            event.type == NSEventTypeLeftMouseDragged ||
-            event.type == NSEventTypeRightMouseDown ||
-            event.type == NSEventTypeRightMouseUp ||
-            event.type == NSEventTypeRightMouseDragged ||
-            event.type == NSEventTypeOtherMouseDown ||
-            event.type == NSEventTypeOtherMouseUp ||
-            event.type == NSEventTypeOtherMouseDragged) {
+                event.type == NSEventTypeLeftMouseUp ||
+                event.type == NSEventTypeLeftMouseDragged ||
+                event.type == NSEventTypeRightMouseDown ||
+                event.type == NSEventTypeRightMouseUp ||
+                event.type == NSEventTypeRightMouseDragged ||
+                event.type == NSEventTypeOtherMouseDown ||
+                event.type == NSEventTypeOtherMouseUp ||
+                event.type == NSEventTypeOtherMouseDragged) {
             return NO;
         }
     }
@@ -1083,30 +1083,30 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
 
 - (MouseButtonNumber)mouseReportingButtonNumberForEvent:(NSEvent *)event {
     switch (event.type) {
-        case NSEventTypeLeftMouseDragged:
-        case NSEventTypeLeftMouseDown:
-        case NSEventTypeLeftMouseUp:
-            return MOUSE_BUTTON_LEFT;
+    case NSEventTypeLeftMouseDragged:
+    case NSEventTypeLeftMouseDown:
+    case NSEventTypeLeftMouseUp:
+        return MOUSE_BUTTON_LEFT;
 
-        case NSEventTypeRightMouseDown:
-        case NSEventTypeRightMouseUp:
-        case NSEventTypeRightMouseDragged:
-            return MOUSE_BUTTON_RIGHT;
+    case NSEventTypeRightMouseDown:
+    case NSEventTypeRightMouseUp:
+    case NSEventTypeRightMouseDragged:
+        return MOUSE_BUTTON_RIGHT;
 
-        case NSEventTypeOtherMouseDown:
-        case NSEventTypeOtherMouseUp:
-        case NSEventTypeOtherMouseDragged:
-            return MOUSE_BUTTON_MIDDLE;
+    case NSEventTypeOtherMouseDown:
+    case NSEventTypeOtherMouseUp:
+    case NSEventTypeOtherMouseDragged:
+        return MOUSE_BUTTON_MIDDLE;
 
-        case NSEventTypeScrollWheel:
-            if ([event scrollingDeltaY] > 0) {
-                return MOUSE_BUTTON_SCROLLDOWN;
-            } else {
-                return MOUSE_BUTTON_SCROLLUP;
-            }
+    case NSEventTypeScrollWheel:
+        if ([event scrollingDeltaY] > 0) {
+            return MOUSE_BUTTON_SCROLLDOWN;
+        } else {
+            return MOUSE_BUTTON_SCROLLUP;
+        }
 
-        default:
-            return MOUSE_BUTTON_NONE;
+    default:
+        return MOUSE_BUTTON_NONE;
     }
 }
 
@@ -1124,7 +1124,7 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
         return NO;
     }
     if ([self shouldReportMouseEvent:event at:point] &&
-        [self.mouseDelegate mouseHandlerMouseMode:self] != MOUSE_REPORTING_NONE) {
+            [self.mouseDelegate mouseHandlerMouseMode:self] != MOUSE_REPORTING_NONE) {
         // Prefer to report the scroll than to send arrow keys in this mouse reporting mode.
         DLog(@"Mouse reporting is on");
         return NO;

@@ -16,6 +16,6 @@
 
 + (instancetype)sharedInstance;
 - (void)didAttachWithHiddenWindows:(BOOL)anyHidden
-                    tooManyWindows:(BOOL)tooMany;
+    tooManyWindows:(BOOL)tooMany;
 
 @end

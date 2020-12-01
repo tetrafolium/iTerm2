@@ -26,24 +26,24 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithPath:(nullable NSString *)path
-               configuration:(NSDictionary *)configuration
-                       scope:(iTermVariableScope *)scope {
-    NSMutableDictionary *mergedConfiguration = [configuration ?: @{} mutableCopy];
+    configuration:(NSDictionary *)configuration
+    scope:(iTermVariableScope *)scope {
+    NSMutableDictionary *mergedConfiguration = [configuration ?: @ {} mutableCopy];
 
     if (path) {
-        NSDictionary *knobValueOverrides = @{ @"path": path };
-        NSDictionary *knobValues = [mergedConfiguration[iTermStatusBarComponentConfigurationKeyKnobValues] ?: @{} mutableCopy];
+        NSDictionary *knobValueOverrides = @ { @"path": path };
+        NSDictionary *knobValues = [mergedConfiguration[iTermStatusBarComponentConfigurationKeyKnobValues] ?: @ {} mutableCopy];
         knobValues = [knobValues dictionaryByMergingDictionary:knobValueOverrides];
         mergedConfiguration[iTermStatusBarComponentConfigurationKeyKnobValues] = knobValues;
     }
-    
+
     self = [super initWithConfiguration:mergedConfiguration scope:scope];
     if (self) {
         _path = path;
         if (path) {
             _ref = [[iTermVariableReference alloc] initWithPath:path vendor:scope];
             __weak __typeof(self) weakSelf = self;
-            _ref.onChangeBlock = ^{
+            _ref.onChangeBlock = ^ {
                 [weakSelf updateTextFieldIfNeeded];
             };
         }
@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithConfiguration:(NSDictionary<iTermStatusBarComponentConfigurationKey,id> *)configuration
-                                scope:(nullable iTermVariableScope *)scope {
+    scope:(nullable iTermVariableScope *)scope {
     return [self initWithPath:nil configuration:configuration scope:scope];
 }
 
@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (id)statusBarComponentExemplarWithBackgroundColor:(NSColor *)backgroundColor
-                                          textColor:(NSColor *)textColor {
+    textColor:(NSColor *)textColor {
     [self doesNotRecognizeSelector:_cmd];
     return @"";
 }
@@ -130,17 +130,17 @@ static NSString *const iTermStatusBarHostnameComponentAbbreviateLocalhost = @"ab
 @implementation iTermStatusBarHostnameComponent
 
 - (instancetype)initWithConfiguration:(NSDictionary<iTermStatusBarComponentConfigurationKey, id> *)configuration
-                                scope:(nullable iTermVariableScope *)scope {
+    scope:(nullable iTermVariableScope *)scope {
     return [super initWithPath:@"hostname" configuration:configuration scope:scope];
 }
 
 - (NSArray<iTermStatusBarComponentKnob *> *)statusBarComponentKnobs {
     iTermStatusBarComponentKnob *abbreviateLocalhostKnob =
-    [[iTermStatusBarComponentKnob alloc] initWithLabelText:@"localhost replacement"
-                                                      type:iTermStatusBarComponentKnobTypeText
-                                               placeholder:@"Enter replacement text for localhost"
-                                              defaultValue:@""
-                                                       key:iTermStatusBarHostnameComponentAbbreviateLocalhost];
+        [[iTermStatusBarComponentKnob alloc] initWithLabelText:@"localhost replacement"
+                                             type:iTermStatusBarComponentKnobTypeText
+                                             placeholder:@"Enter replacement text for localhost"
+                                             defaultValue:@""
+                                             key:iTermStatusBarHostnameComponentAbbreviateLocalhost];
     return [@[ abbreviateLocalhostKnob ] arrayByAddingObjectsFromArray:[super statusBarComponentKnobs]];
 }
 
@@ -157,7 +157,7 @@ static NSString *const iTermStatusBarHostnameComponentAbbreviateLocalhost = @"ab
 }
 
 - (id)statusBarComponentExemplarWithBackgroundColor:(NSColor *)backgroundColor
-                                          textColor:(NSColor *)textColor {
+    textColor:(NSColor *)textColor {
     return @"example.com";
 }
 
@@ -165,7 +165,7 @@ static NSString *const iTermStatusBarHostnameComponentAbbreviateLocalhost = @"ab
     NSDictionary *knobValues = self.configuration[iTermStatusBarComponentConfigurationKeyKnobValues];
     NSString *abbreviation = [NSString castFrom:knobValues[iTermStatusBarHostnameComponentAbbreviateLocalhost]];
     if (abbreviation.length &&
-        [[NSHost fullyQualifiedDomainName] isEqualToString:self.cached]) {
+            [[NSHost fullyQualifiedDomainName] isEqualToString:self.cached]) {
         return @[ abbreviation ];
     }
     return [super stringVariants];
@@ -175,11 +175,11 @@ static NSString *const iTermStatusBarHostnameComponentAbbreviateLocalhost = @"ab
     NSMutableArray<NSString *> *parts = [[source componentsSeparatedByString:@"."] mutableCopy];
     __block NSString *replacement = nil;
     NSUInteger index = [parts indexOfObjectWithOptions:NSEnumerationReverse
-                                           passingTest:
-                        ^BOOL(NSString * _Nonnull part, NSUInteger idx, BOOL * _Nonnull stop) {
-                            replacement = [part firstComposedCharacter:nil];
-                            return ![replacement isEqualToString:part];
-                        }];
+                              passingTest:
+          ^BOOL(NSString * _Nonnull part, NSUInteger idx, BOOL * _Nonnull stop) {
+              replacement = [part firstComposedCharacter:nil];
+        return ![replacement isEqualToString:part];
+    }];
     if (index == NSNotFound) {
         return nil;
     }
@@ -192,7 +192,7 @@ static NSString *const iTermStatusBarHostnameComponentAbbreviateLocalhost = @"ab
 @implementation iTermStatusBarUsernameComponent
 
 - (instancetype)initWithConfiguration:(NSDictionary<iTermStatusBarComponentConfigurationKey, id> *)configuration
-                                scope:(nullable iTermVariableScope *)scope {
+    scope:(nullable iTermVariableScope *)scope {
     return [super initWithPath:@"username" configuration:configuration scope:scope];
 }
 
@@ -209,7 +209,7 @@ static NSString *const iTermStatusBarHostnameComponentAbbreviateLocalhost = @"ab
 }
 
 - (id)statusBarComponentExemplarWithBackgroundColor:(NSColor *)backgroundColor
-                                          textColor:(NSColor *)textColor {
+    textColor:(NSColor *)textColor {
     return NSUserName();
 }
 
@@ -236,7 +236,7 @@ static NSString *const iTermStatusBarHostnameComponentAbbreviateLocalhost = @"ab
 }
 
 - (instancetype)initWithConfiguration:(NSDictionary<iTermStatusBarComponentConfigurationKey, id> *)configuration
-                                scope:(nullable iTermVariableScope *)scope {
+    scope:(nullable iTermVariableScope *)scope {
     _home = [NSHomeDirectory() copy];
     return [super initWithPath:@"path" configuration:configuration scope:scope];
 }
@@ -271,7 +271,7 @@ static NSString *const iTermStatusBarHostnameComponentAbbreviateLocalhost = @"ab
 }
 
 - (id)statusBarComponentExemplarWithBackgroundColor:(NSColor *)backgroundColor
-                                          textColor:(NSColor *)textColor {
+    textColor:(NSColor *)textColor {
     return NSHomeDirectory();
 }
 
@@ -279,7 +279,7 @@ static NSString *const iTermStatusBarHostnameComponentAbbreviateLocalhost = @"ab
     NSMutableArray<NSString *> *parts = [[source componentsSeparatedByString:@"/"] mutableCopy];
     __block NSString *replacement = nil;
     NSUInteger index = [parts indexOfObjectPassingTest:^BOOL(NSString * _Nonnull part, NSUInteger idx, BOOL * _Nonnull stop) {
-        replacement = [part firstComposedCharacter:nil];
+              replacement = [part firstComposedCharacter:nil];
         return replacement && ![replacement isEqualToString:part];
     }];
     if (index == NSNotFound) {
@@ -322,7 +322,7 @@ static NSString *const iTermStatusBarHostnameComponentAbbreviateLocalhost = @"ab
             title = directory.path;
         }
         NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:title
-                                                      action:@selector(directorySelected:)
+                                               action:@selector(directorySelected:)
                                                keyEquivalent:@""];
         item.target = self;
         item.representedObject = directory.path;
@@ -334,7 +334,7 @@ static NSString *const iTermStatusBarHostnameComponentAbbreviateLocalhost = @"ab
 - (void)directorySelected:(NSMenuItem *)sender {
     NSString *path = sender.representedObject;
     [self.delegate statusBarComponent:self
-                          writeString:[NSString stringWithFormat:@"cd %@", [path stringWithEscapedShellCharactersIncludingNewlines:YES]]];
+                   writeString:[NSString stringWithFormat:@"cd %@", [path stringWithEscapedShellCharactersIncludingNewlines:YES]]];
 }
 
 - (VT100RemoteHost *)remoteHost {

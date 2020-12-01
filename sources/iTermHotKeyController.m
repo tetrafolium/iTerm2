@@ -54,7 +54,7 @@ NSString *const TERMINAL_ARRANGEMENT_PROFILE_GUID = @"Hotkey Profile GUID";
 + (iTermHotKeyController *)sharedInstance {
     static iTermHotKeyController *instance;
     static dispatch_once_t once;
-    dispatch_once(&once, ^{
+    dispatch_once(&once, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -64,13 +64,13 @@ NSString *const TERMINAL_ARRANGEMENT_PROFILE_GUID = @"Hotkey Profile GUID";
     self = [super init];
     if (self) {
         [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
-                                                               selector:@selector(activeSpaceDidChange:)
-                                                                   name:NSWorkspaceActiveSpaceDidChangeNotification
-                                                                 object:nil];
+                                        selector:@selector(activeSpaceDidChange:)
+                                        name:NSWorkspaceActiveSpaceDidChangeNotification
+                                        object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(applicationDidBecomeActive:)
-                                                     name:NSApplicationDidBecomeActiveNotification
-                                                   object:nil];
+                                              selector:@selector(applicationDidBecomeActive:)
+                                              name:NSApplicationDidBecomeActiveNotification
+                                              object:nil];
         _hotKeys = [[NSMutableArray alloc] init];
         _profileHotKeysBirthingWindows = [[NSMutableArray alloc] init];
     }
@@ -130,7 +130,7 @@ NSString *const TERMINAL_ARRANGEMENT_PROFILE_GUID = @"Hotkey Profile GUID";
     for (__kindof iTermBaseHotKey *hotkey in _hotKeys) {
         if ([hotkey isKindOfClass:[iTermProfileHotKey class]]) {
             if ([[hotkey windowController] weaklyReferencedObject] == windowController ||
-                [hotkey windowControllerBeingBorn] == windowController) {
+                    [hotkey windowControllerBeingBorn] == windowController) {
                 return hotkey;
             }
         }
@@ -152,9 +152,9 @@ NSString *const TERMINAL_ARRANGEMENT_PROFILE_GUID = @"Hotkey Profile GUID";
         if ([hotkey isKindOfClass:[iTermProfileHotKey class]]) {
             iTermProfileHotKey *profileHotKey = hotkey;
             if ([profileHotKey loadRestorableStateFromArray:states]) {
-                [profileHotKey createWindowWithCompletion:^{
-                    [profileHotKey.windowController.window orderOut:nil];  // Issue 4065
-                }];
+                [profileHotKey createWindowWithCompletion:^ {
+                                  [profileHotKey.windowController.window orderOut:nil];  // Issue 4065
+                              }];
                 count++;
             }
         }
@@ -167,11 +167,11 @@ NSString *const TERMINAL_ARRANGEMENT_PROFILE_GUID = @"Hotkey Profile GUID";
     NSMutableArray<NSDictionary *> *restorableStates = [NSMutableArray array];
 
     [record enumerateArrayWithKey:@"windows" block:^(NSString * _Nonnull guid,
-                                                     NSInteger i,
-                                                     id obj,
-                                                     BOOL * _Nonnull stop) {
-        iTermProfileHotKey *profileHotKey = index[guid];
-        if (!profileHotKey) {
+            NSInteger i,
+            id obj,
+           BOOL * _Nonnull stop) {
+               iTermProfileHotKey *profileHotKey = index[guid];
+               if (!profileHotKey) {
             return;
         }
         [restorableStates addObject:obj];
@@ -182,8 +182,8 @@ NSString *const TERMINAL_ARRANGEMENT_PROFILE_GUID = @"Hotkey Profile GUID";
 
 - (iTermOrderedDictionary<NSString *, iTermProfileHotKey *> *)profileHotkeyWindowsIndex {
     return [iTermOrderedDictionary byMapping:_hotKeys block:^id _Nullable(NSUInteger index, __kindof iTermBaseHotKey *hotkey) {
-        iTermProfileHotKey *profileHotKey = [iTermProfileHotKey castFrom:hotkey];
-        if (!profileHotKey) {
+                               iTermProfileHotKey *profileHotKey = [iTermProfileHotKey castFrom:hotkey];
+                               if (!profileHotKey) {
             return nil;
         }
         return profileHotKey.profileGuid;
@@ -193,14 +193,14 @@ NSString *const TERMINAL_ARRANGEMENT_PROFILE_GUID = @"Hotkey Profile GUID";
 - (BOOL)encodeGraphWithEncoder:(iTermGraphEncoder *)encoder {
     iTermOrderedDictionary<NSString *, iTermProfileHotKey *> *index = [self profileHotkeyWindowsIndex];
     [encoder encodeArrayWithKey:@"windows"
-                     generation:iTermGenerationAlwaysEncode
-                    identifiers:index.keys
-                        options:0
-                          block:^BOOL(NSString * _Nonnull identifier,
-                                      NSInteger i,
-                                      iTermGraphEncoder * _Nonnull subencoder,
-                                      BOOL *stop) {
-        iTermProfileHotKey *profileHotKey = index[identifier];
+             generation:iTermGenerationAlwaysEncode
+             identifiers:index.keys
+             options:0
+             block:^BOOL(NSString * _Nonnull identifier,
+                 NSInteger i,
+                 iTermGraphEncoder * _Nonnull subencoder,
+            BOOL *stop) {
+                iTermProfileHotKey *profileHotKey = index[identifier];
         return [profileHotKey encodeGraphWithEncoder:subencoder];
     }];
     return YES;
@@ -208,10 +208,10 @@ NSString *const TERMINAL_ARRANGEMENT_PROFILE_GUID = @"Hotkey Profile GUID";
 
 - (BOOL)anyProfileHotkeyWindowHasInvalidState {
     return [[[self profileHotkeyWindowsIndex] values] filteredArrayUsingBlock:^BOOL(iTermProfileHotKey *obj) {
-        const BOOL result = obj.windowController.ptyWindow.it_restorableStateInvalid;
-        obj.windowController.ptyWindow.it_restorableStateInvalid = NO;
-        return result;
-    }].count == 0;
+                                          const BOOL result = obj.windowController.ptyWindow.it_restorableStateInvalid;
+                                          obj.windowController.ptyWindow.it_restorableStateInvalid = NO;
+                                          return result;
+                                      }].count == 0;
 }
 
 - (NSArray *)restorableStates {
@@ -237,11 +237,11 @@ NSString *const TERMINAL_ARRANGEMENT_PROFILE_GUID = @"Hotkey Profile GUID";
 
 - (void)nonHotKeyWindowDidBecomeKey {
     BOOL anyWindowRollingOut = [[self profileHotKeys] anyWithBlock:^BOOL(iTermProfileHotKey *anObject) {
-        return [anObject rollingOut];
-    }];
+                              return [anObject rollingOut];
+                          }];
     BOOL anyWindowRollingIn = [[self profileHotKeys] anyWithBlock:^BOOL(iTermProfileHotKey *anObject) {
-        return [anObject rollingIn];
-    }];
+                              return [anObject rollingIn];
+                          }];
     if (!anyWindowRollingOut && !anyWindowRollingIn) {
         // If there is previous state:
         // Going from hotkey window to non-hotkey window. Forget the previous state because
@@ -278,8 +278,8 @@ NSString *const TERMINAL_ARRANGEMENT_PROFILE_GUID = @"Hotkey Profile GUID";
     // If any window is rolling in, then we don't want this window to restore the previously active
     // app when it finishes rolling out.
     BOOL anyHotkeyWindowIsRollingIn = [self.profileHotKeys anyWithBlock:^BOOL(iTermProfileHotKey *anObject) {
-        return anObject.rollingIn;
-    }];
+                            return anObject.rollingIn;
+                        }];
 
     DLog(@"shouldAutoHide returned YES");
     for (PseudoTerminal *hotKeyWindowController in windowControllersToConsiderHiding) {
@@ -309,29 +309,29 @@ NSString *const TERMINAL_ARRANGEMENT_PROFILE_GUID = @"Hotkey Profile GUID";
         BOOL suppressHide =
             [[[NSApp keyWindow] windowController] isKindOfClass:[PseudoTerminal class]];
         [profileHotKey hideHotKeyWindowAnimated:YES
-                                suppressHideApp:suppressHide
-                               otherIsRollingIn:anyHotkeyWindowIsRollingIn];
+                       suppressHideApp:suppressHide
+                       otherIsRollingIn:anyHotkeyWindowIsRollingIn];
         profileHotKey.wasAutoHidden = YES;
     }
 }
 
 - (NSArray<iTermHotKeyDescriptor *> *)descriptorsForProfileHotKeysExcept:(Profile *)profile {
     return [self.profileHotKeys flatMapWithBlock:^id(iTermProfileHotKey *profileHotKey) {
-        if (![profileHotKey.profile[KEY_GUID] isEqualToString:profile[KEY_GUID]]) {
-            NSMutableArray *result = [NSMutableArray array];
+                            if (![profileHotKey.profile[KEY_GUID] isEqualToString:profile[KEY_GUID]]) {
+                                NSMutableArray *result = [NSMutableArray array];
             if ([iTermProfilePreferences stringForKey:KEY_HAS_HOTKEY inProfile:profileHotKey.profile]) {
                 NSUInteger keyCode = [iTermProfilePreferences unsignedIntegerForKey:KEY_HOTKEY_KEY_CODE
-                                                                          inProfile:profileHotKey.profile];
+                                                              inProfile:profileHotKey.profile];
                 NSEventModifierFlags modifiers = [iTermProfilePreferences unsignedIntegerForKey:KEY_HOTKEY_MODIFIER_FLAGS
-                                                                                      inProfile:profileHotKey.profile];
+                                                                          inProfile:profileHotKey.profile];
                 [result addObject:[iTermHotKeyDescriptor descriptorWithKeyCode:keyCode
-                                                                     modifiers:modifiers]];
+                                   modifiers:modifiers]];
             }
 
             if ([iTermProfilePreferences boolForKey:KEY_HOTKEY_ACTIVATE_WITH_MODIFIER inProfile:profileHotKey.profile]) {
                 iTermHotKeyModifierActivation modifierActivation =
                     [iTermProfilePreferences unsignedIntegerForKey:KEY_HOTKEY_MODIFIER_ACTIVATION
-                                                         inProfile:profileHotKey.profile];
+                                             inProfile:profileHotKey.profile];
                 [result addObject:[iTermHotKeyDescriptor descriptorWithModifierActivation:modifierActivation]];
             }
             return result;
@@ -345,10 +345,10 @@ NSString *const TERMINAL_ARRANGEMENT_PROFILE_GUID = @"Hotkey Profile GUID";
     NSArray<iTermHotKeyDescriptor *> *referenceHotKeyDescriptors = [[self profileHotKeyForWindowController:windowController] hotKeyDescriptors];
     iTermHotKeyDescriptor *referenceModifierActivationDescriptor = [[self profileHotKeyForWindowController:windowController] modifierActivationDescriptor];
     return [self.profileHotKeys mapWithBlock:^id(iTermProfileHotKey *profileHotKey) {
-        if ([profileHotKey.hotKeyDescriptors isEqual:referenceHotKeyDescriptors] ||
-            [profileHotKey.modifierActivationDescriptor isEqual:referenceModifierActivationDescriptor]) {
-            NSWindowController *windowController = profileHotKey.windowController.weaklyReferencedObject;
-            if (windowController) {
+                            if ([profileHotKey.hotKeyDescriptors isEqual:referenceHotKeyDescriptors] ||
+                                [profileHotKey.modifierActivationDescriptor isEqual:referenceModifierActivationDescriptor]) {
+                                NSWindowController *windowController = profileHotKey.windowController.weaklyReferencedObject;
+                                if (windowController) {
                 return windowController;
             } else {
                 return profileHotKey.windowControllerBeingBorn;
@@ -368,34 +368,34 @@ NSString *const TERMINAL_ARRANGEMENT_PROFILE_GUID = @"Hotkey Profile GUID";
         }
         DLog(@"Closing hotkey windows in response to dock click.");
         [self.profileHotKeys enumerateObjectsUsingBlock:^(iTermProfileHotKey  *_Nonnull profileHotKey,
-                                                          NSUInteger idx,
-                                                          BOOL *_Nonnull stop) {
-            if (profileHotKey.hotKeyWindowOpen) {
-                [profileHotKey hideHotKeyWindowAnimated:YES suppressHideApp:NO otherIsRollingIn:NO];
-                profileHotKey.wasAutoHidden = NO;
-                handled = YES;
-            }
-        }];
+                                    NSUInteger idx,
+                            BOOL *_Nonnull stop) {
+                                if (profileHotKey.hotKeyWindowOpen) {
+                                    [profileHotKey hideHotKeyWindowAnimated:YES suppressHideApp:NO otherIsRollingIn:NO];
+                                    profileHotKey.wasAutoHidden = NO;
+                                    handled = YES;
+                                }
+                            }];
     } else {
         NSUInteger numberOfTerminalWindowsOpen = [[[(iTermApplication *)NSApp orderedWindowsPlusVisibleHotkeyPanels] filteredArrayUsingBlock:^BOOL(NSWindow *window) {
-            return [window.windowController isKindOfClass:[PseudoTerminal class]] && [window isVisible];
-        }] count];
+                                                                               return [window.windowController isKindOfClass:[PseudoTerminal class]] && [window isVisible];
+                                                                           }] count];
         [self.profileHotKeys enumerateObjectsUsingBlock:^(iTermProfileHotKey  *_Nonnull profileHotKey,
-                                                          NSUInteger idx,
-                                                          BOOL *_Nonnull stop) {
-            switch ([iTermProfilePreferences unsignedIntegerForKey:KEY_HOTKEY_DOCK_CLICK_ACTION inProfile:profileHotKey.profile]) {
-                case iTermHotKeyDockPreferenceDoNotShow:
-                    break;
-                case iTermHotKeyDockPreferenceAlwaysShow:
+                                    NSUInteger idx,
+                            BOOL *_Nonnull stop) {
+                                switch ([iTermProfilePreferences unsignedIntegerForKey:KEY_HOTKEY_DOCK_CLICK_ACTION inProfile:profileHotKey.profile]) {
+                    case iTermHotKeyDockPreferenceDoNotShow:
+                                    break;
+                                case iTermHotKeyDockPreferenceAlwaysShow:
+                [profileHotKey showHotKeyWindow];
+                handled = YES;
+                break;
+            case iTermHotKeyDockPreferenceShowIfNoOtherWindowsOpen:
+                if (numberOfTerminalWindowsOpen == 0) {
                     [profileHotKey showHotKeyWindow];
                     handled = YES;
-                    break;
-                case iTermHotKeyDockPreferenceShowIfNoOtherWindowsOpen:
-                    if (numberOfTerminalWindowsOpen == 0) {
-                        [profileHotKey showHotKeyWindow];
-                        handled = YES;
-                    }
-                    break;
+                }
+                break;
             }
         }];
     }
@@ -403,7 +403,7 @@ NSString *const TERMINAL_ARRANGEMENT_PROFILE_GUID = @"Hotkey Profile GUID";
 }
 
 - (BOOL)addRevivedHotkeyWindowController:(PseudoTerminal *)windowController
-                      forProfileWithGUID:(NSString *)guid {
+    forProfileWithGUID:(NSString *)guid {
     iTermProfileHotKey *profileHotKey = [self profileHotKeyForGUID:guid];
     if (!profileHotKey || profileHotKey.windowController.weaklyReferencedObject) {
         return NO;
@@ -413,11 +413,11 @@ NSString *const TERMINAL_ARRANGEMENT_PROFILE_GUID = @"Hotkey Profile GUID";
 }
 
 - (iTermProfileHotKey *)didCreateWindowController:(PseudoTerminal *)windowController
-                                      withProfile:(Profile *)profile {
+    withProfile:(Profile *)profile {
     iTermProfileHotKey *profileHotKey = [_hotKeys objectOfClass:[iTermProfileHotKey class]
-                                                    passingTest:^BOOL(id element, NSUInteger index, BOOL *stop) {
-                                                        return [[element profile][KEY_GUID] isEqualToString:profile[KEY_GUID]];
-                                                    }];
+             passingTest:^BOOL(id element, NSUInteger index, BOOL *stop) {
+                 return [[element profile][KEY_GUID] isEqualToString:profile[KEY_GUID]];
+             }];
     if (!profileHotKey) {
         return nil;
     }
@@ -426,7 +426,7 @@ NSString *const TERMINAL_ARRANGEMENT_PROFILE_GUID = @"Hotkey Profile GUID";
         iTermHotkeyWindowType hotkeyWindowType;
         if ([windowController.window isKindOfClass:[iTermPanel class]]) {
             hotkeyWindowType = iTermHotkeyWindowTypeFloatingPanel;
-        } else if (windowController.window.level == NSNormalWindowLevel){
+        } else if (windowController.window.level == NSNormalWindowLevel) {
             hotkeyWindowType = iTermHotkeyWindowTypeFloatingWindow;
         } else {
             hotkeyWindowType = iTermHotkeyWindowTypeRegular;
@@ -449,14 +449,14 @@ NSString *const TERMINAL_ARRANGEMENT_PROFILE_GUID = @"Hotkey Profile GUID";
 
 - (NSArray<iTermPanel *> *)visibleFloatingHotkeyWindows {
     return [[self allFloatingHotkeyWindows] filteredArrayUsingBlock:^BOOL(iTermPanel *anObject) {
-        return anObject.alphaValue == 1;
-    }];
+                                        return anObject.alphaValue == 1;
+                                    }];
 }
 
 - (NSArray<iTermPanel *> *)allFloatingHotkeyWindows {
     // Note iTermPanel class is implied by appearing on all spaces and floating.
     return [[self profileHotKeys] mapWithBlock:^id(iTermProfileHotKey *anObject) {
-        NSWindow *window = anObject.windowController.window;
+                              NSWindow *window = anObject.windowController.window;
         if ([window isKindOfClass:[iTermPanel class]]) {
             return window;
         } else {
@@ -468,10 +468,10 @@ NSString *const TERMINAL_ARRANGEMENT_PROFILE_GUID = @"Hotkey Profile GUID";
 - (iTermProfileHotKey *)profileHotKeyForGUID:(NSString *)guid {
     NSArray<iTermProfileHotKey *> *profileHotKeys = [_hotKeys objectsOfClasses:@[ [iTermProfileHotKey class] ]];
     iTermProfileHotKey *profileHotKey = [profileHotKeys objectPassingTest:^BOOL(iTermProfileHotKey *element,
-                                                                                NSUInteger index,
-                                                                                BOOL *stop) {
-        return [element.profile[KEY_GUID] isEqualToString:guid];
-    }];
+                                                        NSUInteger index,
+                   BOOL *stop) {
+                       return [element.profile[KEY_GUID] isEqualToString:guid];
+                   }];
     return profileHotKey;
 }
 
@@ -507,7 +507,7 @@ NSString *const TERMINAL_ARRANGEMENT_PROFILE_GUID = @"Hotkey Profile GUID";
     }
     NSWindow *keyWindow = [NSApp keyWindow];
     if ([keyWindow respondsToSelector:@selector(autoHidesHotKeyWindow)] &&
-        ![keyWindow autoHidesHotKeyWindow]) {
+            ![keyWindow autoHidesHotKeyWindow]) {
         DLog(@"The key window does not auto-hide the hotkey window: %@", keyWindow);
         return NO;
     }
@@ -515,19 +515,19 @@ NSString *const TERMINAL_ARRANGEMENT_PROFILE_GUID = @"Hotkey Profile GUID";
     NSWindow *keyWindowElect = [[iTermApplication sharedApplication] it_windowBecomingKey];
     DLog(@"keyWindowElect is %@", keyWindowElect);
     if ([keyWindowElect respondsToSelector:@selector(autoHidesHotKeyWindow)] &&
-        ![keyWindowElect autoHidesHotKeyWindow]) {
+            ![keyWindowElect autoHidesHotKeyWindow]) {
         DLog(@"The key window-elect does not auto-hide the hotkey window: %@", keyWindowElect);
         return NO;
     }
 
     NSWindowController *keyWindowController = [keyWindow windowController];
     if ([keyWindowController respondsToSelector:@selector(autoHidesHotKeyWindow)] &&
-        ![keyWindowController autoHidesHotKeyWindow]) {
+            ![keyWindowController autoHidesHotKeyWindow]) {
         DLog(@"The key window's controller does not auto-hide the hotkey window: %@", keyWindow);
         return NO;
     }
     if (keyWindowController != nil &&
-        [[[NSBundle bundleForClass:keyWindowController.class] bundlePath] isEqualToString:[[NSBundle bundleForClass:[SUUpdater class]] bundlePath]]) {
+            [[[NSBundle bundleForClass:keyWindowController.class] bundlePath] isEqualToString:[[NSBundle bundleForClass:[SUUpdater class]] bundlePath]]) {
         DLog(@"The key window's controller appears to belong to Sparkle (it is %@), so don't auto-hide.", keyWindowController);
         return NO;
     }
@@ -584,23 +584,23 @@ NSString *const TERMINAL_ARRANGEMENT_PROFILE_GUID = @"Hotkey Profile GUID";
 - (NSArray<PseudoTerminal *> *)hotKeyWindowControllers {
     NSArray<iTermProfileHotKey *> *profileHotKeys = [self profileHotKeys];
     NSArray<PseudoTerminal *> *hotKeyWindowControllers = [profileHotKeys mapWithBlock:^id(iTermProfileHotKey *profileHotKey) {
-        return profileHotKey.windowController.weaklyReferencedObject;
-    }];
+                       return profileHotKey.windowController.weaklyReferencedObject;
+                   }];
     return hotKeyWindowControllers;
 }
 
 - (NSArray *)visibleWindowControllers {
     NSArray *allWindowControllers = self.hotKeyWindowControllers;
     return [allWindowControllers filteredArrayUsingBlock:^BOOL(id anObject) {
-        PseudoTerminal *windowController = anObject;
-        return windowController.window.isVisible && windowController.window.alphaValue > 0;
-    }];
+                             PseudoTerminal *windowController = anObject;
+                             return windowController.window.isVisible && windowController.window.alphaValue > 0;
+                         }];
 }
 
 - (NSArray<iTermProfileHotKey *> *)profileHotKeys {
     return [_hotKeys filteredArrayUsingBlock:^BOOL(id anObject) {
-        return [anObject isKindOfClass:[iTermProfileHotKey class]];
-    }];
+                 return [anObject isKindOfClass:[iTermProfileHotKey class]];
+             }];
 }
 
 #pragma mark - iTermHotKeyDelegate
@@ -683,8 +683,8 @@ NSString *const TERMINAL_ARRANGEMENT_PROFILE_GUID = @"Hotkey Profile GUID";
 - (void)applicationDidBecomeActive:(NSNotification *)notification {
     for (iTermProfileHotKey *profileHotKey in self.profileHotKeys) {
         if (profileHotKey.windowController.weaklyReferencedObject &&
-            profileHotKey.wasAutoHidden &&
-            [iTermProfilePreferences boolForKey:KEY_HOTKEY_REOPEN_ON_ACTIVATION inProfile:profileHotKey.profile]) {
+                profileHotKey.wasAutoHidden &&
+                [iTermProfilePreferences boolForKey:KEY_HOTKEY_REOPEN_ON_ACTIVATION inProfile:profileHotKey.profile]) {
             [profileHotKey showHotKeyWindow];
         }
     }

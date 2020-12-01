@@ -37,7 +37,7 @@
 @synthesize path = _path;
 
 - (instancetype)initWithPath:(NSString *)path
-                      vendor:(id<iTermVariableVendor>)vendor {
+    vendor:(id<iTermVariableVendor>)vendor {
     self = [super init];
     if (self) {
         _path = [path copy];

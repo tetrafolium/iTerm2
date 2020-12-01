@@ -14,7 +14,7 @@
 - (BOOL)peek:(NSInteger)generation;
 @end
 
-@interface iTermOrderedToken: NSObject<iTermOrderedToken>
+@interface iTermOrderedToken : NSObject<iTermOrderedToken>
 @property(nonatomic, weak) iTermOrderEnforcer *enforcer;
 @end
 
@@ -24,7 +24,7 @@
 }
 
 - (instancetype)initWithGeneration:(NSInteger)generation
-                          enforcer:(iTermOrderEnforcer *)enforcer {
+    enforcer:(iTermOrderEnforcer *)enforcer {
     self = [super init];
     if (self) {
         _generation = generation;
@@ -70,7 +70,7 @@
         generation = _generation++;
     }
     return [[iTermOrderedToken alloc] initWithGeneration:generation
-                                                enforcer:self];
+                                      enforcer:self];
 }
 
 - (BOOL)commit:(NSInteger)generation {

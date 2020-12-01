@@ -54,22 +54,22 @@ typedef NS_ENUM(NSInteger, PTYTextViewSelectionExtensionUnit) {
 @property (nonatomic, weak) id<iTermLogicalMovementHelperDelegate> delegate;
 
 - (instancetype)initWithTextExtractor:(iTermTextExtractor *)textExtractor
-                            selection:(iTermSelection *)selection
-                     cursorCoordinate:(VT100GridAbsCoord)cursorCoord
-                                width:(int)width
-                        numberOfLines:(long long)numberOfLines
-              totalScrollbackOverflow:(long long)totalScrollbackOverflow NS_DESIGNATED_INITIALIZER;
+    selection:(iTermSelection *)selection
+    cursorCoordinate:(VT100GridAbsCoord)cursorCoord
+    width:(int)width
+    numberOfLines:(long long)numberOfLines
+    totalScrollbackOverflow:(long long)totalScrollbackOverflow NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (VT100GridAbsCoordRange)moveSelectionEndpoint:(PTYTextViewSelectionEndpoint)endpoint
-                                    inDirection:(PTYTextViewSelectionExtensionDirection)direction
-                                             by:(PTYTextViewSelectionExtensionUnit)unit;
+    inDirection:(PTYTextViewSelectionExtensionDirection)direction
+    by:(PTYTextViewSelectionExtensionUnit)unit;
 
 - (VT100GridAbsWindowedRange)absRangeByExtendingRange:(VT100GridAbsWindowedRange)existingRange
-                                             endpoint:(PTYTextViewSelectionEndpoint)endpoint
-                                            direction:(PTYTextViewSelectionExtensionDirection)direction
-                                            extractor:(iTermTextExtractor *)extractor
-                                                 unit:(PTYTextViewSelectionExtensionUnit)unit;
+    endpoint:(PTYTextViewSelectionEndpoint)endpoint
+    direction:(PTYTextViewSelectionExtensionDirection)direction
+    extractor:(iTermTextExtractor *)extractor
+    unit:(PTYTextViewSelectionExtensionUnit)unit;
 
 @end
 

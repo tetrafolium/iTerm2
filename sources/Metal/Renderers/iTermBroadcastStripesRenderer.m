@@ -15,8 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
     [super writeDebugInfoToFolder:folder];
     [[NSString stringWithFormat:@"size=%@", NSStringFromSize(self.size)] writeToURL:[folder URLByAppendingPathComponent:@"state.txt"]
                                                                          atomically:NO
-                                                                           encoding:NSUTF8StringEncoding
-                                                                              error:NULL];
+                                                                         encoding:NSUTF8StringEncoding
+                                                                         error:NULL];
 }
 
 @end
@@ -32,10 +32,10 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (self) {
         _metalRenderer = [[iTermMetalRenderer alloc] initWithDevice:device
-                                                 vertexFunctionName:@"iTermBroadcastStripesVertexShader"
-                                               fragmentFunctionName:@"iTermBroadcastStripesFragmentShader"
-                                                           blending:[iTermMetalBlending compositeSourceOver]
-                                                transientStateClass:[iTermBroadcastStripesRendererTransientState class]];
+                                                     vertexFunctionName:@"iTermBroadcastStripesVertexShader"
+                                                     fragmentFunctionName:@"iTermBroadcastStripesFragmentShader"
+                                                     blending:[iTermMetalBlending compositeSourceOver]
+                                                     transientStateClass:[iTermBroadcastStripesRendererTransientState class]];
         NSImage *image = [[NSBundle bundleForClass:self.class] imageForResource:@"BackgroundStripes"];
         _size = image.size;
         _texture = [_metalRenderer textureFromImage:image context:nil];
@@ -53,25 +53,25 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)drawWithFrameData:(iTermMetalFrameData *)frameData
-           transientState:(__kindof iTermMetalRendererTransientState *)transientState {
+    transientState:(__kindof iTermMetalRendererTransientState *)transientState {
     iTermBroadcastStripesRendererTransientState *tState = transientState;
     [_metalRenderer drawWithTransientState:tState
-                             renderEncoder:frameData.renderEncoder
-                          numberOfVertices:6
-                              numberOfPIUs:0
-                             vertexBuffers:@{ @(iTermVertexInputIndexVertices): tState.vertexBuffer }
-                           fragmentBuffers:@{}
-                                  textures:@{ @(iTermTextureIndexPrimary): tState.texture }];
+                    renderEncoder:frameData.renderEncoder
+                    numberOfVertices:6
+                    numberOfPIUs:0
+                    vertexBuffers:@ { @(iTermVertexInputIndexVertices): tState.vertexBuffer }
+                    fragmentBuffers:@ {}
+                    textures:@ { @(iTermTextureIndexPrimary): tState.texture }];
 }
 
 - (nullable __kindof iTermMetalRendererTransientState *)createTransientStateForConfiguration:(iTermRenderConfiguration *)configuration
-                                                                               commandBuffer:(id<MTLCommandBuffer>)commandBuffer {
+    commandBuffer:(id<MTLCommandBuffer>)commandBuffer {
     if (!_enabled) {
         return nil;
     }
     __kindof iTermMetalRendererTransientState * _Nonnull transientState =
         [_metalRenderer createTransientStateForConfiguration:configuration
-                                           commandBuffer:commandBuffer];
+                        commandBuffer:commandBuffer];
     [self initializeTransientState:transientState];
     return transientState;
 }
@@ -97,8 +97,8 @@ NS_ASSUME_NONNULL_BEGIN
         { { viewportSize.x, viewportSize.y }, { maxX, maxY } },
     };
     tState.vertexBuffer = [_verticesPool requestBufferFromContext:tState.poolContext
-                                                        withBytes:vertices
-                                                   checkIfChanged:YES];
+                                         withBytes:vertices
+                                         checkIfChanged:YES];
 }
 
 @end

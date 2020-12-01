@@ -22,9 +22,9 @@
 @implementation iTermQuickLookController
 
 + (void)dismissSharedPanel {
-  if ([[QLPreviewPanel sharedPreviewPanelIfExists] isVisible]) {
-    [[QLPreviewPanel sharedPreviewPanel] orderOut:nil];
-  }
+    if ([[QLPreviewPanel sharedPreviewPanelIfExists] isVisible]) {
+        [[QLPreviewPanel sharedPreviewPanel] orderOut:nil];
+    }
 }
 
 - (void)dealloc {
@@ -62,62 +62,62 @@
 - (void)close {
     QLPreviewPanel *panel = [QLPreviewPanel sharedPreviewPanelIfExists];
     if ([panel isVisible] &&
-        [panel delegate] == self) {
+            [panel delegate] == self) {
         [panel orderOut:nil];
     }
 }
 
 - (void)takeControl {
-  QLPreviewPanel *panel = [QLPreviewPanel sharedPreviewPanel];
-  if (panel.delegate != self || panel.dataSource != self) {
-    panel.delegate = self;
-    panel.dataSource = self;
-    [panel reloadData];
-  }
+    QLPreviewPanel *panel = [QLPreviewPanel sharedPreviewPanel];
+    if (panel.delegate != self || panel.dataSource != self) {
+        panel.delegate = self;
+        panel.dataSource = self;
+        [panel reloadData];
+    }
 }
 
 #pragma mark - QLPreviewPanelDataSource
 
 - (NSInteger)numberOfPreviewItemsInPreviewPanel:(QLPreviewPanel *)panel {
-  return self.files.count;
+    return self.files.count;
 }
 
 - (id<QLPreviewItem>)previewPanel:(QLPreviewPanel *)panel previewItemAtIndex:(NSInteger)index {
-  return self.files[index];
+    return self.files[index];
 }
 
 
 #pragma mark - QLPreviewPanelDelegate
 
 - (BOOL)previewPanel:(QLPreviewPanel *)panel handleEvent:(NSEvent *)event {
-  if ([event type] == NSEventTypeKeyDown &&
-      event.charactersIgnoringModifiers.length == 1 &&
-      [event.charactersIgnoringModifiers characterAtIndex:0] == 27) {
-    [self close];
-    return YES;
-  }
+    if ([event type] == NSEventTypeKeyDown &&
+            event.charactersIgnoringModifiers.length == 1 &&
+            [event.charactersIgnoringModifiers characterAtIndex:0] == 27) {
+        [self close];
+        return YES;
+    }
 
-  return NO;
+    return NO;
 }
 
 // This delegate method provides the rect on screen from which the panel will zoom.
 - (NSRect)previewPanel:(QLPreviewPanel *)panel
     sourceFrameOnScreenForPreviewItem:(id <QLPreviewItem>)item {
-  return self.sourceRect;
+    return self.sourceRect;
 }
 
 // This delegate method provides a transition image between the table view and the preview panel
 - (NSImage *)previewPanel:(QLPreviewPanel *)panel
     transitionImageForPreviewItem:(id <QLPreviewItem>)item
-                      contentRect:(NSRect *)contentRect {
-  NSURL *url = [item previewItemURL];
-  return [[NSWorkspace sharedWorkspace] iconForFile:url.path];
+    contentRect:(NSRect *)contentRect {
+    NSURL *url = [item previewItemURL];
+    return [[NSWorkspace sharedWorkspace] iconForFile:url.path];
 }
 
 - (void)beginPreviewPanelControl:(QLPreviewPanel *)panel {
-  panel.delegate = self;
-  panel.dataSource = self;
-  [panel reloadData];
+    panel.delegate = self;
+    panel.dataSource = self;
+    [panel reloadData];
 }
 
 - (void)endPreviewPanelControl:(QLPreviewPanel *)panel {

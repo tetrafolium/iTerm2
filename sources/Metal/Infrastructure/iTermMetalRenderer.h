@@ -26,9 +26,9 @@ NS_CLASS_AVAILABLE(10_11, NA)
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithViewportSize:(vector_uint2)viewportSize
-                               scale:(CGFloat)scale
-                  hasBackgroundImage:(BOOL)hasBackgroundImage
-                        extraMargins:(NSEdgeInsets)extraMargins NS_DESIGNATED_INITIALIZER;
+    scale:(CGFloat)scale
+    hasBackgroundImage:(BOOL)hasBackgroundImage
+    extraMargins:(NSEdgeInsets)extraMargins NS_DESIGNATED_INITIALIZER;
 @end
 
 NS_CLASS_AVAILABLE(10_11, NA)
@@ -37,10 +37,10 @@ NS_CLASS_AVAILABLE(10_11, NA)
 
 - (iTermMetalFrameDataStat)createTransientStateStat;
 - (void)drawWithFrameData:(iTermMetalFrameData *)frameData
-           transientState:(__kindof iTermMetalRendererTransientState *)transientState;
+    transientState:(__kindof iTermMetalRendererTransientState *)transientState;
 
 - (nullable __kindof iTermMetalRendererTransientState *)createTransientStateForConfiguration:(iTermRenderConfiguration *)configuration
-                                                                               commandBuffer:(id<MTLCommandBuffer>)commandBuffer;
+    commandBuffer:(id<MTLCommandBuffer>)commandBuffer;
 
 @end
 
@@ -106,10 +106,10 @@ NS_CLASS_AVAILABLE(10_11, NA)
 - (nullable instancetype)initWithDevice:(id<MTLDevice>)device;
 
 - (nullable instancetype)initWithDevice:(id<MTLDevice>)device
-                     vertexFunctionName:(NSString *)vertexFunctionName
-                   fragmentFunctionName:(NSString *)fragmentFunctionName
-                               blending:(nullable iTermMetalBlending *)blending
-                    transientStateClass:(Class)transientStateClass;
+    vertexFunctionName:(NSString *)vertexFunctionName
+    fragmentFunctionName:(NSString *)fragmentFunctionName
+    blending:(nullable iTermMetalBlending *)blending
+    transientStateClass:(Class)transientStateClass;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -122,29 +122,29 @@ NS_CLASS_AVAILABLE(10_11, NA)
 - (id<MTLBuffer>)newQuadOfSize:(CGSize)size poolContext:(iTermMetalBufferPoolContext *)poolContext;
 
 - (id<MTLBuffer>)newQuadWithFrame:(CGRect)quad  // pixel coordinates on viewport with 0,0 at bottom left
-                     textureFrame:(CGRect)textureFrame  // normalized coordinates
-                      poolContext:(iTermMetalBufferPoolContext *)poolContext;
+    textureFrame:(CGRect)textureFrame  // normalized coordinates
+    poolContext:(iTermMetalBufferPoolContext *)poolContext;
 
 // Things in Metal are randomly upside down for no good reason. So make it easy to flip them back.
 - (id<MTLBuffer>)newFlippedQuadOfSize:(CGSize)size poolContext:(iTermMetalBufferPoolContext *)poolContext;
 
 - (void)drawWithTransientState:(iTermMetalRendererTransientState *)tState
-                 renderEncoder:(id <MTLRenderCommandEncoder>)renderEncoder
-              numberOfVertices:(NSInteger)numberOfVertices
-                  numberOfPIUs:(NSInteger)numberOfPIUs
-                 vertexBuffers:(NSDictionary<NSNumber *, id<MTLBuffer>> *)vertexBuffers
-               fragmentBuffers:(NSDictionary<NSNumber *, id<MTLBuffer>> *)fragmentBuffers
-                      textures:(NSDictionary<NSNumber *, id<MTLTexture>> *)textures;
+    renderEncoder:(id <MTLRenderCommandEncoder>)renderEncoder
+    numberOfVertices:(NSInteger)numberOfVertices
+    numberOfPIUs:(NSInteger)numberOfPIUs
+    vertexBuffers:(NSDictionary<NSNumber *, id<MTLBuffer>> *)vertexBuffers
+    fragmentBuffers:(NSDictionary<NSNumber *, id<MTLBuffer>> *)fragmentBuffers
+    textures:(NSDictionary<NSNumber *, id<MTLTexture>> *)textures;
 
 - (nullable id<MTLTexture>)textureFromImage:(NSImage *)image context:(nullable iTermMetalBufferPoolContext *)context;
 - (nullable id<MTLTexture>)textureFromImage:(NSImage *)image context:(nullable iTermMetalBufferPoolContext *)context pool:(nullable iTermTexturePool *)pool;
 
 - (id<MTLRenderPipelineState>)newPipelineWithBlending:(nullable iTermMetalBlending *)blending
-                                       vertexFunction:(id<MTLFunction>)vertexFunction
-                                     fragmentFunction:(id<MTLFunction>)fragmentFunction;
+    vertexFunction:(id<MTLFunction>)vertexFunction
+    fragmentFunction:(id<MTLFunction>)fragmentFunction;
 
 - (nullable __kindof iTermMetalRendererTransientState *)createTransientStateForConfiguration:(iTermRenderConfiguration *)configuration
-                                                                               commandBuffer:(id<MTLCommandBuffer>)commandBuffer;
+    commandBuffer:(id<MTLCommandBuffer>)commandBuffer;
 
 @end
 

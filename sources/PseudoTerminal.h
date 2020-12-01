@@ -48,16 +48,16 @@ extern NSString *const iTermDidCreateTerminalWindowNotification;
 // status, and coordinates resizing of sessions (either session-initiated
 // or window-initiated).
 @interface PseudoTerminal : NSWindowController <
-  iTermInstantReplayDelegate,
-  iTermPresentationControllerManagedWindowController,
-  iTermSubscribable,
-  iTermWeaklyReferenceable,
-  iTermWindowController,
-  NSWindowDelegate,
-  PSMTabBarControlDelegate,
-  PSMTabViewDelegate,
-  PTYWindowDelegateProtocol,
-  WindowControllerInterface>
+    iTermInstantReplayDelegate,
+    iTermPresentationControllerManagedWindowController,
+    iTermSubscribable,
+    iTermWeaklyReferenceable,
+    iTermWindowController,
+    NSWindowDelegate,
+    PSMTabBarControlDelegate,
+    PSMTabViewDelegate,
+    PTYWindowDelegateProtocol,
+    WindowControllerInterface>
 
 // Is this window in the process of becoming fullscreen?
 // Used to make restoring fullscreen windows work on 10.11.
@@ -107,27 +107,27 @@ extern NSString *const iTermDidCreateTerminalWindowNotification;
 // |frames| gives an array of NSValue's having NSRect values for each screen,
 // giving the screens' coordinates in the model.
 + (void)drawArrangementPreview:(NSDictionary*)terminalArrangement
-                  screenFrames:(NSArray *)frames;
+    screenFrames:(NSArray *)frames;
 
 // Returns a new terminal window restored from an arrangement, but with no
 // tabs/sessions. May return nil.
 // forceOpeningHotKeyWindow means open the window even if there is already a hotkey window with the
 // specified profile, or the arrangement is defective in specifying details of the hotkey window.
 + (PseudoTerminal *)bareTerminalWithArrangement:(NSDictionary *)arrangement
-                       forceOpeningHotKeyWindow:(BOOL)force;
+    forceOpeningHotKeyWindow:(BOOL)force;
 
 // Returns a new terminal window restored from an arrangement, with
 // tabs/sessions also restored. May return nil.
 // forceOpeningHotKeyWindow means open the window even if there is already a hotkey window with the
 // specified profile, or the arrangement is defective in specifying details of the hotkey window.
 + (PseudoTerminal *)terminalWithArrangement:(NSDictionary *)arrangement
-                                      named:(NSString *)arrangementName
-                   forceOpeningHotKeyWindow:(BOOL)force;
+    named:(NSString *)arrangementName
+    forceOpeningHotKeyWindow:(BOOL)force;
 
 + (instancetype)terminalWithArrangement:(NSDictionary *)arrangement
-                                  named:(NSString *)arrangementName
-                               sessions:(NSArray *)sessions
-               forceOpeningHotKeyWindow:(BOOL)force;
+    named:(NSString *)arrangementName
+    sessions:(NSArray *)sessions
+    forceOpeningHotKeyWindow:(BOOL)force;
 
 // Register all sessions in the window's arrangement so their contents can be
 // rescued later if the window is created from a saved arrangement. Called
@@ -152,28 +152,28 @@ extern NSString *const iTermDidCreateTerminalWindowNotification;
 // screen: An index into [NSScreen screens], or -1 to let the system pick a
 //   screen.
 - (instancetype)initWithSmartLayout:(BOOL)smartLayout
-                         windowType:(iTermWindowType)windowType
-                    savedWindowType:(iTermWindowType)savedWindowType
-                             screen:(int)screenIndex
-                            profile:(Profile *)profile;
+    windowType:(iTermWindowType)windowType
+    savedWindowType:(iTermWindowType)savedWindowType
+    screen:(int)screenIndex
+    profile:(Profile *)profile;
 
 // isHotkey indicates if this is a hotkey window, which receives special
 // treatment and must be unique.
 - (instancetype)initWithSmartLayout:(BOOL)smartLayout
-                         windowType:(iTermWindowType)windowType
-                    savedWindowType:(iTermWindowType)savedWindowType
-                             screen:(int)screenNumber
-                   hotkeyWindowType:(iTermHotkeyWindowType)hotkeyWindowType
-                            profile:(Profile *)profile;
+    windowType:(iTermWindowType)windowType
+    savedWindowType:(iTermWindowType)savedWindowType
+    screen:(int)screenNumber
+    hotkeyWindowType:(iTermHotkeyWindowType)hotkeyWindowType
+    profile:(Profile *)profile;
 
 // If a PseudoTerminal is created with -init (such as happens with AppleScript)
 // this must be called before it is used.
 - (void)finishInitializationWithSmartLayout:(BOOL)smartLayout
-                                 windowType:(iTermWindowType)windowType
-                            savedWindowType:(iTermWindowType)savedWindowType
-                                     screen:(int)screenNumber
-                                   hotkeyWindowType:(iTermHotkeyWindowType)hotkeyWindowType
-                                    profile:(Profile *)profile;
+    windowType:(iTermWindowType)windowType
+    savedWindowType:(iTermWindowType)savedWindowType
+    screen:(int)screenNumber
+    hotkeyWindowType:(iTermHotkeyWindowType)hotkeyWindowType
+    profile:(Profile *)profile;
 
 - (PTYTab *)tabWithUniqueId:(int)uniqueId;
 
@@ -261,30 +261,30 @@ extern NSString *const iTermDidCreateTerminalWindowNotification;
 - (float)minWidth;
 
 + (NSDictionary *)repairedArrangement:(NSDictionary *)arrangement
-             replacingProfileWithGUID:(NSString *)badGuid
-                          withProfile:(Profile *)goodProfile;
+    replacingProfileWithGUID:(NSString *)badGuid
+    withProfile:(Profile *)goodProfile;
 + (NSDictionary *)repairedArrangement:(NSDictionary *)arrangement
-     replacingOldCWDOfSessionWithGUID:(NSString *)guid
-                           withOldCWD:(NSString *)replacementOldCWD;
+    replacingOldCWDOfSessionWithGUID:(NSString *)guid
+    withOldCWD:(NSString *)replacementOldCWD;
 
 + (NSDictionary *)arrangementForSessionWithGUID:(NSString *)sessionGUID
-                            inWindowArrangement:(NSDictionary *)arrangement;
+    inWindowArrangement:(NSDictionary *)arrangement;
 
 // Load an arrangement into an empty window.
 - (BOOL)loadArrangement:(NSDictionary *)arrangement named:(NSString *)arrangementName;
 
 // Load just the tabs into this window.
 - (BOOL)restoreTabsFromArrangement:(NSDictionary *)arrangement
-                             named:(NSString *)arrangementName
-                          sessions:(NSArray<PTYSession *> *)sessions
-                partialAttachments:(NSDictionary *)partialAttachments;
+    named:(NSString *)arrangementName
+    sessions:(NSArray<PTYSession *> *)sessions
+    partialAttachments:(NSDictionary *)partialAttachments;
 
 // Returns the arrangement for this window.
 - (NSDictionary*)arrangement;
 
 // Returns the arrangement for this window, optionally excluding tmux tabs.
 - (NSDictionary *)arrangementExcludingTmuxTabs:(BOOL)excludeTmux
-                             includingContents:(BOOL)includeContents;
+    includingContents:(BOOL)includeContents;
 
 // All tabs in this window.
 - (NSArray<PTYTab *> *)tabs;
@@ -304,11 +304,11 @@ extern NSString *const iTermDidCreateTerminalWindowNotification;
 // The ready block is called after the session has started, much like the completion block in
 // other session creation calls.
 - (void)asyncSplitVertically:(BOOL)isVertical
-                      before:(BOOL)before
-                     profile:(Profile *)theBookmark
-               targetSession:(PTYSession *)targetSession
-                  completion:(void (^)(PTYSession *, BOOL ok))completion
-                       ready:(void (^)(PTYSession *newSession, BOOL ok))ready;
+    before:(BOOL)before
+    profile:(Profile *)theBookmark
+    targetSession:(PTYSession *)targetSession
+    completion:(void (^)(PTYSession *, BOOL ok))completion
+    ready:(void (^)(PTYSession *newSession, BOOL ok))ready;
 
 // Cause every session in this window to reload its bookmark.
 - (void)reloadBookmarks;
@@ -319,10 +319,10 @@ extern NSString *const iTermDidCreateTerminalWindowNotification;
 // Create a tab. Is async so it can fetch the current working directory without blocking the main
 // thread.
 - (void)asyncCreateTabWithProfile:(Profile *)profile
-                      withCommand:(NSString *)command
-                      environment:(NSDictionary *)environment
-                   didMakeSession:(void (^)(PTYSession *session))didMakeSession
-                       completion:(void (^)(PTYSession *newSession, BOOL ok))completion;
+    withCommand:(NSString *)command
+    environment:(NSDictionary *)environment
+    didMakeSession:(void (^)(PTYSession *session))didMakeSession
+    completion:(void (^)(PTYSession *newSession, BOOL ok))completion;
 
 - (IBAction)newTmuxWindow:(id)sender;
 - (IBAction)newTmuxTab:(id)sender;
@@ -338,18 +338,18 @@ extern NSString *const iTermDidCreateTerminalWindowNotification;
 
 - (void)addRevivedSession:(PTYSession *)session;
 - (void)addTabWithArrangement:(NSDictionary *)arrangement
-                     uniqueId:(int)tabUniqueId
-                     sessions:(NSArray *)sessions
-                 predecessors:(NSArray *)predecessors;  // NSInteger of tab uniqueId's that come before this tab.
+    uniqueId:(int)tabUniqueId
+    sessions:(NSArray *)sessions
+    predecessors:(NSArray *)predecessors;  // NSInteger of tab uniqueId's that come before this tab.
 - (void)recreateTab:(PTYTab *)tab
     withArrangement:(NSDictionary *)arrangement
-           sessions:(NSArray *)sessions
-             revive:(BOOL)revive;
+    sessions:(NSArray *)sessions
+    revive:(BOOL)revive;
 
 - (IBAction)toggleToolbeltVisibility:(id)sender;
 
 - (void)setupSession:(PTYSession *)aSession
-            withSize:(NSSize *)size;
+    withSize:(NSSize *)size;
 
 - (NSColor *)accessoryTextColorForMini:(BOOL)mini;
 
@@ -379,8 +379,8 @@ extern NSString *const iTermDidCreateTerminalWindowNotification;
 - (BOOL)getAndResetRestorableState;
 - (void)restoreState:(PseudoTerminalState *)state;
 - (void)asyncRestoreState:(PseudoTerminalState *)state
-                  timeout:(void (^)(NSArray *))timeout
-               completion:(void (^)(void))completion;
+    timeout:(void (^)(NSArray *))timeout
+    completion:(void (^)(void))completion;
 
 @end
 

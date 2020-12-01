@@ -19,13 +19,13 @@ static NSDictionary<NSString *, NSDictionary *> *gTouchBarMappings;
 + (NSArray<iTermTouchbarItem *> *)sortedTouchbarItemsInDictionary:(NSDictionary<NSString *, NSDictionary *> *)dict {
     NSArray<NSString *> *keys = dict.allKeys;
     keys = [keys sortedArrayUsingComparator:^NSComparisonResult(NSString *_Nonnull key1, NSString *_Nonnull key2) {
-        NSString *desc1 = [[iTermKeyBindingAction withDictionary:dict[key1]] label];
+             NSString *desc1 = [[iTermKeyBindingAction withDictionary:dict[key1]] label];
         NSString *desc2 = [[iTermKeyBindingAction withDictionary:dict[key2]] label];
         return [desc1 compare:desc2];
     }];
     return [keys mapWithBlock:^id(NSString *anObject) {
-        return [[iTermTouchbarItem alloc] initWithIdentifier:anObject];
-    }];
+             return [[iTermTouchbarItem alloc] initWithIdentifier:anObject];
+         }];
 }
 
 + (void)removeTouchbarItem:(iTermTouchbarItem *)item {
@@ -35,8 +35,8 @@ static NSDictionary<NSString *, NSDictionary *> *gTouchBarMappings;
 }
 
 + (void)updateDictionary:(NSMutableDictionary *)dict
-         forTouchbarItem:(iTermTouchbarItem *)touchbarItem
-                  action:(iTermKeyBindingAction *)keyBindingAction {
+    forTouchbarItem:(iTermTouchbarItem *)touchbarItem
+    action:(iTermKeyBindingAction *)keyBindingAction {
     dict[touchbarItem.identifier] = keyBindingAction.dictionaryValue;
 }
 
@@ -44,7 +44,7 @@ static NSDictionary<NSString *, NSDictionary *> *gTouchBarMappings;
     gTouchBarMappings = [[NSUserDefaults standardUserDefaults] objectForKey:@"GlobalTouchBarMap"];
     if (!gTouchBarMappings) {
         NSString *plistFile = [[NSBundle bundleForClass: [self class]] pathForResource:@"DefaultGlobalTouchBarMap" ofType:@"plist"];
-        gTouchBarMappings = [NSDictionary dictionaryWithContentsOfFile:plistFile] ?: @{};
+        gTouchBarMappings = [NSDictionary dictionaryWithContentsOfFile:plistFile] ?: @ {};
     }
 }
 
@@ -61,7 +61,7 @@ static NSDictionary<NSString *, NSDictionary *> *gTouchBarMappings;
 }
 
 + (NSDictionary *)dictionaryByRemovingTouchbarItem:(iTermTouchbarItem *)item
-                                    fromDictionary:(NSDictionary *)dictionary {
+    fromDictionary:(NSDictionary *)dictionary {
     NSMutableDictionary *temp = [dictionary mutableCopy];
     id key = [item keyInDictionary:dictionary];
     if (!key) {

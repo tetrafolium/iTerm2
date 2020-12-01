@@ -62,33 +62,33 @@ typedef NS_ENUM(NSInteger, iTermSelectionScrollDirection) {
     int y = 0;
 
     switch (_selectionScrollDirection) {
-        case kiTermSelectionScrollDirectionStopped:
-            _scrolling = NO;
-            return;
+    case kiTermSelectionScrollDirectionStopped:
+        _scrolling = NO;
+        return;
 
-        case kiTermSelectionScrollDirectionUp:
-            visibleRect.origin.y -= lineHeight * numLines;
-            // Allow the origin to go as far as y=-VMARGIN so the top border is shown when the first
-            // line is on screen.
-            if (visibleRect.origin.y >= -[iTermPreferences intForKey:kPreferenceKeyTopBottomMargins]) {
-                [_delegate scrollRectToVisible:visibleRect];
-            }
-            y = visibleRect.origin.y / lineHeight;
-            break;
-
-        case kiTermSelectionScrollDirectionDown:
-            visibleRect.origin.y += lineHeight * numLines;
-            if (visibleRect.origin.y + visibleRect.size.height > _delegate.frame.size.height) {
-                visibleRect.origin.y = _delegate.frame.size.height - visibleRect.size.height;
-            }
+    case kiTermSelectionScrollDirectionUp:
+        visibleRect.origin.y -= lineHeight * numLines;
+        // Allow the origin to go as far as y=-VMARGIN so the top border is shown when the first
+        // line is on screen.
+        if (visibleRect.origin.y >= -[iTermPreferences intForKey:kPreferenceKeyTopBottomMargins]) {
             [_delegate scrollRectToVisible:visibleRect];
-            y = (visibleRect.origin.y + visibleRect.size.height - [_delegate excess]) / lineHeight;
-            break;
+        }
+        y = visibleRect.origin.y / lineHeight;
+        break;
+
+    case kiTermSelectionScrollDirectionDown:
+        visibleRect.origin.y += lineHeight * numLines;
+        if (visibleRect.origin.y + visibleRect.size.height > _delegate.frame.size.height) {
+            visibleRect.origin.y = _delegate.frame.size.height - visibleRect.size.height;
+        }
+        [_delegate scrollRectToVisible:visibleRect];
+        y = (visibleRect.origin.y + visibleRect.size.height - [_delegate excess]) / lineHeight;
+        break;
     }
 
     [_delegate moveSelectionEndpointToX:_scrollingCoord.x
-                                      Y:y
-                     locationInTextView:_scrollingLocation];
+               Y:y
+               locationInTextView:_scrollingLocation];
 
     [self scheduleSelectionScroll];
 }

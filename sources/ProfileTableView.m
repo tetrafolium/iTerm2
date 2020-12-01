@@ -15,13 +15,13 @@
     self = [super initWithFrame:frameRect];
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(windowDidResignKey:)
-                                                     name:NSWindowDidResignKeyNotification
-                                                   object:nil];
+                                              selector:@selector(windowDidResignKey:)
+                                              name:NSWindowDidResignKeyNotification
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(windowDidBecomeKey:)
-                                                     name:NSWindowDidBecomeKeyNotification
-                                                   object:nil];
+                                              selector:@selector(windowDidBecomeKey:)
+                                              name:NSWindowDidBecomeKeyNotification
+                                              object:nil];
     }
     return self;
 }
@@ -51,7 +51,7 @@
     NSColor *color = [NSColor colorWithCalibratedRed:17/255.0 green:108/255.0 blue:214/255.0 alpha:1];
 
     [self.selectedRowIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-        [color set];
+                                [color set];
         NSRectFill([self rectOfRow:idx]);
     }];
 }

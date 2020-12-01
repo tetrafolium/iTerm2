@@ -57,13 +57,13 @@
     const NSInteger lengthBeforeTrimming = _string.length;
     [_string trimTrailingWhitespace];
     [_coords removeObjectsInRange:NSMakeRange(_string.length,
-                                              lengthBeforeTrimming - _string.length)];
+            lengthBeforeTrimming - _string.length)];
 }
 
 - (void)removeOcurrencesOfString:(NSString *)string {
     NSArray *empty = @[];
     [_string reverseEnumerateSubstringsEqualTo:string block:^(NSRange range) {
-        [_string replaceCharactersInRange:range withString:@""];
+                [_string replaceCharactersInRange:range withString:@""];
         [_coords replaceObjectsInRange:range withObjectsFromArray:empty];
     }];
 }
@@ -87,14 +87,14 @@
 }
 
 - (void)appendString:(NSString *)string
-      withAttributes:(NSDictionary *)attributes
-                  at:(VT100GridCoord)coord {
+    withAttributes:(NSDictionary *)attributes
+    at:(VT100GridCoord)coord {
     [_attributedString iterm_appendString:string withAttributes:attributes];
     [self appendCoordsForString:string at:coord];
 }
 
 - (void)appendAttributedString:(NSAttributedString *)attributedString
-                            at:(VT100GridCoord)coord {
+    at:(VT100GridCoord)coord {
     [_attributedString appendAttributedString:attributedString];
     [self appendCoordsForString:attributedString.string at:coord];
 }
@@ -119,13 +119,13 @@
     const NSInteger lengthBeforeTrimming = _attributedString.length;
     [_attributedString trimTrailingWhitespace];
     [_coords removeObjectsInRange:NSMakeRange(_attributedString.length,
-                                              lengthBeforeTrimming - _attributedString.length)];
+            lengthBeforeTrimming - _attributedString.length)];
 }
 
 - (void)removeOcurrencesOfString:(NSString *)string {
     NSArray *empty = @[];
     [_attributedString.string reverseEnumerateSubstringsEqualTo:string block:^(NSRange range) {
-        [_attributedString replaceCharactersInRange:range withString:@""];
+                                 [_attributedString replaceCharactersInRange:range withString:@""];
         [_coords replaceObjectsInRange:range withObjectsFromArray:empty];
     }];
 }

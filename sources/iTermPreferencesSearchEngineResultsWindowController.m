@@ -41,12 +41,12 @@
     NSScrollView *scrollView = _tableView.enclosingScrollView;
     const CGFloat desiredContentHeight = [NSScrollView frameSizeForContentSize:NSMakeSize(100, desiredTableViewHeight)
                                                        horizontalScrollerClass:nil
-                                                         verticalScrollerClass:scrollView.verticalScroller.class
-                                                                    borderType:scrollView.borderType
-                                                                   controlSize:NSControlSizeRegular
-                                                                 scrollerStyle:scrollView.scrollerStyle].height;
+                                                       verticalScrollerClass:scrollView.verticalScroller.class
+                                                       borderType:scrollView.borderType
+                                                       controlSize:NSControlSizeRegular
+                                                       scrollerStyle:scrollView.scrollerStyle].height;
     CGFloat desiredHeight = [NSPanel frameRectForContentRect:NSMakeRect(0, 0, 100, desiredContentHeight)
-                                                   styleMask:self.window.styleMask].size.height;
+                                     styleMask:self.window.styleMask].size.height;
     if (_documents.count == 0) {
         self.window.alphaValue = 0;
         return;

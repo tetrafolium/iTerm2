@@ -15,15 +15,15 @@ extern NSString *const kTurnOffBracketedPasteOnHostChangeAnnouncementIdentifier;
 @protocol iTermNaggingControllerDelegate<NSObject>
 - (BOOL)naggingControllerCanShowMessageWithIdentifier:(NSString *)identifier;
 - (void)naggingControllerShowMessage:(NSString *)message
-                          isQuestion:(BOOL)isQuestion
-                           important:(BOOL)important
-                          identifier:(NSString *)identifier
-                             options:(NSArray<NSString *> *)options
-                          completion:(void (^)(int))completion;
+    isQuestion:(BOOL)isQuestion
+    important:(BOOL)important
+    identifier:(NSString *)identifier
+    options:(NSArray<NSString *> *)options
+    completion:(void (^)(int))completion;
 
 - (void)naggingControllerRepairSavedArrangement:(NSString *)savedArrangementName
-                            missingProfileNamed:(NSString *)profileName
-                                           guid:(NSString *)guid;
+    missingProfileNamed:(NSString *)profileName
+    guid:(NSString *)guid;
 
 - (void)naggingControllerRemoveMessageWithIdentifier:(NSString *)identifier;
 
@@ -35,7 +35,7 @@ extern NSString *const kTurnOffBracketedPasteOnHostChangeAnnouncementIdentifier;
 - (void)naggingControllerDisableBracketedPasteMode;
 - (void)naggingControllerCloseSession;
 - (void)naggingControllerRepairInitialWorkingDirectoryOfSessionWithGUID:(NSString *)guid
-                                                  inArrangementWithName:(NSString *)arrangementName;
+    inArrangementWithName:(NSString *)arrangementName;
 @end
 
 @interface iTermNaggingController : NSObject
@@ -49,8 +49,8 @@ extern NSString *const kTurnOffBracketedPasteOnHostChangeAnnouncementIdentifier;
 - (BOOL)permissionToReportVariableNamed:(NSString *)name;
 
 - (void)arrangementWithName:(NSString *)savedArrangementName
-        missingProfileNamed:(NSString *)profileName
-                       guid:(NSString *)guid;
+    missingProfileNamed:(NSString *)profileName
+    guid:(NSString *)guid;
 - (void)didRepairSavedArrangement;
 
 - (void)brokenPipe;
@@ -75,8 +75,8 @@ extern NSString *const kTurnOffBracketedPasteOnHostChangeAnnouncementIdentifier;
 - (BOOL)terminalCanChangeProfile;
 - (BOOL)tmuxWindowsShouldCloseAfterDetach;
 - (void)arrangementWithName:(NSString *)arrangementName
-              hasInvalidPWD:(NSString *)badPWD
-         forSessionWithGuid:(NSString *)sessionGUID;
+    hasInvalidPWD:(NSString *)badPWD
+    forSessionWithGuid:(NSString *)sessionGUID;
 
 
 @end

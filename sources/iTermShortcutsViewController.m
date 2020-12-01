@@ -36,8 +36,8 @@
 }
 
 - (NSView *)searchableViewControllerRevealItemForDocument:(iTermPreferencesSearchDocument *)document
-                                                 forQuery:(NSString *)query
-                                            willChangeTab:(BOOL *)willChangeTab {
+    forQuery:(NSString *)query
+    willChangeTab:(BOOL *)willChangeTab {
     if ([document.identifier isEqualToString:kPreferenceKeyActions]) {
         NSString *identifier = @"Actions";
         *willChangeTab = [_tabView.selectedTabViewItem.identifier isEqualToString:identifier];

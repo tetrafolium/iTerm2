@@ -24,19 +24,19 @@ int iTermFileDescriptorServerAccept(int socketFd);
 void SetRunningServer(void);
 
 ssize_t iTermFileDescriptorServerSendMessageAndFileDescriptor(int connectionFd,
-                                                              void *buffer,
-                                                              size_t bufferSize,
-                                                              int fdToSend);
+        void *buffer,
+        size_t bufferSize,
+        int fdToSend);
 
 ssize_t iTermFileDescriptorServerWriteLengthAndBuffer(int connectionFd,
-                                                      void *buffer,
-                                                      size_t bufferSize,
-                                                      int *errorOut);
+        void *buffer,
+        size_t bufferSize,
+        int *errorOut);
 ssize_t iTermFileDescriptorServerWriteLengthAndBufferAndFileDescriptor(int connectionFd,
-                                                                       void *buffer,
-                                                                       size_t bufferSize,
-                                                                       int fdToSend,
-                                                                       int *errorOut);
+        void *buffer,
+        size_t bufferSize,
+        int fdToSend,
+        int *errorOut);
 
 ssize_t iTermFileDescriptorServerWrite(int fd, void *buffer, size_t bufferSize);
 

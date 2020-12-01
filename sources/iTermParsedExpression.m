@@ -55,41 +55,41 @@
 - (NSString *)description {
     NSString *value = nil;
     switch (self.expressionType) {
-        case iTermParsedExpressionTypeInterpolatedString:
-            value = [[self.interpolatedStringParts mapWithBlock:^id(id anObject) {
-                return [anObject description];
-            }] componentsJoinedByString:@""];
-            break;
-        case iTermParsedExpressionTypeFunctionCall:
-            value = self.functionCall.description;
-            break;
-        case iTermParsedExpressionTypeNil:
-            value = @"nil";
-            break;
-        case iTermParsedExpressionTypeError:
-            value = self.error.description;
-            break;
-        case iTermParsedExpressionTypeNumber:
-            value = [self.number stringValue];
-            break;
-        case iTermParsedExpressionTypeString:
-            value = self.string;
-            break;
-        case iTermParsedExpressionTypeArrayOfExpressions:
-        case iTermParsedExpressionTypeArrayOfValues:
-            value = [[(NSArray *)_object mapWithBlock:^id(id anObject) {
-                return [anObject description];
-            }] componentsJoinedByString:@" "];
-            value = [NSString stringWithFormat:@"[ %@ ]", value];
-            break;
-        case iTermParsedExpressionTypeArrayLookup: {
-            iTermExpressionParserArrayDereferencePlaceholder *placeholder = self.placeholder;
-            return [NSString stringWithFormat:@"%@[%@]", placeholder.path, @(placeholder.index)];
-        }
-        case iTermParsedExpressionTypeVariableReference: {
-            iTermExpressionParserVariableReferencePlaceholder *placeholder = self.placeholder;
-            return [NSString stringWithFormat:@"%@", placeholder.path];
-        }
+    case iTermParsedExpressionTypeInterpolatedString:
+        value = [[self.interpolatedStringParts mapWithBlock:^id(id anObject) {
+            return [anObject description];
+        }] componentsJoinedByString:@""];
+        break;
+    case iTermParsedExpressionTypeFunctionCall:
+        value = self.functionCall.description;
+        break;
+    case iTermParsedExpressionTypeNil:
+        value = @"nil";
+        break;
+    case iTermParsedExpressionTypeError:
+        value = self.error.description;
+        break;
+    case iTermParsedExpressionTypeNumber:
+        value = [self.number stringValue];
+        break;
+    case iTermParsedExpressionTypeString:
+        value = self.string;
+        break;
+    case iTermParsedExpressionTypeArrayOfExpressions:
+    case iTermParsedExpressionTypeArrayOfValues:
+        value = [[(NSArray *)_object mapWithBlock:^id(id anObject) {
+            return [anObject description];
+        }] componentsJoinedByString:@" "];
+        value = [NSString stringWithFormat:@"[ %@ ]", value];
+        break;
+    case iTermParsedExpressionTypeArrayLookup: {
+        iTermExpressionParserArrayDereferencePlaceholder *placeholder = self.placeholder;
+        return [NSString stringWithFormat:@"%@[%@]", placeholder.path, @(placeholder.index)];
+    }
+    case iTermParsedExpressionTypeVariableReference: {
+        iTermExpressionParserVariableReferencePlaceholder *placeholder = self.placeholder;
+        return [NSString stringWithFormat:@"%@", placeholder.path];
+    }
     }
     if (self.optional) {
         value = [value stringByAppendingString:@"?"];
@@ -135,8 +135,8 @@
     if (self) {
         _expressionType = iTermParsedExpressionTypeError;
         _object = [NSError errorWithDomain:@"com.iterm2.parser"
-                                      code:code
-                                  userInfo:@{ NSLocalizedDescriptionKey: localizedDescription ?: @"Unknown error" }];
+                           code:code
+                           userInfo:@ { NSLocalizedDescriptionKey: localizedDescription ?: @"Unknown error" }];
     }
     return self;
 }
@@ -214,7 +214,7 @@
 }
 
 - (instancetype)initWithPlaceholder:(id<iTermExpressionParserPlaceholder>)placeholder
-                           optional:(BOOL)optional {
+    optional:(BOOL)optional {
     self = [super init];
     if (self) {
         _expressionType = placeholder.expressionType;
@@ -266,24 +266,24 @@
 
 - (BOOL)containsAnyFunctionCall {
     switch (self.expressionType) {
-        case iTermParsedExpressionTypeFunctionCall:
-            return YES;
-        case iTermParsedExpressionTypeNil:
-        case iTermParsedExpressionTypeError:
-        case iTermParsedExpressionTypeNumber:
-        case iTermParsedExpressionTypeString:
-        case iTermParsedExpressionTypeArrayOfValues:
-        case iTermParsedExpressionTypeVariableReference:
-        case iTermParsedExpressionTypeArrayLookup:
-            return NO;
-        case iTermParsedExpressionTypeArrayOfExpressions:
-            return [self.arrayOfExpressions anyWithBlock:^BOOL(iTermParsedExpression *expression) {
-                return [expression containsAnyFunctionCall];
-            }];
-        case iTermParsedExpressionTypeInterpolatedString:
-            return [self.interpolatedStringParts anyWithBlock:^BOOL(iTermParsedExpression *expression) {
-                return [expression containsAnyFunctionCall];
-            }];
+    case iTermParsedExpressionTypeFunctionCall:
+        return YES;
+    case iTermParsedExpressionTypeNil:
+    case iTermParsedExpressionTypeError:
+    case iTermParsedExpressionTypeNumber:
+    case iTermParsedExpressionTypeString:
+    case iTermParsedExpressionTypeArrayOfValues:
+    case iTermParsedExpressionTypeVariableReference:
+    case iTermParsedExpressionTypeArrayLookup:
+        return NO;
+    case iTermParsedExpressionTypeArrayOfExpressions:
+        return [self.arrayOfExpressions anyWithBlock:^BOOL(iTermParsedExpression *expression) {
+                                    return [expression containsAnyFunctionCall];
+                                }];
+    case iTermParsedExpressionTypeInterpolatedString:
+        return [self.interpolatedStringParts anyWithBlock:^BOOL(iTermParsedExpression *expression) {
+                                         return [expression containsAnyFunctionCall];
+                                     }];
     }
     assert(false);
     return YES;

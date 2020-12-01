@@ -16,9 +16,9 @@
 }
 
 - (void)setColorRLEs:(const iTermMetalBackgroundColorRLE *)rles
-               count:(size_t)count
-                 row:(int)row
-       repeatingRows:(int)repeatingRows {
+    count:(size_t)count
+    row:(int)row
+    repeatingRows:(int)repeatingRows {
     vector_float2 cellSize = simd_make_float2(self.cellConfiguration.cellSize.width, self.cellConfiguration.cellSize.height);
     const int height = self.cellConfiguration.gridSize.height;
     for (int i = 0; i < count; i++) {
@@ -62,33 +62,33 @@
 #if ENABLE_TRANSPARENT_METAL_WINDOWS
         if (iTermTextIsMonochrome()) {
             _nonblendingRenderer = [[iTermMetalCellRenderer alloc] initWithDevice:device
-                                                        vertexFunctionName:@"iTermBackgroundColorVertexShader"
-                                                      fragmentFunctionName:@"iTermBackgroundColorFragmentShader"
-                                                                  blending:nil
-                                                            piuElementSize:sizeof(iTermBackgroundColorPIU)
-                                                       transientStateClass:[iTermBackgroundColorRendererTransientState class]];
+                                                                   vertexFunctionName:@"iTermBackgroundColorVertexShader"
+                                                                   fragmentFunctionName:@"iTermBackgroundColorFragmentShader"
+                                                                   blending:nil
+                                                                   piuElementSize:sizeof(iTermBackgroundColorPIU)
+                                                                   transientStateClass:[iTermBackgroundColorRendererTransientState class]];
             _nonblendingRenderer.formatterDelegate = self;
 
             _compositeOverRenderer = [[iTermMetalCellRenderer alloc] initWithDevice:device
-                                                        vertexFunctionName:@"iTermBackgroundColorVertexShader"
-                                                      fragmentFunctionName:@"iTermBackgroundColorFragmentShader"
-                                                                  blending:[iTermMetalBlending premultipliedCompositing]
-                                                            piuElementSize:sizeof(iTermBackgroundColorPIU)
-                                                       transientStateClass:[iTermBackgroundColorRendererTransientState class]];
+                                                                     vertexFunctionName:@"iTermBackgroundColorVertexShader"
+                                                                     fragmentFunctionName:@"iTermBackgroundColorFragmentShader"
+                                                                     blending:[iTermMetalBlending premultipliedCompositing]
+                                                                     piuElementSize:sizeof(iTermBackgroundColorPIU)
+                                                                     transientStateClass:[iTermBackgroundColorRendererTransientState class]];
             _compositeOverRenderer.formatterDelegate = self;
         }
 #endif
         _blendingRenderer = [[iTermMetalCellRenderer alloc] initWithDevice:device
-                                                        vertexFunctionName:@"iTermBackgroundColorVertexShader"
-                                                      fragmentFunctionName:@"iTermBackgroundColorFragmentShader"
-                                                                  blending:[[iTermMetalBlending alloc] init]
+                                                            vertexFunctionName:@"iTermBackgroundColorVertexShader"
+                                                            fragmentFunctionName:@"iTermBackgroundColorFragmentShader"
+                                                            blending:[[iTermMetalBlending alloc] init]
                                                             piuElementSize:sizeof(iTermBackgroundColorPIU)
-                                                       transientStateClass:[iTermBackgroundColorRendererTransientState class]];
+                                                            transientStateClass:[iTermBackgroundColorRendererTransientState class]];
         _blendingRenderer.formatterDelegate = self;
         // TODO: The capacity here is a total guess. But this would be a lot of rows to have.
         _piuPool = [[iTermMetalMixedSizeBufferPool alloc] initWithDevice:device
-                                                                capacity:512
-                                                                    name:@"background color PIU"];
+                                                          capacity:512
+                                                          name:@"background color PIU"];
         _infoPool = [[iTermMetalBufferPool alloc] initWithDevice:device bufferSize:sizeof(iTermMetalBackgroundColorInfo)];
     }
     return self;
@@ -116,18 +116,18 @@
 }
 
 - (nullable __kindof iTermMetalRendererTransientState *)createTransientStateForCellConfiguration:(iTermCellRenderConfiguration *)configuration
-                                                                                   commandBuffer:(id<MTLCommandBuffer>)commandBuffer {
+    commandBuffer:(id<MTLCommandBuffer>)commandBuffer {
     iTermMetalCellRenderer *renderer = [self rendererForConfiguration:configuration];
     __kindof iTermMetalCellRendererTransientState * _Nonnull transientState =
         [renderer createTransientStateForCellConfiguration:configuration
-                                              commandBuffer:commandBuffer];
+                  commandBuffer:commandBuffer];
     [self initializeTransientState:transientState];
     return transientState;
 }
 
 - (void)initializeTransientState:(iTermBackgroundColorRendererTransientState *)tState {
     tState.vertexBuffer = [[self rendererForConfiguration:tState.cellConfiguration] newQuadOfSize:tState.cellConfiguration.cellSize
-                                                                                      poolContext:tState.poolContext];
+                                                                                    poolContext:tState.poolContext];
     tState.vertexBuffer.label = @"Vertices";
 }
 
@@ -136,33 +136,33 @@
     memset(&info, 0, sizeof(info));
     info.defaultBackgroundColor = tState.defaultBackgroundColor;
     id<MTLBuffer> buffer = [self->_infoPool requestBufferFromContext:tState.poolContext
-                                                           withBytes:&info
-                                                      checkIfChanged:YES];
+                                            withBytes:&info
+                                            checkIfChanged:YES];
     buffer.label = @"BG color info";
     return buffer;
 }
 
 - (void)drawWithFrameData:(iTermMetalFrameData *)frameData
-           transientState:(__kindof iTermMetalRendererTransientState *)transientState {
+    transientState:(__kindof iTermMetalRendererTransientState *)transientState {
     iTermBackgroundColorRendererTransientState *tState = transientState;
     id<MTLBuffer> infoBuffer = [self infoBufferForTransientState:tState];
     [tState enumerateSegments:^(const iTermBackgroundColorPIU *pius, size_t numberOfInstances) {
-        id<MTLBuffer> piuBuffer = [self->_piuPool requestBufferFromContext:tState.poolContext
-                                                                      size:numberOfInstances * sizeof(*pius)
-                                                                     bytes:pius];
-        piuBuffer.label = @"PIUs";
+               id<MTLBuffer> piuBuffer = [self->_piuPool requestBufferFromContext:tState.poolContext
+                                   size:numberOfInstances * sizeof(*pius)
+                                   bytes:pius];
+               piuBuffer.label = @"PIUs";
         iTermMetalCellRenderer *cellRenderer = [self rendererForConfiguration:tState.cellConfiguration];
         [cellRenderer drawWithTransientState:tState
-                               renderEncoder:frameData.renderEncoder
-                            numberOfVertices:6
-                                numberOfPIUs:numberOfInstances
-                               vertexBuffers:@{ @(iTermVertexInputIndexVertices): tState.vertexBuffer,
-                                                @(iTermVertexInputIndexPerInstanceUniforms): piuBuffer,
-                                                @(iTermVertexInputIndexOffset): tState.offsetBuffer,
-                                                @(iTermVertexInputIndexDefaultBackgroundColorInfo): infoBuffer
-                               }
-                             fragmentBuffers:@{}
-                                    textures:@{} ];
+                      renderEncoder:frameData.renderEncoder
+                      numberOfVertices:6
+                      numberOfPIUs:numberOfInstances
+                      vertexBuffers:@ { @(iTermVertexInputIndexVertices): tState.vertexBuffer,
+                           @(iTermVertexInputIndexPerInstanceUniforms): piuBuffer,
+                           @(iTermVertexInputIndexOffset): tState.offsetBuffer,
+                           @(iTermVertexInputIndexDefaultBackgroundColorInfo): infoBuffer
+                         }
+                      fragmentBuffers:@ {}
+                      textures:@ {} ];
     }];
 }
 
@@ -174,14 +174,14 @@
         NSMutableString *s = [NSMutableString string];
         for (int i = 0; i < buffer.length / sizeof(*pius); i++) {
             [s appendFormat:@"offset=(%@, %@) runLength=%@ numRows=%@ color=(%@, %@, %@, %@)\n",
-             @(pius[i].offset.x),
-             @(pius[i].offset.y),
-             @(pius[i].runLength),
-             @(pius[i].numRows),
-             @(pius[i].color.x),
-             @(pius[i].color.y),
-             @(pius[i].color.z),
-             @(pius[i].color.w)];
+               @(pius[i].offset.x),
+               @(pius[i].offset.y),
+               @(pius[i].runLength),
+               @(pius[i].numRows),
+               @(pius[i].color.x),
+               @(pius[i].color.y),
+               @(pius[i].color.z),
+               @(pius[i].color.w)];
         }
         NSURL *url = [folder URLByAppendingPathComponent:@"vertexBuffer.iTermVertexInputIndexPerInstanceUniforms.txt"];
         [s writeToURL:url atomically:NO encoding:NSUTF8StringEncoding error:nil];

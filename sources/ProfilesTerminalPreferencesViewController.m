@@ -53,16 +53,16 @@
     PreferenceInfo *info;
     __weak __typeof(self) weakSelf = self;
     info = [self defineControl:_numScrollbackLines
-                           key:KEY_SCROLLBACK_LINES
-                   relatedView:_numScrollbackLinesLabel
-                          type:kPreferenceInfoTypeIntegerTextField];
+                 key:KEY_SCROLLBACK_LINES
+                 relatedView:_numScrollbackLinesLabel
+                 type:kPreferenceInfoTypeIntegerTextField];
     info.range = NSMakeRange(0, 10 * 1000 * 1000);
     info.deferUpdate = YES;
-    
+
     info = [self defineControl:_unlimitedScrollback
-                           key:KEY_UNLIMITED_SCROLLBACK
-                   relatedView:nil
-                          type:kPreferenceInfoTypeCheckbox];
+                 key:KEY_UNLIMITED_SCROLLBACK
+                 relatedView:nil
+                 type:kPreferenceInfoTypeCheckbox];
     info.observer = ^() {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
         if (!strongSelf) {
@@ -78,20 +78,20 @@
     };
 
     [self defineControl:_scrollbackWithStatusBar
-                    key:KEY_SCROLLBACK_WITH_STATUS_BAR
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_SCROLLBACK_WITH_STATUS_BAR
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_scrollbackInAlternateScreen
-                    key:KEY_SCROLLBACK_IN_ALTERNATE_SCREEN
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_SCROLLBACK_IN_ALTERNATE_SCREEN
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self populateEncodings];
     info = [self defineControl:_characterEncoding
-                           key:KEY_CHARACTER_ENCODING
-                   relatedView:_characterEncodingLabel
-                          type:kPreferenceInfoTypeUnsignedIntegerPopup];
+                 key:KEY_CHARACTER_ENCODING
+                 relatedView:_characterEncodingLabel
+                 type:kPreferenceInfoTypeUnsignedIntegerPopup];
     __weak __typeof(info) weakInfo = info;
     info.onUpdate = ^BOOL() {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
@@ -106,19 +106,19 @@
 
     // It's a combobox, but we can safely treat it as a string text field.
     [self defineControl:_terminalType
-                    key:KEY_TERMINAL_TYPE
-            relatedView:_terminalTypeLabel
-                   type:kPreferenceInfoTypeStringTextField];
+          key:KEY_TERMINAL_TYPE
+          relatedView:_terminalTypeLabel
+          type:kPreferenceInfoTypeStringTextField];
 
     [self defineControl:_answerBackString
-                    key:KEY_ANSWERBACK_STRING
-            relatedView:_answerBackStringLabel
-                   type:kPreferenceInfoTypeStringTextField];
+          key:KEY_ANSWERBACK_STRING
+          relatedView:_answerBackStringLabel
+          type:kPreferenceInfoTypeStringTextField];
 
     info = [self defineControl:_xtermMouseReporting
-                           key:KEY_XTERM_MOUSE_REPORTING
-                   relatedView:nil
-                          type:kPreferenceInfoTypeCheckbox];
+                 key:KEY_XTERM_MOUSE_REPORTING
+                 relatedView:nil
+                 type:kPreferenceInfoTypeCheckbox];
     info.observer = ^() {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
         if (!strongSelf) {
@@ -129,49 +129,49 @@
     };
 
     [self defineControl:_xtermMouseReportingAllowMouseWheel
-                    key:KEY_XTERM_MOUSE_REPORTING_ALLOW_MOUSE_WHEEL
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_XTERM_MOUSE_REPORTING_ALLOW_MOUSE_WHEEL
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_xtermMouseReportingAllowClicksAndDrags
-                    key:KEY_XTERM_MOUSE_REPORTING_ALLOW_CLICKS_AND_DRAGS
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_XTERM_MOUSE_REPORTING_ALLOW_CLICKS_AND_DRAGS
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_allowTitleReporting
-                    key:KEY_ALLOW_TITLE_REPORTING
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_ALLOW_TITLE_REPORTING
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_allowPasteBracketing
-                    key:KEY_ALLOW_PASTE_BRACKETING
-            displayName:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_ALLOW_PASTE_BRACKETING
+          displayName:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_disablePrinting
-                    key:KEY_DISABLE_PRINTING
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_DISABLE_PRINTING
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_disableAltScreen
-                    key:KEY_DISABLE_SMCUP_RMCUP
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_DISABLE_SMCUP_RMCUP
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_disableWindowResizing
-                    key:KEY_DISABLE_WINDOW_RESIZING
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_DISABLE_WINDOW_RESIZING
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_silenceBell
-                    key:KEY_SILENCE_BELL
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_SILENCE_BELL
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     info = [self defineControl:_postNotifications
-                           key:KEY_BOOKMARK_USER_NOTIFICATIONS
-                   relatedView:nil
-                          type:kPreferenceInfoTypeCheckbox];
+                 key:KEY_BOOKMARK_USER_NOTIFICATIONS
+                 relatedView:nil
+                 type:kPreferenceInfoTypeCheckbox];
     info.observer = ^() {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
         if (!strongSelf) {
@@ -182,50 +182,50 @@
     };
 
     [self defineUnsearchableControl:_bellAlert
-                                key:KEY_SEND_BELL_ALERT
-                               type:kPreferenceInfoTypeCheckbox];
+          key:KEY_SEND_BELL_ALERT
+          type:kPreferenceInfoTypeCheckbox];
     [self defineUnsearchableControl:_idleAlert
-                                key:KEY_SEND_IDLE_ALERT
-                               type:kPreferenceInfoTypeCheckbox];
+          key:KEY_SEND_IDLE_ALERT
+          type:kPreferenceInfoTypeCheckbox];
     [self defineUnsearchableControl:_newOutputAlert
-                                key:KEY_SEND_NEW_OUTPUT_ALERT
-                               type:kPreferenceInfoTypeCheckbox];
+          key:KEY_SEND_NEW_OUTPUT_ALERT
+          type:kPreferenceInfoTypeCheckbox];
     [self defineUnsearchableControl:_sessionEndedAlert
-                                key:KEY_SEND_SESSION_ENDED_ALERT
-                               type:kPreferenceInfoTypeCheckbox];
+          key:KEY_SEND_SESSION_ENDED_ALERT
+          type:kPreferenceInfoTypeCheckbox];
     [self defineUnsearchableControl:_terminalGeneratedAlerts
-                                key:KEY_SEND_TERMINAL_GENERATED_ALERT
-                               type:kPreferenceInfoTypeCheckbox];
+          key:KEY_SEND_TERMINAL_GENERATED_ALERT
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_flashingBell
-                    key:KEY_FLASHING_BELL
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_FLASHING_BELL
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_bellIconInTabs
-                    key:KEY_VISUAL_BELL
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_VISUAL_BELL
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_setLocaleVars
-                    key:KEY_SET_LOCALE_VARS
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_SET_LOCALE_VARS
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_forceCommandPromptToFirstColumn
-                    key:KEY_PLACE_PROMPT_AT_FIRST_COLUMN
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_PLACE_PROMPT_AT_FIRST_COLUMN
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_showMarkIndicators
-                    key:KEY_SHOW_MARK_INDICATORS
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_SHOW_MARK_INDICATORS
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self addViewToSearchIndex:_filterAlertsButton
-                   displayName:@"Filter alerts"
-                       phrases:@[ @"bell", @"idle", @"session ended", @"new output"]
-                           key:nil];
+          displayName:@"Filter alerts"
+          phrases:@[ @"bell", @"idle", @"session ended", @"new output"]
+          key:nil];
 }
 
 - (void)layoutSubviewsForEditCurrentSessionMode {
@@ -273,8 +273,8 @@ static NSInteger CompareEncodingByLocalizedName(id a, id b, void *unused) {
 - (IBAction)showFilterAlertsPanel:(id)sender {
     __weak __typeof(self) weakSelf = self;
     [self.view.window beginSheet:_filterAlertsPanel completionHandler:^(NSModalResponse returnCode) {
-        __strong __typeof(weakSelf) strongSelf = weakSelf;
-        if (strongSelf) {
+                         __strong __typeof(weakSelf) strongSelf = weakSelf;
+                         if (strongSelf) {
             [strongSelf->_filterAlertsPanel close];
         }
     }];

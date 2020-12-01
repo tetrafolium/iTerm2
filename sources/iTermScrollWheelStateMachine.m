@@ -21,14 +21,14 @@
 
 - (NSString *)stateString:(iTermScrollWheelStateMachineState)state {
     switch (state) {
-        case iTermScrollWheelStateMachineStateGround:
-            return @"Ground";
-        case iTermScrollWheelStateMachineStateStartDrag:
-            return @"StartDrag";
-        case iTermScrollWheelStateMachineStateDrag:
-            return @"Drag";
-        case iTermScrollWheelStateMachineStateTouchAndHold:
-            return @"TouchAndHold";
+    case iTermScrollWheelStateMachineStateGround:
+        return @"Ground";
+    case iTermScrollWheelStateMachineStateStartDrag:
+        return @"StartDrag";
+    case iTermScrollWheelStateMachineStateDrag:
+        return @"Drag";
+    case iTermScrollWheelStateMachineStateTouchAndHold:
+        return @"TouchAndHold";
     }
     return [@(self.state) stringValue];
 }
@@ -61,10 +61,10 @@ static NSString *iTermStringForEventPhase(NSEventPhase eventPhase) {
 
 NSString *iTermShortEventPhasesString(NSEvent *event) {
     return [NSString stringWithFormat:@"<NSEvent: %p phase=%@, momentumPhase=%@, scrollingDeltaX=%f>",
-            event,
-            iTermStringForEventPhase(event.phase),
-            iTermStringForEventPhase(event.momentumPhase),
-            event.scrollingDeltaX];
+                     event,
+                     iTermStringForEventPhase(event.phase),
+                     iTermStringForEventPhase(event.momentumPhase),
+                     event.scrollingDeltaX];
 }
 
 static BOOL EqualPhases(NSEventPhase lhs, NSEventPhase rhs) {
@@ -81,69 +81,83 @@ static BOOL EqualPhases(NSEventPhase lhs, NSEventPhase rhs) {
         NSEventPhase momentumPhase;
         iTermScrollWheelStateMachineState toState;
     } transitions[] = {
-        { iTermScrollWheelStateMachineStateGround,
+        {   iTermScrollWheelStateMachineStateGround,
             NSEventPhaseBegan,
             NSEventPhaseNone,
-            iTermScrollWheelStateMachineStateStartDrag },
-        { iTermScrollWheelStateMachineStateGround,
+            iTermScrollWheelStateMachineStateStartDrag
+        },
+        {   iTermScrollWheelStateMachineStateGround,
             NSEventPhaseMayBegin,
             NSEventPhaseNone,
-            iTermScrollWheelStateMachineStateTouchAndHold },
-        { iTermScrollWheelStateMachineStateGround,
+            iTermScrollWheelStateMachineStateTouchAndHold
+        },
+        {   iTermScrollWheelStateMachineStateGround,
             NSEventPhaseNone,
             NSEventPhaseChanged,
-            iTermScrollWheelStateMachineStateGround },
+            iTermScrollWheelStateMachineStateGround
+        },
         // I'm not sure what this is or why it only happens sometimes. TODO
-        { iTermScrollWheelStateMachineStateGround,
+        {   iTermScrollWheelStateMachineStateGround,
             NSEventPhaseNone,
             NSEventPhaseBegan,
-            iTermScrollWheelStateMachineStateGround },
-        { iTermScrollWheelStateMachineStateGround,
+            iTermScrollWheelStateMachineStateGround
+        },
+        {   iTermScrollWheelStateMachineStateGround,
             NSEventPhaseNone,
             NSEventPhaseEnded,
-            iTermScrollWheelStateMachineStateGround },
-        { iTermScrollWheelStateMachineStateGround,
+            iTermScrollWheelStateMachineStateGround
+        },
+        {   iTermScrollWheelStateMachineStateGround,
             NSEventPhaseChanged,
             NSEventPhaseNone,
-            iTermScrollWheelStateMachineStateGround },
-        { iTermScrollWheelStateMachineStateGround,
+            iTermScrollWheelStateMachineStateGround
+        },
+        {   iTermScrollWheelStateMachineStateGround,
             NSEventPhaseEnded,
             NSEventPhaseNone,
-            iTermScrollWheelStateMachineStateGround },
+            iTermScrollWheelStateMachineStateGround
+        },
 
 
-        { iTermScrollWheelStateMachineStateStartDrag,
+        {   iTermScrollWheelStateMachineStateStartDrag,
             NSEventPhaseChanged,
             NSEventPhaseNone,
-            iTermScrollWheelStateMachineStateDrag },
-        { iTermScrollWheelStateMachineStateStartDrag,
+            iTermScrollWheelStateMachineStateDrag
+        },
+        {   iTermScrollWheelStateMachineStateStartDrag,
             NSEventPhaseEnded,
             NSEventPhaseNone,
-            iTermScrollWheelStateMachineStateGround },
+            iTermScrollWheelStateMachineStateGround
+        },
 
 
-        { iTermScrollWheelStateMachineStateDrag,
+        {   iTermScrollWheelStateMachineStateDrag,
             NSEventPhaseEnded,
             NSEventPhaseNone,
-            iTermScrollWheelStateMachineStateGround },
-        { iTermScrollWheelStateMachineStateDrag,
+            iTermScrollWheelStateMachineStateGround
+        },
+        {   iTermScrollWheelStateMachineStateDrag,
             NSEventPhaseChanged,
             NSEventPhaseNone,
-            iTermScrollWheelStateMachineStateDrag },
-        { iTermScrollWheelStateMachineStateDrag,
+            iTermScrollWheelStateMachineStateDrag
+        },
+        {   iTermScrollWheelStateMachineStateDrag,
             NSEventPhaseNone,
             NSEventPhaseChanged,
-            iTermScrollWheelStateMachineStateGround },
+            iTermScrollWheelStateMachineStateGround
+        },
 
 
-        { iTermScrollWheelStateMachineStateTouchAndHold,
+        {   iTermScrollWheelStateMachineStateTouchAndHold,
             NSEventPhaseBegan,
             NSEventPhaseNone,
-            iTermScrollWheelStateMachineStateStartDrag },
-        { iTermScrollWheelStateMachineStateTouchAndHold,
+            iTermScrollWheelStateMachineStateStartDrag
+        },
+        {   iTermScrollWheelStateMachineStateTouchAndHold,
             NSEventPhaseCancelled,
             NSEventPhaseNone,
-            iTermScrollWheelStateMachineStateGround }
+            iTermScrollWheelStateMachineStateGround
+        }
     };
     const iTermScrollWheelStateMachineState initialState = self.state;
     const NSEventPhase phase = event.phase;

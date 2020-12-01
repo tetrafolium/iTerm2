@@ -73,10 +73,10 @@
     DLog(@"%@ schedule timer", self.delegate);
     [_timer invalidate];
     _timer = [NSTimer scheduledTimerWithTimeInterval:_explicit ? kExplicitSaveTime : kTimeToKeepSavedGrid
-                                              target:self
-                                            selector:@selector(savedGridExpirationTimer:)
-                                            userInfo:nil
-                                             repeats:NO];
+                      target:self
+                      selector:@selector(savedGridExpirationTimer:)
+                      userInfo:nil
+                      repeats:NO];
 }
 
 - (void)savedGridExpirationTimer:(NSTimer *)timer {

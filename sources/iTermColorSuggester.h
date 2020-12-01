@@ -14,9 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSColor *suggestedBackgroundColor;
 
 - (instancetype)initWithDefaultTextColor:(NSColor *)defaultTextColor
-                  defaultBackgroundColor:(NSColor *)defaultBackgroundColor
-                       minimumDifference:(CGFloat)minimumDifference  // In [0,1)
-                                    seed:(long)seed NS_DESIGNATED_INITIALIZER;
+    defaultBackgroundColor:(NSColor *)defaultBackgroundColor
+    minimumDifference:(CGFloat)minimumDifference  // In [0,1)
+    seed:(long)seed NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 

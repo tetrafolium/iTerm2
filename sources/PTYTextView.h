@@ -72,8 +72,8 @@ typedef NS_ENUM(NSInteger, PTYCharType) {
 - (void)pasteOptions:(id)sender;
 - (void)textViewFontDidChange;
 - (void)textViewDrawBackgroundImageInView:(NSView *)view
-                                 viewRect:(NSRect)rect
-                   blendDefaultBackground:(BOOL)blendDefaultBackground;
+    viewRect:(NSRect)rect
+    blendDefaultBackground:(BOOL)blendDefaultBackground;
 - (BOOL)textViewHasBackgroundImage;
 - (void)sendEscapeSequence:(NSString *)text;
 - (void)sendHexCode:(NSString *)codes;
@@ -87,7 +87,7 @@ typedef NS_ENUM(NSInteger, PTYCharType) {
 - (void)startDownloadOverSCP:(SCPPath *)path;
 - (void)uploadFiles:(NSArray *)localFilenames toPath:(SCPPath *)destinationPath;
 - (void)launchProfileInCurrentTerminal:(Profile *)profile
-                               withURL:(NSString *)url;
+    withURL:(NSString *)url;
 - (void)selectPaneLeftInCurrentTerminal;
 - (void)selectPaneRightInCurrentTerminal;
 - (void)selectPaneAboveInCurrentTerminal;
@@ -113,7 +113,7 @@ typedef NS_ENUM(NSInteger, PTYCharType) {
 - (void)textViewSelectNextPane;
 - (void)textViewSelectPreviousPane;
 - (void)textViewPasteSpecialWithStringConfiguration:(NSString *)configuration
-                                      fromSelection:(BOOL)fromSelection;
+    fromSelection:(BOOL)fromSelection;
 - (void)textViewEditSession;
 - (void)textViewToggleBroadcastingInput;
 - (void)textViewCloseWithConfirmation;
@@ -140,12 +140,12 @@ typedef NS_ENUM(NSInteger, PTYCharType) {
 
 // Send the appropriate mouse-reporting escape codes.
 - (BOOL)textViewReportMouseEvent:(NSEventType)eventType
-                       modifiers:(NSUInteger)modifiers
-                          button:(MouseButtonNumber)button
-                      coordinate:(VT100GridCoord)coord
-                          deltaY:(CGFloat)deltaY
-        allowDragBeforeMouseDown:(BOOL)allowDragBeforeMouseDown
-                        testOnly:(BOOL)testOnly;
+    modifiers:(NSUInteger)modifiers
+    button:(MouseButtonNumber)button
+    coordinate:(VT100GridCoord)coord
+    deltaY:(CGFloat)deltaY
+    allowDragBeforeMouseDown:(BOOL)allowDragBeforeMouseDown
+    testOnly:(BOOL)testOnly;
 
 - (VT100GridAbsCoordRange)textViewRangeOfLastCommandOutput;
 - (VT100GridAbsCoordRange)textViewRangeOfCurrentCommand;
@@ -215,8 +215,8 @@ typedef NS_ENUM(NSInteger, PTYCharType) {
 - (void)textViewAddContextMenuItems:(NSMenu *)menu;
 - (NSString *)textViewShell;
 - (void)textViewContextMenuInvocation:(NSString *)invocation
-                      failedWithError:(NSError *)error
-                          forMenuItem:(NSString *)title;
+    failedWithError:(NSError *)error
+    forMenuItem:(NSString *)title;
 - (void)textViewApplyAction:(iTermAction *)action;
 - (void)textViewAddTrigger:(NSString *)text;
 @end
@@ -228,14 +228,14 @@ typedef NS_ENUM(NSInteger, PTYCharType) {
 @end
 
 @interface PTYTextView : NSView <
-  iTermColorMapDelegate,
-  iTermFocusFollowsMouseFocusReceiver,
-  iTermIndicatorsHelperDelegate,
-  iTermSemanticHistoryControllerDelegate,
-  iTermTextDrawingHelperDelegate,
-  NSDraggingDestination,
-  NSTextInputClient,
-  PointerControllerDelegate>
+    iTermColorMapDelegate,
+    iTermFocusFollowsMouseFocusReceiver,
+    iTermIndicatorsHelperDelegate,
+    iTermSemanticHistoryControllerDelegate,
+    iTermTextDrawingHelperDelegate,
+    NSDraggingDestination,
+    NSTextInputClient,
+    PointerControllerDelegate>
 
 // Current selection
 @property(nonatomic, readonly) iTermSelection *selection;
@@ -398,8 +398,8 @@ typedef void (^PTYTextViewDrawingHookBlock)(iTermTextDrawingHelper *);
 // Returns the size of a cell for a given font. hspace and vspace are multipliers and the width
 // and height.
 + (NSSize)charSizeForFont:(NSFont*)aFont
-        horizontalSpacing:(CGFloat)hspace
-          verticalSpacing:(CGFloat)vspace;
+    horizontalSpacing:(CGFloat)hspace
+    verticalSpacing:(CGFloat)vspace;
 
 // This is the designated initializer. The color map should have the
 // basic colors plus the 8-bit ansi colors set shortly after this is
@@ -418,15 +418,15 @@ typedef void (^PTYTextViewDrawingHookBlock)(iTermTextDrawingHelper *);
 // If |actionRequired| is set then only smart selection rules with an attached action are considered.
 // If |respectDividers| is set then software-drawn dividers are wrapped around.
 - (SmartMatch *)smartSelectAtX:(int)x
-                             y:(int)y
-                            to:(VT100GridWindowedRange *)range
-              ignoringNewlines:(BOOL)ignoringNewlines
-                actionRequired:(BOOL)actionRequired
-               respectDividers:(BOOL)respectDividers;
+    y:(int)y
+    to:(VT100GridWindowedRange *)range
+    ignoringNewlines:(BOOL)ignoringNewlines
+    actionRequired:(BOOL)actionRequired
+    respectDividers:(BOOL)respectDividers;
 
 // Returns range modified by removing nulls (and possibly spaces) from its ends.
 - (VT100GridCoordRange)rangeByTrimmingNullsFromRange:(VT100GridCoordRange)range
-                                          trimSpaces:(BOOL)trimSpaces;
+    trimSpaces:(BOOL)trimSpaces;
 
 // Returns the currently selected text.
 - (NSString *)selectedText;
@@ -496,10 +496,10 @@ typedef void (^PTYTextViewDrawingHookBlock)(iTermTextDrawingHelper *);
 
 // Begins a new search. You may need to call continueFind repeatedly after this.
 - (void)findString:(NSString*)aString
-  forwardDirection:(BOOL)direction
-      mode:(iTermFindMode)mode
-        withOffset:(int)offset
-scrollToFirstResult:(BOOL)scrollToFirstResult;
+    forwardDirection:(BOOL)direction
+    mode:(iTermFindMode)mode
+    withOffset:(int)offset
+    scrollToFirstResult:(BOOL)scrollToFirstResult;
 
 // Remove highlighted terms from previous search.
 // If resetContext is set then the search state will get reset to empty.
@@ -533,9 +533,9 @@ scrollToFirstResult:(BOOL)scrollToFirstResult;
 
 // Returns the range of coords for the word at (x,y).
 - (NSString *)getWordForX:(int)x
-                        y:(int)y
-                    range:(VT100GridWindowedRange *)range
-          respectDividers:(BOOL)respectDividers;
+    y:(int)y
+    range:(VT100GridWindowedRange *)range
+    respectDividers:(BOOL)respectDividers;
 
 // Add a search result for highlighting in yellow.
 - (void)addSearchResult:(SearchResult *)searchResult;
@@ -551,36 +551,36 @@ scrollToFirstResult:(BOOL)scrollToFirstResult;
 
 // Open a semantic history path.
 - (void)openSemanticHistoryPath:(NSString *)path
-                  orRawFilename:(NSString *)rawFileName
-                       fragment:(NSString *)fragment
-               workingDirectory:(NSString *)workingDirectory
-                     lineNumber:(NSString *)lineNumber
-                   columnNumber:(NSString *)columnNumber
-                         prefix:(NSString *)prefix
-                         suffix:(NSString *)suffix
-                     completion:(void (^)(BOOL ok))completion;
+    orRawFilename:(NSString *)rawFileName
+    fragment:(NSString *)fragment
+    workingDirectory:(NSString *)workingDirectory
+    lineNumber:(NSString *)lineNumber
+    columnNumber:(NSString *)columnNumber
+    prefix:(NSString *)prefix
+    suffix:(NSString *)suffix
+    completion:(void (^)(BOOL ok))completion;
 
 - (PTYFontInfo*)getFontForChar:(UniChar)ch
-                     isComplex:(BOOL)isComplex
-                    renderBold:(BOOL*)renderBold
-                  renderItalic:(BOOL*)renderItalic;
+    isComplex:(BOOL)isComplex
+    renderBold:(BOOL*)renderBold
+    renderItalic:(BOOL*)renderItalic;
 
 - (NSColor*)colorForCode:(int)theIndex
-                   green:(int)green
-                    blue:(int)blue
-               colorMode:(ColorMode)theMode
-                    bold:(BOOL)isBold
-                   faint:(BOOL)isFaint
-            isBackground:(BOOL)isBackground;
+    green:(int)green
+    blue:(int)blue
+    colorMode:(ColorMode)theMode
+    bold:(BOOL)isBold
+    faint:(BOOL)isFaint
+    isBackground:(BOOL)isBackground;
 
 - (BOOL)charBlinks:(screen_char_t)sct;
 
 - (iTermColorMapKey)colorMapKeyForCode:(int)theIndex
-                                 green:(int)green
-                                  blue:(int)blue
-                             colorMode:(ColorMode)theMode
-                                  bold:(BOOL)isBold
-                          isBackground:(BOOL)isBackground;
+    green:(int)green
+    blue:(int)blue
+    colorMode:(ColorMode)theMode
+    bold:(BOOL)isBold
+    isBackground:(BOOL)isBackground;
 
 - (void)setCursorType:(ITermCursorType)value;
 
@@ -596,13 +596,13 @@ scrollToFirstResult:(BOOL)scrollToFirstResult;
 - (NSMenu *)titleBarMenu;
 
 - (void)moveSelectionEndpoint:(PTYTextViewSelectionEndpoint)endpoint
-                  inDirection:(PTYTextViewSelectionExtensionDirection)direction
-                           by:(PTYTextViewSelectionExtensionUnit)unit;
+    inDirection:(PTYTextViewSelectionExtensionDirection)direction
+    by:(PTYTextViewSelectionExtensionUnit)unit;
 
 - (void)moveSelectionEndpoint:(PTYTextViewSelectionEndpoint)endpoint
-                  inDirection:(PTYTextViewSelectionExtensionDirection)direction
-                           by:(PTYTextViewSelectionExtensionUnit)unit
-                  cursorCoord:(VT100GridCoord)cursorCoord;
+    inDirection:(PTYTextViewSelectionExtensionDirection)direction
+    by:(PTYTextViewSelectionExtensionUnit)unit
+    cursorCoord:(VT100GridCoord)cursorCoord;
 
 - (void)selectCoordRange:(VT100GridCoordRange)range;
 - (NSRect)frameForCoord:(VT100GridCoord)coord;
@@ -634,8 +634,8 @@ typedef NS_ENUM(NSUInteger, iTermCopyTextStyle) {
 };
 
 - (id)selectedTextWithStyle:(iTermCopyTextStyle)style
-               cappedAtSize:(int)maxBytes
-          minimumLineNumber:(int)minimumLineNumber;
+    cappedAtSize:(int)maxBytes
+    minimumLineNumber:(int)minimumLineNumber;
 
 @end
 

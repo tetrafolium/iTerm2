@@ -54,9 +54,9 @@ static const NSTimeInterval kBackgroundUpdateCadence = 1;
         _histogram = [[iTermHistogram alloc] init];
         _activeUpdateCadence = 1.0 / MAX(1, [iTermAdvancedSettingsModel activeUpdateCadence]);
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(applicationDidBecomeActive:)
-                                                     name:NSApplicationDidBecomeActiveNotification
-                                                   object:nil];
+                                              selector:@selector(applicationDidBecomeActive:)
+                                              name:NSApplicationDidBecomeActiveNotification
+                                              object:nil];
     }
     return self;
 }
@@ -71,11 +71,11 @@ static const NSTimeInterval kBackgroundUpdateCadence = 1;
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p delegate=%@ active=%@ cadence=%@>",
-            NSStringFromClass([self class]),
-            self,
-            self.delegate,
-            @(self.isActive),
-            @(_cadence)];
+                     NSStringFromClass([self class]),
+                     self,
+                     self.delegate,
+                     @(self.isActive),
+                     @(_cadence)];
 }
 
 - (void)changeCadenceIfNeeded {
@@ -201,10 +201,10 @@ static const NSTimeInterval kBackgroundUpdateCadence = 1;
         // know all the tracking event loops.
         [_updateTimer invalidate];
         _updateTimer = [NSTimer weakTimerWithTimeInterval:_activeUpdateCadence
-                                                   target:self
-                                                 selector:@selector(updateDisplay)
-                                                 userInfo:nil
-                                                  repeats:YES];
+                                target:self
+                                selector:@selector(updateDisplay)
+                                userInfo:nil
+                                repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:_updateTimer forMode:NSRunLoopCommonModes];
     } else {
         if (!force && _updateTimer && cadence > _updateTimer.timeInterval) {
@@ -213,10 +213,10 @@ static const NSTimeInterval kBackgroundUpdateCadence = 1;
         } else {
             [_updateTimer invalidate];
             _updateTimer = [NSTimer scheduledWeakTimerWithTimeInterval:cadence
-                                                                target:self
-                                                              selector:@selector(updateDisplay)
-                                                              userInfo:nil
-                                                               repeats:YES];
+                                    target:self
+                                    selector:@selector(updateDisplay)
+                                    userInfo:nil
+                                    repeats:YES];
         }
     }
 }
@@ -251,7 +251,7 @@ static const NSTimeInterval kBackgroundUpdateCadence = 1;
                               period * NSEC_PER_SEC,
                               0.0005 * NSEC_PER_SEC);
     __weak __typeof(self) weakSelf = self;
-    dispatch_source_set_event_handler(_gcdUpdateTimer, ^{
+    dispatch_source_set_event_handler(_gcdUpdateTimer, ^ {
         DLog(@"GCD cadence timer fired for %@", weakSelf);
         [weakSelf maybeUpdateDisplay];
     });

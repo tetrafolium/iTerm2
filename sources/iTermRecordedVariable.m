@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
         return [self initTerminalWithName:dict[@"name"]];
     } else {
         return [self initNonterminalWithName:dict[@"name"]
-                                     context:[dict[@"nonterminalContext"] unsignedIntegerValue]];
+                     context:[dict[@"nonterminalContext"] unsignedIntegerValue]];
     }
 }
 
@@ -75,9 +75,13 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSDictionary *)dictionaryValue {
-    return @{ @"name": _name,
-              @"isTerminal": @(_isTerminal),
-              @"nonterminalContext": @(_nonterminalContext) };
+    return @ { @"name":
+               _name,
+               @"isTerminal":
+               @(_isTerminal),
+               @"nonterminalContext":
+               @(_nonterminalContext)
+             };
 }
 
 @end

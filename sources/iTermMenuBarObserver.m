@@ -20,7 +20,7 @@ static const CGFloat iTermMenuBarHeight = 22;
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     static id instance;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -45,14 +45,14 @@ static const CGFloat iTermMenuBarHeight = 22;
     const CGWindowListOption options = (kCGWindowListExcludeDesktopElements |
                                         kCGWindowListOptionOnScreenOnly);
     NSArray<NSDictionary *> *windowInfos = (__bridge_transfer NSArray *)CGWindowListCopyWindowInfo(options,
-                                                                                          kCGNullWindowID);
+                                           kCGNullWindowID);
     return windowInfos;
 }
 
 - (NSArray<NSDictionary *> *)menuBarWindowInfoDictionaries {
     NSArray<NSDictionary *> *windowInfos = self.allWindowInfoDictionaries;
     NSArray<NSDictionary *> *menuBarInfos = [windowInfos filteredArrayUsingBlock:^BOOL(NSDictionary *info) {
-        NSString *windowName = info[(id)kCGWindowName];
+                    NSString *windowName = info[(id)kCGWindowName];
         return [windowName isEqualToString:@"Menubar"];
     }];
     DLog(@"menu bar infos:\n%@", menuBarInfos);
@@ -64,7 +64,7 @@ static const CGFloat iTermMenuBarHeight = 22;
     BOOL ok = NO;
     if (dictionary) {
         ok = CGRectMakeWithDictionaryRepresentation((CFDictionaryRef)dictionary[(id)kCGWindowBounds],
-                                                    &rect);
+                &rect);
     }
     if (!ok) {
         rect = CGRectMake(NAN, NAN, 0, 0);
@@ -75,7 +75,7 @@ static const CGFloat iTermMenuBarHeight = 22;
 - (NSArray<NSValue *> *)actualMenuBarFrames {
     NSArray<NSDictionary *> *menuBarWindowInfos = [self menuBarWindowInfoDictionaries];
     return [menuBarWindowInfos mapWithBlock:^id(NSDictionary *info) {
-        CGRect windowBounds =  [self windowBoundsRectFromWindowInfoDictionary:info];
+                           CGRect windowBounds =  [self windowBoundsRectFromWindowInfoDictionary:info];
         return [NSValue valueWithRect:windowBounds];
     }];
 }
@@ -95,10 +95,10 @@ static const CGFloat iTermMenuBarHeight = 22;
     NSArray<NSValue *> *actualFrames = [self actualMenuBarFrames];
     NSArray<NSScreen *> *screens = [NSScreen screens];
     NSArray<NSScreen *> *screensWithMenuBars = [screens filteredArrayUsingBlock:^BOOL(NSScreen *screen) {
-        CGRect expectedFrame = [self expectedFrameOfVisibleMenuBarOnScreen:screen];
+                CGRect expectedFrame = [self expectedFrameOfVisibleMenuBarOnScreen:screen];
         return [actualFrames anyWithBlock:^BOOL(NSValue *value) {
-            const NSRect actualMenuBarFrame = value.rectValue;
-            return CGRectContainsPoint(expectedFrame,
+                         const NSRect actualMenuBarFrame = value.rectValue;
+                         return CGRectContainsPoint(expectedFrame,
                                        actualMenuBarFrame.origin);
         }];
     }];

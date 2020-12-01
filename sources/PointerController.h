@@ -15,7 +15,7 @@
 - (void)openTargetWithEvent:(NSEvent *)event;
 - (void)openTargetInBackgroundWithEvent:(NSEvent *)event;
 - (void)smartSelectAndMaybeCopyWithEvent:(NSEvent *)event
-                        ignoringNewlines:(BOOL)ignoringNewlines;
+    ignoringNewlines:(BOOL)ignoringNewlines;
 - (void)openContextMenuWithEvent:(NSEvent *)event;
 - (void)nextTabWithEvent:(NSEvent *)event;
 - (void)previousTabWithEvent:(NSEvent *)event;
@@ -38,8 +38,8 @@
 - (void)extendSelectionWithEvent:(NSEvent *)event;
 - (void)quickLookWithEvent:(NSEvent *)event;
 - (void)advancedPasteWithConfiguration:(NSString *)configuration
-                         fromSelection:(BOOL)fromSelection
-                             withEvent:(NSEvent *)event;
+    fromSelection:(BOOL)fromSelection
+    withEvent:(NSEvent *)event;
 @end
 
 @interface PointerController : NSObject

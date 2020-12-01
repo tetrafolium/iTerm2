@@ -28,7 +28,7 @@
     [self setWantsRestingTouches:YES];
     _threeFingerTapGestureRecognizer =
         [[ThreeFingerTapGestureRecognizer alloc] initWithTarget:self
-                                                       selector:@selector(threeFingerTap:)];
+                                                 selector:@selector(threeFingerTap:)];
 
 }
 
@@ -38,14 +38,14 @@
 
 - (void)touchesBeganWithEvent:(NSEvent *)ev {
     numTouches_ = [[ev touchesMatchingPhase:(NSTouchPhaseBegan | NSTouchPhaseStationary)
-                                     inView:self] count];
+                    inView:self] count];
     [_threeFingerTapGestureRecognizer touchesBeganWithEvent:ev];
     DLog(@"EventMonitorView touchesBeganWithEvent:%@; numTouches=%d", ev, numTouches_);
 }
 
 - (void)touchesEndedWithEvent:(NSEvent *)ev {
     numTouches_ = [[ev touchesMatchingPhase:NSTouchPhaseStationary
-                                     inView:self] count];
+                    inView:self] count];
     [_threeFingerTapGestureRecognizer touchesEndedWithEvent:ev];
     DLog(@"EventMonitorView touchesEndedWithEvent:%@; numTouches=%d", ev, numTouches_);
 }
@@ -71,7 +71,7 @@
     DLog(@"EventMonitorView mouseUp:%@", theEvent);
     if (numTouches_ == 3) {
         [pointerPrefs_ setGesture:kThreeFingerClickGesture
-                        modifiers:[theEvent it_modifierFlags]];
+                       modifiers:[theEvent it_modifierFlags]];
     } else if (_maximumStage < 2) {
         [self showNotSupported];
     }

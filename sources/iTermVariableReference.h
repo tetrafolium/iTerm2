@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, strong) ObjectType value;
 
 - (instancetype)initWithPath:(NSString *)path
-                      vendor:(id<iTermVariableVendor>)vendor NS_DESIGNATED_INITIALIZER;
+    vendor:(id<iTermVariableVendor>)vendor NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 

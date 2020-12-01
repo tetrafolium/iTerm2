@@ -18,7 +18,7 @@
 
 @class iTermGraphDatabaseState;
 
-@interface iTermGraphDatabaseState: iTermSynchronizedState<iTermGraphDatabaseState *>
+@interface iTermGraphDatabaseState : iTermSynchronizedState<iTermGraphDatabaseState *>
 @property (nonatomic, strong) id<iTermDatabase> db;
 // Load complete means that the initial attempt to load the DB has finished. It may have failed, leaving
 // us without any state, but it is now safe to proceed to use the graph DB as it won't change out
@@ -56,8 +56,8 @@
         NSArray<void (^)(void)> *blocks = [_loadCompleteBlocks copy];
         [_loadCompleteBlocks removeAllObjects];
         [blocks enumerateObjectsUsingBlock:^(void (^ _Nonnull block)(void), NSUInteger idx, BOOL * _Nonnull stop) {
-            dispatch_async(dispatch_get_main_queue(), block);
-        }];
+                   dispatch_async(dispatch_get_main_queue(), block);
+               }];
     }
     _loadComplete = loadComplete;
 }
@@ -84,16 +84,16 @@
         _updating = ATOMIC_VAR_INIT(0);
         _invalid = ATOMIC_VAR_INIT(0);
         _thread = [[iTermThread alloc] initWithLabel:@"com.iterm2.graph-db"
-                                        stateFactory:^iTermSynchronizedState * _Nonnull(dispatch_queue_t  _Nonnull queue) {
-            return [[iTermGraphDatabaseState alloc] initWithQueue:queue
-                                                         database:db];
-        }];
+                            stateFactory:^iTermSynchronizedState * _Nonnull(dispatch_queue_t  _Nonnull queue) {
+                                return [[iTermGraphDatabaseState alloc] initWithQueue:queue
+                                        database:db];
+                            }];
 
         _url = [db url];
         [_thread dispatchAsync:^(iTermGraphDatabaseState *state) {
-            [self finishInitialization:state];
-            state.loadComplete = YES;
-        }];
+                    [self finishInitialization:state];
+                    state.loadComplete = YES;
+                }];
     }
     return self;
 }
@@ -128,8 +128,8 @@
 
 // NOTE: It is critical that the completion block not be called synchronously.
 - (BOOL)updateSynchronously:(BOOL)sync
-                      block:(void (^ NS_NOESCAPE)(iTermGraphEncoder * _Nonnull))block
-                 completion:(nullable iTermCallback *)completion {
+    block:(void (^ NS_NOESCAPE)(iTermGraphEncoder * _Nonnull))block
+    completion:(nullable iTermCallback *)completion {
     DLog(@"updateSynchronously:%@", @(sync));
     assert([NSThread isMainThread]);
     if (_invalid) {
@@ -168,12 +168,12 @@
 - (void)invalidateSynchronously:(BOOL)sync {
     if (sync) {
         [_thread dispatchSync:^(iTermGraphDatabaseState *_Nullable state) {
-            [self reallyInvalidate:state];
-        }];
+                    [self reallyInvalidate:state];
+                }];
     } else {
         [_thread dispatchAsync:^(iTermGraphDatabaseState *_Nullable state) {
-            [self reallyInvalidate:state];
-        }];
+                    [self reallyInvalidate:state];
+                }];
     }
 }
 
@@ -186,8 +186,8 @@
 
 - (void)whenReady:(void (^)(void))readyBlock {
     [_thread dispatchAsync:^(iTermGraphDatabaseState *state) {
-        [state addLoadCompleteBlock:readyBlock];
-    }];
+                [state addLoadCompleteBlock:readyBlock];
+            }];
 }
 
 #pragma mark - Private
@@ -210,8 +210,8 @@
 // This will mutate encoder.record.
 // NOTE: It is critical that the completion block not be called synchronously.
 - (void)trySaveEncoder:(iTermGraphDeltaEncoder *)originalEncoder
-                 state:(iTermGraphDatabaseState *)state
-            completion:(nullable iTermCallback *)completion {
+    state:(iTermGraphDatabaseState *)state
+    completion:(nullable iTermCallback *)completion {
     DLog(@"trySaveEncoder");
     iTermGraphDeltaEncoder *encoder = originalEncoder;
     BOOL ok = YES;
@@ -254,7 +254,7 @@
 
 // On failure, the db will be closed.
 - (BOOL)attemptRecovery:(iTermGraphDatabaseState *)state
-                encoder:(iTermGraphDeltaEncoder *)encoder {
+    encoder:(iTermGraphDeltaEncoder *)encoder {
     if (!state.db) {
         return NO;
     }
@@ -278,13 +278,13 @@
 }
 
 - (BOOL)save:(iTermGraphDeltaEncoder *)encoder
-       state:(iTermGraphDatabaseState *)state {
+    state:(iTermGraphDatabaseState *)state {
     DLog(@"save");
     assert(state.db);
 
     const BOOL ok = [state.db transaction:^BOOL{
-        return [self reallySave:encoder state:state];
-    }];
+                 return [self reallySave:encoder state:state];
+             }];
     if (!ok) {
         [encoder.record eraseRowIDs];
         DLog(@"Commit transaction failed: %@", state.db.lastError);
@@ -294,21 +294,21 @@
 
 // Runs within a transaction.
 - (BOOL)reallySave:(iTermGraphDeltaEncoder *)encoder
-             state:(iTermGraphDatabaseState *)state {
+    state:(iTermGraphDatabaseState *)state {
     DLog(@"Start saving");
     NSDate *start = [NSDate date];
     const BOOL ok =
-    [encoder enumerateRecords:^(iTermEncoderGraphRecord * _Nullable before,
-                                iTermEncoderGraphRecord * _Nullable after,
-                                NSNumber *parent,
-                                NSString *path,
-                                BOOL *stop) {
-        if (before && !before.rowid) {
-            @throw [NSException exceptionWithName:@"MissingRowID"
-                                           reason:[NSString stringWithFormat:@"Before lacking a rowid: %@", before]
-                                         userInfo:nil];
-        }
-        if (before && !after) {
+        [encoder enumerateRecords:^(iTermEncoderGraphRecord * _Nullable before,
+                                    iTermEncoderGraphRecord * _Nullable after,
+                                    NSNumber *parent,
+                                    NSString *path,
+            BOOL *stop) {
+                if (before && !before.rowid) {
+                    @throw [NSException exceptionWithName:@"MissingRowID"
+                            reason:[NSString stringWithFormat:@"Before lacking a rowid: %@", before]
+                            userInfo:nil];
+                }
+                if (before && !after) {
             if (![state.db executeUpdate:@"delete from Node where rowid=?", before.rowid]) {
                 *stop = YES;
                 return;
@@ -317,7 +317,7 @@
         }
         if (!before && after) {
             if (![state.db executeUpdate:@"insert into Node (key, identifier, parent, data) values (?, ?, ?, ?)",
-                  after.key, after.identifier, parent, after.data ?: [NSData data]]) {
+                             after.key, after.identifier, parent, after.data ?: [NSData data]]) {
                 *stop = YES;
                 return;
             }
@@ -342,7 +342,7 @@
                 after.rowid = before.rowid;
             } else {
                 if (before.generation == after.generation &&
-                    after.generation != iTermGenerationAlwaysEncode) {
+                        after.generation != iTermGenerationAlwaysEncode) {
                     DLog(@"Don't update rowid %@ %@[%@] because it is unchanged", before.rowid, after.key, after.identifier);
                     return;
                 }
@@ -373,18 +373,18 @@
 
     // Delete nodes without parents.
     [state.db executeUpdate:
-     @"delete from Node where "
-     @"  rowid in ("
-     @"    select child.rowid as id "
-     @"      from "
-     @"        Node as child"
-     @"        left join "
-     @"          Node as parentNode "
-     @"          on parentNode.rowid = child.parent "
-     @"      where "
-     @"        parentNode.rowid is NULL and "
-     @"        child.parent != 0"
-     @"  )"];
+              @"delete from Node where "
+              @"  rowid in ("
+              @"    select child.rowid as id "
+              @"      from "
+              @"        Node as child"
+              @"        left join "
+              @"          Node as parentNode "
+              @"          on parentNode.rowid = child.parent "
+              @"      where "
+              @"        parentNode.rowid is NULL and "
+              @"        child.parent != 0"
+              @"  )"];
     return YES;
 }
 
@@ -403,7 +403,7 @@
 }
 
 - (iTermEncoderGraphRecord * _Nullable)load:(iTermGraphDatabaseState *)state
-                                      error:(out NSError **)error {
+    error:(out NSError **)error {
     DLog(@"load");
     NSMutableArray<NSArray *> *nodes = [NSMutableArray array];
     {

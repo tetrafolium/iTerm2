@@ -139,9 +139,9 @@ static NSButton *iTermToolSnippetsNewButton(NSString *imageName, NSString *title
 
         __weak __typeof(self) weakSelf = self;
         [iTermSnippetsDidChangeNotification subscribe:self
-                                                block:^(iTermSnippetsDidChangeNotification * _Nonnull notification) {
-            [weakSelf snippetsDidChange:notification];
-        }];
+                                           block:^(iTermSnippetsDidChangeNotification * _Nonnull notification) {
+                                               [weakSelf snippetsDidChange:notification];
+                                           }];
         [self relayout];
         [self updateEnabled];
         [self registerForDraggedTypes:@[ NSPasteboardTypeString ]];
@@ -213,10 +213,10 @@ static NSButton *iTermToolSnippetsNewButton(NSString *imageName, NSString *title
 
 - (void)add:(id)sender {
     _windowController = [[iTermEditSnippetWindowController alloc] initWithSnippet:nil
-                                                                       completion:^(iTermSnippet * _Nullable snippet) {
-        if (!snippet) {
-            return;
-        }
+                                             completion:^(iTermSnippet * _Nullable snippet) {
+                                                 if (!snippet) {
+                                                     return;
+                                                 }
         [[iTermSnippetsModel sharedInstance] addSnippet:snippet];
     }];
     [self.window beginSheet:_windowController.window completionHandler:^(NSModalResponse returnCode) {}];
@@ -232,10 +232,10 @@ static NSButton *iTermToolSnippetsNewButton(NSString *imageName, NSString *title
     iTermSnippet *snippet = [[self selectedSnippets] firstObject];
     if (snippet) {
         _windowController = [[iTermEditSnippetWindowController alloc] initWithSnippet:snippet
-                                                                           completion:^(iTermSnippet * _Nullable updatedSnippet) {
-            if (!updatedSnippet) {
-                return;
-            }
+                                                 completion:^(iTermSnippet * _Nullable updatedSnippet) {
+                                                     if (!updatedSnippet) {
+                                                         return;
+                                                     }
             [[iTermSnippetsModel sharedInstance] replaceSnippet:snippet withSnippet:updatedSnippet];
         }];
         [self.window beginSheet:_windowController.window completionHandler:^(NSModalResponse returnCode) {}];
@@ -255,43 +255,43 @@ static NSButton *iTermToolSnippetsNewButton(NSString *imageName, NSString *title
 - (void)snippetsDidChange:(iTermSnippetsDidChangeNotification *)notif {
     _snippets = [[[iTermSnippetsModel sharedInstance] snippets] copy];
     switch (notif.mutationType) {
-        case iTermSnippetsDidChangeMutationTypeEdit: {
-            [_tableView it_performUpdateBlock:^{
-                [_tableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:notif.index]
-                                      columnIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 1)]];
-            }];
-            break;
-        }
-        case iTermSnippetsDidChangeMutationTypeDeletion: {
-            [_tableView it_performUpdateBlock:^{
-                [_tableView removeRowsAtIndexes:notif.indexSet
-                                  withAnimation:YES];
-            }];
-            break;
-        }
-        case iTermSnippetsDidChangeMutationTypeInsertion: {
-            [_tableView it_performUpdateBlock:^{
-                [_tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:notif.index]
-                                  withAnimation:YES];
-            }];
-            break;
-        }
-        case iTermSnippetsDidChangeMutationTypeMove: {
-            [_tableView it_performUpdateBlock:^{
-                [_tableView removeRowsAtIndexes:notif.indexSet
-                                  withAnimation:YES];
-                NSMutableIndexSet *insertionIndexes = [NSMutableIndexSet indexSet];
-                for (NSInteger i = 0; i < notif.indexSet.count; i++) {
-                    [insertionIndexes addIndex:notif.index + i];
-                }
-                [_tableView insertRowsAtIndexes:insertionIndexes
-                                  withAnimation:YES];
-            }];
-            break;
-        }
-        case iTermSnippetsDidChangeMutationTypeFullReplacement:
-            [_tableView reloadData];
-            break;
+    case iTermSnippetsDidChangeMutationTypeEdit: {
+        [_tableView it_performUpdateBlock:^ {
+                       [_tableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:notif.index]
+                        columnIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 1)]];
+                   }];
+        break;
+    }
+    case iTermSnippetsDidChangeMutationTypeDeletion: {
+        [_tableView it_performUpdateBlock:^ {
+                       [_tableView removeRowsAtIndexes:notif.indexSet
+                        withAnimation:YES];
+                   }];
+        break;
+    }
+    case iTermSnippetsDidChangeMutationTypeInsertion: {
+        [_tableView it_performUpdateBlock:^ {
+                       [_tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:notif.index]
+                        withAnimation:YES];
+                   }];
+        break;
+    }
+    case iTermSnippetsDidChangeMutationTypeMove: {
+        [_tableView it_performUpdateBlock:^ {
+                       [_tableView removeRowsAtIndexes:notif.indexSet
+                        withAnimation:YES];
+            NSMutableIndexSet *insertionIndexes = [NSMutableIndexSet indexSet];
+            for (NSInteger i = 0; i < notif.indexSet.count; i++) {
+                [insertionIndexes addIndex:notif.index + i];
+            }
+            [_tableView insertRowsAtIndexes:insertionIndexes
+                        withAnimation:YES];
+        }];
+        break;
+    }
+    case iTermSnippetsDidChangeMutationTypeFullReplacement:
+        [_tableView reloadData];
+        break;
     }
 }
 
@@ -306,8 +306,8 @@ static NSButton *iTermToolSnippetsNewButton(NSString *imageName, NSString *title
 - (NSArray<iTermSnippet *> *)selectedSnippets {
     NSArray<iTermSnippet *> *snippets = [[iTermSnippetsModel sharedInstance] snippets];
     return [[_tableView.selectedRowIndexes it_array] mapWithBlock:^id(NSNumber *indexNumber) {
-        return snippets[indexNumber.integerValue];
-    }];
+                                                 return snippets[indexNumber.integerValue];
+                                             }];
 }
 
 - (NSSize)contentSize {
@@ -362,8 +362,8 @@ static NSButton *iTermToolSnippetsNewButton(NSString *imageName, NSString *title
 }
 
 - (NSView *)tableView:(NSTableView *)tableView
-   viewForTableColumn:(NSTableColumn *)tableColumn
-                  row:(NSInteger)row {
+    viewForTableColumn:(NSTableColumn *)tableColumn
+    row:(NSInteger)row {
     iTermSnippet *snippet = _snippets[row];
     if ([snippet titleEqualsValueUpToLength:40]) {
         static NSString *const identifier = @"ToolSnippetValue";
@@ -405,53 +405,53 @@ static NSButton *iTermToolSnippetsNewButton(NSString *imageName, NSString *title
 #pragma mark Drag-Drop
 
 - (BOOL)tableView:(NSTableView *)tableView
-writeRowsWithIndexes:(NSIndexSet *)rowIndexes
-     toPasteboard:(NSPasteboard*)pboard {
+    writeRowsWithIndexes:(NSIndexSet *)rowIndexes
+    toPasteboard:(NSPasteboard*)pboard {
     [pboard declareTypes:@[ iTermToolSnippetsPasteboardType, NSPasteboardTypeString ]
-                   owner:self];
+            owner:self];
 
     NSArray<NSNumber *> *plist = [rowIndexes.it_array mapWithBlock:^id(NSNumber *anObject) {
-        return @(_snippets[anObject.integerValue].identifier);
-    }];
+                            return @(_snippets[anObject.integerValue].identifier);
+                        }];
     [pboard setPropertyList:plist
-                    forType:iTermToolSnippetsPasteboardType];
+            forType:iTermToolSnippetsPasteboardType];
     [pboard setString:[[rowIndexes.it_array mapWithBlock:^id(NSNumber *anObject) {
-        return _snippets[anObject.integerValue].value;
-    }] componentsJoinedByString:@"\n"]
-              forType:NSPasteboardTypeString];
+               return _snippets[anObject.integerValue].value;
+           }] componentsJoinedByString:@"\n"]
+    forType:NSPasteboardTypeString];
     return YES;
 }
 
 - (NSDragOperation)tableView:(NSTableView *)aTableView
-                validateDrop:(id<NSDraggingInfo>)info
-                 proposedRow:(NSInteger)row
-       proposedDropOperation:(NSTableViewDropOperation)operation {
+    validateDrop:(id<NSDraggingInfo>)info
+    proposedRow:(NSInteger)row
+    proposedDropOperation:(NSTableViewDropOperation)operation {
     if ([info draggingSource] != aTableView) {
         return NSDragOperationNone;
     }
 
     // Add code here to validate the drop
     switch (operation) {
-        case NSTableViewDropOn:
-            return NSDragOperationNone;
+    case NSTableViewDropOn:
+        return NSDragOperationNone;
 
-        case NSTableViewDropAbove:
-            return NSDragOperationMove;
+    case NSTableViewDropAbove:
+        return NSDragOperationMove;
 
-        default:
-            return NSDragOperationNone;
+    default:
+        return NSDragOperationNone;
     }
 }
 
 - (BOOL)tableView:(NSTableView *)aTableView
-       acceptDrop:(id <NSDraggingInfo>)info
-              row:(NSInteger)row
+    acceptDrop:(id <NSDraggingInfo>)info
+    row:(NSInteger)row
     dropOperation:(NSTableViewDropOperation)operation {
     [self pushUndo];
     NSPasteboard *pboard = [info draggingPasteboard];
     NSArray<NSNumber *> *identifiers = [pboard propertyListForType:iTermToolSnippetsPasteboardType];
     [[iTermSnippetsModel sharedInstance] moveSnippetsWithIdentifiers:identifiers
-                                                             toIndex:row];
+                                         toIndex:row];
     return YES;
 }
 
@@ -462,8 +462,8 @@ writeRowsWithIndexes:(NSIndexSet *)rowIndexes
 
 - (void)pushUndo {
     [[self undoManager] registerUndoWithTarget:self
-                                      selector:@selector(setSnippets:)
-                                        object:_snippets];
+                        selector:@selector(setSnippets:)
+                        object:_snippets];
 }
 
 #pragma mark - NSDraggingDestination
@@ -495,8 +495,8 @@ writeRowsWithIndexes:(NSIndexSet *)rowIndexes
 - (NSString *)titleFromString:(NSString *)string {
     NSArray<NSString *> *parts = [string componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
     return [parts objectPassingTest:^BOOL(NSString *element, NSUInteger index, BOOL *stop) {
-        return [[element stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length] > 0;
-    }] ?: @"Untitled";
+              return [[element stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length] > 0;
+          }] ?: @"Untitled";
 }
 
 - (BOOL)prepareForDragOperation:(id<NSDraggingInfo>)sender {

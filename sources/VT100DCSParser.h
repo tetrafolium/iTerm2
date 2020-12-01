@@ -17,8 +17,8 @@
 
 // Return YES if it should unhook.
 - (BOOL)handleInput:(iTermParserContext *)context
-support8BitControlCharacters:(BOOL)support8BitControlCharacters
-              token:(VT100Token *)result;
+    support8BitControlCharacters:(BOOL)support8BitControlCharacters
+    token:(VT100Token *)result;
 
 @end
 
@@ -78,9 +78,9 @@ typedef NS_ENUM(NSInteger, VT100DCSState) {
 + (NSDictionary *)termcapTerminfoInverseNameDictionary;  // DcsTermcapTerminfoRequestName -> string name
 
 - (void)decodeFromContext:(iTermParserContext *)context
-                    token:(VT100Token *)result
-                 encoding:(NSStringEncoding)encoding
-               savedState:(NSMutableDictionary *)savedState;
+    token:(VT100Token *)result
+    encoding:(NSStringEncoding)encoding
+    savedState:(NSMutableDictionary *)savedState;
 
 // Reset to ground state, unhooking if needed.
 - (void)reset;

@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface iTermMultiServerMessage: NSObject
+@interface iTermMultiServerMessage : NSObject
 @property (nonatomic, readonly) NSData *data;
 @property (nonatomic, readonly) NSNumber *fileDescriptor;
 

@@ -84,61 +84,67 @@
     }
     _awoken = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(reloadProfiles)
-                                                 name:kReloadAllProfiles
-                                               object:nil];
+                                          selector:@selector(reloadProfiles)
+                                          name:kReloadAllProfiles
+                                          object:nil];
     __weak __typeof(self) weakSelf = self;
     PreferenceInfo *info;
     info = [self defineControl:_onEndAction
-                           key:KEY_SESSION_END_ACTION
-                   displayName:@"Close or restart session on end"
-                          type:kPreferenceInfoTypePopup];
+                 key:KEY_SESSION_END_ACTION
+                 displayName:@"Close or restart session on end"
+                 type:kPreferenceInfoTypePopup];
     info.customSettingChangedHandler = ^(id sender) {
         [weakSelf onEndSettingDidChange];
     };
 
     [self defineControl:_alwaysWarn
-                    key:KEY_PROMPT_CLOSE
-            relatedView:nil
-            displayName:nil
-                   type:kPreferenceInfoTypeRadioButton
-         settingChanged:^(id sender) { [self promptBeforeClosingDidChange]; }
-                 update:^BOOL { [self updatePromptBeforeClosing]; return YES; }
-             searchable:NO];
+          key:KEY_PROMPT_CLOSE
+          relatedView:nil
+          displayName:nil
+          type:kPreferenceInfoTypeRadioButton
+         settingChanged:^(id sender) {
+             [self promptBeforeClosingDidChange];
+         }
+    update:^BOOL { [self updatePromptBeforeClosing]; return YES; }
+    searchable:NO];
 
     [self defineControl:_neverWarn
-                    key:KEY_PROMPT_CLOSE
-            relatedView:nil
-            displayName:nil
-                   type:kPreferenceInfoTypeRadioButton
-         settingChanged:^(id sender) { [self promptBeforeClosingDidChange]; }
-                 update:^BOOL { [self updatePromptBeforeClosing]; return YES; }
-             searchable:NO];
+          key:KEY_PROMPT_CLOSE
+          relatedView:nil
+          displayName:nil
+          type:kPreferenceInfoTypeRadioButton
+         settingChanged:^(id sender) {
+             [self promptBeforeClosingDidChange];
+         }
+    update:^BOOL { [self updatePromptBeforeClosing]; return YES; }
+    searchable:NO];
 
     [self defineControl:_warnIfJobsBesides
-                    key:KEY_PROMPT_CLOSE
-            relatedView:nil
-            displayName:nil
-                   type:kPreferenceInfoTypeRadioButton
-         settingChanged:^(id sender) { [self promptBeforeClosingDidChange]; }
-                 update:^BOOL { [self updatePromptBeforeClosing]; return YES; }
-             searchable:NO];
-    
+          key:KEY_PROMPT_CLOSE
+          relatedView:nil
+          displayName:nil
+          type:kPreferenceInfoTypeRadioButton
+         settingChanged:^(id sender) {
+             [self promptBeforeClosingDidChange];
+         }
+    update:^BOOL { [self updatePromptBeforeClosing]; return YES; }
+    searchable:NO];
+
     [self addViewToSearchIndex:_warnContainer
-                   displayName:@"Prompt before closing profile"
-                       phrases:@[ @"Always prompt before closing profile",
-                                  @"Never prompt before closing profile",
-                                  @"Prompt before closing profile if running jobs"]
-                           key:nil];
+          displayName:@"Prompt before closing profile"
+          phrases:@[ @"Always prompt before closing profile",
+                @"Never prompt before closing profile",
+                @"Prompt before closing profile if running jobs"]
+          key:nil];
     [self defineControl:_undoTimeout
-                    key:KEY_UNDO_TIMEOUT
-            displayName:@"Undo close session timeout"
-                   type:kPreferenceInfoTypeIntegerTextField];
+          key:KEY_UNDO_TIMEOUT
+          displayName:@"Undo close session timeout"
+          type:kPreferenceInfoTypeIntegerTextField];
 
     info = [self defineControl:_autoLog
-                           key:KEY_AUTOLOG
-                   displayName:@"Directory to automatically log sessions to"
-                          type:kPreferenceInfoTypeCheckbox];
+                 key:KEY_AUTOLOG
+                 displayName:@"Directory to automatically log sessions to"
+                 type:kPreferenceInfoTypeCheckbox];
     info.observer = ^() {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
         if (!strongSelf) {
@@ -151,19 +157,21 @@
     };
 
     [self defineControl:_plainTextLogging
-                    key:KEY_PLAIN_TEXT_LOGGING
-            displayName:@"Log plain text, igoring control sequences"
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_PLAIN_TEXT_LOGGING
+          displayName:@"Log plain text, igoring control sequences"
+          type:kPreferenceInfoTypeCheckbox];
 
     info = [self defineUnsearchableControl:_logDir
-                                       key:KEY_LOGDIR
-                                      type:kPreferenceInfoTypeStringTextField];
-    info.observer = ^() { [weakSelf updateLogDirWarning]; };
+                 key:KEY_LOGDIR
+                 type:kPreferenceInfoTypeStringTextField];
+    info.observer = ^() {
+        [weakSelf updateLogDirWarning];
+    };
 
     info = [self defineControl:_sendCodeWhenIdle
-                           key:KEY_SEND_CODE_WHEN_IDLE
-                   displayName:@"Send ASCII code when idle?"
-                          type:kPreferenceInfoTypeCheckbox];
+                 key:KEY_SEND_CODE_WHEN_IDLE
+                 displayName:@"Send ASCII code when idle?"
+                 type:kPreferenceInfoTypeCheckbox];
     info.customSettingChangedHandler = ^(id sender) {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
         if (!strongSelf) {
@@ -183,12 +191,12 @@
             //   ServerAliveInterval 60
             iTermWarningSelection selection =
                 [iTermWarning showWarningWithTitle:@"You probably don't want to turn this on. "
-                                                   @"It's not suitable for keeping ssh sessions alive, "
-                                                   @"even with a code of “0”. Are you sure you want this?"
-                                           actions:@[ @"Enable Send Code", @"Cancel" ]
-                                        identifier:kWarnAboutSendCodeWhenIdle
-                                       silenceable:kiTermWarningTypePermanentlySilenceable
-                                            window:weakSelf.view.window];
+                              @"It's not suitable for keeping ssh sessions alive, "
+                              @"even with a code of “0”. Are you sure you want this?"
+                              actions:@[ @"Enable Send Code", @"Cancel" ]
+                              identifier:kWarnAboutSendCodeWhenIdle
+                              silenceable:kiTermWarningTypePermanentlySilenceable
+                              window:weakSelf.view.window];
             if (selection == kiTermWarningSelection0) {
                 [strongSelf setBool:YES forKey:KEY_SEND_CODE_WHEN_IDLE];
             }
@@ -206,37 +214,39 @@
     };
 
     info = [self defineControl:_idleCode
-                           key:KEY_IDLE_CODE
-                   displayName:@"Send character periodically while idle"
-                          type:kPreferenceInfoTypeIntegerTextField];
+                 key:KEY_IDLE_CODE
+                 displayName:@"Send character periodically while idle"
+                 type:kPreferenceInfoTypeIntegerTextField];
     info.range = NSMakeRange(0, 256);
 
     [self defineControl:_idlePeriod
-                    key:KEY_IDLE_PERIOD
-            displayName:@"Time between sending characters when idle"
-                   type:kPreferenceInfoTypeDoubleTextField];
+          key:KEY_IDLE_PERIOD
+          displayName:@"Time between sending characters when idle"
+          type:kPreferenceInfoTypeDoubleTextField];
 
     [self updateRemoveJobButtonEnabled];
 
     [self defineControl:_reduceFlicker
-                    key:KEY_REDUCE_FLICKER
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_REDUCE_FLICKER
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     info = [self defineControl:_statusBarEnabled
-                           key:KEY_SHOW_STATUS_BAR
-                   relatedView:nil
-                          type:kPreferenceInfoTypeCheckbox];
-    info.observer = ^{
+                 key:KEY_SHOW_STATUS_BAR
+                 relatedView:nil
+                 type:kPreferenceInfoTypeCheckbox];
+    info.observer = ^ {
         [weakSelf updateStatusBarSettingsEnabled];
     };
     [weakSelf updateStatusBarSettingsEnabled];
-    info.onChange = ^() { [weakSelf postRefreshNotification]; };
+    info.onChange = ^() {
+        [weakSelf postRefreshNotification];
+    };
 
     [self addViewToSearchIndex:_configureStatusBar
-                   displayName:@"Configure status bar"
-                       phrases:@[]
-                           key:nil];
+          displayName:@"Configure status bar"
+          phrases:@[]
+          key:nil];
 }
 
 - (void)onEndSettingDidChange {
@@ -297,7 +307,7 @@
 
 - (id<PSMTabStyle>)tabStyle {
     return [[iTermTheme sharedInstance] tabStyleWithDelegate:self
-                                         effectiveAppearance:self.view.window.effectiveAppearance];
+                                        effectiveAppearance:self.view.window.effectiveAppearance];
 }
 
 - (NSColor *)sessionBackgroundColor {
@@ -322,38 +332,38 @@
 - (NSAppearance *)appearanceForCurrentTheme {
     const iTermPreferencesTabStyle preferredStyle = [iTermPreferences intForKey:kPreferenceKeyTabStyle];
     switch (preferredStyle) {
-        case TAB_STYLE_DARK:
-        case TAB_STYLE_DARK_HIGH_CONTRAST:
-            return [NSAppearance appearanceNamed:NSAppearanceNameVibrantDark];
-        case TAB_STYLE_LIGHT:
-        case TAB_STYLE_LIGHT_HIGH_CONTRAST:
-            return [NSAppearance appearanceNamed:NSAppearanceNameAqua];
-        case TAB_STYLE_AUTOMATIC:
-        case TAB_STYLE_COMPACT:
-        case TAB_STYLE_MINIMAL:
-            return self.view.effectiveAppearance;
+    case TAB_STYLE_DARK:
+    case TAB_STYLE_DARK_HIGH_CONTRAST:
+        return [NSAppearance appearanceNamed:NSAppearanceNameVibrantDark];
+    case TAB_STYLE_LIGHT:
+    case TAB_STYLE_LIGHT_HIGH_CONTRAST:
+        return [NSAppearance appearanceNamed:NSAppearanceNameAqua];
+    case TAB_STYLE_AUTOMATIC:
+    case TAB_STYLE_COMPACT:
+    case TAB_STYLE_MINIMAL:
+        return self.view.effectiveAppearance;
     }
 }
 
 - (IBAction)configureStatusBar:(id)sender {
-    NSDictionary *layoutDictionary = [NSDictionary castFrom:[self objectForKey:KEY_STATUS_BAR_LAYOUT]] ?: @{};
+    NSDictionary *layoutDictionary = [NSDictionary castFrom:[self objectForKey:KEY_STATUS_BAR_LAYOUT]] ?: @ {};
     NSDictionary *colorDict = [NSDictionary castFrom:[self objectForKey:KEY_BACKGROUND_COLOR]];
     const BOOL dark = [[colorDict colorValue] perceivedBrightness] < 0.5;
     _statusBarSetupViewController =
         [[iTermStatusBarSetupViewController alloc] initWithLayoutDictionary:layoutDictionary
-                                                             darkBackground:[NSAppearance it_decorationsAreDarkWithTerminalBackgroundColorIsDark:dark]
-                                                               allowRainbow:[self allowRainbow]];
+                                                   darkBackground:[NSAppearance it_decorationsAreDarkWithTerminalBackgroundColorIsDark:dark]
+                                                   allowRainbow:[self allowRainbow]];
     _statusBarSetupViewController.defaultTextColor = [[iTermTheme sharedInstance] statusBarTextColorForEffectiveAppearance:[self appearanceForCurrentTheme]
-                                                                                                                  colorMap:[self colorMap]
-                                                                                                                  tabStyle:[self tabStyle]
-                                                                                                             mainAndActive:YES];
+                                        colorMap:[self colorMap]
+                                        tabStyle:[self tabStyle]
+                                        mainAndActive:YES];
     _statusBarSetupViewController.defaultBackgroundColor = [[iTermTheme sharedInstance] statusBarContainerBackgroundColorForTabColor:[self tabColor]
-                                                                                                                 effectiveAppearance:[self appearanceForCurrentTheme]
-                                                                                                                            tabStyle:[self tabStyle]
-                                                                                                              sessionBackgroundColor:[self sessionBackgroundColor]
-                                                                                                                    isFirstResponder:YES
-                                                                                                                         dimOnlyText:[self boolForKey:kPreferenceKeyDimOnlyText]
-                                                                                                               adjustedDimmingAmount:0];
+                                        effectiveAppearance:[self appearanceForCurrentTheme]
+                                        tabStyle:[self tabStyle]
+                                        sessionBackgroundColor:[self sessionBackgroundColor]
+                                        isFirstResponder:YES
+                                        dimOnlyText:[self boolForKey:kPreferenceKeyDimOnlyText]
+                                        adjustedDimmingAmount:0];
     __weak __typeof(self) weakSelf = self;
     _statusBarSetupViewController.applyBlock = ^(NSDictionary *layoutDictionary) {
         [weakSelf setObject:layoutDictionary forKey:KEY_STATUS_BAR_LAYOUT];
@@ -361,15 +371,15 @@
 
     _statusBarSetupWindow =
         [[iTermStatusBarSetupPanel alloc] initWithContentRect:_statusBarSetupViewController.view.frame
-                                                    styleMask:NSWindowStyleMaskResizable
-                                                      backing:NSBackingStoreBuffered
-                                                        defer:NO];
+                                          styleMask:NSWindowStyleMaskResizable
+                                          backing:NSBackingStoreBuffered
+                                          defer:NO];
     _statusBarSetupWindow.minSize = _statusBarSetupViewController.view.frame.size;
     NSDictionary *savedLayoutDictionary = [_statusBarSetupViewController.layoutDictionary copy];
     _statusBarSetupWindow.contentView = _statusBarSetupViewController.view;
     [self.view.window beginSheet:_statusBarSetupWindow completionHandler:^(NSModalResponse returnCode) {
-        __strong __typeof(weakSelf) strongSelf = weakSelf;
-        if (strongSelf) {
+                         __strong __typeof(weakSelf) strongSelf = weakSelf;
+                         if (strongSelf) {
             if (!strongSelf->_statusBarSetupViewController.ok) {
                 [strongSelf setObject:savedLayoutDictionary forKey:KEY_STATUS_BAR_LAYOUT];
             }
@@ -429,11 +439,11 @@
     [self setObject:augmented forKey:KEY_JOBS];
     [_jobsTable reloadData];
     [_jobsTable selectRowIndexes:[NSIndexSet indexSetWithIndex:[augmented count] - 1]
-            byExtendingSelection:NO];
+                byExtendingSelection:NO];
     [_jobsTable editColumn:0
-                       row:[self numberOfRowsInTableView:_jobsTable] - 1
-                 withEvent:nil
-                    select:YES];
+                row:[self numberOfRowsInTableView:_jobsTable] - 1
+                withEvent:nil
+                select:YES];
     [self updateRemoveJobButtonEnabled];
     [self postRefreshNotification];
 }
@@ -470,9 +480,9 @@
 
 
 - (void)tableView:(NSTableView *)aTableView
-   setObjectValue:(id)anObject
-   forTableColumn:(NSTableColumn *)aTableColumn
-              row:(NSInteger)rowIndex {
+    setObjectValue:(id)anObject
+    forTableColumn:(NSTableColumn *)aTableColumn
+    row:(NSInteger)rowIndex {
     NSMutableArray *jobs = [NSMutableArray arrayWithArray:[self jobs]];
     [jobs replaceObjectAtIndex:rowIndex withObject:anObject];
     [self setObject:jobs forKey:KEY_JOBS];
@@ -481,7 +491,7 @@
 
 - (id)tableView:(NSTableView *)aTableView
     objectValueForTableColumn:(NSTableColumn *)aTableColumn
-                row:(NSInteger)rowIndex {
+    row:(NSInteger)rowIndex {
     NSArray *jobs = self.jobs;
     if (rowIndex >= jobs.count) {
         // Can happen during teardown when the ProfilePreferencesViewController's delegate is nilled.

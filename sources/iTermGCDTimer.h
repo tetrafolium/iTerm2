@@ -11,12 +11,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Like NSTimer but implemented with GCD so you don't have to burn brain cells thinking about
 // runloops. Holds a weak reference to target.
-@interface iTermGCDTimer: NSObject
+@interface iTermGCDTimer : NSObject
 @property (nonatomic, readonly) NSTimeInterval actualInterval;
 
 - (instancetype)initWithInterval:(NSTimeInterval)interval
-                          target:(id)target // WEAK!
-                        selector:(SEL)selector NS_DESIGNATED_INITIALIZER;
+    target:(id)target // WEAK!
+    selector:(SEL)selector NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 - (void)invalidate;
 @end

@@ -23,9 +23,9 @@ static NSString *const kDirectoryEntryIsStarred = @"starred";
 }
 
 + (instancetype)entryWithDictionary:(NSDictionary *)dictionary
-                          inContext:(NSManagedObjectContext *)context {
+    inContext:(NSManagedObjectContext *)context {
     iTermRecentDirectoryMO *entry = [NSEntityDescription insertNewObjectForEntityForName:[self entityName]
-                                                                  inManagedObjectContext:context];
+                                                         inManagedObjectContext:context];
 
     entry.path = dictionary[kDirectoryEntryPath];
     entry.useCount = dictionary[kDirectoryEntryUseCount];
@@ -58,9 +58,9 @@ static NSString *const kDirectoryEntryIsStarred = @"starred";
 }
 
 - (NSAttributedString *)attributedStringForTableColumn:(NSTableColumn *)aTableColumn
-                               basedOnAttributedString:(NSAttributedString *)attributedString
-                                        baseAttributes:(NSDictionary *)baseAttributes
-                            abbreviationSafeComponents:(NSIndexSet *)abbreviationSafeIndexes {
+    basedOnAttributedString:(NSAttributedString *)attributedString
+    baseAttributes:(NSDictionary *)baseAttributes
+    abbreviationSafeComponents:(NSIndexSet *)abbreviationSafeIndexes {
     NSFont *font = [[aTableColumn dataCell] font];
     // Split up the passed-in attributed string into components.
     // There is a wee bug where attributes on slashes are lost.
@@ -103,13 +103,13 @@ static NSString *const kDirectoryEntryIsStarred = @"starred";
 }
 
 - (NSAttributedString *)attributedStringForTableColumn:(NSTableColumn *)aTableColumn
-                            abbreviationSafeComponents:(NSIndexSet *)abbreviationSafeIndexes {
+    abbreviationSafeComponents:(NSIndexSet *)abbreviationSafeIndexes {
     NSAttributedString *theString =
         [[[NSAttributedString alloc] initWithString:self.path ?: @""] autorelease];
     return [self attributedStringForTableColumn:aTableColumn
-                        basedOnAttributedString:theString
-                                 baseAttributes:@{}
-                     abbreviationSafeComponents:abbreviationSafeIndexes];
+                 basedOnAttributedString:theString
+                 baseAttributes:@ {}
+                 abbreviationSafeComponents:abbreviationSafeIndexes];
 }
 
 @end

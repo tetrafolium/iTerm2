@@ -54,11 +54,11 @@
 // leaf-info ::= width 'x' height ',' xoff ',' yoff ',' 'wp-id'
 - (NSString *)info {
     return [NSString stringWithFormat:@"%@x%@,%@,%@,%@",
-            @(self.size.width),
-            @(self.size.height),
-            @(self.offset.x),
-            @(self.offset.y),
-            @(_windowPane)];
+                     @(self.size.width),
+                     @(self.size.height),
+                     @(self.offset.x),
+                     @(self.offset.y),
+                     @(_windowPane)];
 }
 
 - (void)update {
@@ -90,11 +90,11 @@
     VT100GridCoord offset = self.offset;
     NSString *children = [self childrenInfo];
     return [NSString stringWithFormat:@"%@x%@,%@,%@%@",
-            @(size.width),
-            @(size.height),
-            @(offset.x),
-            @(offset.y),
-            children];
+                     @(size.width),
+                     @(size.height),
+                     @(offset.x),
+                     @(offset.y),
+                     children];
 }
 
 // childrenInfo ::= horizontal-childrenInfo | vertical-childrenInfo
@@ -193,7 +193,7 @@
 - (NSString *)checksumForLayout:(NSString *)layoutString {
     const char *layout = layoutString.UTF8String;
     u_short csum;
-    
+
     csum = 0;
     for (; *layout != '\0'; layout++) {
         csum = (csum >> 1) + ((csum & 1) << 15);

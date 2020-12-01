@@ -25,14 +25,14 @@
 // Returns nil on error
 // TODO: Test with italics
 - (NSData *)dataForHistoryLine:(NSString *)hist
-                  withTerminal:(VT100Terminal *)terminal
-        ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
-                unicodeVersion:(NSInteger)unicodeVersion {
+    withTerminal:(VT100Terminal *)terminal
+    ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
+    unicodeVersion:(NSInteger)unicodeVersion {
     screen_char_t *screenChars;
     NSMutableData *result = [NSMutableData data];
     NSData *histData = [hist dataUsingEncoding:NSUTF8StringEncoding];
     [terminal.parser putStreamData:histData.bytes
-                            length:histData.length];
+                     length:histData.length];
 
     CVector vector;
     CVectorCreate(&vector, 100);
@@ -64,7 +64,7 @@
                 ConvertCharsToGraphicsCharset(screenChars, len);
             }
             [result appendBytes:screenChars
-                         length:sizeof(screen_char_t) * len];
+                    length:sizeof(screen_char_t) * len];
             free(screenChars);
         }
         [token release];
@@ -77,8 +77,8 @@
 // Return an NSArray of NSData's. Each NSData is an array of screen_char_t's,
 // with the last element in each being the newline. Returns nil on error.
 - (NSArray *)parseDumpHistoryResponse:(NSString *)response
-               ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
-                       unicodeVersion:(NSInteger)unicodeVersion {
+    ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
+    unicodeVersion:(NSInteger)unicodeVersion {
     if (![response length]) {
         return [NSArray array];
     }
@@ -89,9 +89,9 @@
     [terminal setEncoding:NSUTF8StringEncoding];
     for (NSString *line in lines) {
         NSData *data = [self dataForHistoryLine:line
-                                   withTerminal:terminal
-                         ambiguousIsDoubleWidth:ambiguousIsDoubleWidth
-                                 unicodeVersion:unicodeVersion];
+                             withTerminal:terminal
+                             ambiguousIsDoubleWidth:ambiguousIsDoubleWidth
+                             unicodeVersion:unicodeVersion];
         if (!data) {
             return nil;
         }

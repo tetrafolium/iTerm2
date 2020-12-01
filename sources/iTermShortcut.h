@@ -50,8 +50,8 @@ extern CGFloat kShortcutPreferredHeight;
 + (NSDictionary *)dictionaryForShortString:(NSString *)string;
 
 - (instancetype)initWithKeyCode:(NSUInteger)code
-                      modifiers:(NSEventModifierFlags)modifiers
-                     characters:(NSString *)characters
+    modifiers:(NSEventModifierFlags)modifiers
+    characters:(NSString *)characters
     charactersIgnoringModifiers:(NSString *)charactersIgnoringModifiers NS_DESIGNATED_INITIALIZER;
 
 // Change in place from a KeyDown event.

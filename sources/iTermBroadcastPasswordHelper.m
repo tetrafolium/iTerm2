@@ -32,14 +32,14 @@ static const char iTermBroadcastPasswordHelperEchoProbeSessionAssociatedObjectKe
 static NSMutableArray<iTermBroadcastPasswordHelper *> *sBroadcastPasswordHelpers;
 
 + (void)tryToSendPassword:(NSString *)password
-               toSessions:(NSArray<PTYSession *> *)sessions
-               completion:(NSArray<PTYSession *> * _Nonnull (^)(NSArray<PTYSession *> * _Nonnull, NSArray<PTYSession *> * _Nonnull))completion {
+    toSessions:(NSArray<PTYSession *> *)sessions
+    completion:(NSArray<PTYSession *> * _Nonnull (^)(NSArray<PTYSession *> * _Nonnull, NSArray<PTYSession *> * _Nonnull))completion {
     static dispatch_once_t onceToken;
     iTermBroadcastPasswordHelper *helper = [[self alloc] initWithPassword:password
-                                                                 sessions:sessions
-                                                               completion:completion];
+                                                         sessions:sessions
+                                                         completion:completion];
     if (helper) {
-        dispatch_once(&onceToken, ^{
+        dispatch_once(&onceToken, ^ {
             sBroadcastPasswordHelpers = [NSMutableArray array];
         });
         [sBroadcastPasswordHelpers addObject:helper];
@@ -48,8 +48,8 @@ static NSMutableArray<iTermBroadcastPasswordHelper *> *sBroadcastPasswordHelpers
 }
 
 - (instancetype)initWithPassword:(NSString *)password
-                        sessions:(NSArray<PTYSession *> *)sessions
-                      completion:(NSArray<PTYSession *> *(^)(NSArray<PTYSession *> *, NSArray<PTYSession *> *))completion {
+    sessions:(NSArray<PTYSession *> *)sessions
+    completion:(NSArray<PTYSession *> *(^)(NSArray<PTYSession *> *, NSArray<PTYSession *> *))completion {
     if (sessions.count == 0) {
         return nil;
     }
@@ -63,12 +63,12 @@ static NSMutableArray<iTermBroadcastPasswordHelper *> *sBroadcastPasswordHelpers
         _failures = [NSMutableArray array];
         _successes = [NSMutableArray array];
         _probes = [sessions mapWithBlock:^id(PTYSession *session) {
-            if (session.backspaceData) {
-                iTermEchoProbe *probe = session.echoProbe;
-                probe.delegate = self;
-                DLog(@"Use echo probe %@ from session %@", probe, session);
+                     if (session.backspaceData) {
+                         iTermEchoProbe *probe = session.echoProbe;
+                         probe.delegate = self;
+                         DLog(@"Use echo probe %@ from session %@", probe, session);
                 [probe it_setAssociatedObject:session
-                                       forKey:(void *)&iTermBroadcastPasswordHelperEchoProbeSessionAssociatedObjectKey];
+                       forKey:(void *)&iTermBroadcastPasswordHelperEchoProbeSessionAssociatedObjectKey];
                 return probe;
             } else {
                 return nil;

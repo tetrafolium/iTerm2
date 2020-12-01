@@ -26,7 +26,8 @@ typedef struct {
     BOOL boxDrawing;
     BOOL thinStrokes;
     BOOL drawable;  // If this is NO it will be ignored
-    iTermMetalGlyphKeyTypeface typeface : iTermMetalGlyphKeyTypefaceNumberOfBitsNeeded;
+iTermMetalGlyphKeyTypeface typeface :
+    iTermMetalGlyphKeyTypefaceNumberOfBitsNeeded;
 } iTermMetalGlyphKey;
 
 // Features of a cell that do not affect which texture is selected as source material.
@@ -64,12 +65,12 @@ NS_INLINE NSString *iTermMetalGlyphKeyDescription(const iTermMetalGlyphKey *key)
     }
 
     return [NSString stringWithFormat:@"code=%@ combiningSuccessor=%@ complex=%@ boxDrawing=%@ thinStrokes=%@ typeface=%@",
-            formattedCode,
-            formattedCombiningSuccessor,
-            key->isComplex ? @"YES" : @"NO",
-            key->boxDrawing ? @"YES" : @"NO",
-            key->thinStrokes ? @"YES" : @"NO",
-            typefaceString];
+                     formattedCode,
+                     formattedCombiningSuccessor,
+                     key->isComplex ? @"YES" : @"NO",
+                     key->boxDrawing ? @"YES" : @"NO",
+                     key->thinStrokes ? @"YES" : @"NO",
+                     typefaceString];
 }
 
 NS_INLINE NSString *iTermStringFromColorVectorFloat4(vector_float4 v) {
@@ -79,40 +80,40 @@ NS_INLINE NSString *iTermStringFromColorVectorFloat4(vector_float4 v) {
 NS_INLINE NSString *iTermMetalGlyphAttributesDescription(iTermMetalGlyphAttributes *attrs) {
     NSString *underline;
     switch (attrs->underlineStyle) {
-        case iTermMetalGlyphAttributesUnderlineNone:
-            underline = @"none";
-            break;
-        case iTermMetalGlyphAttributesUnderlineDouble:
-            underline = @"DOUBLE";
-            break;
-        case iTermMetalGlyphAttributesUnderlineSingle:
-            underline = @"SINGLE";
-            break;
-        case iTermMetalGlyphAttributesUnderlineDashedSingle:
-            underline = @"DASHED SINGLE";
-            break;
-        case iTermMetalGlyphAttributesUnderlineCurly:
-            underline = @"CURLY";
-            break;
-        case iTermMetalGlyphAttributesUnderlineStrikethrough:
-            underline = @"STRIKETHROUGH";
-            break;
-        case iTermMetalGlyphAttributesUnderlineStrikethroughAndDouble:
-            underline = @"STRIKETHROUGH+DOUBLE";
-            break;
-        case iTermMetalGlyphAttributesUnderlineStrikethroughAndSingle:
-            underline = @"STRIKETHROUGH+SINGLE";
-            break;
-        case iTermMetalGlyphAttributesUnderlineStrikethroughAndDashedSingle:
-            underline = @"STRIKETHROUGH+DASHED SINGLE";
-            break;
-        case iTermMetalGlyphAttributesUnderlineStrikethroughAndCurly:
-            underline = @"STRIKETHROUGH+CURLY";
-            break;
+    case iTermMetalGlyphAttributesUnderlineNone:
+        underline = @"none";
+        break;
+    case iTermMetalGlyphAttributesUnderlineDouble:
+        underline = @"DOUBLE";
+        break;
+    case iTermMetalGlyphAttributesUnderlineSingle:
+        underline = @"SINGLE";
+        break;
+    case iTermMetalGlyphAttributesUnderlineDashedSingle:
+        underline = @"DASHED SINGLE";
+        break;
+    case iTermMetalGlyphAttributesUnderlineCurly:
+        underline = @"CURLY";
+        break;
+    case iTermMetalGlyphAttributesUnderlineStrikethrough:
+        underline = @"STRIKETHROUGH";
+        break;
+    case iTermMetalGlyphAttributesUnderlineStrikethroughAndDouble:
+        underline = @"STRIKETHROUGH+DOUBLE";
+        break;
+    case iTermMetalGlyphAttributesUnderlineStrikethroughAndSingle:
+        underline = @"STRIKETHROUGH+SINGLE";
+        break;
+    case iTermMetalGlyphAttributesUnderlineStrikethroughAndDashedSingle:
+        underline = @"STRIKETHROUGH+DASHED SINGLE";
+        break;
+    case iTermMetalGlyphAttributesUnderlineStrikethroughAndCurly:
+        underline = @"STRIKETHROUGH+CURLY";
+        break;
     }
     return [NSString stringWithFormat:@"fg=%@ bg=%@ underline=%@ annotation=%@",
-            iTermStringFromColorVectorFloat4(attrs->foregroundColor),
-            iTermStringFromColorVectorFloat4(attrs->backgroundColor),
-            underline,
-            attrs->annotation ? @"YES" : @"NO"];
+                     iTermStringFromColorVectorFloat4(attrs->foregroundColor),
+                     iTermStringFromColorVectorFloat4(attrs->backgroundColor),
+                     underline,
+                     attrs->annotation ? @"YES" : @"NO"];
 }

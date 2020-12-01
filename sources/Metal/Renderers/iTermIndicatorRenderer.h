@@ -29,7 +29,7 @@ NS_CLASS_AVAILABLE(10_11, NA)
 
 - (void)reset;
 - (void)addIndicator:(iTermIndicatorDescriptor *)indicator
-             context:(iTermMetalBufferPoolContext *)context;
+    context:(iTermMetalBufferPoolContext *)context;
 
 @end
 

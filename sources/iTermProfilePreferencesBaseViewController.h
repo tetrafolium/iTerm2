@@ -19,7 +19,7 @@
 - (void)profilePreferencesContentViewSizeDidChange:(iTermSizeRememberingView *)view;
 - (BOOL)editingTmuxSession;
 - (void)profilePreferencesViewController:(iTermProfilePreferencesBaseViewController *)viewController
-                    willSetObjectWithKey:(NSString *)key;
+    willSetObjectWithKey:(NSString *)key;
 - (BOOL)profilePreferencesRevealViewController:(iTermProfilePreferencesBaseViewController *)viewController;
 @end
 

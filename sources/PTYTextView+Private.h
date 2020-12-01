@@ -25,15 +25,15 @@
 @class PTYMouseHandler;
 
 @interface PTYTextView () <
-iTermBadgeLabelDelegate,
-iTermTextViewAccessibilityHelperDelegate,
-iTermFindCursorViewDelegate,
-iTermFindOnPageHelperDelegate,
-iTermKeyboardHandlerDelegate,
-iTermSelectionDelegate,
-iTermSelectionScrollHelperDelegate,
-NSDraggingSource,
-NSPopoverDelegate> {
+    iTermBadgeLabelDelegate,
+    iTermTextViewAccessibilityHelperDelegate,
+    iTermFindCursorViewDelegate,
+    iTermFindOnPageHelperDelegate,
+    iTermKeyboardHandlerDelegate,
+    iTermSelectionDelegate,
+    iTermSelectionScrollHelperDelegate,
+    NSDraggingSource,
+    NSPopoverDelegate> {
     NSCursor *cursor_;
     PTYMouseHandler *_mouseHandler;
     iTermURLActionHelper *_urlActionHelper;
@@ -52,9 +52,9 @@ NSPopoverDelegate> {
 - (NSString *)selectedTextCappedAtSize:(int)maxBytes;
 - (BOOL)_haveShortSelection;
 - (BOOL)withRelativeCoord:(VT100GridAbsCoord)coord
-                    block:(void (^ NS_NOESCAPE)(VT100GridCoord coord))block;
+    block:(void (^ NS_NOESCAPE)(VT100GridCoord coord))block;
 - (BOOL)withRelativeCoordRange:(VT100GridAbsCoordRange)range
-                         block:(void (^ NS_NOESCAPE)(VT100GridCoordRange))block;
+    block:(void (^ NS_NOESCAPE)(VT100GridCoordRange))block;
 
 @end
 

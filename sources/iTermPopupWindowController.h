@@ -34,8 +34,8 @@
 @property(nonatomic, assign) id<PopupDelegate> delegate;
 
 - (instancetype)initWithWindowNibName:(NSString*)nibName
-                             tablePtr:(NSTableView**)table
-                                model:(PopupModel*)model;
+    tablePtr:(NSTableView**)table
+    model:(PopupModel*)model;
 
 // Programmatically close the window.
 - (void)closePopupWindow;
@@ -84,8 +84,8 @@
 
 - (NSString *)truncatedMainValueForEntry:(PopupEntry *)entry;
 - (NSAttributedString *)shrunkToFitAttributedString:(NSAttributedString *)attributedString
-                                            inEntry:(PopupEntry *)entry
-                                     baseAttributes:(NSDictionary *)baseAttributes;
+    inEntry:(PopupEntry *)entry
+    baseAttributes:(NSDictionary *)baseAttributes;
 - (BOOL)passKeyEventToDelegateForSelector:(SEL)selector string:(NSString *)string;
 
 @end

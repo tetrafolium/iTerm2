@@ -86,12 +86,12 @@ void LoadPrefsFromCustomFolder(void);
 + (instancetype)sessionsInstance;
 
 - (instancetype)initWithProfileModel:(ProfileModel *)model
-              editCurrentSessionMode:(BOOL)editCurrentSessionMode;
+    editCurrentSessionMode:(BOOL)editCurrentSessionMode;
 
 - (void)openToProfileWithGuid:(NSString *)guid
-             selectGeneralTab:(BOOL)selectGeneralTab
-                         tmux:(BOOL)tmux
-                        scope:(iTermVariableScope<iTermSessionScope> *)scope;
+    selectGeneralTab:(BOOL)selectGeneralTab
+    tmux:(BOOL)tmux
+    scope:(iTermVariableScope<iTermSessionScope> *)scope;
 
 - (IBAction)showGlobalTabView:(id)sender;
 - (IBAction)showAppearanceTabView:(id)sender;
@@ -112,12 +112,12 @@ void LoadPrefsFromCustomFolder(void);
 // Go to the profiles tab, go to its Keys sub-tab, and open the Hotkey window panel.
 - (void)configureHotkeyForProfile:(Profile *)profile;
 - (void)openToProfileWithGuid:(NSString *)guid
-andEditComponentWithIdentifier:(NSString *)identifier
-                         tmux:(BOOL)tmux
-                        scope:(iTermVariableScope<iTermSessionScope> *)scope;
+    andEditComponentWithIdentifier:(NSString *)identifier
+    tmux:(BOOL)tmux
+    scope:(iTermVariableScope<iTermSessionScope> *)scope;
 
 - (void)openToProfileWithGuid:(NSString *)guid
-                          key:(NSString *)key;
+    key:(NSString *)key;
 
 - (void)openToPreferenceWithKey:(NSString *)key;
 

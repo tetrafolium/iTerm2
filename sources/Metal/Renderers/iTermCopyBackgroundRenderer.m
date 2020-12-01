@@ -24,10 +24,10 @@
     self = [super init];
     if (self) {
         _metalRenderer = [[iTermMetalRenderer alloc] initWithDevice:device
-                                                 vertexFunctionName:@"iTermCopyBackgroundVertexShader"
-                                               fragmentFunctionName:self.fragmentFunctionName
-                                                           blending:nil
-                                                transientStateClass:[self transientStateClass]];
+                                                     vertexFunctionName:@"iTermCopyBackgroundVertexShader"
+                                                     fragmentFunctionName:self.fragmentFunctionName
+                                                     blending:nil
+                                                     transientStateClass:[self transientStateClass]];
     }
     return self;
 }
@@ -41,15 +41,15 @@
 }
 
 - (void)drawWithFrameData:(nonnull iTermMetalFrameData *)frameData
-           transientState:(__kindof iTermMetalRendererTransientState *)transientState {
+    transientState:(__kindof iTermMetalRendererTransientState *)transientState {
     iTermCopyRendererTransientState *tState = transientState;
     [_metalRenderer drawWithTransientState:tState
-                             renderEncoder:frameData.renderEncoder
-                          numberOfVertices:6
-                              numberOfPIUs:0
-                             vertexBuffers:@{ @(iTermVertexInputIndexVertices): tState.vertexBuffer }
-                           fragmentBuffers:@{}
-                                  textures:@{ @(iTermTextureIndexPrimary): tState.sourceTexture }];
+                    renderEncoder:frameData.renderEncoder
+                    numberOfVertices:6
+                    numberOfPIUs:0
+                    vertexBuffers:@ { @(iTermVertexInputIndexVertices): tState.vertexBuffer }
+                    fragmentBuffers:@ {}
+                    textures:@ { @(iTermTextureIndexPrimary): tState.sourceTexture }];
 }
 
 - (BOOL)rendererDisabled {
@@ -57,21 +57,21 @@
 }
 
 - (nullable __kindof iTermMetalRendererTransientState *)createTransientStateForConfiguration:(iTermRenderConfiguration *)configuration
-                                                                               commandBuffer:(id<MTLCommandBuffer>)commandBuffer {
+    commandBuffer:(id<MTLCommandBuffer>)commandBuffer {
     if (!_enabled) {
         return nil;
     }
     __kindof iTermMetalRendererTransientState * _Nonnull transientState =
         [_metalRenderer createTransientStateForConfiguration:configuration
-                                               commandBuffer:commandBuffer];
+                        commandBuffer:commandBuffer];
     [self initializeTransientState:transientState];
     return transientState;
 }
 
 - (void)initializeTransientState:(iTermCopyRendererTransientState *)tState {
     tState.vertexBuffer = [_metalRenderer newFlippedQuadOfSize:CGSizeMake(tState.configuration.viewportSize.x,
-                                                                          tState.configuration.viewportSize.y)
-                                                   poolContext:tState.poolContext];
+                                          tState.configuration.viewportSize.y)
+                                          poolContext:tState.poolContext];
 }
 
 - (Class)transientStateClass {

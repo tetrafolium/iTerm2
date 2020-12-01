@@ -68,11 +68,11 @@ extern NSString *kWindowPasteboardType;
     DLog(@"dashboard: Select session %@", @(number));
 
     NSInteger i = [_model indexOfObjectPassingTest:^BOOL(iTermTmuxSessionObject * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        return obj.number == number;
-    }];
+               return obj.number == number;
+           }];
     if (i != NSNotFound) {
         [tableView_ selectRowIndexes:[NSIndexSet indexSetWithIndex:i]
-                byExtendingSelection:NO];
+                    byExtendingSelection:NO];
     }
     [self updateEnabledStateOfButtons];
 }
@@ -121,7 +121,7 @@ extern NSString *kWindowPasteboardType;
 
 - (id)tableView:(NSTableView *)aTableView
     objectValueForTableColumn:(NSTableColumn *)aTableColumn
-            row:(NSInteger)rowIndex {
+    row:(NSInteger)rowIndex {
     iTermTmuxSessionObject *sessionObject = _model[rowIndex];
     if (aTableColumn == checkColumn_) {
         if ([[delegate_ numberOfAttachedSession] isEqual:@(sessionObject.number)]) {
@@ -139,18 +139,18 @@ extern NSString *kWindowPasteboardType;
 }
 
 - (void)tableView:(NSTableView *)aTableView
-   setObjectValue:(id)anObject
-   forTableColumn:(NSTableColumn *)aTableColumn
-              row:(NSInteger)rowIndex {
+    setObjectValue:(id)anObject
+    forTableColumn:(NSTableColumn *)aTableColumn
+    row:(NSInteger)rowIndex {
     [delegate_ renameSessionWithNumber:_model[rowIndex].number
-                                toName:(NSString *)anObject];
+               toName:(NSString *)anObject];
 }
 
 #pragma mark NSTableViewDataSource
 
 - (BOOL)tableView:(NSTableView *)aTableView
-               shouldEditTableColumn:(NSTableColumn *)aTableColumn
-                                 row:(NSInteger)rowIndex {
+    shouldEditTableColumn:(NSTableColumn *)aTableColumn
+    row:(NSInteger)rowIndex {
     return YES;
 }
 
@@ -169,8 +169,8 @@ extern NSString *kWindowPasteboardType;
 }
 
 - (BOOL)tableView:(NSTableView *)aTableView
-       acceptDrop:(id <NSDraggingInfo>)info
-              row:(NSInteger)row
+    acceptDrop:(id <NSDraggingInfo>)info
+    row:(NSInteger)row
     dropOperation:(NSTableViewDropOperation)operation {
     NSPasteboard *pb = [info draggingPasteboard];
     NSArray* pair = [pb propertyListForType:kWindowPasteboardType];
@@ -181,21 +181,21 @@ extern NSString *kWindowPasteboardType;
         NSNumber *windowId = [tuple objectAtIndex:1];
         if (info.draggingSourceOperationMask & NSDragOperationLink) {
             [delegate_ linkWindowId:[windowId intValue]
-                    inSessionNumber:sessionNumber.intValue
-                    toSessionNumber:targetSessionObject.number];
+                       inSessionNumber:sessionNumber.intValue
+                       toSessionNumber:targetSessionObject.number];
         } else {
             [delegate_ moveWindowId:[windowId intValue]
-                    inSessionNumber:sessionNumber.intValue
-                    toSessionNumber:targetSessionObject.number];
+                       inSessionNumber:sessionNumber.intValue
+                       toSessionNumber:targetSessionObject.number];
         }
     }
     return YES;
 }
 
 - (NSDragOperation)tableView:(NSTableView *)aTableView
-                validateDrop:(id < NSDraggingInfo >)info
-                 proposedRow:(NSInteger)row
-       proposedDropOperation:(NSTableViewDropOperation)operation
+    validateDrop:(id < NSDraggingInfo >)info
+    proposedRow:(NSInteger)row
+    proposedDropOperation:(NSTableViewDropOperation)operation
 {
     if (operation == NSTableViewDropOn) {
         if (info.draggingSourceOperationMask & NSDragOperationLink) {
@@ -222,8 +222,8 @@ extern NSString *kWindowPasteboardType;
 
 - (BOOL)haveSessionWithName:(NSString *)name {
     return [_model anyWithBlock:^BOOL(iTermTmuxSessionObject *anObject) {
-        return [anObject.name isEqualToString:name];
-    }];
+               return [anObject.name isEqualToString:name];
+           }];
 }
 
 - (NSString *)nameForNewSession {

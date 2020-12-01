@@ -18,9 +18,9 @@
 - (void)awakeFromNib {
     self.layoutAttribute = NSLayoutAttributeRight;
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(modifiersDidChange:)
-                                                 name:kPSMModifierChangedNotification
-                                               object:nil];
+                                          selector:@selector(modifiersDidChange:)
+                                          name:kPSMModifierChangedNotification
+                                          object:nil];
     if (@available(macOS 10.16, *)) {
         NSRect frame = _label.frame;
         frame.origin.y += 4;
@@ -60,11 +60,15 @@
     } else {
         NSMutableParagraphStyle *paragraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
         paragraphStyle.alignment = NSTextAlignmentRight;
-        NSDictionary *attributes = @{ NSFontAttributeName: _label.font,
-                                      NSForegroundColorAttributeName: [NSColor lightGrayColor],
-                                      NSParagraphStyleAttributeName: paragraphStyle };
+        NSDictionary *attributes = @ { NSFontAttributeName:
+                                       _label.font,
+                                       NSForegroundColorAttributeName:
+                                       [NSColor lightGrayColor],
+                                       NSParagraphStyleAttributeName:
+                                       paragraphStyle
+                                     };
         _label.attributedStringValue = [[[NSAttributedString alloc] initWithString:string
-                                                                        attributes:attributes] autorelease];
+                                                                     attributes:attributes] autorelease];
     }
 }
 
@@ -84,20 +88,20 @@
 
 + (NSString *)modifiersString {
     switch ([iTermPreferences intForKey:kPreferenceKeySwitchWindowModifier]) {
-        case kPreferenceModifierTagNone:
-            return nil;
+    case kPreferenceModifierTagNone:
+        return nil;
 
-        case kPreferencesModifierTagEitherCommand:
-            return [NSString stringForModifiersWithMask:NSEventModifierFlagCommand];
+    case kPreferencesModifierTagEitherCommand:
+        return [NSString stringForModifiersWithMask:NSEventModifierFlagCommand];
 
-        case kPreferencesModifierTagEitherOption:
-            return [NSString stringForModifiersWithMask:NSEventModifierFlagOption];
+    case kPreferencesModifierTagEitherOption:
+        return [NSString stringForModifiersWithMask:NSEventModifierFlagOption];
 
-        case kPreferencesModifierTagCommandAndOption:
-            return [NSString stringForModifiersWithMask:(NSEventModifierFlagCommand | NSEventModifierFlagOption)];
+    case kPreferencesModifierTagCommandAndOption:
+        return [NSString stringForModifiersWithMask:(NSEventModifierFlagCommand | NSEventModifierFlagOption)];
 
-        case kPreferencesModifierTagControl:
-            return [NSString stringForModifiersWithMask:NSEventModifierFlagControl];
+    case kPreferencesModifierTagControl:
+        return [NSString stringForModifiersWithMask:NSEventModifierFlagControl];
     }
 
     return @"";

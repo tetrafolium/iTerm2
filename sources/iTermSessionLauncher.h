@@ -61,24 +61,24 @@ NS_ASSUME_NONNULL_BEGIN
 // new session/tab to the window; otherwise the bookmark is used in conjunction with the optional
 // URL.
 + (void)launchBookmark:(nullable NSDictionary *)bookmarkData
-            inTerminal:(nullable PseudoTerminal *)theTerm
-               withURL:(nullable NSString *)url
-      hotkeyWindowType:(iTermHotkeyWindowType)hotkeyWindowType
-               makeKey:(BOOL)makeKey
-           canActivate:(BOOL)canActivate
+    inTerminal:(nullable PseudoTerminal *)theTerm
+    withURL:(nullable NSString *)url
+    hotkeyWindowType:(iTermHotkeyWindowType)hotkeyWindowType
+    makeKey:(BOOL)makeKey
+    canActivate:(BOOL)canActivate
     respectTabbingMode:(BOOL)respectTabbingMode
-               command:(nullable NSString *)command
-           makeSession:(void (^ _Nullable)(Profile *profile, PseudoTerminal *windowController, void (^completion)(PTYSession *)))makeSession
-        didMakeSession:(void (^ _Nullable)(PTYSession *))didMakeSession
-            completion:(void (^ _Nullable)(PTYSession *, BOOL))completion;
+    command:(nullable NSString *)command
+    makeSession:(void (^ _Nullable)(Profile *profile, PseudoTerminal *windowController, void (^completion)(PTYSession *)))makeSession
+    didMakeSession:(void (^ _Nullable)(PTYSession *))didMakeSession
+    completion:(void (^ _Nullable)(PTYSession *, BOOL))completion;
 
 + (void)launchBookmark:(nullable NSDictionary *)bookmarkData
-            inTerminal:(nullable PseudoTerminal *)theTerm
+    inTerminal:(nullable PseudoTerminal *)theTerm
     respectTabbingMode:(BOOL)respectTabbingMode
-            completion:(void (^ _Nullable)(PTYSession *session))completion;
+    completion:(void (^ _Nullable)(PTYSession *session))completion;
 
 - (instancetype)initWithProfile:(nullable Profile *)profile
-               windowController:(nullable PseudoTerminal *)windowController NS_DESIGNATED_INITIALIZER;
+    windowController:(nullable PseudoTerminal *)windowController NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 

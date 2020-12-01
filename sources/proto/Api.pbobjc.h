@@ -4,13 +4,13 @@
 // This CPP symbol can be defined to use imports that match up to the framework
 // imports needed when using CocoaPods.
 #if !defined(GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS)
- #define GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS 0
+#define GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS 0
 #endif
 
 #if GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS
- #import <Protobuf/GPBProtocolBuffers.h>
+#import <Protobuf/GPBProtocolBuffers.h>
 #else
- #import "GPBProtocolBuffers.h"
+#import "GPBProtocolBuffers.h"
 #endif
 
 #if GOOGLE_PROTOBUF_OBJC_VERSION < 30002
@@ -200,12 +200,12 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Enum ITMSelectionMode
 
 typedef GPB_ENUM(ITMSelectionMode) {
-  ITMSelectionMode_Character = 0,
-  ITMSelectionMode_Word = 1,
-  ITMSelectionMode_Line = 2,
-  ITMSelectionMode_Smart = 3,
-  ITMSelectionMode_Box = 4,
-  ITMSelectionMode_WholeLine = 5,
+    ITMSelectionMode_Character = 0,
+    ITMSelectionMode_Word = 1,
+    ITMSelectionMode_Line = 2,
+    ITMSelectionMode_Smart = 3,
+    ITMSelectionMode_Box = 4,
+    ITMSelectionMode_WholeLine = 5,
 };
 
 GPBEnumDescriptor *ITMSelectionMode_EnumDescriptor(void);
@@ -219,25 +219,25 @@ BOOL ITMSelectionMode_IsValidValue(int32_t value);
 #pragma mark - Enum ITMNotificationType
 
 typedef GPB_ENUM(ITMNotificationType) {
-  /** Notifications that use the `session` parameter. */
-  ITMNotificationType_NotifyOnKeystroke = 1,
-  ITMNotificationType_NotifyOnScreenUpdate = 2,
-  ITMNotificationType_NotifyOnPrompt = 3,
-  ITMNotificationType_NotifyOnLocationChange DEPRECATED_ATTRIBUTE = 4,
-  ITMNotificationType_NotifyOnCustomEscapeSequence = 5,
-  ITMNotificationType_NotifyOnVariableChange = 12,
+    /** Notifications that use the `session` parameter. */
+    ITMNotificationType_NotifyOnKeystroke = 1,
+    ITMNotificationType_NotifyOnScreenUpdate = 2,
+    ITMNotificationType_NotifyOnPrompt = 3,
+    ITMNotificationType_NotifyOnLocationChange DEPRECATED_ATTRIBUTE = 4,
+                                               ITMNotificationType_NotifyOnCustomEscapeSequence = 5,
+                                               ITMNotificationType_NotifyOnVariableChange = 12,
 
-  /** Does not send a notification */
-  ITMNotificationType_KeystrokeFilter = 14,
+                                               /** Does not send a notification */
+                                               ITMNotificationType_KeystrokeFilter = 14,
 
-  /** Notifications that ignore the `session` parameter. */
-  ITMNotificationType_NotifyOnNewSession = 6,
-  ITMNotificationType_NotifyOnTerminateSession = 7,
-  ITMNotificationType_NotifyOnLayoutChange = 8,
-  ITMNotificationType_NotifyOnFocusChange = 9,
-  ITMNotificationType_NotifyOnServerOriginatedRpc = 10,
-  ITMNotificationType_NotifyOnBroadcastChange = 11,
-  ITMNotificationType_NotifyOnProfileChange = 13,
+                                               /** Notifications that ignore the `session` parameter. */
+                                               ITMNotificationType_NotifyOnNewSession = 6,
+                                               ITMNotificationType_NotifyOnTerminateSession = 7,
+                                               ITMNotificationType_NotifyOnLayoutChange = 8,
+                                               ITMNotificationType_NotifyOnFocusChange = 9,
+                                               ITMNotificationType_NotifyOnServerOriginatedRpc = 10,
+                                               ITMNotificationType_NotifyOnBroadcastChange = 11,
+                                               ITMNotificationType_NotifyOnProfileChange = 13,
 };
 
 GPBEnumDescriptor *ITMNotificationType_EnumDescriptor(void);
@@ -251,12 +251,12 @@ BOOL ITMNotificationType_IsValidValue(int32_t value);
 #pragma mark - Enum ITMModifiers
 
 typedef GPB_ENUM(ITMModifiers) {
-  ITMModifiers_Control = 1,
-  ITMModifiers_Option = 2,
-  ITMModifiers_Command = 3,
-  ITMModifiers_Shift = 4,
-  ITMModifiers_Function = 5,
-  ITMModifiers_Numpad = 6,
+    ITMModifiers_Control = 1,
+    ITMModifiers_Option = 2,
+    ITMModifiers_Command = 3,
+    ITMModifiers_Shift = 4,
+    ITMModifiers_Function = 5,
+    ITMModifiers_Numpad = 6,
 };
 
 GPBEnumDescriptor *ITMModifiers_EnumDescriptor(void);
@@ -270,10 +270,10 @@ BOOL ITMModifiers_IsValidValue(int32_t value);
 #pragma mark - Enum ITMVariableScope
 
 typedef GPB_ENUM(ITMVariableScope) {
-  ITMVariableScope_Session = 1,
-  ITMVariableScope_Tab = 2,
-  ITMVariableScope_Window = 3,
-  ITMVariableScope_App = 4,
+    ITMVariableScope_Session = 1,
+    ITMVariableScope_Tab = 2,
+    ITMVariableScope_Window = 3,
+    ITMVariableScope_App = 4,
 };
 
 GPBEnumDescriptor *ITMVariableScope_EnumDescriptor(void);
@@ -287,9 +287,9 @@ BOOL ITMVariableScope_IsValidValue(int32_t value);
 #pragma mark - Enum ITMPromptMonitorMode
 
 typedef GPB_ENUM(ITMPromptMonitorMode) {
-  ITMPromptMonitorMode_Prompt = 1,
-  ITMPromptMonitorMode_CommandStart = 2,
-  ITMPromptMonitorMode_CommandEnd = 3,
+    ITMPromptMonitorMode_Prompt = 1,
+    ITMPromptMonitorMode_CommandStart = 2,
+    ITMPromptMonitorMode_CommandEnd = 3,
 };
 
 GPBEnumDescriptor *ITMPromptMonitorMode_EnumDescriptor(void);
@@ -303,10 +303,10 @@ BOOL ITMPromptMonitorMode_IsValidValue(int32_t value);
 #pragma mark - Enum ITMInvokeFunctionResponse_Status
 
 typedef GPB_ENUM(ITMInvokeFunctionResponse_Status) {
-  ITMInvokeFunctionResponse_Status_Timeout = 1,
-  ITMInvokeFunctionResponse_Status_Failed = 2,
-  ITMInvokeFunctionResponse_Status_RequestMalformed = 3,
-  ITMInvokeFunctionResponse_Status_InvalidId = 4,
+    ITMInvokeFunctionResponse_Status_Timeout = 1,
+    ITMInvokeFunctionResponse_Status_Failed = 2,
+    ITMInvokeFunctionResponse_Status_RequestMalformed = 3,
+    ITMInvokeFunctionResponse_Status_InvalidId = 4,
 };
 
 GPBEnumDescriptor *ITMInvokeFunctionResponse_Status_EnumDescriptor(void);
@@ -320,9 +320,9 @@ BOOL ITMInvokeFunctionResponse_Status_IsValidValue(int32_t value);
 #pragma mark - Enum ITMCloseResponse_Status
 
 typedef GPB_ENUM(ITMCloseResponse_Status) {
-  ITMCloseResponse_Status_Ok = 0,
-  ITMCloseResponse_Status_NotFound = 1,
-  ITMCloseResponse_Status_UserDeclined = 2,
+    ITMCloseResponse_Status_Ok = 0,
+    ITMCloseResponse_Status_NotFound = 1,
+    ITMCloseResponse_Status_UserDeclined = 2,
 };
 
 GPBEnumDescriptor *ITMCloseResponse_Status_EnumDescriptor(void);
@@ -336,10 +336,10 @@ BOOL ITMCloseResponse_Status_IsValidValue(int32_t value);
 #pragma mark - Enum ITMSetBroadcastDomainsResponse_Status
 
 typedef GPB_ENUM(ITMSetBroadcastDomainsResponse_Status) {
-  ITMSetBroadcastDomainsResponse_Status_Ok = 0,
-  ITMSetBroadcastDomainsResponse_Status_SessionNotFound = 1,
-  ITMSetBroadcastDomainsResponse_Status_BroadcastDomainsNotDisjoint = 2,
-  ITMSetBroadcastDomainsResponse_Status_SessionsNotInSameWindow = 3,
+    ITMSetBroadcastDomainsResponse_Status_Ok = 0,
+    ITMSetBroadcastDomainsResponse_Status_SessionNotFound = 1,
+    ITMSetBroadcastDomainsResponse_Status_BroadcastDomainsNotDisjoint = 2,
+    ITMSetBroadcastDomainsResponse_Status_SessionsNotInSameWindow = 3,
 };
 
 GPBEnumDescriptor *ITMSetBroadcastDomainsResponse_Status_EnumDescriptor(void);
@@ -353,10 +353,10 @@ BOOL ITMSetBroadcastDomainsResponse_Status_IsValidValue(int32_t value);
 #pragma mark - Enum ITMStatusBarComponentResponse_Status
 
 typedef GPB_ENUM(ITMStatusBarComponentResponse_Status) {
-  ITMStatusBarComponentResponse_Status_Ok = 0,
-  ITMStatusBarComponentResponse_Status_SessionNotFound = 1,
-  ITMStatusBarComponentResponse_Status_RequestMalformed = 2,
-  ITMStatusBarComponentResponse_Status_InvalidIdentifier = 3,
+    ITMStatusBarComponentResponse_Status_Ok = 0,
+    ITMStatusBarComponentResponse_Status_SessionNotFound = 1,
+    ITMStatusBarComponentResponse_Status_RequestMalformed = 2,
+    ITMStatusBarComponentResponse_Status_InvalidIdentifier = 3,
 };
 
 GPBEnumDescriptor *ITMStatusBarComponentResponse_Status_EnumDescriptor(void);
@@ -370,10 +370,10 @@ BOOL ITMStatusBarComponentResponse_Status_IsValidValue(int32_t value);
 #pragma mark - Enum ITMSelectionResponse_Status
 
 typedef GPB_ENUM(ITMSelectionResponse_Status) {
-  ITMSelectionResponse_Status_Ok = 0,
-  ITMSelectionResponse_Status_InvalidSession = 1,
-  ITMSelectionResponse_Status_InvalidRange = 2,
-  ITMSelectionResponse_Status_RequestMalformed = 3,
+    ITMSelectionResponse_Status_Ok = 0,
+    ITMSelectionResponse_Status_InvalidSession = 1,
+    ITMSelectionResponse_Status_InvalidRange = 2,
+    ITMSelectionResponse_Status_RequestMalformed = 3,
 };
 
 GPBEnumDescriptor *ITMSelectionResponse_Status_EnumDescriptor(void);
@@ -387,9 +387,9 @@ BOOL ITMSelectionResponse_Status_IsValidValue(int32_t value);
 #pragma mark - Enum ITMColorPresetResponse_Status
 
 typedef GPB_ENUM(ITMColorPresetResponse_Status) {
-  ITMColorPresetResponse_Status_Ok = 0,
-  ITMColorPresetResponse_Status_PresetNotFound = 1,
-  ITMColorPresetResponse_Status_RequestMalformed = 2,
+    ITMColorPresetResponse_Status_Ok = 0,
+    ITMColorPresetResponse_Status_PresetNotFound = 1,
+    ITMColorPresetResponse_Status_RequestMalformed = 2,
 };
 
 GPBEnumDescriptor *ITMColorPresetResponse_Status_EnumDescriptor(void);
@@ -403,11 +403,11 @@ BOOL ITMColorPresetResponse_Status_IsValidValue(int32_t value);
 #pragma mark - Enum ITMPreferencesResponse_Result_SetPreferenceResult_Status
 
 typedef GPB_ENUM(ITMPreferencesResponse_Result_SetPreferenceResult_Status) {
-  ITMPreferencesResponse_Result_SetPreferenceResult_Status_Ok = 0,
-  ITMPreferencesResponse_Result_SetPreferenceResult_Status_BadJson = 1,
+    ITMPreferencesResponse_Result_SetPreferenceResult_Status_Ok = 0,
+    ITMPreferencesResponse_Result_SetPreferenceResult_Status_BadJson = 1,
 
-  /** Not legal for a plist */
-  ITMPreferencesResponse_Result_SetPreferenceResult_Status_InvalidValue = 2,
+    /** Not legal for a plist */
+    ITMPreferencesResponse_Result_SetPreferenceResult_Status_InvalidValue = 2,
 };
 
 GPBEnumDescriptor *ITMPreferencesResponse_Result_SetPreferenceResult_Status_EnumDescriptor(void);
@@ -421,8 +421,8 @@ BOOL ITMPreferencesResponse_Result_SetPreferenceResult_Status_IsValidValue(int32
 #pragma mark - Enum ITMPreferencesResponse_Result_SetDefaultProfileResult_Status
 
 typedef GPB_ENUM(ITMPreferencesResponse_Result_SetDefaultProfileResult_Status) {
-  ITMPreferencesResponse_Result_SetDefaultProfileResult_Status_Ok = 0,
-  ITMPreferencesResponse_Result_SetDefaultProfileResult_Status_BadGuid = 1,
+    ITMPreferencesResponse_Result_SetDefaultProfileResult_Status_Ok = 0,
+    ITMPreferencesResponse_Result_SetDefaultProfileResult_Status_BadGuid = 1,
 };
 
 GPBEnumDescriptor *ITMPreferencesResponse_Result_SetDefaultProfileResult_Status_EnumDescriptor(void);
@@ -436,12 +436,12 @@ BOOL ITMPreferencesResponse_Result_SetDefaultProfileResult_Status_IsValidValue(i
 #pragma mark - Enum ITMReorderTabsResponse_Status
 
 typedef GPB_ENUM(ITMReorderTabsResponse_Status) {
-  ITMReorderTabsResponse_Status_Ok = 0,
+    ITMReorderTabsResponse_Status_Ok = 0,
 
-  /** e.g., duplicate tab id */
-  ITMReorderTabsResponse_Status_InvalidAssignment = 1,
-  ITMReorderTabsResponse_Status_InvalidWindowId = 2,
-  ITMReorderTabsResponse_Status_InvalidTabId = 3,
+    /** e.g., duplicate tab id */
+    ITMReorderTabsResponse_Status_InvalidAssignment = 1,
+    ITMReorderTabsResponse_Status_InvalidWindowId = 2,
+    ITMReorderTabsResponse_Status_InvalidTabId = 3,
 };
 
 GPBEnumDescriptor *ITMReorderTabsResponse_Status_EnumDescriptor(void);
@@ -455,10 +455,10 @@ BOOL ITMReorderTabsResponse_Status_IsValidValue(int32_t value);
 #pragma mark - Enum ITMTmuxResponse_Status
 
 typedef GPB_ENUM(ITMTmuxResponse_Status) {
-  ITMTmuxResponse_Status_Ok = 0,
-  ITMTmuxResponse_Status_InvalidRequest = 1,
-  ITMTmuxResponse_Status_InvalidConnectionId = 2,
-  ITMTmuxResponse_Status_InvalidWindowId = 3,
+    ITMTmuxResponse_Status_Ok = 0,
+    ITMTmuxResponse_Status_InvalidRequest = 1,
+    ITMTmuxResponse_Status_InvalidConnectionId = 2,
+    ITMTmuxResponse_Status_InvalidWindowId = 3,
 };
 
 GPBEnumDescriptor *ITMTmuxResponse_Status_EnumDescriptor(void);
@@ -472,10 +472,10 @@ BOOL ITMTmuxResponse_Status_IsValidValue(int32_t value);
 #pragma mark - Enum ITMSetTabLayoutResponse_Status
 
 typedef GPB_ENUM(ITMSetTabLayoutResponse_Status) {
-  ITMSetTabLayoutResponse_Status_Ok = 0,
-  ITMSetTabLayoutResponse_Status_BadTabId = 1,
-  ITMSetTabLayoutResponse_Status_WrongTree = 2,
-  ITMSetTabLayoutResponse_Status_InvalidSize = 3,
+    ITMSetTabLayoutResponse_Status_Ok = 0,
+    ITMSetTabLayoutResponse_Status_BadTabId = 1,
+    ITMSetTabLayoutResponse_Status_WrongTree = 2,
+    ITMSetTabLayoutResponse_Status_InvalidSize = 3,
 };
 
 GPBEnumDescriptor *ITMSetTabLayoutResponse_Status_EnumDescriptor(void);
@@ -489,9 +489,9 @@ BOOL ITMSetTabLayoutResponse_Status_IsValidValue(int32_t value);
 #pragma mark - Enum ITMMenuItemResponse_Status
 
 typedef GPB_ENUM(ITMMenuItemResponse_Status) {
-  ITMMenuItemResponse_Status_Ok = 0,
-  ITMMenuItemResponse_Status_BadIdentifier = 1,
-  ITMMenuItemResponse_Status_Disabled = 2,
+    ITMMenuItemResponse_Status_Ok = 0,
+    ITMMenuItemResponse_Status_BadIdentifier = 1,
+    ITMMenuItemResponse_Status_Disabled = 2,
 };
 
 GPBEnumDescriptor *ITMMenuItemResponse_Status_EnumDescriptor(void);
@@ -505,15 +505,15 @@ BOOL ITMMenuItemResponse_Status_IsValidValue(int32_t value);
 #pragma mark - Enum ITMRestartSessionResponse_Status
 
 typedef GPB_ENUM(ITMRestartSessionResponse_Status) {
-  ITMRestartSessionResponse_Status_Ok = 0,
-  ITMRestartSessionResponse_Status_SessionNotFound = 1,
+    ITMRestartSessionResponse_Status_Ok = 0,
+    ITMRestartSessionResponse_Status_SessionNotFound = 1,
 
-  /**
-   * Some sessions, such as tmux integration sessions, are not restartable.
-   * Also, when `only_if_exited` is set in the request and the session is still running then this
-   * status will be returned.
-   **/
-  ITMRestartSessionResponse_Status_SessionNotRestartable = 2,
+    /**
+     * Some sessions, such as tmux integration sessions, are not restartable.
+     * Also, when `only_if_exited` is set in the request and the session is still running then this
+     * status will be returned.
+     **/
+    ITMRestartSessionResponse_Status_SessionNotRestartable = 2,
 };
 
 GPBEnumDescriptor *ITMRestartSessionResponse_Status_EnumDescriptor(void);
@@ -527,14 +527,14 @@ BOOL ITMRestartSessionResponse_Status_IsValidValue(int32_t value);
 #pragma mark - Enum ITMSavedArrangementRequest_Action
 
 typedef GPB_ENUM(ITMSavedArrangementRequest_Action) {
-  /** Restore an existing arrangement with the given name */
-  ITMSavedArrangementRequest_Action_Restore = 0,
+    /** Restore an existing arrangement with the given name */
+    ITMSavedArrangementRequest_Action_Restore = 0,
 
-  /** Save windows to a new arrangement with the given name */
-  ITMSavedArrangementRequest_Action_Save = 1,
+    /** Save windows to a new arrangement with the given name */
+    ITMSavedArrangementRequest_Action_Save = 1,
 
-  /** List arrangements */
-  ITMSavedArrangementRequest_Action_List = 2,
+    /** List arrangements */
+    ITMSavedArrangementRequest_Action_List = 2,
 };
 
 GPBEnumDescriptor *ITMSavedArrangementRequest_Action_EnumDescriptor(void);
@@ -548,14 +548,14 @@ BOOL ITMSavedArrangementRequest_Action_IsValidValue(int32_t value);
 #pragma mark - Enum ITMSavedArrangementResponse_Status
 
 typedef GPB_ENUM(ITMSavedArrangementResponse_Status) {
-  ITMSavedArrangementResponse_Status_Ok = 0,
+    ITMSavedArrangementResponse_Status_Ok = 0,
 
-  /** Tried to restore, but name doesn't exist */
-  ITMSavedArrangementResponse_Status_ArrangementNotFound = 1,
+    /** Tried to restore, but name doesn't exist */
+    ITMSavedArrangementResponse_Status_ArrangementNotFound = 1,
 
-  /** Bad window ID provided */
-  ITMSavedArrangementResponse_Status_WindowNotFound = 2,
-  ITMSavedArrangementResponse_Status_RequestMalformed = 3,
+    /** Bad window ID provided */
+    ITMSavedArrangementResponse_Status_WindowNotFound = 2,
+    ITMSavedArrangementResponse_Status_RequestMalformed = 3,
 };
 
 GPBEnumDescriptor *ITMSavedArrangementResponse_Status_EnumDescriptor(void);
@@ -569,17 +569,17 @@ BOOL ITMSavedArrangementResponse_Status_IsValidValue(int32_t value);
 #pragma mark - Enum ITMVariableResponse_Status
 
 typedef GPB_ENUM(ITMVariableResponse_Status) {
-  ITMVariableResponse_Status_Ok = 0,
-  ITMVariableResponse_Status_SessionNotFound = 1,
+    ITMVariableResponse_Status_Ok = 0,
+    ITMVariableResponse_Status_SessionNotFound = 1,
 
-  /** Names you set must begin with "user." */
-  ITMVariableResponse_Status_InvalidName = 2,
+    /** Names you set must begin with "user." */
+    ITMVariableResponse_Status_InvalidName = 2,
 
-  /** None of the scope oneof fields was set */
-  ITMVariableResponse_Status_MissingScope = 3,
-  ITMVariableResponse_Status_TabNotFound = 4,
-  ITMVariableResponse_Status_MultiGetDisallowed = 5,
-  ITMVariableResponse_Status_WindowNotFound = 6,
+    /** None of the scope oneof fields was set */
+    ITMVariableResponse_Status_MissingScope = 3,
+    ITMVariableResponse_Status_TabNotFound = 4,
+    ITMVariableResponse_Status_MultiGetDisallowed = 5,
+    ITMVariableResponse_Status_WindowNotFound = 6,
 };
 
 GPBEnumDescriptor *ITMVariableResponse_Status_EnumDescriptor(void);
@@ -593,9 +593,9 @@ BOOL ITMVariableResponse_Status_IsValidValue(int32_t value);
 #pragma mark - Enum ITMActivateResponse_Status
 
 typedef GPB_ENUM(ITMActivateResponse_Status) {
-  ITMActivateResponse_Status_Ok = 0,
-  ITMActivateResponse_Status_BadIdentifier = 1,
-  ITMActivateResponse_Status_InvalidOption = 2,
+    ITMActivateResponse_Status_Ok = 0,
+    ITMActivateResponse_Status_BadIdentifier = 1,
+    ITMActivateResponse_Status_InvalidOption = 2,
 };
 
 GPBEnumDescriptor *ITMActivateResponse_Status_EnumDescriptor(void);
@@ -609,8 +609,8 @@ BOOL ITMActivateResponse_Status_IsValidValue(int32_t value);
 #pragma mark - Enum ITMInjectResponse_Status
 
 typedef GPB_ENUM(ITMInjectResponse_Status) {
-  ITMInjectResponse_Status_Ok = 0,
-  ITMInjectResponse_Status_SessionNotFound = 1,
+    ITMInjectResponse_Status_Ok = 0,
+    ITMInjectResponse_Status_SessionNotFound = 1,
 };
 
 GPBEnumDescriptor *ITMInjectResponse_Status_EnumDescriptor(void);
@@ -624,9 +624,9 @@ BOOL ITMInjectResponse_Status_IsValidValue(int32_t value);
 #pragma mark - Enum ITMGetPropertyResponse_Status
 
 typedef GPB_ENUM(ITMGetPropertyResponse_Status) {
-  ITMGetPropertyResponse_Status_Ok = 0,
-  ITMGetPropertyResponse_Status_UnrecognizedName = 1,
-  ITMGetPropertyResponse_Status_InvalidTarget = 2,
+    ITMGetPropertyResponse_Status_Ok = 0,
+    ITMGetPropertyResponse_Status_UnrecognizedName = 1,
+    ITMGetPropertyResponse_Status_InvalidTarget = 2,
 };
 
 GPBEnumDescriptor *ITMGetPropertyResponse_Status_EnumDescriptor(void);
@@ -640,23 +640,23 @@ BOOL ITMGetPropertyResponse_Status_IsValidValue(int32_t value);
 #pragma mark - Enum ITMSetPropertyResponse_Status
 
 typedef GPB_ENUM(ITMSetPropertyResponse_Status) {
-  ITMSetPropertyResponse_Status_Ok = 0,
-  ITMSetPropertyResponse_Status_UnrecognizedName = 1,
+    ITMSetPropertyResponse_Status_Ok = 0,
+    ITMSetPropertyResponse_Status_UnrecognizedName = 1,
 
-  /** e.g., bad JSON value */
-  ITMSetPropertyResponse_Status_InvalidValue = 2,
+    /** e.g., bad JSON value */
+    ITMSetPropertyResponse_Status_InvalidValue = 2,
 
-  /** e.g., bogus window_id */
-  ITMSetPropertyResponse_Status_InvalidTarget = 3,
+    /** e.g., bogus window_id */
+    ITMSetPropertyResponse_Status_InvalidTarget = 3,
 
-  /** Operation can't be performed immediately. Will be tried later. For example, resizing a session during instant replay. */
-  ITMSetPropertyResponse_Status_Deferred = 4,
+    /** Operation can't be performed immediately. Will be tried later. For example, resizing a session during instant replay. */
+    ITMSetPropertyResponse_Status_Deferred = 4,
 
-  /** Can't be done. For example, resizing a session in a full-screen window. */
-  ITMSetPropertyResponse_Status_Impossible = 5,
+    /** Can't be done. For example, resizing a session in a full-screen window. */
+    ITMSetPropertyResponse_Status_Impossible = 5,
 
-  /** Did our best and failed. For example, sometimes toggling full-screen fails if another window is also toggling. Maybe try again? */
-  ITMSetPropertyResponse_Status_Failed = 6,
+    /** Did our best and failed. For example, sometimes toggling full-screen fails if another window is also toggling. Maybe try again? */
+    ITMSetPropertyResponse_Status_Failed = 6,
 };
 
 GPBEnumDescriptor *ITMSetPropertyResponse_Status_EnumDescriptor(void);
@@ -670,7 +670,7 @@ BOOL ITMSetPropertyResponse_Status_IsValidValue(int32_t value);
 #pragma mark - Enum ITMRegisterToolRequest_ToolType
 
 typedef GPB_ENUM(ITMRegisterToolRequest_ToolType) {
-  ITMRegisterToolRequest_ToolType_WebViewTool = 1,
+    ITMRegisterToolRequest_ToolType_WebViewTool = 1,
 };
 
 GPBEnumDescriptor *ITMRegisterToolRequest_ToolType_EnumDescriptor(void);
@@ -684,10 +684,10 @@ BOOL ITMRegisterToolRequest_ToolType_IsValidValue(int32_t value);
 #pragma mark - Enum ITMRPCRegistrationRequest_Role
 
 typedef GPB_ENUM(ITMRPCRegistrationRequest_Role) {
-  ITMRPCRegistrationRequest_Role_Generic = 1,
-  ITMRPCRegistrationRequest_Role_SessionTitle = 2,
-  ITMRPCRegistrationRequest_Role_StatusBarComponent = 3,
-  ITMRPCRegistrationRequest_Role_ContextMenu = 4,
+    ITMRPCRegistrationRequest_Role_Generic = 1,
+    ITMRPCRegistrationRequest_Role_SessionTitle = 2,
+    ITMRPCRegistrationRequest_Role_StatusBarComponent = 3,
+    ITMRPCRegistrationRequest_Role_ContextMenu = 4,
 };
 
 GPBEnumDescriptor *ITMRPCRegistrationRequest_Role_EnumDescriptor(void);
@@ -701,10 +701,10 @@ BOOL ITMRPCRegistrationRequest_Role_IsValidValue(int32_t value);
 #pragma mark - Enum ITMRPCRegistrationRequest_StatusBarComponentAttributes_Knob_Type
 
 typedef GPB_ENUM(ITMRPCRegistrationRequest_StatusBarComponentAttributes_Knob_Type) {
-  ITMRPCRegistrationRequest_StatusBarComponentAttributes_Knob_Type_Checkbox = 1,
-  ITMRPCRegistrationRequest_StatusBarComponentAttributes_Knob_Type_String = 2,
-  ITMRPCRegistrationRequest_StatusBarComponentAttributes_Knob_Type_PositiveFloatingPoint = 3,
-  ITMRPCRegistrationRequest_StatusBarComponentAttributes_Knob_Type_Color = 4,
+    ITMRPCRegistrationRequest_StatusBarComponentAttributes_Knob_Type_Checkbox = 1,
+    ITMRPCRegistrationRequest_StatusBarComponentAttributes_Knob_Type_String = 2,
+    ITMRPCRegistrationRequest_StatusBarComponentAttributes_Knob_Type_PositiveFloatingPoint = 3,
+    ITMRPCRegistrationRequest_StatusBarComponentAttributes_Knob_Type_Color = 4,
 };
 
 GPBEnumDescriptor *ITMRPCRegistrationRequest_StatusBarComponentAttributes_Knob_Type_EnumDescriptor(void);
@@ -718,9 +718,9 @@ BOOL ITMRPCRegistrationRequest_StatusBarComponentAttributes_Knob_Type_IsValidVal
 #pragma mark - Enum ITMRegisterToolResponse_Status
 
 typedef GPB_ENUM(ITMRegisterToolResponse_Status) {
-  ITMRegisterToolResponse_Status_Ok = 0,
-  ITMRegisterToolResponse_Status_RequestMalformed = 1,
-  ITMRegisterToolResponse_Status_PermissionDenied = 2,
+    ITMRegisterToolResponse_Status_Ok = 0,
+    ITMRegisterToolResponse_Status_RequestMalformed = 1,
+    ITMRegisterToolResponse_Status_PermissionDenied = 2,
 };
 
 GPBEnumDescriptor *ITMRegisterToolResponse_Status_EnumDescriptor(void);
@@ -734,13 +734,13 @@ BOOL ITMRegisterToolResponse_Status_IsValidValue(int32_t value);
 #pragma mark - Enum ITMNotificationResponse_Status
 
 typedef GPB_ENUM(ITMNotificationResponse_Status) {
-  ITMNotificationResponse_Status_Ok = 0,
-  ITMNotificationResponse_Status_SessionNotFound = 1,
-  ITMNotificationResponse_Status_RequestMalformed = 2,
-  ITMNotificationResponse_Status_NotSubscribed = 3,
-  ITMNotificationResponse_Status_AlreadySubscribed = 4,
-  ITMNotificationResponse_Status_DuplicateServerOriginatedRpc = 5,
-  ITMNotificationResponse_Status_InvalidIdentifier = 6,
+    ITMNotificationResponse_Status_Ok = 0,
+    ITMNotificationResponse_Status_SessionNotFound = 1,
+    ITMNotificationResponse_Status_RequestMalformed = 2,
+    ITMNotificationResponse_Status_NotSubscribed = 3,
+    ITMNotificationResponse_Status_AlreadySubscribed = 4,
+    ITMNotificationResponse_Status_DuplicateServerOriginatedRpc = 5,
+    ITMNotificationResponse_Status_InvalidIdentifier = 6,
 };
 
 GPBEnumDescriptor *ITMNotificationResponse_Status_EnumDescriptor(void);
@@ -754,14 +754,14 @@ BOOL ITMNotificationResponse_Status_IsValidValue(int32_t value);
 #pragma mark - Enum ITMFocusChangedNotification_Window_WindowStatus
 
 typedef GPB_ENUM(ITMFocusChangedNotification_Window_WindowStatus) {
-  /** `window_id` became key */
-  ITMFocusChangedNotification_Window_WindowStatus_TerminalWindowBecameKey = 0,
+    /** `window_id` became key */
+    ITMFocusChangedNotification_Window_WindowStatus_TerminalWindowBecameKey = 0,
 
-  /** `window_id` is not key, but is the current terminal window. Some other non-terminal window is key. */
-  ITMFocusChangedNotification_Window_WindowStatus_TerminalWindowIsCurrent = 1,
+    /** `window_id` is not key, but is the current terminal window. Some other non-terminal window is key. */
+    ITMFocusChangedNotification_Window_WindowStatus_TerminalWindowIsCurrent = 1,
 
-  /** `window_id` is no longer key. */
-  ITMFocusChangedNotification_Window_WindowStatus_TerminalWindowResignedKey = 2,
+    /** `window_id` is no longer key. */
+    ITMFocusChangedNotification_Window_WindowStatus_TerminalWindowResignedKey = 2,
 };
 
 GPBEnumDescriptor *ITMFocusChangedNotification_Window_WindowStatus_EnumDescriptor(void);
@@ -775,10 +775,10 @@ BOOL ITMFocusChangedNotification_Window_WindowStatus_IsValidValue(int32_t value)
 #pragma mark - Enum ITMGetBufferResponse_Status
 
 typedef GPB_ENUM(ITMGetBufferResponse_Status) {
-  ITMGetBufferResponse_Status_Ok = 0,
-  ITMGetBufferResponse_Status_SessionNotFound = 1,
-  ITMGetBufferResponse_Status_InvalidLineRange = 2,
-  ITMGetBufferResponse_Status_RequestMalformed = 3,
+    ITMGetBufferResponse_Status_Ok = 0,
+    ITMGetBufferResponse_Status_SessionNotFound = 1,
+    ITMGetBufferResponse_Status_InvalidLineRange = 2,
+    ITMGetBufferResponse_Status_RequestMalformed = 3,
 };
 
 GPBEnumDescriptor *ITMGetBufferResponse_Status_EnumDescriptor(void);
@@ -792,10 +792,10 @@ BOOL ITMGetBufferResponse_Status_IsValidValue(int32_t value);
 #pragma mark - Enum ITMGetPromptResponse_Status
 
 typedef GPB_ENUM(ITMGetPromptResponse_Status) {
-  ITMGetPromptResponse_Status_Ok = 0,
-  ITMGetPromptResponse_Status_SessionNotFound = 1,
-  ITMGetPromptResponse_Status_RequestMalformed = 2,
-  ITMGetPromptResponse_Status_PromptUnavailable = 3,
+    ITMGetPromptResponse_Status_Ok = 0,
+    ITMGetPromptResponse_Status_SessionNotFound = 1,
+    ITMGetPromptResponse_Status_RequestMalformed = 2,
+    ITMGetPromptResponse_Status_PromptUnavailable = 3,
 };
 
 GPBEnumDescriptor *ITMGetPromptResponse_Status_EnumDescriptor(void);
@@ -809,14 +809,14 @@ BOOL ITMGetPromptResponse_Status_IsValidValue(int32_t value);
 #pragma mark - Enum ITMGetPromptResponse_State
 
 typedef GPB_ENUM(ITMGetPromptResponse_State) {
-  /** Command hasn't been started yet */
-  ITMGetPromptResponse_State_Editing = 0,
+    /** Command hasn't been started yet */
+    ITMGetPromptResponse_State_Editing = 0,
 
-  /** Command is currently running */
-  ITMGetPromptResponse_State_Running = 1,
+    /** Command is currently running */
+    ITMGetPromptResponse_State_Running = 1,
 
-  /** Command has finished. */
-  ITMGetPromptResponse_State_Finished = 2,
+    /** Command has finished. */
+    ITMGetPromptResponse_State_Finished = 2,
 };
 
 GPBEnumDescriptor *ITMGetPromptResponse_State_EnumDescriptor(void);
@@ -830,8 +830,8 @@ BOOL ITMGetPromptResponse_State_IsValidValue(int32_t value);
 #pragma mark - Enum ITMListPromptsResponse_Status
 
 typedef GPB_ENUM(ITMListPromptsResponse_Status) {
-  ITMListPromptsResponse_Status_Ok = 0,
-  ITMListPromptsResponse_Status_SessionNotFound = 1,
+    ITMListPromptsResponse_Status_Ok = 0,
+    ITMListPromptsResponse_Status_SessionNotFound = 1,
 };
 
 GPBEnumDescriptor *ITMListPromptsResponse_Status_EnumDescriptor(void);
@@ -845,10 +845,10 @@ BOOL ITMListPromptsResponse_Status_IsValidValue(int32_t value);
 #pragma mark - Enum ITMGetProfilePropertyResponse_Status
 
 typedef GPB_ENUM(ITMGetProfilePropertyResponse_Status) {
-  ITMGetProfilePropertyResponse_Status_Ok = 0,
-  ITMGetProfilePropertyResponse_Status_SessionNotFound = 1,
-  ITMGetProfilePropertyResponse_Status_RequestMalformed = 2,
-  ITMGetProfilePropertyResponse_Status_Error = 3,
+    ITMGetProfilePropertyResponse_Status_Ok = 0,
+    ITMGetProfilePropertyResponse_Status_SessionNotFound = 1,
+    ITMGetProfilePropertyResponse_Status_RequestMalformed = 2,
+    ITMGetProfilePropertyResponse_Status_Error = 3,
 };
 
 GPBEnumDescriptor *ITMGetProfilePropertyResponse_Status_EnumDescriptor(void);
@@ -862,10 +862,10 @@ BOOL ITMGetProfilePropertyResponse_Status_IsValidValue(int32_t value);
 #pragma mark - Enum ITMSetProfilePropertyResponse_Status
 
 typedef GPB_ENUM(ITMSetProfilePropertyResponse_Status) {
-  ITMSetProfilePropertyResponse_Status_Ok = 0,
-  ITMSetProfilePropertyResponse_Status_SessionNotFound = 1,
-  ITMSetProfilePropertyResponse_Status_RequestMalformed = 2,
-  ITMSetProfilePropertyResponse_Status_BadGuid = 3,
+    ITMSetProfilePropertyResponse_Status_Ok = 0,
+    ITMSetProfilePropertyResponse_Status_SessionNotFound = 1,
+    ITMSetProfilePropertyResponse_Status_RequestMalformed = 2,
+    ITMSetProfilePropertyResponse_Status_BadGuid = 3,
 };
 
 GPBEnumDescriptor *ITMSetProfilePropertyResponse_Status_EnumDescriptor(void);
@@ -879,9 +879,9 @@ BOOL ITMSetProfilePropertyResponse_Status_IsValidValue(int32_t value);
 #pragma mark - Enum ITMTransactionResponse_Status
 
 typedef GPB_ENUM(ITMTransactionResponse_Status) {
-  ITMTransactionResponse_Status_Ok = 0,
-  ITMTransactionResponse_Status_NoTransaction = 1,
-  ITMTransactionResponse_Status_AlreadyInTransaction = 2,
+    ITMTransactionResponse_Status_Ok = 0,
+    ITMTransactionResponse_Status_NoTransaction = 1,
+    ITMTransactionResponse_Status_AlreadyInTransaction = 2,
 };
 
 GPBEnumDescriptor *ITMTransactionResponse_Status_EnumDescriptor(void);
@@ -896,11 +896,11 @@ BOOL ITMTransactionResponse_Status_IsValidValue(int32_t value);
 
 /** How does this line end? */
 typedef GPB_ENUM(ITMLineContents_Continuation) {
-  /** This line is not wrapped. */
-  ITMLineContents_Continuation_ContinuationHardEol = 1,
+    /** This line is not wrapped. */
+    ITMLineContents_Continuation_ContinuationHardEol = 1,
 
-  /** The next line is a continuation of this line. */
-  ITMLineContents_Continuation_ContinuationSoftEol = 2,
+    /** The next line is a continuation of this line. */
+    ITMLineContents_Continuation_ContinuationSoftEol = 2,
 };
 
 GPBEnumDescriptor *ITMLineContents_Continuation_EnumDescriptor(void);
@@ -914,8 +914,8 @@ BOOL ITMLineContents_Continuation_IsValidValue(int32_t value);
 #pragma mark - Enum ITMSendTextResponse_Status
 
 typedef GPB_ENUM(ITMSendTextResponse_Status) {
-  ITMSendTextResponse_Status_Ok = 0,
-  ITMSendTextResponse_Status_SessionNotFound = 1,
+    ITMSendTextResponse_Status_Ok = 0,
+    ITMSendTextResponse_Status_SessionNotFound = 1,
 };
 
 GPBEnumDescriptor *ITMSendTextResponse_Status_EnumDescriptor(void);
@@ -929,15 +929,15 @@ BOOL ITMSendTextResponse_Status_IsValidValue(int32_t value);
 #pragma mark - Enum ITMCreateTabResponse_Status
 
 typedef GPB_ENUM(ITMCreateTabResponse_Status) {
-  ITMCreateTabResponse_Status_Ok = 0,
-  ITMCreateTabResponse_Status_InvalidProfileName = 1,
-  ITMCreateTabResponse_Status_InvalidWindowId = 2,
+    ITMCreateTabResponse_Status_Ok = 0,
+    ITMCreateTabResponse_Status_InvalidProfileName = 1,
+    ITMCreateTabResponse_Status_InvalidWindowId = 2,
 
-  /** The tab is still created, just not with the desired index. */
-  ITMCreateTabResponse_Status_InvalidTabIndex = 3,
+    /** The tab is still created, just not with the desired index. */
+    ITMCreateTabResponse_Status_InvalidTabIndex = 3,
 
-  /** A $VAR$ substitution was not provided by the user. */
-  ITMCreateTabResponse_Status_MissingSubstitution = 4,
+    /** A $VAR$ substitution was not provided by the user. */
+    ITMCreateTabResponse_Status_MissingSubstitution = 4,
 };
 
 GPBEnumDescriptor *ITMCreateTabResponse_Status_EnumDescriptor(void);
@@ -951,8 +951,8 @@ BOOL ITMCreateTabResponse_Status_IsValidValue(int32_t value);
 #pragma mark - Enum ITMSplitPaneRequest_SplitDirection
 
 typedef GPB_ENUM(ITMSplitPaneRequest_SplitDirection) {
-  ITMSplitPaneRequest_SplitDirection_Vertical = 0,
-  ITMSplitPaneRequest_SplitDirection_Horizontal = 1,
+    ITMSplitPaneRequest_SplitDirection_Vertical = 0,
+    ITMSplitPaneRequest_SplitDirection_Horizontal = 1,
 };
 
 GPBEnumDescriptor *ITMSplitPaneRequest_SplitDirection_EnumDescriptor(void);
@@ -966,19 +966,19 @@ BOOL ITMSplitPaneRequest_SplitDirection_IsValidValue(int32_t value);
 #pragma mark - Enum ITMSplitPaneResponse_Status
 
 typedef GPB_ENUM(ITMSplitPaneResponse_Status) {
-  ITMSplitPaneResponse_Status_Ok = 0,
-  ITMSplitPaneResponse_Status_SessionNotFound = 1,
-  ITMSplitPaneResponse_Status_InvalidProfileName = 2,
+    ITMSplitPaneResponse_Status_Ok = 0,
+    ITMSplitPaneResponse_Status_SessionNotFound = 1,
+    ITMSplitPaneResponse_Status_InvalidProfileName = 2,
 
-  /**
-   * This can happen if the session to be split is too small. If splitting multiple sessions and
-   * one or more cannot be split, the status will be set to CANNOT_SPLIT, even if some did succeed
-   * (in which case there will be one or more session_id's).
-   **/
-  ITMSplitPaneResponse_Status_CannotSplit = 3,
+    /**
+     * This can happen if the session to be split is too small. If splitting multiple sessions and
+     * one or more cannot be split, the status will be set to CANNOT_SPLIT, even if some did succeed
+     * (in which case there will be one or more session_id's).
+     **/
+    ITMSplitPaneResponse_Status_CannotSplit = 3,
 
-  /** Couldn't decode JSON */
-  ITMSplitPaneResponse_Status_MalformedCustomProfileProperty = 4,
+    /** Couldn't decode JSON */
+    ITMSplitPaneResponse_Status_MalformedCustomProfileProperty = 4,
 };
 
 GPBEnumDescriptor *ITMSplitPaneResponse_Status_EnumDescriptor(void);
@@ -1007,79 +1007,79 @@ BOOL ITMSplitPaneResponse_Status_IsValidValue(int32_t value);
 #pragma mark - ITMClientOriginatedMessage
 
 typedef GPB_ENUM(ITMClientOriginatedMessage_FieldNumber) {
-  ITMClientOriginatedMessage_FieldNumber_Id_p = 1,
-  ITMClientOriginatedMessage_FieldNumber_GetBufferRequest = 100,
-  ITMClientOriginatedMessage_FieldNumber_GetPromptRequest = 101,
-  ITMClientOriginatedMessage_FieldNumber_TransactionRequest = 102,
-  ITMClientOriginatedMessage_FieldNumber_NotificationRequest = 103,
-  ITMClientOriginatedMessage_FieldNumber_RegisterToolRequest = 104,
-  ITMClientOriginatedMessage_FieldNumber_SetProfilePropertyRequest = 105,
-  ITMClientOriginatedMessage_FieldNumber_ListSessionsRequest = 106,
-  ITMClientOriginatedMessage_FieldNumber_SendTextRequest = 107,
-  ITMClientOriginatedMessage_FieldNumber_CreateTabRequest = 108,
-  ITMClientOriginatedMessage_FieldNumber_SplitPaneRequest = 109,
-  ITMClientOriginatedMessage_FieldNumber_GetProfilePropertyRequest = 110,
-  ITMClientOriginatedMessage_FieldNumber_SetPropertyRequest = 111,
-  ITMClientOriginatedMessage_FieldNumber_GetPropertyRequest = 112,
-  ITMClientOriginatedMessage_FieldNumber_InjectRequest = 113,
-  ITMClientOriginatedMessage_FieldNumber_ActivateRequest = 114,
-  ITMClientOriginatedMessage_FieldNumber_VariableRequest = 115,
-  ITMClientOriginatedMessage_FieldNumber_SavedArrangementRequest = 116,
-  ITMClientOriginatedMessage_FieldNumber_FocusRequest = 117,
-  ITMClientOriginatedMessage_FieldNumber_ListProfilesRequest = 118,
-  ITMClientOriginatedMessage_FieldNumber_ServerOriginatedRpcResultRequest = 119,
-  ITMClientOriginatedMessage_FieldNumber_RestartSessionRequest = 120,
-  ITMClientOriginatedMessage_FieldNumber_MenuItemRequest = 121,
-  ITMClientOriginatedMessage_FieldNumber_SetTabLayoutRequest = 122,
-  ITMClientOriginatedMessage_FieldNumber_GetBroadcastDomainsRequest = 123,
-  ITMClientOriginatedMessage_FieldNumber_TmuxRequest = 124,
-  ITMClientOriginatedMessage_FieldNumber_ReorderTabsRequest = 125,
-  ITMClientOriginatedMessage_FieldNumber_PreferencesRequest = 126,
-  ITMClientOriginatedMessage_FieldNumber_ColorPresetRequest = 127,
-  ITMClientOriginatedMessage_FieldNumber_SelectionRequest = 128,
-  ITMClientOriginatedMessage_FieldNumber_StatusBarComponentRequest = 129,
-  ITMClientOriginatedMessage_FieldNumber_SetBroadcastDomainsRequest = 130,
-  ITMClientOriginatedMessage_FieldNumber_CloseRequest = 131,
-  ITMClientOriginatedMessage_FieldNumber_InvokeFunctionRequest = 132,
-  ITMClientOriginatedMessage_FieldNumber_ListPromptsRequest = 133,
+    ITMClientOriginatedMessage_FieldNumber_Id_p = 1,
+    ITMClientOriginatedMessage_FieldNumber_GetBufferRequest = 100,
+    ITMClientOriginatedMessage_FieldNumber_GetPromptRequest = 101,
+    ITMClientOriginatedMessage_FieldNumber_TransactionRequest = 102,
+    ITMClientOriginatedMessage_FieldNumber_NotificationRequest = 103,
+    ITMClientOriginatedMessage_FieldNumber_RegisterToolRequest = 104,
+    ITMClientOriginatedMessage_FieldNumber_SetProfilePropertyRequest = 105,
+    ITMClientOriginatedMessage_FieldNumber_ListSessionsRequest = 106,
+    ITMClientOriginatedMessage_FieldNumber_SendTextRequest = 107,
+    ITMClientOriginatedMessage_FieldNumber_CreateTabRequest = 108,
+    ITMClientOriginatedMessage_FieldNumber_SplitPaneRequest = 109,
+    ITMClientOriginatedMessage_FieldNumber_GetProfilePropertyRequest = 110,
+    ITMClientOriginatedMessage_FieldNumber_SetPropertyRequest = 111,
+    ITMClientOriginatedMessage_FieldNumber_GetPropertyRequest = 112,
+    ITMClientOriginatedMessage_FieldNumber_InjectRequest = 113,
+    ITMClientOriginatedMessage_FieldNumber_ActivateRequest = 114,
+    ITMClientOriginatedMessage_FieldNumber_VariableRequest = 115,
+    ITMClientOriginatedMessage_FieldNumber_SavedArrangementRequest = 116,
+    ITMClientOriginatedMessage_FieldNumber_FocusRequest = 117,
+    ITMClientOriginatedMessage_FieldNumber_ListProfilesRequest = 118,
+    ITMClientOriginatedMessage_FieldNumber_ServerOriginatedRpcResultRequest = 119,
+    ITMClientOriginatedMessage_FieldNumber_RestartSessionRequest = 120,
+    ITMClientOriginatedMessage_FieldNumber_MenuItemRequest = 121,
+    ITMClientOriginatedMessage_FieldNumber_SetTabLayoutRequest = 122,
+    ITMClientOriginatedMessage_FieldNumber_GetBroadcastDomainsRequest = 123,
+    ITMClientOriginatedMessage_FieldNumber_TmuxRequest = 124,
+    ITMClientOriginatedMessage_FieldNumber_ReorderTabsRequest = 125,
+    ITMClientOriginatedMessage_FieldNumber_PreferencesRequest = 126,
+    ITMClientOriginatedMessage_FieldNumber_ColorPresetRequest = 127,
+    ITMClientOriginatedMessage_FieldNumber_SelectionRequest = 128,
+    ITMClientOriginatedMessage_FieldNumber_StatusBarComponentRequest = 129,
+    ITMClientOriginatedMessage_FieldNumber_SetBroadcastDomainsRequest = 130,
+    ITMClientOriginatedMessage_FieldNumber_CloseRequest = 131,
+    ITMClientOriginatedMessage_FieldNumber_InvokeFunctionRequest = 132,
+    ITMClientOriginatedMessage_FieldNumber_ListPromptsRequest = 133,
 };
 
 typedef GPB_ENUM(ITMClientOriginatedMessage_Submessage_OneOfCase) {
-  ITMClientOriginatedMessage_Submessage_OneOfCase_GPBUnsetOneOfCase = 0,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_GetBufferRequest = 100,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_GetPromptRequest = 101,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_TransactionRequest = 102,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_NotificationRequest = 103,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_RegisterToolRequest = 104,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_SetProfilePropertyRequest = 105,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_ListSessionsRequest = 106,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_SendTextRequest = 107,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_CreateTabRequest = 108,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_SplitPaneRequest = 109,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_GetProfilePropertyRequest = 110,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_SetPropertyRequest = 111,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_GetPropertyRequest = 112,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_InjectRequest = 113,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_ActivateRequest = 114,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_VariableRequest = 115,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_SavedArrangementRequest = 116,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_FocusRequest = 117,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_ListProfilesRequest = 118,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_ServerOriginatedRpcResultRequest = 119,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_RestartSessionRequest = 120,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_MenuItemRequest = 121,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_SetTabLayoutRequest = 122,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_GetBroadcastDomainsRequest = 123,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_TmuxRequest = 124,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_ReorderTabsRequest = 125,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_PreferencesRequest = 126,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_ColorPresetRequest = 127,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_SelectionRequest = 128,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_StatusBarComponentRequest = 129,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_SetBroadcastDomainsRequest = 130,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_CloseRequest = 131,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_InvokeFunctionRequest = 132,
-  ITMClientOriginatedMessage_Submessage_OneOfCase_ListPromptsRequest = 133,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_GPBUnsetOneOfCase = 0,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_GetBufferRequest = 100,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_GetPromptRequest = 101,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_TransactionRequest = 102,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_NotificationRequest = 103,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_RegisterToolRequest = 104,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_SetProfilePropertyRequest = 105,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_ListSessionsRequest = 106,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_SendTextRequest = 107,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_CreateTabRequest = 108,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_SplitPaneRequest = 109,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_GetProfilePropertyRequest = 110,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_SetPropertyRequest = 111,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_GetPropertyRequest = 112,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_InjectRequest = 113,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_ActivateRequest = 114,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_VariableRequest = 115,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_SavedArrangementRequest = 116,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_FocusRequest = 117,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_ListProfilesRequest = 118,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_ServerOriginatedRpcResultRequest = 119,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_RestartSessionRequest = 120,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_MenuItemRequest = 121,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_SetTabLayoutRequest = 122,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_GetBroadcastDomainsRequest = 123,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_TmuxRequest = 124,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_ReorderTabsRequest = 125,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_PreferencesRequest = 126,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_ColorPresetRequest = 127,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_SelectionRequest = 128,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_StatusBarComponentRequest = 129,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_SetBroadcastDomainsRequest = 130,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_CloseRequest = 131,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_InvokeFunctionRequest = 132,
+    ITMClientOriginatedMessage_Submessage_OneOfCase_ListPromptsRequest = 133,
 };
 
 /**
@@ -1171,83 +1171,83 @@ void ITMClientOriginatedMessage_ClearSubmessageOneOfCase(ITMClientOriginatedMess
 #pragma mark - ITMServerOriginatedMessage
 
 typedef GPB_ENUM(ITMServerOriginatedMessage_FieldNumber) {
-  ITMServerOriginatedMessage_FieldNumber_Id_p = 1,
-  ITMServerOriginatedMessage_FieldNumber_Error = 2,
-  ITMServerOriginatedMessage_FieldNumber_GetBufferResponse = 100,
-  ITMServerOriginatedMessage_FieldNumber_GetPromptResponse = 101,
-  ITMServerOriginatedMessage_FieldNumber_TransactionResponse = 102,
-  ITMServerOriginatedMessage_FieldNumber_NotificationResponse = 103,
-  ITMServerOriginatedMessage_FieldNumber_RegisterToolResponse = 104,
-  ITMServerOriginatedMessage_FieldNumber_SetProfilePropertyResponse = 105,
-  ITMServerOriginatedMessage_FieldNumber_ListSessionsResponse = 106,
-  ITMServerOriginatedMessage_FieldNumber_SendTextResponse = 107,
-  ITMServerOriginatedMessage_FieldNumber_CreateTabResponse = 108,
-  ITMServerOriginatedMessage_FieldNumber_SplitPaneResponse = 109,
-  ITMServerOriginatedMessage_FieldNumber_GetProfilePropertyResponse = 110,
-  ITMServerOriginatedMessage_FieldNumber_SetPropertyResponse = 111,
-  ITMServerOriginatedMessage_FieldNumber_GetPropertyResponse = 112,
-  ITMServerOriginatedMessage_FieldNumber_InjectResponse = 113,
-  ITMServerOriginatedMessage_FieldNumber_ActivateResponse = 114,
-  ITMServerOriginatedMessage_FieldNumber_VariableResponse = 115,
-  ITMServerOriginatedMessage_FieldNumber_SavedArrangementResponse = 116,
-  ITMServerOriginatedMessage_FieldNumber_FocusResponse = 117,
-  ITMServerOriginatedMessage_FieldNumber_ListProfilesResponse = 118,
-  ITMServerOriginatedMessage_FieldNumber_ServerOriginatedRpcResultResponse = 119,
-  ITMServerOriginatedMessage_FieldNumber_RestartSessionResponse = 120,
-  ITMServerOriginatedMessage_FieldNumber_MenuItemResponse = 121,
-  ITMServerOriginatedMessage_FieldNumber_SetTabLayoutResponse = 122,
-  ITMServerOriginatedMessage_FieldNumber_GetBroadcastDomainsResponse = 123,
-  ITMServerOriginatedMessage_FieldNumber_TmuxResponse = 124,
-  ITMServerOriginatedMessage_FieldNumber_ReorderTabsResponse = 125,
-  ITMServerOriginatedMessage_FieldNumber_PreferencesResponse = 126,
-  ITMServerOriginatedMessage_FieldNumber_ColorPresetResponse = 127,
-  ITMServerOriginatedMessage_FieldNumber_SelectionResponse = 128,
-  ITMServerOriginatedMessage_FieldNumber_StatusBarComponentResponse = 129,
-  ITMServerOriginatedMessage_FieldNumber_SetBroadcastDomainsResponse = 130,
-  ITMServerOriginatedMessage_FieldNumber_CloseResponse = 131,
-  ITMServerOriginatedMessage_FieldNumber_InvokeFunctionResponse = 132,
-  ITMServerOriginatedMessage_FieldNumber_ListPromptsResponse = 133,
-  ITMServerOriginatedMessage_FieldNumber_Notification = 1000,
+    ITMServerOriginatedMessage_FieldNumber_Id_p = 1,
+    ITMServerOriginatedMessage_FieldNumber_Error = 2,
+    ITMServerOriginatedMessage_FieldNumber_GetBufferResponse = 100,
+    ITMServerOriginatedMessage_FieldNumber_GetPromptResponse = 101,
+    ITMServerOriginatedMessage_FieldNumber_TransactionResponse = 102,
+    ITMServerOriginatedMessage_FieldNumber_NotificationResponse = 103,
+    ITMServerOriginatedMessage_FieldNumber_RegisterToolResponse = 104,
+    ITMServerOriginatedMessage_FieldNumber_SetProfilePropertyResponse = 105,
+    ITMServerOriginatedMessage_FieldNumber_ListSessionsResponse = 106,
+    ITMServerOriginatedMessage_FieldNumber_SendTextResponse = 107,
+    ITMServerOriginatedMessage_FieldNumber_CreateTabResponse = 108,
+    ITMServerOriginatedMessage_FieldNumber_SplitPaneResponse = 109,
+    ITMServerOriginatedMessage_FieldNumber_GetProfilePropertyResponse = 110,
+    ITMServerOriginatedMessage_FieldNumber_SetPropertyResponse = 111,
+    ITMServerOriginatedMessage_FieldNumber_GetPropertyResponse = 112,
+    ITMServerOriginatedMessage_FieldNumber_InjectResponse = 113,
+    ITMServerOriginatedMessage_FieldNumber_ActivateResponse = 114,
+    ITMServerOriginatedMessage_FieldNumber_VariableResponse = 115,
+    ITMServerOriginatedMessage_FieldNumber_SavedArrangementResponse = 116,
+    ITMServerOriginatedMessage_FieldNumber_FocusResponse = 117,
+    ITMServerOriginatedMessage_FieldNumber_ListProfilesResponse = 118,
+    ITMServerOriginatedMessage_FieldNumber_ServerOriginatedRpcResultResponse = 119,
+    ITMServerOriginatedMessage_FieldNumber_RestartSessionResponse = 120,
+    ITMServerOriginatedMessage_FieldNumber_MenuItemResponse = 121,
+    ITMServerOriginatedMessage_FieldNumber_SetTabLayoutResponse = 122,
+    ITMServerOriginatedMessage_FieldNumber_GetBroadcastDomainsResponse = 123,
+    ITMServerOriginatedMessage_FieldNumber_TmuxResponse = 124,
+    ITMServerOriginatedMessage_FieldNumber_ReorderTabsResponse = 125,
+    ITMServerOriginatedMessage_FieldNumber_PreferencesResponse = 126,
+    ITMServerOriginatedMessage_FieldNumber_ColorPresetResponse = 127,
+    ITMServerOriginatedMessage_FieldNumber_SelectionResponse = 128,
+    ITMServerOriginatedMessage_FieldNumber_StatusBarComponentResponse = 129,
+    ITMServerOriginatedMessage_FieldNumber_SetBroadcastDomainsResponse = 130,
+    ITMServerOriginatedMessage_FieldNumber_CloseResponse = 131,
+    ITMServerOriginatedMessage_FieldNumber_InvokeFunctionResponse = 132,
+    ITMServerOriginatedMessage_FieldNumber_ListPromptsResponse = 133,
+    ITMServerOriginatedMessage_FieldNumber_Notification = 1000,
 };
 
 typedef GPB_ENUM(ITMServerOriginatedMessage_Submessage_OneOfCase) {
-  ITMServerOriginatedMessage_Submessage_OneOfCase_GPBUnsetOneOfCase = 0,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_Error = 2,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_GetBufferResponse = 100,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_GetPromptResponse = 101,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_TransactionResponse = 102,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_NotificationResponse = 103,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_RegisterToolResponse = 104,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_SetProfilePropertyResponse = 105,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_ListSessionsResponse = 106,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_SendTextResponse = 107,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_CreateTabResponse = 108,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_SplitPaneResponse = 109,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_GetProfilePropertyResponse = 110,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_SetPropertyResponse = 111,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_GetPropertyResponse = 112,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_InjectResponse = 113,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_ActivateResponse = 114,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_VariableResponse = 115,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_SavedArrangementResponse = 116,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_FocusResponse = 117,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_ListProfilesResponse = 118,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_ServerOriginatedRpcResultResponse = 119,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_RestartSessionResponse = 120,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_MenuItemResponse = 121,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_SetTabLayoutResponse = 122,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_GetBroadcastDomainsResponse = 123,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_TmuxResponse = 124,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_ReorderTabsResponse = 125,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_PreferencesResponse = 126,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_ColorPresetResponse = 127,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_SelectionResponse = 128,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_StatusBarComponentResponse = 129,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_SetBroadcastDomainsResponse = 130,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_CloseResponse = 131,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_InvokeFunctionResponse = 132,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_ListPromptsResponse = 133,
-  ITMServerOriginatedMessage_Submessage_OneOfCase_Notification = 1000,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_GPBUnsetOneOfCase = 0,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_Error = 2,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_GetBufferResponse = 100,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_GetPromptResponse = 101,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_TransactionResponse = 102,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_NotificationResponse = 103,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_RegisterToolResponse = 104,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_SetProfilePropertyResponse = 105,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_ListSessionsResponse = 106,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_SendTextResponse = 107,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_CreateTabResponse = 108,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_SplitPaneResponse = 109,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_GetProfilePropertyResponse = 110,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_SetPropertyResponse = 111,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_GetPropertyResponse = 112,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_InjectResponse = 113,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_ActivateResponse = 114,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_VariableResponse = 115,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_SavedArrangementResponse = 116,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_FocusResponse = 117,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_ListProfilesResponse = 118,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_ServerOriginatedRpcResultResponse = 119,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_RestartSessionResponse = 120,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_MenuItemResponse = 121,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_SetTabLayoutResponse = 122,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_GetBroadcastDomainsResponse = 123,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_TmuxResponse = 124,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_ReorderTabsResponse = 125,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_PreferencesResponse = 126,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_ColorPresetResponse = 127,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_SelectionResponse = 128,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_StatusBarComponentResponse = 129,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_SetBroadcastDomainsResponse = 130,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_CloseResponse = 131,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_InvokeFunctionResponse = 132,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_ListPromptsResponse = 133,
+    ITMServerOriginatedMessage_Submessage_OneOfCase_Notification = 1000,
 };
 
 /**
@@ -1346,22 +1346,22 @@ void ITMServerOriginatedMessage_ClearSubmessageOneOfCase(ITMServerOriginatedMess
 #pragma mark - ITMInvokeFunctionRequest
 
 typedef GPB_ENUM(ITMInvokeFunctionRequest_FieldNumber) {
-  ITMInvokeFunctionRequest_FieldNumber_Tab = 1,
-  ITMInvokeFunctionRequest_FieldNumber_Session = 2,
-  ITMInvokeFunctionRequest_FieldNumber_Window = 3,
-  ITMInvokeFunctionRequest_FieldNumber_App = 4,
-  ITMInvokeFunctionRequest_FieldNumber_Invocation = 5,
-  ITMInvokeFunctionRequest_FieldNumber_Timeout = 6,
-  ITMInvokeFunctionRequest_FieldNumber_Method = 7,
+    ITMInvokeFunctionRequest_FieldNumber_Tab = 1,
+    ITMInvokeFunctionRequest_FieldNumber_Session = 2,
+    ITMInvokeFunctionRequest_FieldNumber_Window = 3,
+    ITMInvokeFunctionRequest_FieldNumber_App = 4,
+    ITMInvokeFunctionRequest_FieldNumber_Invocation = 5,
+    ITMInvokeFunctionRequest_FieldNumber_Timeout = 6,
+    ITMInvokeFunctionRequest_FieldNumber_Method = 7,
 };
 
 typedef GPB_ENUM(ITMInvokeFunctionRequest_Context_OneOfCase) {
-  ITMInvokeFunctionRequest_Context_OneOfCase_GPBUnsetOneOfCase = 0,
-  ITMInvokeFunctionRequest_Context_OneOfCase_Tab = 1,
-  ITMInvokeFunctionRequest_Context_OneOfCase_Session = 2,
-  ITMInvokeFunctionRequest_Context_OneOfCase_Window = 3,
-  ITMInvokeFunctionRequest_Context_OneOfCase_App = 4,
-  ITMInvokeFunctionRequest_Context_OneOfCase_Method = 7,
+    ITMInvokeFunctionRequest_Context_OneOfCase_GPBUnsetOneOfCase = 0,
+    ITMInvokeFunctionRequest_Context_OneOfCase_Tab = 1,
+    ITMInvokeFunctionRequest_Context_OneOfCase_Session = 2,
+    ITMInvokeFunctionRequest_Context_OneOfCase_Window = 3,
+    ITMInvokeFunctionRequest_Context_OneOfCase_App = 4,
+    ITMInvokeFunctionRequest_Context_OneOfCase_Method = 7,
 };
 
 @interface ITMInvokeFunctionRequest : GPBMessage
@@ -1396,7 +1396,7 @@ void ITMInvokeFunctionRequest_ClearContextOneOfCase(ITMInvokeFunctionRequest *me
 #pragma mark - ITMInvokeFunctionRequest_Tab
 
 typedef GPB_ENUM(ITMInvokeFunctionRequest_Tab_FieldNumber) {
-  ITMInvokeFunctionRequest_Tab_FieldNumber_TabId = 1,
+    ITMInvokeFunctionRequest_Tab_FieldNumber_TabId = 1,
 };
 
 @interface ITMInvokeFunctionRequest_Tab : GPBMessage
@@ -1410,7 +1410,7 @@ typedef GPB_ENUM(ITMInvokeFunctionRequest_Tab_FieldNumber) {
 #pragma mark - ITMInvokeFunctionRequest_Session
 
 typedef GPB_ENUM(ITMInvokeFunctionRequest_Session_FieldNumber) {
-  ITMInvokeFunctionRequest_Session_FieldNumber_SessionId = 1,
+    ITMInvokeFunctionRequest_Session_FieldNumber_SessionId = 1,
 };
 
 @interface ITMInvokeFunctionRequest_Session : GPBMessage
@@ -1424,7 +1424,7 @@ typedef GPB_ENUM(ITMInvokeFunctionRequest_Session_FieldNumber) {
 #pragma mark - ITMInvokeFunctionRequest_Window
 
 typedef GPB_ENUM(ITMInvokeFunctionRequest_Window_FieldNumber) {
-  ITMInvokeFunctionRequest_Window_FieldNumber_WindowId = 1,
+    ITMInvokeFunctionRequest_Window_FieldNumber_WindowId = 1,
 };
 
 @interface ITMInvokeFunctionRequest_Window : GPBMessage
@@ -1444,23 +1444,23 @@ typedef GPB_ENUM(ITMInvokeFunctionRequest_Window_FieldNumber) {
 #pragma mark - ITMInvokeFunctionRequest_Method
 
 typedef GPB_ENUM(ITMInvokeFunctionRequest_Method_FieldNumber) {
-  ITMInvokeFunctionRequest_Method_FieldNumber_Receiver = 1,
+    ITMInvokeFunctionRequest_Method_FieldNumber_Receiver = 1,
 };
 
 @interface ITMInvokeFunctionRequest_Method : GPBMessage
 
-/**
- * The following methods are defined:
- * window.set_title(title: String)
- * session.set_name(name: String)
- * session.run_tmux_command(command: String) throws  // Throws an exception if this is not a tmux session
- * session.set_status_bar_component_unread_count(identifier: String, count: Int)
- * session.stop_coprocess() -> Bool  // returns whether there was a coprocess to stop
- * session.get_coprocess() -> String?  // returns the name of the command, or nil
- * session.run_coprocess(commandLine: String, mute: Bool) -> Bool  // returns whether it attempted to start the coprocess. It'll fail only if there is already a coprocess.
- * tab.set_title(title: String)
- * tab.select_pane_in_direction(direction: String) throws -> String  // direction is 'left', 'right', 'above', or 'below'. If successful, it will return the ID of the newly active session. If you can't go that way, it returns null. Throws an exception if the direction is invalid.
- **/
+    /**
+     * The following methods are defined:
+     * window.set_title(title: String)
+     * session.set_name(name: String)
+     * session.run_tmux_command(command: String) throws  // Throws an exception if this is not a tmux session
+     * session.set_status_bar_component_unread_count(identifier: String, count: Int)
+     * session.stop_coprocess() -> Bool  // returns whether there was a coprocess to stop
+     * session.get_coprocess() -> String?  // returns the name of the command, or nil
+     * session.run_coprocess(commandLine: String, mute: Bool) -> Bool  // returns whether it attempted to start the coprocess. It'll fail only if there is already a coprocess.
+     * tab.set_title(title: String)
+     * tab.select_pane_in_direction(direction: String) throws -> String  // direction is 'left', 'right', 'above', or 'below'. If successful, it will return the ID of the newly active session. If you can't go that way, it returns null. Throws an exception if the direction is invalid.
+     **/
 @property(nonatomic, readwrite, copy, null_resettable) NSString *receiver;
 /** Test to see if @c receiver has been set. */
 @property(nonatomic, readwrite) BOOL hasReceiver;
@@ -1470,14 +1470,14 @@ typedef GPB_ENUM(ITMInvokeFunctionRequest_Method_FieldNumber) {
 #pragma mark - ITMInvokeFunctionResponse
 
 typedef GPB_ENUM(ITMInvokeFunctionResponse_FieldNumber) {
-  ITMInvokeFunctionResponse_FieldNumber_Error = 1,
-  ITMInvokeFunctionResponse_FieldNumber_Success = 2,
+    ITMInvokeFunctionResponse_FieldNumber_Error = 1,
+    ITMInvokeFunctionResponse_FieldNumber_Success = 2,
 };
 
 typedef GPB_ENUM(ITMInvokeFunctionResponse_Disposition_OneOfCase) {
-  ITMInvokeFunctionResponse_Disposition_OneOfCase_GPBUnsetOneOfCase = 0,
-  ITMInvokeFunctionResponse_Disposition_OneOfCase_Error = 1,
-  ITMInvokeFunctionResponse_Disposition_OneOfCase_Success = 2,
+    ITMInvokeFunctionResponse_Disposition_OneOfCase_GPBUnsetOneOfCase = 0,
+    ITMInvokeFunctionResponse_Disposition_OneOfCase_Error = 1,
+    ITMInvokeFunctionResponse_Disposition_OneOfCase_Success = 2,
 };
 
 @interface ITMInvokeFunctionResponse : GPBMessage
@@ -1498,8 +1498,8 @@ void ITMInvokeFunctionResponse_ClearDispositionOneOfCase(ITMInvokeFunctionRespon
 #pragma mark - ITMInvokeFunctionResponse_Error
 
 typedef GPB_ENUM(ITMInvokeFunctionResponse_Error_FieldNumber) {
-  ITMInvokeFunctionResponse_Error_FieldNumber_Status = 1,
-  ITMInvokeFunctionResponse_Error_FieldNumber_ErrorReason = 2,
+    ITMInvokeFunctionResponse_Error_FieldNumber_Status = 1,
+    ITMInvokeFunctionResponse_Error_FieldNumber_ErrorReason = 2,
 };
 
 @interface ITMInvokeFunctionResponse_Error : GPBMessage
@@ -1516,7 +1516,7 @@ typedef GPB_ENUM(ITMInvokeFunctionResponse_Error_FieldNumber) {
 #pragma mark - ITMInvokeFunctionResponse_Success
 
 typedef GPB_ENUM(ITMInvokeFunctionResponse_Success_FieldNumber) {
-  ITMInvokeFunctionResponse_Success_FieldNumber_JsonResult = 1,
+    ITMInvokeFunctionResponse_Success_FieldNumber_JsonResult = 1,
 };
 
 @interface ITMInvokeFunctionResponse_Success : GPBMessage
@@ -1530,17 +1530,17 @@ typedef GPB_ENUM(ITMInvokeFunctionResponse_Success_FieldNumber) {
 #pragma mark - ITMCloseRequest
 
 typedef GPB_ENUM(ITMCloseRequest_FieldNumber) {
-  ITMCloseRequest_FieldNumber_Tabs = 1,
-  ITMCloseRequest_FieldNumber_Sessions = 2,
-  ITMCloseRequest_FieldNumber_Windows = 3,
-  ITMCloseRequest_FieldNumber_Force = 4,
+    ITMCloseRequest_FieldNumber_Tabs = 1,
+    ITMCloseRequest_FieldNumber_Sessions = 2,
+    ITMCloseRequest_FieldNumber_Windows = 3,
+    ITMCloseRequest_FieldNumber_Force = 4,
 };
 
 typedef GPB_ENUM(ITMCloseRequest_Target_OneOfCase) {
-  ITMCloseRequest_Target_OneOfCase_GPBUnsetOneOfCase = 0,
-  ITMCloseRequest_Target_OneOfCase_Tabs = 1,
-  ITMCloseRequest_Target_OneOfCase_Sessions = 2,
-  ITMCloseRequest_Target_OneOfCase_Windows = 3,
+    ITMCloseRequest_Target_OneOfCase_GPBUnsetOneOfCase = 0,
+    ITMCloseRequest_Target_OneOfCase_Tabs = 1,
+    ITMCloseRequest_Target_OneOfCase_Sessions = 2,
+    ITMCloseRequest_Target_OneOfCase_Windows = 3,
 };
 
 @interface ITMCloseRequest : GPBMessage
@@ -1566,7 +1566,7 @@ void ITMCloseRequest_ClearTargetOneOfCase(ITMCloseRequest *message);
 #pragma mark - ITMCloseRequest_CloseTabs
 
 typedef GPB_ENUM(ITMCloseRequest_CloseTabs_FieldNumber) {
-  ITMCloseRequest_CloseTabs_FieldNumber_TabIdsArray = 1,
+    ITMCloseRequest_CloseTabs_FieldNumber_TabIdsArray = 1,
 };
 
 @interface ITMCloseRequest_CloseTabs : GPBMessage
@@ -1580,7 +1580,7 @@ typedef GPB_ENUM(ITMCloseRequest_CloseTabs_FieldNumber) {
 #pragma mark - ITMCloseRequest_CloseSessions
 
 typedef GPB_ENUM(ITMCloseRequest_CloseSessions_FieldNumber) {
-  ITMCloseRequest_CloseSessions_FieldNumber_SessionIdsArray = 1,
+    ITMCloseRequest_CloseSessions_FieldNumber_SessionIdsArray = 1,
 };
 
 @interface ITMCloseRequest_CloseSessions : GPBMessage
@@ -1594,7 +1594,7 @@ typedef GPB_ENUM(ITMCloseRequest_CloseSessions_FieldNumber) {
 #pragma mark - ITMCloseRequest_CloseWindows
 
 typedef GPB_ENUM(ITMCloseRequest_CloseWindows_FieldNumber) {
-  ITMCloseRequest_CloseWindows_FieldNumber_WindowIdsArray = 1,
+    ITMCloseRequest_CloseWindows_FieldNumber_WindowIdsArray = 1,
 };
 
 @interface ITMCloseRequest_CloseWindows : GPBMessage
@@ -1608,7 +1608,7 @@ typedef GPB_ENUM(ITMCloseRequest_CloseWindows_FieldNumber) {
 #pragma mark - ITMCloseResponse
 
 typedef GPB_ENUM(ITMCloseResponse_FieldNumber) {
-  ITMCloseResponse_FieldNumber_StatusesArray = 1,
+    ITMCloseResponse_FieldNumber_StatusesArray = 1,
 };
 
 @interface ITMCloseResponse : GPBMessage
@@ -1623,7 +1623,7 @@ typedef GPB_ENUM(ITMCloseResponse_FieldNumber) {
 #pragma mark - ITMSetBroadcastDomainsRequest
 
 typedef GPB_ENUM(ITMSetBroadcastDomainsRequest_FieldNumber) {
-  ITMSetBroadcastDomainsRequest_FieldNumber_BroadcastDomainsArray = 1,
+    ITMSetBroadcastDomainsRequest_FieldNumber_BroadcastDomainsArray = 1,
 };
 
 @interface ITMSetBroadcastDomainsRequest : GPBMessage
@@ -1637,7 +1637,7 @@ typedef GPB_ENUM(ITMSetBroadcastDomainsRequest_FieldNumber) {
 #pragma mark - ITMSetBroadcastDomainsResponse
 
 typedef GPB_ENUM(ITMSetBroadcastDomainsResponse_FieldNumber) {
-  ITMSetBroadcastDomainsResponse_FieldNumber_Status = 1,
+    ITMSetBroadcastDomainsResponse_FieldNumber_Status = 1,
 };
 
 @interface ITMSetBroadcastDomainsResponse : GPBMessage
@@ -1650,13 +1650,13 @@ typedef GPB_ENUM(ITMSetBroadcastDomainsResponse_FieldNumber) {
 #pragma mark - ITMStatusBarComponentRequest
 
 typedef GPB_ENUM(ITMStatusBarComponentRequest_FieldNumber) {
-  ITMStatusBarComponentRequest_FieldNumber_OpenPopover = 1,
-  ITMStatusBarComponentRequest_FieldNumber_Identifier = 2,
+    ITMStatusBarComponentRequest_FieldNumber_OpenPopover = 1,
+    ITMStatusBarComponentRequest_FieldNumber_Identifier = 2,
 };
 
 typedef GPB_ENUM(ITMStatusBarComponentRequest_Request_OneOfCase) {
-  ITMStatusBarComponentRequest_Request_OneOfCase_GPBUnsetOneOfCase = 0,
-  ITMStatusBarComponentRequest_Request_OneOfCase_OpenPopover = 1,
+    ITMStatusBarComponentRequest_Request_OneOfCase_GPBUnsetOneOfCase = 0,
+    ITMStatusBarComponentRequest_Request_OneOfCase_OpenPopover = 1,
 };
 
 @interface ITMStatusBarComponentRequest : GPBMessage
@@ -1680,9 +1680,9 @@ void ITMStatusBarComponentRequest_ClearRequestOneOfCase(ITMStatusBarComponentReq
 #pragma mark - ITMStatusBarComponentRequest_OpenPopover
 
 typedef GPB_ENUM(ITMStatusBarComponentRequest_OpenPopover_FieldNumber) {
-  ITMStatusBarComponentRequest_OpenPopover_FieldNumber_SessionId = 1,
-  ITMStatusBarComponentRequest_OpenPopover_FieldNumber_Html = 2,
-  ITMStatusBarComponentRequest_OpenPopover_FieldNumber_Size = 3,
+    ITMStatusBarComponentRequest_OpenPopover_FieldNumber_SessionId = 1,
+    ITMStatusBarComponentRequest_OpenPopover_FieldNumber_Html = 2,
+    ITMStatusBarComponentRequest_OpenPopover_FieldNumber_Size = 3,
 };
 
 @interface ITMStatusBarComponentRequest_OpenPopover : GPBMessage
@@ -1706,7 +1706,7 @@ typedef GPB_ENUM(ITMStatusBarComponentRequest_OpenPopover_FieldNumber) {
 #pragma mark - ITMStatusBarComponentResponse
 
 typedef GPB_ENUM(ITMStatusBarComponentResponse_FieldNumber) {
-  ITMStatusBarComponentResponse_FieldNumber_Status = 1,
+    ITMStatusBarComponentResponse_FieldNumber_Status = 1,
 };
 
 @interface ITMStatusBarComponentResponse : GPBMessage
@@ -1719,8 +1719,8 @@ typedef GPB_ENUM(ITMStatusBarComponentResponse_FieldNumber) {
 #pragma mark - ITMWindowedCoordRange
 
 typedef GPB_ENUM(ITMWindowedCoordRange_FieldNumber) {
-  ITMWindowedCoordRange_FieldNumber_CoordRange = 1,
-  ITMWindowedCoordRange_FieldNumber_Columns = 2,
+    ITMWindowedCoordRange_FieldNumber_CoordRange = 1,
+    ITMWindowedCoordRange_FieldNumber_Columns = 2,
 };
 
 @interface ITMWindowedCoordRange : GPBMessage
@@ -1738,9 +1738,9 @@ typedef GPB_ENUM(ITMWindowedCoordRange_FieldNumber) {
 #pragma mark - ITMSubSelection
 
 typedef GPB_ENUM(ITMSubSelection_FieldNumber) {
-  ITMSubSelection_FieldNumber_WindowedCoordRange = 1,
-  ITMSubSelection_FieldNumber_SelectionMode = 2,
-  ITMSubSelection_FieldNumber_Connected = 3,
+    ITMSubSelection_FieldNumber_WindowedCoordRange = 1,
+    ITMSubSelection_FieldNumber_SelectionMode = 2,
+    ITMSubSelection_FieldNumber_Connected = 3,
 };
 
 @interface ITMSubSelection : GPBMessage
@@ -1760,7 +1760,7 @@ typedef GPB_ENUM(ITMSubSelection_FieldNumber) {
 #pragma mark - ITMSelection
 
 typedef GPB_ENUM(ITMSelection_FieldNumber) {
-  ITMSelection_FieldNumber_SubSelectionsArray = 1,
+    ITMSelection_FieldNumber_SubSelectionsArray = 1,
 };
 
 @interface ITMSelection : GPBMessage
@@ -1774,14 +1774,14 @@ typedef GPB_ENUM(ITMSelection_FieldNumber) {
 #pragma mark - ITMSelectionRequest
 
 typedef GPB_ENUM(ITMSelectionRequest_FieldNumber) {
-  ITMSelectionRequest_FieldNumber_GetSelectionRequest = 1,
-  ITMSelectionRequest_FieldNumber_SetSelectionRequest = 2,
+    ITMSelectionRequest_FieldNumber_GetSelectionRequest = 1,
+    ITMSelectionRequest_FieldNumber_SetSelectionRequest = 2,
 };
 
 typedef GPB_ENUM(ITMSelectionRequest_Request_OneOfCase) {
-  ITMSelectionRequest_Request_OneOfCase_GPBUnsetOneOfCase = 0,
-  ITMSelectionRequest_Request_OneOfCase_GetSelectionRequest = 1,
-  ITMSelectionRequest_Request_OneOfCase_SetSelectionRequest = 2,
+    ITMSelectionRequest_Request_OneOfCase_GPBUnsetOneOfCase = 0,
+    ITMSelectionRequest_Request_OneOfCase_GetSelectionRequest = 1,
+    ITMSelectionRequest_Request_OneOfCase_SetSelectionRequest = 2,
 };
 
 @interface ITMSelectionRequest : GPBMessage
@@ -1802,7 +1802,7 @@ void ITMSelectionRequest_ClearRequestOneOfCase(ITMSelectionRequest *message);
 #pragma mark - ITMSelectionRequest_GetSelectionRequest
 
 typedef GPB_ENUM(ITMSelectionRequest_GetSelectionRequest_FieldNumber) {
-  ITMSelectionRequest_GetSelectionRequest_FieldNumber_SessionId = 1,
+    ITMSelectionRequest_GetSelectionRequest_FieldNumber_SessionId = 1,
 };
 
 @interface ITMSelectionRequest_GetSelectionRequest : GPBMessage
@@ -1816,8 +1816,8 @@ typedef GPB_ENUM(ITMSelectionRequest_GetSelectionRequest_FieldNumber) {
 #pragma mark - ITMSelectionRequest_SetSelectionRequest
 
 typedef GPB_ENUM(ITMSelectionRequest_SetSelectionRequest_FieldNumber) {
-  ITMSelectionRequest_SetSelectionRequest_FieldNumber_SessionId = 1,
-  ITMSelectionRequest_SetSelectionRequest_FieldNumber_Selection = 2,
+    ITMSelectionRequest_SetSelectionRequest_FieldNumber_SessionId = 1,
+    ITMSelectionRequest_SetSelectionRequest_FieldNumber_Selection = 2,
 };
 
 @interface ITMSelectionRequest_SetSelectionRequest : GPBMessage
@@ -1835,15 +1835,15 @@ typedef GPB_ENUM(ITMSelectionRequest_SetSelectionRequest_FieldNumber) {
 #pragma mark - ITMSelectionResponse
 
 typedef GPB_ENUM(ITMSelectionResponse_FieldNumber) {
-  ITMSelectionResponse_FieldNumber_Status = 1,
-  ITMSelectionResponse_FieldNumber_GetSelectionResponse = 2,
-  ITMSelectionResponse_FieldNumber_SetSelectionResponse = 3,
+    ITMSelectionResponse_FieldNumber_Status = 1,
+    ITMSelectionResponse_FieldNumber_GetSelectionResponse = 2,
+    ITMSelectionResponse_FieldNumber_SetSelectionResponse = 3,
 };
 
 typedef GPB_ENUM(ITMSelectionResponse_Response_OneOfCase) {
-  ITMSelectionResponse_Response_OneOfCase_GPBUnsetOneOfCase = 0,
-  ITMSelectionResponse_Response_OneOfCase_GetSelectionResponse = 2,
-  ITMSelectionResponse_Response_OneOfCase_SetSelectionResponse = 3,
+    ITMSelectionResponse_Response_OneOfCase_GPBUnsetOneOfCase = 0,
+    ITMSelectionResponse_Response_OneOfCase_GetSelectionResponse = 2,
+    ITMSelectionResponse_Response_OneOfCase_SetSelectionResponse = 3,
 };
 
 @interface ITMSelectionResponse : GPBMessage
@@ -1867,7 +1867,7 @@ void ITMSelectionResponse_ClearResponseOneOfCase(ITMSelectionResponse *message);
 #pragma mark - ITMSelectionResponse_GetSelectionResponse
 
 typedef GPB_ENUM(ITMSelectionResponse_GetSelectionResponse_FieldNumber) {
-  ITMSelectionResponse_GetSelectionResponse_FieldNumber_Selection = 2,
+    ITMSelectionResponse_GetSelectionResponse_FieldNumber_Selection = 2,
 };
 
 @interface ITMSelectionResponse_GetSelectionResponse : GPBMessage
@@ -1887,14 +1887,14 @@ typedef GPB_ENUM(ITMSelectionResponse_GetSelectionResponse_FieldNumber) {
 #pragma mark - ITMColorPresetRequest
 
 typedef GPB_ENUM(ITMColorPresetRequest_FieldNumber) {
-  ITMColorPresetRequest_FieldNumber_ListPresets = 1,
-  ITMColorPresetRequest_FieldNumber_GetPreset = 2,
+    ITMColorPresetRequest_FieldNumber_ListPresets = 1,
+    ITMColorPresetRequest_FieldNumber_GetPreset = 2,
 };
 
 typedef GPB_ENUM(ITMColorPresetRequest_Request_OneOfCase) {
-  ITMColorPresetRequest_Request_OneOfCase_GPBUnsetOneOfCase = 0,
-  ITMColorPresetRequest_Request_OneOfCase_ListPresets = 1,
-  ITMColorPresetRequest_Request_OneOfCase_GetPreset = 2,
+    ITMColorPresetRequest_Request_OneOfCase_GPBUnsetOneOfCase = 0,
+    ITMColorPresetRequest_Request_OneOfCase_ListPresets = 1,
+    ITMColorPresetRequest_Request_OneOfCase_GetPreset = 2,
 };
 
 @interface ITMColorPresetRequest : GPBMessage
@@ -1921,7 +1921,7 @@ void ITMColorPresetRequest_ClearRequestOneOfCase(ITMColorPresetRequest *message)
 #pragma mark - ITMColorPresetRequest_GetPreset
 
 typedef GPB_ENUM(ITMColorPresetRequest_GetPreset_FieldNumber) {
-  ITMColorPresetRequest_GetPreset_FieldNumber_Name = 1,
+    ITMColorPresetRequest_GetPreset_FieldNumber_Name = 1,
 };
 
 @interface ITMColorPresetRequest_GetPreset : GPBMessage
@@ -1935,15 +1935,15 @@ typedef GPB_ENUM(ITMColorPresetRequest_GetPreset_FieldNumber) {
 #pragma mark - ITMColorPresetResponse
 
 typedef GPB_ENUM(ITMColorPresetResponse_FieldNumber) {
-  ITMColorPresetResponse_FieldNumber_ListPresets = 1,
-  ITMColorPresetResponse_FieldNumber_GetPreset = 2,
-  ITMColorPresetResponse_FieldNumber_Status = 3,
+    ITMColorPresetResponse_FieldNumber_ListPresets = 1,
+    ITMColorPresetResponse_FieldNumber_GetPreset = 2,
+    ITMColorPresetResponse_FieldNumber_Status = 3,
 };
 
 typedef GPB_ENUM(ITMColorPresetResponse_Response_OneOfCase) {
-  ITMColorPresetResponse_Response_OneOfCase_GPBUnsetOneOfCase = 0,
-  ITMColorPresetResponse_Response_OneOfCase_ListPresets = 1,
-  ITMColorPresetResponse_Response_OneOfCase_GetPreset = 2,
+    ITMColorPresetResponse_Response_OneOfCase_GPBUnsetOneOfCase = 0,
+    ITMColorPresetResponse_Response_OneOfCase_ListPresets = 1,
+    ITMColorPresetResponse_Response_OneOfCase_GetPreset = 2,
 };
 
 @interface ITMColorPresetResponse : GPBMessage
@@ -1967,7 +1967,7 @@ void ITMColorPresetResponse_ClearResponseOneOfCase(ITMColorPresetResponse *messa
 #pragma mark - ITMColorPresetResponse_ListPresets
 
 typedef GPB_ENUM(ITMColorPresetResponse_ListPresets_FieldNumber) {
-  ITMColorPresetResponse_ListPresets_FieldNumber_NameArray = 1,
+    ITMColorPresetResponse_ListPresets_FieldNumber_NameArray = 1,
 };
 
 @interface ITMColorPresetResponse_ListPresets : GPBMessage
@@ -1981,7 +1981,7 @@ typedef GPB_ENUM(ITMColorPresetResponse_ListPresets_FieldNumber) {
 #pragma mark - ITMColorPresetResponse_GetPreset
 
 typedef GPB_ENUM(ITMColorPresetResponse_GetPreset_FieldNumber) {
-  ITMColorPresetResponse_GetPreset_FieldNumber_ColorSettingsArray = 1,
+    ITMColorPresetResponse_GetPreset_FieldNumber_ColorSettingsArray = 1,
 };
 
 @interface ITMColorPresetResponse_GetPreset : GPBMessage
@@ -1995,12 +1995,12 @@ typedef GPB_ENUM(ITMColorPresetResponse_GetPreset_FieldNumber) {
 #pragma mark - ITMColorPresetResponse_GetPreset_ColorSetting
 
 typedef GPB_ENUM(ITMColorPresetResponse_GetPreset_ColorSetting_FieldNumber) {
-  ITMColorPresetResponse_GetPreset_ColorSetting_FieldNumber_Red = 1,
-  ITMColorPresetResponse_GetPreset_ColorSetting_FieldNumber_Green = 2,
-  ITMColorPresetResponse_GetPreset_ColorSetting_FieldNumber_Blue = 3,
-  ITMColorPresetResponse_GetPreset_ColorSetting_FieldNumber_Alpha = 4,
-  ITMColorPresetResponse_GetPreset_ColorSetting_FieldNumber_ColorSpace = 5,
-  ITMColorPresetResponse_GetPreset_ColorSetting_FieldNumber_Key = 6,
+    ITMColorPresetResponse_GetPreset_ColorSetting_FieldNumber_Red = 1,
+    ITMColorPresetResponse_GetPreset_ColorSetting_FieldNumber_Green = 2,
+    ITMColorPresetResponse_GetPreset_ColorSetting_FieldNumber_Blue = 3,
+    ITMColorPresetResponse_GetPreset_ColorSetting_FieldNumber_Alpha = 4,
+    ITMColorPresetResponse_GetPreset_ColorSetting_FieldNumber_ColorSpace = 5,
+    ITMColorPresetResponse_GetPreset_ColorSetting_FieldNumber_Key = 6,
 };
 
 @interface ITMColorPresetResponse_GetPreset_ColorSetting : GPBMessage
@@ -2030,7 +2030,7 @@ typedef GPB_ENUM(ITMColorPresetResponse_GetPreset_ColorSetting_FieldNumber) {
 #pragma mark - ITMPreferencesRequest
 
 typedef GPB_ENUM(ITMPreferencesRequest_FieldNumber) {
-  ITMPreferencesRequest_FieldNumber_RequestsArray = 1,
+    ITMPreferencesRequest_FieldNumber_RequestsArray = 1,
 };
 
 @interface ITMPreferencesRequest : GPBMessage
@@ -2044,18 +2044,18 @@ typedef GPB_ENUM(ITMPreferencesRequest_FieldNumber) {
 #pragma mark - ITMPreferencesRequest_Request
 
 typedef GPB_ENUM(ITMPreferencesRequest_Request_FieldNumber) {
-  ITMPreferencesRequest_Request_FieldNumber_SetPreferenceRequest = 1,
-  ITMPreferencesRequest_Request_FieldNumber_GetPreferenceRequest = 2,
-  ITMPreferencesRequest_Request_FieldNumber_SetDefaultProfileRequest = 3,
-  ITMPreferencesRequest_Request_FieldNumber_GetDefaultProfileRequest = 4,
+    ITMPreferencesRequest_Request_FieldNumber_SetPreferenceRequest = 1,
+    ITMPreferencesRequest_Request_FieldNumber_GetPreferenceRequest = 2,
+    ITMPreferencesRequest_Request_FieldNumber_SetDefaultProfileRequest = 3,
+    ITMPreferencesRequest_Request_FieldNumber_GetDefaultProfileRequest = 4,
 };
 
 typedef GPB_ENUM(ITMPreferencesRequest_Request_Request_OneOfCase) {
-  ITMPreferencesRequest_Request_Request_OneOfCase_GPBUnsetOneOfCase = 0,
-  ITMPreferencesRequest_Request_Request_OneOfCase_SetPreferenceRequest = 1,
-  ITMPreferencesRequest_Request_Request_OneOfCase_GetPreferenceRequest = 2,
-  ITMPreferencesRequest_Request_Request_OneOfCase_SetDefaultProfileRequest = 3,
-  ITMPreferencesRequest_Request_Request_OneOfCase_GetDefaultProfileRequest = 4,
+    ITMPreferencesRequest_Request_Request_OneOfCase_GPBUnsetOneOfCase = 0,
+    ITMPreferencesRequest_Request_Request_OneOfCase_SetPreferenceRequest = 1,
+    ITMPreferencesRequest_Request_Request_OneOfCase_GetPreferenceRequest = 2,
+    ITMPreferencesRequest_Request_Request_OneOfCase_SetDefaultProfileRequest = 3,
+    ITMPreferencesRequest_Request_Request_OneOfCase_GetDefaultProfileRequest = 4,
 };
 
 @interface ITMPreferencesRequest_Request : GPBMessage
@@ -2080,8 +2080,8 @@ void ITMPreferencesRequest_Request_ClearRequestOneOfCase(ITMPreferencesRequest_R
 #pragma mark - ITMPreferencesRequest_Request_SetPreference
 
 typedef GPB_ENUM(ITMPreferencesRequest_Request_SetPreference_FieldNumber) {
-  ITMPreferencesRequest_Request_SetPreference_FieldNumber_Key = 1,
-  ITMPreferencesRequest_Request_SetPreference_FieldNumber_JsonValue = 2,
+    ITMPreferencesRequest_Request_SetPreference_FieldNumber_Key = 1,
+    ITMPreferencesRequest_Request_SetPreference_FieldNumber_JsonValue = 2,
 };
 
 @interface ITMPreferencesRequest_Request_SetPreference : GPBMessage
@@ -2099,7 +2099,7 @@ typedef GPB_ENUM(ITMPreferencesRequest_Request_SetPreference_FieldNumber) {
 #pragma mark - ITMPreferencesRequest_Request_GetPreference
 
 typedef GPB_ENUM(ITMPreferencesRequest_Request_GetPreference_FieldNumber) {
-  ITMPreferencesRequest_Request_GetPreference_FieldNumber_Key = 1,
+    ITMPreferencesRequest_Request_GetPreference_FieldNumber_Key = 1,
 };
 
 @interface ITMPreferencesRequest_Request_GetPreference : GPBMessage
@@ -2113,7 +2113,7 @@ typedef GPB_ENUM(ITMPreferencesRequest_Request_GetPreference_FieldNumber) {
 #pragma mark - ITMPreferencesRequest_Request_SetDefaultProfile
 
 typedef GPB_ENUM(ITMPreferencesRequest_Request_SetDefaultProfile_FieldNumber) {
-  ITMPreferencesRequest_Request_SetDefaultProfile_FieldNumber_Guid = 1,
+    ITMPreferencesRequest_Request_SetDefaultProfile_FieldNumber_Guid = 1,
 };
 
 @interface ITMPreferencesRequest_Request_SetDefaultProfile : GPBMessage
@@ -2133,7 +2133,7 @@ typedef GPB_ENUM(ITMPreferencesRequest_Request_SetDefaultProfile_FieldNumber) {
 #pragma mark - ITMPreferencesResponse
 
 typedef GPB_ENUM(ITMPreferencesResponse_FieldNumber) {
-  ITMPreferencesResponse_FieldNumber_ResultsArray = 1,
+    ITMPreferencesResponse_FieldNumber_ResultsArray = 1,
 };
 
 @interface ITMPreferencesResponse : GPBMessage
@@ -2147,20 +2147,20 @@ typedef GPB_ENUM(ITMPreferencesResponse_FieldNumber) {
 #pragma mark - ITMPreferencesResponse_Result
 
 typedef GPB_ENUM(ITMPreferencesResponse_Result_FieldNumber) {
-  ITMPreferencesResponse_Result_FieldNumber_UnrecognizedRequest = 1,
-  ITMPreferencesResponse_Result_FieldNumber_SetPreferenceResult = 2,
-  ITMPreferencesResponse_Result_FieldNumber_GetPreferenceResult = 3,
-  ITMPreferencesResponse_Result_FieldNumber_SetDefaultProfileResult = 4,
-  ITMPreferencesResponse_Result_FieldNumber_GetDefaultProfileResult = 5,
+    ITMPreferencesResponse_Result_FieldNumber_UnrecognizedRequest = 1,
+    ITMPreferencesResponse_Result_FieldNumber_SetPreferenceResult = 2,
+    ITMPreferencesResponse_Result_FieldNumber_GetPreferenceResult = 3,
+    ITMPreferencesResponse_Result_FieldNumber_SetDefaultProfileResult = 4,
+    ITMPreferencesResponse_Result_FieldNumber_GetDefaultProfileResult = 5,
 };
 
 typedef GPB_ENUM(ITMPreferencesResponse_Result_Result_OneOfCase) {
-  ITMPreferencesResponse_Result_Result_OneOfCase_GPBUnsetOneOfCase = 0,
-  ITMPreferencesResponse_Result_Result_OneOfCase_UnrecognizedRequest = 1,
-  ITMPreferencesResponse_Result_Result_OneOfCase_SetPreferenceResult = 2,
-  ITMPreferencesResponse_Result_Result_OneOfCase_GetPreferenceResult = 3,
-  ITMPreferencesResponse_Result_Result_OneOfCase_SetDefaultProfileResult = 4,
-  ITMPreferencesResponse_Result_Result_OneOfCase_GetDefaultProfileResult = 5,
+    ITMPreferencesResponse_Result_Result_OneOfCase_GPBUnsetOneOfCase = 0,
+    ITMPreferencesResponse_Result_Result_OneOfCase_UnrecognizedRequest = 1,
+    ITMPreferencesResponse_Result_Result_OneOfCase_SetPreferenceResult = 2,
+    ITMPreferencesResponse_Result_Result_OneOfCase_GetPreferenceResult = 3,
+    ITMPreferencesResponse_Result_Result_OneOfCase_SetDefaultProfileResult = 4,
+    ITMPreferencesResponse_Result_Result_OneOfCase_GetDefaultProfileResult = 5,
 };
 
 @interface ITMPreferencesResponse_Result : GPBMessage
@@ -2187,7 +2187,7 @@ void ITMPreferencesResponse_Result_ClearResultOneOfCase(ITMPreferencesResponse_R
 #pragma mark - ITMPreferencesResponse_Result_SetPreferenceResult
 
 typedef GPB_ENUM(ITMPreferencesResponse_Result_SetPreferenceResult_FieldNumber) {
-  ITMPreferencesResponse_Result_SetPreferenceResult_FieldNumber_Status = 1,
+    ITMPreferencesResponse_Result_SetPreferenceResult_FieldNumber_Status = 1,
 };
 
 @interface ITMPreferencesResponse_Result_SetPreferenceResult : GPBMessage
@@ -2200,12 +2200,12 @@ typedef GPB_ENUM(ITMPreferencesResponse_Result_SetPreferenceResult_FieldNumber) 
 #pragma mark - ITMPreferencesResponse_Result_GetPreferenceResult
 
 typedef GPB_ENUM(ITMPreferencesResponse_Result_GetPreferenceResult_FieldNumber) {
-  ITMPreferencesResponse_Result_GetPreferenceResult_FieldNumber_JsonValue = 1,
+    ITMPreferencesResponse_Result_GetPreferenceResult_FieldNumber_JsonValue = 1,
 };
 
 @interface ITMPreferencesResponse_Result_GetPreferenceResult : GPBMessage
 
-/** Will be unset if no value assigned. Will always be set if there is a default value. */
+    /** Will be unset if no value assigned. Will always be set if there is a default value. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *jsonValue;
 /** Test to see if @c jsonValue has been set. */
 @property(nonatomic, readwrite) BOOL hasJsonValue;
@@ -2215,7 +2215,7 @@ typedef GPB_ENUM(ITMPreferencesResponse_Result_GetPreferenceResult_FieldNumber) 
 #pragma mark - ITMPreferencesResponse_Result_SetDefaultProfileResult
 
 typedef GPB_ENUM(ITMPreferencesResponse_Result_SetDefaultProfileResult_FieldNumber) {
-  ITMPreferencesResponse_Result_SetDefaultProfileResult_FieldNumber_Status = 1,
+    ITMPreferencesResponse_Result_SetDefaultProfileResult_FieldNumber_Status = 1,
 };
 
 @interface ITMPreferencesResponse_Result_SetDefaultProfileResult : GPBMessage
@@ -2234,7 +2234,7 @@ typedef GPB_ENUM(ITMPreferencesResponse_Result_SetDefaultProfileResult_FieldNumb
 #pragma mark - ITMPreferencesResponse_Result_GetDefaultProfileResult
 
 typedef GPB_ENUM(ITMPreferencesResponse_Result_GetDefaultProfileResult_FieldNumber) {
-  ITMPreferencesResponse_Result_GetDefaultProfileResult_FieldNumber_Guid = 1,
+    ITMPreferencesResponse_Result_GetDefaultProfileResult_FieldNumber_Guid = 1,
 };
 
 @interface ITMPreferencesResponse_Result_GetDefaultProfileResult : GPBMessage
@@ -2248,7 +2248,7 @@ typedef GPB_ENUM(ITMPreferencesResponse_Result_GetDefaultProfileResult_FieldNumb
 #pragma mark - ITMReorderTabsRequest
 
 typedef GPB_ENUM(ITMReorderTabsRequest_FieldNumber) {
-  ITMReorderTabsRequest_FieldNumber_AssignmentsArray = 3,
+    ITMReorderTabsRequest_FieldNumber_AssignmentsArray = 3,
 };
 
 @interface ITMReorderTabsRequest : GPBMessage
@@ -2262,8 +2262,8 @@ typedef GPB_ENUM(ITMReorderTabsRequest_FieldNumber) {
 #pragma mark - ITMReorderTabsRequest_Assignment
 
 typedef GPB_ENUM(ITMReorderTabsRequest_Assignment_FieldNumber) {
-  ITMReorderTabsRequest_Assignment_FieldNumber_WindowId = 1,
-  ITMReorderTabsRequest_Assignment_FieldNumber_TabIdsArray = 2,
+    ITMReorderTabsRequest_Assignment_FieldNumber_WindowId = 1,
+    ITMReorderTabsRequest_Assignment_FieldNumber_TabIdsArray = 2,
 };
 
 @interface ITMReorderTabsRequest_Assignment : GPBMessage
@@ -2281,7 +2281,7 @@ typedef GPB_ENUM(ITMReorderTabsRequest_Assignment_FieldNumber) {
 #pragma mark - ITMReorderTabsResponse
 
 typedef GPB_ENUM(ITMReorderTabsResponse_FieldNumber) {
-  ITMReorderTabsResponse_FieldNumber_Status = 4,
+    ITMReorderTabsResponse_FieldNumber_Status = 4,
 };
 
 @interface ITMReorderTabsResponse : GPBMessage
@@ -2294,18 +2294,18 @@ typedef GPB_ENUM(ITMReorderTabsResponse_FieldNumber) {
 #pragma mark - ITMTmuxRequest
 
 typedef GPB_ENUM(ITMTmuxRequest_FieldNumber) {
-  ITMTmuxRequest_FieldNumber_ListConnections = 1,
-  ITMTmuxRequest_FieldNumber_SendCommand = 2,
-  ITMTmuxRequest_FieldNumber_SetWindowVisible = 3,
-  ITMTmuxRequest_FieldNumber_CreateWindow = 4,
+    ITMTmuxRequest_FieldNumber_ListConnections = 1,
+    ITMTmuxRequest_FieldNumber_SendCommand = 2,
+    ITMTmuxRequest_FieldNumber_SetWindowVisible = 3,
+    ITMTmuxRequest_FieldNumber_CreateWindow = 4,
 };
 
 typedef GPB_ENUM(ITMTmuxRequest_Payload_OneOfCase) {
-  ITMTmuxRequest_Payload_OneOfCase_GPBUnsetOneOfCase = 0,
-  ITMTmuxRequest_Payload_OneOfCase_ListConnections = 1,
-  ITMTmuxRequest_Payload_OneOfCase_SendCommand = 2,
-  ITMTmuxRequest_Payload_OneOfCase_SetWindowVisible = 3,
-  ITMTmuxRequest_Payload_OneOfCase_CreateWindow = 4,
+    ITMTmuxRequest_Payload_OneOfCase_GPBUnsetOneOfCase = 0,
+    ITMTmuxRequest_Payload_OneOfCase_ListConnections = 1,
+    ITMTmuxRequest_Payload_OneOfCase_SendCommand = 2,
+    ITMTmuxRequest_Payload_OneOfCase_SetWindowVisible = 3,
+    ITMTmuxRequest_Payload_OneOfCase_CreateWindow = 4,
 };
 
 @interface ITMTmuxRequest : GPBMessage
@@ -2336,8 +2336,8 @@ void ITMTmuxRequest_ClearPayloadOneOfCase(ITMTmuxRequest *message);
 #pragma mark - ITMTmuxRequest_SendCommand
 
 typedef GPB_ENUM(ITMTmuxRequest_SendCommand_FieldNumber) {
-  ITMTmuxRequest_SendCommand_FieldNumber_ConnectionId = 1,
-  ITMTmuxRequest_SendCommand_FieldNumber_Command = 2,
+    ITMTmuxRequest_SendCommand_FieldNumber_ConnectionId = 1,
+    ITMTmuxRequest_SendCommand_FieldNumber_Command = 2,
 };
 
 @interface ITMTmuxRequest_SendCommand : GPBMessage
@@ -2355,9 +2355,9 @@ typedef GPB_ENUM(ITMTmuxRequest_SendCommand_FieldNumber) {
 #pragma mark - ITMTmuxRequest_SetWindowVisible
 
 typedef GPB_ENUM(ITMTmuxRequest_SetWindowVisible_FieldNumber) {
-  ITMTmuxRequest_SetWindowVisible_FieldNumber_ConnectionId = 1,
-  ITMTmuxRequest_SetWindowVisible_FieldNumber_WindowId = 2,
-  ITMTmuxRequest_SetWindowVisible_FieldNumber_Visible = 3,
+    ITMTmuxRequest_SetWindowVisible_FieldNumber_ConnectionId = 1,
+    ITMTmuxRequest_SetWindowVisible_FieldNumber_WindowId = 2,
+    ITMTmuxRequest_SetWindowVisible_FieldNumber_Visible = 3,
 };
 
 @interface ITMTmuxRequest_SetWindowVisible : GPBMessage
@@ -2378,8 +2378,8 @@ typedef GPB_ENUM(ITMTmuxRequest_SetWindowVisible_FieldNumber) {
 #pragma mark - ITMTmuxRequest_CreateWindow
 
 typedef GPB_ENUM(ITMTmuxRequest_CreateWindow_FieldNumber) {
-  ITMTmuxRequest_CreateWindow_FieldNumber_ConnectionId = 1,
-  ITMTmuxRequest_CreateWindow_FieldNumber_Affinity = 2,
+    ITMTmuxRequest_CreateWindow_FieldNumber_ConnectionId = 1,
+    ITMTmuxRequest_CreateWindow_FieldNumber_Affinity = 2,
 };
 
 @interface ITMTmuxRequest_CreateWindow : GPBMessage
@@ -2397,19 +2397,19 @@ typedef GPB_ENUM(ITMTmuxRequest_CreateWindow_FieldNumber) {
 #pragma mark - ITMTmuxResponse
 
 typedef GPB_ENUM(ITMTmuxResponse_FieldNumber) {
-  ITMTmuxResponse_FieldNumber_ListConnections = 1,
-  ITMTmuxResponse_FieldNumber_SendCommand = 2,
-  ITMTmuxResponse_FieldNumber_SetWindowVisible = 3,
-  ITMTmuxResponse_FieldNumber_Status = 4,
-  ITMTmuxResponse_FieldNumber_CreateWindow = 5,
+    ITMTmuxResponse_FieldNumber_ListConnections = 1,
+    ITMTmuxResponse_FieldNumber_SendCommand = 2,
+    ITMTmuxResponse_FieldNumber_SetWindowVisible = 3,
+    ITMTmuxResponse_FieldNumber_Status = 4,
+    ITMTmuxResponse_FieldNumber_CreateWindow = 5,
 };
 
 typedef GPB_ENUM(ITMTmuxResponse_Payload_OneOfCase) {
-  ITMTmuxResponse_Payload_OneOfCase_GPBUnsetOneOfCase = 0,
-  ITMTmuxResponse_Payload_OneOfCase_ListConnections = 1,
-  ITMTmuxResponse_Payload_OneOfCase_SendCommand = 2,
-  ITMTmuxResponse_Payload_OneOfCase_SetWindowVisible = 3,
-  ITMTmuxResponse_Payload_OneOfCase_CreateWindow = 5,
+    ITMTmuxResponse_Payload_OneOfCase_GPBUnsetOneOfCase = 0,
+    ITMTmuxResponse_Payload_OneOfCase_ListConnections = 1,
+    ITMTmuxResponse_Payload_OneOfCase_SendCommand = 2,
+    ITMTmuxResponse_Payload_OneOfCase_SetWindowVisible = 3,
+    ITMTmuxResponse_Payload_OneOfCase_CreateWindow = 5,
 };
 
 @interface ITMTmuxResponse : GPBMessage
@@ -2437,7 +2437,7 @@ void ITMTmuxResponse_ClearPayloadOneOfCase(ITMTmuxResponse *message);
 #pragma mark - ITMTmuxResponse_ListConnections
 
 typedef GPB_ENUM(ITMTmuxResponse_ListConnections_FieldNumber) {
-  ITMTmuxResponse_ListConnections_FieldNumber_ConnectionsArray = 1,
+    ITMTmuxResponse_ListConnections_FieldNumber_ConnectionsArray = 1,
 };
 
 @interface ITMTmuxResponse_ListConnections : GPBMessage
@@ -2451,8 +2451,8 @@ typedef GPB_ENUM(ITMTmuxResponse_ListConnections_FieldNumber) {
 #pragma mark - ITMTmuxResponse_ListConnections_Connection
 
 typedef GPB_ENUM(ITMTmuxResponse_ListConnections_Connection_FieldNumber) {
-  ITMTmuxResponse_ListConnections_Connection_FieldNumber_ConnectionId = 1,
-  ITMTmuxResponse_ListConnections_Connection_FieldNumber_OwningSessionId = 2,
+    ITMTmuxResponse_ListConnections_Connection_FieldNumber_ConnectionId = 1,
+    ITMTmuxResponse_ListConnections_Connection_FieldNumber_OwningSessionId = 2,
 };
 
 @interface ITMTmuxResponse_ListConnections_Connection : GPBMessage
@@ -2470,12 +2470,12 @@ typedef GPB_ENUM(ITMTmuxResponse_ListConnections_Connection_FieldNumber) {
 #pragma mark - ITMTmuxResponse_SendCommand
 
 typedef GPB_ENUM(ITMTmuxResponse_SendCommand_FieldNumber) {
-  ITMTmuxResponse_SendCommand_FieldNumber_Output = 1,
+    ITMTmuxResponse_SendCommand_FieldNumber_Output = 1,
 };
 
 @interface ITMTmuxResponse_SendCommand : GPBMessage
 
-/** If not set, an error occurred. */
+    /** If not set, an error occurred. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *output;
 /** Test to see if @c output has been set. */
 @property(nonatomic, readwrite) BOOL hasOutput;
@@ -2491,12 +2491,12 @@ typedef GPB_ENUM(ITMTmuxResponse_SendCommand_FieldNumber) {
 #pragma mark - ITMTmuxResponse_CreateWindow
 
 typedef GPB_ENUM(ITMTmuxResponse_CreateWindow_FieldNumber) {
-  ITMTmuxResponse_CreateWindow_FieldNumber_TabId = 1,
+    ITMTmuxResponse_CreateWindow_FieldNumber_TabId = 1,
 };
 
 @interface ITMTmuxResponse_CreateWindow : GPBMessage
 
-/** This is an iTerm2 tab ID. */
+    /** This is an iTerm2 tab ID. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *tabId;
 /** Test to see if @c tabId has been set. */
 @property(nonatomic, readwrite) BOOL hasTabId;
@@ -2512,7 +2512,7 @@ typedef GPB_ENUM(ITMTmuxResponse_CreateWindow_FieldNumber) {
 #pragma mark - ITMBroadcastDomain
 
 typedef GPB_ENUM(ITMBroadcastDomain_FieldNumber) {
-  ITMBroadcastDomain_FieldNumber_SessionIdsArray = 1,
+    ITMBroadcastDomain_FieldNumber_SessionIdsArray = 1,
 };
 
 @interface ITMBroadcastDomain : GPBMessage
@@ -2526,7 +2526,7 @@ typedef GPB_ENUM(ITMBroadcastDomain_FieldNumber) {
 #pragma mark - ITMGetBroadcastDomainsResponse
 
 typedef GPB_ENUM(ITMGetBroadcastDomainsResponse_FieldNumber) {
-  ITMGetBroadcastDomainsResponse_FieldNumber_BroadcastDomainsArray = 1,
+    ITMGetBroadcastDomainsResponse_FieldNumber_BroadcastDomainsArray = 1,
 };
 
 @interface ITMGetBroadcastDomainsResponse : GPBMessage
@@ -2540,17 +2540,17 @@ typedef GPB_ENUM(ITMGetBroadcastDomainsResponse_FieldNumber) {
 #pragma mark - ITMSetTabLayoutRequest
 
 typedef GPB_ENUM(ITMSetTabLayoutRequest_FieldNumber) {
-  ITMSetTabLayoutRequest_FieldNumber_Root = 1,
-  ITMSetTabLayoutRequest_FieldNumber_TabId = 2,
+    ITMSetTabLayoutRequest_FieldNumber_Root = 1,
+    ITMSetTabLayoutRequest_FieldNumber_TabId = 2,
 };
 
 @interface ITMSetTabLayoutRequest : GPBMessage
 
-/**
- * The tree structure must exactly match the actual tree structure, including the `vertical`
- * setting. Only the grid_sizes may change. They must still add up to the same value in every
- * dimension.
- **/
+    /**
+     * The tree structure must exactly match the actual tree structure, including the `vertical`
+     * setting. Only the grid_sizes may change. They must still add up to the same value in every
+     * dimension.
+     **/
 @property(nonatomic, readwrite, strong, null_resettable) ITMSplitTreeNode *root;
 /** Test to see if @c root has been set. */
 @property(nonatomic, readwrite) BOOL hasRoot;
@@ -2564,7 +2564,7 @@ typedef GPB_ENUM(ITMSetTabLayoutRequest_FieldNumber) {
 #pragma mark - ITMSetTabLayoutResponse
 
 typedef GPB_ENUM(ITMSetTabLayoutResponse_FieldNumber) {
-  ITMSetTabLayoutResponse_FieldNumber_Status = 1,
+    ITMSetTabLayoutResponse_FieldNumber_Status = 1,
 };
 
 @interface ITMSetTabLayoutResponse : GPBMessage
@@ -2577,8 +2577,8 @@ typedef GPB_ENUM(ITMSetTabLayoutResponse_FieldNumber) {
 #pragma mark - ITMMenuItemRequest
 
 typedef GPB_ENUM(ITMMenuItemRequest_FieldNumber) {
-  ITMMenuItemRequest_FieldNumber_Identifier = 1,
-  ITMMenuItemRequest_FieldNumber_QueryOnly = 2,
+    ITMMenuItemRequest_FieldNumber_Identifier = 1,
+    ITMMenuItemRequest_FieldNumber_QueryOnly = 2,
 };
 
 /**
@@ -2586,7 +2586,7 @@ typedef GPB_ENUM(ITMMenuItemRequest_FieldNumber) {
  **/
 @interface ITMMenuItemRequest : GPBMessage
 
-/** Unique identifier of the menu item. */
+    /** Unique identifier of the menu item. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *identifier;
 /** Test to see if @c identifier has been set. */
 @property(nonatomic, readwrite) BOOL hasIdentifier;
@@ -2600,9 +2600,9 @@ typedef GPB_ENUM(ITMMenuItemRequest_FieldNumber) {
 #pragma mark - ITMMenuItemResponse
 
 typedef GPB_ENUM(ITMMenuItemResponse_FieldNumber) {
-  ITMMenuItemResponse_FieldNumber_Status = 1,
-  ITMMenuItemResponse_FieldNumber_Checked = 2,
-  ITMMenuItemResponse_FieldNumber_Enabled = 3,
+    ITMMenuItemResponse_FieldNumber_Status = 1,
+    ITMMenuItemResponse_FieldNumber_Checked = 2,
+    ITMMenuItemResponse_FieldNumber_Enabled = 3,
 };
 
 @interface ITMMenuItemResponse : GPBMessage
@@ -2621,13 +2621,13 @@ typedef GPB_ENUM(ITMMenuItemResponse_FieldNumber) {
 #pragma mark - ITMRestartSessionRequest
 
 typedef GPB_ENUM(ITMRestartSessionRequest_FieldNumber) {
-  ITMRestartSessionRequest_FieldNumber_SessionId = 1,
-  ITMRestartSessionRequest_FieldNumber_OnlyIfExited = 2,
+    ITMRestartSessionRequest_FieldNumber_SessionId = 1,
+    ITMRestartSessionRequest_FieldNumber_OnlyIfExited = 2,
 };
 
 @interface ITMRestartSessionRequest : GPBMessage
 
-/** "all" not allowed. */
+    /** "all" not allowed. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *sessionId;
 /** Test to see if @c sessionId has been set. */
 @property(nonatomic, readwrite) BOOL hasSessionId;
@@ -2644,7 +2644,7 @@ typedef GPB_ENUM(ITMRestartSessionRequest_FieldNumber) {
 #pragma mark - ITMRestartSessionResponse
 
 typedef GPB_ENUM(ITMRestartSessionResponse_FieldNumber) {
-  ITMRestartSessionResponse_FieldNumber_Status = 1,
+    ITMRestartSessionResponse_FieldNumber_Status = 1,
 };
 
 @interface ITMRestartSessionResponse : GPBMessage
@@ -2657,15 +2657,15 @@ typedef GPB_ENUM(ITMRestartSessionResponse_FieldNumber) {
 #pragma mark - ITMServerOriginatedRPCResultRequest
 
 typedef GPB_ENUM(ITMServerOriginatedRPCResultRequest_FieldNumber) {
-  ITMServerOriginatedRPCResultRequest_FieldNumber_RequestId = 1,
-  ITMServerOriginatedRPCResultRequest_FieldNumber_JsonException = 2,
-  ITMServerOriginatedRPCResultRequest_FieldNumber_JsonValue = 3,
+    ITMServerOriginatedRPCResultRequest_FieldNumber_RequestId = 1,
+    ITMServerOriginatedRPCResultRequest_FieldNumber_JsonException = 2,
+    ITMServerOriginatedRPCResultRequest_FieldNumber_JsonValue = 3,
 };
 
 typedef GPB_ENUM(ITMServerOriginatedRPCResultRequest_Result_OneOfCase) {
-  ITMServerOriginatedRPCResultRequest_Result_OneOfCase_GPBUnsetOneOfCase = 0,
-  ITMServerOriginatedRPCResultRequest_Result_OneOfCase_JsonException = 2,
-  ITMServerOriginatedRPCResultRequest_Result_OneOfCase_JsonValue = 3,
+    ITMServerOriginatedRPCResultRequest_Result_OneOfCase_GPBUnsetOneOfCase = 0,
+    ITMServerOriginatedRPCResultRequest_Result_OneOfCase_JsonException = 2,
+    ITMServerOriginatedRPCResultRequest_Result_OneOfCase_JsonValue = 3,
 };
 
 /**
@@ -2706,8 +2706,8 @@ void ITMServerOriginatedRPCResultRequest_ClearResultOneOfCase(ITMServerOriginate
 #pragma mark - ITMListProfilesRequest
 
 typedef GPB_ENUM(ITMListProfilesRequest_FieldNumber) {
-  ITMListProfilesRequest_FieldNumber_PropertiesArray = 1,
-  ITMListProfilesRequest_FieldNumber_GuidsArray = 2,
+    ITMListProfilesRequest_FieldNumber_PropertiesArray = 1,
+    ITMListProfilesRequest_FieldNumber_GuidsArray = 2,
 };
 
 /**
@@ -2715,10 +2715,10 @@ typedef GPB_ENUM(ITMListProfilesRequest_FieldNumber) {
  **/
 @interface ITMListProfilesRequest : GPBMessage
 
-/**
- * The profile properties to respond with. See SetProfilePropertyRequest for a list of values.
- * If empty, all properties will be returned.
- **/
+    /**
+     * The profile properties to respond with. See SetProfilePropertyRequest for a list of values.
+     * If empty, all properties will be returned.
+     **/
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<NSString*> *propertiesArray;
 /** The number of items in @c propertiesArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger propertiesArray_Count;
@@ -2736,7 +2736,7 @@ typedef GPB_ENUM(ITMListProfilesRequest_FieldNumber) {
 #pragma mark - ITMListProfilesResponse
 
 typedef GPB_ENUM(ITMListProfilesResponse_FieldNumber) {
-  ITMListProfilesResponse_FieldNumber_ProfilesArray = 1,
+    ITMListProfilesResponse_FieldNumber_ProfilesArray = 1,
 };
 
 @interface ITMListProfilesResponse : GPBMessage
@@ -2750,7 +2750,7 @@ typedef GPB_ENUM(ITMListProfilesResponse_FieldNumber) {
 #pragma mark - ITMListProfilesResponse_Profile
 
 typedef GPB_ENUM(ITMListProfilesResponse_Profile_FieldNumber) {
-  ITMListProfilesResponse_Profile_FieldNumber_PropertiesArray = 1,
+    ITMListProfilesResponse_Profile_FieldNumber_PropertiesArray = 1,
 };
 
 @interface ITMListProfilesResponse_Profile : GPBMessage
@@ -2770,15 +2770,15 @@ typedef GPB_ENUM(ITMListProfilesResponse_Profile_FieldNumber) {
 #pragma mark - ITMFocusResponse
 
 typedef GPB_ENUM(ITMFocusResponse_FieldNumber) {
-  ITMFocusResponse_FieldNumber_NotificationsArray = 1,
+    ITMFocusResponse_FieldNumber_NotificationsArray = 1,
 };
 
 @interface ITMFocusResponse : GPBMessage
 
-/**
- * A collection of notifications that completely describe the state of every tab and window and
- * the application itself.
- **/
+    /**
+     * A collection of notifications that completely describe the state of every tab and window and
+     * the application itself.
+     **/
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<ITMFocusChangedNotification*> *notificationsArray;
 /** The number of items in @c notificationsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger notificationsArray_Count;
@@ -2788,14 +2788,14 @@ typedef GPB_ENUM(ITMFocusResponse_FieldNumber) {
 #pragma mark - ITMSavedArrangementRequest
 
 typedef GPB_ENUM(ITMSavedArrangementRequest_FieldNumber) {
-  ITMSavedArrangementRequest_FieldNumber_Name = 1,
-  ITMSavedArrangementRequest_FieldNumber_Action = 2,
-  ITMSavedArrangementRequest_FieldNumber_WindowId = 3,
+    ITMSavedArrangementRequest_FieldNumber_Name = 1,
+    ITMSavedArrangementRequest_FieldNumber_Action = 2,
+    ITMSavedArrangementRequest_FieldNumber_WindowId = 3,
 };
 
 @interface ITMSavedArrangementRequest : GPBMessage
 
-/** Not used for LIST */
+    /** Not used for LIST */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *name;
 /** Test to see if @c name has been set. */
 @property(nonatomic, readwrite) BOOL hasName;
@@ -2817,8 +2817,8 @@ typedef GPB_ENUM(ITMSavedArrangementRequest_FieldNumber) {
 #pragma mark - ITMSavedArrangementResponse
 
 typedef GPB_ENUM(ITMSavedArrangementResponse_FieldNumber) {
-  ITMSavedArrangementResponse_FieldNumber_Status = 1,
-  ITMSavedArrangementResponse_FieldNumber_NamesArray = 2,
+    ITMSavedArrangementResponse_FieldNumber_Status = 1,
+    ITMSavedArrangementResponse_FieldNumber_NamesArray = 2,
 };
 
 @interface ITMSavedArrangementResponse : GPBMessage
@@ -2835,20 +2835,20 @@ typedef GPB_ENUM(ITMSavedArrangementResponse_FieldNumber) {
 #pragma mark - ITMVariableRequest
 
 typedef GPB_ENUM(ITMVariableRequest_FieldNumber) {
-  ITMVariableRequest_FieldNumber_SessionId = 1,
-  ITMVariableRequest_FieldNumber_SetArray = 2,
-  ITMVariableRequest_FieldNumber_GetArray = 3,
-  ITMVariableRequest_FieldNumber_TabId = 4,
-  ITMVariableRequest_FieldNumber_App = 5,
-  ITMVariableRequest_FieldNumber_WindowId = 6,
+    ITMVariableRequest_FieldNumber_SessionId = 1,
+    ITMVariableRequest_FieldNumber_SetArray = 2,
+    ITMVariableRequest_FieldNumber_GetArray = 3,
+    ITMVariableRequest_FieldNumber_TabId = 4,
+    ITMVariableRequest_FieldNumber_App = 5,
+    ITMVariableRequest_FieldNumber_WindowId = 6,
 };
 
 typedef GPB_ENUM(ITMVariableRequest_Scope_OneOfCase) {
-  ITMVariableRequest_Scope_OneOfCase_GPBUnsetOneOfCase = 0,
-  ITMVariableRequest_Scope_OneOfCase_SessionId = 1,
-  ITMVariableRequest_Scope_OneOfCase_TabId = 4,
-  ITMVariableRequest_Scope_OneOfCase_App = 5,
-  ITMVariableRequest_Scope_OneOfCase_WindowId = 6,
+    ITMVariableRequest_Scope_OneOfCase_GPBUnsetOneOfCase = 0,
+    ITMVariableRequest_Scope_OneOfCase_SessionId = 1,
+    ITMVariableRequest_Scope_OneOfCase_TabId = 4,
+    ITMVariableRequest_Scope_OneOfCase_App = 5,
+    ITMVariableRequest_Scope_OneOfCase_WindowId = 6,
 };
 
 @interface ITMVariableRequest : GPBMessage
@@ -2885,8 +2885,8 @@ void ITMVariableRequest_ClearScopeOneOfCase(ITMVariableRequest *message);
 #pragma mark - ITMVariableRequest_Set
 
 typedef GPB_ENUM(ITMVariableRequest_Set_FieldNumber) {
-  ITMVariableRequest_Set_FieldNumber_Name = 1,
-  ITMVariableRequest_Set_FieldNumber_Value = 2,
+    ITMVariableRequest_Set_FieldNumber_Name = 1,
+    ITMVariableRequest_Set_FieldNumber_Value = 2,
 };
 
 @interface ITMVariableRequest_Set : GPBMessage
@@ -2905,8 +2905,8 @@ typedef GPB_ENUM(ITMVariableRequest_Set_FieldNumber) {
 #pragma mark - ITMVariableResponse
 
 typedef GPB_ENUM(ITMVariableResponse_FieldNumber) {
-  ITMVariableResponse_FieldNumber_Status = 1,
-  ITMVariableResponse_FieldNumber_ValuesArray = 2,
+    ITMVariableResponse_FieldNumber_Status = 1,
+    ITMVariableResponse_FieldNumber_ValuesArray = 2,
 };
 
 @interface ITMVariableResponse : GPBMessage
@@ -2924,25 +2924,25 @@ typedef GPB_ENUM(ITMVariableResponse_FieldNumber) {
 #pragma mark - ITMActivateRequest
 
 typedef GPB_ENUM(ITMActivateRequest_FieldNumber) {
-  ITMActivateRequest_FieldNumber_WindowId = 1,
-  ITMActivateRequest_FieldNumber_TabId = 2,
-  ITMActivateRequest_FieldNumber_SessionId = 3,
-  ITMActivateRequest_FieldNumber_OrderWindowFront = 4,
-  ITMActivateRequest_FieldNumber_SelectTab = 5,
-  ITMActivateRequest_FieldNumber_SelectSession = 6,
-  ITMActivateRequest_FieldNumber_ActivateApp = 7,
+    ITMActivateRequest_FieldNumber_WindowId = 1,
+    ITMActivateRequest_FieldNumber_TabId = 2,
+    ITMActivateRequest_FieldNumber_SessionId = 3,
+    ITMActivateRequest_FieldNumber_OrderWindowFront = 4,
+    ITMActivateRequest_FieldNumber_SelectTab = 5,
+    ITMActivateRequest_FieldNumber_SelectSession = 6,
+    ITMActivateRequest_FieldNumber_ActivateApp = 7,
 };
 
 typedef GPB_ENUM(ITMActivateRequest_Identifier_OneOfCase) {
-  ITMActivateRequest_Identifier_OneOfCase_GPBUnsetOneOfCase = 0,
-  ITMActivateRequest_Identifier_OneOfCase_WindowId = 1,
-  ITMActivateRequest_Identifier_OneOfCase_TabId = 2,
-  ITMActivateRequest_Identifier_OneOfCase_SessionId = 3,
+    ITMActivateRequest_Identifier_OneOfCase_GPBUnsetOneOfCase = 0,
+    ITMActivateRequest_Identifier_OneOfCase_WindowId = 1,
+    ITMActivateRequest_Identifier_OneOfCase_TabId = 2,
+    ITMActivateRequest_Identifier_OneOfCase_SessionId = 3,
 };
 
 @interface ITMActivateRequest : GPBMessage
 
-/** To activate the app without changing anything else omit the identifier. */
+    /** To activate the app without changing anything else omit the identifier. */
 @property(nonatomic, readonly) ITMActivateRequest_Identifier_OneOfCase identifierOneOfCase;
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *windowId;
@@ -2976,8 +2976,8 @@ void ITMActivateRequest_ClearIdentifierOneOfCase(ITMActivateRequest *message);
 #pragma mark - ITMActivateRequest_App
 
 typedef GPB_ENUM(ITMActivateRequest_App_FieldNumber) {
-  ITMActivateRequest_App_FieldNumber_RaiseAllWindows = 1,
-  ITMActivateRequest_App_FieldNumber_IgnoringOtherApps = 2,
+    ITMActivateRequest_App_FieldNumber_RaiseAllWindows = 1,
+    ITMActivateRequest_App_FieldNumber_IgnoringOtherApps = 2,
 };
 
 /**
@@ -2996,7 +2996,7 @@ typedef GPB_ENUM(ITMActivateRequest_App_FieldNumber) {
 #pragma mark - ITMActivateResponse
 
 typedef GPB_ENUM(ITMActivateResponse_FieldNumber) {
-  ITMActivateResponse_FieldNumber_Status = 1,
+    ITMActivateResponse_FieldNumber_Status = 1,
 };
 
 @interface ITMActivateResponse : GPBMessage
@@ -3009,8 +3009,8 @@ typedef GPB_ENUM(ITMActivateResponse_FieldNumber) {
 #pragma mark - ITMInjectRequest
 
 typedef GPB_ENUM(ITMInjectRequest_FieldNumber) {
-  ITMInjectRequest_FieldNumber_SessionIdArray = 1,
-  ITMInjectRequest_FieldNumber_Data_p = 2,
+    ITMInjectRequest_FieldNumber_SessionIdArray = 1,
+    ITMInjectRequest_FieldNumber_Data_p = 2,
 };
 
 /**
@@ -3031,12 +3031,12 @@ typedef GPB_ENUM(ITMInjectRequest_FieldNumber) {
 #pragma mark - ITMInjectResponse
 
 typedef GPB_ENUM(ITMInjectResponse_FieldNumber) {
-  ITMInjectResponse_FieldNumber_StatusArray = 1,
+    ITMInjectResponse_FieldNumber_StatusArray = 1,
 };
 
 @interface ITMInjectResponse : GPBMessage
 
-/** One status per session_id in the request */
+    /** One status per session_id in the request */
 // |statusArray| contains |ITMInjectResponse_Status|
 @property(nonatomic, readwrite, strong, null_resettable) GPBEnumArray *statusArray;
 /** The number of items in @c statusArray without causing the array to be created. */
@@ -3047,20 +3047,20 @@ typedef GPB_ENUM(ITMInjectResponse_FieldNumber) {
 #pragma mark - ITMGetPropertyRequest
 
 typedef GPB_ENUM(ITMGetPropertyRequest_FieldNumber) {
-  ITMGetPropertyRequest_FieldNumber_WindowId = 1,
-  ITMGetPropertyRequest_FieldNumber_Name = 2,
-  ITMGetPropertyRequest_FieldNumber_SessionId = 3,
+    ITMGetPropertyRequest_FieldNumber_WindowId = 1,
+    ITMGetPropertyRequest_FieldNumber_Name = 2,
+    ITMGetPropertyRequest_FieldNumber_SessionId = 3,
 };
 
 typedef GPB_ENUM(ITMGetPropertyRequest_Identifier_OneOfCase) {
-  ITMGetPropertyRequest_Identifier_OneOfCase_GPBUnsetOneOfCase = 0,
-  ITMGetPropertyRequest_Identifier_OneOfCase_WindowId = 1,
-  ITMGetPropertyRequest_Identifier_OneOfCase_SessionId = 3,
+    ITMGetPropertyRequest_Identifier_OneOfCase_GPBUnsetOneOfCase = 0,
+    ITMGetPropertyRequest_Identifier_OneOfCase_WindowId = 1,
+    ITMGetPropertyRequest_Identifier_OneOfCase_SessionId = 3,
 };
 
 @interface ITMGetPropertyRequest : GPBMessage
 
-/** The kind of ID that's set determines the kind of object you're querying. */
+    /** The kind of ID that's set determines the kind of object you're querying. */
 @property(nonatomic, readonly) ITMGetPropertyRequest_Identifier_OneOfCase identifierOneOfCase;
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *windowId;
@@ -3092,22 +3092,22 @@ void ITMGetPropertyRequest_ClearIdentifierOneOfCase(ITMGetPropertyRequest *messa
 #pragma mark - ITMGetPropertyResponse
 
 typedef GPB_ENUM(ITMGetPropertyResponse_FieldNumber) {
-  ITMGetPropertyResponse_FieldNumber_Status = 1,
-  ITMGetPropertyResponse_FieldNumber_JsonValue = 2,
+    ITMGetPropertyResponse_FieldNumber_Status = 1,
+    ITMGetPropertyResponse_FieldNumber_JsonValue = 2,
 };
 
 @interface ITMGetPropertyResponse : GPBMessage
 
-/**
- * Name           Example value
- * -------------  ---------------
- * frame          { "origin": { "x": 0, "y": 0 }, "size": { "width": 1024, "height": 768 }}
- * fullscreen     true, false
- *
- * For sessions:
- * grid_size      { "width": 80, "height": 25 }
- * buried         true
- **/
+    /**
+     * Name           Example value
+     * -------------  ---------------
+     * frame          { "origin": { "x": 0, "y": 0 }, "size": { "width": 1024, "height": 768 }}
+     * fullscreen     true, false
+     *
+     * For sessions:
+     * grid_size      { "width": 80, "height": 25 }
+     * buried         true
+     **/
 @property(nonatomic, readwrite) ITMGetPropertyResponse_Status status;
 
 @property(nonatomic, readwrite) BOOL hasStatus;
@@ -3120,24 +3120,24 @@ typedef GPB_ENUM(ITMGetPropertyResponse_FieldNumber) {
 #pragma mark - ITMSetPropertyRequest
 
 typedef GPB_ENUM(ITMSetPropertyRequest_FieldNumber) {
-  ITMSetPropertyRequest_FieldNumber_WindowId = 1,
-  ITMSetPropertyRequest_FieldNumber_Name = 3,
-  ITMSetPropertyRequest_FieldNumber_JsonValue = 4,
-  ITMSetPropertyRequest_FieldNumber_SessionId = 5,
+    ITMSetPropertyRequest_FieldNumber_WindowId = 1,
+    ITMSetPropertyRequest_FieldNumber_Name = 3,
+    ITMSetPropertyRequest_FieldNumber_JsonValue = 4,
+    ITMSetPropertyRequest_FieldNumber_SessionId = 5,
 };
 
 typedef GPB_ENUM(ITMSetPropertyRequest_Identifier_OneOfCase) {
-  ITMSetPropertyRequest_Identifier_OneOfCase_GPBUnsetOneOfCase = 0,
-  ITMSetPropertyRequest_Identifier_OneOfCase_WindowId = 1,
-  ITMSetPropertyRequest_Identifier_OneOfCase_SessionId = 5,
+    ITMSetPropertyRequest_Identifier_OneOfCase_GPBUnsetOneOfCase = 0,
+    ITMSetPropertyRequest_Identifier_OneOfCase_WindowId = 1,
+    ITMSetPropertyRequest_Identifier_OneOfCase_SessionId = 5,
 };
 
 @interface ITMSetPropertyRequest : GPBMessage
 
-/**
- * Eventually you'll be able to set properties on other things besides The kind of ID that's set
- * determines the kind of object you're updating.
- **/
+    /**
+     * Eventually you'll be able to set properties on other things besides The kind of ID that's set
+     * determines the kind of object you're updating.
+     **/
 @property(nonatomic, readonly) ITMSetPropertyRequest_Identifier_OneOfCase identifierOneOfCase;
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *windowId;
@@ -3174,7 +3174,7 @@ void ITMSetPropertyRequest_ClearIdentifierOneOfCase(ITMSetPropertyRequest *messa
 #pragma mark - ITMSetPropertyResponse
 
 typedef GPB_ENUM(ITMSetPropertyResponse_FieldNumber) {
-  ITMSetPropertyResponse_FieldNumber_Status = 1,
+    ITMSetPropertyResponse_FieldNumber_Status = 1,
 };
 
 @interface ITMSetPropertyResponse : GPBMessage
@@ -3187,11 +3187,11 @@ typedef GPB_ENUM(ITMSetPropertyResponse_FieldNumber) {
 #pragma mark - ITMRegisterToolRequest
 
 typedef GPB_ENUM(ITMRegisterToolRequest_FieldNumber) {
-  ITMRegisterToolRequest_FieldNumber_Name = 1,
-  ITMRegisterToolRequest_FieldNumber_Identifier = 2,
-  ITMRegisterToolRequest_FieldNumber_ToolType = 3,
-  ITMRegisterToolRequest_FieldNumber_URL = 4,
-  ITMRegisterToolRequest_FieldNumber_RevealIfAlreadyRegistered = 5,
+    ITMRegisterToolRequest_FieldNumber_Name = 1,
+    ITMRegisterToolRequest_FieldNumber_Identifier = 2,
+    ITMRegisterToolRequest_FieldNumber_ToolType = 3,
+    ITMRegisterToolRequest_FieldNumber_URL = 4,
+    ITMRegisterToolRequest_FieldNumber_RevealIfAlreadyRegistered = 5,
 };
 
 /**
@@ -3199,7 +3199,7 @@ typedef GPB_ENUM(ITMRegisterToolRequest_FieldNumber) {
  **/
 @interface ITMRegisterToolRequest : GPBMessage
 
-/** This name is displayed to the user. */
+    /** This name is displayed to the user. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *name;
 /** Test to see if @c name has been set. */
 @property(nonatomic, readwrite) BOOL hasName;
@@ -3233,22 +3233,22 @@ typedef GPB_ENUM(ITMRegisterToolRequest_FieldNumber) {
 #pragma mark - ITMRPCRegistrationRequest
 
 typedef GPB_ENUM(ITMRPCRegistrationRequest_FieldNumber) {
-  ITMRPCRegistrationRequest_FieldNumber_Name = 1,
-  ITMRPCRegistrationRequest_FieldNumber_ArgumentsArray = 2,
-  ITMRPCRegistrationRequest_FieldNumber_Timeout = 3,
-  ITMRPCRegistrationRequest_FieldNumber_DefaultsArray = 4,
-  ITMRPCRegistrationRequest_FieldNumber_Role = 5,
-  ITMRPCRegistrationRequest_FieldNumber_DisplayName = 6,
-  ITMRPCRegistrationRequest_FieldNumber_SessionTitleAttributes = 7,
-  ITMRPCRegistrationRequest_FieldNumber_StatusBarComponentAttributes = 8,
-  ITMRPCRegistrationRequest_FieldNumber_ContextMenuAttributes = 9,
+    ITMRPCRegistrationRequest_FieldNumber_Name = 1,
+    ITMRPCRegistrationRequest_FieldNumber_ArgumentsArray = 2,
+    ITMRPCRegistrationRequest_FieldNumber_Timeout = 3,
+    ITMRPCRegistrationRequest_FieldNumber_DefaultsArray = 4,
+    ITMRPCRegistrationRequest_FieldNumber_Role = 5,
+    ITMRPCRegistrationRequest_FieldNumber_DisplayName = 6,
+    ITMRPCRegistrationRequest_FieldNumber_SessionTitleAttributes = 7,
+    ITMRPCRegistrationRequest_FieldNumber_StatusBarComponentAttributes = 8,
+    ITMRPCRegistrationRequest_FieldNumber_ContextMenuAttributes = 9,
 };
 
 typedef GPB_ENUM(ITMRPCRegistrationRequest_RoleSpecificAttributes_OneOfCase) {
-  ITMRPCRegistrationRequest_RoleSpecificAttributes_OneOfCase_GPBUnsetOneOfCase = 0,
-  ITMRPCRegistrationRequest_RoleSpecificAttributes_OneOfCase_SessionTitleAttributes = 7,
-  ITMRPCRegistrationRequest_RoleSpecificAttributes_OneOfCase_StatusBarComponentAttributes = 8,
-  ITMRPCRegistrationRequest_RoleSpecificAttributes_OneOfCase_ContextMenuAttributes = 9,
+    ITMRPCRegistrationRequest_RoleSpecificAttributes_OneOfCase_GPBUnsetOneOfCase = 0,
+    ITMRPCRegistrationRequest_RoleSpecificAttributes_OneOfCase_SessionTitleAttributes = 7,
+    ITMRPCRegistrationRequest_RoleSpecificAttributes_OneOfCase_StatusBarComponentAttributes = 8,
+    ITMRPCRegistrationRequest_RoleSpecificAttributes_OneOfCase_ContextMenuAttributes = 9,
 };
 
 /**
@@ -3298,7 +3298,7 @@ void ITMRPCRegistrationRequest_ClearRoleSpecificAttributesOneOfCase(ITMRPCRegist
 #pragma mark - ITMRPCRegistrationRequest_RPCArgumentSignature
 
 typedef GPB_ENUM(ITMRPCRegistrationRequest_RPCArgumentSignature_FieldNumber) {
-  ITMRPCRegistrationRequest_RPCArgumentSignature_FieldNumber_Name = 1,
+    ITMRPCRegistrationRequest_RPCArgumentSignature_FieldNumber_Name = 1,
 };
 
 @interface ITMRPCRegistrationRequest_RPCArgumentSignature : GPBMessage
@@ -3312,8 +3312,8 @@ typedef GPB_ENUM(ITMRPCRegistrationRequest_RPCArgumentSignature_FieldNumber) {
 #pragma mark - ITMRPCRegistrationRequest_RPCArgument
 
 typedef GPB_ENUM(ITMRPCRegistrationRequest_RPCArgument_FieldNumber) {
-  ITMRPCRegistrationRequest_RPCArgument_FieldNumber_Name = 1,
-  ITMRPCRegistrationRequest_RPCArgument_FieldNumber_Path = 2,
+    ITMRPCRegistrationRequest_RPCArgument_FieldNumber_Name = 1,
+    ITMRPCRegistrationRequest_RPCArgument_FieldNumber_Path = 2,
 };
 
 @interface ITMRPCRegistrationRequest_RPCArgument : GPBMessage
@@ -3331,13 +3331,13 @@ typedef GPB_ENUM(ITMRPCRegistrationRequest_RPCArgument_FieldNumber) {
 #pragma mark - ITMRPCRegistrationRequest_SessionTitleAttributes
 
 typedef GPB_ENUM(ITMRPCRegistrationRequest_SessionTitleAttributes_FieldNumber) {
-  ITMRPCRegistrationRequest_SessionTitleAttributes_FieldNumber_DisplayName = 1,
-  ITMRPCRegistrationRequest_SessionTitleAttributes_FieldNumber_UniqueIdentifier = 6,
+    ITMRPCRegistrationRequest_SessionTitleAttributes_FieldNumber_DisplayName = 1,
+    ITMRPCRegistrationRequest_SessionTitleAttributes_FieldNumber_UniqueIdentifier = 6,
 };
 
 @interface ITMRPCRegistrationRequest_SessionTitleAttributes : GPBMessage
 
-/** Used by SESSION_TITLE to control name in Preferences menu */
+    /** Used by SESSION_TITLE to control name in Preferences menu */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *displayName;
 /** Test to see if @c displayName has been set. */
 @property(nonatomic, readwrite) BOOL hasDisplayName;
@@ -3355,18 +3355,18 @@ typedef GPB_ENUM(ITMRPCRegistrationRequest_SessionTitleAttributes_FieldNumber) {
 #pragma mark - ITMRPCRegistrationRequest_StatusBarComponentAttributes
 
 typedef GPB_ENUM(ITMRPCRegistrationRequest_StatusBarComponentAttributes_FieldNumber) {
-  ITMRPCRegistrationRequest_StatusBarComponentAttributes_FieldNumber_ShortDescription = 1,
-  ITMRPCRegistrationRequest_StatusBarComponentAttributes_FieldNumber_DetailedDescription = 2,
-  ITMRPCRegistrationRequest_StatusBarComponentAttributes_FieldNumber_KnobsArray = 3,
-  ITMRPCRegistrationRequest_StatusBarComponentAttributes_FieldNumber_Exemplar = 4,
-  ITMRPCRegistrationRequest_StatusBarComponentAttributes_FieldNumber_UpdateCadence = 5,
-  ITMRPCRegistrationRequest_StatusBarComponentAttributes_FieldNumber_UniqueIdentifier = 6,
-  ITMRPCRegistrationRequest_StatusBarComponentAttributes_FieldNumber_IconsArray = 7,
+    ITMRPCRegistrationRequest_StatusBarComponentAttributes_FieldNumber_ShortDescription = 1,
+    ITMRPCRegistrationRequest_StatusBarComponentAttributes_FieldNumber_DetailedDescription = 2,
+    ITMRPCRegistrationRequest_StatusBarComponentAttributes_FieldNumber_KnobsArray = 3,
+    ITMRPCRegistrationRequest_StatusBarComponentAttributes_FieldNumber_Exemplar = 4,
+    ITMRPCRegistrationRequest_StatusBarComponentAttributes_FieldNumber_UpdateCadence = 5,
+    ITMRPCRegistrationRequest_StatusBarComponentAttributes_FieldNumber_UniqueIdentifier = 6,
+    ITMRPCRegistrationRequest_StatusBarComponentAttributes_FieldNumber_IconsArray = 7,
 };
 
 @interface ITMRPCRegistrationRequest_StatusBarComponentAttributes : GPBMessage
 
-/** Used by STATUS_BAR_COMPONENT */
+    /** Used by STATUS_BAR_COMPONENT */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *shortDescription;
 /** Test to see if @c shortDescription has been set. */
 @property(nonatomic, readwrite) BOOL hasShortDescription;
@@ -3403,11 +3403,11 @@ typedef GPB_ENUM(ITMRPCRegistrationRequest_StatusBarComponentAttributes_FieldNum
 #pragma mark - ITMRPCRegistrationRequest_StatusBarComponentAttributes_Knob
 
 typedef GPB_ENUM(ITMRPCRegistrationRequest_StatusBarComponentAttributes_Knob_FieldNumber) {
-  ITMRPCRegistrationRequest_StatusBarComponentAttributes_Knob_FieldNumber_Name = 1,
-  ITMRPCRegistrationRequest_StatusBarComponentAttributes_Knob_FieldNumber_Type = 2,
-  ITMRPCRegistrationRequest_StatusBarComponentAttributes_Knob_FieldNumber_Placeholder = 3,
-  ITMRPCRegistrationRequest_StatusBarComponentAttributes_Knob_FieldNumber_JsonDefaultValue = 4,
-  ITMRPCRegistrationRequest_StatusBarComponentAttributes_Knob_FieldNumber_Key = 5,
+    ITMRPCRegistrationRequest_StatusBarComponentAttributes_Knob_FieldNumber_Name = 1,
+    ITMRPCRegistrationRequest_StatusBarComponentAttributes_Knob_FieldNumber_Type = 2,
+    ITMRPCRegistrationRequest_StatusBarComponentAttributes_Knob_FieldNumber_Placeholder = 3,
+    ITMRPCRegistrationRequest_StatusBarComponentAttributes_Knob_FieldNumber_JsonDefaultValue = 4,
+    ITMRPCRegistrationRequest_StatusBarComponentAttributes_Knob_FieldNumber_Key = 5,
 };
 
 @interface ITMRPCRegistrationRequest_StatusBarComponentAttributes_Knob : GPBMessage
@@ -3436,8 +3436,8 @@ typedef GPB_ENUM(ITMRPCRegistrationRequest_StatusBarComponentAttributes_Knob_Fie
 #pragma mark - ITMRPCRegistrationRequest_StatusBarComponentAttributes_Icon
 
 typedef GPB_ENUM(ITMRPCRegistrationRequest_StatusBarComponentAttributes_Icon_FieldNumber) {
-  ITMRPCRegistrationRequest_StatusBarComponentAttributes_Icon_FieldNumber_Data_p = 1,
-  ITMRPCRegistrationRequest_StatusBarComponentAttributes_Icon_FieldNumber_Scale = 2,
+    ITMRPCRegistrationRequest_StatusBarComponentAttributes_Icon_FieldNumber_Data_p = 1,
+    ITMRPCRegistrationRequest_StatusBarComponentAttributes_Icon_FieldNumber_Scale = 2,
 };
 
 @interface ITMRPCRegistrationRequest_StatusBarComponentAttributes_Icon : GPBMessage
@@ -3454,8 +3454,8 @@ typedef GPB_ENUM(ITMRPCRegistrationRequest_StatusBarComponentAttributes_Icon_Fie
 #pragma mark - ITMRPCRegistrationRequest_ContextMenuAttributes
 
 typedef GPB_ENUM(ITMRPCRegistrationRequest_ContextMenuAttributes_FieldNumber) {
-  ITMRPCRegistrationRequest_ContextMenuAttributes_FieldNumber_DisplayName = 1,
-  ITMRPCRegistrationRequest_ContextMenuAttributes_FieldNumber_UniqueIdentifier = 2,
+    ITMRPCRegistrationRequest_ContextMenuAttributes_FieldNumber_DisplayName = 1,
+    ITMRPCRegistrationRequest_ContextMenuAttributes_FieldNumber_UniqueIdentifier = 2,
 };
 
 @interface ITMRPCRegistrationRequest_ContextMenuAttributes : GPBMessage
@@ -3473,7 +3473,7 @@ typedef GPB_ENUM(ITMRPCRegistrationRequest_ContextMenuAttributes_FieldNumber) {
 #pragma mark - ITMRegisterToolResponse
 
 typedef GPB_ENUM(ITMRegisterToolResponse_FieldNumber) {
-  ITMRegisterToolResponse_FieldNumber_Status = 1,
+    ITMRegisterToolResponse_FieldNumber_Status = 1,
 };
 
 @interface ITMRegisterToolResponse : GPBMessage
@@ -3486,16 +3486,16 @@ typedef GPB_ENUM(ITMRegisterToolResponse_FieldNumber) {
 #pragma mark - ITMKeystrokePattern
 
 typedef GPB_ENUM(ITMKeystrokePattern_FieldNumber) {
-  ITMKeystrokePattern_FieldNumber_RequiredModifiersArray = 1,
-  ITMKeystrokePattern_FieldNumber_ForbiddenModifiersArray = 2,
-  ITMKeystrokePattern_FieldNumber_KeycodesArray = 3,
-  ITMKeystrokePattern_FieldNumber_CharactersArray = 4,
-  ITMKeystrokePattern_FieldNumber_CharactersIgnoringModifiersArray = 5,
+    ITMKeystrokePattern_FieldNumber_RequiredModifiersArray = 1,
+    ITMKeystrokePattern_FieldNumber_ForbiddenModifiersArray = 2,
+    ITMKeystrokePattern_FieldNumber_KeycodesArray = 3,
+    ITMKeystrokePattern_FieldNumber_CharactersArray = 4,
+    ITMKeystrokePattern_FieldNumber_CharactersIgnoringModifiersArray = 5,
 };
 
 @interface ITMKeystrokePattern : GPBMessage
 
-/** The keystroke matches the pattern if it has all the required and none of the forbidden modifiers. */
+    /** The keystroke matches the pattern if it has all the required and none of the forbidden modifiers. */
 // |requiredModifiersArray| contains |ITMModifiers|
 @property(nonatomic, readwrite, strong, null_resettable) GPBEnumArray *requiredModifiersArray;
 /** The number of items in @c requiredModifiersArray without causing the array to be created. */
@@ -3529,12 +3529,12 @@ typedef GPB_ENUM(ITMKeystrokePattern_FieldNumber) {
 #pragma mark - ITMKeystrokeMonitorRequest
 
 typedef GPB_ENUM(ITMKeystrokeMonitorRequest_FieldNumber) {
-  ITMKeystrokeMonitorRequest_FieldNumber_PatternsToIgnoreArray = 1,
+    ITMKeystrokeMonitorRequest_FieldNumber_PatternsToIgnoreArray = 1,
 };
 
 @interface ITMKeystrokeMonitorRequest : GPBMessage
 
-/** KeystrokeFilterRequest was split from this to make a more sensible API. */
+    /** KeystrokeFilterRequest was split from this to make a more sensible API. */
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<ITMKeystrokePattern*> *patternsToIgnoreArray DEPRECATED_ATTRIBUTE;
 /** The number of items in @c patternsToIgnoreArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger patternsToIgnoreArray_Count DEPRECATED_ATTRIBUTE;
@@ -3544,15 +3544,15 @@ typedef GPB_ENUM(ITMKeystrokeMonitorRequest_FieldNumber) {
 #pragma mark - ITMKeystrokeFilterRequest
 
 typedef GPB_ENUM(ITMKeystrokeFilterRequest_FieldNumber) {
-  ITMKeystrokeFilterRequest_FieldNumber_PatternsToIgnoreArray = 1,
+    ITMKeystrokeFilterRequest_FieldNumber_PatternsToIgnoreArray = 1,
 };
 
 @interface ITMKeystrokeFilterRequest : GPBMessage
 
-/**
- * If a keystroke matches any of these patterns then they will not be handled by the application.
- * A notification will be posted and the script can handle it as it pleases.
- **/
+    /**
+     * If a keystroke matches any of these patterns then they will not be handled by the application.
+     * A notification will be posted and the script can handle it as it pleases.
+     **/
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<ITMKeystrokePattern*> *patternsToIgnoreArray;
 /** The number of items in @c patternsToIgnoreArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger patternsToIgnoreArray_Count;
@@ -3562,9 +3562,9 @@ typedef GPB_ENUM(ITMKeystrokeFilterRequest_FieldNumber) {
 #pragma mark - ITMVariableMonitorRequest
 
 typedef GPB_ENUM(ITMVariableMonitorRequest_FieldNumber) {
-  ITMVariableMonitorRequest_FieldNumber_Name = 1,
-  ITMVariableMonitorRequest_FieldNumber_Scope = 2,
-  ITMVariableMonitorRequest_FieldNumber_Identifier = 3,
+    ITMVariableMonitorRequest_FieldNumber_Name = 1,
+    ITMVariableMonitorRequest_FieldNumber_Scope = 2,
+    ITMVariableMonitorRequest_FieldNumber_Identifier = 3,
 };
 
 @interface ITMVariableMonitorRequest : GPBMessage
@@ -3586,7 +3586,7 @@ typedef GPB_ENUM(ITMVariableMonitorRequest_FieldNumber) {
 #pragma mark - ITMProfileChangeRequest
 
 typedef GPB_ENUM(ITMProfileChangeRequest_FieldNumber) {
-  ITMProfileChangeRequest_FieldNumber_Guid = 1,
+    ITMProfileChangeRequest_FieldNumber_Guid = 1,
 };
 
 @interface ITMProfileChangeRequest : GPBMessage
@@ -3600,7 +3600,7 @@ typedef GPB_ENUM(ITMProfileChangeRequest_FieldNumber) {
 #pragma mark - ITMPromptMonitorRequest
 
 typedef GPB_ENUM(ITMPromptMonitorRequest_FieldNumber) {
-  ITMPromptMonitorRequest_FieldNumber_ModesArray = 1,
+    ITMPromptMonitorRequest_FieldNumber_ModesArray = 1,
 };
 
 @interface ITMPromptMonitorRequest : GPBMessage
@@ -3615,35 +3615,35 @@ typedef GPB_ENUM(ITMPromptMonitorRequest_FieldNumber) {
 #pragma mark - ITMNotificationRequest
 
 typedef GPB_ENUM(ITMNotificationRequest_FieldNumber) {
-  ITMNotificationRequest_FieldNumber_Session = 1,
-  ITMNotificationRequest_FieldNumber_Subscribe = 2,
-  ITMNotificationRequest_FieldNumber_NotificationType = 3,
-  ITMNotificationRequest_FieldNumber_RpcRegistrationRequest = 4,
-  ITMNotificationRequest_FieldNumber_KeystrokeMonitorRequest = 5,
-  ITMNotificationRequest_FieldNumber_VariableMonitorRequest = 6,
-  ITMNotificationRequest_FieldNumber_ProfileChangeRequest = 7,
-  ITMNotificationRequest_FieldNumber_KeystrokeFilterRequest = 8,
-  ITMNotificationRequest_FieldNumber_PromptMonitorRequest = 9,
+    ITMNotificationRequest_FieldNumber_Session = 1,
+    ITMNotificationRequest_FieldNumber_Subscribe = 2,
+    ITMNotificationRequest_FieldNumber_NotificationType = 3,
+    ITMNotificationRequest_FieldNumber_RpcRegistrationRequest = 4,
+    ITMNotificationRequest_FieldNumber_KeystrokeMonitorRequest = 5,
+    ITMNotificationRequest_FieldNumber_VariableMonitorRequest = 6,
+    ITMNotificationRequest_FieldNumber_ProfileChangeRequest = 7,
+    ITMNotificationRequest_FieldNumber_KeystrokeFilterRequest = 8,
+    ITMNotificationRequest_FieldNumber_PromptMonitorRequest = 9,
 };
 
 typedef GPB_ENUM(ITMNotificationRequest_Arguments_OneOfCase) {
-  ITMNotificationRequest_Arguments_OneOfCase_GPBUnsetOneOfCase = 0,
-  ITMNotificationRequest_Arguments_OneOfCase_RpcRegistrationRequest = 4,
-  ITMNotificationRequest_Arguments_OneOfCase_KeystrokeMonitorRequest = 5,
-  ITMNotificationRequest_Arguments_OneOfCase_VariableMonitorRequest = 6,
-  ITMNotificationRequest_Arguments_OneOfCase_ProfileChangeRequest = 7,
-  ITMNotificationRequest_Arguments_OneOfCase_KeystrokeFilterRequest = 8,
-  ITMNotificationRequest_Arguments_OneOfCase_PromptMonitorRequest = 9,
+    ITMNotificationRequest_Arguments_OneOfCase_GPBUnsetOneOfCase = 0,
+    ITMNotificationRequest_Arguments_OneOfCase_RpcRegistrationRequest = 4,
+    ITMNotificationRequest_Arguments_OneOfCase_KeystrokeMonitorRequest = 5,
+    ITMNotificationRequest_Arguments_OneOfCase_VariableMonitorRequest = 6,
+    ITMNotificationRequest_Arguments_OneOfCase_ProfileChangeRequest = 7,
+    ITMNotificationRequest_Arguments_OneOfCase_KeystrokeFilterRequest = 8,
+    ITMNotificationRequest_Arguments_OneOfCase_PromptMonitorRequest = 9,
 };
 
 @interface ITMNotificationRequest : GPBMessage
 
-/**
- * See documentation on session IDs. NOTIFY_ON_NEW_SESSION, NOTIFY_ON_TERMINATE_SESSION, and
- * NOTIFY_ON_LAYOUT_CHANGE do not use the session ID and are posted on all such events.
- *
- * NOTE: This is not used for NOTIFY_ON_VARIABLE_CHANGE.
- **/
+    /**
+     * See documentation on session IDs. NOTIFY_ON_NEW_SESSION, NOTIFY_ON_TERMINATE_SESSION, and
+     * NOTIFY_ON_LAYOUT_CHANGE do not use the session ID and are posted on all such events.
+     *
+     * NOTE: This is not used for NOTIFY_ON_VARIABLE_CHANGE.
+     **/
 @property(nonatomic, readwrite, copy, null_resettable) NSString *session;
 /** Test to see if @c session has been set. */
 @property(nonatomic, readwrite) BOOL hasSession;
@@ -3681,7 +3681,7 @@ void ITMNotificationRequest_ClearArgumentsOneOfCase(ITMNotificationRequest *mess
 #pragma mark - ITMNotificationResponse
 
 typedef GPB_ENUM(ITMNotificationResponse_FieldNumber) {
-  ITMNotificationResponse_FieldNumber_Status = 1,
+    ITMNotificationResponse_FieldNumber_Status = 1,
 };
 
 @interface ITMNotificationResponse : GPBMessage
@@ -3694,19 +3694,19 @@ typedef GPB_ENUM(ITMNotificationResponse_FieldNumber) {
 #pragma mark - ITMNotification
 
 typedef GPB_ENUM(ITMNotification_FieldNumber) {
-  ITMNotification_FieldNumber_KeystrokeNotification = 1,
-  ITMNotification_FieldNumber_ScreenUpdateNotification = 2,
-  ITMNotification_FieldNumber_PromptNotification = 3,
-  ITMNotification_FieldNumber_LocationChangeNotification = 4,
-  ITMNotification_FieldNumber_CustomEscapeSequenceNotification = 5,
-  ITMNotification_FieldNumber_NewSessionNotification = 6,
-  ITMNotification_FieldNumber_TerminateSessionNotification = 7,
-  ITMNotification_FieldNumber_LayoutChangedNotification = 8,
-  ITMNotification_FieldNumber_FocusChangedNotification = 9,
-  ITMNotification_FieldNumber_ServerOriginatedRpcNotification = 10,
-  ITMNotification_FieldNumber_BroadcastDomainsChanged = 11,
-  ITMNotification_FieldNumber_VariableChangedNotification = 12,
-  ITMNotification_FieldNumber_ProfileChangedNotification = 13,
+    ITMNotification_FieldNumber_KeystrokeNotification = 1,
+    ITMNotification_FieldNumber_ScreenUpdateNotification = 2,
+    ITMNotification_FieldNumber_PromptNotification = 3,
+    ITMNotification_FieldNumber_LocationChangeNotification = 4,
+    ITMNotification_FieldNumber_CustomEscapeSequenceNotification = 5,
+    ITMNotification_FieldNumber_NewSessionNotification = 6,
+    ITMNotification_FieldNumber_TerminateSessionNotification = 7,
+    ITMNotification_FieldNumber_LayoutChangedNotification = 8,
+    ITMNotification_FieldNumber_FocusChangedNotification = 9,
+    ITMNotification_FieldNumber_ServerOriginatedRpcNotification = 10,
+    ITMNotification_FieldNumber_BroadcastDomainsChanged = 11,
+    ITMNotification_FieldNumber_VariableChangedNotification = 12,
+    ITMNotification_FieldNumber_ProfileChangedNotification = 13,
 };
 
 @interface ITMNotification : GPBMessage
@@ -3768,7 +3768,7 @@ typedef GPB_ENUM(ITMNotification_FieldNumber) {
 #pragma mark - ITMProfileChangedNotification
 
 typedef GPB_ENUM(ITMProfileChangedNotification_FieldNumber) {
-  ITMProfileChangedNotification_FieldNumber_Guid = 1,
+    ITMProfileChangedNotification_FieldNumber_Guid = 1,
 };
 
 @interface ITMProfileChangedNotification : GPBMessage
@@ -3782,10 +3782,10 @@ typedef GPB_ENUM(ITMProfileChangedNotification_FieldNumber) {
 #pragma mark - ITMVariableChangedNotification
 
 typedef GPB_ENUM(ITMVariableChangedNotification_FieldNumber) {
-  ITMVariableChangedNotification_FieldNumber_Scope = 1,
-  ITMVariableChangedNotification_FieldNumber_Identifier = 2,
-  ITMVariableChangedNotification_FieldNumber_Name = 3,
-  ITMVariableChangedNotification_FieldNumber_JsonNewValue = 4,
+    ITMVariableChangedNotification_FieldNumber_Scope = 1,
+    ITMVariableChangedNotification_FieldNumber_Identifier = 2,
+    ITMVariableChangedNotification_FieldNumber_Name = 3,
+    ITMVariableChangedNotification_FieldNumber_JsonNewValue = 4,
 };
 
 @interface ITMVariableChangedNotification : GPBMessage
@@ -3812,7 +3812,7 @@ typedef GPB_ENUM(ITMVariableChangedNotification_FieldNumber) {
 #pragma mark - ITMBroadcastDomainsChangedNotification
 
 typedef GPB_ENUM(ITMBroadcastDomainsChangedNotification_FieldNumber) {
-  ITMBroadcastDomainsChangedNotification_FieldNumber_BroadcastDomainsArray = 1,
+    ITMBroadcastDomainsChangedNotification_FieldNumber_BroadcastDomainsArray = 1,
 };
 
 @interface ITMBroadcastDomainsChangedNotification : GPBMessage
@@ -3826,8 +3826,8 @@ typedef GPB_ENUM(ITMBroadcastDomainsChangedNotification_FieldNumber) {
 #pragma mark - ITMServerOriginatedRPC
 
 typedef GPB_ENUM(ITMServerOriginatedRPC_FieldNumber) {
-  ITMServerOriginatedRPC_FieldNumber_Name = 2,
-  ITMServerOriginatedRPC_FieldNumber_ArgumentsArray = 3,
+    ITMServerOriginatedRPC_FieldNumber_Name = 2,
+    ITMServerOriginatedRPC_FieldNumber_ArgumentsArray = 3,
 };
 
 @interface ITMServerOriginatedRPC : GPBMessage
@@ -3845,8 +3845,8 @@ typedef GPB_ENUM(ITMServerOriginatedRPC_FieldNumber) {
 #pragma mark - ITMServerOriginatedRPC_RPCArgument
 
 typedef GPB_ENUM(ITMServerOriginatedRPC_RPCArgument_FieldNumber) {
-  ITMServerOriginatedRPC_RPCArgument_FieldNumber_Name = 1,
-  ITMServerOriginatedRPC_RPCArgument_FieldNumber_JsonValue = 2,
+    ITMServerOriginatedRPC_RPCArgument_FieldNumber_Name = 1,
+    ITMServerOriginatedRPC_RPCArgument_FieldNumber_JsonValue = 2,
 };
 
 @interface ITMServerOriginatedRPC_RPCArgument : GPBMessage
@@ -3864,8 +3864,8 @@ typedef GPB_ENUM(ITMServerOriginatedRPC_RPCArgument_FieldNumber) {
 #pragma mark - ITMServerOriginatedRPCNotification
 
 typedef GPB_ENUM(ITMServerOriginatedRPCNotification_FieldNumber) {
-  ITMServerOriginatedRPCNotification_FieldNumber_RequestId = 1,
-  ITMServerOriginatedRPCNotification_FieldNumber_Rpc = 2,
+    ITMServerOriginatedRPCNotification_FieldNumber_RequestId = 1,
+    ITMServerOriginatedRPCNotification_FieldNumber_Rpc = 2,
 };
 
 /**
@@ -3887,11 +3887,11 @@ typedef GPB_ENUM(ITMServerOriginatedRPCNotification_FieldNumber) {
 #pragma mark - ITMKeystrokeNotification
 
 typedef GPB_ENUM(ITMKeystrokeNotification_FieldNumber) {
-  ITMKeystrokeNotification_FieldNumber_Characters = 1,
-  ITMKeystrokeNotification_FieldNumber_CharactersIgnoringModifiers = 2,
-  ITMKeystrokeNotification_FieldNumber_ModifiersArray = 3,
-  ITMKeystrokeNotification_FieldNumber_KeyCode = 4,
-  ITMKeystrokeNotification_FieldNumber_Session = 5,
+    ITMKeystrokeNotification_FieldNumber_Characters = 1,
+    ITMKeystrokeNotification_FieldNumber_CharactersIgnoringModifiers = 2,
+    ITMKeystrokeNotification_FieldNumber_ModifiersArray = 3,
+    ITMKeystrokeNotification_FieldNumber_KeyCode = 4,
+    ITMKeystrokeNotification_FieldNumber_Session = 5,
 };
 
 @interface ITMKeystrokeNotification : GPBMessage
@@ -3921,7 +3921,7 @@ typedef GPB_ENUM(ITMKeystrokeNotification_FieldNumber) {
 #pragma mark - ITMScreenUpdateNotification
 
 typedef GPB_ENUM(ITMScreenUpdateNotification_FieldNumber) {
-  ITMScreenUpdateNotification_FieldNumber_Session = 1,
+    ITMScreenUpdateNotification_FieldNumber_Session = 1,
 };
 
 @interface ITMScreenUpdateNotification : GPBMessage
@@ -3935,7 +3935,7 @@ typedef GPB_ENUM(ITMScreenUpdateNotification_FieldNumber) {
 #pragma mark - ITMPromptNotificationPrompt
 
 typedef GPB_ENUM(ITMPromptNotificationPrompt_FieldNumber) {
-  ITMPromptNotificationPrompt_FieldNumber_Placeholder = 1,
+    ITMPromptNotificationPrompt_FieldNumber_Placeholder = 1,
 };
 
 @interface ITMPromptNotificationPrompt : GPBMessage
@@ -3949,7 +3949,7 @@ typedef GPB_ENUM(ITMPromptNotificationPrompt_FieldNumber) {
 #pragma mark - ITMPromptNotificationCommandStart
 
 typedef GPB_ENUM(ITMPromptNotificationCommandStart_FieldNumber) {
-  ITMPromptNotificationCommandStart_FieldNumber_Command = 1,
+    ITMPromptNotificationCommandStart_FieldNumber_Command = 1,
 };
 
 @interface ITMPromptNotificationCommandStart : GPBMessage
@@ -3963,7 +3963,7 @@ typedef GPB_ENUM(ITMPromptNotificationCommandStart_FieldNumber) {
 #pragma mark - ITMPromptNotificationCommandEnd
 
 typedef GPB_ENUM(ITMPromptNotificationCommandEnd_FieldNumber) {
-  ITMPromptNotificationCommandEnd_FieldNumber_Status = 1,
+    ITMPromptNotificationCommandEnd_FieldNumber_Status = 1,
 };
 
 @interface ITMPromptNotificationCommandEnd : GPBMessage
@@ -3976,18 +3976,18 @@ typedef GPB_ENUM(ITMPromptNotificationCommandEnd_FieldNumber) {
 #pragma mark - ITMPromptNotification
 
 typedef GPB_ENUM(ITMPromptNotification_FieldNumber) {
-  ITMPromptNotification_FieldNumber_Session = 1,
-  ITMPromptNotification_FieldNumber_Prompt = 2,
-  ITMPromptNotification_FieldNumber_CommandStart = 3,
-  ITMPromptNotification_FieldNumber_CommandEnd = 4,
-  ITMPromptNotification_FieldNumber_UniquePromptId = 5,
+    ITMPromptNotification_FieldNumber_Session = 1,
+    ITMPromptNotification_FieldNumber_Prompt = 2,
+    ITMPromptNotification_FieldNumber_CommandStart = 3,
+    ITMPromptNotification_FieldNumber_CommandEnd = 4,
+    ITMPromptNotification_FieldNumber_UniquePromptId = 5,
 };
 
 typedef GPB_ENUM(ITMPromptNotification_Event_OneOfCase) {
-  ITMPromptNotification_Event_OneOfCase_GPBUnsetOneOfCase = 0,
-  ITMPromptNotification_Event_OneOfCase_Prompt = 2,
-  ITMPromptNotification_Event_OneOfCase_CommandStart = 3,
-  ITMPromptNotification_Event_OneOfCase_CommandEnd = 4,
+    ITMPromptNotification_Event_OneOfCase_GPBUnsetOneOfCase = 0,
+    ITMPromptNotification_Event_OneOfCase_Prompt = 2,
+    ITMPromptNotification_Event_OneOfCase_CommandStart = 3,
+    ITMPromptNotification_Event_OneOfCase_CommandEnd = 4,
 };
 
 @interface ITMPromptNotification : GPBMessage
@@ -4018,10 +4018,10 @@ void ITMPromptNotification_ClearEventOneOfCase(ITMPromptNotification *message);
 #pragma mark - ITMLocationChangeNotification
 
 typedef GPB_ENUM(ITMLocationChangeNotification_FieldNumber) {
-  ITMLocationChangeNotification_FieldNumber_HostName = 1,
-  ITMLocationChangeNotification_FieldNumber_UserName = 2,
-  ITMLocationChangeNotification_FieldNumber_Directory = 3,
-  ITMLocationChangeNotification_FieldNumber_Session = 4,
+    ITMLocationChangeNotification_FieldNumber_HostName = 1,
+    ITMLocationChangeNotification_FieldNumber_UserName = 2,
+    ITMLocationChangeNotification_FieldNumber_Directory = 3,
+    ITMLocationChangeNotification_FieldNumber_Session = 4,
 };
 
 @interface ITMLocationChangeNotification : GPBMessage
@@ -4047,9 +4047,9 @@ typedef GPB_ENUM(ITMLocationChangeNotification_FieldNumber) {
 #pragma mark - ITMCustomEscapeSequenceNotification
 
 typedef GPB_ENUM(ITMCustomEscapeSequenceNotification_FieldNumber) {
-  ITMCustomEscapeSequenceNotification_FieldNumber_Session = 1,
-  ITMCustomEscapeSequenceNotification_FieldNumber_SenderIdentity = 2,
-  ITMCustomEscapeSequenceNotification_FieldNumber_Payload = 3,
+    ITMCustomEscapeSequenceNotification_FieldNumber_Session = 1,
+    ITMCustomEscapeSequenceNotification_FieldNumber_SenderIdentity = 2,
+    ITMCustomEscapeSequenceNotification_FieldNumber_Payload = 3,
 };
 
 /**
@@ -4074,7 +4074,7 @@ typedef GPB_ENUM(ITMCustomEscapeSequenceNotification_FieldNumber) {
 #pragma mark - ITMNewSessionNotification
 
 typedef GPB_ENUM(ITMNewSessionNotification_FieldNumber) {
-  ITMNewSessionNotification_FieldNumber_SessionId = 1,
+    ITMNewSessionNotification_FieldNumber_SessionId = 1,
 };
 
 /**
@@ -4091,18 +4091,18 @@ typedef GPB_ENUM(ITMNewSessionNotification_FieldNumber) {
 #pragma mark - ITMFocusChangedNotification
 
 typedef GPB_ENUM(ITMFocusChangedNotification_FieldNumber) {
-  ITMFocusChangedNotification_FieldNumber_ApplicationActive = 1,
-  ITMFocusChangedNotification_FieldNumber_Window = 2,
-  ITMFocusChangedNotification_FieldNumber_SelectedTab = 3,
-  ITMFocusChangedNotification_FieldNumber_Session = 4,
+    ITMFocusChangedNotification_FieldNumber_ApplicationActive = 1,
+    ITMFocusChangedNotification_FieldNumber_Window = 2,
+    ITMFocusChangedNotification_FieldNumber_SelectedTab = 3,
+    ITMFocusChangedNotification_FieldNumber_Session = 4,
 };
 
 typedef GPB_ENUM(ITMFocusChangedNotification_Event_OneOfCase) {
-  ITMFocusChangedNotification_Event_OneOfCase_GPBUnsetOneOfCase = 0,
-  ITMFocusChangedNotification_Event_OneOfCase_ApplicationActive = 1,
-  ITMFocusChangedNotification_Event_OneOfCase_Window = 2,
-  ITMFocusChangedNotification_Event_OneOfCase_SelectedTab = 3,
-  ITMFocusChangedNotification_Event_OneOfCase_Session = 4,
+    ITMFocusChangedNotification_Event_OneOfCase_GPBUnsetOneOfCase = 0,
+    ITMFocusChangedNotification_Event_OneOfCase_ApplicationActive = 1,
+    ITMFocusChangedNotification_Event_OneOfCase_Window = 2,
+    ITMFocusChangedNotification_Event_OneOfCase_SelectedTab = 3,
+    ITMFocusChangedNotification_Event_OneOfCase_Session = 4,
 };
 
 /**
@@ -4136,13 +4136,13 @@ void ITMFocusChangedNotification_ClearEventOneOfCase(ITMFocusChangedNotification
 #pragma mark - ITMFocusChangedNotification_Window
 
 typedef GPB_ENUM(ITMFocusChangedNotification_Window_FieldNumber) {
-  ITMFocusChangedNotification_Window_FieldNumber_WindowStatus = 1,
-  ITMFocusChangedNotification_Window_FieldNumber_WindowId = 2,
+    ITMFocusChangedNotification_Window_FieldNumber_WindowStatus = 1,
+    ITMFocusChangedNotification_Window_FieldNumber_WindowId = 2,
 };
 
 @interface ITMFocusChangedNotification_Window : GPBMessage
 
-/** Describes how to interpret window_id. */
+    /** Describes how to interpret window_id. */
 @property(nonatomic, readwrite) ITMFocusChangedNotification_Window_WindowStatus windowStatus;
 
 @property(nonatomic, readwrite) BOOL hasWindowStatus;
@@ -4156,7 +4156,7 @@ typedef GPB_ENUM(ITMFocusChangedNotification_Window_FieldNumber) {
 #pragma mark - ITMTerminateSessionNotification
 
 typedef GPB_ENUM(ITMTerminateSessionNotification_FieldNumber) {
-  ITMTerminateSessionNotification_FieldNumber_SessionId = 1,
+    ITMTerminateSessionNotification_FieldNumber_SessionId = 1,
 };
 
 @interface ITMTerminateSessionNotification : GPBMessage
@@ -4170,7 +4170,7 @@ typedef GPB_ENUM(ITMTerminateSessionNotification_FieldNumber) {
 #pragma mark - ITMLayoutChangedNotification
 
 typedef GPB_ENUM(ITMLayoutChangedNotification_FieldNumber) {
-  ITMLayoutChangedNotification_FieldNumber_ListSessionsResponse = 1,
+    ITMLayoutChangedNotification_FieldNumber_ListSessionsResponse = 1,
 };
 
 @interface ITMLayoutChangedNotification : GPBMessage
@@ -4184,8 +4184,8 @@ typedef GPB_ENUM(ITMLayoutChangedNotification_FieldNumber) {
 #pragma mark - ITMGetBufferRequest
 
 typedef GPB_ENUM(ITMGetBufferRequest_FieldNumber) {
-  ITMGetBufferRequest_FieldNumber_Session = 1,
-  ITMGetBufferRequest_FieldNumber_LineRange = 2,
+    ITMGetBufferRequest_FieldNumber_Session = 1,
+    ITMGetBufferRequest_FieldNumber_LineRange = 2,
 };
 
 /**
@@ -4193,7 +4193,7 @@ typedef GPB_ENUM(ITMGetBufferRequest_FieldNumber) {
  **/
 @interface ITMGetBufferRequest : GPBMessage
 
-/** See documentation on session IDs. "all" not accepted. */
+    /** See documentation on session IDs. "all" not accepted. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *session;
 /** Test to see if @c session has been set. */
 @property(nonatomic, readwrite) BOOL hasSession;
@@ -4208,12 +4208,12 @@ typedef GPB_ENUM(ITMGetBufferRequest_FieldNumber) {
 #pragma mark - ITMGetBufferResponse
 
 typedef GPB_ENUM(ITMGetBufferResponse_FieldNumber) {
-  ITMGetBufferResponse_FieldNumber_Status = 1,
-  ITMGetBufferResponse_FieldNumber_Range = 2,
-  ITMGetBufferResponse_FieldNumber_ContentsArray = 3,
-  ITMGetBufferResponse_FieldNumber_Cursor = 4,
-  ITMGetBufferResponse_FieldNumber_NumLinesAboveScreen = 5,
-  ITMGetBufferResponse_FieldNumber_WindowedCoordRange = 6,
+    ITMGetBufferResponse_FieldNumber_Status = 1,
+    ITMGetBufferResponse_FieldNumber_Range = 2,
+    ITMGetBufferResponse_FieldNumber_ContentsArray = 3,
+    ITMGetBufferResponse_FieldNumber_Cursor = 4,
+    ITMGetBufferResponse_FieldNumber_NumLinesAboveScreen = 5,
+    ITMGetBufferResponse_FieldNumber_WindowedCoordRange = 6,
 };
 
 /**
@@ -4256,8 +4256,8 @@ typedef GPB_ENUM(ITMGetBufferResponse_FieldNumber) {
 #pragma mark - ITMGetPromptRequest
 
 typedef GPB_ENUM(ITMGetPromptRequest_FieldNumber) {
-  ITMGetPromptRequest_FieldNumber_Session = 1,
-  ITMGetPromptRequest_FieldNumber_UniquePromptId = 2,
+    ITMGetPromptRequest_FieldNumber_Session = 1,
+    ITMGetPromptRequest_FieldNumber_UniquePromptId = 2,
 };
 
 /**
@@ -4265,7 +4265,7 @@ typedef GPB_ENUM(ITMGetPromptRequest_FieldNumber) {
  **/
 @interface ITMGetPromptRequest : GPBMessage
 
-/** See documentation on session IDs. "all" not accepted. */
+    /** See documentation on session IDs. "all" not accepted. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *session;
 /** Test to see if @c session has been set. */
 @property(nonatomic, readwrite) BOOL hasSession;
@@ -4280,15 +4280,15 @@ typedef GPB_ENUM(ITMGetPromptRequest_FieldNumber) {
 #pragma mark - ITMGetPromptResponse
 
 typedef GPB_ENUM(ITMGetPromptResponse_FieldNumber) {
-  ITMGetPromptResponse_FieldNumber_Status = 1,
-  ITMGetPromptResponse_FieldNumber_PromptRange = 2,
-  ITMGetPromptResponse_FieldNumber_CommandRange = 3,
-  ITMGetPromptResponse_FieldNumber_OutputRange = 4,
-  ITMGetPromptResponse_FieldNumber_WorkingDirectory = 5,
-  ITMGetPromptResponse_FieldNumber_Command = 6,
-  ITMGetPromptResponse_FieldNumber_PromptState = 7,
-  ITMGetPromptResponse_FieldNumber_ExitStatus = 9,
-  ITMGetPromptResponse_FieldNumber_UniquePromptId = 10,
+    ITMGetPromptResponse_FieldNumber_Status = 1,
+    ITMGetPromptResponse_FieldNumber_PromptRange = 2,
+    ITMGetPromptResponse_FieldNumber_CommandRange = 3,
+    ITMGetPromptResponse_FieldNumber_OutputRange = 4,
+    ITMGetPromptResponse_FieldNumber_WorkingDirectory = 5,
+    ITMGetPromptResponse_FieldNumber_Command = 6,
+    ITMGetPromptResponse_FieldNumber_PromptState = 7,
+    ITMGetPromptResponse_FieldNumber_ExitStatus = 9,
+    ITMGetPromptResponse_FieldNumber_UniquePromptId = 10,
 };
 
 /**
@@ -4335,14 +4335,14 @@ typedef GPB_ENUM(ITMGetPromptResponse_FieldNumber) {
 #pragma mark - ITMListPromptsRequest
 
 typedef GPB_ENUM(ITMListPromptsRequest_FieldNumber) {
-  ITMListPromptsRequest_FieldNumber_Session = 1,
-  ITMListPromptsRequest_FieldNumber_FirstUniqueId = 2,
-  ITMListPromptsRequest_FieldNumber_LastUniqueId = 3,
+    ITMListPromptsRequest_FieldNumber_Session = 1,
+    ITMListPromptsRequest_FieldNumber_FirstUniqueId = 2,
+    ITMListPromptsRequest_FieldNumber_LastUniqueId = 3,
 };
 
 @interface ITMListPromptsRequest : GPBMessage
 
-/** Must name a specific session. "all" not allowed. */
+    /** Must name a specific session. "all" not allowed. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *session;
 /** Test to see if @c session has been set. */
 @property(nonatomic, readwrite) BOOL hasSession;
@@ -4362,8 +4362,8 @@ typedef GPB_ENUM(ITMListPromptsRequest_FieldNumber) {
 #pragma mark - ITMListPromptsResponse
 
 typedef GPB_ENUM(ITMListPromptsResponse_FieldNumber) {
-  ITMListPromptsResponse_FieldNumber_Status = 1,
-  ITMListPromptsResponse_FieldNumber_UniquePromptIdArray = 2,
+    ITMListPromptsResponse_FieldNumber_Status = 1,
+    ITMListPromptsResponse_FieldNumber_UniquePromptIdArray = 2,
 };
 
 @interface ITMListPromptsResponse : GPBMessage
@@ -4381,13 +4381,13 @@ typedef GPB_ENUM(ITMListPromptsResponse_FieldNumber) {
 #pragma mark - ITMGetProfilePropertyRequest
 
 typedef GPB_ENUM(ITMGetProfilePropertyRequest_FieldNumber) {
-  ITMGetProfilePropertyRequest_FieldNumber_Session = 1,
-  ITMGetProfilePropertyRequest_FieldNumber_KeysArray = 2,
+    ITMGetProfilePropertyRequest_FieldNumber_Session = 1,
+    ITMGetProfilePropertyRequest_FieldNumber_KeysArray = 2,
 };
 
 @interface ITMGetProfilePropertyRequest : GPBMessage
 
-/** See documentation on session IDs */
+    /** See documentation on session IDs */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *session;
 /** Test to see if @c session has been set. */
 @property(nonatomic, readwrite) BOOL hasSession;
@@ -4402,8 +4402,8 @@ typedef GPB_ENUM(ITMGetProfilePropertyRequest_FieldNumber) {
 #pragma mark - ITMProfileProperty
 
 typedef GPB_ENUM(ITMProfileProperty_FieldNumber) {
-  ITMProfileProperty_FieldNumber_Key = 1,
-  ITMProfileProperty_FieldNumber_JsonValue = 2,
+    ITMProfileProperty_FieldNumber_Key = 1,
+    ITMProfileProperty_FieldNumber_JsonValue = 2,
 };
 
 @interface ITMProfileProperty : GPBMessage
@@ -4421,8 +4421,8 @@ typedef GPB_ENUM(ITMProfileProperty_FieldNumber) {
 #pragma mark - ITMGetProfilePropertyResponse
 
 typedef GPB_ENUM(ITMGetProfilePropertyResponse_FieldNumber) {
-  ITMGetProfilePropertyResponse_FieldNumber_Status = 1,
-  ITMGetProfilePropertyResponse_FieldNumber_PropertiesArray = 3,
+    ITMGetProfilePropertyResponse_FieldNumber_Status = 1,
+    ITMGetProfilePropertyResponse_FieldNumber_PropertiesArray = 3,
 };
 
 @interface ITMGetProfilePropertyResponse : GPBMessage
@@ -4439,17 +4439,17 @@ typedef GPB_ENUM(ITMGetProfilePropertyResponse_FieldNumber) {
 #pragma mark - ITMSetProfilePropertyRequest
 
 typedef GPB_ENUM(ITMSetProfilePropertyRequest_FieldNumber) {
-  ITMSetProfilePropertyRequest_FieldNumber_Session = 1,
-  ITMSetProfilePropertyRequest_FieldNumber_GuidList = 2,
-  ITMSetProfilePropertyRequest_FieldNumber_Key = 3,
-  ITMSetProfilePropertyRequest_FieldNumber_JsonValue = 4,
-  ITMSetProfilePropertyRequest_FieldNumber_AssignmentsArray = 5,
+    ITMSetProfilePropertyRequest_FieldNumber_Session = 1,
+    ITMSetProfilePropertyRequest_FieldNumber_GuidList = 2,
+    ITMSetProfilePropertyRequest_FieldNumber_Key = 3,
+    ITMSetProfilePropertyRequest_FieldNumber_JsonValue = 4,
+    ITMSetProfilePropertyRequest_FieldNumber_AssignmentsArray = 5,
 };
 
 typedef GPB_ENUM(ITMSetProfilePropertyRequest_Target_OneOfCase) {
-  ITMSetProfilePropertyRequest_Target_OneOfCase_GPBUnsetOneOfCase = 0,
-  ITMSetProfilePropertyRequest_Target_OneOfCase_Session = 1,
-  ITMSetProfilePropertyRequest_Target_OneOfCase_GuidList = 2,
+    ITMSetProfilePropertyRequest_Target_OneOfCase_GPBUnsetOneOfCase = 0,
+    ITMSetProfilePropertyRequest_Target_OneOfCase_Session = 1,
+    ITMSetProfilePropertyRequest_Target_OneOfCase_GuidList = 2,
 };
 
 /**
@@ -4488,7 +4488,7 @@ void ITMSetProfilePropertyRequest_ClearTargetOneOfCase(ITMSetProfilePropertyRequ
 #pragma mark - ITMSetProfilePropertyRequest_GuidList
 
 typedef GPB_ENUM(ITMSetProfilePropertyRequest_GuidList_FieldNumber) {
-  ITMSetProfilePropertyRequest_GuidList_FieldNumber_GuidsArray = 1,
+    ITMSetProfilePropertyRequest_GuidList_FieldNumber_GuidsArray = 1,
 };
 
 @interface ITMSetProfilePropertyRequest_GuidList : GPBMessage
@@ -4502,8 +4502,8 @@ typedef GPB_ENUM(ITMSetProfilePropertyRequest_GuidList_FieldNumber) {
 #pragma mark - ITMSetProfilePropertyRequest_Assignment
 
 typedef GPB_ENUM(ITMSetProfilePropertyRequest_Assignment_FieldNumber) {
-  ITMSetProfilePropertyRequest_Assignment_FieldNumber_Key = 1,
-  ITMSetProfilePropertyRequest_Assignment_FieldNumber_JsonValue = 2,
+    ITMSetProfilePropertyRequest_Assignment_FieldNumber_Key = 1,
+    ITMSetProfilePropertyRequest_Assignment_FieldNumber_JsonValue = 2,
 };
 
 @interface ITMSetProfilePropertyRequest_Assignment : GPBMessage
@@ -4521,7 +4521,7 @@ typedef GPB_ENUM(ITMSetProfilePropertyRequest_Assignment_FieldNumber) {
 #pragma mark - ITMSetProfilePropertyResponse
 
 typedef GPB_ENUM(ITMSetProfilePropertyResponse_FieldNumber) {
-  ITMSetProfilePropertyResponse_FieldNumber_Status = 1,
+    ITMSetProfilePropertyResponse_FieldNumber_Status = 1,
 };
 
 @interface ITMSetProfilePropertyResponse : GPBMessage
@@ -4534,16 +4534,16 @@ typedef GPB_ENUM(ITMSetProfilePropertyResponse_FieldNumber) {
 #pragma mark - ITMTransactionRequest
 
 typedef GPB_ENUM(ITMTransactionRequest_FieldNumber) {
-  ITMTransactionRequest_FieldNumber_Begin = 1,
+    ITMTransactionRequest_FieldNumber_Begin = 1,
 };
 
 @interface ITMTransactionRequest : GPBMessage
 
-/**
- * Set to true to begin a new transaction or false to end the current
- * transaction. The app's main loop will not advance while in a
- * transaction. This effectively freezes time. Keep transactions short.
- **/
+    /**
+     * Set to true to begin a new transaction or false to end the current
+     * transaction. The app's main loop will not advance while in a
+     * transaction. This effectively freezes time. Keep transactions short.
+     **/
 @property(nonatomic, readwrite) BOOL begin;
 
 @property(nonatomic, readwrite) BOOL hasBegin;
@@ -4552,7 +4552,7 @@ typedef GPB_ENUM(ITMTransactionRequest_FieldNumber) {
 #pragma mark - ITMTransactionResponse
 
 typedef GPB_ENUM(ITMTransactionResponse_FieldNumber) {
-  ITMTransactionResponse_FieldNumber_Status = 1,
+    ITMTransactionResponse_FieldNumber_Status = 1,
 };
 
 @interface ITMTransactionResponse : GPBMessage
@@ -4565,9 +4565,9 @@ typedef GPB_ENUM(ITMTransactionResponse_FieldNumber) {
 #pragma mark - ITMLineRange
 
 typedef GPB_ENUM(ITMLineRange_FieldNumber) {
-  ITMLineRange_FieldNumber_ScreenContentsOnly = 1,
-  ITMLineRange_FieldNumber_TrailingLines = 2,
-  ITMLineRange_FieldNumber_WindowedCoordRange = 3,
+    ITMLineRange_FieldNumber_ScreenContentsOnly = 1,
+    ITMLineRange_FieldNumber_TrailingLines = 2,
+    ITMLineRange_FieldNumber_WindowedCoordRange = 3,
 };
 
 /**
@@ -4575,11 +4575,11 @@ typedef GPB_ENUM(ITMLineRange_FieldNumber) {
  **/
 @interface ITMLineRange : GPBMessage
 
-/**
- * Only one of these fields should be set:
- * ---------------------------------------
- * Return just the current contents of the screen.
- **/
+    /**
+     * Only one of these fields should be set:
+     * ---------------------------------------
+     * Return just the current contents of the screen.
+     **/
 @property(nonatomic, readwrite) BOOL screenContentsOnly;
 
 @property(nonatomic, readwrite) BOOL hasScreenContentsOnly;
@@ -4599,8 +4599,8 @@ typedef GPB_ENUM(ITMLineRange_FieldNumber) {
 #pragma mark - ITMRange
 
 typedef GPB_ENUM(ITMRange_FieldNumber) {
-  ITMRange_FieldNumber_Location = 1,
-  ITMRange_FieldNumber_Length = 2,
+    ITMRange_FieldNumber_Location = 1,
+    ITMRange_FieldNumber_Length = 2,
 };
 
 /**
@@ -4619,8 +4619,8 @@ typedef GPB_ENUM(ITMRange_FieldNumber) {
 #pragma mark - ITMCoordRange
 
 typedef GPB_ENUM(ITMCoordRange_FieldNumber) {
-  ITMCoordRange_FieldNumber_Start = 1,
-  ITMCoordRange_FieldNumber_End = 2,
+    ITMCoordRange_FieldNumber_Start = 1,
+    ITMCoordRange_FieldNumber_End = 2,
 };
 
 /**
@@ -4646,8 +4646,8 @@ typedef GPB_ENUM(ITMCoordRange_FieldNumber) {
 #pragma mark - ITMCoord
 
 typedef GPB_ENUM(ITMCoord_FieldNumber) {
-  ITMCoord_FieldNumber_X = 1,
-  ITMCoord_FieldNumber_Y = 2,
+    ITMCoord_FieldNumber_X = 1,
+    ITMCoord_FieldNumber_Y = 2,
 };
 
 /**
@@ -4671,9 +4671,9 @@ typedef GPB_ENUM(ITMCoord_FieldNumber) {
 #pragma mark - ITMLineContents
 
 typedef GPB_ENUM(ITMLineContents_FieldNumber) {
-  ITMLineContents_FieldNumber_Text = 1,
-  ITMLineContents_FieldNumber_CodePointsPerCellArray = 2,
-  ITMLineContents_FieldNumber_Continuation = 3,
+    ITMLineContents_FieldNumber_Text = 1,
+    ITMLineContents_FieldNumber_CodePointsPerCellArray = 2,
+    ITMLineContents_FieldNumber_Continuation = 3,
 };
 
 /**
@@ -4747,13 +4747,13 @@ typedef GPB_ENUM(ITMLineContents_FieldNumber) {
 #pragma mark - ITMCodePointsPerCell
 
 typedef GPB_ENUM(ITMCodePointsPerCell_FieldNumber) {
-  ITMCodePointsPerCell_FieldNumber_NumCodePoints = 1,
-  ITMCodePointsPerCell_FieldNumber_Repeats = 2,
+    ITMCodePointsPerCell_FieldNumber_NumCodePoints = 1,
+    ITMCodePointsPerCell_FieldNumber_Repeats = 2,
 };
 
 @interface ITMCodePointsPerCell : GPBMessage
 
-/** Number of code points per cell */
+    /** Number of code points per cell */
 @property(nonatomic, readwrite) int32_t numCodePoints;
 
 @property(nonatomic, readwrite) BOOL hasNumCodePoints;
@@ -4772,14 +4772,14 @@ typedef GPB_ENUM(ITMCodePointsPerCell_FieldNumber) {
 #pragma mark - ITMSendTextRequest
 
 typedef GPB_ENUM(ITMSendTextRequest_FieldNumber) {
-  ITMSendTextRequest_FieldNumber_Session = 1,
-  ITMSendTextRequest_FieldNumber_Text = 2,
-  ITMSendTextRequest_FieldNumber_SuppressBroadcast = 3,
+    ITMSendTextRequest_FieldNumber_Session = 1,
+    ITMSendTextRequest_FieldNumber_Text = 2,
+    ITMSendTextRequest_FieldNumber_SuppressBroadcast = 3,
 };
 
 @interface ITMSendTextRequest : GPBMessage
 
-/** See documentation on session IDs */
+    /** See documentation on session IDs */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *session;
 /** Test to see if @c session has been set. */
 @property(nonatomic, readwrite) BOOL hasSession;
@@ -4801,7 +4801,7 @@ typedef GPB_ENUM(ITMSendTextRequest_FieldNumber) {
 #pragma mark - ITMSendTextResponse
 
 typedef GPB_ENUM(ITMSendTextResponse_FieldNumber) {
-  ITMSendTextResponse_FieldNumber_Status = 1,
+    ITMSendTextResponse_FieldNumber_Status = 1,
 };
 
 @interface ITMSendTextResponse : GPBMessage
@@ -4814,8 +4814,8 @@ typedef GPB_ENUM(ITMSendTextResponse_FieldNumber) {
 #pragma mark - ITMSize
 
 typedef GPB_ENUM(ITMSize_FieldNumber) {
-  ITMSize_FieldNumber_Width = 1,
-  ITMSize_FieldNumber_Height = 2,
+    ITMSize_FieldNumber_Width = 1,
+    ITMSize_FieldNumber_Height = 2,
 };
 
 @interface ITMSize : GPBMessage
@@ -4831,8 +4831,8 @@ typedef GPB_ENUM(ITMSize_FieldNumber) {
 #pragma mark - ITMPoint
 
 typedef GPB_ENUM(ITMPoint_FieldNumber) {
-  ITMPoint_FieldNumber_X = 1,
-  ITMPoint_FieldNumber_Y = 2,
+    ITMPoint_FieldNumber_X = 1,
+    ITMPoint_FieldNumber_Y = 2,
 };
 
 @interface ITMPoint : GPBMessage
@@ -4848,8 +4848,8 @@ typedef GPB_ENUM(ITMPoint_FieldNumber) {
 #pragma mark - ITMFrame
 
 typedef GPB_ENUM(ITMFrame_FieldNumber) {
-  ITMFrame_FieldNumber_Origin = 1,
-  ITMFrame_FieldNumber_Size = 2,
+    ITMFrame_FieldNumber_Origin = 1,
+    ITMFrame_FieldNumber_Size = 2,
 };
 
 @interface ITMFrame : GPBMessage
@@ -4867,10 +4867,10 @@ typedef GPB_ENUM(ITMFrame_FieldNumber) {
 #pragma mark - ITMSessionSummary
 
 typedef GPB_ENUM(ITMSessionSummary_FieldNumber) {
-  ITMSessionSummary_FieldNumber_UniqueIdentifier = 1,
-  ITMSessionSummary_FieldNumber_Frame = 2,
-  ITMSessionSummary_FieldNumber_GridSize = 3,
-  ITMSessionSummary_FieldNumber_Title = 4,
+    ITMSessionSummary_FieldNumber_UniqueIdentifier = 1,
+    ITMSessionSummary_FieldNumber_Frame = 2,
+    ITMSessionSummary_FieldNumber_GridSize = 3,
+    ITMSessionSummary_FieldNumber_Title = 4,
 };
 
 @interface ITMSessionSummary : GPBMessage
@@ -4898,13 +4898,13 @@ typedef GPB_ENUM(ITMSessionSummary_FieldNumber) {
 #pragma mark - ITMSplitTreeNode
 
 typedef GPB_ENUM(ITMSplitTreeNode_FieldNumber) {
-  ITMSplitTreeNode_FieldNumber_Vertical = 1,
-  ITMSplitTreeNode_FieldNumber_LinksArray = 2,
+    ITMSplitTreeNode_FieldNumber_Vertical = 1,
+    ITMSplitTreeNode_FieldNumber_LinksArray = 2,
 };
 
 @interface ITMSplitTreeNode : GPBMessage
 
-/** Direction of split pane divider */
+    /** Direction of split pane divider */
 @property(nonatomic, readwrite) BOOL vertical;
 
 @property(nonatomic, readwrite) BOOL hasVertical;
@@ -4918,14 +4918,14 @@ typedef GPB_ENUM(ITMSplitTreeNode_FieldNumber) {
 #pragma mark - ITMSplitTreeNode_SplitTreeLink
 
 typedef GPB_ENUM(ITMSplitTreeNode_SplitTreeLink_FieldNumber) {
-  ITMSplitTreeNode_SplitTreeLink_FieldNumber_Session = 1,
-  ITMSplitTreeNode_SplitTreeLink_FieldNumber_Node = 2,
+    ITMSplitTreeNode_SplitTreeLink_FieldNumber_Session = 1,
+    ITMSplitTreeNode_SplitTreeLink_FieldNumber_Node = 2,
 };
 
 typedef GPB_ENUM(ITMSplitTreeNode_SplitTreeLink_Child_OneOfCase) {
-  ITMSplitTreeNode_SplitTreeLink_Child_OneOfCase_GPBUnsetOneOfCase = 0,
-  ITMSplitTreeNode_SplitTreeLink_Child_OneOfCase_Session = 1,
-  ITMSplitTreeNode_SplitTreeLink_Child_OneOfCase_Node = 2,
+    ITMSplitTreeNode_SplitTreeLink_Child_OneOfCase_GPBUnsetOneOfCase = 0,
+    ITMSplitTreeNode_SplitTreeLink_Child_OneOfCase_Session = 1,
+    ITMSplitTreeNode_SplitTreeLink_Child_OneOfCase_Node = 2,
 };
 
 @interface ITMSplitTreeNode_SplitTreeLink : GPBMessage
@@ -4946,8 +4946,8 @@ void ITMSplitTreeNode_SplitTreeLink_ClearChildOneOfCase(ITMSplitTreeNode_SplitTr
 #pragma mark - ITMListSessionsResponse
 
 typedef GPB_ENUM(ITMListSessionsResponse_FieldNumber) {
-  ITMListSessionsResponse_FieldNumber_WindowsArray = 1,
-  ITMListSessionsResponse_FieldNumber_BuriedSessionsArray = 2,
+    ITMListSessionsResponse_FieldNumber_WindowsArray = 1,
+    ITMListSessionsResponse_FieldNumber_BuriedSessionsArray = 2,
 };
 
 @interface ITMListSessionsResponse : GPBMessage
@@ -4965,10 +4965,10 @@ typedef GPB_ENUM(ITMListSessionsResponse_FieldNumber) {
 #pragma mark - ITMListSessionsResponse_Window
 
 typedef GPB_ENUM(ITMListSessionsResponse_Window_FieldNumber) {
-  ITMListSessionsResponse_Window_FieldNumber_TabsArray = 1,
-  ITMListSessionsResponse_Window_FieldNumber_WindowId = 2,
-  ITMListSessionsResponse_Window_FieldNumber_Frame = 3,
-  ITMListSessionsResponse_Window_FieldNumber_Number = 4,
+    ITMListSessionsResponse_Window_FieldNumber_TabsArray = 1,
+    ITMListSessionsResponse_Window_FieldNumber_WindowId = 2,
+    ITMListSessionsResponse_Window_FieldNumber_Frame = 3,
+    ITMListSessionsResponse_Window_FieldNumber_Number = 4,
 };
 
 @interface ITMListSessionsResponse_Window : GPBMessage
@@ -4993,10 +4993,10 @@ typedef GPB_ENUM(ITMListSessionsResponse_Window_FieldNumber) {
 #pragma mark - ITMListSessionsResponse_Tab
 
 typedef GPB_ENUM(ITMListSessionsResponse_Tab_FieldNumber) {
-  ITMListSessionsResponse_Tab_FieldNumber_TabId = 2,
-  ITMListSessionsResponse_Tab_FieldNumber_Root = 3,
-  ITMListSessionsResponse_Tab_FieldNumber_TmuxWindowId = 4,
-  ITMListSessionsResponse_Tab_FieldNumber_TmuxConnectionId = 5,
+    ITMListSessionsResponse_Tab_FieldNumber_TabId = 2,
+    ITMListSessionsResponse_Tab_FieldNumber_Root = 3,
+    ITMListSessionsResponse_Tab_FieldNumber_TmuxWindowId = 4,
+    ITMListSessionsResponse_Tab_FieldNumber_TmuxConnectionId = 5,
 };
 
 @interface ITMListSessionsResponse_Tab : GPBMessage
@@ -5022,16 +5022,16 @@ typedef GPB_ENUM(ITMListSessionsResponse_Tab_FieldNumber) {
 #pragma mark - ITMCreateTabRequest
 
 typedef GPB_ENUM(ITMCreateTabRequest_FieldNumber) {
-  ITMCreateTabRequest_FieldNumber_ProfileName = 1,
-  ITMCreateTabRequest_FieldNumber_WindowId = 2,
-  ITMCreateTabRequest_FieldNumber_TabIndex = 3,
-  ITMCreateTabRequest_FieldNumber_Command = 4,
-  ITMCreateTabRequest_FieldNumber_CustomProfilePropertiesArray = 5,
+    ITMCreateTabRequest_FieldNumber_ProfileName = 1,
+    ITMCreateTabRequest_FieldNumber_WindowId = 2,
+    ITMCreateTabRequest_FieldNumber_TabIndex = 3,
+    ITMCreateTabRequest_FieldNumber_Command = 4,
+    ITMCreateTabRequest_FieldNumber_CustomProfilePropertiesArray = 5,
 };
 
 @interface ITMCreateTabRequest : GPBMessage
 
-/** Leave unset to use the default profile. */
+    /** Leave unset to use the default profile. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *profileName;
 /** Test to see if @c profileName has been set. */
 @property(nonatomic, readwrite) BOOL hasProfileName;
@@ -5060,10 +5060,10 @@ typedef GPB_ENUM(ITMCreateTabRequest_FieldNumber) {
 #pragma mark - ITMCreateTabResponse
 
 typedef GPB_ENUM(ITMCreateTabResponse_FieldNumber) {
-  ITMCreateTabResponse_FieldNumber_Status = 1,
-  ITMCreateTabResponse_FieldNumber_WindowId = 2,
-  ITMCreateTabResponse_FieldNumber_TabId = 3,
-  ITMCreateTabResponse_FieldNumber_SessionId = 4,
+    ITMCreateTabResponse_FieldNumber_Status = 1,
+    ITMCreateTabResponse_FieldNumber_WindowId = 2,
+    ITMCreateTabResponse_FieldNumber_TabId = 3,
+    ITMCreateTabResponse_FieldNumber_SessionId = 4,
 };
 
 @interface ITMCreateTabResponse : GPBMessage
@@ -5087,16 +5087,16 @@ typedef GPB_ENUM(ITMCreateTabResponse_FieldNumber) {
 #pragma mark - ITMSplitPaneRequest
 
 typedef GPB_ENUM(ITMSplitPaneRequest_FieldNumber) {
-  ITMSplitPaneRequest_FieldNumber_Session = 1,
-  ITMSplitPaneRequest_FieldNumber_SplitDirection = 2,
-  ITMSplitPaneRequest_FieldNumber_Before = 3,
-  ITMSplitPaneRequest_FieldNumber_ProfileName = 4,
-  ITMSplitPaneRequest_FieldNumber_CustomProfilePropertiesArray = 5,
+    ITMSplitPaneRequest_FieldNumber_Session = 1,
+    ITMSplitPaneRequest_FieldNumber_SplitDirection = 2,
+    ITMSplitPaneRequest_FieldNumber_Before = 3,
+    ITMSplitPaneRequest_FieldNumber_ProfileName = 4,
+    ITMSplitPaneRequest_FieldNumber_CustomProfilePropertiesArray = 5,
 };
 
 @interface ITMSplitPaneRequest : GPBMessage
 
-/** See documentation on session IDs */
+    /** See documentation on session IDs */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *session;
 /** Test to see if @c session has been set. */
 @property(nonatomic, readwrite) BOOL hasSession;
@@ -5123,8 +5123,8 @@ typedef GPB_ENUM(ITMSplitPaneRequest_FieldNumber) {
 #pragma mark - ITMSplitPaneResponse
 
 typedef GPB_ENUM(ITMSplitPaneResponse_FieldNumber) {
-  ITMSplitPaneResponse_FieldNumber_Status = 1,
-  ITMSplitPaneResponse_FieldNumber_SessionIdArray = 2,
+    ITMSplitPaneResponse_FieldNumber_Status = 1,
+    ITMSplitPaneResponse_FieldNumber_SessionIdArray = 2,
 };
 
 @interface ITMSplitPaneResponse : GPBMessage

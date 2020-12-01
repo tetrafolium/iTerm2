@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)notificationWithEvent:(NSEvent *)event;
 + (void)subscribe:(NSObject *)owner
-            block:(void (^)(iTermFlagsChangedNotification * _Nonnull notification))block;
+    block:(void (^)(iTermFlagsChangedNotification * _Nonnull notification))block;
 @end
 
 NS_ASSUME_NONNULL_END

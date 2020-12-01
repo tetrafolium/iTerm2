@@ -10,11 +10,11 @@
 @implementation iTermSplitViewAnimation
 
 - (instancetype)initWithSplitView:(NSSplitView*)splitView
-                   dividerAtIndex:(NSInteger)dividerIndex
-                             from:(CGFloat)startPosition
-                               to:(CGFloat)endPosition
-                         duration:(NSTimeInterval)duration
-                       completion:(void (^)(void))completion {
+    dividerAtIndex:(NSInteger)dividerIndex
+    from:(CGFloat)startPosition
+    to:(CGFloat)endPosition
+    duration:(NSTimeInterval)duration
+    completion:(void (^)(void))completion {
     if (self = [super init]) {
         self.splitView = splitView;
         self.dividerIndex = dividerIndex;
@@ -36,7 +36,7 @@
     const CGFloat newPosition = self.startPosition + (distance * progress);
 
     [self.splitView setPosition:newPosition
-               ofDividerAtIndex:self.dividerIndex];
+                    ofDividerAtIndex:self.dividerIndex];
 
     if (progress == 1.0 && self.completion) {
         self.completion();

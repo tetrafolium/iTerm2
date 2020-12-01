@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class Profile;
 @class PseudoTerminal;
 
-@interface iTermSessionAttachOrLaunchRequest: NSObject
+@interface iTermSessionAttachOrLaunchRequest : NSObject
 @property (nonatomic, strong) PTYSession *session;
 @property (nonatomic) BOOL canPrompt;
 @property (nonatomic) iTermObjectType objectType;
@@ -40,22 +40,22 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) id<iTermPartialAttachment> partialAttachment;
 
 + (instancetype)launchRequestWithSession:(PTYSession *)aSession
-                               canPrompt:(BOOL)canPrompt
-                              objectType:(iTermObjectType)objectType
-                     hasServerConnection:(BOOL)hasServerConnection
-                        serverConnection:(iTermGeneralServerConnection)serverConnection
-                               urlString:(nullable NSString *)urlString
-                            allowURLSubs:(BOOL)allowURLSubs
-                             environment:(nullable NSDictionary *)environment
-                             customShell:(nullable NSString *)customShell
-                                  oldCWD:(nullable NSString *)oldCWD
-                          forceUseOldCWD:(BOOL)forceUseOldCWD
-                                 command:(nullable NSString *)command
-                                  isUTF8:(nullable NSNumber *)isUTF8Number  // Overrides profile's iSUTF8 if nonnil
-                           substitutions:(nullable NSDictionary *)substitutions
-                        windowController:(PseudoTerminal * _Nonnull)windowController
-                                   ready:(void (^ _Nullable)(BOOL ok))ready
-                              completion:(void (^ _Nullable)(PTYSession * _Nullable, BOOL))completion;
+    canPrompt:(BOOL)canPrompt
+    objectType:(iTermObjectType)objectType
+    hasServerConnection:(BOOL)hasServerConnection
+    serverConnection:(iTermGeneralServerConnection)serverConnection
+    urlString:(nullable NSString *)urlString
+    allowURLSubs:(BOOL)allowURLSubs
+    environment:(nullable NSDictionary *)environment
+    customShell:(nullable NSString *)customShell
+    oldCWD:(nullable NSString *)oldCWD
+    forceUseOldCWD:(BOOL)forceUseOldCWD
+    command:(nullable NSString *)command
+    isUTF8:(nullable NSNumber *)isUTF8Number  // Overrides profile's iSUTF8 if nonnil
+    substitutions:(nullable NSDictionary *)substitutions
+    windowController:(PseudoTerminal * _Nonnull)windowController
+    ready:(void (^ _Nullable)(BOOL ok))ready
+    completion:(void (^ _Nullable)(PTYSession * _Nullable, BOOL))completion;
 
 @end
 
@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL promptingDisabled;
 
 - (PTYSession *)newSessionWithProfile:(Profile *)profile
-                               parent:(nullable PTYSession *)parent;
+    parent:(nullable PTYSession *)parent;
 
 - (void)attachOrLaunchWithRequest:(iTermSessionAttachOrLaunchRequest *)request;
 

@@ -77,8 +77,8 @@ extern const int kColorMap24bitBase;
 @property(nonatomic, assign) double minimumContrast;
 
 + (iTermColorMapKey)keyFor8bitRed:(int)red
-                            green:(int)green
-                             blue:(int)blue;
+    green:(int)green
+    blue:(int)blue;
 
 - (void)setColor:(NSColor *)theColor forKey:(iTermColorMapKey)theKey;
 - (NSColor *)colorForKey:(iTermColorMapKey)theKey;
@@ -91,8 +91,8 @@ extern const int kColorMap24bitBase;
 //    self.dimOnlyText) by self.dimmingAmount.
 // 4. Premultiply textColor's alpha with backgroundColor.
 - (NSColor *)processedTextColorForTextColor:(NSColor *)textColor
-                        overBackgroundColor:(NSColor*)backgroundColor
-                     disableMinimumContrast:(BOOL)disableMinimumContrast;
+    overBackgroundColor:(NSColor*)backgroundColor
+    disableMinimumContrast:(BOOL)disableMinimumContrast;
 - (NSColor *)processedBackgroundColorForBackgroundColor:(NSColor *)color;
 - (vector_float4)fastProcessedBackgroundColorForBackgroundColor:(vector_float4)backgroundColor;
 - (NSColor *)colorByMutingColor:(NSColor *)color;

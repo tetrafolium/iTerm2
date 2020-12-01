@@ -23,7 +23,7 @@
 + (instancetype)sharedInstance {
     static id instance;
     static dispatch_once_t once;
-    dispatch_once(&once, ^{
+    dispatch_once(&once, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -66,7 +66,7 @@
 - (NSString *)prefsFilenameWithBaseDir:(NSString *)base
 {
     return [NSString stringWithFormat:@"%@/%@.plist",
-           base, [[NSBundle mainBundle] bundleIdentifier]];
+                     base, [[NSBundle mainBundle] bundleIdentifier]];
 }
 
 - (BOOL)preferenceKeyIsSyncable:(NSString *)key {
@@ -82,10 +82,10 @@
                              @"PreventEscapeSequenceFromChangingProfile",
                              @"PreventEscapeSequenceFromClearingHistory" ];
     return ![exemptKeys containsObject:key] &&
-            ![key hasPrefix:@"NS"] &&
-            ![key hasPrefix:@"SU"] &&
-            ![key hasPrefix:@"NoSync"] &&
-            ![key hasPrefix:@"UK"];
+           ![key hasPrefix:@"NS"] &&
+           ![key hasPrefix:@"SU"] &&
+           ![key hasPrefix:@"NoSync"] &&
+           ![key hasPrefix:@"UK"];
 }
 
 - (NSDictionary *)freshCopyOfRemotePreferences {
@@ -100,20 +100,20 @@
         NSURL *url = [NSURL URLWithUserSuppliedString:filename];
         const NSTimeInterval kFetchTimeout = 5.0;
         NSURLRequest *req = [NSURLRequest requestWithURL:url
-                                             cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                         timeoutInterval:kFetchTimeout];
+                                          cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                          timeoutInterval:kFetchTimeout];
         __block NSURLResponse *response = nil;
         __block NSError *error = nil;
         __block NSData *data = nil;
 
         dispatch_semaphore_t sema = dispatch_semaphore_create(0);
         NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:req completionHandler:^(NSData * _Nullable taskData,
-                                                                                 NSURLResponse * _Nullable taskResponse,
-                                                                                 NSError * _Nullable taskError) {
-            data = taskData;
-            response = taskResponse;
-            error = taskError;
-            dispatch_semaphore_signal(sema);
+                                                                   NSURLResponse * _Nullable taskResponse,
+                                     NSError * _Nullable taskError) {
+                                         data = taskData;
+                                         response = taskResponse;
+                                         error = taskError;
+                                         dispatch_semaphore_signal(sema);
         }];
         [task resume];
         dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
@@ -122,7 +122,7 @@
             NSAlert *alert = [[NSAlert alloc] init];
             alert.messageText = @"Failed to load preferences from URL. Falling back to local copy.";
             alert.informativeText = [NSString stringWithFormat:@"HTTP request failed: %@",
-                                     [error localizedDescription] ?: @"unknown error"];
+                                              [error localizedDescription] ?: @"unknown error"];
             [alert addButtonWithTitle:@"OK"];
             [alert addButtonWithTitle:@"Reveal Setting in Preferences"];
             const NSModalResponse response = [alert runModal];
@@ -141,7 +141,7 @@
             NSAlert *alert = [[NSAlert alloc] init];
             alert.messageText = @"Failed to write to temp file while getting remote prefs. Falling back to local copy.";
             alert.informativeText = [NSString stringWithFormat:@"Error on file %@: %@", tempFile,
-                                     [error localizedDescription]];
+                                              [error localizedDescription]];
             [alert runModal];
             return nil;
         }
@@ -157,7 +157,7 @@
         NSAlert *alert = [[NSAlert alloc] init];
         alert.messageText = @"Failed to load preferences from custom directory. Falling back to local copy.";
         alert.informativeText = [NSString stringWithFormat:@"Missing or malformed file at \"%@\"",
-                                 [self customFolderOrURL]];
+                                          [self customFolderOrURL]];
         [alert runModal];
     }
     return remotePrefs;
@@ -168,7 +168,7 @@
                           stringByAppendingPathComponent:@"Library"]
                          stringByAppendingPathComponent:@"Preferences"];
     return [prefDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.plist",
-                                                    [[NSBundle mainBundle] bundleIdentifier]]];
+                    [[NSBundle mainBundle] bundleIdentifier]]];
 }
 
 - (BOOL)folderIsWritable:(NSString *)path {
@@ -191,13 +191,13 @@
     if ([self remotePrefsHaveChanged]) {
         NSString *theTitle =
             [NSString stringWithFormat:@"Preferences at %@ changed since iTerm2 started. "
-                                       @"Overwrite it?",
-                                       [self customFolderOrURL]];
+                      @"Overwrite it?",
+                      [self customFolderOrURL]];
         if ([iTermWarning showWarningWithTitle:theTitle actions:@[ @"Overwrite",
-                                                                   @"Discard Local Changes" ]
-                                    identifier:nil
-                                   silenceable:kiTermWarningTypePersistent
-                                        window:nil] == kiTermWarningSelection1) {
+                             @"Discard Local Changes" ]
+                             identifier:nil
+                             silenceable:kiTermWarningTypePersistent
+                             window:nil] == kiTermWarningSelection1) {
             return;
         }
     }
@@ -227,8 +227,8 @@
     NSDictionary *myDict =
         [userDefaults persistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
     myDict = [myDict filteredWithBlock:^BOOL(id key, id value) {
-        NSString *stringKey = [NSString castFrom:key];
-        if (!stringKey) {
+               NSString *stringKey = [NSString castFrom:key];
+               if (!stringKey) {
             return YES;
         }
         return [self preferenceKeyIsSyncable:key];
@@ -238,7 +238,7 @@
         NSAlert *alert = [[NSAlert alloc] init];
         alert.messageText = @"Failed to copy preferences to custom directory.";
         alert.informativeText = [NSString stringWithFormat:@"Tried to copy %@ to %@",
-                                 [self remotePrefsLocation], filename];
+                                          [self remotePrefsLocation], filename];
         [alert runModal];
     } else {
         self.savedRemotePrefs = myDict;
@@ -273,7 +273,7 @@
     for (NSString *key in remotePrefs) {
         if ([self preferenceKeyIsSyncable:key]) {
             [[NSUserDefaults standardUserDefaults] setObject:[remotePrefs objectForKey:key]
-                                                      forKey:key];
+                                                   forKey:key];
         }
     }
     return;
@@ -293,14 +293,14 @@
         // key.
         for (NSString *key in localPrefs) {
             if ([self preferenceKeyIsSyncable:key] &&
-                ![[_savedRemotePrefs objectForKey:key] isEqual:[localPrefs objectForKey:key]]) {
+                    ![[_savedRemotePrefs objectForKey:key] isEqual:[localPrefs objectForKey:key]]) {
                 return YES;
             }
         }
 
         for (NSString *key in _savedRemotePrefs) {
             if ([self preferenceKeyIsSyncable:key] &&
-                ![[_savedRemotePrefs objectForKey:key] isEqual:[localPrefs objectForKey:key]]) {
+                    ![[_savedRemotePrefs objectForKey:key] isEqual:[localPrefs objectForKey:key]]) {
                 return YES;
             }
         }
@@ -326,25 +326,25 @@
         if (self.remoteLocationIsURL) {
             // If the setting is always copy, then ask. Copying isn't an option.
             NSString *theTitle = [NSString stringWithFormat:
-                                  @"Changes made to preferences will be lost when iTerm2 is restarted "
-                                  @"because they are loaded from a URL at startup."];
+                                           @"Changes made to preferences will be lost when iTerm2 is restarted "
+                                           @"because they are loaded from a URL at startup."];
             [iTermWarning showWarningWithTitle:theTitle
-                                       actions:@[ @"OK" ]
-                                    identifier:@"NoSyncNeverRemindPrefsChangesLostForUrl"
-                                   silenceable:kiTermWarningTypePermanentlySilenceable
-                                        window:nil];
+                          actions:@[ @"OK" ]
+                          identifier:@"NoSyncNeverRemindPrefsChangesLostForUrl"
+                          silenceable:kiTermWarningTypePermanentlySilenceable
+                          window:nil];
         } else {
             // Not a URL
             NSString *theTitle = [NSString stringWithFormat:
-                                  @"Preferences have changed. Copy them to %@?",
-                                  [self customFolderOrURL]];
+                                           @"Preferences have changed. Copy them to %@?",
+                                           [self customFolderOrURL]];
 
             iTermWarningSelection selection =
                 [iTermWarning showWarningWithTitle:theTitle
-                                           actions:@[ @"Copy", @"Lose Changes" ]
-                                        identifier:@"NoSyncNeverRemindPrefsChangesLostForFile"
-                                       silenceable:kiTermWarningTypePermanentlySilenceable
-                                            window:nil];
+                              actions:@[ @"Copy", @"Lose Changes" ]
+                              identifier:@"NoSyncNeverRemindPrefsChangesLostForFile"
+                              silenceable:kiTermWarningTypePermanentlySilenceable
+                              window:nil];
             if (selection == kiTermWarningSelection0) {
                 [self saveLocalUserDefaultsToRemotePrefs];
             }

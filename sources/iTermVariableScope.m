@@ -84,30 +84,30 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)removeFrameWithName:(NSString *)name {
     [_frames removeObjectsPassingTest:^BOOL(iTermTuple<NSString *,iTermVariables *> *obj) {
-        return [obj.firstObject isEqual:name];
-    }];
+                return [obj.firstObject isEqual:name];
+            }];
 }
 
 - (NSArray<iTermVariables *> *)variablesInScopeNamed:(nullable NSString *)scopeName {
     return [_frames mapWithBlock:^id(iTermTuple<NSString *,iTermVariables *> *anObject) {
-        if (![NSObject object:scopeName isEqualToObject:anObject.firstObject]) {
-            return nil;
-        }
-        return anObject.secondObject;
-    }];
+                if (![NSObject object:scopeName isEqualToObject:anObject.firstObject]) {
+                    return nil;
+                }
+                return anObject.secondObject;
+            }];
 }
 
 - (void)enumerateVariables:(void (^)(NSString * _Nonnull, iTermVariables * _Nonnull))block {
     [_frames enumerateObjectsUsingBlock:^(iTermTuple<NSString *,iTermVariables *> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        block(obj.firstObject, obj.secondObject);
-    }];
+                block(obj.firstObject, obj.secondObject);
+            }];
 }
 
 - (NSDictionary<NSString *, NSString *> *)dictionaryWithStringValues {
     NSMutableDictionary<NSString *, NSString *> *result = [NSMutableDictionary dictionary];
     [self enumerateVariables:^(NSString * _Nonnull scopeName, iTermVariables * _Nonnull variables) {
-        [result it_mergeFrom:[variables stringValuedDictionaryInScope:scopeName]];
-    }];
+             [result it_mergeFrom:[variables stringValuedDictionaryInScope:scopeName]];
+         }];
     return result;
 }
 
@@ -154,15 +154,15 @@ NS_ASSUME_NONNULL_BEGIN
         }
         // Writes always go into the most recently added frame.
         return [_frames objectPassingTest:^BOOL(iTermTuple<NSString *,iTermVariables *> *element, NSUInteger index, BOOL *stop) {
-            return element.firstObject == nil;
-        }].secondObject;
+                    return element.firstObject == nil;
+                }].secondObject;
     }
     __block NSString *strippedOut = nil;
     iTermVariables *owner = [_frames objectPassingTest:^BOOL(iTermTuple<NSString *,iTermVariables *> *element, NSUInteger index, BOOL *stop) {
-        if (element.firstObject == nil && [element.secondObject valueForVariableName:parts[0]]) {
-            strippedOut = key;
-            return YES;
-        } else {
+                if (element.firstObject == nil && [element.secondObject valueForVariableName:parts[0]]) {
+                    strippedOut = key;
+                    return YES;
+                } else {
             strippedOut = [[parts subarrayFromIndex:1] componentsJoinedByString:@"."];
             return [element.firstObject isEqualToString:parts[0]];
         }
@@ -172,8 +172,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable iTermVariables *)ownerOfTerminalForPath:(NSString *)path
-                                         forWriting:(BOOL)forWriting
-                                           terminal:(out NSString **)terminal {
+    forWriting:(BOOL)forWriting
+    terminal:(out NSString **)terminal {
     NSArray<NSString *> *parts = [path componentsSeparatedByString:@"."];
     if (parts.count == 0) {
         return nil;
@@ -228,12 +228,12 @@ NS_ASSUME_NONNULL_BEGIN
         inner[stripped] = object;
     }
     [valuesByOwner enumerateKeysAndObjectsUsingBlock:^(NSValue * _Nonnull ownerValue, NSDictionary<NSString *,id> * _Nonnull setDict, BOOL * _Nonnull stop) {
-        iTermVariables *owner = [ownerValue nonretainedObjectValue];
+                      iTermVariables *owner = [ownerValue nonretainedObjectValue];
         [owner setValuesFromDictionary:setDict];
     }];
     if ([dict.allValues anyWithBlock:^BOOL(id anObject) {
-        return [anObject isKindOfClass:[iTermVariables class]];
-    }]) {
+                   return [anObject isKindOfClass:[iTermVariables class]];
+                   }]) {
         [self resolveDanglingReferences];
     }
 }
@@ -308,16 +308,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (iTermVariableRecordingScope *)recordingCopy {
     iTermVariableRecordingScope *theCopy = [[iTermVariableRecordingScope alloc] initWithScope:self];
     [_frames enumerateObjectsUsingBlock:^(iTermTuple<NSString *,iTermVariables *> * _Nonnull tuple, NSUInteger idx, BOOL * _Nonnull stop) {
-        [theCopy addVariables:tuple.secondObject toScopeNamed:tuple.firstObject];
-    }];
+                [theCopy addVariables:tuple.secondObject toScopeNamed:tuple.firstObject];
+            }];
     return theCopy;
 }
 
 - (id)copyWithZone:(nullable NSZone *)zone {
     iTermVariableScope *theCopy = [[self.class alloc] init];
     [_frames enumerateObjectsUsingBlock:^(iTermTuple<NSString *,iTermVariables *> * _Nonnull tuple, NSUInteger idx, BOOL * _Nonnull stop) {
-        [theCopy addVariables:tuple.secondObject toScopeNamed:tuple.firstObject];
-    }];
+                [theCopy addVariables:tuple.secondObject toScopeNamed:tuple.firstObject];
+            }];
     return theCopy;
 }
 
@@ -330,8 +330,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (iTermVariableDesignator *)designatorForPath:(NSString *)path {
     NSString *terminal;
     iTermVariables *owner = [self ownerOfTerminalForPath:path
-                                              forWriting:NO
-                                                terminal:&terminal];
+                                  forWriting:NO
+                                  terminal:&terminal];
     return [[iTermVariableDesignator alloc] initWithVariables:owner path:terminal];
 }
 
@@ -366,8 +366,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray<iTermVariableReference *> *)recordedReferences {
     return [_names.allObjects mapWithBlock:^id(NSString *path) {
-        return [[iTermVariableReference alloc] initWithPath:path vendor:self->_scope];
-    }];
+                          return [[iTermVariableReference alloc] initWithPath:path vendor:self->_scope];
+                      }];
 }
 @end
 

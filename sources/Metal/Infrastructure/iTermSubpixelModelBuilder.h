@@ -17,7 +17,7 @@
 @property (nonatomic, readonly) float backgroundColor;
 
 + (NSUInteger)keyForForegroundColor:(float)foregroundColor
-                    backgroundColor:(float)backgroundColor;
+    backgroundColor:(float)backgroundColor;
 
 - (NSUInteger)key;
 - (NSString *)dump;
@@ -33,10 +33,10 @@
 + (instancetype)sharedInstance;
 
 - (iTermSubpixelModel *)modelForForegroundColor:(float)foregroundComponent
-                                backgroundColor:(float)backgroundComponent;
+    backgroundColor:(float)backgroundComponent;
 
 - (void)writeDebugDataToFolder:(NSString *)folder
-               foregroundColor:(float)foregroundComponent
-               backgroundColor:(float)backgroundComponent;
+    foregroundColor:(float)foregroundComponent
+    backgroundColor:(float)backgroundComponent;
 
 @end

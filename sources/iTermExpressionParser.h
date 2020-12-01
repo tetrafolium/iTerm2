@@ -26,17 +26,17 @@
 - (iTermParsedExpression *)parse:(NSString *)invocation scope:(iTermVariableScope *)scope;
 
 + (iTermParsedExpression *)parsedExpressionWithInterpolatedString:(NSString *)swifty
-                                                            scope:(iTermVariableScope *)scope;
+    scope:(iTermVariableScope *)scope;
 
 // Strings get passed through escapingFunction, if nonnil.
 + (iTermParsedExpression *)parsedExpressionWithInterpolatedString:(NSString *)swifty
-                                                 escapingFunction:(NSString *(^)(NSString *string))escapingFunction
-                                                            scope:(iTermVariableScope *)scope
-                                                           strict:(BOOL)strict;
+    escapingFunction:(NSString *(^)(NSString *string))escapingFunction
+    scope:(iTermVariableScope *)scope
+    strict:(BOOL)strict;
 
 // Given an invocation like foo(x: "bar", y: [1, 2]) returns the signature like foo(x,y)
 + (NSString *)signatureForFunctionCallInvocation:(NSString *)invocation
-                                           error:(out NSError *__autoreleasing *)error;
+    error:(out NSError *__autoreleasing *)error;
 
 @end
 

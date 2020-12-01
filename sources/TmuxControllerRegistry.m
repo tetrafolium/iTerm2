@@ -60,7 +60,7 @@ NSString *const kTmuxControllerRegistryDidChange = @"kTmuxControllerRegistryDidC
         [controllers_ removeObjectForKey:client];
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:kTmuxControllerRegistryDidChange
-                                                        object:client];
+                                          object:client];
 }
 
 - (NSInteger)numberOfClients {

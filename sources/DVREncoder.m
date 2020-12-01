@@ -101,16 +101,16 @@ static long long now()
 }
 
 - (void)appendFrame:(NSArray *)frameLines
-             length:(int)length
-         cleanLines:(NSIndexSet *)cleanLines
-               info:(DVRFrameInfo*)info {
+    length:(int)length
+    cleanLines:(NSIndexSet *)cleanLines
+    info:(DVRFrameInfo*)info {
     BOOL eligibleForDiff;
     if (cleanLines.count > info->height * 0.8 &&
-        lastFrame_ &&
-        length == [lastFrame_ length] &&
-        info->width == lastInfo_.width &&
-        info->height == lastInfo_.height &&
-        bytesSinceLastKeyFrame_ < [buffer_ capacity] / 2) {
+            lastFrame_ &&
+            length == [lastFrame_ length] &&
+            info->width == lastInfo_.width &&
+            info->height == lastInfo_.height &&
+            bytesSinceLastKeyFrame_ < [buffer_ capacity] / 2) {
         eligibleForDiff = YES;
     } else {
         eligibleForDiff = NO;
@@ -187,18 +187,18 @@ static long long now()
 
 // Save a diff frame into DVRBuffer.
 - (void)_appendDiffFrame:(NSArray *)frameLines
-                  length:(int)length
-              cleanLines:(NSIndexSet *)cleanLines
-                    info:(DVRFrameInfo *)info {
+    length:(int)length
+    cleanLines:(NSIndexSet *)cleanLines
+    info:(DVRFrameInfo *)info {
     char* scratch = [buffer_ scratch];
 #ifdef DVRDEBUG
     NSLog(@"Compute diff…");
 #endif
     int diffBytes = [self _computeDiff:frameLines
-                                length:length
-                            cleanLines:cleanLines
-                                  dest:scratch
-                               maxSize:reservation_];
+                          length:length
+                          cleanLines:cleanLines
+                          dest:scratch
+                          maxSize:reservation_];
     if (diffBytes < 0) {
 #ifdef DVRDEBUG
         NSLog(@"Abandon diff and append a key frame instead");
@@ -247,10 +247,10 @@ static long long now()
 // scratch. Won't use more than maxSize bytes in scratch. Returns number of bytes used or
 // -1 if the diff was larger than maxSize.
 - (int)_computeDiff:(NSArray<NSData *> *)frameLines
-             length:(int)length
-         cleanLines:(NSIndexSet *)cleanLines
-               dest:(char *)scratch
-            maxSize:(int)maxBytes {
+    length:(int)length
+    cleanLines:(NSIndexSet *)cleanLines
+    dest:(char *)scratch
+    maxSize:(int)maxBytes {
     assert(length == [lastFrame_ length]);
 
     int o = 0;

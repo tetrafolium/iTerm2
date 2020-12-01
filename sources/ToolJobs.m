@@ -24,11 +24,11 @@
 static const int kDefaultSignal = 9;
 
 static int gSignalsToList[] = {
-     1, // SIGHUP
-     2, // SIGINTR
-     3, // SIGQUIT
-     6, // SIGABRT
-     9, // SIGKILL
+    1, // SIGHUP
+    2, // SIGINTR
+    3, // SIGQUIT
+    6, // SIGABRT
+    9, // SIGKILL
     15, // SIGTERM
 };
 
@@ -42,13 +42,13 @@ static const CGFloat kMargin = 4;
 
 + (NSArray *)signalNames {
     return @[[NSNull null], @"HUP",  @"INT",  @"QUIT",
-             @"ILL",   @"TRAP", @"ABRT",   @"EMT",
-             @"FPE",   @"KILL", @"BUS",    @"SEGV",
-             @"SYS",   @"PIPE", @"ALRM",   @"TERM",
-             @"URG",   @"STOP", @"TSTP",   @"CONT",
-             @"CHLD",  @"TTIN", @"TTOU",   @"IO",
-             @"XCPU",  @"XFSZ", @"VTALRM", @"PROF",
-             @"WINCH", @"INFO", @"USR1",   @"USR2"];
+                          @"ILL",   @"TRAP", @"ABRT",   @"EMT",
+                          @"FPE",   @"KILL", @"BUS",    @"SEGV",
+                          @"SYS",   @"PIPE", @"ALRM",   @"TERM",
+                          @"URG",   @"STOP", @"TSTP",   @"CONT",
+                          @"CHLD",  @"TTIN", @"TTOU",   @"IO",
+                          @"XCPU",  @"XFSZ", @"VTALRM", @"PROF",
+                          @"WINCH", @"INFO", @"USR1",   @"USR2"];
 }
 
 + (int)signalForName:(NSString*)signalName {
@@ -106,13 +106,13 @@ static const CGFloat kMargin = 4;
     [self setIntValue:[self intValue]];
     id<NSComboBoxDelegate> comboBoxDelegate = (id<NSComboBoxDelegate>)[self delegate];
     [comboBoxDelegate comboBoxSelectionIsChanging:[NSNotification notificationWithName:NSComboBoxSelectionIsChangingNotification
-                                                                                object:nil]];
+                             object:nil]];
 }
 
 - (void)textDidChange:(NSNotification *)notification {
     id<NSComboBoxDelegate> comboBoxDelegate = (id<NSComboBoxDelegate>)[self delegate];
     [comboBoxDelegate comboBoxSelectionIsChanging:[NSNotification notificationWithName:NSComboBoxSelectionIsChangingNotification
-                                                                                object:nil]];
+                             object:nil]];
 }
 
 - (void)sizeToFit {
@@ -195,18 +195,18 @@ static const CGFloat kMargin = 4;
         _processInfos = @[];
 
         signal_ = [[SignalPicker alloc] initWithFrame:NSMakeRect(0,
-                                                                 frame.size.height - kButtonHeight + 1,
-                                                                 frame.size.width - kill_.frame.size.width - 2*kMargin,
-                                                                 kButtonHeight)];
+                                        frame.size.height - kButtonHeight + 1,
+                                        frame.size.width - kill_.frame.size.width - 2*kMargin,
+                                        kButtonHeight)];
         signal_.delegate = self;
         [signal_ setAutoresizingMask:NSViewMinYMargin | NSViewMaxXMargin];
         [signal_ sizeToFit];
         [self addSubview:signal_];
 
         kill_ = [[[NSButton alloc] initWithFrame:NSMakeRect(0,
-                                                            frame.size.height - kButtonHeight,
-                                                            frame.size.width,
-                                                            kButtonHeight)] autorelease];
+                                    frame.size.height - kButtonHeight,
+                                    frame.size.width,
+                                    kButtonHeight)] autorelease];
         if (@available(macOS 10.16, *)) {
             kill_.bezelStyle = NSBezelStyleRegularSquare;
             kill_.bordered = NO;
@@ -266,7 +266,7 @@ static const CGFloat kMargin = 4;
         tableView_.intercellSpacing = NSMakeSize(tableView_.intercellSpacing.width, 0);
         tableView_.rowHeight = 15;
         tableView_.headerView = nil;
-        
+
         [tableView_ setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
         if (@available(macOS 10.14, *)) {
             tableView_.backgroundColor = [NSColor clearColor];
@@ -281,13 +281,13 @@ static const CGFloat kMargin = 4;
         timerInterval_ = 1;
 
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(setSlowTimer)
-                                                     name:NSWindowDidResignMainNotification
-                                                   object:nil];
+                                              selector:@selector(setSlowTimer)
+                                              name:NSWindowDidResignMainNotification
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(setFastTimer)
-                                                     name:NSWindowDidBecomeKeyNotification
-                                                   object:nil];
+                                              selector:@selector(setFastTimer)
+                                              name:NSWindowDidBecomeKeyNotification
+                                              object:nil];
 
         [self updateTimer:nil];
     }
@@ -365,11 +365,11 @@ static const CGFloat kMargin = 4;
 
     NSArray<iTermProcessInfo *> *infos = [[[iTermProcessCache sharedInstance] processInfoForPid:rootPid] flattenedTree];
     NSSet<NSNumber *> *oldPids = [NSSet setWithArray:[_processInfos mapWithBlock:^id(iTermProcessInfo *info) {
-        return @(info.processID);
-    }]];
+              return @(info.processID);
+          }]];
     NSSet<NSNumber *> *newPids = [NSSet setWithArray:[infos mapWithBlock:^id(iTermProcessInfo *info) {
-        return @(info.processID);
-    }]];
+              return @(info.processID);
+          }]];
     if (![oldPids isEqual:newPids]) {
         NSInteger selectedIndex = [tableView_ selectedRow];
         NSNumber *previouslySelectedPID = nil;
@@ -378,13 +378,13 @@ static const CGFloat kMargin = 4;
         }
 
         NSArray<iTermProcessInfo *> *sortedInfos = [infos sortedArrayUsingComparator:^NSComparisonResult(iTermProcessInfo * _Nonnull obj1, iTermProcessInfo * _Nonnull obj2) {
-            return [@(obj1.processID) compare:@(obj2.processID)];
-        }];
+                  return [@(obj1.processID) compare:@(obj2.processID)];
+              }];
         [sortedInfos enumerateObjectsUsingBlock:^(iTermProcessInfo * _Nonnull info, NSUInteger idx, BOOL * _Nonnull stop) {
-            if (idx == kMaxJobs) {
-                *stop = YES;
-                return;
-            }
+                        if (idx == kMaxJobs) {
+                            *stop = YES;
+                            return;
+                        }
             [info resolveAsynchronously];
         }];
         [_processInfos autorelease];
@@ -394,11 +394,11 @@ static const CGFloat kMargin = 4;
 
         if (previouslySelectedPID) {
             NSInteger indexToSelect = [_processInfos indexOfObjectPassingTest:^BOOL(iTermProcessInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                return obj.processID == previouslySelectedPID.integerValue;
-            }];
+                              return obj.processID == previouslySelectedPID.integerValue;
+                          }];
             if (indexToSelect != NSNotFound) {
                 [tableView_ selectRowIndexes:[NSIndexSet indexSetWithIndex:indexToSelect]
-                        byExtendingSelection:NO];
+                            byExtendingSelection:NO];
             } else {
                 self.killable = NO;
             }
@@ -408,10 +408,10 @@ static const CGFloat kMargin = 4;
         [self performSelector:@selector(fixCursor) withObject:nil afterDelay:0];
     }
     timer_ = [NSTimer scheduledTimerWithTimeInterval:timerInterval_
-                                              target:self
-                                            selector:@selector(updateTimer:)
-                                            userInfo:nil
-                                             repeats:NO];
+                      target:self
+                      selector:@selector(updateTimer:)
+                      userInfo:nil
+                      repeats:NO];
 }
 
 - (void)fixCursor {
@@ -437,8 +437,8 @@ static const CGFloat kMargin = 4;
 }
 
 - (NSView *)tableView:(NSTableView *)tableView
-   viewForTableColumn:(NSTableColumn *)tableColumn
-                  row:(NSInteger)row {
+    viewForTableColumn:(NSTableColumn *)tableColumn
+    row:(NSInteger)row {
     static NSString *const identifier = @"ToolJobsEntry";
     NSTextField *result = [tableView makeViewWithIdentifier:identifier owner:self];
     if (result == nil) {
@@ -452,7 +452,7 @@ static const CGFloat kMargin = 4;
 }
 
 - (NSString *)stringForTableColumn:(NSTableColumn *)aTableColumn
-                               row:(NSInteger)rowIndex {
+    row:(NSInteger)rowIndex {
     if ([[aTableColumn identifier] isEqualToString:@"name"]) {
         // name
         return _processInfos[rowIndex].argv0 ?: _processInfos[rowIndex].name;

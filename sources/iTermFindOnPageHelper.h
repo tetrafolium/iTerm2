@@ -19,20 +19,20 @@
 
 // Actually perform a search.
 - (void)findOnPageSetFindString:(NSString*)aString
-               forwardDirection:(BOOL)direction
-                           mode:(iTermFindMode)mode
-                    startingAtX:(int)x
-                    startingAtY:(int)y
-                     withOffset:(int)offset
-                      inContext:(FindContext*)context
-                multipleResults:(BOOL)multipleResults;
+    forwardDirection:(BOOL)direction
+    mode:(iTermFindMode)mode
+    startingAtX:(int)x
+    startingAtY:(int)y
+    withOffset:(int)offset
+    inContext:(FindContext*)context
+    multipleResults:(BOOL)multipleResults;
 
 // Save the absolute position in the find context.
 - (void)findOnPageSaveFindContextAbsPos;
 
 // Find more, fill in results.
 - (BOOL)continueFindAllResults:(NSMutableArray *)results
-                     inContext:(FindContext*)context;
+    inContext:(FindContext*)context;
 
 // Select a range.
 - (void)findOnPageSelectRange:(VT100GridCoordRange)range wrapped:(BOOL)wrapped;
@@ -78,13 +78,13 @@
 // totalScrollbackOverflow: Number of lines lost to scrollback history (used to calculate absolute
 //   line numbers).
 - (void)findString:(NSString *)aString
-  forwardDirection:(BOOL)direction
-              mode:(iTermFindMode)mode
-        withOffset:(int)offset
-           context:(FindContext *)findContext
-     numberOfLines:(int)numberOfLines
-totalScrollbackOverflow:(long long)totalScrollbackOverflow
-scrollToFirstResult:(BOOL)scrollToFirstResult;
+    forwardDirection:(BOOL)direction
+    mode:(iTermFindMode)mode
+    withOffset:(int)offset
+    context:(FindContext *)findContext
+    numberOfLines:(int)numberOfLines
+    totalScrollbackOverflow:(long long)totalScrollbackOverflow
+    scrollToFirstResult:(BOOL)scrollToFirstResult;
 
 // Remove all highlight data.
 - (void)clearHighlights;
@@ -101,10 +101,10 @@ scrollToFirstResult:(BOOL)scrollToFirstResult;
 // Search the next block (calling out to the delegate to do the real work) and update highlights and
 // search results.
 - (BOOL)continueFind:(double *)progress
-             context:(FindContext *)context
-               width:(int)width
-       numberOfLines:(int)numberOfLines
-  overflowAdjustment:(long long)overflowAdjustment;
+    context:(FindContext *)context
+    width:(int)width
+    numberOfLines:(int)numberOfLines
+    overflowAdjustment:(long long)overflowAdjustment;
 
 // Remove highlights in a range of lines.
 - (void)removeHighlightsInRange:(NSRange)range;

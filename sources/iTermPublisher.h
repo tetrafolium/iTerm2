@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)publish:(PayloadType)payload;
 
 - (void)addSubscriber:(id)subscriber
-                block:(void (^)(PayloadType payload))block;
+    block:(void (^)(PayloadType payload))block;
 
 - (void)removeSubscriber:(id)subscriber;
 

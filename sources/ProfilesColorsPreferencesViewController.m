@@ -114,7 +114,7 @@ static NSString * const kColorGalleryURL = @"https://www.iterm2.com/colorgallery
         for (NSString *colorName in [ProfileModel colorKeys]) {
             iTermColorDictionary *presetColorDict = [preset iterm_presetColorWithName:colorName];
             NSDictionary *profileColorDict = [iTermProfilePreferences objectForKey:colorName
-                                                                         inProfile:profile];
+                                                                      inProfile:profile];
             if (![presetColorDict isEqual:profileColorDict] && presetColorDict != profileColorDict) {
                 ok = NO;
                 break;
@@ -130,17 +130,17 @@ static NSString * const kColorGalleryURL = @"https://www.iterm2.com/colorgallery
 - (void)awakeFromNib {
     // Updates fields when a preset is loaded.
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(reloadProfile)
-                                                 name:kReloadAllProfiles
-                                               object:nil];
+                                          selector:@selector(reloadProfile)
+                                          name:kReloadAllProfiles
+                                          object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(rebuildColorPresetsMenu)
-                                                 name:kRebuildColorPresetsMenuNotification
-                                               object:nil];
+                                          selector:@selector(rebuildColorPresetsMenu)
+                                          name:kRebuildColorPresetsMenuNotification
+                                          object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(popupButtonWillPopUp:)
-                                                 name:NSPopUpButtonWillPopUpNotification
-                                               object:_presetsPopupButton];
+                                          selector:@selector(popupButtonWillPopUp:)
+                                          name:NSPopUpButtonWillPopUpNotification
+                                          object:_presetsPopupButton];
 
     // Add presets to preset color selection.
     [self rebuildColorPresetsMenu];
@@ -151,13 +151,13 @@ static NSString * const kColorGalleryURL = @"https://www.iterm2.com/colorgallery
         CPKColorWell *colorWell = colorWellDictionary[key];
         NSTextField *relatedView = relatedViews[key];
         [self defineControl:colorWell
-                        key:key
-                relatedView:nil
-                displayName:[NSString stringWithFormat:@"%@ color", relatedView.stringValue]
-                       type:kPreferenceInfoTypeColorWell
-             settingChanged:nil
-                     update:nil
-                 searchable:relatedView != nil];
+              key:key
+              relatedView:nil
+              displayName:[NSString stringWithFormat:@"%@ color", relatedView.stringValue]
+              type:kPreferenceInfoTypeColorWell
+              settingChanged:nil
+              update:nil
+              searchable:relatedView != nil];
         colorWell.action = @selector(settingChanged:);
         colorWell.target = self;
         colorWell.continuous = YES;
@@ -177,55 +177,63 @@ static NSString * const kColorGalleryURL = @"https://www.iterm2.com/colorgallery
     PreferenceInfo *info;
     __weak __typeof(self) weakSelf = self;
     info = [self defineControl:_useTabColor
-                           key:KEY_USE_TAB_COLOR
-                   relatedView:nil
-                          type:kPreferenceInfoTypeCheckbox];
-    info.observer = ^() { [weakSelf updateColorControlsEnabled]; };
+                 key:KEY_USE_TAB_COLOR
+                 relatedView:nil
+                 type:kPreferenceInfoTypeCheckbox];
+    info.observer = ^() {
+        [weakSelf updateColorControlsEnabled];
+    };
 
     info = [self defineControl:_useUnderlineColor
-                           key:KEY_USE_UNDERLINE_COLOR
-                   relatedView:nil
-                          type:kPreferenceInfoTypeCheckbox];
-    info.observer = ^() { [weakSelf updateColorControlsEnabled]; };
+                 key:KEY_USE_UNDERLINE_COLOR
+                 relatedView:nil
+                 type:kPreferenceInfoTypeCheckbox];
+    info.observer = ^() {
+        [weakSelf updateColorControlsEnabled];
+    };
 
     info = [self defineControl:_useSmartCursorColor
-                           key:KEY_SMART_CURSOR_COLOR
-                   relatedView:nil
-                          type:kPreferenceInfoTypeCheckbox];
-    info.observer = ^() { [weakSelf updateColorControlsEnabled]; };
+                 key:KEY_SMART_CURSOR_COLOR
+                 relatedView:nil
+                 type:kPreferenceInfoTypeCheckbox];
+    info.observer = ^() {
+        [weakSelf updateColorControlsEnabled];
+    };
 
     info = [self defineControl:_minimumContrast
-                           key:KEY_MINIMUM_CONTRAST
-                   relatedView:_minimumContrastLabel
-                          type:kPreferenceInfoTypeSlider];
-    info.observer = ^() { [weakSelf maybeWarnAboutExcessiveContrast]; };
+                 key:KEY_MINIMUM_CONTRAST
+                 relatedView:_minimumContrastLabel
+                 type:kPreferenceInfoTypeSlider];
+    info.observer = ^() {
+        [weakSelf maybeWarnAboutExcessiveContrast];
+    };
 
     [self defineControl:_cursorBoost
-                    key:KEY_CURSOR_BOOST
-            relatedView:_cursorBoostLabel
-                   type:kPreferenceInfoTypeSlider];
+          key:KEY_CURSOR_BOOST
+          relatedView:_cursorBoostLabel
+          type:kPreferenceInfoTypeSlider];
 
     [self defineControl:_useGuide
-                    key:KEY_USE_CURSOR_GUIDE
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_USE_CURSOR_GUIDE
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     info = [self defineControl:_useBrightBold
-                           key:KEY_USE_BOLD_COLOR
-                   displayName:@"Custom color for bold text"
-                          type:kPreferenceInfoTypeCheckbox];
-    info.observer = ^{ [weakSelf updateColorControlsEnabled]; };
+                 key:KEY_USE_BOLD_COLOR
+                 displayName:@"Custom color for bold text"
+                 type:kPreferenceInfoTypeCheckbox];
+    info.observer = ^ { [weakSelf updateColorControlsEnabled]; };
 
     info = [self defineControl:_brightenBoldText
-                           key:KEY_BRIGHTEN_BOLD_TEXT
-                   displayName:@"Brighten bold text"
-                          type:kPreferenceInfoTypeCheckbox];
-    info.observer = ^{ [weakSelf updateColorControlsEnabled]; };
+                 key:KEY_BRIGHTEN_BOLD_TEXT
+                 displayName:@"Brighten bold text"
+                 type:kPreferenceInfoTypeCheckbox];
+    info.observer = ^ { [weakSelf updateColorControlsEnabled]; };
 
     [self addViewToSearchIndex:_presetsPopupButton
-                   displayName:@"Color presets"
-                       phrases:@[]
-                           key:nil];
+          displayName:@"Color presets"
+          phrases:@[]
+          key:nil];
 
     [self maybeWarnAboutExcessiveContrast];
     [self updateColorControlsEnabled];
@@ -255,52 +263,97 @@ static NSString * const kColorGalleryURL = @"https://www.iterm2.com/colorgallery
 }
 
 - (NSDictionary *)colorWellDictionary {
-    return @{ KEY_ANSI_0_COLOR: _ansi0Color,
-              KEY_ANSI_1_COLOR: _ansi1Color,
-              KEY_ANSI_2_COLOR: _ansi2Color,
-              KEY_ANSI_3_COLOR: _ansi3Color,
-              KEY_ANSI_4_COLOR: _ansi4Color,
-              KEY_ANSI_5_COLOR: _ansi5Color,
-              KEY_ANSI_6_COLOR: _ansi6Color,
-              KEY_ANSI_7_COLOR: _ansi7Color,
-              KEY_ANSI_8_COLOR: _ansi8Color,
-              KEY_ANSI_9_COLOR: _ansi9Color,
-              KEY_ANSI_10_COLOR: _ansi10Color,
-              KEY_ANSI_11_COLOR: _ansi11Color,
-              KEY_ANSI_12_COLOR: _ansi12Color,
-              KEY_ANSI_13_COLOR: _ansi13Color,
-              KEY_ANSI_14_COLOR: _ansi14Color,
-              KEY_ANSI_15_COLOR: _ansi15Color,
-              KEY_FOREGROUND_COLOR: _foregroundColor,
-              KEY_BACKGROUND_COLOR: _backgroundColor,
-              KEY_BOLD_COLOR: _boldColor,
-              KEY_LINK_COLOR: _linkColor,
-              KEY_SELECTION_COLOR: _selectionColor,
-              KEY_SELECTED_TEXT_COLOR: _selectedTextColor,
-              KEY_CURSOR_COLOR: _cursorColor,
-              KEY_CURSOR_TEXT_COLOR: _cursorTextColor,
-              KEY_TAB_COLOR: _tabColor,
-              KEY_UNDERLINE_COLOR: _underlineColor,
-              KEY_CURSOR_GUIDE_COLOR: _guideColor,
-              KEY_BADGE_COLOR: _badgeColor };
+    return @ { KEY_ANSI_0_COLOR:
+               _ansi0Color,
+               KEY_ANSI_1_COLOR:
+               _ansi1Color,
+               KEY_ANSI_2_COLOR:
+               _ansi2Color,
+               KEY_ANSI_3_COLOR:
+               _ansi3Color,
+               KEY_ANSI_4_COLOR:
+               _ansi4Color,
+               KEY_ANSI_5_COLOR:
+               _ansi5Color,
+               KEY_ANSI_6_COLOR:
+               _ansi6Color,
+               KEY_ANSI_7_COLOR:
+               _ansi7Color,
+               KEY_ANSI_8_COLOR:
+               _ansi8Color,
+               KEY_ANSI_9_COLOR:
+               _ansi9Color,
+               KEY_ANSI_10_COLOR:
+               _ansi10Color,
+               KEY_ANSI_11_COLOR:
+               _ansi11Color,
+               KEY_ANSI_12_COLOR:
+               _ansi12Color,
+               KEY_ANSI_13_COLOR:
+               _ansi13Color,
+               KEY_ANSI_14_COLOR:
+               _ansi14Color,
+               KEY_ANSI_15_COLOR:
+               _ansi15Color,
+               KEY_FOREGROUND_COLOR:
+               _foregroundColor,
+               KEY_BACKGROUND_COLOR:
+               _backgroundColor,
+               KEY_BOLD_COLOR:
+               _boldColor,
+               KEY_LINK_COLOR:
+               _linkColor,
+               KEY_SELECTION_COLOR:
+               _selectionColor,
+               KEY_SELECTED_TEXT_COLOR:
+               _selectedTextColor,
+               KEY_CURSOR_COLOR:
+               _cursorColor,
+               KEY_CURSOR_TEXT_COLOR:
+               _cursorTextColor,
+               KEY_TAB_COLOR:
+               _tabColor,
+               KEY_UNDERLINE_COLOR:
+               _underlineColor,
+               KEY_CURSOR_GUIDE_COLOR:
+               _guideColor,
+               KEY_BADGE_COLOR:
+               _badgeColor
+             };
 }
 
 - (NSDictionary *)colorWellRelatedViews {
-    return @{ KEY_ANSI_0_COLOR: _ansi0ColorLabel,
-              KEY_ANSI_1_COLOR: _ansi1ColorLabel,
-              KEY_ANSI_2_COLOR: _ansi2ColorLabel,
-              KEY_ANSI_3_COLOR: _ansi3ColorLabel,
-              KEY_ANSI_4_COLOR: _ansi4ColorLabel,
-              KEY_ANSI_5_COLOR: _ansi5ColorLabel,
-              KEY_ANSI_6_COLOR: _ansi6ColorLabel,
-              KEY_ANSI_7_COLOR: _ansi7ColorLabel,
-              KEY_FOREGROUND_COLOR: _foregroundColorLabel,
-              KEY_BACKGROUND_COLOR: _backgroundColorLabel,
-              KEY_SELECTION_COLOR: _selectionColorLabel,
-              KEY_SELECTED_TEXT_COLOR: _selectedTextColorLabel,
-              KEY_CURSOR_COLOR: _cursorColorLabel,
-              KEY_CURSOR_TEXT_COLOR: _cursorTextColorLabel,
-              KEY_BADGE_COLOR: _badgeColorLabel };
+    return @ { KEY_ANSI_0_COLOR:
+               _ansi0ColorLabel,
+               KEY_ANSI_1_COLOR:
+               _ansi1ColorLabel,
+               KEY_ANSI_2_COLOR:
+               _ansi2ColorLabel,
+               KEY_ANSI_3_COLOR:
+               _ansi3ColorLabel,
+               KEY_ANSI_4_COLOR:
+               _ansi4ColorLabel,
+               KEY_ANSI_5_COLOR:
+               _ansi5ColorLabel,
+               KEY_ANSI_6_COLOR:
+               _ansi6ColorLabel,
+               KEY_ANSI_7_COLOR:
+               _ansi7ColorLabel,
+               KEY_FOREGROUND_COLOR:
+               _foregroundColorLabel,
+               KEY_BACKGROUND_COLOR:
+               _backgroundColorLabel,
+               KEY_SELECTION_COLOR:
+               _selectionColorLabel,
+               KEY_SELECTED_TEXT_COLOR:
+               _selectedTextColorLabel,
+               KEY_CURSOR_COLOR:
+               _cursorColorLabel,
+               KEY_CURSOR_TEXT_COLOR:
+               _cursorTextColorLabel,
+               KEY_BADGE_COLOR:
+               _badgeColorLabel
+             };
 }
 
 #pragma mark - Color Presets
@@ -336,7 +389,7 @@ static NSString * const kColorGalleryURL = @"https://www.iterm2.com/colorgallery
 - (void)addColorPresetsInDict:(iTermColorPresetDictionary *)presetsDict toMenu:(NSMenu *)theMenu {
     for (NSString* key in  [[presetsDict allKeys] sortedArrayUsingSelector:@selector(compare:)]) {
         NSMenuItem* presetItem = [[NSMenuItem alloc] initWithTitle:key
-                                                            action:@selector(loadColorPreset:)
+                                                     action:@selector(loadColorPreset:)
                                                      keyEquivalent:@""];
         presetItem.target = self;
         [theMenu addItem:presetItem];
@@ -438,7 +491,7 @@ static NSString * const kColorGalleryURL = @"https://www.iterm2.com/colorgallery
     for (NSString *colorName in [ProfileModel colorKeys]) {
         iTermColorDictionary *presetColorDict = [preset iterm_presetColorWithName:colorName];
         NSDictionary *profileColorDict = [iTermProfilePreferences objectForKey:colorName
-                                                                     inProfile:profile];
+                                                                  inProfile:profile];
         if (![presetColorDict isEqual:profileColorDict] && presetColorDict != profileColorDict) {
             return NO;
         }
@@ -456,7 +509,7 @@ static NSString * const kColorGalleryURL = @"https://www.iterm2.com/colorgallery
 
 - (void)restoreColors {
     [_savedColors enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        id value = [obj nilIfNull];
+                     id value = [obj nilIfNull];
         if (![NSObject object:value isEqualToObject:[self objectForKey:key]]) {
             [self setObject:value forKey:key];
         }

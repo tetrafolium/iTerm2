@@ -15,7 +15,7 @@
 #import "iTermResourceLimitsHelper.h"
 #import "shell_launcher.h"
 
-int main(int argc, const char *argv[]){
+int main(int argc, const char *argv[]) {
     if (argc > 1 && !strcmp(argv[1], "--launch_shell")) {
         // Run the user's shell.
         return launch_shell(argc > 2 ? argv[2] : NULL);

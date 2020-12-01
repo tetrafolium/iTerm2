@@ -33,10 +33,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface iTermMetalPerFrameStateRowFactory : NSObject
 
 - (instancetype)initWithDrawingHelper:(iTermTextDrawingHelper *)drawingHelper
-                             textView:(PTYTextView *)textView
-                               screen:(VT100Screen *)screen
-                        configuration:(iTermMetalPerFrameStateConfiguration *)configuration
-                                width:(int)width NS_DESIGNATED_INITIALIZER;
+    textView:(PTYTextView *)textView
+    screen:(VT100Screen *)screen
+    configuration:(iTermMetalPerFrameStateConfiguration *)configuration
+    width:(int)width NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (iTermMetalPerFrameStateRow *)newRowForLine:(int)line;

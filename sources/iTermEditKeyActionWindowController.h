@@ -36,7 +36,7 @@ typedef NS_ENUM(NSUInteger, iTermEditKeyActionWindowControllerMode) {
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;
 - (instancetype)initWithContext:(iTermVariablesSuggestionContext)context
-                           mode:(iTermEditKeyActionWindowControllerMode)mode;
+    mode:(iTermEditKeyActionWindowControllerMode)mode;
 
 // Used by client to remember if this was opened to add a new mapping or edit an existing one.
 @property(nonatomic) BOOL isNewMapping;

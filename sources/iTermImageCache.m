@@ -15,8 +15,8 @@
 @property (nonatomic, readonly) NSColor *color;
 
 - (instancetype)initWithName:(NSString *)name
-                        size:(NSSize)size
-                       color:(NSColor *)color NS_DESIGNATED_INITIALIZER;
+    size:(NSSize)size
+    color:(NSColor *)color NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 @end
@@ -24,8 +24,8 @@
 @implementation iTermImageCacheKey
 
 - (instancetype)initWithName:(NSString *)name
-                        size:(NSSize)size
-                       color:(NSColor *)color {
+    size:(NSSize)size
+    color:(NSColor *)color {
     self = [super init];
     if (self) {
         _name = name;
@@ -37,7 +37,7 @@
 
 - (NSUInteger)hash {
     return iTermCombineHash(iTermCombineHash(_name.hash,
-                                             _size.width * _size.height + _size.width + _size.height),
+                            _size.width * _size.height + _size.width + _size.height),
                             _color.hash);
 }
 
@@ -67,17 +67,17 @@
 }
 
 - (void)addImage:(NSImage *)image
-            name:(NSString *)name
-            size:(NSSize)size
-           color:(NSColor *)color {
+    name:(NSString *)name
+    size:(NSSize)size
+    color:(NSColor *)color {
     [_cache setObject:image
-               forKey:[self keyForName:name size:size color:color]
-                 cost:size.width * size.height * 4];
+            forKey:[self keyForName:name size:size color:color]
+            cost:size.width * size.height * 4];
 }
 
 - (NSImage *)imageWithName:(NSString *)name
-                      size:(NSSize)size
-                     color:(NSColor *)color {
+    size:(NSSize)size
+    color:(NSColor *)color {
     return [_cache objectForKey:[self keyForName:name size:size color:color]];
 }
 

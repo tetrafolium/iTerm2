@@ -91,44 +91,44 @@
 }
 
 + (iTermDelayedPerform *)animateWithDuration:(NSTimeInterval)duration
-                                       delay:(NSTimeInterval)delay
-                                  animations:(void (^)(void))animations
-                                  completion:(void (^)(BOOL finished))completion {
+    delay:(NSTimeInterval)delay
+    animations:(void (^)(void))animations
+    completion:(void (^)(BOOL finished))completion {
     iTermDelayedPerform *delayedPerform = [[iTermDelayedPerform alloc] init];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)),
-                   dispatch_get_main_queue(), ^{
-                       if (!delayedPerform.canceled) {
-                           DLog(@"Run dp %@", delayedPerform);
-                           [self animateWithDuration:duration
-                                          animations:animations
-                                          completion:^(BOOL finished) {
-                                              delayedPerform.completed = YES;
-                                              completion(finished);
-                                          }];
-                       } else {
-                           completion(NO);
-                       }
-                   });
+    dispatch_get_main_queue(), ^ {
+        if (!delayedPerform.canceled) {
+            DLog(@"Run dp %@", delayedPerform);
+            [self animateWithDuration:duration
+                  animations:animations
+                 completion:^(BOOL finished) {
+                     delayedPerform.completed = YES;
+                     completion(finished);
+            }];
+        } else {
+            completion(NO);
+        }
+    });
     return delayedPerform;
 }
 
 + (void)animateWithDuration:(NSTimeInterval)duration
-                 animations:(void (NS_NOESCAPE ^)(void))animations
-                 completion:(void (^)(BOOL finished))completion {
-   NSAnimationContext *context = [NSAnimationContext currentContext];
-   NSTimeInterval savedDuration = [context duration];
-   if (duration > 0) {
-       [context setDuration:duration];
-   }
-   animations();
-   [context setDuration:savedDuration];
+    animations:(void (NS_NOESCAPE ^)(void))animations
+    completion:(void (^)(BOOL finished))completion {
+    NSAnimationContext *context = [NSAnimationContext currentContext];
+    NSTimeInterval savedDuration = [context duration];
+    if (duration > 0) {
+        [context setDuration:duration];
+    }
+    animations();
+    [context setDuration:savedDuration];
 
-   if (completion) {
-       dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(duration * NSEC_PER_SEC)),
-                      dispatch_get_main_queue(), ^{
-                          completion(YES);
-                      });
-   }
+    if (completion) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(duration * NSEC_PER_SEC)),
+        dispatch_get_main_queue(), ^ {
+            completion(YES);
+        });
+    }
 }
 
 - (void)enumerateHierarchy:(void (NS_NOESCAPE ^)(NSView *))block {

@@ -180,7 +180,7 @@
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     for (NSResponder *responder in self.allResponders) {
         if ([responder respondsToSelector:@selector(validateMenuItem:)] &&
-            [responder validateMenuItem:menuItem]) {
+                [responder validateMenuItem:menuItem]) {
             return YES;
         }
     }
@@ -446,10 +446,10 @@
         [timer_ invalidate];
     }
     timer_ = [NSTimer scheduledTimerWithTimeInterval:4
-                                              target:self
-                                            selector:@selector(_setClearFilterOnNextKeyDownFlag:)
-                                            userInfo:nil
-                                             repeats:NO];
+                      target:self
+                      selector:@selector(_setClearFilterOnNextKeyDownFlag:)
+                      userInfo:nil
+                      repeats:NO];
 }
 
 - (BOOL)passKeyEventToDelegateForSelector:(SEL)selector string:(NSString *)string {
@@ -496,18 +496,30 @@
         textColor = [NSColor labelColor];
     }
     NSColor* lightColor = [textColor colorWithAlphaComponent:0.7];
-    NSDictionary* lightAttributes = @{ NSFontAttributeName: sysFont,
-                                       NSForegroundColorAttributeName: lightColor,
-                                       NSParagraphStyleAttributeName: paragraphStyle };
-    NSDictionary* plainAttributes = @{ NSFontAttributeName: sysFont,
-                                       NSForegroundColorAttributeName: textColor,
-                                       NSParagraphStyleAttributeName: paragraphStyle };
-    NSDictionary* boldAttributes = @{ NSFontAttributeName: [NSFont boldSystemFontOfSize:size],
-                                      NSForegroundColorAttributeName: textColor,
-                                      NSParagraphStyleAttributeName: paragraphStyle };
+    NSDictionary* lightAttributes = @ { NSFontAttributeName:
+                                        sysFont,
+                                        NSForegroundColorAttributeName:
+                                        lightColor,
+                                        NSParagraphStyleAttributeName:
+                                        paragraphStyle
+                                      };
+    NSDictionary* plainAttributes = @ { NSFontAttributeName:
+                                        sysFont,
+                                        NSForegroundColorAttributeName:
+                                        textColor,
+                                        NSParagraphStyleAttributeName:
+                                        paragraphStyle
+                                      };
+    NSDictionary* boldAttributes = @ { NSFontAttributeName:
+                                       [NSFont boldSystemFontOfSize:size],
+                                       NSForegroundColorAttributeName:
+                                       textColor,
+                                       NSParagraphStyleAttributeName:
+                                       paragraphStyle
+                                     };
 
     [as appendAttributedString:[[[NSAttributedString alloc] initWithString:[entry prefix]
-                                                                attributes:lightAttributes] autorelease]];
+                                 attributes:lightAttributes] autorelease]];
     NSString *truncatedMainValue = [self truncatedMainValueForEntry:entry];
     NSString* value = [truncatedMainValue stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
 
@@ -515,8 +527,8 @@
     for (int i = 0; i < [substring_ length]; ++i) {
         unichar wantChar = [substring_ characterAtIndex:i];
         NSRange r = [temp rangeOfString:[NSString stringWithCharacters:&wantChar
-                                                                length:1]
-                                options:NSCaseInsensitiveSearch];
+                                         length:1]
+                          options:NSCaseInsensitiveSearch];
         if (r.location == NSNotFound) {
             continue;
         }
@@ -529,15 +541,15 @@
             NSString* substr = [temp substringWithRange:prefix];
             attributedSubstr =
                 [[[NSAttributedString alloc] initWithString:substr
-                                                 attributes:plainAttributes] autorelease];
+                                              attributes:plainAttributes] autorelease];
             [as appendAttributedString:attributedSubstr];
         }
 
         unichar matchChar = [temp characterAtIndex:r.location];
         attributedSubstr =
             [[[NSAttributedString alloc] initWithString:[NSString stringWithCharacters:&matchChar
-                                                                                length:1]
-                                             attributes:boldAttributes] autorelease];
+                                                length:1]
+                                          attributes:boldAttributes] autorelease];
         [as appendAttributedString:attributedSubstr];
 
         r.length = [temp length] - r.location - 1;
@@ -548,7 +560,7 @@
     if ([temp length] > 0) {
         NSAttributedString* attributedSubstr =
             [[[NSAttributedString alloc] initWithString:temp
-                                             attributes:plainAttributes] autorelease];
+                                          attributes:plainAttributes] autorelease];
         [as appendAttributedString:attributedSubstr];
     }
 
@@ -556,8 +568,8 @@
 }
 
 - (NSAttributedString *)shrunkToFitAttributedString:(NSAttributedString *)attributedString
-                                            inEntry:(PopupEntry *)entry
-                                     baseAttributes:(NSDictionary *)baseAttributes {
+    inEntry:(PopupEntry *)entry
+    baseAttributes:(NSDictionary *)baseAttributes {
     return attributedString;
 }
 
