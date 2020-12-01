@@ -147,7 +147,7 @@ static NSMutableArray<NSString *> *_combinedLog;
         [tmuxProfile setObject:@"tmux" forKey:KEY_NAME];
         [tmuxProfile setObject:[ProfileModel freshGuid] forKey:KEY_GUID];
         [tmuxProfile setObject:[NSNumber numberWithInt:1000]
-                         forKey:KEY_SCROLLBACK_LINES];
+                     forKey:KEY_SCROLLBACK_LINES];
         [self addBookmark:tmuxProfile];
         [self postChangeNotification];
         profile = tmuxProfile;
@@ -162,44 +162,44 @@ static NSMutableArray<NSString *> *_combinedLog;
 }
 
 + (NSAttributedString *)attributedStringForName:(NSString *)name
-                   highlightingMatchesForFilter:(NSString *)filter
-                              defaultAttributes:(NSDictionary *)defaultAttributes
-                          highlightedAttributes:(NSDictionary *)highlightedAttributes {
+    highlightingMatchesForFilter:(NSString *)filter
+    defaultAttributes:(NSDictionary *)defaultAttributes
+    highlightedAttributes:(NSDictionary *)highlightedAttributes {
     NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
     NSArray* tokens = [self parseFilter:filter];
     [self doesProfileWithName:name tags:@[] matchFilter:tokens nameIndexSet:indexes tagIndexSets:nil];
     NSMutableAttributedString *result =
         [[[NSMutableAttributedString alloc] initWithString:name
-                                                attributes:defaultAttributes] autorelease];
+                                             attributes:defaultAttributes] autorelease];
     [indexes enumerateRangesUsingBlock:^(NSRange range, BOOL *stop) {
-        [result setAttributes:highlightedAttributes range:range];
-    }];
+                [result setAttributes:highlightedAttributes range:range];
+            }];
     return result;
 }
 
 + (NSArray *)attributedTagsForTags:(NSArray *)tags
-                 highlightingMatchesForFilter:(NSString *)filter
-                            defaultAttributes:(NSDictionary *)defaultAttributes
-                        highlightedAttributes:(NSDictionary *)highlightedAttributes {
+    highlightingMatchesForFilter:(NSString *)filter
+    defaultAttributes:(NSDictionary *)defaultAttributes
+    highlightedAttributes:(NSDictionary *)highlightedAttributes {
     NSMutableArray *indexSets = [NSMutableArray array];
     for (int i = 0; i < tags.count; i++) {
         [indexSets addObject:[NSMutableIndexSet indexSet]];
     }
     NSArray* tokens = [self parseFilter:filter];
     [self doesProfileWithName:nil
-                         tags:tags
-                  matchFilter:tokens
-                 nameIndexSet:nil
-                 tagIndexSets:indexSets];
+          tags:tags
+          matchFilter:tokens
+          nameIndexSet:nil
+          tagIndexSets:indexSets];
     NSMutableArray *result = [NSMutableArray array];
     for (int i = 0; i < tags.count; i++) {
         NSMutableAttributedString *attributedString =
             [[[NSMutableAttributedString alloc] initWithString:tags[i]
-                                                    attributes:defaultAttributes] autorelease];
+                                                 attributes:defaultAttributes] autorelease];
         NSIndexSet *indexSet = indexSets[i];
         [indexSet enumerateRangesUsingBlock:^(NSRange range, BOOL *stop) {
-            [attributedString setAttributes:highlightedAttributes range:range];
-        }];
+                     [attributedString setAttributes:highlightedAttributes range:range];
+                 }];
         [result addObject:attributedString];
     }
     return result;
@@ -207,17 +207,17 @@ static NSMutableArray<NSString *> *_combinedLog;
 
 + (BOOL)doesProfile:(Profile *)profile matchFilter:(NSArray *)tokens {
     return [self.class doesProfileWithName:profile[KEY_NAME]
-                                      tags:profile[KEY_TAGS]
-                               matchFilter:tokens
-                              nameIndexSet:nil
-                              tagIndexSets:nil];
+                       tags:profile[KEY_TAGS]
+                       matchFilter:tokens
+                       nameIndexSet:nil
+                       tagIndexSets:nil];
 }
 
 + (BOOL)doesProfileWithName:(NSString *)name
-                       tags:(NSArray *)tags
-                matchFilter:(NSArray *)tokens
-               nameIndexSet:(NSMutableIndexSet *)nameIndexSet
-               tagIndexSets:(NSArray *)tagIndexSets {
+    tags:(NSArray *)tags
+    matchFilter:(NSArray *)tokens
+    nameIndexSet:(NSMutableIndexSet *)nameIndexSet
+    tagIndexSets:(NSArray *)tagIndexSets {
     NSArray* nameWords = [name componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     for (int i = 0; i < [tokens count]; ++i) {
         iTermProfileSearchToken *token = [tokens objectAtIndex:i];
@@ -263,7 +263,7 @@ static NSMutableArray<NSString *> *_combinedLog;
     int count = [bookmarks_ count];
     for (int i = 0; i < count; ++i) {
         if ([self.class doesProfile:[self profileAtIndex:i] matchFilter:tokens] ||
-            [bookmarks_[i][KEY_GUID] isEqualToString:lockedGuid]) {
+                [bookmarks_[i][KEY_GUID] isEqualToString:lockedGuid]) {
             [result addObject:@(i)];
         }
     }
@@ -343,7 +343,7 @@ static NSMutableArray<NSString *> *_combinedLog;
         int value = [[dict objectForKey:KEY_PROMPT_CLOSE_DEPRECATED] intValue];
         if (value != PROMPT_ALWAYS) {
             [dict setObject:[NSNumber numberWithInt:value]
-                     forKey:KEY_PROMPT_CLOSE];
+                  forKey:KEY_PROMPT_CLOSE];
         }
     }
     if (![dict objectForKey:KEY_PROMPT_CLOSE]) {
@@ -362,7 +362,7 @@ static NSMutableArray<NSString *> *_combinedLog;
     // dict later on.
     if (![dict objectForKey:KEY_JOBS]) {
         [dict setObject:[NSArray arrayWithObjects:@"rlogin", @"ssh", @"slogin", @"telnet", nil]
-                 forKey:KEY_JOBS];
+              forKey:KEY_JOBS];
         gMigrated = YES;
     }
 }
@@ -433,9 +433,9 @@ static NSMutableArray<NSString *> *_combinedLog;
 
     // The call to setDefaultByGuid may add a journal entry so make sure this one comes first.
     BookmarkJournalEntry *e = [BookmarkJournalEntry journalWithAction:JOURNAL_ADD
-                                                             bookmark:bookmark
-                                                                model:self
-                                                                index:theIndex];
+                                                    bookmark:bookmark
+                                                    model:self
+                                                    index:theIndex];
     [journal_ addObject:e];
 
     if (![self defaultBookmark] || (isDeprecatedDefaultBookmark && [isDeprecatedDefaultBookmark isEqualToString:@"Yes"])) {
@@ -443,8 +443,8 @@ static NSMutableArray<NSString *> *_combinedLog;
     }
     [self postChangeNotification];
     [[self debugHistoryForGuid:bookmark[KEY_GUID]] addObject:[NSString stringWithFormat:@"%@: Add bookmark with guid %@",
-                                                              self,
-                                                              bookmark[KEY_GUID]]];
+                                                        self,
+                                                        bookmark[KEY_GUID]]];
 }
 
 - (void)addGuidToDebug:(NSString *)guid {
@@ -482,8 +482,8 @@ static NSMutableArray<NSString *> *_combinedLog;
 
         [journal_ addObject:[BookmarkJournalEntry journalWithAction:JOURNAL_REMOVE bookmark:[bookmarks_ objectAtIndex:i] model:self]];
         [[self debugHistoryForGuid:bookmarks_[i][KEY_GUID]] addObject:[NSString stringWithFormat:@"%@: Remove bookmark with guid %@",
-                                                                       self,
-                                                                       bookmarks_[i][KEY_GUID]]];
+                                                       self,
+                                                       bookmarks_[i][KEY_GUID]]];
         [bookmarks_ removeObjectAtIndex:i];
         if (![self defaultBookmark] && [bookmarks_ count]) {
             [self setDefaultByGuid:[[bookmarks_ objectAtIndex:0] objectForKey:KEY_GUID]];
@@ -497,8 +497,8 @@ static NSMutableArray<NSString *> *_combinedLog;
     assert(i >= 0);
     [journal_ addObject:[BookmarkJournalEntry journalWithAction:JOURNAL_REMOVE bookmark:[bookmarks_ objectAtIndex:i] model:self]];
     [[self debugHistoryForGuid:bookmarks_[i][KEY_GUID]] addObject:[NSString stringWithFormat:@"%@: Remove bookmark with guid %@",
-                                                                   self,
-                                                                   bookmarks_[i][KEY_GUID]]];
+                                                   self,
+                                                   bookmarks_[i][KEY_GUID]]];
     [bookmarks_ removeObjectAtIndex:i];
     DLog(@"Number of profiles is now %d", (int)bookmarks_.count);
     if (![self defaultBookmark] && [bookmarks_ count]) {
@@ -527,11 +527,11 @@ static NSMutableArray<NSString *> *_combinedLog;
     // Any field that is shown in a view (profiles window, menus, bookmark list views, etc.) must
     // be a criteria for journalability for it to be updated immediately.
     if (![[a objectForKey:KEY_NAME] isEqualToString:[b objectForKey:KEY_NAME]] ||
-        ![[a objectForKey:KEY_SHORTCUT] isEqualToString:[b objectForKey:KEY_SHORTCUT]] ||
-        ![[a objectForKey:KEY_TAGS] isEqualToArray:[b objectForKey:KEY_TAGS]] ||
-        ![[a objectForKey:KEY_GUID] isEqualToString:[b objectForKey:KEY_GUID]] ||
-        ![[a objectForKey:KEY_COMMAND_LINE] isEqualToString:[b objectForKey:KEY_COMMAND_LINE]] ||
-        ![[a objectForKey:KEY_CUSTOM_COMMAND] isEqualToString:[b objectForKey:KEY_CUSTOM_COMMAND]]) {
+            ![[a objectForKey:KEY_SHORTCUT] isEqualToString:[b objectForKey:KEY_SHORTCUT]] ||
+            ![[a objectForKey:KEY_TAGS] isEqualToArray:[b objectForKey:KEY_TAGS]] ||
+            ![[a objectForKey:KEY_GUID] isEqualToString:[b objectForKey:KEY_GUID]] ||
+            ![[a objectForKey:KEY_COMMAND_LINE] isEqualToString:[b objectForKey:KEY_COMMAND_LINE]] ||
+            ![[a objectForKey:KEY_CUSTOM_COMMAND] isEqualToString:[b objectForKey:KEY_CUSTOM_COMMAND]]) {
         return YES;
     } else {
         return NO;
@@ -552,16 +552,16 @@ static NSMutableArray<NSString *> *_combinedLog;
         [journal_ addObject:[BookmarkJournalEntry journalWithAction:JOURNAL_REMOVE bookmark:[bookmarks_ objectAtIndex:i] model:self]];
     }
     [[self debugHistoryForGuid:bookmark[KEY_GUID]] addObject:[NSString stringWithFormat:@"%@: Replace bookmark at index %@ (%@) with %@",
-                                                              self,
-                                                              @(i),
-                                                              bookmarks_[i][KEY_GUID],
-                                                              bookmark[KEY_GUID]]];
+                                                        self,
+                                                        @(i),
+                                                        bookmarks_[i][KEY_GUID],
+                                                        bookmark[KEY_GUID]]];
     [bookmarks_ replaceObjectAtIndex:i withObject:bookmark];
     if (needJournal) {
         BookmarkJournalEntry* e = [BookmarkJournalEntry journalWithAction:JOURNAL_ADD
-                                                                 bookmark:bookmark
-                                                                    model:self
-                                                                    index:i];
+                                                        bookmark:bookmark
+                                                        model:self
+                                                        index:i];
         [journal_ addObject:e];
     }
     if (isDefault) {
@@ -583,7 +583,7 @@ static NSMutableArray<NSString *> *_combinedLog;
 - (void)removeAllBookmarks
 {
     [[self debugHistoryForGuid:@"na"] addObject:[NSString stringWithFormat:@"%@: Remove all bookmarks",
-                                                 self]];
+                                             self]];
     [bookmarks_ removeAllObjects];
     defaultBookmarkGuid_ = @"";
     [journal_ addObject:[BookmarkJournalEntry journalWithAction:JOURNAL_REMOVE_ALL bookmark:nil model:self]];
@@ -604,8 +604,8 @@ static NSMutableArray<NSString *> *_combinedLog;
         }
     }
     [[self debugHistoryForGuid:@"na"] addObject:[NSString stringWithFormat:@"%@: Load bookmarks. Now have %@.",
-                                                 self,
-                                                 [self guids]]];
+                                             self,
+                                             [self guids]]];
 }
 
 + (NSString*)freshGuid {
@@ -686,8 +686,8 @@ static NSMutableArray<NSString *> *_combinedLog;
 - (Profile *)setObjectsFromDictionary:(NSDictionary *)dictionary inProfile:(Profile *)profile {
     NSMutableDictionary *newDict = [[profile mutableCopy] autorelease];
     [dictionary enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        [newDict setObject:obj forKey:key];
-    }];
+                   [newDict setObject:obj forKey:key];
+               }];
     NSString *guid = [profile objectForKey:KEY_GUID];
     Profile *newProfile = [NSDictionary dictionaryWithDictionary:newDict];
     [self setBookmark:newProfile withGuid:guid];
@@ -704,7 +704,7 @@ static NSMutableArray<NSString *> *_combinedLog;
     NSString* guid = [bookmark objectForKey:KEY_GUID];
     Profile* newBookmark = [NSDictionary dictionaryWithDictionary:newDict];
     [self setBookmark:newBookmark
-             withGuid:guid];
+          withGuid:guid];
     return newBookmark;
 }
 
@@ -717,8 +717,8 @@ static NSMutableArray<NSString *> *_combinedLog;
         [prefs_ setObject:defaultBookmarkGuid_ forKey:KEY_DEFAULT_GUID];
     }
     [journal_ addObject:[BookmarkJournalEntry journalWithAction:JOURNAL_SET_DEFAULT
-                                                       bookmark:[self defaultBookmark]
-                                                          model:self]];
+                         bookmark:[self defaultBookmark]
+                         model:self]];
     [self postChangeNotification];
 }
 
@@ -732,8 +732,8 @@ static NSMutableArray<NSString *> *_combinedLog;
 }
 
 - (void)setProfilePreservingGuidWithGuid:(NSString *)origGuid
-                             fromProfile:(Profile *)bookmark
-                               overrides:(NSDictionary<NSString *, id> *)overrides {
+    fromProfile:(Profile *)bookmark
+    overrides:(NSDictionary<NSString *, id> *)overrides {
     Profile *origProfile = [self bookmarkWithGuid:origGuid];
     NSString *preDivorceGuid = origProfile[KEY_ORIGINAL_GUID];
     Profile *preDivorceProfile = [[ProfileModel sharedInstance] bookmarkWithGuid:preDivorceGuid];
@@ -741,7 +741,7 @@ static NSMutableArray<NSString *> *_combinedLog;
     // Only preserve the name if it has changed since the divorce.
     BOOL preserveName = NO;
     if (preDivorceProfile &&
-        ![preDivorceProfile[KEY_NAME] isEqualToString:origProfile[KEY_NAME]]) {
+            ![preDivorceProfile[KEY_NAME] isEqualToString:origProfile[KEY_NAME]]) {
         preserveName = YES;
     }
 
@@ -768,18 +768,18 @@ static NSMutableArray<NSString *> *_combinedLog;
     Profile* bookmark = [bookmarks_ objectAtIndex:sourceRow];
     [bookmark retain];
     [[self debugHistoryForGuid:bookmark[KEY_GUID]] addObject:[NSString stringWithFormat:@"%@: Moving guid %@ to row %@. First, remove it from row %@",
-                                                              self,
-                                                              guid,
-                                                              @(destinationRow),
-                                                              @(sourceRow)]];
+                                                        self,
+                                                        guid,
+                                                        @(destinationRow),
+                                                        @(sourceRow)]];
     [bookmarks_ removeObjectAtIndex:sourceRow];
     if (sourceRow < destinationRow) {
         destinationRow--;
     }
     [[self debugHistoryForGuid:bookmark[KEY_GUID]] addObject:[NSString stringWithFormat:@"%@: Now insert it %@ at row %@",
-                                                              self,
-                                                              guid,
-                                                              @(destinationRow)]];
+                                                        self,
+                                                        guid,
+                                                        @(destinationRow)]];
     [bookmarks_ insertObject:bookmark atIndex:destinationRow];
     [bookmark release];
 }
@@ -822,13 +822,13 @@ static NSMutableArray<NSString *> *_combinedLog;
     if (_delayedNotifications) {
         NSNotification *last = [_delayedNotifications lastObject];
         if ([notification.name isEqualToString:kReloadAddressBookNotification] &&
-            [last.name isEqualToString:notification.name]) {
+                [last.name isEqualToString:notification.name]) {
             // Special hack to combine journals to avoid sending a million notifications each with a
             // small journal.
             NSArray *lastArray = last.userInfo[@"array"] ?: @[];
             NSArray *thisArray = notification.userInfo[@"array"] ?: @[];
             NSArray *combinedArray = [lastArray arrayByAddingObjectsFromArray:thisArray];
-            NSNotification *combined = [NSNotification notificationWithName:notification.name object:nil userInfo:@{ @"array": combinedArray }];
+            NSNotification *combined = [NSNotification notificationWithName:notification.name object:nil userInfo:@ { @"array": combinedArray }];
             [_delayedNotifications removeLastObject];
             [_delayedNotifications addObject:combined];
         } else {
@@ -845,7 +845,7 @@ static NSMutableArray<NSString *> *_combinedLog;
         DLog(@"Posting notification");
         // NOTE: if userInfo is ever changed update -postNotification:, which
         // has code that coalesces userinfos for this notification.
-        [self postNotificationName:kReloadAddressBookNotification object:nil userInfo:@{ @"array": journal_ }];
+        [self postNotificationName:kReloadAddressBookNotification object:nil userInfo:@ { @"array": journal_ }];
     }
     [journal_ release];
     journal_ = [[NSMutableArray alloc] init];

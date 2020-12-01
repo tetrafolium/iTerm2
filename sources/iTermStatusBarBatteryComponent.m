@@ -24,42 +24,42 @@ static NSString *const iTermBatteryComponentKnobKeyShowTime = @"ShowTime";
 
 
 - (instancetype)initWithConfiguration:(NSDictionary<iTermStatusBarComponentConfigurationKey,id> *)configuration
-                                scope:(nullable iTermVariableScope *)scope {
+    scope:(nullable iTermVariableScope *)scope {
     self = [super initWithConfiguration:configuration scope:scope];
     if (self) {
         __weak __typeof(self) weakSelf = self;
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(powerManagerStateDidChange:)
-                                                     name:iTermPowerManagerStateDidChange
-                                                   object:nil];
+                                              selector:@selector(powerManagerStateDidChange:)
+                                              name:iTermPowerManagerStateDidChange
+                                              object:nil];
         _chargingImage = [NSImage it_imageNamed:@"StatusBarIconCharging" forClass:self.class];
         [[iTermPowerManager sharedInstance] addPowerStateSubscriber:self block:^(iTermPowerState *state) {
-            [weakSelf update:state];
-        }];
+                                               [weakSelf update:state];
+                                           }];
     }
     return self;
 }
 
 - (NSArray<iTermStatusBarComponentKnob *> *)statusBarComponentKnobs {
     iTermStatusBarComponentKnob *showPercentageKnob =
-    [[iTermStatusBarComponentKnob alloc] initWithLabelText:@"Show Percentage"
-                                                      type:iTermStatusBarComponentKnobTypeCheckbox
-                                               placeholder:nil
-                                              defaultValue:@YES
-                                                       key:iTermBatteryComponentKnobKeyShowPercentage];
+        [[iTermStatusBarComponentKnob alloc] initWithLabelText:@"Show Percentage"
+                                             type:iTermStatusBarComponentKnobTypeCheckbox
+                                             placeholder:nil
+                                             defaultValue:@YES
+                                             key:iTermBatteryComponentKnobKeyShowPercentage];
     iTermStatusBarComponentKnob *showEstimatedTimeKnob =
-    [[iTermStatusBarComponentKnob alloc] initWithLabelText:@"Show Estimated Time"
-                                                      type:iTermStatusBarComponentKnobTypeCheckbox
-                                               placeholder:nil
-                                              defaultValue:@NO
-                                                       key:iTermBatteryComponentKnobKeyShowTime];
+        [[iTermStatusBarComponentKnob alloc] initWithLabelText:@"Show Estimated Time"
+                                             type:iTermStatusBarComponentKnobTypeCheckbox
+                                             placeholder:nil
+                                             defaultValue:@NO
+                                             key:iTermBatteryComponentKnobKeyShowTime];
     return [@[ showPercentageKnob, showEstimatedTimeKnob ] arrayByAddingObjectsFromArray:[super statusBarComponentKnobs]];
 }
 
 + (BOOL)machineHasBattery {
     static dispatch_once_t onceToken;
     static BOOL result;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         result = [[iTermPowerManager sharedInstance] hasBattery];
     });
     return result;
@@ -68,7 +68,7 @@ static NSString *const iTermBatteryComponentKnobKeyShowTime = @"ShowTime";
 - (NSImage *)statusBarComponentIcon {
     static dispatch_once_t onceToken;
     static NSImage *image;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         if ([self.class machineHasBattery]) {
             image = [NSImage it_cacheableImageNamed:@"StatusBarIconBattery" forClass:[self class]];
         } else {
@@ -91,7 +91,7 @@ static NSString *const iTermBatteryComponentKnobKeyShowTime = @"ShowTime";
 }
 
 - (id)statusBarComponentExemplarWithBackgroundColor:(NSColor *)backgroundColor
-                                          textColor:(NSColor *)textColor {
+    textColor:(NSColor *)textColor {
     return @"95% ▂▃▅▇ Batt";
 }
 
@@ -113,13 +113,13 @@ static NSString *const iTermBatteryComponentKnobKeyShowTime = @"ShowTime";
 
 - (iTermStatusBarSparklinesModel *)sparklinesModel {
     NSArray<NSNumber *> *values = [[[iTermPowerManager sharedInstance] percentageSamples] mapWithBlock:^id(NSNumber *anObject) {
-        return @(anObject.doubleValue / 100.0);
-    }];
+                                            return @(anObject.doubleValue / 100.0);
+                                        }];
     iTermStatusBarTimeSeries *timeSeries = [[iTermStatusBarTimeSeries alloc] initWithValues:values];
     iTermStatusBarTimeSeriesRendition *rendition =
-    [[iTermStatusBarTimeSeriesRendition alloc] initWithTimeSeries:timeSeries
-                                                            color:[self statusBarTextColor]];
-    return [[iTermStatusBarSparklinesModel alloc] initWithDictionary:@{ @"main": rendition}];
+        [[iTermStatusBarTimeSeriesRendition alloc] initWithTimeSeries:timeSeries
+                                                   color:[self statusBarTextColor]];
+    return [[iTermStatusBarSparklinesModel alloc] initWithDictionary:@ { @"main": rendition}];
 }
 
 - (int)currentEstimate {
@@ -133,23 +133,31 @@ static NSString *const iTermBatteryComponentKnobKeyShowTime = @"ShowTime";
 
 - (NSDictionary *)leftAttributes {
     NSMutableParagraphStyle *leftAlignStyle =
-    [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+        [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     [leftAlignStyle setAlignment:NSTextAlignmentLeft];
     [leftAlignStyle setLineBreakMode:NSLineBreakByTruncatingTail];
 
-    return @{ NSParagraphStyleAttributeName: leftAlignStyle,
-              NSFontAttributeName: self.font,
-              NSForegroundColorAttributeName: self.textColor };
+    return @ { NSParagraphStyleAttributeName:
+               leftAlignStyle,
+               NSFontAttributeName:
+               self.font,
+               NSForegroundColorAttributeName:
+               self.textColor
+             };
 }
 
 - (NSDictionary *)rightAttributes {
     NSMutableParagraphStyle *rightAlignStyle =
-    [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+        [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     [rightAlignStyle setAlignment:NSTextAlignmentRight];
     [rightAlignStyle setLineBreakMode:NSLineBreakByTruncatingTail];
-    return @{ NSParagraphStyleAttributeName: rightAlignStyle,
-              NSFontAttributeName: self.font,
-              NSForegroundColorAttributeName: self.textColor };
+    return @ { NSParagraphStyleAttributeName:
+               rightAlignStyle,
+               NSFontAttributeName:
+               self.font,
+               NSForegroundColorAttributeName:
+               self.textColor
+             };
 }
 
 - (NSSize)leftSize {

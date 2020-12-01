@@ -53,11 +53,11 @@ extern NSString *const kProfileWasDeletedNotification;
 @end
 
 @interface ProfileListView : NSView <
-  NSSplitViewDelegate,
-  NSTextFieldDelegate,
-  NSTableViewDataSource,
-  NSTableViewDelegate,
-  ProfileTableMenuHandler>
+    NSSplitViewDelegate,
+    NSTextFieldDelegate,
+    NSTableViewDataSource,
+    NSTableViewDelegate,
+    ProfileTableMenuHandler>
 
 @property(nonatomic, readonly) BOOL tagsVisible;
 @property(nonatomic) CGFloat tagsFraction;

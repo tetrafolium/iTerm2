@@ -19,7 +19,7 @@
 typedef id (^iTermGrammarProcessorSyntaxTreeTransformBlock)(CPSyntaxTree *);
 
 - (void)addProductionRule:(NSString *)bnf
-            treeTransform:(iTermGrammarProcessorSyntaxTreeTransformBlock)transform;
+    treeTransform:(iTermGrammarProcessorSyntaxTreeTransformBlock)transform;
 
 // Calls the block for the rule that matched the root fo this tree and returns
 // its value.

@@ -83,8 +83,8 @@ NS_ASSUME_NONNULL_BEGIN
 };
 
 - (void)loadSettingsWithDrawingHelper:(iTermTextDrawingHelper *)drawingHelper
-                             textView:(PTYTextView *)textView
-                                 glue:(id<iTermMetalPerFrameStateDelegate>)glue;
+    textView:(PTYTextView *)textView
+    glue:(id<iTermMetalPerFrameStateDelegate>)glue;
 
 @end
 

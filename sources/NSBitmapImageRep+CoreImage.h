@@ -8,9 +8,9 @@
 #import <Cocoa/Cocoa.h>
 
 @interface NSBitmapImageRep (CoreImage)
-/* Draws the specified image representation using Core Image. */
+    /* Draws the specified image representation using Core Image. */
 - (void)drawAtPoint:(NSPoint)point
-           fromRect:(NSRect)fromRect
+    fromRect:(NSRect)fromRect
     coreImageFilter:(NSString *)filterName
-          arguments:(NSDictionary *)arguments;
+    arguments:(NSDictionary *)arguments;
 @end

@@ -92,7 +92,7 @@ iTermTriState iTermTriStateFromBool(BOOL b) {
 }
 
 - (instancetype)initWithScreenChars:(screen_char_t *)screenChars
-                             length:(NSInteger)length {
+    length:(NSInteger)length {
     self = [super init];
     if (self) {
         _length = length;
@@ -145,8 +145,8 @@ iTermTriState iTermTriStateFromBool(BOOL b) {
 @synthesize eol = _eol;
 
 - (instancetype)initWithLine:(screen_char_t *)line
-                      length:(int)length
-                continuation:(screen_char_t)continuation {
+    length:(int)length
+    continuation:(screen_char_t)continuation {
     self = [super init];
     if (self) {
         _line = line;
@@ -333,17 +333,17 @@ int GetOrSetComplexChar(NSString *str,
         }
     }
     switch (isSpacingCombiningMark) {
-        case iTermTriStateTrue:
+    case iTermTriStateTrue:
+        [spacingCombiningMarkCodeNumbers addObject:number];
+        break;
+    case iTermTriStateFalse:
+        break;
+    case iTermTriStateOther: {
+        NSCharacterSet *scmSet = [NSCharacterSet spacingCombiningMarksForUnicodeVersion:12];
+        if ([str rangeOfCharacterFromSet:scmSet].location != NSNotFound) {
             [spacingCombiningMarkCodeNumbers addObject:number];
-            break;
-        case iTermTriStateFalse:
-            break;
-        case iTermTriStateOther: {
-            NSCharacterSet *scmSet = [NSCharacterSet spacingCombiningMarksForUnicodeVersion:12];
-            if ([str rangeOfCharacterFromSet:scmSet].location != NSNotFound) {
-                [spacingCombiningMarkCodeNumbers addObject:number];
-            }
         }
+    }
     }
     complexCharMap[number] = str;
     inverseComplexCharMap[str] = number;
@@ -378,18 +378,18 @@ int AppendToComplexChar(int key, unichar codePoint) {
 NSString *StringByNormalizingString(NSString *theString, iTermUnicodeNormalization normalization) {
     NSString *normalizedString;
     switch (normalization) {
-        case iTermUnicodeNormalizationNFC:
-            normalizedString = [theString precomposedStringWithCanonicalMapping];
-            break;
-        case iTermUnicodeNormalizationNFD:
-            normalizedString = [theString decomposedStringWithCanonicalMapping];
-            break;
-        case iTermUnicodeNormalizationNone:
-            normalizedString = theString;
-            break;
-        case iTermUnicodeNormalizationHFSPlus:
-            normalizedString = [theString precomposedStringWithHFSPlusMapping];
-            break;
+    case iTermUnicodeNormalizationNFC:
+        normalizedString = [theString precomposedStringWithCanonicalMapping];
+        break;
+    case iTermUnicodeNormalizationNFD:
+        normalizedString = [theString decomposedStringWithCanonicalMapping];
+        break;
+    case iTermUnicodeNormalizationNone:
+        normalizedString = theString;
+        break;
+    case iTermUnicodeNormalizationHFSPlus:
+        normalizedString = [theString precomposedStringWithHFSPlusMapping];
+        break;
     }
     return normalizedString;
 }
@@ -414,10 +414,10 @@ BOOL StringContainsCombiningMark(NSString *s) {
     }
     __block BOOL result = NO;
     [s enumerateComposedCharacters:^(NSRange range, unichar simple, NSString *complexString, BOOL *stop) {
-        if (range.length == 1) {
-            // Definitely no combining mark here.
-            return;
-        } else if (range.length == 2) {
+          if (range.length == 1) {
+              // Definitely no combining mark here.
+              return;
+          } else if (range.length == 2) {
             // Could be a surrogate pair or a BMP base character plus combining mark.
             unichar c = [s characterAtIndex:range.location + 1];
             result = !IsLowSurrogate(c);
@@ -533,9 +533,9 @@ NSString* CharArrayToString(unichar* charHaystack, int o)
     encoding = NSUTF16LittleEndianStringEncoding;
 #endif
     return [[[NSString alloc] initWithBytesNoCopy:charHaystack
-                                           length:o * sizeof(unichar)
-                                         encoding:encoding
-                                     freeWhenDone:NO] autorelease];
+                               length:o * sizeof(unichar)
+                               encoding:encoding
+                               freeWhenDone:NO] autorelease];
 }
 
 void DumpScreenCharArray(screen_char_t* screenChars, int lineLength) {
@@ -569,11 +569,11 @@ int EffectiveLineLength(screen_char_t* theLine, int totalLength) {
 NSString *DebugStringForScreenChar(screen_char_t c) {
     NSArray *modes = @[ @"default", @"selected", @"altsem", @"altsem-reversed" ];
     return [NSString stringWithFormat:@"<screen_char_t: code=%@ complex=%@ image=%@ url=%@ foregroundColor=%@ fgGreen=%@ fgBlue=%@ backgroundColor=%@ bgGreen=%@ bgBlue=%@ fgMode=%@ bgMode=%@ bold=%@ faint=%@ italic=%@ blink=%@ underline=%@ strikethrough=%@ underlinestyle=%@ unused=%@>",
-            @(c.code), @(c.complexChar), @(c.image), @(c.urlCode),
-            @(c.foregroundColor), @(c.fgGreen), @(c.fgBlue),
-            @(c.backgroundColor), @(c.bgGreen), @(c.bgBlue), modes[c.foregroundColorMode],
-            modes[c.backgroundColorMode], @(c.bold), @(c.faint), @(c.italic), @(c.blink),
-            @(c.underline), @(c.strikethrough), @(c.underlineStyle), @(c.unused)];
+                     @(c.code), @(c.complexChar), @(c.image), @(c.urlCode),
+                     @(c.foregroundColor), @(c.fgGreen), @(c.fgBlue),
+                     @(c.backgroundColor), @(c.bgGreen), @(c.bgBlue), modes[c.foregroundColorMode],
+                     modes[c.backgroundColorMode], @(c.bold), @(c.faint), @(c.italic), @(c.blink),
+                     @(c.underline), @(c.strikethrough), @(c.underlineStyle), @(c.unused)];
 }
 
 // Convert a string into an array of screen characters, dealing with surrogate
@@ -596,15 +596,15 @@ void StringToScreenChars(NSString *s,
     [s enumerateComposedCharacters:^(NSRange range,
                                      unichar baseBmpChar,
                                      NSString *composedOrNonBmpChar,
-                                     BOOL *stop) {
-        if (cursorIndex && !foundCursor && NSLocationInRange(*cursorIndex, range)) {
-            foundCursor = YES;
-            *cursorIndex = j;
-        }
+      BOOL *stop) {
+          if (cursorIndex && !foundCursor && NSLocationInRange(*cursorIndex, range)) {
+              foundCursor = YES;
+              *cursorIndex = j;
+          }
 
-        BOOL isDoubleWidth = NO;
-        BOOL spacingCombiningMark = NO;
-        InitializeScreenChar(buf + j, fg, bg);
+          BOOL isDoubleWidth = NO;
+          BOOL spacingCombiningMark = NO;
+          InitializeScreenChar(buf + j, fg, bg);
 
         // Set the code and the complex flag. Also return early if no cell should be used by this
         // grapheme cluster. Set the isDoubleWidth flag.
@@ -632,7 +632,7 @@ void StringToScreenChars(NSString *s,
 
                 isDoubleWidth = [NSString isDoubleWidthCharacter:baseBmpChar
                                           ambiguousIsDoubleWidth:ambiguousIsDoubleWidth
-                                                  unicodeVersion:unicodeVersion];
+                                          unicodeVersion:unicodeVersion];
             }
         }
         if (composedOrNonBmpChar) {
@@ -655,13 +655,13 @@ void StringToScreenChars(NSString *s,
             }
             isDoubleWidth = [NSString isDoubleWidthCharacter:baseChar
                                       ambiguousIsDoubleWidth:ambiguousIsDoubleWidth
-                                              unicodeVersion:unicodeVersion];
+                                      unicodeVersion:unicodeVersion];
             if (!isDoubleWidth && composedLength > next) {
                 const unichar peek = [composedOrNonBmpChar characterAtIndex:next];
                 if (peek == 0xfe0f) {
                     // VS16
                     if ([[NSCharacterSet emojiAcceptingVS16] characterIsMember:baseChar] &&
-                        [iTermAdvancedSettingsModel vs16Supported]) {
+                            [iTermAdvancedSettingsModel vs16Supported]) {
                         isDoubleWidth = YES;
                     }
                 }
@@ -732,18 +732,24 @@ NSInteger ScreenCharGeneration(void) {
 }
 
 NSDictionary *ScreenCharEncodedRestorableState(void) {
-    return @{ kScreenCharComplexCharMapKey: complexCharMap ?: @{},
-              kScreenCharSpacingCombiningMarksKey: spacingCombiningMarkCodeNumbers.allObjects ?: @[],
-              kScreenCharInverseComplexCharMapKey: inverseComplexCharMap ?: @{},
-              kScreenCharImageMapKey: gEncodableImageMap ?: @{},
-              kScreenCharCCMNextKeyKey: @(ccmNextKey),
-              kScreenCharHasWrappedKey: @(hasWrapped) };
+    return @ { kScreenCharComplexCharMapKey:
+               complexCharMap ?: @{},
+               kScreenCharSpacingCombiningMarksKey:
+               spacingCombiningMarkCodeNumbers.allObjects ?: @[],
+               kScreenCharInverseComplexCharMapKey: inverseComplexCharMap ?: @{},
+               kScreenCharImageMapKey:
+               gEncodableImageMap ?: @{},
+               kScreenCharCCMNextKeyKey:
+               @(ccmNextKey),
+               kScreenCharHasWrappedKey:
+               @(hasWrapped)
+             };
 }
 
 void ScreenCharGarbageCollectImages(void) {
     NSArray<NSNumber *> *provisionalKeys = [gImages.allKeys filteredArrayUsingBlock:^BOOL(NSNumber *key) {
-        return gImages[key].provisional;
-    }];
+                        return gImages[key].provisional;
+                    }];
     DLog(@"Garbage collect: %@", provisionalKeys);
     [gImages removeObjectsForKeys:provisionalKeys];
 }
@@ -788,48 +794,48 @@ void ScreenCharDecodeRestorableState(NSDictionary *state) {
 }
 
 static NSString *ScreenCharColorDescription(unsigned int red,
-                                            unsigned int green,
-                                            unsigned int blue,
-                                            ColorMode mode) {
+        unsigned int green,
+        unsigned int blue,
+        ColorMode mode) {
     switch (mode) {
-        case ColorModeAlternate:
-            switch (red) {
-                case ALTSEM_DEFAULT:
-                    return @"Default";
-                case ALTSEM_SELECTED:
-                    return @"Selected";
-                case ALTSEM_CURSOR:
-                    return @"Cursor";
-                case ALTSEM_REVERSED_DEFAULT:
-                    return @"Reversed";
-                case ALTSEM_SYSTEM_MESSAGE:
-                    return @"System";
-            }
-            return @"Invalid";
+    case ColorModeAlternate:
+        switch (red) {
+        case ALTSEM_DEFAULT:
+            return @"Default";
+        case ALTSEM_SELECTED:
+            return @"Selected";
+        case ALTSEM_CURSOR:
+            return @"Cursor";
+        case ALTSEM_REVERSED_DEFAULT:
+            return @"Reversed";
+        case ALTSEM_SYSTEM_MESSAGE:
+            return @"System";
+        }
+        return @"Invalid";
 
-        case ColorModeNormal:
-            if (red < 16) {
-                NSString *color = @"";
-                NSArray<NSString *> *names = @[ @"Black", @"Red", @"Green", @"Yellow", @"Blue",
-                                                @"Magenta", @"Cyan", @"White" ];
-                if (red > 7) {
-                    color = [color stringByAppendingString:@"ANSI Bright "];
-                }
-                color = [color stringByAppendingString:names[red & 7]];
-                return color;
+    case ColorModeNormal:
+        if (red < 16) {
+            NSString *color = @"";
+            NSArray<NSString *> *names = @[ @"Black", @"Red", @"Green", @"Yellow", @"Blue",
+                                                      @"Magenta", @"Cyan", @"White" ];
+            if (red > 7) {
+                color = [color stringByAppendingString:@"ANSI Bright "];
             }
-            if (red < 232) {
-                const int r = (red - 16) / 36;
-                const int g = ((red - 16) - r*36) / 6;
-                const int b = ((red - 16) - r*36 - g*6);
-                return [NSString stringWithFormat:@"8bit(%@/5,%@/5,%@/5)", @(r), @(g), @(b)];
-            }
-            const int gray = red-232;
-            return [NSString stringWithFormat:@"gray%@/22", @(gray)];
-        case ColorMode24bit:
-            return [NSString stringWithFormat:@"24bit(%@,%@,%@)", @(red), @(green), @(blue)];
-        case ColorModeInvalid:
-            return @"Invalid";
+            color = [color stringByAppendingString:names[red & 7]];
+            return color;
+        }
+        if (red < 232) {
+            const int r = (red - 16) / 36;
+            const int g = ((red - 16) - r*36) / 6;
+            const int b = ((red - 16) - r*36 - g*6);
+            return [NSString stringWithFormat:@"8bit(%@/5,%@/5,%@/5)", @(r), @(g), @(b)];
+        }
+        const int gray = red-232;
+        return [NSString stringWithFormat:@"gray%@/22", @(gray)];
+    case ColorMode24bit:
+        return [NSString stringWithFormat:@"24bit(%@,%@,%@)", @(red), @(green), @(blue)];
+    case ColorModeInvalid:
+        return @"Invalid";
     }
     return @"Invalid";
 }
@@ -853,12 +859,12 @@ NSString *ScreenCharDescription(screen_char_t c) {
     }
     if (c.underline) {
         switch (c.underlineStyle) {
-            case VT100UnderlineStyleSingle:
-                [attrs addObject:@"Underline"];
-                break;
-            case VT100UnderlineStyleCurly:
-                [attrs addObject:@"Curly-Underline"];
-                break;
+        case VT100UnderlineStyleSingle:
+            [attrs addObject:@"Underline"];
+            break;
+        case VT100UnderlineStyleCurly:
+            [attrs addObject:@"Curly-Underline"];
+            break;
         }
     }
     if (c.strikethrough) {
@@ -872,13 +878,13 @@ NSString *ScreenCharDescription(screen_char_t c) {
         style = [@" " stringByAppendingString:style];
     }
     return [NSString stringWithFormat:@"fg=%@ bg=%@%@",
-            ScreenCharColorDescription(c.foregroundColor,
+                     ScreenCharColorDescription(c.foregroundColor,
                                        c.fgGreen,
                                        c.fgBlue,
                                        c.foregroundColorMode),
-            ScreenCharColorDescription(c.backgroundColor,
+                     ScreenCharColorDescription(c.backgroundColor,
                                        c.bgGreen,
                                        c.bgBlue,
                                        c.backgroundColorMode),
-            style];
+                     style];
 }

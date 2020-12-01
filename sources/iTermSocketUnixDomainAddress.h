@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface iTermSocketUnixDomainAddress: iTermSocketAddress
+@interface iTermSocketUnixDomainAddress : iTermSocketAddress
 - (instancetype)init NS_UNAVAILABLE;
 @end
 

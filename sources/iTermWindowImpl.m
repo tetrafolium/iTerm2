@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
     double blurRadius_;
     // Hack for a 10.16 issue. Once you set blur from >0 to 0 then it is broken and will never work again.
     int _minBlur;
-    
+
     // If set, then windowWillShowInitial is not invoked.
     BOOL _layoutDone;
 
@@ -42,15 +42,15 @@ NS_ASSUME_NONNULL_BEGIN
 @synthesize it_accessibilityResizing;
 
 - (instancetype)initWithContentRect:(NSRect)contentRect
-                          styleMask:(NSWindowStyleMask)aStyle
-                            backing:(NSBackingStoreType)bufferingType
-                              defer:(BOOL)flag
-                             screen:(nullable NSScreen *)screen {
+    styleMask:(NSWindowStyleMask)aStyle
+    backing:(NSBackingStoreType)bufferingType
+    defer:(BOOL)flag
+    screen:(nullable NSScreen *)screen {
     self = [super initWithContentRect:contentRect
-                            styleMask:aStyle
-                              backing:bufferingType
-                                defer:flag
-                               screen:screen];
+                  styleMask:aStyle
+                  backing:bufferingType
+                  defer:flag
+                  screen:screen];
     if (self) {
         DLog(@"Invalidate cached occlusion: %@ %p", NSStringFromSelector(_cmd), self);
         [[iTermWindowOcclusionChangeMonitor sharedInstance] invalidateCachedOcclusion];
@@ -63,7 +63,7 @@ ITERM_WEAKLY_REFERENCEABLE
 - (void)iterm_dealloc {
     DLog(@"Invalidate cached occlusion: %@ %p", NSStringFromSelector(_cmd), self);
     // Not safe to call this from dealloc because can very indirectly try to retain this object.
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         [[iTermWindowOcclusionChangeMonitor sharedInstance] invalidateCachedOcclusion];
     });
     [restoreState_ release];
@@ -133,16 +133,16 @@ ITERM_WEAKLY_REFERENCEABLE
     }
 #endif
     return [NSString stringWithFormat:@"<%@: %p frame=%@ title=%@ alpha=%f isMain=%d isKey=%d isVisible=%d delegate=%p%@>",
-            [self class],
-            self,
-            [NSValue valueWithRect:self.frame],
-            self.title,
-            self.alphaValue,
-            (int)self.isMainWindow,
-            (int)self.isKeyWindow,
-            (int)self.isVisible,
-            self.delegate,
-            extra];
+                     [self class],
+                     self,
+                     [NSValue valueWithRect:self.frame],
+                     self.title,
+                     self.alphaValue,
+                     (int)self.isMainWindow,
+                     (int)self.isKeyWindow,
+                     (int)self.isVisible,
+                     self.delegate,
+                     extra];
 }
 
 - (NSString *)windowIdentifier {
@@ -219,7 +219,7 @@ ITERM_WEAKLY_REFERENCEABLE
 
 - (void)toggleFullScreen:(nullable id)sender {
     if (![[self ptyDelegate] lionFullScreen]  &&
-        ![iTermPreferences boolForKey:kPreferenceKeyLionStyleFullscreen]) {
+            ![iTermPreferences boolForKey:kPreferenceKeyLionStyleFullscreen]) {
         // The user must have clicked on the toolbar arrow, but the pref is set
         // to use traditional fullscreen.
         [(id<PTYWindowDelegateProtocol>)[self delegate] toggleTraditionalFullScreenMode];
@@ -254,16 +254,16 @@ ITERM_WEAKLY_REFERENCEABLE
 
     // Get a list of relevant windows, same screen & workspace
     NSArray<NSWindow *> *windows = [[(iTermApplication *)NSApp orderedWindowsPlusVisibleHotkeyPanels] filteredArrayUsingBlock:^BOOL(id window) {
-        return (window != self &&
-                [window isVisible] &&
-                [window conformsToProtocol:@protocol(PTYWindow)] &&
-                [window screenNumber] == currentScreen &&
-                [window isOnActiveSpace]);
-    }];
+                                                                          return (window != self &&
+                                                                                  [window isVisible] &&
+                                                                                  [window conformsToProtocol:@protocol(PTYWindow)] &&
+                                                                                  [window screenNumber] == currentScreen &&
+                                                                                  [window isOnActiveSpace]);
+                                                                      }];
 
     NSArray<NSValue *> *frames = [windows mapWithBlock:^id(NSWindow *window) {
-        return [NSValue valueWithRect:window.frame];
-    }];
+                return [NSValue valueWithRect:window.frame];
+            }];
 
     double lowestCost = INFINITY;
     NSRect bestFrame = self.frame;
@@ -441,7 +441,7 @@ ITERM_WEAKLY_REFERENCEABLE
             NSRect otherFrame = [other frame];
             NSRect overallIntersection = NSIntersectionRect(otherFrame, myFrame);
             if (overallIntersection.size.width < 1 &&
-                overallIntersection.size.height < 1) {
+                    overallIntersection.size.height < 1) {
                 // Short circuit--there is no overlap at all.
                 continue;
             }
@@ -561,7 +561,7 @@ ITERM_WEAKLY_REFERENCEABLE
 
 - (void)it_setNeedsInvalidateShadow {
     _needsInvalidateShadow = YES;
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         _needsInvalidateShadow = NO;
         [self invalidateShadow];
     });

@@ -20,25 +20,25 @@ VT100GridRun VT100GridRunFromCoords(VT100GridCoord start,
 
 NSString *VT100GridCoordRangeDescription(VT100GridCoordRange range) {
     return [NSString stringWithFormat:@"((%d, %d) to (%d, %d))",
-            range.start.x,
-            range.start.y,
-            range.end.x,
-            range.end.y];
+                     range.start.x,
+                     range.start.y,
+                     range.end.x,
+                     range.end.y];
 }
 
 NSString *VT100GridWindowedRangeDescription(VT100GridWindowedRange range) {
     return [NSString stringWithFormat:@"<%@ restricted to cols [%d, %d]>",
-            VT100GridCoordRangeDescription(range.coordRange),
-            range.columnWindow.location,
-            range.columnWindow.location + range.columnWindow.length - 1];
+                     VT100GridCoordRangeDescription(range.coordRange),
+                     range.columnWindow.location,
+                     range.columnWindow.location + range.columnWindow.length - 1];
 }
 
 NSString *VT100GridAbsCoordRangeDescription(VT100GridAbsCoordRange range) {
     return [NSString stringWithFormat:@"<(%d, %lld) to (%d, %lld)>",
-            range.start.x,
-            range.start.y,
-            range.end.x,
-            range.end.y];
+                     range.start.x,
+                     range.start.y,
+                     range.end.x,
+                     range.end.y];
 }
 
 NSString *VT100GridSizeDescription(VT100GridSize size) {
@@ -47,8 +47,8 @@ NSString *VT100GridSizeDescription(VT100GridSize size) {
 
 NSString *VT100GridAbsWindowedRangeDescription(VT100GridAbsWindowedRange range) {
     return [NSString stringWithFormat:@"<%@ restricted to cols %@>",
-            VT100GridAbsCoordRangeDescription(range.coordRange),
-            VT100GridRangeDescription(range.columnWindow)];
+                     VT100GridAbsCoordRangeDescription(range.coordRange),
+                     VT100GridRangeDescription(range.columnWindow)];
 }
 
 @implementation NSValue (VT100Grid)
@@ -122,9 +122,9 @@ NSString *VT100GridAbsWindowedRangeDescription(VT100GridAbsWindowedRange range) 
 }
 
 - (VT100GridCoordRange)gridCoordRangeValue {
-  VT100GridCoordRange coordRange;
-  [self getValue:&coordRange size:sizeof(coordRange)];
-  return coordRange;
+    VT100GridCoordRange coordRange;
+    [self getValue:&coordRange size:sizeof(coordRange)];
+    return coordRange;
 }
 
 - (VT100GridAbsCoordRange)gridAbsCoordRangeValue {

@@ -22,7 +22,7 @@ NSString *const iTermMetalDeviceProviderPreferredDeviceDidChangeNotification = @
 + (instancetype)sharedInstance {
     static id instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -33,9 +33,9 @@ NSString *const iTermMetalDeviceProviderPreferredDeviceDidChangeNotification = @
     if (self) {
         _deviceList = MTLCopyAllDevices();
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(powerManagerStateDidChange:)
-                                                     name:iTermPowerManagerStateDidChange
-                                                   object:nil];
+                                              selector:@selector(powerManagerStateDidChange:)
+                                              name:iTermPowerManagerStateDidChange
+                                              object:nil];
         _preferredDevice = [self findPreferredDevice];
     }
     return self;
@@ -47,24 +47,24 @@ NSString *const iTermMetalDeviceProviderPreferredDeviceDidChangeNotification = @
 
 - (nullable id<MTLDevice>)integratedGPU {
     return [_deviceList objectPassingTest:^BOOL(id<MTLDevice> element, NSUInteger index, BOOL *stop) {
-        if (@available(macOS 10.13, *)) {
-            if (element.removable) {
-                return NO;
-            }
-        }
-        return element.lowPower && !element.headless;
-    }];
+                    if (@available(macOS 10.13, *)) {
+                        if (element.removable) {
+                            return NO;
+                        }
+                    }
+                    return element.lowPower && !element.headless;
+                }];
 }
 
 - (nullable id<MTLDevice>)discreteGPU {
     return [_deviceList objectPassingTest:^BOOL(id<MTLDevice> element, NSUInteger index, BOOL *stop) {
-        if (@available(macOS 10.13, *)) {
-            if (element.removable) {
-                return NO;
-            }
-        }
-        return !element.lowPower && !element.headless;
-    }];
+                    if (@available(macOS 10.13, *)) {
+                        if (element.removable) {
+                            return NO;
+                        }
+                    }
+                    return !element.lowPower && !element.headless;
+                }];
 }
 
 - (id<MTLDevice>)findPreferredDevice {
@@ -92,7 +92,7 @@ NSString *const iTermMetalDeviceProviderPreferredDeviceDidChangeNotification = @
         if (newPreferredDevice != _preferredDevice) {
             _preferredDevice = newPreferredDevice;
             [[NSNotificationCenter defaultCenter] postNotificationName:iTermMetalDeviceProviderPreferredDeviceDidChangeNotification
-                                                                object:newPreferredDevice];
+                                                  object:newPreferredDevice];
         }
     }
 }

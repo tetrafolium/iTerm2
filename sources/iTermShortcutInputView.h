@@ -35,6 +35,6 @@
 - (void)setShortcut:(iTermShortcut *)shortcut;
 
 - (NSString *)identifierForCode:(NSUInteger)code
-                      modifiers:(NSEventModifierFlags)modifiers
-                      character:(NSUInteger)character;
+    modifiers:(NSEventModifierFlags)modifiers
+    character:(NSUInteger)character;
 @end

@@ -30,19 +30,19 @@ NS_CLASS_AVAILABLE(10_11, NA)
 @property (nonatomic, readonly) BOOL usingIntermediatePass;
 
 - (instancetype)initWithViewportSize:(vector_uint2)viewportSize
-                               scale:(CGFloat)scale
-                  hasBackgroundImage:(BOOL)hasBackgroundImage
-                        extraMargins:(NSEdgeInsets)extraMargins NS_UNAVAILABLE;
+    scale:(CGFloat)scale
+    hasBackgroundImage:(BOOL)hasBackgroundImage
+    extraMargins:(NSEdgeInsets)extraMargins NS_UNAVAILABLE;
 
 - (instancetype)initWithViewportSize:(vector_uint2)viewportSize
-                               scale:(CGFloat)scale
-                  hasBackgroundImage:(BOOL)hasBackgroundImage
-                        extraMargins:(NSEdgeInsets)extraMargins
-                            cellSize:(CGSize)cellSize
-                           glyphSize:(CGSize)glyphSize
-              cellSizeWithoutSpacing:(CGSize)cellSizeWithoutSpacing
-                            gridSize:(VT100GridSize)gridSize
-               usingIntermediatePass:(BOOL)usingIntermediatePass NS_DESIGNATED_INITIALIZER;
+    scale:(CGFloat)scale
+    hasBackgroundImage:(BOOL)hasBackgroundImage
+    extraMargins:(NSEdgeInsets)extraMargins
+    cellSize:(CGSize)cellSize
+    glyphSize:(CGSize)glyphSize
+    cellSizeWithoutSpacing:(CGSize)cellSizeWithoutSpacing
+    gridSize:(VT100GridSize)gridSize
+    usingIntermediatePass:(BOOL)usingIntermediatePass NS_DESIGNATED_INITIALIZER;
 
 @end
 
@@ -52,10 +52,10 @@ NS_CLASS_AVAILABLE(10_11, NA)
 
 - (iTermMetalFrameDataStat)createTransientStateStat;
 - (void)drawWithFrameData:(iTermMetalFrameData *)frameData
-           transientState:(__kindof iTermMetalCellRendererTransientState *)transientState;
+    transientState:(__kindof iTermMetalCellRendererTransientState *)transientState;
 
 - (nullable __kindof iTermMetalRendererTransientState *)createTransientStateForCellConfiguration:(iTermCellRenderConfiguration *)configuration
-                                                                                   commandBuffer:(id<MTLCommandBuffer>)commandBuffer;
+    commandBuffer:(id<MTLCommandBuffer>)commandBuffer;
 
 @optional
 - (void)writeDebugInfoToFolder:(NSURL *)folderURL;
@@ -84,20 +84,20 @@ NS_CLASS_AVAILABLE(10_11, NA)
 - (nullable instancetype)initWithDevice:(id<MTLDevice>)device NS_UNAVAILABLE;
 
 - (nullable instancetype)initWithDevice:(id<MTLDevice>)device
-                     vertexFunctionName:(NSString *)vertexFunctionName
-                   fragmentFunctionName:(NSString *)fragmentFunctionName
-                               blending:(nullable iTermMetalBlending *)blending
-                    transientStateClass:(Class)transientStateClass NS_UNAVAILABLE;
+    vertexFunctionName:(NSString *)vertexFunctionName
+    fragmentFunctionName:(NSString *)fragmentFunctionName
+    blending:(nullable iTermMetalBlending *)blending
+    transientStateClass:(Class)transientStateClass NS_UNAVAILABLE;
 
 - (nullable instancetype)initWithDevice:(id<MTLDevice>)device
-                     vertexFunctionName:(NSString *)vertexFunctionName
-                   fragmentFunctionName:(NSString *)fragmentFunctionName
-                               blending:(nullable iTermMetalBlending *)blending
-                         piuElementSize:(size_t)piuElementSize
-                    transientStateClass:(Class)transientStateClass NS_DESIGNATED_INITIALIZER;
+    vertexFunctionName:(NSString *)vertexFunctionName
+    fragmentFunctionName:(NSString *)fragmentFunctionName
+    blending:(nullable iTermMetalBlending *)blending
+    piuElementSize:(size_t)piuElementSize
+    transientStateClass:(Class)transientStateClass NS_DESIGNATED_INITIALIZER;
 
 - (nullable __kindof iTermMetalRendererTransientState *)createTransientStateForCellConfiguration:(iTermCellRenderConfiguration *)configuration
-                                                                                   commandBuffer:(id<MTLCommandBuffer>)commandBuffer;
+    commandBuffer:(id<MTLCommandBuffer>)commandBuffer;
 
 @end
 

@@ -88,12 +88,12 @@ typedef struct {
 - (instancetype)initWithQueue:(dispatch_queue_t)queue;
 
 - (void)forkAndExecWithTtyState:(iTermTTYState)ttyState
-                        argpath:(NSString *)argpath
-                           argv:(NSArray<NSString *> *)argv
-                     initialPwd:(NSString *)initialPwd
-                     newEnviron:(NSArray<NSString *> *)newEnviron
-                           task:(id<iTermTask>)task
-                     completion:(void (^)(iTermJobManagerForkAndExecStatus))completion;
+    argpath:(NSString *)argpath
+    argv:(NSArray<NSString *> *)argv
+    initialPwd:(NSString *)initialPwd
+    newEnviron:(NSArray<NSString *> *)newEnviron
+    task:(id<iTermTask>)task
+    completion:(void (^)(iTermJobManagerForkAndExecStatus))completion;
 
 typedef NS_OPTIONS(NSUInteger, iTermJobManagerAttachResults) {
     iTermJobManagerAttachResultsAttached = (1 << 0),
@@ -102,13 +102,13 @@ typedef NS_OPTIONS(NSUInteger, iTermJobManagerAttachResults) {
 
 // Completion block will be invoked on the main thread. ok gives whether it succeeded.
 - (void)attachToServer:(iTermGeneralServerConnection)serverConnection
-         withProcessID:(NSNumber *)thePid
-                  task:(id<iTermTask>)task
-            completion:(void (^)(iTermJobManagerAttachResults results))completion;
+    withProcessID:(NSNumber *)thePid
+    task:(id<iTermTask>)task
+    completion:(void (^)(iTermJobManagerAttachResults results))completion;
 
 - (iTermJobManagerAttachResults)attachToServer:(iTermGeneralServerConnection)serverConnection
-                                 withProcessID:(NSNumber *)thePid
-                                          task:(id<iTermTask>)task;
+    withProcessID:(NSNumber *)thePid
+    task:(id<iTermTask>)task;
 
 - (void)killWithMode:(iTermJobManagerKillingMode)mode;
 
@@ -118,12 +118,12 @@ typedef NS_OPTIONS(NSUInteger, iTermJobManagerAttachResults) {
 @optional
 // Attach to the server before an iTermTask exists.
 - (void)asyncPartialAttachToServer:(iTermGeneralServerConnection)serverConnection
-                     withProcessID:(NSNumber *)thePid
-                        completion:(void (^)(id<iTermJobManagerPartialResult> result))completion;
+    withProcessID:(NSNumber *)thePid
+    completion:(void (^)(id<iTermJobManagerPartialResult> result))completion;
 
 // After a partial attach, call this to register (if needed) and compute the attach results.
 - (iTermJobManagerAttachResults)finishAttaching:(id<iTermJobManagerPartialResult>)result
-                                           task:(id<iTermTask>)task;
+    task:(id<iTermTask>)task;
 
 @end
 
@@ -170,13 +170,13 @@ typedef NS_OPTIONS(NSUInteger, iTermJobManagerAttachResults) {
 - (NSString *)originalCommand;
 
 - (void)launchWithPath:(NSString*)progpath
-             arguments:(NSArray*)args
-           environment:(NSDictionary*)env
-           customShell:(NSString *)customShell
-              gridSize:(VT100GridSize)gridSize
-              viewSize:(NSSize)viewSize
-                isUTF8:(BOOL)isUTF8
-            completion:(void (^)(void))completion;
+    arguments:(NSArray*)args
+    environment:(NSDictionary*)env
+    customShell:(NSString *)customShell
+    gridSize:(VT100GridSize)gridSize
+    viewSize:(NSSize)viewSize
+    isUTF8:(BOOL)isUTF8
+    completion:(void (^)(void))completion;
 
 - (void)fetchProcessInfoForCurrentJobWithCompletion:(void (^)(iTermProcessInfo *))completion;
 - (iTermProcessInfo *)cachedProcessInfoIfAvailable;
@@ -210,7 +210,7 @@ typedef NS_OPTIONS(NSUInteger, iTermJobManagerAttachResults) {
 // [iTermAdvancedSettingsModel runJobsInServers]. Multiservers may return failure (NO) here
 // if the pid is not known.
 - (void)attachToServer:(iTermGeneralServerConnection)serverConnection
-            completion:(void (^)(iTermJobManagerAttachResults results))completion;
+    completion:(void (^)(iTermJobManagerAttachResults results))completion;
 
 // Synchronous version of attachToServer:completion:
 - (iTermJobManagerAttachResults)attachToServer:(iTermGeneralServerConnection)serverConnection;
@@ -222,10 +222,10 @@ typedef NS_OPTIONS(NSUInteger, iTermJobManagerAttachResults) {
 - (void)getWorkingDirectoryWithCompletion:(void (^)(NSString *pwd))completion;
 
 - (void)partiallyAttachToMultiserverWithRestorationIdentifier:(NSDictionary *)restorationIdentifier
-                                                   completion:(void (^)(id<iTermJobManagerPartialResult>))completion;
+    completion:(void (^)(id<iTermJobManagerPartialResult>))completion;
 
 - (iTermJobManagerAttachResults)finishAttachingToMultiserver:(id<iTermJobManagerPartialResult>)partialResult
-                                                  jobManager:(id<iTermJobManager>)jobManager
-                                                       queue:(dispatch_queue_t)queue;
+    jobManager:(id<iTermJobManager>)jobManager
+    queue:(dispatch_queue_t)queue;
 
 @end

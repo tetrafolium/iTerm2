@@ -80,8 +80,8 @@ NSString *const iTermWebViewErrorDomain = @"com.iterm2.webview";
     CFErrorRef error;
     NSURL *URL = self.webView.URL ?: [NSURL URLWithString:@"http://example.com"];
     NSURL *appUrl = (__bridge_transfer NSURL *)LSCopyDefaultApplicationURLForURL((__bridge CFURLRef)URL,
-                                                                                 kLSRolesAll,
-                                                                                 &error);
+                    kLSRolesAll,
+                    &error);
     if (appUrl) {
         NSString *name = nil;
         [appUrl getResourceValue:&name forKey:NSURLLocalizedNameKey error:NULL];
@@ -107,7 +107,7 @@ NSString *const iTermWebViewErrorDomain = @"com.iterm2.webview";
 + (instancetype)sharedInstance {
     static id instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         if (NSClassFromString(@"WKWebViewConfiguration")) {
             // If you get here, it's OS 10.10 or newer.
             instance = [[self alloc] init];
@@ -154,8 +154,8 @@ NSString *const iTermWebViewErrorDomain = @"com.iterm2.webview";
 
     NSURL *url = [[NSBundle bundleForClass:[self class]] URLForResource:@"iterm2Invoke" withExtension:@"js"];
     NSString *js = [NSString stringWithContentsOfURL:url
-                                            encoding:NSUTF8StringEncoding
-                                               error:NULL];
+                             encoding:NSUTF8StringEncoding
+                             error:NULL];
     if (!js) {
         DLog(@"Failed to get iterm2Invoke.js");
         return;
@@ -163,8 +163,8 @@ NSString *const iTermWebViewErrorDomain = @"com.iterm2.webview";
 
     // Specify when and where and what user script needs to be injected into the web document
     WKUserScript *userScript = [[WKUserScript alloc] initWithSource:js
-                                                      injectionTime:WKUserScriptInjectionTimeAtDocumentStart
-                                                   forMainFrameOnly:NO];
+                                                     injectionTime:WKUserScriptInjectionTimeAtDocumentStart
+                                                     forMainFrameOnly:NO];
     [userController addUserScript:userScript];
     configuration.userContentController = userController;
 }
@@ -172,7 +172,7 @@ NSString *const iTermWebViewErrorDomain = @"com.iterm2.webview";
 #pragma mark - WKScriptMessageHandler
 
 - (void)userContentController:(WKUserContentController *)userContentController
-      didReceiveScriptMessage:(WKScriptMessage *)message {
+    didReceiveScriptMessage:(WKScriptMessage *)message {
     if ([message.name isEqualToString:@"iterm2Invoke"]) {
         __weak id<iTermWebViewDelegate> delegate = [userContentController it_associatedObjectForKey:&iTermWebViewFactoryUserControllerDelegateKey];
         if (![delegate itermWebViewShouldAllowInvocation]) {
@@ -189,45 +189,45 @@ NSString *const iTermWebViewErrorDomain = @"com.iterm2.webview";
         if (!invocation) {
             [self sendReturnValue:nil forMessage:dict toWebview:webview completion:nil];
             [delegate itermWebViewScriptInvocation:nil
-                                  didFailWithError:[NSError errorWithDomain:iTermWebViewErrorDomain
-                                                                       code:iTermWebViewErrorCodeMissingInvocation
-                                                                   userInfo:nil]];
+                      didFailWithError:[NSError errorWithDomain:iTermWebViewErrorDomain
+                               code:iTermWebViewErrorCodeMissingInvocation
+                               userInfo:nil]];
             return;
         }
         iTermVariableScope *scope = [delegate itermWebViewScriptScopeForUserContentController:userContentController];
         if (!scope) {
             NSError *error = [NSError errorWithDomain:iTermWebViewErrorDomain
-                                                 code:iTermWebViewErrorCodeReceiverDealloced
-                                             userInfo:nil];
+                                      code:iTermWebViewErrorCodeReceiverDealloced
+                                      userInfo:nil];
             [self sendReturnValue:error forMessage:dict toWebview:webview completion:nil];
             return;
         }
         [iTermScriptFunctionCall callFunction:invocation
-                                      timeout:[[NSDate distantFuture] timeIntervalSinceNow]
-                                        scope:scope
-                                   retainSelf:YES
-                                   completion:^(id value, NSError *error, NSSet<NSString *> *missing) {
-                                       if (error) {
-                                           [delegate itermWebViewScriptInvocation:invocation
-                                                                 didFailWithError:error];
-                                           return;
-                                       }
-                                       [self sendReturnValue:value forMessage:dict toWebview:webview completion:^(NSError *innerError) {
-                                           if (!innerError) {
-                                               return;
-                                           }
-                                           [delegate itermWebViewScriptInvocation:invocation
-                                                                 didFailWithError:innerError];
+                                 timeout:[[NSDate distantFuture] timeIntervalSinceNow]
+                                 scope:scope
+                                 retainSelf:YES
+                                completion:^(id value, NSError *error, NSSet<NSString *> *missing) {
+                                    if (error) {
+                                        [delegate itermWebViewScriptInvocation:invocation
+                                         didFailWithError:error];
+                                        return;
+                                    }
+            [self sendReturnValue:value forMessage:dict toWebview:webview completion:^(NSError *innerError) {
+                     if (!innerError) {
+                         return;
+                     }
+                [delegate itermWebViewScriptInvocation:invocation
+                          didFailWithError:innerError];
 
-                                       }];
-                                   }];
+            }];
+        }];
     }
 }
 
 - (void)sendReturnValue:(id)value
-             forMessage:(NSDictionary *)message
-              toWebview:(WKWebView *)webview
-             completion:(void (^)(NSError *))completion {
+    forMessage:(NSDictionary *)message
+    toWebview:(WKWebView *)webview
+    completion:(void (^)(NSError *))completion {
     NSString *callback = message[@"callback"];
     if (!callback) {
         if (completion) {
@@ -247,10 +247,10 @@ NSString *const iTermWebViewErrorDomain = @"com.iterm2.webview";
     __weak id<iTermWebViewDelegate> delegate = [webview.configuration.userContentController it_associatedObjectForKey:&iTermWebViewFactoryUserControllerDelegateKey];
     [delegate itermWebViewWillExecuteJavascript:innerScript];
     [webview evaluateJavaScript:script completionHandler:^(id _Nullable value, NSError * _Nullable error) {
-        if (!error) {
-            return;
-        }
-        if (!completion) {
+                if (!error) {
+                    return;
+                }
+                if (!completion) {
             return;
         }
         NSString *description;
@@ -260,17 +260,17 @@ NSString *const iTermWebViewErrorDomain = @"com.iterm2.webview";
             description = [NSString stringWithFormat:@"Error evaluating '%@' at line %@: %@", innerScript, error.userInfo[lineKey], error.userInfo[messageKey]];
         }
         completion([NSError errorWithDomain:iTermWebViewErrorDomain
-                                       code:iTermWebViewErrorCodeRPCFailed
-                                   userInfo:@{ NSLocalizedDescriptionKey: description ?: @"Unknown error" }]);
+                            code:iTermWebViewErrorCodeRPCFailed
+                            userInfo:@ { NSLocalizedDescriptionKey: description ?: @"Unknown error" }]);
     }];
 }
 
 #pragma mark - WKUIDelegate
 
 - (void)webView:(WKWebView *)webView
-runJavaScriptAlertPanelWithMessage:(NSString *)message
-initiatedByFrame:(WKFrameInfo *)frame
-completionHandler:(void (^)(void))completionHandler {
+    runJavaScriptAlertPanelWithMessage:(NSString *)message
+    initiatedByFrame:(WKFrameInfo *)frame
+    completionHandler:(void (^)(void))completionHandler {
     __weak id<iTermWebViewDelegate> delegate = [webView.configuration.userContentController it_associatedObjectForKey:&iTermWebViewFactoryUserControllerDelegateKey];
     [delegate itermWebViewJavascriptError:message];
     completionHandler();

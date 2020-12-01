@@ -49,8 +49,8 @@ static const char iTermNotificationTokenAssociatedObject;
 + (void)subscribe:(NSObject *)owner selector:(SEL)selector {
     __weak NSObject *weakOwner = owner;
     [self internalSubscribe:owner withBlock:^(id notification) {
-        [weakOwner it_performNonObjectReturningSelector:selector withObject:notification];
-    }];
+             [weakOwner it_performNonObjectReturningSelector:selector withObject:notification];
+         }];
 }
 
 + (void)internalSubscribe:(NSObject *)owner withBlock:(void (^)(id notification))block {
@@ -58,30 +58,30 @@ static const char iTermNotificationTokenAssociatedObject;
     // This prevents infinite recursion if you cause the notification to be sent while handling it.
     __block BOOL handling = NO;
     id token = [[NSNotificationCenter defaultCenter] addObserverForName:iTermInternalNotification
-                                                                 object:[self class]
-                                                                  queue:nil
-                                                             usingBlock:^(NSNotification * _Nonnull notification) {
-                                                                 id strongOwner = weakOwner;
-                                                                 if (strongOwner) {
-                                                                     if (handling) {
-                                                                         return;
-                                                                     }
-                                                                     id object = notification.userInfo[@"object"];
-                                                                     assert(object);
+                                                     object:[self class]
+                                                     queue:nil
+                                         usingBlock:^(NSNotification * _Nonnull notification) {
+                                             id strongOwner = weakOwner;
+                                             if (strongOwner) {
+            if (handling) {
+                return;
+            }
+            id object = notification.userInfo[@"object"];
+            assert(object);
 
-                                                                     handling = YES;
-                                                                     block(object);
-                                                                     handling = NO;
-                                                                 }
-                                                             }];
+            handling = YES;
+            block(object);
+            handling = NO;
+        }
+    }];
     [owner it_setAssociatedObject:[[iTermNotificationCenterObserverUnregisterer alloc] initWithToken:token]
-                           forKey:(void *)&iTermNotificationTokenAssociatedObject];
+           forKey:(void *)&iTermNotificationTokenAssociatedObject];
 }
 
 - (void)post {
     [[NSNotificationCenter defaultCenter] postNotificationName:iTermInternalNotification
-                                                        object:[self class]
-                                                      userInfo:@{ @"object": self }];
+                                          object:[self class]
+                                          userInfo:@ { @"object": self }];
 }
 
 @end

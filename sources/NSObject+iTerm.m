@@ -157,19 +157,19 @@
 
 - (void)performSelectorOnMainThread:(SEL)selector withObjects:(NSArray *)objects {
     [self performSelectorOnMainThread:@selector(performSelectorWithObjects:)
-                           withObject:@[ NSStringFromSelector(selector), objects ]
-                        waitUntilDone:NO];
+          withObject:@[ NSStringFromSelector(selector), objects ]
+          waitUntilDone:NO];
 }
 
 - (iTermDelayedPerform *)performBlock:(void (^)(void))block afterDelay:(NSTimeInterval)delay {
     iTermDelayedPerform *delayedPerform = [[iTermDelayedPerform alloc] init];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)),
-                   dispatch_get_main_queue(), ^{
-                       if (!delayedPerform.canceled) {
-                           delayedPerform.completed = YES;
-                           block();
-                       }
-                   });
+    dispatch_get_main_queue(), ^ {
+        if (!delayedPerform.canceled) {
+            delayedPerform.completed = YES;
+            block();
+        }
+    });
     return delayedPerform;
 }
 

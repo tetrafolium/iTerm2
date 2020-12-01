@@ -34,11 +34,11 @@ static NSDateFormatter *gScriptHistoryDateFormatter;
 + (instancetype)globalEntry {
     static id instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] initWithName:@"iTerm2 App"
-                                     fullPath:nil
-                                   identifier:@"iTerm2"
-                                     relaunch:nil];
+                                 fullPath:nil
+                                 identifier:@"iTerm2"
+                                 relaunch:nil];
     });
     return instance;
 }
@@ -46,11 +46,11 @@ static NSDateFormatter *gScriptHistoryDateFormatter;
 + (instancetype)apsEntry {
     static id instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] initWithName:@"Automatic Profile Switching"
-                                     fullPath:nil
-                                   identifier:@"__APS"
-                                     relaunch:nil];
+                                 fullPath:nil
+                                 identifier:@"__APS"
+                                 relaunch:nil];
     });
     return instance;
 }
@@ -58,11 +58,11 @@ static NSDateFormatter *gScriptHistoryDateFormatter;
 + (instancetype)dynamicProfilesEntry {
     static id instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] initWithName:@"Dynamic Profiles"
-                                     fullPath:nil
-                                   identifier:@"__DP"
-                                     relaunch:nil];
+                                 fullPath:nil
+                                 identifier:@"__DP"
+                                 relaunch:nil];
     });
     return instance;
 }
@@ -70,19 +70,19 @@ static NSDateFormatter *gScriptHistoryDateFormatter;
 + (instancetype)smartSelectionAnctionsEntry {
     static id instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] initWithName:@"Smart Selection Actions"
-                                     fullPath:nil
-                                   identifier:@"__SSA"
-                                     relaunch:nil];
+                                 fullPath:nil
+                                 identifier:@"__SSA"
+                                 relaunch:nil];
     });
     return instance;
 }
 
 - (instancetype)initWithName:(NSString *)name
-                    fullPath:(nullable NSString *)fullPath
-                  identifier:(NSString *)identifier
-                    relaunch:(void (^ _Nullable)(void))relaunch {
+    fullPath:(nullable NSString *)fullPath
+    identifier:(NSString *)identifier
+    relaunch:(void (^ _Nullable)(void))relaunch {
     self = [super init];
     if (self) {
         _name = [name copy];
@@ -95,25 +95,25 @@ static NSDateFormatter *gScriptHistoryDateFormatter;
         _logLines = [NSMutableArray array];
         _callEntries = [NSMutableArray array];
         static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
+        dispatch_once(&onceToken, ^ {
             gScriptHistoryDateFormatter = [[NSDateFormatter alloc] init];
             gScriptHistoryDateFormatter.dateFormat =
             [NSDateFormatter dateFormatFromTemplate:@"Ld jj:mm:ssSSS"
-                                            options:0
-                                             locale:[NSLocale currentLocale]];
+                             options:0
+                             locale:[NSLocale currentLocale]];
         });
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(apiServerDidReceiveMessage:)
-                                                     name:iTermAPIServerDidReceiveMessage
-                                                   object:identifier];
+                                              selector:@selector(apiServerDidReceiveMessage:)
+                                              name:iTermAPIServerDidReceiveMessage
+                                              object:identifier];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(apiServerWillSendMessage:)
-                                                     name:iTermAPIServerWillSendMessage
-                                                   object:identifier];
+                                              selector:@selector(apiServerWillSendMessage:)
+                                              name:iTermAPIServerWillSendMessage
+                                              object:identifier];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(apiDidStop:)
-                                                     name:iTermAPIHelperDidStopNotification
-                                                   object:nil];
+                                              selector:@selector(apiDidStop:)
+                                              name:iTermAPIHelperDidStopNotification
+                                              object:nil];
     }
     return self;
 }
@@ -149,27 +149,30 @@ static NSDateFormatter *gScriptHistoryDateFormatter;
 
     [self appendLogs:output];
     [[NSNotificationCenter defaultCenter] postNotificationName:iTermScriptHistoryEntryDidChangeNotification
-                                                        object:self
-                                                      userInfo:@{ iTermScriptHistoryEntryDelta: output,
-                                                                  iTermScriptHistoryEntryFieldKey: iTermScriptHistoryEntryFieldLogsValue }];
+                                          object:self
+                                          userInfo:@ { iTermScriptHistoryEntryDelta: output,
+                                                       iTermScriptHistoryEntryFieldKey: iTermScriptHistoryEntryFieldLogsValue
+                                                     }];
 }
 
 - (void)addClientOriginatedRPC:(NSString *)rpc {
     NSString *string = [NSString stringWithFormat:@"Script → iTerm2 %@:\n%@\n", [gScriptHistoryDateFormatter stringFromDate:[NSDate date]], rpc];
     [self appendCalls:string];
     [[NSNotificationCenter defaultCenter] postNotificationName:iTermScriptHistoryEntryDidChangeNotification
-                                                        object:self
-                                                      userInfo:@{ iTermScriptHistoryEntryDelta: string,
-                                                                  iTermScriptHistoryEntryFieldKey: iTermScriptHistoryEntryFieldRPCValue }];
+                                          object:self
+                                          userInfo:@ { iTermScriptHistoryEntryDelta: string,
+                                                       iTermScriptHistoryEntryFieldKey: iTermScriptHistoryEntryFieldRPCValue
+                                                     }];
 }
 
 - (void)addServerOriginatedRPC:(NSString *)rpc {
     NSString *string = [NSString stringWithFormat:@"Script ← iTerm2 %@:\n%@\n", [gScriptHistoryDateFormatter stringFromDate:[NSDate date]], rpc];
     [self appendCalls:string];
     [[NSNotificationCenter defaultCenter] postNotificationName:iTermScriptHistoryEntryDidChangeNotification
-                                                        object:self
-                                                      userInfo:@{ iTermScriptHistoryEntryDelta: string,
-                                                                  iTermScriptHistoryEntryFieldKey: iTermScriptHistoryEntryFieldRPCValue }];
+                                          object:self
+                                          userInfo:@ { iTermScriptHistoryEntryDelta: string,
+                                                       iTermScriptHistoryEntryFieldKey: iTermScriptHistoryEntryFieldRPCValue
+                                                     }];
 }
 
 - (pid_t)onlyPid {
@@ -213,7 +216,7 @@ static NSDateFormatter *gScriptHistoryDateFormatter;
 - (void)stopRunning {
     _isRunning = NO;
     [[NSNotificationCenter defaultCenter] postNotificationName:iTermScriptHistoryEntryDidChangeNotification
-                                                        object:self];
+                                          object:self];
 }
 
 - (void)appendLogs:(NSString *)delta {
@@ -260,7 +263,7 @@ NSString *const iTermScriptHistoryNumberOfEntriesDidChangeNotification = @"iTerm
 + (instancetype)sharedInstance {
     static id instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -286,7 +289,7 @@ NSString *const iTermScriptHistoryNumberOfEntriesDidChangeNotification = @"iTerm
         [_entries addObject:[iTermScriptHistoryEntry apsEntry]];
         if (_entries.count != 1) {
             [[NSNotificationCenter defaultCenter] postNotificationName:iTermScriptHistoryNumberOfEntriesDidChangeNotification
-                                                                object:self];
+                                                  object:self];
         }
     }
 }
@@ -299,38 +302,38 @@ NSString *const iTermScriptHistoryNumberOfEntriesDidChangeNotification = @"iTerm
     [_entries addObject:[iTermScriptHistoryEntry dynamicProfilesEntry]];
     if (_entries.count != 1) {
         [[NSNotificationCenter defaultCenter] postNotificationName:iTermScriptHistoryNumberOfEntriesDidChangeNotification
-                                                            object:self];
+                                              object:self];
     }
 }
 
 - (NSArray<iTermScriptHistoryEntry *> *)runningEntries {
     return [self.entries filteredArrayUsingBlock:^BOOL(iTermScriptHistoryEntry *anObject) {
-        return anObject.isRunning;
-    }];
+                     return anObject.isRunning;
+                 }];
 }
 
 - (void)addHistoryEntry:(iTermScriptHistoryEntry *)entry {
     [_entries addObject:entry];
     [[NSNotificationCenter defaultCenter] postNotificationName:iTermScriptHistoryNumberOfEntriesDidChangeNotification
-                                                        object:self];
+                                          object:self];
 }
 
 - (iTermScriptHistoryEntry *)entryWithIdentifier:(NSString *)identifier {
     return [_entries objectPassingTest:^BOOL(iTermScriptHistoryEntry *element, NSUInteger index, BOOL *stop) {
-        return [element.identifier isEqualToString:identifier];
-    }];
+                 return [element.identifier isEqualToString:identifier];
+             }];
 }
 
 - (iTermScriptHistoryEntry *)runningEntryWithPath:(NSString *)path {
     return [self.runningEntries objectPassingTest:^BOOL(iTermScriptHistoryEntry *entry, NSUInteger index, BOOL *stop) {
-        return [NSObject object:entry.path isEqualToObject:path];
-    }];
+                            return [NSObject object:entry.path isEqualToObject:path];
+                        }];
 }
 
 - (iTermScriptHistoryEntry *)runningEntryWithFullPath:(NSString *)fullPath {
     return [self.runningEntries objectPassingTest:^BOOL(iTermScriptHistoryEntry *entry, NSUInteger index, BOOL *stop) {
-        return [NSObject object:entry.fullPath isEqualToObject:fullPath];
-    }];
+                            return [NSObject object:entry.fullPath isEqualToObject:fullPath];
+                        }];
 }
 
 @end

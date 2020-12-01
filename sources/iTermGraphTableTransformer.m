@@ -13,15 +13,15 @@
 #import "NSObject+iTerm.h"
 
 static iTermEncoderGraphRecord *iTermGraphDeltaEncoderMakeGraphRecord(NSNumber *nodeID,
-                                                                      NSDictionary *nodes,
-                                                                      NSArray<NSString *> *path) {
+        NSDictionary *nodes,
+        NSArray<NSString *> *path) {
     NSDictionary *nodeDict = nodes[nodeID];
     NSArray<NSNumber *> *childNodeIDs = nodeDict[@"children"];
     NSString *tail = [NSString stringWithFormat:@"%@[%@]", nodeDict[@"key"], nodeDict[@"identifier"]];
     NSArray<iTermEncoderGraphRecord *> *childGraphRecords =
-        [childNodeIDs mapWithBlock:^id(NSNumber *childNodeID) {
-            return iTermGraphDeltaEncoderMakeGraphRecord(childNodeID, nodes, [path arrayByAddingObject:tail]);
-        }];
+    [childNodeIDs mapWithBlock:^id(NSNumber *childNodeID) {
+                     return iTermGraphDeltaEncoderMakeGraphRecord(childNodeID, nodes, [path arrayByAddingObject:tail]);
+                 }];
     NSDictionary<NSString *, id> *pod;
     NSData *data = nodeDict[@"data"];
     if (data.length) {
@@ -31,17 +31,17 @@ static iTermEncoderGraphRecord *iTermGraphDeltaEncoderMakeGraphRecord(NSNumber *
             DLog(@"Failed to unarchive data for node %@: %@", nodeDict, error);
         }
     } else {
-        pod = @{};
+        pod = @ {};
     }
 
     DLog(@"key=%@ id=%@ rowid=%@ children=%@ pod=%@", nodeDict[@"key"], nodeDict[@"identifier"],
-          nodeDict[@"rowid"], childNodeIDs, [pod tastefulDescription] );
+         nodeDict[@"rowid"], childNodeIDs, [pod tastefulDescription] );
     return [iTermEncoderGraphRecord withPODs:pod
-                                      graphs:childGraphRecords
-                                  generation:0
-                                         key:nodeDict[@"key"]
-                                  identifier:nodeDict[@"identifier"]
-                                       rowid:nodeDict[@"rowid"]];
+                                    graphs:childGraphRecords
+                                    generation:0
+                                    key:nodeDict[@"key"]
+                                    identifier:nodeDict[@"identifier"]
+                                    rowid:nodeDict[@"rowid"]];
 }
 
 @implementation iTermGraphTableTransformer {
@@ -70,8 +70,8 @@ static iTermEncoderGraphRecord *iTermGraphDeltaEncoderMakeGraphRecord(NSNumber *
         if (row.count != 5) {
             DLog(@"Wrong number of items in row: %@", row);
             _lastError = [NSError errorWithDomain:@"com.iterm2.graph-transformer"
-                                             code:1
-                                         userInfo:@{ NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Wrong number of items in row: %@", row] }];
+                                  code:1
+                                  userInfo:@ { NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Wrong number of items in row: %@", row] }];
             return nil;
         }
         NSString *key = [NSString castFrom:row[0]];
@@ -82,47 +82,48 @@ static iTermEncoderGraphRecord *iTermGraphDeltaEncoderMakeGraphRecord(NSNumber *
         if (!row || !key || !identifier || !parent || !data) {
             DLog(@"Bad row: %@", row);
             _lastError = [NSError errorWithDomain:@"com.iterm2.graph-transformer"
-                                             code:1
-                                         userInfo:@{ NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Bad row: %@", row] }];
+                                  code:1
+                                  userInfo:@ { NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Bad row: %@", row] }];
             return nil;
         }
         if (parent.integerValue == 0 && key.length == 0) {
             if (*rootNodeIDOut) {
                 DLog(@"Two roots found");
                 _lastError = [NSError errorWithDomain:@"com.iterm2.graph-transformer"
-                                                 code:1
-                                             userInfo:@{ NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Two roots found"] }];
+                                      code:1
+                                      userInfo:@ { NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Two roots found"] }];
                 return nil;
             }
             *rootNodeIDOut = rowid;
         }
-        nodes[rowid] = [@{ @"pod": [NSMutableDictionary dictionary],
-                           @"key": key,
-                           @"identifier": identifier,
-                           @"parent": parent,
-                           @"children": [NSMutableArray array],
-                           @"rowid": rowid,
-                           @"data": data } mutableCopy];
+        nodes[rowid] = [@ { @"pod": [NSMutableDictionary dictionary],
+                            @"key": key,
+                            @"identifier": identifier,
+                            @"parent": parent,
+                            @"children": [NSMutableArray array],
+                            @"rowid": rowid,
+                            @"data": data
+                          } mutableCopy];
     }
     return nodes;
 }
 
 - (BOOL)attachChildrenToParents:(NSDictionary<NSNumber *, NSMutableDictionary *> *)nodes
-              ignoringRootRowID:(NSNumber *)rootRowID {
+    ignoringRootRowID:(NSNumber *)rootRowID {
     __block BOOL ok = YES;
     [nodes enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull nodeid,
-                                               NSMutableDictionary * _Nonnull nodeDict,
-                                               BOOL * _Nonnull stop) {
-        if ([nodeid isEqualToNumber:rootRowID]) {
-            return;
-        }
+            NSMutableDictionary * _Nonnull nodeDict,
+          BOOL * _Nonnull stop) {
+              if ([nodeid isEqualToNumber:rootRowID]) {
+                  return;
+              }
         NSMutableDictionary<NSString *, id> *parentDict = nodes[nodeDict[@"parent"]];
         if (!parentDict) {
             ok = NO;
             DLog(@"Dangling parent pointer %@ from %@", nodeDict[@"parent"], nodeid);
             _lastError = [NSError errorWithDomain:@"com.iterm2.graph-transformer"
-                                             code:1
-                                         userInfo:@{ NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Dangling parent pointer %@ from %@", nodeDict[@"parent"], nodeid] }];
+                                  code:1
+                                  userInfo:@ { NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Dangling parent pointer %@ from %@", nodeDict[@"parent"], nodeid] }];
             *stop = YES;
         }
         NSMutableArray *children = parentDict[@"children"];

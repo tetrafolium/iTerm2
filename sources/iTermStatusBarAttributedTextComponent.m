@@ -41,18 +41,18 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)drawString:(NSString *)string
-        attributes:(NSDictionary *)attrs
-             point:(CGPoint)point
-        reallyDraw:(BOOL)reallyDraw
-             width:(out CGFloat *)width {
+    attributes:(NSDictionary *)attrs
+    point:(CGPoint)point
+    reallyDraw:(BOOL)reallyDraw
+    width:(out CGFloat *)width {
     NSTextAttachment *attachment = attrs[NSAttachmentAttributeName];
     if (attachment) {
         NSImage *image = [attachment.image it_imageWithTintColor:self.textColor];
         if (reallyDraw) {
             [image drawAtPoint:NSMakePoint(point.x, point.y + _baselineOffset)
-                      fromRect:NSZeroRect
-                     operation:NSCompositingOperationSourceOver
-                      fraction:1];
+                   fromRect:NSZeroRect
+                   operation:NSCompositingOperationSourceOver
+                   fraction:1];
         }
         *width = [self retinaRound:image.size.width];
         return;
@@ -109,16 +109,16 @@ NS_ASSUME_NONNULL_BEGIN
     __block CGFloat x = 0;
     [self updateBaselineOffset];
     [_attributedStringValue enumerateAttributesInRange:NSMakeRange(0, _attributedStringValue.length)
-                                               options:0
-                                            usingBlock:^(NSDictionary<NSAttributedStringKey,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
-                                                CGFloat width = 0;
-                                                [self drawString:[self->_attributedStringValue.string substringWithRange:range]
-                                                      attributes:attrs
-                                                           point:CGPointMake(x, 0)
-                                                      reallyDraw:reallyDraw
-                                                           width:&width];
-                                                x += width;
-                                       }];
+                            options:0
+                           usingBlock:^(NSDictionary<NSAttributedStringKey,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
+                               CGFloat width = 0;
+        [self drawString:[self->_attributedStringValue.string substringWithRange:range]
+              attributes:attrs
+              point:CGPointMake(x, 0)
+              reallyDraw:reallyDraw
+              width:&width];
+        x += width;
+    }];
     if (widthOut) {
         *widthOut = x;
     }
@@ -126,14 +126,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)updateBaselineOffset {
     [_attributedStringValue enumerateAttributesInRange:NSMakeRange(0, _attributedStringValue.length)
-                                               options:0
-                                            usingBlock:^(NSDictionary<NSAttributedStringKey,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
-                                                NSFont *font = attrs[NSFontAttributeName];
-                                                if (font) {
-                                                    self->_baselineOffset = -font.descender;
-                                                    *stop = YES;
-                                                }
-                                            }];
+                            options:0
+                           usingBlock:^(NSDictionary<NSAttributedStringKey,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
+                               NSFont *font = attrs[NSFontAttributeName];
+                               if (font) {
+            self->_baselineOffset = -font.descender;
+            *stop = YES;
+        }
+    }];
 }
 
 @end
@@ -147,17 +147,17 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSArray<iTermStatusBarComponentKnob *> *)statusBarComponentKnobs {
     iTermStatusBarComponentKnob *backgroundColorKnob =
         [[iTermStatusBarComponentKnob alloc] initWithLabelText:@"Background Color:"
-                                                          type:iTermStatusBarComponentKnobTypeColor
-                                                   placeholder:nil
-                                                  defaultValue:nil
-                                                           key:iTermStatusBarSharedBackgroundColorKey];
+                                             type:iTermStatusBarComponentKnobTypeColor
+                                             placeholder:nil
+                                             defaultValue:nil
+                                             key:iTermStatusBarSharedBackgroundColorKey];
 
     iTermStatusBarComponentKnob *textColorKnob =
         [[iTermStatusBarComponentKnob alloc] initWithLabelText:@"Text Color:"
-                                                          type:iTermStatusBarComponentKnobTypeColor
-                                                   placeholder:nil
-                                                  defaultValue:nil
-                                                           key:iTermStatusBarSharedTextColorKey];
+                                             type:iTermStatusBarComponentKnobTypeColor
+                                             placeholder:nil
+                                             defaultValue:nil
+                                             key:iTermStatusBarSharedTextColorKey];
     return [@[ backgroundColorKnob, textColorKnob ] arrayByAddingObjectsFromArray:[super statusBarComponentKnobs]];
 }
 
@@ -231,7 +231,7 @@ NS_ASSUME_NONNULL_BEGIN
         return NO;
     }
 
-    textField.attributedStringValue = proposed ?: [[NSAttributedString alloc] initWithString:@"" attributes:@{}];
+    textField.attributedStringValue = proposed ?: [[NSAttributedString alloc] initWithString:@"" attributes:@ {}];
     [textField sizeToFit];
 
     return YES;
@@ -258,7 +258,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray<iTermTuple<NSAttributedString *,NSNumber *> *> *)widthAttributedStringTuples {
     return [self.attributedStringVariants mapWithBlock:^id(NSAttributedString *anObject) {
-        CGFloat width = [self widthForAttributedString:anObject];
+                                      CGFloat width = [self widthForAttributedString:anObject];
         return [iTermTuple tupleWithObject:anObject andObject:@(width)];
     }];
 }
@@ -274,11 +274,11 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSArray<iTermTuple<NSAttributedString *,NSNumber *> *> *tuples = [self widthAttributedStringTuples];
     tuples = [tuples filteredArrayUsingBlock:^BOOL(iTermTuple<NSAttributedString *,NSNumber *> *anObject) {
-        return ceil(anObject.secondObject.doubleValue) <= ceil(width);
-    }];
+               return ceil(anObject.secondObject.doubleValue) <= ceil(width);
+           }];
     return [tuples maxWithBlock:^NSComparisonResult(iTermTuple<NSAttributedString *,NSNumber *> *obj1, iTermTuple<NSAttributedString *,NSNumber *> *obj2) {
-        return [obj1.secondObject compare:obj2.secondObject];
-    }].firstObject ?: [[NSAttributedString alloc] initWithString:@"" attributes:@{}];
+               return [obj1.secondObject compare:obj2.secondObject];
+    }].firstObject ?: [[NSAttributedString alloc] initWithString:@"" attributes:@ {}];
 }
 
 - (CGFloat)statusBarComponentVerticalOffset {
@@ -347,8 +347,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (CGFloat)statusBarComponentMinimumWidth {
     NSArray<iTermTuple<NSAttributedString *,NSNumber *> *> *tuples = [self widthAttributedStringTuples];
     NSNumber *number = [tuples minWithBlock:^NSComparisonResult(iTermTuple<NSAttributedString *,NSNumber *> *obj1, iTermTuple<NSAttributedString *,NSNumber *> *obj2) {
-        return [obj1.secondObject compare:obj2.secondObject];
-    }].secondObject;
+               return [obj1.secondObject compare:obj2.secondObject];
+           }].secondObject;
     return number.doubleValue;
 }
 

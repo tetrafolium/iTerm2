@@ -146,10 +146,10 @@
             step = prefix;
         } else {
             step =
-            [NSString stringWithFormat:@"%@ your shell’s dotfile.", prefix];
+                [NSString stringWithFormat:@"%@ your shell’s dotfile.", prefix];
         }
         [lines addObject:step];
-        
+
         if (stage > i) {
             [lines addObject:@""];
             indexToBold = lines.count;
@@ -164,24 +164,30 @@
     paragraphStyle.lineSpacing = 4;
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] init];
     NSDictionary *regularAttributes =
-    @{ NSFontAttributeName: [NSFont systemFontOfSize:[NSFont systemFontSize]],
-       NSForegroundColorAttributeName: [NSColor textColor],
-       NSParagraphStyleAttributeName: paragraphStyle
-    };
+        @ { NSFontAttributeName:
+            [NSFont systemFontOfSize:[NSFont systemFontSize]],
+            NSForegroundColorAttributeName:
+            [NSColor textColor],
+            NSParagraphStyleAttributeName:
+            paragraphStyle
+          };
     NSDictionary *boldAttributes =
-    @{ NSFontAttributeName: [NSFont boldSystemFontOfSize:[NSFont systemFontSize]],
-       NSForegroundColorAttributeName: [NSColor textColor],
-       NSParagraphStyleAttributeName: paragraphStyle
-    };
+        @ { NSFontAttributeName:
+            [NSFont boldSystemFontOfSize:[NSFont systemFontSize]],
+            NSForegroundColorAttributeName:
+            [NSColor textColor],
+            NSParagraphStyleAttributeName:
+            paragraphStyle
+          };
     [lines enumerateObjectsUsingBlock:^(NSString * _Nonnull string, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSString *temp = [string stringByAppendingString:@"\n"];
+              NSString *temp = [string stringByAppendingString:@"\n"];
         NSAttributedString *as = [[NSAttributedString alloc] initWithString:temp attributes:idx == indexToBold ? boldAttributes : regularAttributes];
         [attributedString appendAttributedString:as];
     }];
     self.textField.attributedStringValue = attributedString;
     NSString *preview = [self.shellInstallerDelegate shellIntegrationInstallerNextCommandForSendShellCommands];
     NSArray<NSButton *> *buttons = self.previewCommandButtons;
-    for (NSInteger i = 0; i < self.previewCommandButtons.count; i++){
+    for (NSInteger i = 0; i < self.previewCommandButtons.count; i++) {
         buttons[i].hidden = unavailable || (i != stage) || preview == nil;
         if (_busy && i == stage) {
             [buttons[i] setTitle:@"Send Again"];
@@ -214,8 +220,8 @@
     [self.popoverViewController view];
     self.previewTextView.font = [NSFont fontWithName:@"Menlo" size:12];
     [self.popover showRelativeToRect:self.previewCommandButton.bounds
-                              ofView:self.previewCommandButton
-                       preferredEdge:NSRectEdgeMaxY];
+                  ofView:self.previewCommandButton
+                  preferredEdge:NSRectEdgeMaxY];
 }
 
 - (IBAction)skip:(id)sender {

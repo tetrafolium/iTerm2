@@ -23,18 +23,18 @@
 @implementation BookmarkJournalEntry
 
 + (BookmarkJournalEntry *)journalWithAction:(JournalAction)action
-                                   bookmark:(Profile *)bookmark
-                                      model:(id<iTermProfileModelJournalModel>)model {
+    bookmark:(Profile *)bookmark
+    model:(id<iTermProfileModelJournalModel>)model {
     return [self journalWithAction:action
-                          bookmark:bookmark
-                             model:model
-                             index:0];
+                 bookmark:bookmark
+                 model:model
+                 index:0];
 }
 
 + (instancetype)journalWithAction:(JournalAction)action
-                         bookmark:(Profile *)profile
-                            model:(id<iTermProfileModelJournalModel>)model
-                            index:(int)index {
+    bookmark:(Profile *)profile
+    model:(id<iTermProfileModelJournalModel>)model
+    index:(int)index {
     BookmarkJournalEntry *entry = [[BookmarkJournalEntry alloc] init];
     entry.action = action;
     entry.guid = [[profile objectForKey:KEY_GUID] copy];

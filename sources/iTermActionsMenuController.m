@@ -18,35 +18,35 @@
 
 - (void)actionsDidChange:(iTermActionsDidChangeNotification *)notification {
     switch (notification.mutationType) {
-        case iTermActionsDidChangeMutationTypeEdit:
-            [self reloadIndex:notification.index];
-            break;
-        case iTermActionsDidChangeMutationTypeDeletion:
-            [self deleteIndexes:notification.indexSet];
-            break;
-        case iTermActionsDidChangeMutationTypeInsertion:
-            [self insertAtIndex:notification.index];
-            break;
-        case iTermActionsDidChangeMutationTypeMove:
-            [self moveIndexes:notification.indexSet to:notification.index];
-            break;
-        case iTermActionsDidChangeMutationTypeFullReplacement:
-            [self reload];
-            break;
+    case iTermActionsDidChangeMutationTypeEdit:
+        [self reloadIndex:notification.index];
+        break;
+    case iTermActionsDidChangeMutationTypeDeletion:
+        [self deleteIndexes:notification.indexSet];
+        break;
+    case iTermActionsDidChangeMutationTypeInsertion:
+        [self insertAtIndex:notification.index];
+        break;
+    case iTermActionsDidChangeMutationTypeMove:
+        [self moveIndexes:notification.indexSet to:notification.index];
+        break;
+    case iTermActionsDidChangeMutationTypeFullReplacement:
+        [self reload];
+        break;
     }
 }
 
 - (void)reload {
     [_menu.submenu removeAllItems];
     [[[iTermActionsModel sharedInstance] actions] enumerateObjectsUsingBlock:
-     ^(iTermAction * _Nonnull action, NSUInteger idx, BOOL * _Nonnull stop) {
-        [self add:action];
-    }];
+                                        ^(iTermAction * _Nonnull action, NSUInteger idx, BOOL * _Nonnull stop) {
+                                            [self add:action];
+                                        }];
 }
 
 - (void)add:(iTermAction *)action {
     NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:action.title
-                                                  action:@selector(applyAction:)
+                                           action:@selector(applyAction:)
                                            keyEquivalent:@""];
     item.representedObject = action;
     [_menu.submenu addItem:item];
@@ -61,8 +61,8 @@
 
 - (void)deleteIndexes:(NSIndexSet *)indexes {
     [indexes enumerateIndexesWithOptions:NSEnumerationReverse usingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
-        [_menu.submenu removeItemAtIndex:idx];
-    }];
+                [_menu.submenu removeItemAtIndex:idx];
+            }];
 }
 
 - (void)insertAtIndex:(NSInteger)index {

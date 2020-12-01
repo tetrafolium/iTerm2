@@ -26,17 +26,17 @@
 }
 
 - (void)addSwiftyString:(iTermSwiftyString *)swiftyString
-         withFormatPath:(NSString *)formatPath
-         evaluationPath:(NSString *)evaluationPath
-                  scope:(nonnull iTermVariableScope *)scope {
+    withFormatPath:(NSString *)formatPath
+    evaluationPath:(NSString *)evaluationPath
+    scope:(nonnull iTermVariableScope *)scope {
     if (formatPath) {
         [self addEdgeFrom:[scope designatorForPath:formatPath]
-                       to:[scope designatorForPath:evaluationPath]];
+              to:[scope designatorForPath:evaluationPath]];
     }
     [swiftyString.refs enumerateObjectsUsingBlock:^(iTermVariableReference * _Nonnull ref, NSUInteger idx, BOOL * _Nonnull stop) {
-        [self addEdgeFrom:[swiftyString.scope designatorForPath:ref.path]
-                       to:[scope designatorForPath:evaluationPath]];
-    }];
+                          [self addEdgeFrom:[swiftyString.scope designatorForPath:ref.path]
+                           to:[scope designatorForPath:evaluationPath]];
+                      }];
 }
 
 - (BOOL)containsCycle {
@@ -44,10 +44,10 @@
 }
 
 - (void)addEdgeFromPath:(NSString *)fromPath
-                 toPath:(NSString *)toPath
-                  scope:(iTermVariableScope *)scope {
+    toPath:(NSString *)toPath
+    scope:(iTermVariableScope *)scope {
     [self addEdgeFrom:[scope designatorForPath:fromPath]
-                   to:[scope designatorForPath:toPath]];
+          to:[scope designatorForPath:toPath]];
 }
 
 - (void)addEdgeFrom:(iTermVariableDesignator *)source to:(iTermVariableDesignator *)dest {

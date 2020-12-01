@@ -15,15 +15,15 @@
 }
 
 + (PasteEvent *)pasteEventWithString:(NSString *)string
-                               flags:(iTermPasteFlags)flags
-                    defaultChunkSize:(int)defaultChunkSize
-                            chunkKey:(NSString *)chunkKey
-                        defaultDelay:(NSTimeInterval)defaultDelay
-                            delayKey:(NSString *)delayKey
-                        tabTransform:(iTermTabTransformTags)tabTransform
-                        spacesPerTab:(int)spacesPerTab
-                               regex:(NSString *)regex
-                        substitution:(NSString *)substitution {
+    flags:(iTermPasteFlags)flags
+    defaultChunkSize:(int)defaultChunkSize
+    chunkKey:(NSString *)chunkKey
+    defaultDelay:(NSTimeInterval)defaultDelay
+    delayKey:(NSString *)delayKey
+    tabTransform:(iTermTabTransformTags)tabTransform
+    spacesPerTab:(int)spacesPerTab
+    regex:(NSString *)regex
+    substitution:(NSString *)substitution {
     PasteEvent *pasteEvent = [[PasteEvent alloc] init];
     pasteEvent->_originalString = [string copy];
     pasteEvent.flags = flags;

@@ -32,12 +32,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Reads, deserializes, and decrypts a record from its metadata entry.
 + (void)createWithIndexEntry:(id)indexEntry
-                  completion:(void (^)(iTermRestorableStateRecord *record))completion;
+    completion:(void (^)(iTermRestorableStateRecord *record))completion;
 
 - (instancetype)initWithWindowNumber:(NSInteger)windowNumber
-                          identifier:(NSString *)identifier
-                                 key:(NSData *)key
-                           plaintext:(NSData *)plaintext NS_DESIGNATED_INITIALIZER;
+    identifier:(NSString *)identifier
+    key:(NSData *)key
+    plaintext:(NSData *)plaintext NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithIndexEntry:(id)indexEntry;
 
 - (instancetype)init NS_UNAVAILABLE;

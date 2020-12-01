@@ -21,7 +21,7 @@
 }
 
 - (NSDictionary *)dictionaryValue {
-    return @{ @"code": @(_code) };
+    return @ { @"code": @(_code) };
 }
 
 - (void)setCode:(unsigned short)code {

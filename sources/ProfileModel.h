@@ -54,13 +54,13 @@ extern NSString *const iTermProfileModelNewTabMenuItemIdentifierPrefix;
 + (void)migratePromptOnCloseInMutableBookmark:(NSMutableDictionary *)dict;
 + (BOOL)migrated;
 + (NSAttributedString *)attributedStringForName:(NSString *)name
-                   highlightingMatchesForFilter:(NSString *)filter
-                              defaultAttributes:(NSDictionary *)defaultAttributes
-                          highlightedAttributes:(NSDictionary *)highlightedAttributes;
+    highlightingMatchesForFilter:(NSString *)filter
+    defaultAttributes:(NSDictionary *)defaultAttributes
+    highlightedAttributes:(NSDictionary *)highlightedAttributes;
 + (NSArray *)attributedTagsForTags:(NSArray *)tags
-      highlightingMatchesForFilter:(NSString *)filter
-                 defaultAttributes:(NSDictionary *)defaultAttributes
-             highlightedAttributes:(NSDictionary *)highlightedAttributes;
+    highlightingMatchesForFilter:(NSString *)filter
+    defaultAttributes:(NSDictionary *)defaultAttributes
+    highlightedAttributes:(NSDictionary *)highlightedAttributes;
 - (int)numberOfBookmarks;
 - (int)numberOfBookmarksWithFilter:(NSString*)filter;
 - (NSArray*)bookmarkIndicesMatchingFilter:(NSString*)filter;
@@ -103,8 +103,8 @@ extern NSString *const iTermProfileModelNewTabMenuItemIdentifierPrefix;
 // guid in 'bookmark'. The name is preserved if it is different than the
 // original profile's name.
 - (void)setProfilePreservingGuidWithGuid:(NSString *)origGuid
-                             fromProfile:(Profile *)bookmark
-                               overrides:(NSDictionary<NSString *, id> *)overrides;
+    fromProfile:(Profile *)bookmark
+    overrides:(NSDictionary<NSString *, id> *)overrides;
 
 // Write to user defaults
 - (void)flush;

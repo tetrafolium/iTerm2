@@ -52,7 +52,7 @@
 #import <Cocoa/Cocoa.h>
 
 @interface iTermNotificationController : NSObject <
-  NSUserNotificationCenterDelegate>
+    NSUserNotificationCenterDelegate>
 
 + (instancetype)sharedInstance;
 
@@ -69,25 +69,25 @@
 // Returns YES if the notification was posted.
 - (BOOL)notify:(NSString *)title
     withDescription:(NSString *)description
-        windowIndex:(int)windowIndex
-           tabIndex:(int)tabIndex
-          viewIndex:(int)viewIndex;
+    windowIndex:(int)windowIndex
+    tabIndex:(int)tabIndex
+    viewIndex:(int)viewIndex;
 
 // Adds the sticky argument.
 - (BOOL)notify:(NSString *)title
     withDescription:(NSString *)description
-        windowIndex:(int)windowIndex
-           tabIndex:(int)tabIndex
-          viewIndex:(int)viewIndex
-             sticky:(BOOL)sticky;
+    windowIndex:(int)windowIndex
+    tabIndex:(int)tabIndex
+    viewIndex:(int)viewIndex
+    sticky:(BOOL)sticky;
 
 - (void)postNotificationWithTitle:(NSString *)title
-                           detail:(NSString *)detail
-                              URL:(NSURL *)url;
+    detail:(NSString *)detail
+    URL:(NSURL *)url;
 
 - (void)postNotificationWithTitle:(NSString *)title
-                           detail:(NSString *)detail
-         callbackNotificationName:(NSString *)name
-     callbackNotificationUserInfo:(NSDictionary *)userInfo;
+    detail:(NSString *)detail
+    callbackNotificationName:(NSString *)name
+    callbackNotificationUserInfo:(NSDictionary *)userInfo;
 
 @end

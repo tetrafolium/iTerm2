@@ -34,8 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 // Load a set of preset keymappings from PresetKeyMappings.plist into the
 // specified bookmarks, removing all of its previous mappings.
 + (Profile *)profileByLoadingPresetNamed:(NSString *)presetName
-                             intoProfile:(Profile *)sourceProfile
-                          byReplacingAll:(BOOL)replaceAll;
+    intoProfile:(Profile *)sourceProfile
+    byReplacingAll:(BOOL)replaceAll;
 + (NSSet<iTermKeystroke *> *)keystrokesInKeyMappingPresetWithName:(NSString *)presetName;
 
 // Load a set of preset keymappings from GlobalKeyMap.plist into the global

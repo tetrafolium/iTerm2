@@ -22,18 +22,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, copy) NSString *(^escapingFunction)(NSString *string);
 
 - (instancetype)initWithParsedExpression:(iTermParsedExpression *)parsedExpression
-                              invocation:(NSString *)invocation
-                                   scope:(iTermVariableScope *)scope NS_DESIGNATED_INITIALIZER;
+    invocation:(NSString *)invocation
+    scope:(iTermVariableScope *)scope NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithExpressionString:(NSString *)expressionString
-                                   scope:(iTermVariableScope *)scope;
+    scope:(iTermVariableScope *)scope;
 
 - (instancetype)initWithInterpolatedString:(NSString *)interpolatedString
-                                     scope:(iTermVariableScope *)scope;
+    scope:(iTermVariableScope *)scope;
 
 // Fails on undefined references
 - (instancetype)initWithStrictInterpolatedString:(NSString *)interpolatedString
-                                           scope:(iTermVariableScope *)scope;
+    scope:(iTermVariableScope *)scope;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 // If the timeout is positive the object will live until the timer fires or the RPC completes.
 // Callers do not need to retain a reference to the expression evaluator.
 - (void)evaluateWithTimeout:(NSTimeInterval)timeout
-                 completion:(void (^)(iTermExpressionEvaluator *evaluator))completion;
+    completion:(void (^)(iTermExpressionEvaluator *evaluator))completion;
 
 @end
 

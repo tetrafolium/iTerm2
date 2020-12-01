@@ -16,26 +16,26 @@ typedef void (^iTermUserDefaultsBlock)(id);
 static NSMutableDictionary<NSString *, NSMutableArray<iTermUserDefaultsBlock> *> *iTermUserDefaultsObserverBlocks(void) {
     static NSMutableDictionary<NSString *, NSMutableArray<iTermUserDefaultsBlock> *> *blocks;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         blocks = [NSMutableDictionary dictionary];
     });
     return blocks;
 }
 
 - (void)it_addObserverForKey:(NSString *)key
-                       block:(void (^)(id newValue))block {
+    block:(void (^)(id newValue))block {
     [iTermUserDefaultsObserverBlocks() it_addObject:block toMutableArrayForKey:key];
     [[NSUserDefaults standardUserDefaults] addObserver:self
-                                            forKeyPath:key
-                                               options:NSKeyValueObservingOptionNew
-                                               context:(void *)&iTermUserDefaultsKVOKey];
+                                           forKeyPath:key
+                                           options:NSKeyValueObservingOptionNew
+                                           context:(void *)&iTermUserDefaultsKVOKey];
 }
 
 // This is called when user defaults are changed anywhere.
 - (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context {
+    ofObject:(id)object
+    change:(NSDictionary *)change
+    context:(void *)context {
     if (context == &iTermUserDefaultsKVOKey) {
         NSMutableDictionary<NSString *, NSMutableArray<iTermUserDefaultsBlock> *> *blocks =
             iTermUserDefaultsObserverBlocks();
@@ -46,9 +46,9 @@ static NSMutableDictionary<NSString *, NSMutableArray<iTermUserDefaultsBlock> *>
         }
     } else {
         [super observeValueForKeyPath:keyPath
-                             ofObject:object
-                               change:change
-                              context:context];
+               ofObject:object
+               change:change
+               context:context];
     }
 }
 

@@ -15,7 +15,7 @@
     if (!_area) {
         [self createTrackingArea];
     }
-    
+
 }
 - (void)createTrackingArea {
     NSTrackingAreaOptions options = NSTrackingMouseMoved | NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways;

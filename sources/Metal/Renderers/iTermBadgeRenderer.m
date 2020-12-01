@@ -27,10 +27,10 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (self) {
         _metalRenderer = [[iTermMetalRenderer alloc] initWithDevice:device
-                                                 vertexFunctionName:@"iTermBadgeVertexShader"
-                                               fragmentFunctionName:@"iTermBadgeFragmentShader"
-                                                           blending:[iTermMetalBlending compositeSourceOver]
-                                                transientStateClass:[iTermBadgeRendererTransientState class]];
+                                                     vertexFunctionName:@"iTermBadgeVertexShader"
+                                                     fragmentFunctionName:@"iTermBadgeFragmentShader"
+                                                     blending:[iTermMetalBlending compositeSourceOver]
+                                                     transientStateClass:[iTermBadgeRendererTransientState class]];
     }
     return self;
 }
@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)drawWithFrameData:(iTermMetalFrameData *)frameData
-           transientState:(__kindof iTermMetalRendererTransientState *)transientState {
+    transientState:(__kindof iTermMetalRendererTransientState *)transientState {
     iTermBadgeRendererTransientState *tState = transientState;
     const CGSize size = tState.destinationRect.size;
     const CGFloat scale = tState.configuration.scale;
@@ -82,26 +82,26 @@ NS_ASSUME_NONNULL_BEGIN
         { { CGRectGetMaxX(quad), CGRectGetMaxY(quad) }, { CGRectGetMaxX(textureFrame), CGRectGetMaxY(textureFrame) } },
     };
     tState.vertexBuffer = [_metalRenderer.verticesPool requestBufferFromContext:tState.poolContext
-                                                                      withBytes:vertices
-                                                                 checkIfChanged:YES];
+                                                       withBytes:vertices
+                                                       checkIfChanged:YES];
     [_metalRenderer drawWithTransientState:tState
-                             renderEncoder:frameData.renderEncoder
-                          numberOfVertices:6
-                              numberOfPIUs:0
-                             vertexBuffers:@{ @(iTermVertexInputIndexVertices): tState.vertexBuffer }
-                           fragmentBuffers:@{}
-                                  textures:@{ @(iTermTextureIndexPrimary): tState.texture }];
+                    renderEncoder:frameData.renderEncoder
+                    numberOfVertices:6
+                    numberOfPIUs:0
+                    vertexBuffers:@ { @(iTermVertexInputIndexVertices): tState.vertexBuffer }
+                    fragmentBuffers:@ {}
+                    textures:@ { @(iTermTextureIndexPrimary): tState.texture }];
 }
 
 - (nullable __kindof iTermMetalRendererTransientState *)createTransientStateForConfiguration:(iTermRenderConfiguration *)configuration
-                                                                               commandBuffer:(id<MTLCommandBuffer>)commandBuffer {
+    commandBuffer:(id<MTLCommandBuffer>)commandBuffer {
     if (CGSizeEqualToSize(CGSizeZero, _size)) {
         return nil;
     }
 
     __kindof iTermMetalRendererTransientState * _Nonnull transientState =
         [_metalRenderer createTransientStateForConfiguration:configuration
-                                           commandBuffer:commandBuffer];
+                        commandBuffer:commandBuffer];
     [self initializeTransientState:transientState];
     return transientState;
 }

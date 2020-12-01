@@ -33,16 +33,16 @@
         { { CGRectGetMaxX(quad), CGRectGetMaxY(quad) }, { CGRectGetMaxX(textureFrame), CGRectGetMaxY(textureFrame) } },
     };
     self.vertexBuffer = [verticesPool requestBufferFromContext:self.poolContext
-                                                     withBytes:vertices
-                                                checkIfChanged:YES];
+                                      withBytes:vertices
+                                      checkIfChanged:YES];
 }
 
 - (void)writeDebugInfoToFolder:(NSURL *)folder {
     [super writeDebugInfoToFolder:folder];
     [[NSString stringWithFormat:@"row=%@", @(_row)] writeToURL:[folder URLByAppendingPathComponent:@"state.txt"]
                                                     atomically:NO
-                                                      encoding:NSUTF8StringEncoding
-                                                         error:NULL];
+                                                    encoding:NSUTF8StringEncoding
+                                                    error:NULL];
 }
 
 @end
@@ -59,11 +59,11 @@
     if (self) {
         _color = [[NSColor blueColor] colorWithAlphaComponent:0.7];
         _cellRenderer = [[iTermMetalCellRenderer alloc] initWithDevice:device
-                                                    vertexFunctionName:@"iTermCursorGuideVertexShader"
-                                                  fragmentFunctionName:@"iTermCursorGuideFragmentShader"
-                                                              blending:[iTermMetalBlending compositeSourceOver]
+                                                        vertexFunctionName:@"iTermCursorGuideVertexShader"
+                                                        fragmentFunctionName:@"iTermCursorGuideFragmentShader"
+                                                        blending:[iTermMetalBlending compositeSourceOver]
                                                         piuElementSize:0
-                                                   transientStateClass:[iTermCursorGuideRendererTransientState class]];
+                                                        transientStateClass:[iTermCursorGuideRendererTransientState class]];
     }
     return self;
 }
@@ -77,13 +77,13 @@
 }
 
 - (nullable __kindof iTermMetalRendererTransientState *)createTransientStateForCellConfiguration:(iTermCellRenderConfiguration *)configuration
-                                                                                   commandBuffer:(id<MTLCommandBuffer>)commandBuffer {
+    commandBuffer:(id<MTLCommandBuffer>)commandBuffer {
     if (!_enabled) {
         return nil;
     }
     __kindof iTermMetalCellRendererTransientState * _Nonnull transientState =
         [_cellRenderer createTransientStateForCellConfiguration:configuration
-                                                  commandBuffer:commandBuffer];
+                       commandBuffer:commandBuffer];
     [self initializeTransientState:transientState];
     return transientState;
 }
@@ -104,7 +104,7 @@
 }
 
 - (void)drawWithFrameData:(iTermMetalFrameData *)frameData
-           transientState:(__kindof iTermMetalCellRendererTransientState *)transientState {
+    transientState:(__kindof iTermMetalCellRendererTransientState *)transientState {
     iTermCursorGuideRendererTransientState *tState = transientState;
     if (tState.row < 0) {
         // Cursor is offscreen. We set it to -1 to signal this.
@@ -113,12 +113,12 @@
 
     [tState initializeVerticesWithPool:_cellRenderer.verticesPool];
     [_cellRenderer drawWithTransientState:tState
-                            renderEncoder:frameData.renderEncoder
-                         numberOfVertices:6
-                             numberOfPIUs:0
-                            vertexBuffers:@{ @(iTermVertexInputIndexVertices): tState.vertexBuffer }
-                          fragmentBuffers:@{}
-                                 textures:@{ @(iTermTextureIndexPrimary): tState.texture } ];
+                   renderEncoder:frameData.renderEncoder
+                   numberOfVertices:6
+                   numberOfPIUs:0
+                   vertexBuffers:@ { @(iTermVertexInputIndexVertices): tState.vertexBuffer }
+                   fragmentBuffers:@ {}
+                   textures:@ { @(iTermTextureIndexPrimary): tState.texture } ];
 }
 
 #pragma mark - Private

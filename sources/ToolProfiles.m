@@ -33,8 +33,8 @@ static NSString *const iTermToolProfilesProfileListViewState = @"iTermToolProfil
     self = [super initWithFrame:frame];
     if (self) {
         listView_ = [[ProfileListView alloc] initWithFrame:NSMakeRect(kMargin, 0, frame.size.width - kMargin * 2, frame.size.height - kPopupHeight - kVerticalMargin)
-                                                     model:[ProfileModel sharedInstance]
-                                                      font:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
+                                             model:[ProfileModel sharedInstance]
+                                             font:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
         [listView_ setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
         [listView_ setDelegate:self];
         [listView_ disableArrowHandler];
@@ -73,26 +73,26 @@ static NSString *const iTermToolProfilesProfileListViewState = @"iTermToolProfil
         [[popup_ cell] setControlSize:NSControlSizeSmall];
         [[popup_ cell] setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
         [[popup_ menu] addItemWithTitle:@"New Tab"
-                                 action:@selector(toolProfilesNewTab:)
-                          keyEquivalent:@""];
+                       action:@selector(toolProfilesNewTab:)
+                       keyEquivalent:@""];
         [[popup_ menu] addItemWithTitle:@"New Window"
-                                 action:@selector(toolProfilesNewWindow:)
-                          keyEquivalent:@""];
+                       action:@selector(toolProfilesNewWindow:)
+                       keyEquivalent:@""];
         [[popup_ menu] addItemWithTitle:@"New Horizontal Split"
-                                 action:@selector(toolProfilesNewHorizontalSplit:)
-                          keyEquivalent:@""];
+                       action:@selector(toolProfilesNewHorizontalSplit:)
+                       keyEquivalent:@""];
         [[popup_ menu] addItemWithTitle:@"New Vertical Split"
-                                 action:@selector(toolProfilesNewVerticalSplit:)
-                          keyEquivalent:@""];
+                       action:@selector(toolProfilesNewVerticalSplit:)
+                       keyEquivalent:@""];
         for (NSMenuItem *i in [[popup_ menu] itemArray]) {
             [i setTarget:self];
         }
         [self addSubview:popup_];
         [popup_ setAutoresizingMask:NSViewMinYMargin | NSViewWidthSizable];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(refreshTerminal:)
-                                                     name:kRefreshTerminalNotification
-                                                   object:nil];
+                                              selector:@selector(refreshTerminal:)
+                                              name:kRefreshTerminalNotification
+                                              object:nil];
 
         [popup_ bind:@"enabled" toObject:listView_ withKeyPath:@"hasSelection" options:nil];
     }
@@ -151,9 +151,9 @@ static NSString *const iTermToolProfilesProfileListViewState = @"iTermToolProfil
     for (NSString* guid in [listView_ selectedGuids]) {
         Profile* bookmark = [[ProfileModel sharedInstance] bookmarkWithGuid:guid];
         [iTermSessionLauncher launchBookmark:bookmark
-                                  inTerminal:terminal
-                          respectTabbingMode:NO
-                                  completion:nil];
+                              inTerminal:terminal
+                              respectTabbingMode:NO
+                              completion:nil];
     }
 }
 
@@ -162,9 +162,9 @@ static NSString *const iTermToolProfilesProfileListViewState = @"iTermToolProfil
     for (NSString* guid in [listView_ selectedGuids]) {
         Profile* bookmark = [[ProfileModel sharedInstance] bookmarkWithGuid:guid];
         [iTermSessionLauncher launchBookmark:bookmark
-                                  inTerminal:nil
-                          respectTabbingMode:NO
-                                  completion:nil];
+                              inTerminal:nil
+                              respectTabbingMode:NO
+                              completion:nil];
     }
 }
 
@@ -177,11 +177,11 @@ static NSString *const iTermToolProfilesProfileListViewState = @"iTermToolProfil
             continue;
         }
         [terminal asyncSplitVertically:NO
-                                before:NO
-                               profile:profile
-                         targetSession:[terminal currentSession]
-                            completion:nil
-                                 ready:nil];
+                  before:NO
+                  profile:profile
+                  targetSession:[terminal currentSession]
+                  completion:nil
+                  ready:nil];
     }
 }
 
@@ -194,11 +194,11 @@ static NSString *const iTermToolProfilesProfileListViewState = @"iTermToolProfil
             continue;
         }
         [terminal asyncSplitVertically:YES
-                                before:NO
-                               profile:profile
-                         targetSession:[terminal currentSession]
-                            completion:nil
-                                 ready:nil];
+                  before:NO
+                  profile:profile
+                  targetSession:[terminal currentSession]
+                  completion:nil
+                  ready:nil];
     }
 }
 
@@ -227,11 +227,11 @@ static NSString *const iTermToolProfilesProfileListViewState = @"iTermToolProfil
 
 - (void)open:(id)sender {
     [self it_performNonObjectReturningSelector:[[popup_ selectedItem] action]
-                                    withObject:nil];
+          withObject:nil];
 }
 
 - (NSDictionary *)restorableState {
-    return @{ iTermToolProfilesProfileListViewState: listView_.restorableState };
+    return @ { iTermToolProfilesProfileListViewState: listView_.restorableState };
 }
 
 - (void)restoreFromState:(NSDictionary *)state {

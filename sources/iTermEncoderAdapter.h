@@ -26,25 +26,25 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)encodePropertyList:(id)plist withKey:(NSString *)key;
 
 - (BOOL)encodeDictionaryWithKey:(NSString *)key
-                     generation:(NSInteger)generation
-                          block:(BOOL (^ NS_NOESCAPE)(id<iTermEncoderAdapter> encoder))block;
+    generation:(NSInteger)generation
+    block:(BOOL (^ NS_NOESCAPE)(id<iTermEncoderAdapter> encoder))block;
 
 - (void)encodeArrayWithKey:(NSString *)key
-               identifiers:(NSArray<NSString *> *)identifiers
-                generation:(NSInteger)generation
-                     block:(BOOL (^ NS_NOESCAPE)(id<iTermEncoderAdapter> encoder,
-                                                 NSInteger i,
-                                                 NSString *identifier,
-                                                 BOOL *stop))block;
+    identifiers:(NSArray<NSString *> *)identifiers
+    generation:(NSInteger)generation
+    block:(BOOL (^ NS_NOESCAPE)(id<iTermEncoderAdapter> encoder,
+    NSInteger i,
+    NSString *identifier,
+    BOOL *stop))block;
 
 - (void)encodeArrayWithKey:(NSString *)key
-               identifiers:(NSArray<NSString *> *)identifiers
-                generation:(NSInteger)generation
-                   options:(iTermGraphEncoderArrayOptions)options
-                     block:(BOOL (^ NS_NOESCAPE)(id<iTermEncoderAdapter> encoder,
-                                                 NSInteger i,
-                                                 NSString *identifier,
-                                                 BOOL *stop))block;
+    identifiers:(NSArray<NSString *> *)identifiers
+    generation:(NSInteger)generation
+    options:(iTermGraphEncoderArrayOptions)options
+    block:(BOOL (^ NS_NOESCAPE)(id<iTermEncoderAdapter> encoder,
+    NSInteger i,
+    NSString *identifier,
+    BOOL *stop))block;
 
 @end
 
@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface iTermMutableDictionaryEncoderAdapter: NSObject<iTermEncoderAdapter>
+@interface iTermMutableDictionaryEncoderAdapter : NSObject<iTermEncoderAdapter>
 @property (nonatomic, readonly) NSMutableDictionary<NSString *, id> *mutableDictionary;
 
 + (instancetype)encoder;

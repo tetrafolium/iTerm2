@@ -21,7 +21,7 @@ static NSString *const kFactoryDefaultsGlobalPreset = @"Factory Defaults";
 
 + (NSDictionary *)readPresetKeyMappingsFromPlist:(NSString *)thePlist {
     NSString *plistFile = [[NSBundle bundleForClass:[self class]] pathForResource:thePlist
-                                                                           ofType:@"plist"];
+                                                                ofType:@"plist"];
     NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:plistFile];
     return dict;
 }
@@ -37,10 +37,10 @@ static NSString *const kFactoryDefaultsGlobalPreset = @"Factory Defaults";
     for (NSString *name in builtins) {
         NSDictionary<id, NSDictionary *> *dict = builtins[name];
         [dict enumerateKeysAndObjectsUsingBlock:^(id _Nonnull serializedKeystroke,
-                                                  NSDictionary * _Nonnull mapping,
-                                                  BOOL * _Nonnull stop) {
-            iTermKeystroke *keystroke = [[iTermKeystroke alloc] initWithSerialized:serializedKeystroke];
-            if (!keystroke) {
+                NSDictionary * _Nonnull mapping,
+             BOOL * _Nonnull stop) {
+                 iTermKeystroke *keystroke = [[iTermKeystroke alloc] initWithSerialized:serializedKeystroke];
+                 if (!keystroke) {
                 return;
             }
             iTermKeyBindingAction *action = [iTermKeyBindingAction withDictionary:mapping];
@@ -63,14 +63,14 @@ static NSString *const kFactoryDefaultsGlobalPreset = @"Factory Defaults";
 }
 
 + (Profile *)profileByLoadingPresetNamed:(NSString *)presetName
-                             intoProfile:(Profile *)sourceProfile
-                          byReplacingAll:(BOOL)replaceAll {
+    intoProfile:(Profile *)sourceProfile
+    byReplacingAll:(BOOL)replaceAll {
     NSDictionary *presetsDict = [self builtInPresetKeyMappings];
     NSDictionary *preset = presetsDict[presetName];
     if (replaceAll) {
         return [sourceProfile dictionaryBySettingObject:preset forKey:KEY_KEYBOARD_MAP];
     }
-    NSDictionary *sourceMap = sourceProfile[KEY_KEYBOARD_MAP] ?: @{};
+    NSDictionary *sourceMap = sourceProfile[KEY_KEYBOARD_MAP] ?: @ {};
     NSDictionary *updated = [sourceMap it_dictionaryByMergingSerializedKeystrokeKeyedDictionary:preset];
     return [sourceProfile dictionaryBySettingObject:updated forKey:KEY_KEYBOARD_MAP];
 }
@@ -80,8 +80,8 @@ static NSString *const kFactoryDefaultsGlobalPreset = @"Factory Defaults";
     NSDictionary *preset = presetsDict[presetName];
     NSArray *keys = preset.allKeys;
     NSArray *keystrokes = [keys mapWithBlock:^id(id anObject) {
-        return [[iTermKeystroke alloc] initWithSerialized:anObject];
-    }];
+             return [[iTermKeystroke alloc] initWithSerialized:anObject];
+         }];
     return [NSSet setWithArray:keystrokes];
 }
 
@@ -108,8 +108,8 @@ static NSString *const kFactoryDefaultsGlobalPreset = @"Factory Defaults";
 
 + (NSSet<iTermKeystroke *> *)keystrokesInGlobalPreset:(NSString *)presetName {
     return [NSSet setWithArray:[self.defaultGlobalKeyMap.allKeys mapWithBlock:^id(id anObject) {
-        return [[iTermKeystroke alloc] initWithSerialized:anObject];
-    }]];
+              return [[iTermKeystroke alloc] initWithSerialized:anObject];
+          }]];
 }
 
 @end

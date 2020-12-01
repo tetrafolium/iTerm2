@@ -121,7 +121,7 @@ enum {
 
     // Hide the tmux client session
     IBOutlet NSButton *_autoHideTmuxClientSession;
-    
+
     IBOutlet NSButton *_useTmuxProfile;
     IBOutlet NSButton *_useTmuxStatusBar;
 
@@ -140,18 +140,18 @@ enum {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(savedArrangementChanged:)
-                                                     name:kSavedArrangementDidChangeNotification
-                                                   object:nil];
+                                              selector:@selector(savedArrangementChanged:)
+                                              name:kSavedArrangementDidChangeNotification
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(didRevertPythonAuthenticationMethod:)
-                                                     name:iTermAPIHelperDidDetectChangeOfPythonAuthMethodNotification
-                                                   object:nil];
+                                              selector:@selector(didRevertPythonAuthenticationMethod:)
+                                              name:iTermAPIHelperDidDetectChangeOfPythonAuthMethodNotification
+                                              object:nil];
         _observer = [[iTermUserDefaultsObserver alloc] init];
         __weak __typeof(self) weakSelf = self;
-        [_observer observeKey:@"NSQuitAlwaysKeepsWindows" block:^{
-            [weakSelf updateEnabledState];
-        }];
+        [_observer observeKey:@"NSQuitAlwaysKeepsWindows" block:^ {
+                      [weakSelf updateEnabledState];
+                  }];
     }
     return self;
 }
@@ -161,96 +161,97 @@ enum {
 
     __weak __typeof(self) weakSelf = self;
     [self defineControl:_openBookmark
-                    key:kPreferenceKeyOpenBookmark
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:kPreferenceKeyOpenBookmark
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_openWindowsAtStartup
-                    key:kPreferenceKeyOpenArrangementAtStartup
-            relatedView:_openWindowsAtStartupLabel
-                   type:kPreferenceInfoTypeCheckbox
+          key:kPreferenceKeyOpenArrangementAtStartup
+          relatedView:_openWindowsAtStartupLabel
+          type:kPreferenceInfoTypeCheckbox
          settingChanged:^(id sender) {
              __strong __typeof(weakSelf) strongSelf = weakSelf;
              if (!strongSelf) {
-                 return;
-             }
-             switch ([strongSelf->_openWindowsAtStartup selectedTag]) {
-                 case kUseSystemWindowRestorationSettingTag:
-                     [strongSelf setBool:NO forKey:kPreferenceKeyOpenArrangementAtStartup];
-                     [strongSelf setBool:NO forKey:kPreferenceKeyOpenNoWindowsAtStartup];
-                     break;
+            return;
+        }
+        switch ([strongSelf->_openWindowsAtStartup selectedTag]) {
+        case kUseSystemWindowRestorationSettingTag:
+            [strongSelf setBool:NO forKey:kPreferenceKeyOpenArrangementAtStartup];
+            [strongSelf setBool:NO forKey:kPreferenceKeyOpenNoWindowsAtStartup];
+            break;
 
-                 case kOpenDefaultWindowArrangementTag:
-                     [strongSelf setBool:YES forKey:kPreferenceKeyOpenArrangementAtStartup];
-                     [strongSelf setBool:NO forKey:kPreferenceKeyOpenNoWindowsAtStartup];
-                     break;
+        case kOpenDefaultWindowArrangementTag:
+            [strongSelf setBool:YES forKey:kPreferenceKeyOpenArrangementAtStartup];
+            [strongSelf setBool:NO forKey:kPreferenceKeyOpenNoWindowsAtStartup];
+            break;
 
-                 case kDontOpenAnyWindowsTag:
-                     [strongSelf setBool:NO forKey:kPreferenceKeyOpenArrangementAtStartup];
-                     [strongSelf setBool:YES forKey:kPreferenceKeyOpenNoWindowsAtStartup];
-                     break;
-             }
-             [strongSelf updateEnabledState];
-         } update:^BOOL{
-             __strong __typeof(weakSelf) strongSelf = weakSelf;
-             if (!strongSelf) {
-                 return NO;
-             }
-             if ([strongSelf boolForKey:kPreferenceKeyOpenNoWindowsAtStartup]) {
-                 [strongSelf->_openWindowsAtStartup selectItemWithTag:kDontOpenAnyWindowsTag];
-             } else if ([WindowArrangements count] &&
-                        [self boolForKey:kPreferenceKeyOpenArrangementAtStartup]) {
-                 [strongSelf->_openWindowsAtStartup selectItemWithTag:kOpenDefaultWindowArrangementTag];
-             } else {
-                 [strongSelf->_openWindowsAtStartup selectItemWithTag:kUseSystemWindowRestorationSettingTag];
-             }
-             [strongSelf updateEnabledState];
-             return YES;
-         }];
+        case kDontOpenAnyWindowsTag:
+            [strongSelf setBool:NO forKey:kPreferenceKeyOpenArrangementAtStartup];
+            [strongSelf setBool:YES forKey:kPreferenceKeyOpenNoWindowsAtStartup];
+            break;
+        }
+        [strongSelf updateEnabledState];
+    }
+    update:^BOOL{
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
+        if (!strongSelf) {
+            return NO;
+        }
+        if ([strongSelf boolForKey:kPreferenceKeyOpenNoWindowsAtStartup]) {
+            [strongSelf->_openWindowsAtStartup selectItemWithTag:kDontOpenAnyWindowsTag];
+        } else if ([WindowArrangements count] &&
+                   [self boolForKey:kPreferenceKeyOpenArrangementAtStartup]) {
+            [strongSelf->_openWindowsAtStartup selectItemWithTag:kOpenDefaultWindowArrangementTag];
+        } else {
+            [strongSelf->_openWindowsAtStartup selectItemWithTag:kUseSystemWindowRestorationSettingTag];
+        }
+        [strongSelf updateEnabledState];
+        return YES;
+    }];
     [_openDefaultWindowArrangementItem setEnabled:[WindowArrangements count] > 0];
     [self defineControl:_quitWhenAllWindowsClosed
-                    key:kPreferenceKeyQuitWhenAllWindowsClosed
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:kPreferenceKeyQuitWhenAllWindowsClosed
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_confirmClosingMultipleSessions
-                    key:kPreferenceKeyConfirmClosingMultipleTabs
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:kPreferenceKeyConfirmClosingMultipleTabs
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     info = [self defineControl:_promptOnQuit
-                           key:kPreferenceKeyPromptOnQuit
-                   relatedView:nil
-                          type:kPreferenceInfoTypeCheckbox];
-    info.onChange = ^{
+                 key:kPreferenceKeyPromptOnQuit
+                 relatedView:nil
+                 type:kPreferenceInfoTypeCheckbox];
+    info.onChange = ^ {
         [weakSelf updateEnabledState];
     };
 
     [self defineControl:_evenIfThereAreNoWindows
-                    key:kPreferenceKeyPromptOnQuitEvenIfThereAreNoWindows
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:kPreferenceKeyPromptOnQuitEvenIfThereAreNoWindows
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     info = [self defineControl:_irMemory
-                           key:kPreferenceKeyInstantReplayMemoryMegabytes
-                   displayName:@"Instant Replay memory usage limit"
-                          type:kPreferenceInfoTypeIntegerTextField];
+                 key:kPreferenceKeyInstantReplayMemoryMegabytes
+                 displayName:@"Instant Replay memory usage limit"
+                 type:kPreferenceInfoTypeIntegerTextField];
     info.range = NSMakeRange(0, 1000);
 
     info = [self defineControl:_savePasteHistory
-                           key:kPreferenceKeySavePasteAndCommandHistory
-                   relatedView:nil
-                          type:kPreferenceInfoTypeCheckbox];
+                 key:kPreferenceKeySavePasteAndCommandHistory
+                 relatedView:nil
+                 type:kPreferenceInfoTypeCheckbox];
     info.onChange = ^() {
         [[iTermShellHistoryController sharedInstance] backingStoreTypeDidChange];
     };
 
     if (@available(macOS 10.12, *)) {
         info = [self defineControl:_gpuRendering
-                               key:kPreferenceKeyUseMetal
-                       relatedView:nil
-                              type:kPreferenceInfoTypeCheckbox];
-        info.observer = ^{
+                     key:kPreferenceKeyUseMetal
+                     relatedView:nil
+                     type:kPreferenceInfoTypeCheckbox];
+        info.observer = ^ {
             [weakSelf updateAdvancedGPUEnabled];
         };
     } else {
@@ -260,64 +261,64 @@ enum {
     }
 
     info = [self defineControl:_enableAPI
-                           key:kPreferenceKeyEnableAPIServer
-                   relatedView:nil
-                          type:kPreferenceInfoTypeCheckbox];
+                 key:kPreferenceKeyEnableAPIServer
+                 relatedView:nil
+                 type:kPreferenceInfoTypeCheckbox];
     info.customSettingChangedHandler = ^(id sender) {
         [weakSelf enableAPISettingDidChange];
     };
     [iTermPreferenceDidChangeNotification subscribe:self
-                                              block:^(iTermPreferenceDidChangeNotification * _Nonnull notification) {
-                                                  if ([notification.key isEqualToString:kPreferenceKeyEnableAPIServer]) {
-                                                      __typeof(self) strongSelf = weakSelf;
-                                                      if (strongSelf) {
-                                                          strongSelf->_enableAPI.state = NSControlStateValueOn;
-                                                      }
-                                                  }
-                                              }];
+                                         block:^(iTermPreferenceDidChangeNotification * _Nonnull notification) {
+                                             if ([notification.key isEqualToString:kPreferenceKeyEnableAPIServer]) {
+                                                 __typeof(self) strongSelf = weakSelf;
+                                                 if (strongSelf) {
+                strongSelf->_enableAPI.state = NSControlStateValueOn;
+            }
+        }
+    }];
 
     info = [self defineControl:_apiPermission
-                           key:kPreferenceKeyAPIAuthentication
-                   displayName:@"Authentication method for Python API"
-                          type:kPreferenceInfoTypePopup];
+                 key:kPreferenceKeyAPIAuthentication
+                 displayName:@"Authentication method for Python API"
+                 type:kPreferenceInfoTypePopup];
     info.syntheticGetter = ^id{
         return @([iTermAPIHelper requireApplescriptAuth] ? 0 : 1);
     };
     info.syntheticSetter = ^(NSNumber *newValue) {
         const BOOL useApplescript = (newValue.intValue == 0);
         [iTermAPIHelper setRequireApplescriptAuth:useApplescript
-                                           window:self.view.window];
+                        window:self.view.window];
         [weakSelf updateAPIEnabledState];
     };
     info.shouldBeEnabled = ^BOOL{
         return [weakSelf boolForKey:kPreferenceKeyEnableAPIServer];
     };
-    
+
     _advancedGPUWindowController = [[iTermAdvancedGPUSettingsWindowController alloc] initWithWindowNibName:@"iTermAdvancedGPUSettingsWindowController"];
     [_advancedGPUWindowController window];
     _advancedGPUWindowController.viewController.disableWhenDisconnected.target = self;
     _advancedGPUWindowController.viewController.disableWhenDisconnected.action = @selector(settingChanged:);
     info = [self defineUnsearchableControl:_advancedGPUWindowController.viewController.disableWhenDisconnected
-                                       key:kPreferenceKeyDisableMetalWhenUnplugged
-                                      type:kPreferenceInfoTypeCheckbox];
-    info.observer = ^{
+                 key:kPreferenceKeyDisableMetalWhenUnplugged
+                 type:kPreferenceInfoTypeCheckbox];
+    info.observer = ^ {
         [[NSNotificationCenter defaultCenter] postNotificationName:iTermMetalSettingsDidChangeNotification object:nil];
     };
 
     _advancedGPUWindowController.viewController.preferIntegratedGPU.target = self;
     _advancedGPUWindowController.viewController.preferIntegratedGPU.action = @selector(settingChanged:);
     info = [self defineUnsearchableControl:_advancedGPUWindowController.viewController.preferIntegratedGPU
-                                       key:kPreferenceKeyPreferIntegratedGPU
-                                      type:kPreferenceInfoTypeCheckbox];
-    info.observer = ^{
+                 key:kPreferenceKeyPreferIntegratedGPU
+                 type:kPreferenceInfoTypeCheckbox];
+    info.observer = ^ {
         [[NSNotificationCenter defaultCenter] postNotificationName:iTermMetalSettingsDidChangeNotification object:nil];
     };
-    info.onChange = ^{
+    info.onChange = ^ {
         [iTermWarning showWarningWithTitle:@"You must restart iTerm2 for this change to take effect."
-                                   actions:@[ @"OK" ]
-                                identifier:nil
-                               silenceable:kiTermWarningTypePersistent
-                                    window:nil];
+                      actions:@[ @"OK" ]
+                      identifier:nil
+                      silenceable:kiTermWarningTypePersistent
+                      window:nil];
     };
 
 
@@ -325,46 +326,50 @@ enum {
     _advancedGPUWindowController.viewController.maximizeThroughput.action = @selector(settingChanged:);
 
     info = [self defineUnsearchableControl:_advancedGPUWindowController.viewController.maximizeThroughput
-                                       key:kPreferenceKeyMetalMaximizeThroughput
-                                      type:kPreferenceInfoTypeCheckbox];
-    info.observer = ^{
+                 key:kPreferenceKeyMetalMaximizeThroughput
+                 type:kPreferenceInfoTypeCheckbox];
+    info.observer = ^ {
         [[NSNotificationCenter defaultCenter] postNotificationName:iTermMetalSettingsDidChangeNotification object:nil];
     };
 
     [self addViewToSearchIndex:_advancedGPUPrefsButton
-                   displayName:@"Advanced GPU settings"
-                       phrases:@[ _advancedGPUWindowController.viewController.disableWhenDisconnected.title,
-                                  _advancedGPUWindowController.viewController.preferIntegratedGPU.title,
-                                  _advancedGPUWindowController.viewController.maximizeThroughput.title ]
-                           key:nil];
+          displayName:@"Advanced GPU settings"
+          phrases:@[ _advancedGPUWindowController.viewController.disableWhenDisconnected.title,
+                _advancedGPUWindowController.viewController.preferIntegratedGPU.title,
+                _advancedGPUWindowController.viewController.maximizeThroughput.title ]
+          key:nil];
 
     [self defineControl:_enableBonjour
-                    key:kPreferenceKeyAddBonjourHostsToProfiles
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:kPreferenceKeyAddBonjourHostsToProfiles
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_checkUpdate
-                    key:kPreferenceKeyCheckForUpdatesAutomatically
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:kPreferenceKeyCheckForUpdatesAutomatically
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_checkTestRelease
-                    key:kPreferenceKeyCheckForTestReleases
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:kPreferenceKeyCheckForTestReleases
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     // ---------------------------------------------------------------------------------------------
     info = [self defineControl:_loadPrefsFromCustomFolder
-                           key:kPreferenceKeyLoadPrefsFromCustomFolder
-                   relatedView:nil
-                          type:kPreferenceInfoTypeCheckbox];
-    info.onChange = ^() { [self loadPrefsFromCustomFolderDidChange]; };
-    info.observer = ^() { [self updateRemotePrefsViews]; };
+                 key:kPreferenceKeyLoadPrefsFromCustomFolder
+                 relatedView:nil
+                 type:kPreferenceInfoTypeCheckbox];
+    info.onChange = ^() {
+        [self loadPrefsFromCustomFolderDidChange];
+    };
+    info.observer = ^() {
+        [self updateRemotePrefsViews];
+    };
 
     info = [self defineControl:_autoSaveOnQuit
-                           key:@"NoSyncNeverRemindPrefsChangesLostForFile_selection"
-                   relatedView:nil
-                          type:kPreferenceInfoTypeCheckbox];
+                 key:@"NoSyncNeverRemindPrefsChangesLostForFile_selection"
+                 relatedView:nil
+                 type:kPreferenceInfoTypeCheckbox];
     // Called when user interacts with control
     info.customSettingChangedHandler = ^(id sender) {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
@@ -379,7 +384,7 @@ enum {
             value = @1;
         }
         [[NSUserDefaults standardUserDefaults] setObject:value
-                                                  forKey:@"NoSyncNeverRemindPrefsChangesLostForFile_selection"];
+                                               forKey:@"NoSyncNeverRemindPrefsChangesLostForFile_selection"];
     };
 
     // Called on programmatic change (e.g., selecting a different profile. Returns YES to avoid
@@ -392,7 +397,7 @@ enum {
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         NSControlStateValue state;
         if ([userDefaults boolForKey:@"NoSyncNeverRemindPrefsChangesLostForFile"] &&
-            [userDefaults integerForKey:@"NoSyncNeverRemindPrefsChangesLostForFile_selection"] == 0) {
+                [userDefaults integerForKey:@"NoSyncNeverRemindPrefsChangesLostForFile_selection"] == 0) {
             state = NSControlStateValueOn;
         } else {
             state = NSControlStateValueOff;
@@ -404,8 +409,8 @@ enum {
 
     // ---------------------------------------------------------------------------------------------
     info = [self defineUnsearchableControl:_prefsCustomFolder
-                                       key:kPreferenceKeyCustomFolder
-                                      type:kPreferenceInfoTypeStringTextField];
+                 key:kPreferenceKeyCustomFolder
+                 type:kPreferenceInfoTypeStringTextField];
     info.shouldBeEnabled = ^BOOL() {
         return [iTermPreferences boolForKey:kPreferenceKeyLoadPrefsFromCustomFolder];
     };
@@ -417,34 +422,34 @@ enum {
 
     // ---------------------------------------------------------------------------------------------
     [self defineControl:_selectionCopiesText
-                    key:kPreferenceKeySelectionCopiesText
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:kPreferenceKeySelectionCopiesText
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_copyLastNewline
-                    key:kPreferenceKeyCopyLastNewline
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:kPreferenceKeyCopyLastNewline
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_allowClipboardAccessFromTerminal
-                    key:kPreferenceKeyAllowClipboardAccessFromTerminal
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:kPreferenceKeyAllowClipboardAccessFromTerminal
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_wordChars
-                    key:kPreferenceKeyCharactersConsideredPartOfAWordForSelection
-            relatedView:_wordCharsLabel
-                   type:kPreferenceInfoTypeStringTextField];
+          key:kPreferenceKeyCharactersConsideredPartOfAWordForSelection
+          relatedView:_wordCharsLabel
+          type:kPreferenceInfoTypeStringTextField];
 
     [self defineControl:_tripleClickSelectsFullLines
-                    key:kPreferenceKeyTripleClickSelectsFullWrappedLines
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:kPreferenceKeyTripleClickSelectsFullWrappedLines
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
     info = [self defineControl:_doubleClickPerformsSmartSelection
-                           key:kPreferenceKeyDoubleClickPerformsSmartSelection
-                   relatedView:nil
-                          type:kPreferenceInfoTypeCheckbox];
-    info.observer = ^{
+                 key:kPreferenceKeyDoubleClickPerformsSmartSelection
+                 relatedView:nil
+                 type:kPreferenceInfoTypeCheckbox];
+    info.observer = ^ {
         __strong __typeof(self) strongSelf = weakSelf;
         if (!strongSelf) {
             return;
@@ -453,68 +458,70 @@ enum {
         strongSelf->_wordCharsLabel.labelEnabled = ![strongSelf boolForKey:kPreferenceKeyDoubleClickPerformsSmartSelection];
     };
     [self defineControl:_enterCopyModeAutomatically
-                    key:kPreferenceKeyEnterCopyModeAutomatically
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:kPreferenceKeyEnterCopyModeAutomatically
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_smartPlacement
-                    key:kPreferenceKeySmartWindowPlacement
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:kPreferenceKeySmartWindowPlacement
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_adjustWindowForFontSizeChange
-                    key:kPreferenceKeyAdjustWindowForFontSizeChange
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:kPreferenceKeyAdjustWindowForFontSizeChange
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_maxVertically
-                    key:kPreferenceKeyMaximizeVerticallyOnly
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:kPreferenceKeyMaximizeVerticallyOnly
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_lionStyleFullscreen
-                    key:kPreferenceKeyLionStyleFullscreen
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:kPreferenceKeyLionStyleFullscreen
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_separateWindowTitlePerTab
-                    key:kPreferenceKeySeparateWindowTitlePerTab
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:kPreferenceKeySeparateWindowTitlePerTab
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     info = [self defineControl:_openTmuxWindows
-                           key:kPreferenceKeyOpenTmuxWindowsIn
-                   relatedView:_openTmuxWindowsLabel
-                          type:kPreferenceInfoTypePopup];
+                 key:kPreferenceKeyOpenTmuxWindowsIn
+                 relatedView:_openTmuxWindowsLabel
+                 type:kPreferenceInfoTypePopup];
     // This is how it was done before the great refactoring, but I don't see why it's needed.
-    info.onChange = ^() { [weakSelf postRefreshNotification]; };
+    info.onChange = ^() {
+        [weakSelf postRefreshNotification];
+    };
 
     [self defineControl:_autoHideTmuxClientSession
-                    key:kPreferenceKeyAutoHideTmuxClientSession
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:kPreferenceKeyAutoHideTmuxClientSession
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
     [self defineControl:_useTmuxProfile
-                    key:kPreferenceKeyUseTmuxProfile
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:kPreferenceKeyUseTmuxProfile
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
     [self defineControl:_useTmuxStatusBar
-                    key:kPreferenceKeyUseTmuxStatusBar
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:kPreferenceKeyUseTmuxStatusBar
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_tmuxPauseModeAgeLimit
-                    key:kPreferenceKeyTmuxPauseModeAgeLimit
-            displayName:@"Pause a tmux pane if it would take more than this many seconds to catch up."
-                   type:kPreferenceInfoTypeUnsignedIntegerTextField];
+          key:kPreferenceKeyTmuxPauseModeAgeLimit
+          displayName:@"Pause a tmux pane if it would take more than this many seconds to catch up."
+          type:kPreferenceInfoTypeUnsignedIntegerTextField];
     [self defineControl:_unpauseTmuxAutomatically
-                    key:kPreferenceKeyTmuxUnpauseAutomatically
-            displayName:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:kPreferenceKeyTmuxUnpauseAutomatically
+          displayName:nil
+          type:kPreferenceInfoTypeCheckbox];
     [self defineControl:_tmuxWarnBeforePausing
-                    key:kPreferenceKeyTmuxWarnBeforePausing
-            displayName:nil
-                   type:kPreferenceInfoTypeCheckbox];
-    
+          key:kPreferenceKeyTmuxWarnBeforePausing
+          displayName:nil
+          type:kPreferenceInfoTypeCheckbox];
+
     [self updateEnabledState];
     [self commitControls];
 }
@@ -530,7 +537,7 @@ enum {
     [_apiPermission selectItemWithTag:[iTermAPIHelper requireApplescriptAuth] ? 0 : 1];
     _evenIfThereAreNoWindows.enabled = [self boolForKey:kPreferenceKeyPromptOnQuit];
     const BOOL useSystemWindowRestoration = (![self boolForKey:kPreferenceKeyOpenArrangementAtStartup] &&
-                                             ![self boolForKey:kPreferenceKeyOpenNoWindowsAtStartup]);
+                                            ![self boolForKey:kPreferenceKeyOpenNoWindowsAtStartup]);
     const BOOL systemRestorationEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:@"NSQuitAlwaysKeepsWindows"];
     _warningButton.hidden = (!useSystemWindowRestoration || systemRestorationEnabled);
 }
@@ -572,13 +579,13 @@ enum {
 
 - (IBAction)warning:(id)sender {
     const iTermWarningSelection selection =
-    [iTermWarning showWarningWithTitle:@"System window restoration has been disabled, which prevents iTerm2 from respecting this setting. Disable System Preferences > General > Close windows when quitting an app to enable window restoration."
-                               actions:@[ @"Open System Preferences", @"OK" ]
-                             accessory:nil
-                            identifier:@"NoSyncWindowRestorationDisabled"
-                           silenceable:kiTermWarningTypePersistent
-                               heading:@"Window Restoration Disabled"
-                                window:self.view.window];
+        [iTermWarning showWarningWithTitle:@"System window restoration has been disabled, which prevents iTerm2 from respecting this setting. Disable System Preferences > General > Close windows when quitting an app to enable window restoration."
+                      actions:@[ @"Open System Preferences", @"OK" ]
+                      accessory:nil
+                      identifier:@"NoSyncWindowRestorationDisabled"
+                      silenceable:kiTermWarningTypePersistent
+                      heading:@"Window Restoration Disabled"
+                      window:self.view.window];
     if (selection == kiTermWarningSelection0) {
         [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:@"/System/Library/PreferencePanes/Appearance.prefPane"]];
     }
@@ -594,7 +601,7 @@ enum {
 
 - (IBAction)advancedGPU:(NSView *)sender {
     [self.view.window beginSheet:_advancedGPUWindowController.window completionHandler:^(NSModalResponse returnCode) {
-    }];
+                     }];
 }
 
 - (IBAction)pythonAPIAuthHelp:(id)sender {

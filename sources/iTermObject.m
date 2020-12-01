@@ -20,10 +20,10 @@ NSError *iTermMethodCallError(iTermAPIHelperErrorCode code,
     NSString *reason = [[NSString alloc] initWithFormat:format arguments:args];
     va_end(args);
 
-    NSDictionary *userInfo = @{ NSLocalizedFailureReasonErrorKey: reason };
+    NSDictionary *userInfo = @ { NSLocalizedFailureReasonErrorKey: reason };
     NSError *error = [NSError errorWithDomain:iTermAPIHelperErrorDomain
-                                         code:code
-                                     userInfo:userInfo];
+                              code:code
+                              userInfo:userInfo];
     return error;
 }
 
@@ -61,6 +61,6 @@ void iTermCallMethodOnObject(id<iTermObject> object,
         return;
     }
 
-    [method callWithArguments:args completion:completion ?: ^(id result, NSError *error){}];
+    [method callWithArguments:args completion:completion ?: ^(id result, NSError *error) {}];
 }
 

@@ -18,10 +18,10 @@
 }
 
 - (instancetype)initWithCapacity:(int)capacity
-                         command:(NSString *)command
-                       arguments:(NSArray<NSString *> *)arguments
-                workingDirectory:(NSString *)workingDirectory
-                     environment:(NSDictionary<NSString *, NSString *> *)environment {
+    command:(NSString *)command
+    arguments:(NSArray<NSString *> *)arguments
+    workingDirectory:(NSString *)workingDirectory
+    environment:(NSDictionary<NSString *, NSString *> *)environment {
     self = [super init];
     if (self) {
         _capacity = capacity;
@@ -38,7 +38,7 @@
 
 - (NSString *)stateDump {
     return [NSString stringWithFormat:@"Idle:\n%@\n\nTerminating:\n%@\n\nBusy:\n%@\n",
-            [self dumpArray:_idle], [self dumpArray:_terminating], [self dumpArray:_busy]];
+                     [self dumpArray:_idle], [self dumpArray:_terminating], [self dumpArray:_busy]];
 }
 
 - (NSString *)dumpArray:(NSArray<iTermCommandRunner *> *)array {
@@ -61,7 +61,7 @@
         return nil;
     }
     iTermCommandRunner *commandRunner = [_idle lastObject];
-    
+
     __weak __typeof(commandRunner) weakCommandRunner = commandRunner;
     __weak __typeof(self) weakSelf = self;
     commandRunner.completion = ^(int code) {
@@ -97,8 +97,8 @@
 - (void)createNewCommandRunner {
     DLog(@"Creating a new command runner");
     iTermCommandRunner *commandRunner = [[iTermCommandRunner alloc] initWithCommand:_command
-                                                                      withArguments:_arguments
-                                                                               path:_workingDirectory];
+                                                                    withArguments:_arguments
+                                                                    path:_workingDirectory];
     if (!commandRunner) {
         return;
     }

@@ -86,7 +86,7 @@ typedef NS_ENUM(NSInteger, PreferenceInfoType) {
 @property(nonatomic, copy) void (^syntheticSetter)(id newValue);
 
 + (instancetype)infoForPreferenceWithKey:(NSString *)key
-                                    type:(PreferenceInfoType)type
-                                 control:(NSControl *)control;
+    type:(PreferenceInfoType)type
+    control:(NSControl *)control;
 
 @end

@@ -21,6 +21,6 @@
 + (instancetype)commandHistoryCommandUseInContext:(NSManagedObjectContext *)context;
 + (NSString *)entityName;
 + (instancetype)commandHistoryCommandUseFromDeprecatedSerialization:(id)serializedValue
-                                                          inContext:(NSManagedObjectContext *)context;
+    inContext:(NSManagedObjectContext *)context;
 
 @end

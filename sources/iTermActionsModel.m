@@ -15,8 +15,8 @@
 @implementation iTermAction
 
 - (instancetype)initWithTitle:(NSString *)title
-                       action:(KEY_ACTION)action
-                    parameter:(NSString *)parameter {
+    action:(KEY_ACTION)action
+    parameter:(NSString *)parameter {
     self = [super init];
     if (self) {
         _action = action;
@@ -30,14 +30,17 @@
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     return [self initWithTitle:dictionary[@"title"] ?: @""
-                        action:[dictionary[@"action"] intValue]
-                     parameter:dictionary[@"parameter"] ?: @""];
+                 action:[dictionary[@"action"] intValue]
+                 parameter:dictionary[@"parameter"] ?: @""];
 }
 
 - (NSDictionary *)dictionaryValue {
-    return @{ @"action": @(_action),
-              @"title": _title ?: @"",
-              @"parameter": _parameter ?: @"" };
+    return @ { @"action":
+               @(_action),
+               @"title":
+               _title ?: @"",
+               @"parameter": _parameter ?: @""
+             };
 }
 
 - (BOOL)isEqual:(id)object {
@@ -64,7 +67,7 @@
 + (instancetype)sharedInstance {
     static id instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -74,8 +77,8 @@
     self = [super init];
     if (self) {
         _actions = [[[NSArray castFrom:[[NSUserDefaults standardUserDefaults] objectForKey:kPreferenceKeyActions]] mapWithBlock:^id(id anObject) {
-            NSDictionary *dict = [NSDictionary castFrom:anObject];
-            if (!dict) {
+                                                                      NSDictionary *dict = [NSDictionary castFrom:anObject];
+                                                                      if (!dict) {
                 return nil;
             }
             return [[iTermAction alloc] initWithDictionary:dict];
@@ -109,8 +112,8 @@
 
 - (NSInteger)indexOfActionWithIdentifier:(NSInteger)identifier {
     return [_actions indexOfObjectPassingTest:^BOOL(iTermAction * _Nonnull action, NSUInteger idx, BOOL * _Nonnull stop) {
-        return action.identifier == identifier;
-    }];
+                 return action.identifier == identifier;
+             }];
 }
 
 - (iTermAction *)actionWithIdentifier:(NSInteger)identifier {
@@ -122,10 +125,10 @@
 }
 
 - (void)moveActionsWithIdentifiers:(NSArray<NSNumber *> *)identifiers
-                           toIndex:(NSInteger)row {
+    toIndex:(NSInteger)row {
     NSArray<iTermAction *> *actions = [_actions filteredArrayUsingBlock:^BOOL(iTermAction *action) {
-        return [identifiers containsObject:@(action.identifier)];
-    }];
+                 return [identifiers containsObject:@(action.identifier)];
+             }];
     NSInteger countBeforeRow = [[actions filteredArrayUsingBlock:^BOOL(iTermAction *action) {
         return [self indexOfActionWithIdentifier:action.identifier] < row;
     }] count];
@@ -144,7 +147,7 @@
     _actions = updatedActions;
     [self save];
     [[iTermActionsDidChangeNotification moveNotificationWithRemovals:removals
-                                                    destinationIndex:row - countBeforeRow] post];
+      destinationIndex:row - countBeforeRow] post];
 }
 
 - (void)setActions:(NSArray<iTermAction *> *)actions {
@@ -157,13 +160,13 @@
 
 - (void)save {
     [[NSUserDefaults standardUserDefaults] setObject:[self arrayOfDictionaries]
-                                              forKey:kPreferenceKeyActions];
+                                           forKey:kPreferenceKeyActions];
 }
 
 - (NSArray<NSDictionary *> *)arrayOfDictionaries {
     return [_actions mapWithBlock:^id(iTermAction *action) {
-        return action.dictionaryValue;
-    }];
+                 return action.dictionaryValue;
+             }];
 }
 
 @end
@@ -178,7 +181,7 @@
 }
 
 + (instancetype)moveNotificationWithRemovals:(NSIndexSet *)removals
-                            destinationIndex:(NSInteger)destinationIndex {
+    destinationIndex:(NSInteger)destinationIndex {
     iTermActionsDidChangeNotification *notif = [[self alloc] initPrivate];
     notif->_mutationType = iTermActionsDidChangeMutationTypeMove;
     notif->_indexSet = removals;
@@ -200,7 +203,7 @@
 }
 
 + (void)subscribe:(NSObject *)owner
-            block:(void (^)(iTermActionsDidChangeNotification * _Nonnull notification))block {
+    block:(void (^)(iTermActionsDidChangeNotification * _Nonnull notification))block {
     [self internalSubscribe:owner withBlock:block];
 }
 

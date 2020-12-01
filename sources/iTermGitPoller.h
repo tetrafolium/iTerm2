@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) id<iTermGitPollerDelegate> delegate;
 
 - (instancetype)initWithCadence:(NSTimeInterval)cadence
-                         update:(void (^)(void))update NS_DESIGNATED_INITIALIZER;
+    update:(void (^)(void))update NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 

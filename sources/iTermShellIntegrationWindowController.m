@@ -18,16 +18,16 @@
 
 NSString *iTermShellIntegrationShellString(iTermShellIntegrationShell shell) {
     switch (shell) {
-        case iTermShellIntegrationShellZsh:
-            return @"zsh";
-        case iTermShellIntegrationShellTcsh:
-            return @"tcsh";
-        case iTermShellIntegrationShellBash:
-            return @"bash";
-        case iTermShellIntegrationShellFish:
-            return @"fish";
-        case iTermShellIntegrationShellUnknown:
-            return @"an unsupported shell";
+    case iTermShellIntegrationShellZsh:
+        return @"zsh";
+    case iTermShellIntegrationShellTcsh:
+        return @"tcsh";
+    case iTermShellIntegrationShellBash:
+        return @"bash";
+    case iTermShellIntegrationShellFish:
+        return @"fish";
+    case iTermShellIntegrationShellUnknown:
+        return @"an unsupported shell";
     }
 }
 
@@ -68,7 +68,7 @@ typedef NS_ENUM(NSUInteger, iTermShellIntegrationInstallationState) {
 
 - (void)windowDidLoad {
     [super windowDidLoad];
-    
+
     _pendingExpectations = [NSMutableArray array];
     NSPanel *panel = (NSPanel *)self.window;
     panel.movableByWindowBackground = YES;
@@ -83,46 +83,46 @@ typedef NS_ENUM(NSUInteger, iTermShellIntegrationInstallationState) {
 
 - (iTermShellIntegrationInstallationState)nextState {
     switch (self.state) {
-        case iTermShellIntegrationInstallationStateFirstPage:
-            return iTermShellIntegrationInstallationStateSecondPage;
-        case iTermShellIntegrationInstallationStateSecondPage:
-            assert(NO);
-        case iTermShellIntegrationInstallationStateDownloadAndRunConfirm:
-        case iTermShellIntegrationInstallationStateSendShellCommandsConfirm:
-            return iTermShellIntegrationInstallationStateConfirmation;
+    case iTermShellIntegrationInstallationStateFirstPage:
+        return iTermShellIntegrationInstallationStateSecondPage;
+    case iTermShellIntegrationInstallationStateSecondPage:
+        assert(NO);
+    case iTermShellIntegrationInstallationStateDownloadAndRunConfirm:
+    case iTermShellIntegrationInstallationStateSendShellCommandsConfirm:
+        return iTermShellIntegrationInstallationStateConfirmation;
 
-        case iTermShellIntegrationInstallationStateConfirmation:
-            assert(NO);
+    case iTermShellIntegrationInstallationStateConfirmation:
+        assert(NO);
     }
 }
 
 - (iTermShellIntegrationInstallationState)previousState {
     switch (self.state) {
-        case iTermShellIntegrationInstallationStateFirstPage:
-            assert(NO);
-        case iTermShellIntegrationInstallationStateSecondPage:
-            return iTermShellIntegrationInstallationStateFirstPage;
-        case iTermShellIntegrationInstallationStateDownloadAndRunConfirm:
-            return iTermShellIntegrationInstallationStateSecondPage;
-        case iTermShellIntegrationInstallationStateSendShellCommandsConfirm:
-            return iTermShellIntegrationInstallationStateSecondPage;
-        case iTermShellIntegrationInstallationStateConfirmation:
-            assert(NO);
+    case iTermShellIntegrationInstallationStateFirstPage:
+        assert(NO);
+    case iTermShellIntegrationInstallationStateSecondPage:
+        return iTermShellIntegrationInstallationStateFirstPage;
+    case iTermShellIntegrationInstallationStateDownloadAndRunConfirm:
+        return iTermShellIntegrationInstallationStateSecondPage;
+    case iTermShellIntegrationInstallationStateSendShellCommandsConfirm:
+        return iTermShellIntegrationInstallationStateSecondPage;
+    case iTermShellIntegrationInstallationStateConfirmation:
+        assert(NO);
     }
 }
 
 - (NSViewController<iTermShellIntegrationInstallerViewController> *)viewControllerForState:(iTermShellIntegrationInstallationState)state {
     switch (state) {
-        case iTermShellIntegrationInstallationStateFirstPage:
-            return self.firstPageViewController;
-        case iTermShellIntegrationInstallationStateSecondPage:
-            return self.secondPageViewController;
-        case iTermShellIntegrationInstallationStateDownloadAndRunConfirm:
-            return self.downloadAndRunViewController;
-        case iTermShellIntegrationInstallationStateSendShellCommandsConfirm:
-            return self.sendShellCommandsViewController;
-        case iTermShellIntegrationInstallationStateConfirmation:
-            return self.finishedViewController;
+    case iTermShellIntegrationInstallationStateFirstPage:
+        return self.firstPageViewController;
+    case iTermShellIntegrationInstallationStateSecondPage:
+        return self.secondPageViewController;
+    case iTermShellIntegrationInstallationStateDownloadAndRunConfirm:
+        return self.downloadAndRunViewController;
+    case iTermShellIntegrationInstallationStateSendShellCommandsConfirm:
+        return self.sendShellCommandsViewController;
+    case iTermShellIntegrationInstallationStateConfirmation:
+        return self.finishedViewController;
     }
     assert(NO);
     return nil;
@@ -168,35 +168,35 @@ typedef NS_ENUM(NSUInteger, iTermShellIntegrationInstallationState) {
 #pragma mark - Expectations
 
 - (NSString *)sendText:(NSString *)text
-            reallySend:(BOOL)reallySend
-            afterRegex:(NSString *)regex
-           expectation:(inout iTermExpectation **)expectation {
+    reallySend:(BOOL)reallySend
+    afterRegex:(NSString *)regex
+    expectation:(inout iTermExpectation **)expectation {
     return [self sendText:text
-               reallySend:reallySend
-               afterRegex:regex
-              expectation:expectation
-               completion:nil];
+                 reallySend:reallySend
+                 afterRegex:regex
+                 expectation:expectation
+                 completion:nil];
 }
 
 - (NSString *)sendText:(NSString *)text
-            reallySend:(BOOL)reallySend
-            afterRegex:(NSString *)regex
-           expectation:(inout iTermExpectation **)expectation
-            completion:(void (^)(NSArray<NSString *> *))completion {
+    reallySend:(BOOL)reallySend
+    afterRegex:(NSString *)regex
+    expectation:(inout iTermExpectation **)expectation
+    completion:(void (^)(NSArray<NSString *> *))completion {
     if (!reallySend) {
         return text;
     }
-    
+
     __weak __typeof(self) weakSelf = self;
     iTermExpectation *newExpectation =
-    [self expectRegularExpression:regex
-                            after:(*expectation).lastExpectation
-                       willExpect:^{
-        if (text) {
-            [weakSelf.delegate shellIntegrationWindowControllerSendText:text];
-        }
-    }
-                       completion:completion];
+        [self expectRegularExpression:regex
+              after:(*expectation).lastExpectation
+         willExpect:^ {
+             if (text) {
+                 [weakSelf.delegate shellIntegrationWindowControllerSendText:text];
+             }
+         }
+         completion:completion];
     if (!*expectation) {
         *expectation = newExpectation;
     }
@@ -204,24 +204,24 @@ typedef NS_ENUM(NSUInteger, iTermShellIntegrationInstallationState) {
 }
 
 - (iTermExpectation *)expectRegularExpression:(NSString *)regex
-                                   completion:(void (^)(NSArray<NSString *> * _Nonnull))completion {
+    completion:(void (^)(NSArray<NSString *> * _Nonnull))completion {
     return [self expectRegularExpression:regex after:nil willExpect:nil completion:completion];
 }
 
 - (iTermExpectation *)expectRegularExpression:(NSString *)regex
-                                        after:(iTermExpectation *)precedecessor
-                                   willExpect:(void (^)(void))willExpect
-                                   completion:(void (^)(NSArray<NSString *> * _Nonnull))completion {
+    after:(iTermExpectation *)precedecessor
+    willExpect:(void (^)(void))willExpect
+    completion:(void (^)(NSArray<NSString *> * _Nonnull))completion {
     __weak __typeof(self) weakSelf = self;
     __block BOOL removed = NO;
     [self.currentViewController setBusy:YES];
     __block iTermExpectation *expectation =
-    [[self.delegate shellIntegrationExpect] expectRegularExpression:regex
-                                                              after:precedecessor
-                                                         willExpect:willExpect
-                                                         completion:^(NSArray<NSString *> * _Nonnull captureGroups) {
-        if (expectation) {
-            removed = YES;
+        [[self.delegate shellIntegrationExpect] expectRegularExpression:regex
+                                                after:precedecessor
+                                                willExpect:willExpect
+                                           completion:^(NSArray<NSString *> * _Nonnull captureGroups) {
+                                               if (expectation) {
+                                                   removed = YES;
             [weakSelf removeExpectation:expectation];
         }
         if (completion) {
@@ -243,8 +243,8 @@ typedef NS_ENUM(NSUInteger, iTermShellIntegrationInstallationState) {
 
 - (void)cancelAllExpectations {
     [_pendingExpectations enumerateObjectsUsingBlock:^(iTermExpectation * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [[self.delegate shellIntegrationExpect] cancelExpectation:obj];
-    }];
+                             [[self.delegate shellIntegrationExpect] cancelExpectation:obj];
+                         }];
     [_pendingExpectations removeAllObjects];
     [self.currentViewController setBusy:NO];
 }
@@ -268,7 +268,7 @@ typedef NS_ENUM(NSUInteger, iTermShellIntegrationInstallationState) {
 
 - (NSString *)shellIntegrationPath {
     return [NSString stringWithFormat:@"%@/.iterm2_shell_integration.%@",
-            self.dotdir, iTermShellIntegrationShellString(self.shell)];
+                     self.dotdir, iTermShellIntegrationShellString(self.shell)];
 }
 
 - (NSString *)scriptForCurrentShell {
@@ -281,7 +281,7 @@ typedef NS_ENUM(NSUInteger, iTermShellIntegrationInstallationState) {
     if (!self.installUtilities) {
         return string;
     }
-    
+
     // Add aliases
     url = [[NSBundle bundleForClass:self.class] URLForResource:@"utilities-manifest" withExtension:@"txt"];
     NSString *names = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
@@ -289,15 +289,15 @@ typedef NS_ENUM(NSUInteger, iTermShellIntegrationInstallationState) {
     assert(names);
     NSArray<NSString *> *commands = [names componentsSeparatedByString:@" "];
     NSArray<NSString *> *aliasCommands = [commands mapWithBlock:^id(NSString *command) {
-        switch (self.shell) {
-            case iTermShellIntegrationShellZsh:
-            case iTermShellIntegrationShellBash:
-            case iTermShellIntegrationShellFish:
-                return [NSString stringWithFormat:@"alias %@=%@/.iterm2/%@", command, self.dotdir, command];
-            case iTermShellIntegrationShellTcsh:
-                return [NSString stringWithFormat:@"alias %@ %@/.iterm2/%@", command, self.dotdir, command];
-            case iTermShellIntegrationShellUnknown:
-                return nil;
+                 switch (self.shell) {
+         case iTermShellIntegrationShellZsh:
+         case iTermShellIntegrationShellBash:
+         case iTermShellIntegrationShellFish:
+                     return [NSString stringWithFormat:@"alias %@=%@/.iterm2/%@", command, self.dotdir, command];
+                 case iTermShellIntegrationShellTcsh:
+            return [NSString stringWithFormat:@"alias %@ %@/.iterm2/%@", command, self.dotdir, command];
+        case iTermShellIntegrationShellUnknown:
+            return nil;
         }
     }];
     NSString *alias = [aliasCommands componentsJoinedByString:@";"];
@@ -314,22 +314,22 @@ typedef NS_ENUM(NSUInteger, iTermShellIntegrationInstallationState) {
     NSString *shell_or = @"||";
     NSString *quote = @"";
     switch (self.shell) {
-        case iTermShellIntegrationShellTcsh:
-        case iTermShellIntegrationShellZsh:
-        case iTermShellIntegrationShellBash:
-            break;
-        case iTermShellIntegrationShellFish:
-            shell_and=@"; and";
-            shell_or=@"; or";
-            break;
-        case iTermShellIntegrationShellUnknown:
-            assert(NO);
-        }
+    case iTermShellIntegrationShellTcsh:
+    case iTermShellIntegrationShellZsh:
+    case iTermShellIntegrationShellBash:
+        break;
+    case iTermShellIntegrationShellFish:
+        shell_and=@"; and";
+        shell_or=@"; or";
+        break;
+    case iTermShellIntegrationShellUnknown:
+        assert(NO);
+    }
     NSString *relative_filename = [NSString stringWithFormat:@"%@/.iterm2_shell_integration.%@",
-                                   self.dotdir, iTermShellIntegrationShellString(self.shell)];
-    
+                                            self.dotdir, iTermShellIntegrationShellString(self.shell)];
+
     return [NSString stringWithFormat:@"test -e %@%@%@ %@ source %@%@%@ %@ true\n",
-            quote, relative_filename, quote, shell_and, quote, relative_filename, quote, shell_or];
+                     quote, relative_filename, quote, shell_and, quote, relative_filename, quote, shell_or];
 }
 
 #pragma mark - AppKit Helpers
@@ -347,25 +347,25 @@ typedef NS_ENUM(NSUInteger, iTermShellIntegrationInstallationState) {
     NSString *result = [self sendText:@"echo My shell is $SHELL\n" reallySend:reallySend];
     if (!reallySend) {
         result = [result stringByAppendingString:
-                  @"# If the result is zsh, send:\n"
-                  @"echo My dotfiles go in ${ZDOTDIR:-$HOME}"];
+                         @"# If the result is zsh, send:\n"
+                         @"echo My dotfiles go in ${ZDOTDIR:-$HOME}"];
     }
     [self sendText:nil
-        reallySend:reallySend
-        afterRegex:@"^My shell is (.+)"
-       expectation:&expectation
-        completion:^(NSArray<NSString *> *captures) {
-        NSString *shell = [captures[1] lastPathComponent];
+          reallySend:reallySend
+          afterRegex:@"^My shell is (.+)"
+          expectation:&expectation
+         completion:^(NSArray<NSString *> *captures) {
+             NSString *shell = [captures[1] lastPathComponent];
         if ([shell isEqualToString:@"zsh"]) {
             [self sendText:@"echo My dotfiles go in ${ZDOTDIR:-$HOME}\n" reallySend:reallySend];
             iTermExpectation *expectation = nil;
             [self sendText:nil
-                reallySend:reallySend
-                afterRegex:@"^My dotfiles go in (.*)"
-               expectation:&expectation
-                completion:^(NSArray<NSString *> *dotdirCaptures) {
-                completion(shell, dotdirCaptures[1]);
-            }];
+                  reallySend:reallySend
+                  afterRegex:@"^My dotfiles go in (.*)"
+                  expectation:&expectation
+                 completion:^(NSArray<NSString *> *dotdirCaptures) {
+                     completion(shell, dotdirCaptures[1]);
+                 }];
         } else if ([shell isEqualToString:@"fish"]) {
             completion(shell, @"$HOME");
         } else {
@@ -376,69 +376,69 @@ typedef NS_ENUM(NSUInteger, iTermShellIntegrationInstallationState) {
 }
 
 - (NSString *)amendDotFileWithExpectation:(inout iTermExpectation **)expectation
-                               completion:(void (^)(void))completion {
+    completion:(void (^)(void))completion {
     const BOOL reallySend = (completion != nil);
     NSMutableArray<NSString *> *strings = [NSMutableArray array];
     NSArray<NSString *> *parts = [[[self launchBashString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] componentsSeparatedByString:@"\n"];
     parts = [parts mapWithBlock:^id(NSString *anObject) {
-        return [anObject stringByAppendingString:@"\n"];
-    }];
+              return [anObject stringByAppendingString:@"\n"];
+          }];
     [strings addObjectsFromArray:parts];
 
     NSString *script = nil;
     switch (self.shell) {
-        case iTermShellIntegrationShellTcsh:
-            script = @"~/.login";
-            break;
-        case iTermShellIntegrationShellZsh:
-            script = [self.dotdir stringByAppendingPathComponent:@".zshrc"];
-            break;
-        case iTermShellIntegrationShellBash: {
-            NSString *assignment = @"IT2_INSTALLER_DOTFILE=$(test -f ~/.bash_profile && echo -n ~/.bash_profile || echo -n ~/.profile)\n";
-            [strings addObject:assignment];
-            script = @"\"$IT2_INSTALLER_DOTFILE\"";
-            break;
-        }
-        case iTermShellIntegrationShellFish:
-            [strings addObject:@"mkdir -p ~/.config/fish\n"];
-            script = @"~/.config/fish/config.fish";
-            break;
-        case iTermShellIntegrationShellUnknown:
-            assert(NO);
+    case iTermShellIntegrationShellTcsh:
+        script = @"~/.login";
+        break;
+    case iTermShellIntegrationShellZsh:
+        script = [self.dotdir stringByAppendingPathComponent:@".zshrc"];
+        break;
+    case iTermShellIntegrationShellBash: {
+        NSString *assignment = @"IT2_INSTALLER_DOTFILE=$(test -f ~/.bash_profile && echo -n ~/.bash_profile || echo -n ~/.profile)\n";
+        [strings addObject:assignment];
+        script = @"\"$IT2_INSTALLER_DOTFILE\"";
+        break;
+    }
+    case iTermShellIntegrationShellFish:
+        [strings addObject:@"mkdir -p ~/.config/fish\n"];
+        script = @"~/.config/fish/config.fish";
+        break;
+    case iTermShellIntegrationShellUnknown:
+        assert(NO);
     }
     [self sendText:[strings componentsJoinedByString:@""] reallySend:reallySend];
     NSString *joined = [strings componentsJoinedByString:@""];
     [strings removeAllObjects];
-    
+
     [strings addObject:[self sendText:[NSString stringWithFormat:@"if ! grep iterm2_shell_integration %@  > /dev/null 2>&1; then\n", script]
-                           reallySend:reallySend
-                           afterRegex:@"^>> "
-                          expectation:expectation]];
+                        reallySend:reallySend
+                        afterRegex:@"^>> "
+                        expectation:expectation]];
     [strings addObject:[self sendText:[NSString stringWithFormat:@"    cat <<-EOF >> %@\n", script]
-                           reallySend:reallySend
-                           afterRegex:@"^> "
-                          expectation:expectation]];
+                        reallySend:reallySend
+                        afterRegex:@"^> "
+                        expectation:expectation]];
     [strings addObject:[self sendText:[self dotfileCommandWithBashDotfile:@"$IT2_INSTALLER_DOTFILE"]
-                           reallySend:reallySend
-                           afterRegex:@"^> "
-                          expectation:expectation]];
+                        reallySend:reallySend
+                        afterRegex:@"^> "
+                        expectation:expectation]];
     [strings addObject:[self sendText:@"EOF\n"
-                           reallySend:reallySend
-                           afterRegex:@"^> "
-                          expectation:expectation]];
+                        reallySend:reallySend
+                        afterRegex:@"^> "
+                        expectation:expectation]];
     [strings addObject:[self sendText:@"fi\n"
-                           reallySend:reallySend
-                           afterRegex:@"^>> "
-                          expectation:expectation]];
+                        reallySend:reallySend
+                        afterRegex:@"^>> "
+                        expectation:expectation]];
     [strings addObject:[self sendText:self.exitBashString
-                           reallySend:reallySend
-                           afterRegex:@"^>> "
-                          expectation:expectation
-                           completion:^(NSArray<NSString *> *captures) {
-        if (completion) {
-            completion();
-        }
-    }]];
+                        reallySend:reallySend
+                        afterRegex:@"^>> "
+                        expectation:expectation
+            completion:^(NSArray<NSString *> *captures) {
+                if (completion) {
+                    completion();
+                }
+            }]];
     joined = [joined stringByAppendingString:[strings componentsJoinedByString:@""]];
     return joined;
 }
@@ -452,40 +452,40 @@ typedef NS_ENUM(NSUInteger, iTermShellIntegrationInstallationState) {
 }
 
 - (NSString *)switchToBash:(BOOL)reallySend
-               expectation:(inout iTermExpectation **)expectation {
+    expectation:(inout iTermExpectation **)expectation {
     return [self sendText:self.launchBashString
-               reallySend:reallySend
-               afterRegex:@"."
-              expectation:expectation];
+                 reallySend:reallySend
+                 afterRegex:@"."
+                 expectation:expectation];
 }
 
 - (NSString *)catString:(NSString *)string
-                     to:(NSString *)path
-             reallySend:(BOOL)reallySend
-            expectation:(out iTermExpectation **)expectation {
+    to:(NSString *)path
+    reallySend:(BOOL)reallySend
+    expectation:(out iTermExpectation **)expectation {
     NSMutableString *result = [NSMutableString string];
     [result appendString:[self switchToBash:reallySend expectation:expectation]];
     [result appendString:[self sendText:[NSString stringWithFormat:@"cat <<'EOF' > %@\n", path]
-                             reallySend:reallySend
-                             afterRegex:@"."
-                            expectation:expectation]];
-    [result appendString:[self sendText:string
-                             reallySend:reallySend
-                             afterRegex:@"^> "
-                            expectation:expectation]];
-    [result appendString:[self sendText:@"\nEOF\n"
-                             reallySend:reallySend
+                          reallySend:reallySend
                           afterRegex:@"."
-                            expectation:expectation]];
+                          expectation:expectation]];
+    [result appendString:[self sendText:string
+                          reallySend:reallySend
+                          afterRegex:@"^> "
+                          expectation:expectation]];
+    [result appendString:[self sendText:@"\nEOF\n"
+                          reallySend:reallySend
+                          afterRegex:@"."
+                          expectation:expectation]];
     [result appendString:[self sendText:self.exitBashString
-                             reallySend:reallySend
+                          reallySend:reallySend
                           afterRegex:@"> EOF"
-                            expectation:expectation]];
+                          expectation:expectation]];
     return result;
 }
 
 - (NSString *)catToScript:(BOOL)reallySend
-               completion:(void (^)(void))completion {
+    completion:(void (^)(void))completion {
     NSString *scriptForShell = [self scriptForCurrentShell];
     if (!scriptForShell) {
         return @"# Error: your shell could not be determined or is unsupported.";
@@ -494,22 +494,22 @@ typedef NS_ENUM(NSUInteger, iTermShellIntegrationInstallationState) {
     iTermExpectation *expectation = nil;
     [result appendString:[self switchToBash:reallySend expectation:&expectation]];
     [result appendString:[self catString:scriptForShell
-                                      to:[self shellIntegrationPath]
-                              reallySend:reallySend
-                             expectation:&expectation]];
+                          to:[self shellIntegrationPath]
+                          reallySend:reallySend
+                          expectation:&expectation]];
     [result appendString:[self sendText:[NSString stringWithFormat:@"chmod +x %@\n", [self shellIntegrationPath]]
-                             reallySend:reallySend
-                             afterRegex:@"^>> "
-                            expectation:&expectation]];
-    [result appendString:[self sendText:self.exitBashString
-                             reallySend:reallySend
+                          reallySend:reallySend
                           afterRegex:@"^>> "
-                            expectation:&expectation
-                             completion:^(NSArray<NSString *> *captures) {
-        if (completion) {
-            completion();
-        }
-    }]];
+                          expectation:&expectation]];
+    [result appendString:[self sendText:self.exitBashString
+                          reallySend:reallySend
+                          afterRegex:@"^>> "
+                          expectation:&expectation
+           completion:^(NSArray<NSString *> *captures) {
+               if (completion) {
+                   completion();
+               }
+           }]];
     return result;
 }
 
@@ -521,23 +521,23 @@ typedef NS_ENUM(NSUInteger, iTermShellIntegrationInstallationState) {
 }
 
 - (NSString *)catToUtilities:(BOOL)reallySend
-                 expectation:(out iTermExpectation **)expectation
-                  completion:(void (^)(void))completion {
+    expectation:(out iTermExpectation **)expectation
+    completion:(void (^)(void))completion {
     NSMutableString *result = [NSMutableString string];
     NSString *folder = [self.dotdir stringByAppendingPathComponent:@".iterm2"];
     [result appendString:[self switchToBash:reallySend expectation:expectation]];
     [result appendString:[self sendText:[NSString stringWithFormat:@"mkdir %@; echo ok\n", folder]
-                             reallySend:reallySend
-                             afterRegex:@"."
-                            expectation:expectation]];
+                          reallySend:reallySend
+                          afterRegex:@"."
+                          expectation:expectation]];
     [result appendString:[self sendText:[NSString stringWithFormat:@"cd %@; echo ok\n", folder]
-                             reallySend:reallySend
-                             afterRegex:@"^ok$"
-                            expectation:expectation]];
+                          reallySend:reallySend
+                          afterRegex:@"^ok$"
+                          expectation:expectation]];
     [result appendString:[self sendText:@"base64 --decode <<'EOF'| tar xfz -\n"
-                             reallySend:reallySend
-                             afterRegex:@"^ok$"
-                            expectation:expectation]];
+                          reallySend:reallySend
+                          afterRegex:@"^ok$"
+                          expectation:expectation]];
     NSURL *url = [[NSBundle bundleForClass:self.class] URLForResource:@"utilities" withExtension:@"tgz"];
     if (!url) {
         completion();
@@ -546,20 +546,20 @@ typedef NS_ENUM(NSUInteger, iTermShellIntegrationInstallationState) {
     NSData *data = [NSData dataWithContentsOfURL:url];
     NSString *encoded = [data base64EncodedStringWithOptions:(NSDataBase64Encoding76CharacterLineLength | NSDataBase64EncodingEndLineWithLineFeed)];
     [result appendString:[self sendText:encoded
-                             reallySend:reallySend
-                             afterRegex:@"^> "
-                            expectation:expectation]];
+                          reallySend:reallySend
+                          afterRegex:@"^> "
+                          expectation:expectation]];
     [result appendString:[self sendText:@"\nEOF\n"
-                             reallySend:reallySend
-                             afterRegex:@"."
-                            expectation:expectation]];
+                          reallySend:reallySend
+                          afterRegex:@"."
+                          expectation:expectation]];
     [result appendString:[self sendText:self.exitBashString
-                             reallySend:reallySend
+                          reallySend:reallySend
                           afterRegex:@"> EOF"
-                            expectation:expectation
-                             completion:^(NSArray<NSString *> *captures) {
-        completion();
-    }]];
+                          expectation:expectation
+           completion:^(NSArray<NSString *> *captures) {
+               completion();
+           }]];
     return result;
 }
 
@@ -568,15 +568,20 @@ typedef NS_ENUM(NSUInteger, iTermShellIntegrationInstallationState) {
 - (NSString *)discoverShell:(BOOL)reallySend {
     __weak __typeof(self) weakSelf = self;
     return [self discoverShell:reallySend completion:^(NSString *shell, NSString *dotdir) {
-        [weakSelf didDiscoverShell:shell dotdir:dotdir];
-    }];
+             [weakSelf didDiscoverShell:shell dotdir:dotdir];
+         }];
 }
 
 - (void)didDiscoverShell:(NSString *)shell dotdir:(NSString *)dotdir {
-    NSDictionary<NSString *, NSNumber *> *map = @{ @"tcsh": @(iTermShellIntegrationShellTcsh),
-                                                   @"bash": @(iTermShellIntegrationShellBash),
-                                                   @"zsh": @(iTermShellIntegrationShellZsh),
-                                                   @"fish": @(iTermShellIntegrationShellFish) };
+    NSDictionary<NSString *, NSNumber *> *map = @ { @"tcsh":
+            @(iTermShellIntegrationShellTcsh),
+            @"bash":
+            @(iTermShellIntegrationShellBash),
+            @"zsh":
+            @(iTermShellIntegrationShellZsh),
+            @"fish":
+            @(iTermShellIntegrationShellFish)
+                                                  };
     NSNumber *number = map[shell ?: @""];
     self.dotdir = dotdir;
     if (number) {
@@ -589,11 +594,11 @@ typedef NS_ENUM(NSUInteger, iTermShellIntegrationInstallationState) {
 
 - (NSString *)addScriptFiles:(BOOL)reallySend {
     __weak __typeof(self) weakSelf = self;
-    NSString *result = [self catToScript:reallySend completion:^{
-        if (reallySend) {
-            weakSelf.sendShellCommandsViewController.stage = 2;
-        }
-    }];
+    NSString *result = [self catToScript:reallySend completion:^ {
+             if (reallySend) {
+                 weakSelf.sendShellCommandsViewController.stage = 2;
+             }
+         }];
     return result;
 }
 
@@ -602,13 +607,13 @@ typedef NS_ENUM(NSUInteger, iTermShellIntegrationInstallationState) {
     iTermExpectation *expectation = nil;
     __weak __typeof(self) weakSelf = self;
     [result appendString:[self catToUtilities:reallySend
-                                  expectation:&expectation
-                                   completion:^{
-        if (reallySend) {
-            [weakSelf.sendShellCommandsViewController setBusy:NO];
-            weakSelf.sendShellCommandsViewController.stage = 3;
-        }
-    }]];
+                          expectation:&expectation
+           completion:^ {
+               if (reallySend) {
+                   [weakSelf.sendShellCommandsViewController setBusy:NO];
+                   weakSelf.sendShellCommandsViewController.stage = 3;
+               }
+           }]];
     if (reallySend) {
         [self.sendShellCommandsViewController setBusy:YES];
     }
@@ -616,13 +621,13 @@ typedef NS_ENUM(NSUInteger, iTermShellIntegrationInstallationState) {
 }
 
 - (NSString *)modifyStartupScriptsAndProceedTo:(int)nextStage
-                                    reallySend:(BOOL)reallySend {
-    void (^completion)(void) = ^{
+    reallySend:(BOOL)reallySend {
+    void (^completion)(void) = ^ {
         self.sendShellCommandsViewController.stage = nextStage;
     };
     iTermExpectation *expectation = nil;
     return [self amendDotFileWithExpectation:&expectation
-                                  completion:reallySend ? completion : nil];
+                 completion:reallySend ? completion : nil];
 }
 
 - (void)finishSendShellCommandsInstall {
@@ -641,10 +646,10 @@ typedef NS_ENUM(NSUInteger, iTermShellIntegrationInstallationState) {
     __weak __typeof(self) weakSelf = self;
 
     [self expectRegularExpression:@"(^Done.$)|(^Your shell, .*, is not supported yet)"
-                       completion:^(NSArray<NSString *> * _Nonnull captureGroups) {
-        if ([captureGroups[0] hasPrefix:@"Your shell"]) {
-            [self.downloadAndRunViewController showShellUnsupportedError];
-        } else {
+         completion:^(NSArray<NSString *> * _Nonnull captureGroups) {
+             if ([captureGroups[0] hasPrefix:@"Your shell"]) {
+                 [self.downloadAndRunViewController showShellUnsupportedError];
+             } else {
             [weakSelf next:nil];
         }
     }];
@@ -656,32 +661,32 @@ typedef NS_ENUM(NSUInteger, iTermShellIntegrationInstallationState) {
         self.state = iTermShellIntegrationInstallationStateSendShellCommandsConfirm;
     } else {
         switch (stage) {
-            case 0: {
-                [self discoverShell:YES];
-                break;
+        case 0: {
+            [self discoverShell:YES];
+            break;
+        }
+        case 1:
+            [self addScriptFiles:YES];
+            break;
+        case 2: {
+            if (self.installUtilities) {
+                [self installUtilityScripts:YES];
+            } else {
+                [self modifyStartupScriptsAndProceedTo:stage+1
+                      reallySend:YES];
             }
-            case 1:
-                [self addScriptFiles:YES];
-                break;
-            case 2: {
-                if (self.installUtilities) {
-                    [self installUtilityScripts:YES];
-                } else {
-                    [self modifyStartupScriptsAndProceedTo:stage+1
-                                                reallySend:YES];
-                }
-                break;
-            }
-            case 3:
-                if (self.installUtilities) {
-                    [self modifyStartupScriptsAndProceedTo:stage+1
-                                                reallySend:YES];
-                } else {
-                    [self finishSendShellCommandsInstall];
-                }
-                break;
-            case 4:
+            break;
+        }
+        case 3:
+            if (self.installUtilities) {
+                [self modifyStartupScriptsAndProceedTo:stage+1
+                      reallySend:YES];
+            } else {
                 [self finishSendShellCommandsInstall];
+            }
+            break;
+        case 4:
+            [self finishSendShellCommandsInstall];
         }
     }
 }
@@ -705,38 +710,38 @@ typedef NS_ENUM(NSUInteger, iTermShellIntegrationInstallationState) {
 - (NSString *)shellIntegrationInstallerNextCommandForSendShellCommands {
     const int stage = self.sendShellCommandsViewController.stage;
     switch (stage) {
-        case 0: {
-            return [self discoverShell:NO];
+    case 0: {
+        return [self discoverShell:NO];
+    }
+    case 1:
+        return [self addScriptFiles:NO];
+        break;
+    case 2: {
+        if (self.installUtilities) {
+            return [self installUtilityScripts:NO];
+        } else {
+            return [self modifyStartupScriptsAndProceedTo:stage+1
+                         reallySend:NO];
         }
-        case 1:
-            return [self addScriptFiles:NO];
-            break;
-        case 2: {
-            if (self.installUtilities) {
-                return [self installUtilityScripts:NO];
-            } else {
-                return [self modifyStartupScriptsAndProceedTo:stage+1
-                                                   reallySend:NO];
-            }
-            break;
-        }
-        case 3:
-            if (self.installUtilities) {
-                return [self modifyStartupScriptsAndProceedTo:stage+1
-                                                   reallySend:NO];
-            } else {
-                return nil;
-            }
-            break;
-        case 4:
+        break;
+    }
+    case 3:
+        if (self.installUtilities) {
+            return [self modifyStartupScriptsAndProceedTo:stage+1
+                         reallySend:NO];
+        } else {
             return nil;
+        }
+        break;
+    case 4:
+        return nil;
     }
     return nil;
 }
 
 - (void)shellIntegrationInstallerSkipStage {
     const int stage = self.sendShellCommandsViewController.stage;
-    
+
     const int lastStage = self.installUtilities ? 4 : 3;
     if (stage + 1 > lastStage) {
         return;

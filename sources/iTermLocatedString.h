@@ -29,11 +29,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSAttributedString *attributedString;
 
 - (void)appendString:(NSString *)string
-      withAttributes:(NSDictionary *)attributes
-                  at:(VT100GridCoord)coord;
+    withAttributes:(NSDictionary *)attributes
+    at:(VT100GridCoord)coord;
 
 - (void)appendAttributedString:(NSAttributedString *)attributedString
-                            at:(VT100GridCoord)coord;
+    at:(VT100GridCoord)coord;
 
 @end
 

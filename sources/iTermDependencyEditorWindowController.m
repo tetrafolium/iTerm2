@@ -40,7 +40,7 @@
 + (instancetype)sharedInstance {
     static id instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] initWithWindowNibName:@"iTermDependencyEditorWindowController"];
     });
     return instance;
@@ -76,17 +76,17 @@
 - (void)fetchVersionOfPackage:(NSString *)packageName completion:(void (^)(BOOL ok, NSString *result))completion {
     NSURL *container = [NSURL fileURLWithPath:_selectedScriptPath];
     [[iTermPythonRuntimeDownloader sharedInstance] runPip3InContainer:container
-                                                        pythonVersion:_pythonVersion
-                                                        withArguments:@[ @"show", packageName ]
-                                                           completion:^(BOOL ok, NSData *output) {
-                                                               if (!ok) {
-                                                                   completion(NO, [[NSString alloc] initWithData:output encoding:NSUTF8StringEncoding]);
-                                                                   return;
-                                                               } else {
-                                                                   NSString *version = [self versionInPipOutput:output];
-                                                                   completion(YES, version);
-                                                               }
-                                                           }];
+                                                   pythonVersion:_pythonVersion
+                                                   withArguments:@[ @"show", packageName ]
+                                                  completion:^(BOOL ok, NSData *output) {
+                                                      if (!ok) {
+                                                          completion(NO, [[NSString alloc] initWithData:output encoding:NSUTF8StringEncoding]);
+                                                          return;
+                                                      } else {
+            NSString *version = [self versionInPipOutput:output];
+            completion(YES, version);
+        }
+    }];
 }
 
 - (void)loadPackageAtIndex:(NSInteger)index {
@@ -98,18 +98,18 @@
     iTermTuple<NSString *, NSString *> *tuple = _packageTuples[index];
     __weak __typeof(self) weakSelf = self;
     [self fetchVersionOfPackage:tuple.firstObject completion:^(BOOL ok, NSString *result) {
-        const BOOL accepted = [weakSelf didFetchVersionOfPackageAtIndex:index originalTuple:tuple container:container ok:ok result:result];
-        if (accepted && completion) {
+             const BOOL accepted = [weakSelf didFetchVersionOfPackageAtIndex:index originalTuple:tuple container:container ok:ok result:result];
+             if (accepted && completion) {
             completion(ok, result);
         }
     }];
 }
 
 - (BOOL)didFetchVersionOfPackageAtIndex:(NSInteger)index
-                          originalTuple:(iTermTuple *)tuple
-                              container:(NSURL *)container
-                                     ok:(BOOL)ok
-                                 result:(NSString *)result {
+    originalTuple:(iTermTuple *)tuple
+    container:(NSURL *)container
+    ok:(BOOL)ok
+    result:(NSString *)result {
     if (index < 0 || index >= _packageTuples.count) {
         return NO;
     }
@@ -127,7 +127,7 @@
     }
     [self->_tableView beginUpdates];
     [self->_tableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:index]
-                                columnIndexes:[NSIndexSet indexSetWithIndex:1]];  // Index 1 is version
+                      columnIndexes:[NSIndexSet indexSetWithIndex:1]];  // Index 1 is version
     [self->_tableView endUpdates];
     return YES;
 }
@@ -137,8 +137,8 @@
     NSArray<NSString *> *lines = [string componentsSeparatedByString:@"\n"];
     NSString *const versionPrefix = @"Version: ";
     NSString *versionLine = [lines filteredArrayUsingBlock:^BOOL(NSString *aLine) {
-        return [aLine hasPrefix:versionPrefix];
-    }].firstObject;
+              return [aLine hasPrefix:versionPrefix];
+          }].firstObject;
     return [versionLine substringFromIndex:versionPrefix.length];
 }
 
@@ -164,8 +164,8 @@
     NSString *const env = [[_selectedScriptPath stringByAppendingPathComponent:@"iterm2env"] stringByAppendingPathComponent:@"versions"];
     _pythonVersion = selectedVersion ?: [iTermPythonRuntimeDownloader bestPythonVersionAt:env];
     NSArray<NSString *> *versions = [[[[iTermPythonRuntimeDownloader pythonVersionsAt:env] mapWithBlock:^id(NSString *version) {
-        return version.it_twoPartVersionNumber;
-    }] sortedArrayUsingSelector:@selector(compare:)] uniq];
+                                                              return version.it_twoPartVersionNumber;
+                                                          }] sortedArrayUsingSelector:@selector(compare:)] uniq];
     [_pythonVersionButton.menu removeAllItems];
     for (NSString *version in versions) {
         [_pythonVersionButton addItemWithTitle:version];
@@ -185,8 +185,8 @@
 
 - (void)addScriptItems:(NSArray<iTermScriptItem *> *)scriptItems breadcrumbs:(NSArray<NSString *> *)breadcrumbs {
     for (iTermScriptItem *item in [scriptItems sortedArrayUsingComparator:^NSComparisonResult(iTermScriptItem * _Nonnull obj1, iTermScriptItem * _Nonnull obj2) {
-        return [obj1.name compare:obj2.name];
-    }]) {
+                return [obj1.name compare:obj2.name];
+                }]) {
         if (item.isFolder) {
             [self addScriptItems:item.children breadcrumbs:[breadcrumbs arrayByAddingObject:item.name]];
             continue;
@@ -195,7 +195,7 @@
             continue;
         }
         NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[[breadcrumbs arrayByAddingObject:item.name] componentsJoinedByString:@"/"]
-                                                          action:nil
+                                                   action:nil
                                                    keyEquivalent:@""];
         menuItem.tag = _scripts.count;
         [_scriptsButton.menu addItem:menuItem];
@@ -213,8 +213,8 @@
 }
 
 - (void)pip3UninstallDidFinish:(iTermTuple<NSString *, NSString *> *)tuple
-                         index:(NSInteger)index
-            selectedScriptPath:(NSString *)selectedScriptPath {
+    index:(NSInteger)index
+    selectedScriptPath:(NSString *)selectedScriptPath {
     if (_packageTuples.count <= index) {
         return;
     }
@@ -223,15 +223,15 @@
     }
     __weak __typeof(self) weakSelf = self;
     [self fetchVersionOfPackage:tuple.firstObject completion:^(BOOL ok, NSString *result) {
-        [weakSelf uninstallDidFetchPackageVersionSuccessfully:ok
-                                                      package:tuple.firstObject
-                                           selectedScriptPath:selectedScriptPath];
-    }];
+             [weakSelf uninstallDidFetchPackageVersionSuccessfully:ok
+              package:tuple.firstObject
+              selectedScriptPath:selectedScriptPath];
+         }];
 }
 
 - (void)uninstallDidFetchPackageVersionSuccessfully:(BOOL)ok
-                                            package:(NSString *)package
-                                 selectedScriptPath:(NSString *)selectedScriptPath {
+    package:(NSString *)package
+    selectedScriptPath:(NSString *)selectedScriptPath {
     if (ok) {
         [self uninstallDidFailForPackage:package];
         return;
@@ -240,11 +240,11 @@
     NSString *path = [selectedScriptPath stringByAppendingPathComponent:@"setup.cfg"];
     iTermSetupCfgParser *parser = [[iTermSetupCfgParser alloc] initWithPath:path];
     [iTermSetupCfgParser writeSetupCfgToFile:path
-                                        name:parser.name
-                                dependencies:[parser.dependencies arrayByRemovingObject:package]
+                         name:parser.name
+                         dependencies:[parser.dependencies arrayByRemovingObject:package]
                          ensureiTerm2Present:NO
-                               pythonVersion:parser.pythonVersion
-                          environmentVersion:parser.minimumEnvironmentVersion];
+                         pythonVersion:parser.pythonVersion
+                         environmentVersion:parser.minimumEnvironmentVersion];
 
     [self didSelectScriptAtIndex:_scriptsButton.indexOfSelectedItem];
 }
@@ -276,33 +276,33 @@
 - (void)runPip3WithArguments:(NSArray<NSString *> *)arguments completion:(void (^)(void))completion {
     NSURL *container = [NSURL fileURLWithPath:_selectedScriptPath];
     NSString *pip3 = [[iTermPythonRuntimeDownloader sharedInstance] pip3At:[container.path stringByAppendingPathComponent:@"iterm2env"]
-                                                             pythonVersion:_pythonVersion];
+                                                                    pythonVersion:_pythonVersion];
     NSString *command =
-    [[pip3 stringWithBackslashEscapedShellCharactersIncludingNewlines:YES]
-     stringByAppendingFormat:@" %@", [[arguments mapWithBlock:^id(NSString *anObject) {
+        [[pip3 stringWithBackslashEscapedShellCharactersIncludingNewlines:YES]
+    stringByAppendingFormat:@" %@", [[arguments mapWithBlock:^id(NSString *anObject) {
         return [anObject stringWithBackslashEscapedShellCharactersIncludingNewlines:YES];
     }] componentsJoinedByString:@" "]];
     iTermWarningSelection selection = [iTermWarning showWarningWithTitle:command
-                                                                 actions:@[ @"OK", @"Cancel" ]
-                                                               accessory:nil
-                                                              identifier:@"DependencyEditorPip3Confirmation"
-                                                             silenceable:kiTermWarningTypePersistent
-                                                                 heading:@"Run this Command?"
-                                                                  window:self.window];
+                                                    actions:@[ @"OK", @"Cancel" ]
+                                                    accessory:nil
+                                                    identifier:@"DependencyEditorPip3Confirmation"
+                                                    silenceable:kiTermWarningTypePersistent
+                                                    heading:@"Run this Command?"
+                                                    window:self.window];
     if (selection == kiTermWarningSelection1) {
         return;
     }
     // Escape the path to pip3 because it gets evaluated as a swifty string.
     [[iTermController sharedInstance] openSingleUseWindowWithCommand:pip3
-                                                           arguments:arguments
-                                                              inject:nil
-                                                         environment:nil
-                                                                 pwd:nil
-                                                             options:iTermSingleUseWindowOptionsCommandNotSwiftyString
-                                                      didMakeSession:nil
-                                                          completion:^{
-                                                              completion();
-                                                          }];
+                                      arguments:arguments
+                                      inject:nil
+                                      environment:nil
+                                      pwd:nil
+                                      options:iTermSingleUseWindowOptionsCommandNotSwiftyString
+                                      didMakeSession:nil
+                                     completion:^ {
+                                         completion();
+                                     }];
 }
 
 - (void)pip3InstallDidFinish:(NSString *)selectedScriptPath newDependencyName:(NSString *)newDependencyName {
@@ -311,31 +311,31 @@
     }
     __weak __typeof(self) weakSelf = self;
     [self fetchVersionOfPackage:newDependencyName completion:^(BOOL ok, NSString *result) {
-        [weakSelf installDidFinishSuccessfully:ok selectedScriptPath:selectedScriptPath newDependencyName:newDependencyName];
-    }];
+             [weakSelf installDidFinishSuccessfully:ok selectedScriptPath:selectedScriptPath newDependencyName:newDependencyName];
+         }];
 }
 
 - (void)uninstallDidFailForPackage:(NSString *)package {
     [iTermWarning showWarningWithTitle:[NSString stringWithFormat:@"Uninstall of %@ failed. Check the output of pip3 for errors.",package]
-                               actions:@[ @"OK" ]
-                             accessory:nil
-                            identifier:@"DependencyEditorInstallationFailed"
-                           silenceable:kiTermWarningTypePersistent
-                               heading:@"Removal Failed"
-                                window:self.window];
+                  actions:@[ @"OK" ]
+                  accessory:nil
+                  identifier:@"DependencyEditorInstallationFailed"
+                  silenceable:kiTermWarningTypePersistent
+                  heading:@"Removal Failed"
+                  window:self.window];
 }
 
 - (void)installDidFinishSuccessfully:(BOOL)ok
-                  selectedScriptPath:(NSString *)selectedScriptPath
-                   newDependencyName:(NSString *)newDependencyName {
+    selectedScriptPath:(NSString *)selectedScriptPath
+    newDependencyName:(NSString *)newDependencyName {
     if (!ok) {
         [iTermWarning showWarningWithTitle:@"Check the output of pip3 for errors."
-                                   actions:@[ @"OK" ]
-                                 accessory:nil
-                                identifier:@"DependencyEditorInstallationFailed"
-                               silenceable:kiTermWarningTypePersistent
-                                   heading:@"Installation Failed"
-                                    window:self.window];
+                      actions:@[ @"OK" ]
+                      accessory:nil
+                      identifier:@"DependencyEditorInstallationFailed"
+                      silenceable:kiTermWarningTypePersistent
+                      heading:@"Installation Failed"
+                      window:self.window];
         return;
     }
     if (![selectedScriptPath isEqualToString:_selectedScriptPath]) {
@@ -344,11 +344,11 @@
     NSString *path = [selectedScriptPath stringByAppendingPathComponent:@"setup.cfg"];
     iTermSetupCfgParser *parser = [[iTermSetupCfgParser alloc] initWithPath:path];
     [iTermSetupCfgParser writeSetupCfgToFile:path
-                                        name:parser.name
-                                dependencies:[parser.dependencies arrayByAddingObject:newDependencyName]
+                         name:parser.name
+                         dependencies:[parser.dependencies arrayByAddingObject:newDependencyName]
                          ensureiTerm2Present:NO
-                               pythonVersion:parser.pythonVersion
-                          environmentVersion:parser.minimumEnvironmentVersion];
+                         pythonVersion:parser.pythonVersion
+                         environmentVersion:parser.minimumEnvironmentVersion];
     [self didSelectScriptAtIndex:_scriptsButton.selectedTag];
 }
 
@@ -362,9 +362,9 @@
     iTermTuple<NSString *, NSString *> *tuple = _packageTuples[_tableView.selectedRow];
     NSString *selectedDependencyName = tuple.firstObject;
     __weak __typeof(self) weakSelf = self;
-    [self runPip3WithArguments:@[ @"install", selectedDependencyName, @"--upgrade" ] completion:^{
-        [weakSelf pip3UpgradeDidFinish:tuple index:index];
-    }];
+    [self runPip3WithArguments:@[ @"install", selectedDependencyName, @"--upgrade" ] completion:^ {
+             [weakSelf pip3UpgradeDidFinish:tuple index:index];
+         }];
 }
 
 - (IBAction)add:(id)sender {
@@ -381,9 +381,9 @@
 
 - (void)install:(NSString *)newDependencyName selectedScriptPath:(NSString *)selectedScriptPath completion:(void (^)(void))completion {
     __weak __typeof(self) weakSelf = self;
-    [self runPip3WithArguments:@[ @"install", newDependencyName ] completion:^{
-        [weakSelf pip3InstallDidFinish:selectedScriptPath newDependencyName:newDependencyName];
-        if (completion) {
+    [self runPip3WithArguments:@[ @"install", newDependencyName ] completion:^ {
+             [weakSelf pip3InstallDidFinish:selectedScriptPath newDependencyName:newDependencyName];
+             if (completion) {
             completion();
         }
     }];
@@ -398,9 +398,9 @@
     NSString *selectedDependencyName = tuple.firstObject;
     NSString *selectedScriptPath = [_selectedScriptPath copy];
     __weak __typeof(self) weakSelf = self;
-    [self runPip3WithArguments:@[ @"uninstall", selectedDependencyName ] completion:^{
-        [weakSelf pip3UninstallDidFinish:tuple index:index selectedScriptPath:selectedScriptPath];
-    }];
+    [self runPip3WithArguments:@[ @"uninstall", selectedDependencyName ] completion:^ {
+             [weakSelf pip3UninstallDidFinish:tuple index:index selectedScriptPath:selectedScriptPath];
+         }];
 }
 
 - (IBAction)scriptDidChange:(id)sender {
@@ -456,11 +456,11 @@
     iTermSetupCfgParser *parser = [[iTermSetupCfgParser alloc] initWithPath:path];
     NSArray<NSString *> *dependencies = [parser.dependencies copy];
     [iTermSetupCfgParser writeSetupCfgToFile:path
-                                        name:parser.name
-                                dependencies:@[]
+                         name:parser.name
+                         dependencies:@[]
                          ensureiTerm2Present:NO
-                               pythonVersion:_pythonVersion
-                          environmentVersion:parser.minimumEnvironmentVersion];
+                         pythonVersion:_pythonVersion
+                         environmentVersion:parser.minimumEnvironmentVersion];
     NSString *selectedScriptPath = [_selectedScriptPath copy];
     [self installPackages:dependencies selectedScriptPath:selectedScriptPath];
 }
@@ -470,9 +470,9 @@
         return;
     }
     NSString *newDependencyName = packages.firstObject;
-    [self install:newDependencyName selectedScriptPath:selectedScriptPath completion:^{
-        [self installPackages:[packages subarrayFromIndex:1] selectedScriptPath:selectedScriptPath];
-    }];
+    [self install:newDependencyName selectedScriptPath:selectedScriptPath completion:^ {
+             [self installPackages:[packages subarrayFromIndex:1] selectedScriptPath:selectedScriptPath];
+         }];
 }
 
 #pragma mark - NSTableViewDataSource

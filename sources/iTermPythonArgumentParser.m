@@ -58,24 +58,24 @@ NS_ASSUME_NONNULL_BEGIN
         i++;
         BOOL ignore = NO;
         switch (found) {
-            case iTermPythonArgumentParserFoundNone:
-                // Previous argument does not affect how this one is parsed
-                break;
+        case iTermPythonArgumentParserFoundNone:
+            // Previous argument does not affect how this one is parsed
+            break;
 
-            case iTermPythonArgumentParserFoundModule: {
-                [self handleModule:[_args subarrayFromIndex:i]];
-                return;
-            }
+        case iTermPythonArgumentParserFoundModule: {
+            [self handleModule:[_args subarrayFromIndex:i]];
+            return;
+        }
 
-            case iTermPythonArgumentParserFoundStatement:
-                // arg follows -c
-                [self handleStatement:arg];
-                return;
+        case iTermPythonArgumentParserFoundStatement:
+            // arg follows -c
+            [self handleStatement:arg];
+            return;
 
-            case iTermPythonArgumentParserFoundArgument:
-                // arg follows -Q or -W, of which this is the parameter
-                ignore = YES;
-                break;
+        case iTermPythonArgumentParserFoundArgument:
+            // arg follows -Q or -W, of which this is the parameter
+            ignore = YES;
+            break;
         }
         if (ignore) {
             found = iTermPythonArgumentParserFoundNone;

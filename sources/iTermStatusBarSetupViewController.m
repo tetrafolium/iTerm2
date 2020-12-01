@@ -79,12 +79,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable instancetype)initWithLayoutDictionary:(NSDictionary *)layoutDictionary
-                                   darkBackground:(BOOL)darkBackground
-                                     allowRainbow:(BOOL)allowRainbow {
+    darkBackground:(BOOL)darkBackground
+    allowRainbow:(BOOL)allowRainbow {
     self = [super initWithNibName:@"iTermStatusBarSetupViewController" bundle:[NSBundle bundleForClass:self.class]];
     if (self) {
         _layout = [[iTermStatusBarLayout alloc] initWithDictionary:layoutDictionary
-                                                             scope:nil];
+                                                scope:nil];
         _darkBackground = darkBackground;
         _allowRainbow = allowRainbow;
     }
@@ -95,43 +95,43 @@ NS_ASSUME_NONNULL_BEGIN
     iTermStatusBarRPCComponentFactory *factory =
         [[iTermStatusBarRPCComponentFactory alloc] initWithRegistrationRequest:request];
     return [[iTermStatusBarSetupElement alloc] initWithComponentFactory:factory
-                                                        layoutAlgorithm:_layout.advancedConfiguration.layoutAlgorithm
-                                                                  knobs:factory.defaultKnobs];
+                                               layoutAlgorithm:_layout.advancedConfiguration.layoutAlgorithm
+                                               knobs:factory.defaultKnobs];
 }
 
 - (void)loadElements {
     NSArray<Class> *classes = @[
-                                 [iTermStatusBarBatteryComponent class],
-                                 [iTermStatusBarCPUUtilizationComponent class],
-                                 [iTermStatusBarMemoryUtilizationComponent class],
-                                 [iTermStatusBarNetworkUtilizationComponent class],
+                                  [iTermStatusBarBatteryComponent class],
+                                  [iTermStatusBarCPUUtilizationComponent class],
+                                  [iTermStatusBarMemoryUtilizationComponent class],
+                                  [iTermStatusBarNetworkUtilizationComponent class],
 
-                                 [iTermStatusBarClockComponent class],
-                                 [iTermStatusBarActionComponent class],
-                                 [iTermStatusBarActionMenuComponent class],
-                                 [iTermStatusBarSnippetMenuComponent class],
+                                  [iTermStatusBarClockComponent class],
+                                  [iTermStatusBarActionComponent class],
+                                  [iTermStatusBarActionMenuComponent class],
+                                  [iTermStatusBarSnippetMenuComponent class],
 
-                                 [iTermStatusBarGitComponent class],
-                                 [iTermStatusBarHostnameComponent class],
-                                 [iTermStatusBarUsernameComponent class],
-                                 [iTermStatusBarJobComponent class],
-                                 [iTermStatusBarWorkingDirectoryComponent class],
+                                  [iTermStatusBarGitComponent class],
+                                  [iTermStatusBarHostnameComponent class],
+                                  [iTermStatusBarUsernameComponent class],
+                                  [iTermStatusBarJobComponent class],
+                                  [iTermStatusBarWorkingDirectoryComponent class],
 
-                                 [iTermStatusBarSearchFieldComponent class],
-                                 [iTermStatusBarComposerComponent class],
+                                  [iTermStatusBarSearchFieldComponent class],
+                                  [iTermStatusBarComposerComponent class],
 
-                                 [iTermStatusBarFixedSpacerComponent class],
-                                 [iTermStatusBarSpringComponent class],
+                                  [iTermStatusBarFixedSpacerComponent class],
+                                  [iTermStatusBarSpringComponent class],
 
-                                 [iTermStatusBarSwiftyStringComponent class],
-                                 [iTermStatusBarFunctionCallComponent class],
-                                 ];
+                                  [iTermStatusBarSwiftyStringComponent class],
+                                  [iTermStatusBarFunctionCallComponent class],
+                              ];
     _elements = [classes mapWithBlock:^id(Class theClass) {
-        iTermStatusBarBuiltInComponentFactory *factory =
-            [[iTermStatusBarBuiltInComponentFactory alloc] initWithClass:theClass];
+                iTermStatusBarBuiltInComponentFactory *factory =
+                    [[iTermStatusBarBuiltInComponentFactory alloc] initWithClass:theClass];
         return [[iTermStatusBarSetupElement alloc] initWithComponentFactory:factory
-                                                            layoutAlgorithm:self->_layout.advancedConfiguration.layoutAlgorithm
-                                                                      knobs:factory.defaultKnobs];
+                                                   layoutAlgorithm:self->_layout.advancedConfiguration.layoutAlgorithm
+                                                   knobs:factory.defaultKnobs];
     }];
 }
 
@@ -159,22 +159,22 @@ NS_ASSUME_NONNULL_BEGIN
     [_destinationViewController setLayout:_layout];
 
     __weak __typeof(self) weakSelf = self;
-    _destinationViewController.onChange = ^{
+    _destinationViewController.onChange = ^ {
         [weakSelf apply];
     };
     [self setFont:_layout.advancedConfiguration.font ?: [iTermStatusBarAdvancedConfiguration defaultFont]];
     [self initializeColorWell:_separatorColorWell
-                   withAction:@selector(noop:)
-                        color:_layout.advancedConfiguration.separatorColor
-                 alphaAllowed:YES];
+          withAction:@selector(noop:)
+          color:_layout.advancedConfiguration.separatorColor
+          alphaAllowed:YES];
     [self initializeColorWell:_backgroundColorWell
-                   withAction:@selector(noop:)
-                        color:_layout.advancedConfiguration.backgroundColor
-                 alphaAllowed:NO];
+          withAction:@selector(noop:)
+          color:_layout.advancedConfiguration.backgroundColor
+          alphaAllowed:NO];
     [self initializeColorWell:_defaultTextColorWell
-                   withAction:@selector(noop:)
-                        color:_layout.advancedConfiguration.defaultTextColor
-                 alphaAllowed:NO];
+          withAction:@selector(noop:)
+          color:_layout.advancedConfiguration.defaultTextColor
+          alphaAllowed:NO];
     [self initializeUI];
 
     [super awakeFromNib];
@@ -182,21 +182,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)initializeUI {
     switch (_layout.advancedConfiguration.layoutAlgorithm) {
-        case iTermStatusBarLayoutAlgorithmSettingStable:
-            _tightPacking.state = NSControlStateValueOff;
-            break;
-        case iTermStatusBarLayoutAlgorithmSettingTightlyPacked:
-            _tightPacking.state = NSControlStateValueOn;
-            break;
+    case iTermStatusBarLayoutAlgorithmSettingStable:
+        _tightPacking.state = NSControlStateValueOff;
+        break;
+    case iTermStatusBarLayoutAlgorithmSettingTightlyPacked:
+        _tightPacking.state = NSControlStateValueOn;
+        break;
     }
 
     _removeEmptyComponents.state = _layout.advancedConfiguration.removeEmptyComponents ? NSControlStateValueOn : NSControlStateValueOff;
 }
 
 - (void)initializeColorWell:(CPKColorWell *)colorWell
-                 withAction:(SEL)selector
-                      color:(NSColor *)color
-               alphaAllowed:(BOOL)alphaAllowed {
+    withAction:(SEL)selector
+    color:(NSColor *)color
+    alphaAllowed:(BOOL)alphaAllowed {
     colorWell.color = color;
     colorWell.noColorAllowed = YES;
     colorWell.alphaAllowed = alphaAllowed;
@@ -208,7 +208,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)viewDidLoad {
     [super viewDidLoad];
     [_collectionView registerClass:[iTermStatusBarSetupCollectionViewItem class]
-             forItemWithIdentifier:@"element"];
+                     forItemWithIdentifier:@"element"];
 }
 
 - (void)deleteBackward:(nullable id)sender {
@@ -301,8 +301,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (IBAction)advanced:(id)sender {
     __weak __typeof(self) weakSelf = self;
     [self.view.window beginSheet:_advancedPanel completionHandler:^(NSModalResponse returnCode) {
-        [weakSelf advancedPanelDidClose];
-    }];
+                         [weakSelf advancedPanelDidClose];
+                     }];
 }
 
 - (IBAction)autoRainbow:(id)sender {
@@ -358,7 +358,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - NSCollectionViewDataSource
 
 - (NSInteger)collectionView:(NSCollectionView *)collectionView
-     numberOfItemsInSection:(NSInteger)section {
+    numberOfItemsInSection:(NSInteger)section {
     return _elements.count;
 }
 
@@ -373,23 +373,23 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)initializeItem:(iTermStatusBarSetupCollectionViewItem *)item atIndexPath:(NSIndexPath *)indexPath {
     const NSInteger index = [indexPath indexAtPosition:1];
     item.textField.attributedStringValue = [_elements[index] exemplarWithBackgroundColor:_layout.advancedConfiguration.backgroundColor
-                                                                               textColor:_layout.advancedConfiguration.defaultTextColor
-                                                                             defaultFont:_layout.advancedConfiguration.font];
+                                                             textColor:_layout.advancedConfiguration.defaultTextColor
+                                                             defaultFont:_layout.advancedConfiguration.font];
     item.detailText = _elements[index].shortDescription;
     item.textField.toolTip = _elements[index].detailedDescription;
     item.backgroundColor = _layout.advancedConfiguration.backgroundColor;
 }
 
 - (NSCollectionViewItem *)collectionView:(NSCollectionView *)collectionView
-     itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath {
+    itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath {
     return [self newItemWithIndexPath:indexPath];
 }
 
 #pragma mark - NSCollectionViewDelegateFlowLayout
 
 - (NSSize)collectionView:(NSCollectionView *)collectionView
-                  layout:(NSCollectionViewLayout*)collectionViewLayout
-  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    layout:(NSCollectionViewLayout*)collectionViewLayout
+    sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     iTermStatusBarSetupCollectionViewItem *item = [[iTermStatusBarSetupCollectionViewItem alloc] initWithNibName:@"iTermStatusBarSetupCollectionViewItem" bundle:[NSBundle bundleForClass:self.class]];
     [item view];
     [self initializeItem:item atIndexPath:indexPath];
@@ -400,18 +400,18 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - NSCollectionViewDelegate
 
 - (BOOL)collectionView:(NSCollectionView *)collectionView
-canDragItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
-             withEvent:(NSEvent *)event {
+    canDragItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
+    withEvent:(NSEvent *)event {
     return YES;
 }
 
 - (BOOL)collectionView:(NSCollectionView *)collectionView
-writeItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
-          toPasteboard:(NSPasteboard *)pasteboard {
+    writeItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
+    toPasteboard:(NSPasteboard *)pasteboard {
     [pasteboard clearContents];
 
     NSArray *objects = [indexPaths.allObjects mapWithBlock:^id(NSIndexPath *indexPath) {
-        NSUInteger index = [indexPath indexAtPosition:1];
+                              NSUInteger index = [indexPath indexAtPosition:1];
         return self->_elements[index];
     }];
     [pasteboard writeObjects:objects];
@@ -420,8 +420,8 @@ writeItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
 }
 
 - (NSImage *)collectionView:(NSCollectionView *)collectionView draggingImageForItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
-                  withEvent:(NSEvent *)event
-                     offset:(NSPointPointer)dragImageOffset {
+    withEvent:(NSEvent *)event
+    offset:(NSPointPointer)dragImageOffset {
     NSPoint locationInWindow = event.locationInWindow;
     iTermStatusBarSetupCollectionViewItem *item = [self newItemWithIndexPath:indexPaths.anyObject];
     item.hideDetail = YES;

@@ -31,8 +31,8 @@ extern NSString *const iTermLoggingHelperErrorNotificationGUIDKey;
 + (void)observeNotificationsWithHandler:(void (^)(NSString *guid))handler;
 
 - (instancetype)initWithRawLogger:(id<iTermLogging>)rawLogger
-                      plainLogger:(id<iTermLogging>)plainLogger
-                      profileGUID:(NSString *)profileGUID NS_DESIGNATED_INITIALIZER;
+    plainLogger:(id<iTermLogging>)plainLogger
+    profileGUID:(NSString *)profileGUID NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 

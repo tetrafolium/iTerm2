@@ -31,8 +31,8 @@
 }
 
 - (instancetype)initWithString:(NSString *)swiftyString
-                        scope:(iTermVariableScope *)scope
-                      observer:(NSString *(^)(NSString *, NSError *))observer {
+    scope:(iTermVariableScope *)scope
+    observer:(NSString *(^)(NSString *, NSError *))observer {
     self = [super init];
     if (self) {
         _swiftyString = [swiftyString copy];
@@ -41,17 +41,17 @@
         _observer = [observer copy];
         _missingFunctions = [NSMutableSet set];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(registeredFunctionsDidChange:)
-                                                     name:iTermAPIRegisteredFunctionsDidChangeNotification
-                                                   object:nil];
+                                              selector:@selector(registeredFunctionsDidChange:)
+                                              name:iTermAPIRegisteredFunctionsDidChangeNotification
+                                              object:nil];
         [self reevaluateIfNeeded];
     }
     return self;
 }
 
 - (instancetype)initWithScope:(iTermVariableScope *)scope
-                   sourcePath:(nonnull NSString *)sourcePath
-              destinationPath:(NSString *)destinationPath {
+    sourcePath:(nonnull NSString *)sourcePath
+    destinationPath:(NSString *)destinationPath {
     self = [super init];
     if (self) {
         _swiftyString = [[NSString castFrom:[scope valueForVariableName:sourcePath]] copy] ?: @"";
@@ -61,13 +61,13 @@
         _destinationPath = [destinationPath copy];
         _sourceRef = [[iTermVariableReference alloc] initWithPath:sourcePath vendor:scope];
         __weak __typeof(self) weakSelf = self;
-        _sourceRef.onChangeBlock = ^{
+        _sourceRef.onChangeBlock = ^ {
             [weakSelf sourceDidChange];
         };
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(registeredFunctionsDidChange:)
-                                                     name:iTermAPIRegisteredFunctionsDidChangeNotification
-                                                   object:nil];
+                                              selector:@selector(registeredFunctionsDidChange:)
+                                              name:iTermAPIRegisteredFunctionsDidChangeNotification
+                                              object:nil];
         [self reevaluateIfNeeded];
     }
     return self;
@@ -143,8 +143,8 @@
     NSInteger count = ++_count;
     DLog(@"%p: %@->%@ evaluate %@", self, _sourceRef.path, _destinationPath, _swiftyString);
     [self evaluateSynchronously:synchronously completion:^(NSString *result, NSError *error) {
-        DLog(@"%p: result=%@ error=%@", weakSelf, result, error);
-        __strong __typeof(self) strongSelf = weakSelf;
+             DLog(@"%p: result=%@ error=%@", weakSelf, result, error);
+             __strong __typeof(self) strongSelf = weakSelf;
         if (strongSelf) {
             if (strongSelf.appliedCount > count) {
                 // A later async evaluation has already completed. Don't overwrite it.
@@ -162,25 +162,25 @@
 }
 
 - (void)evaluateSynchronously:(BOOL)synchronously
-                   completion:(void (^)(NSString *, NSError *))completion {
+    completion:(void (^)(NSString *, NSError *))completion {
     iTermVariableRecordingScope *scope = [self.scope recordingCopy];
     __weak __typeof(self) weakSelf = self;
     [self evaluateSynchronously:synchronously withScope:scope completion:^(NSString *result, NSError *error, NSSet<NSString *> *missing) {
-        __strong __typeof(self) strongSelf = weakSelf;
-        if (!strongSelf) {
+             __strong __typeof(self) strongSelf = weakSelf;
+             if (!strongSelf) {
             return;
         }
         [strongSelf->_missingFunctions unionSet:missing];
         if (error) {
             NSString *message =
-            [NSString stringWithFormat:@"Invocation of “%@” failed with error:\n%@\n",
-             strongSelf.swiftyString,
-             [error localizedDescription]];
+                [NSString stringWithFormat:@"Invocation of “%@” failed with error:\n%@\n",
+                          strongSelf.swiftyString,
+                          [error localizedDescription]];
 
             NSString *connectionKey =
-            error.userInfo[iTermAPIHelperFunctionCallErrorUserInfoKeyConnection];
+                error.userInfo[iTermAPIHelperFunctionCallErrorUserInfoKeyConnection];
             iTermScriptHistoryEntry *entry =
-            [[iTermScriptHistory sharedInstance] entryWithIdentifier:connectionKey];
+                [[iTermScriptHistory sharedInstance] entryWithIdentifier:connectionKey];
             if (!entry) {
                 entry = [iTermScriptHistoryEntry globalEntry];
             }
@@ -191,32 +191,32 @@
     }];
     _refs = [scope recordedReferences];
     for (iTermVariableReference *ref in _refs) {
-        ref.onChangeBlock = ^{
+        ref.onChangeBlock = ^ {
             [weakSelf dependencyDidChange];
         };
     }
 }
 
 - (void)evaluateSynchronously:(BOOL)synchronously
-                   withScope:(iTermVariableScope *)scope
-                   completion:(void (^)(NSString *result, NSError *error, NSSet<NSString *> *missing))completion {
+    withScope:(iTermVariableScope *)scope
+    completion:(void (^)(NSString *result, NSError *error, NSSet<NSString *> *missing))completion {
     iTermExpressionEvaluator *evaluator = [[iTermExpressionEvaluator alloc] initWithInterpolatedString:_swiftyString
-                                                                                                 scope:scope];
+                                                                            scope:scope];
     [evaluator evaluateWithTimeout:synchronously ? 0 : 30
-                        completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-                            completion(evaluator.value, evaluator.error, evaluator.missingValues);
-                        }];
+              completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
+                  completion(evaluator.value, evaluator.error, evaluator.missingValues);
+              }];
 }
 
 - (void)dependencyDidChange {
     if (!_observing) {
         [self setNeedsReevaluation];
     }
-    
+
 }
 - (void)setNeedsReevaluation {
     self.needsReevaluation = YES;
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         if (self.needsReevaluation) {
             [self reevaluateIfNeeded];
         }
@@ -241,8 +241,8 @@
 
 - (void)registeredFunctionsDidChange:(NSNotification *)notification {
     NSArray<NSString *> *registered = [_missingFunctions.allObjects filteredArrayUsingBlock:^BOOL(NSString *signature) {
-        return [[iTermAPIHelper sharedInstance] haveRegisteredFunctionWithSignature:signature];
-    }];
+                                     return [[iTermAPIHelper sharedInstance] haveRegisteredFunctionWithSignature:signature];
+                                 }];
     if (!registered.count) {
         return;
     }
@@ -258,8 +258,10 @@
 
 - (instancetype)initWithString:(NSString *)swiftyString {
     self = [super initWithString:@""
-                           scope:nil
-                        observer:^NSString *(NSString * _Nonnull newValue, NSError *error) { return newValue; }];
+                  scope:nil
+          observer:^NSString *(NSString * _Nonnull newValue, NSError *error) {
+              return newValue;
+          }];
     if (self) {
         _string = [swiftyString copy];
     }

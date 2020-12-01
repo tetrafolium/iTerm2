@@ -42,7 +42,7 @@ int iTermForkAndExecToRunJobInServer(iTermForkState *forkState,
     // accept is called if the main thread wins the race. accept will block
     // til connect is called if the background thread wins the race.
     iTermFileDescriptorServerLog("Kicking off a background job to accept() in the server");
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
         iTermFileDescriptorServerLog("Now running the accept queue block");
         serverConnectionFd = iTermFileDescriptorServerAcceptAndClose(serverSocketFd);
 

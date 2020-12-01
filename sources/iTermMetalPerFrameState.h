@@ -34,9 +34,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) CGFloat scale;
 
 - (instancetype)initWithTextView:(PTYTextView *)textView
-                          screen:(VT100Screen *)screen
-                            glue:(id<iTermMetalPerFrameStateDelegate>)glue
-                         context:(CGContextRef)context NS_DESIGNATED_INITIALIZER;
+    screen:(VT100Screen *)screen
+    glue:(id<iTermMetalPerFrameStateDelegate>)glue
+    context:(CGContextRef)context NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 @end

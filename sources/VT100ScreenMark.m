@@ -32,10 +32,10 @@ static NSString *const kMarkOutputStart = @"Output Start";
 + (NSMapTable *)registry {
     static NSMapTable *registry;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         registry = [[NSMapTable alloc] initWithKeyOptions:(NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPersonality)
-                                             valueOptions:(NSPointerFunctionsOpaqueMemory | NSPointerFunctionsOpaquePersonality)
-                                                 capacity:1024];
+                                       valueOptions:(NSPointerFunctionsOpaqueMemory | NSPointerFunctionsOpaquePersonality)
+                                       capacity:1024];
     });
     return registry;
 }

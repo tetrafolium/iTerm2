@@ -32,36 +32,36 @@ typedef struct {
 void iTermClientServerProtocolMessageInitialize(iTermClientServerProtocolMessage *message);
 
 void iTermClientServerProtocolMessageEnsureSpace(iTermClientServerProtocolMessage *message,
-                                                 ssize_t spaceNeeded);
+        ssize_t spaceNeeded);
 
 void iTermClientServerProtocolMessageFree(iTermClientServerProtocolMessage *message);
 
 int iTermClientServerProtocolParseTaggedInt(iTermClientServerProtocolMessageParser *parser,
-                                            void *out,
-                                            size_t size,
-                                            int tag);
+        void *out,
+        size_t size,
+        int tag);
 
 int iTermClientServerProtocolParseTaggedString(iTermClientServerProtocolMessageParser *parser,
-                                               char **out,
-                                               int tag);
+        char **out,
+        int tag);
 
 int iTermClientServerProtocolParseTaggedStringArray(iTermClientServerProtocolMessageParser *parser,
-                                                    char ***arrayOut,
-                                                    int *countOut,
-                                                    int tag);
+        char ***arrayOut,
+        int *countOut,
+        int tag);
 
 int iTermClientServerProtocolEncodeTaggedInt(iTermClientServerProtocolMessageEncoder *encoder,
-                                             void *valuePtr,
-                                             size_t size,
-                                             int tag);
+        void *valuePtr,
+        size_t size,
+        int tag);
 
 int iTermClientServerProtocolEncodeTaggedString(iTermClientServerProtocolMessageEncoder *encoder,
-                                                const char *string,
-                                                int tag);
+        const char *string,
+        int tag);
 
 int iTermClientServerProtocolEncodeTaggedStringArray(iTermClientServerProtocolMessageEncoder *encoder,
-                                                     char **array,
-                                                     int count,
-                                                     int tag);
+        char **array,
+        int count,
+        int tag);
 
 void iTermEncoderCommit(iTermClientServerProtocolMessageEncoder *encoder);

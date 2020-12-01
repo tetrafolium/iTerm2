@@ -72,8 +72,8 @@ void iTermFunctionCallSplitFullyQualifiedName(NSString *fqName, NSString **names
 
 - (NSString *)signature {
     return iTermFunctionSignatureFromNamespaceAndNameAndArguments(self.namespace,
-                                                                  self.name,
-                                                                  _argToExpression.allKeys);
+            self.name,
+            _argToExpression.allKeys);
 }
 
 - (BOOL)isEqual:(id)object {
@@ -88,45 +88,45 @@ void iTermFunctionCallSplitFullyQualifiedName(NSString *fqName, NSString **names
 #pragma mark - APIs
 
 + (iTermParsedExpression *)callMethod:(NSString *)invocation
-                             receiver:(NSString *)receiver
-                              timeout:(NSTimeInterval)timeout
-                           retainSelf:(BOOL)retainSelf  // YES to keep it alive until it's complete
-                           completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
+    receiver:(NSString *)receiver
+    timeout:(NSTimeInterval)timeout
+    retainSelf:(BOOL)retainSelf  // YES to keep it alive until it's complete
+    completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
     return [self callFunction:invocation receiver:receiver timeout:timeout scope:nil retainSelf:retainSelf completion:completion];
 }
 
 + (iTermParsedExpression *)callFunction:(NSString *)invocation
-                                timeout:(NSTimeInterval)timeout
-                                  scope:(iTermVariableScope *)scope
-                             retainSelf:(BOOL)retainSelf
-                             completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
+    timeout:(NSTimeInterval)timeout
+    scope:(iTermVariableScope *)scope
+    retainSelf:(BOOL)retainSelf
+    completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
     return [self callFunction:invocation receiver:nil timeout:timeout scope:scope retainSelf:retainSelf completion:completion];
 }
 
 + (iTermParsedExpression *)callFunction:(NSString *)invocation
-                               receiver:(NSString *)receiver
-                                timeout:(NSTimeInterval)timeout
-                                  scope:(iTermVariableScope *)scope
-                             retainSelf:(BOOL)retainSelf
-                             completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
+    receiver:(NSString *)receiver
+    timeout:(NSTimeInterval)timeout
+    scope:(iTermVariableScope *)scope
+    retainSelf:(BOOL)retainSelf
+    completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
     static dispatch_once_t onceToken;
     static NSMutableArray<iTermParsedExpression *> *array;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         array = [NSMutableArray array];
     });
     __block BOOL complete = NO;
     __block iTermParsedExpression *expression = nil;
     expression = [self callFunction:invocation
-                           receiver:receiver
-                            timeout:timeout
-                              scope:scope
-                         completion:^(id result, NSError *error, NSSet<NSString *> *missing) {
-                             completion(result, error, missing);
-                             if (expression) {
-                                 [array removeObject:expression];
-                             }
-                             complete = YES;
-                         }];
+                       receiver:receiver
+                       timeout:timeout
+                       scope:scope
+         completion:^(id result, NSError *error, NSSet<NSString *> *missing) {
+             completion(result, error, missing);
+             if (expression) {
+            [array removeObject:expression];
+        }
+        complete = YES;
+    }];
     if (retainSelf && !complete) {
         [array addObject:expression];
     }
@@ -134,68 +134,68 @@ void iTermFunctionCallSplitFullyQualifiedName(NSString *fqName, NSString **names
 }
 
 + (iTermParsedExpression *)callFunction:(NSString *)invocation
-                               receiver:(NSString *)receiver
-                                timeout:(NSTimeInterval)timeout
-                                  scope:(iTermVariableScope *)scope
-                             completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
+    receiver:(NSString *)receiver
+    timeout:(NSTimeInterval)timeout
+    scope:(iTermVariableScope *)scope
+    completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
     iTermVariableScope *placeholderScope = scope ? nil : [[iTermVariablePlaceholderScope alloc] init];
     iTermParsedExpression *expression = [[iTermExpressionParser callParser] parse:invocation
                                                                             scope:scope ?: placeholderScope];
     switch (expression.expressionType) {
-        case iTermParsedExpressionTypeVariableReference:
-        case iTermParsedExpressionTypeArrayLookup:
-            assert(false);
+    case iTermParsedExpressionTypeVariableReference:
+    case iTermParsedExpressionTypeArrayLookup:
+        assert(false);
 
-        case iTermParsedExpressionTypeArrayOfValues:
-        case iTermParsedExpressionTypeArrayOfExpressions:
-        case iTermParsedExpressionTypeNumber:
-        case iTermParsedExpressionTypeString: {
-            NSString *reason = @"Expected a function call, not a literal";
-            completion(nil,
-                       [NSError errorWithDomain:@"com.iterm2.call"
-                                           code:3
-                                       userInfo:@{ NSLocalizedDescriptionKey: reason }],
-                       nil);
-            return nil;
-        }
-        case iTermParsedExpressionTypeError:
-            completion(nil, expression.error, nil);
-            return nil;
+    case iTermParsedExpressionTypeArrayOfValues:
+    case iTermParsedExpressionTypeArrayOfExpressions:
+    case iTermParsedExpressionTypeNumber:
+    case iTermParsedExpressionTypeString: {
+        NSString *reason = @"Expected a function call, not a literal";
+        completion(nil,
+                   [NSError errorWithDomain:@"com.iterm2.call"
+                            code:3
+                            userInfo:@ { NSLocalizedDescriptionKey: reason }],
+                   nil);
+        return nil;
+    }
+    case iTermParsedExpressionTypeError:
+        completion(nil, expression.error, nil);
+        return nil;
 
-        case iTermParsedExpressionTypeNil: {
-            NSString *reason = @"nil not allowed";
-            completion(nil,
-                       [NSError errorWithDomain:@"com.iterm2.call"
-                                           code:4
-                                       userInfo:@{ NSLocalizedDescriptionKey: reason }],
-                       nil);
-            return nil;
-        }
-        case iTermParsedExpressionTypeFunctionCall:
-            if (receiver) {
-                [expression.functionCall performMethodCallFromInvocation:invocation
-                                                                receiver:receiver
-                                                                 timeout:timeout
-                                                              completion:completion];
-                return expression;
-            }
-
-            assert(expression.functionCall);
-            [expression.functionCall performFunctionCallFromInvocation:invocation
-                                                              receiver:nil
-                                                                 scope:scope
-                                                               timeout:timeout
-                                                            completion:completion];
+    case iTermParsedExpressionTypeNil: {
+        NSString *reason = @"nil not allowed";
+        completion(nil,
+                   [NSError errorWithDomain:@"com.iterm2.call"
+                            code:4
+                            userInfo:@ { NSLocalizedDescriptionKey: reason }],
+                   nil);
+        return nil;
+    }
+    case iTermParsedExpressionTypeFunctionCall:
+        if (receiver) {
+            [expression.functionCall performMethodCallFromInvocation:invocation
+                                     receiver:receiver
+                                     timeout:timeout
+                                     completion:completion];
             return expression;
-        case iTermParsedExpressionTypeInterpolatedString: {
-            NSString *reason = @"interpolated string not allowed";
-            completion(nil,
-                       [NSError errorWithDomain:@"com.iterm2.call"
-                                           code:4
-                                       userInfo:@{ NSLocalizedDescriptionKey: reason }],
-                       nil);
-            return nil;
         }
+
+        assert(expression.functionCall);
+        [expression.functionCall performFunctionCallFromInvocation:invocation
+                                 receiver:nil
+                                 scope:scope
+                                 timeout:timeout
+                                 completion:completion];
+        return expression;
+    case iTermParsedExpressionTypeInterpolatedString: {
+        NSString *reason = @"interpolated string not allowed";
+        completion(nil,
+                   [NSError errorWithDomain:@"com.iterm2.call"
+                            code:4
+                            userInfo:@ { NSLocalizedDescriptionKey: reason }],
+                   nil);
+        return nil;
+    }
     }
     assert(NO);
     return nil;
@@ -204,55 +204,55 @@ void iTermFunctionCallSplitFullyQualifiedName(NSString *fqName, NSString **names
 #pragma mark - Function Calls
 
 - (void)performMethodCallFromInvocation:(NSString *)invocation
-                               receiver:(NSString *)receiver
-                                timeout:(NSTimeInterval)timeout
-                             completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
+    receiver:(NSString *)receiver
+    timeout:(NSTimeInterval)timeout
+    completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
     id<iTermObject> object = [[iTermVariablesIndex sharedInstance] variablesForKey:receiver].owner;
     if (!object) {
         NSString *reason = [NSString stringWithFormat:@"Object with identifier “%@” not found", receiver];
         completion(nil,
                    [NSError errorWithDomain:@"com.iterm2.call"
-                                       code:5
-                                   userInfo:@{ NSLocalizedDescriptionKey: reason }],
+                            code:5
+                            userInfo:@ { NSLocalizedDescriptionKey: reason }],
                    nil);
         return;
     }
     [self performFunctionCallFromInvocation:invocation
-                                   receiver:receiver
-                                      scope:object.objectScope
-                                    timeout:timeout
-                                 completion:completion];
+          receiver:receiver
+          scope:object.objectScope
+          timeout:timeout
+          completion:completion];
 }
 
 - (void)functionCallDidTimeOutAfter:(NSTimeInterval)timeout
-                         invocation:(NSString *)invocation
-                         completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
+    invocation:(NSString *)invocation
+    completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
     NSString *reason;
     if (_remainingArgs.count) {
-         reason = [NSString stringWithFormat:@"Timeout (%@ sec) while evaluating invocation “%@”. The timeout occurred while evaluating the following arguments to %@: %@", @(timeout), invocation, self.fullyQualifiedName, [_remainingArgs.allObjects componentsJoinedByString:@", "]];
+        reason = [NSString stringWithFormat:@"Timeout (%@ sec) while evaluating invocation “%@”. The timeout occurred while evaluating the following arguments to %@: %@", @(timeout), invocation, self.fullyQualifiedName, [_remainingArgs.allObjects componentsJoinedByString:@", "]];
     } else {
         reason = [NSString stringWithFormat:@"Timeout (%@ sec) while evaluating invocation “%@”. The timeout occurred while waiting for %@ to return.",
-                            @(timeout), invocation, self.name];
+                           @(timeout), invocation, self.name];
     }
-    NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: reason };
+    NSDictionary *userInfo = @ { NSLocalizedDescriptionKey: reason };
     if (self.connectionKey) {
         userInfo = [userInfo dictionaryBySettingObject:self.connectionKey
-                                                forKey:iTermAPIHelperFunctionCallErrorUserInfoKeyConnection];
+                             forKey:iTermAPIHelperFunctionCallErrorUserInfoKeyConnection];
     }
     iTermScriptHistoryEntry *entry = [[iTermAPIHelper sharedInstance] scriptHistoryEntryForConnectionKey:self.connectionKey];
     [entry addOutput:[reason stringByAppendingString:@"\n"]];
 
     NSError *error = [NSError errorWithDomain:@"com.iterm2.call"
-                                         code:2
-                                     userInfo:userInfo];
+                              code:2
+                              userInfo:userInfo];
     completion(nil, error, nil);
 }
 
 - (void)performFunctionCallFromInvocation:(NSString *)invocation
-                                 receiver:(NSString *)receiver
-                                    scope:(iTermVariableScope *)scope
-                                  timeout:(NSTimeInterval)timeout
-                               completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
+    receiver:(NSString *)receiver
+    scope:(iTermVariableScope *)scope
+    timeout:(NSTimeInterval)timeout
+    completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
     __block NSTimer *timer = nil;
     _remainingArgs = [NSMutableSet setWithArray:_argToExpression.allKeys];
     if (timeout > 0) {
@@ -260,33 +260,33 @@ void iTermFunctionCallSplitFullyQualifiedName(NSString *fqName, NSString **names
         // from being dealloc'ed when it is an iTermExpressionEvaluator.
         __weak __typeof(self) weakSelf = self;
         timer = [NSTimer it_scheduledTimerWithTimeInterval:timeout repeats:NO block:^(NSTimer * _Nonnull theTimer) {
-            if (timer == nil) {
-                // Shouldn't happen
-                return;
-            }
-            timer = nil;
+                    if (timer == nil) {
+                        // Shouldn't happen
+                        return;
+                    }
+                    timer = nil;
             [weakSelf functionCallDidTimeOutAfter:timeout
-                                       invocation:invocation
-                                       completion:completion];
+                      invocation:invocation
+                      completion:completion];
         }];
     }
     [self callWithScope:scope
-             invocation:invocation
-               receiver:receiver
-            synchronous:(timeout == 0)
-             completion:
-     ^(id output, NSError *error, NSSet<NSString *> *missing) {
-         if (timeout > 0) {
-             // Not synchronous
-             if (timer == nil) {
-                 // Already timed out
-                 return;
-             }
-             [timer invalidate];
-             timer = nil;
-         }
-         completion(output, error, missing);
-     }];
+          invocation:invocation
+          receiver:receiver
+          synchronous:(timeout == 0)
+          completion:
+         ^(id output, NSError *error, NSSet<NSString *> *missing) {
+             if (timeout > 0) {
+                 // Not synchronous
+                 if (timer == nil) {
+                     // Already timed out
+                     return;
+                 }
+            [timer invalidate];
+            timer = nil;
+        }
+        completion(output, error, missing);
+    }];
 }
 
 - (void)addParameterWithName:(NSString *)name parsedExpression:(iTermParsedExpression *)expression {
@@ -294,13 +294,13 @@ void iTermFunctionCallSplitFullyQualifiedName(NSString *fqName, NSString **names
 }
 
 - (void)callWithScope:(iTermVariableScope *)scope
-           invocation:(NSString *)invocation
-             receiver:(NSString *)receiver
-          synchronous:(BOOL)synchronous
-           completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
+    invocation:(NSString *)invocation
+    receiver:(NSString *)receiver
+    synchronous:(BOOL)synchronous
+    completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
     static NSMutableArray<iTermScriptFunctionCall *> *outstandingCalls;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         outstandingCalls = [NSMutableArray array];
     });
     [outstandingCalls addObject:self];
@@ -308,33 +308,33 @@ void iTermFunctionCallSplitFullyQualifiedName(NSString *fqName, NSString **names
     __weak __typeof(self) weakSelf = self;
 
     [self evaluateParametersWithScope:scope
-                           invocation:invocation
-                          synchronous:synchronous
-                           completion:^(NSDictionary<NSString *, id> *parameterValues,
-                                        NSError *depError,
-                                        NSSet<NSString *> *missing) {
-                               __strong __typeof(self) strongSelf = weakSelf;
-                               if (!strongSelf) {
-                                   return;
-                               }
-                               [strongSelf didEvaluateParametersWithScope:scope
-                                                              synchronous:synchronous
-                                                          parameterValues:parameterValues
-                                                                 receiver:receiver
-                                                                 depError:depError
-                                                                  missing:missing
-                                                               completion:completion];
-                               [outstandingCalls removeObject:strongSelf];
-                           }];
+          invocation:invocation
+          synchronous:synchronous
+          completion:^(NSDictionary<NSString *, id> *parameterValues,
+                  NSError *depError,
+         NSSet<NSString *> *missing) {
+             __strong __typeof(self) strongSelf = weakSelf;
+             if (!strongSelf) {
+            return;
+        }
+        [strongSelf didEvaluateParametersWithScope:scope
+                    synchronous:synchronous
+                    parameterValues:parameterValues
+                    receiver:receiver
+                    depError:depError
+                    missing:missing
+                    completion:completion];
+        [outstandingCalls removeObject:strongSelf];
+    }];
 }
 
 - (void)didEvaluateParametersWithScope:(iTermVariableScope *)scope
-                           synchronous:(BOOL)synchronous
-                       parameterValues:(NSDictionary<NSString *, id> *)parameterValues
-                              receiver:(NSString *)receiver
-                              depError:(NSError *)depError
-                               missing:(NSSet<NSString *> *)missing
-                            completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
+    synchronous:(BOOL)synchronous
+    parameterValues:(NSDictionary<NSString *, id> *)parameterValues
+    receiver:(NSString *)receiver
+    depError:(NSError *)depError
+    missing:(NSSet<NSString *> *)missing
+    completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
     if (depError) {
         completion(nil, depError, missing);
         return;
@@ -343,17 +343,17 @@ void iTermFunctionCallSplitFullyQualifiedName(NSString *fqName, NSString **names
         iTermCallMethodByIdentifier(receiver,
                                     self.fullyQualifiedName,
                                     parameterValues,
-                                    ^(id object, NSError *error) {
-                                        completion(object, error, nil);
-                                    });
+        ^(id object, NSError *error) {
+            completion(object, error, nil);
+        });
         return;
     }
     if (self.isBuiltinFunction) {
         [self callBuiltinFunctionWithScope:scope
-                           parameterValues:parameterValues
-                                completion:^(id object, NSError *error) {
-            completion(object, error, nil);
-        }];
+              parameterValues:parameterValues
+             completion:^(id object, NSError *error) {
+                 completion(object, error, nil);
+             }];
         return;
     }
     if (synchronous) {
@@ -370,41 +370,41 @@ void iTermFunctionCallSplitFullyQualifiedName(NSString *fqName, NSString **names
     if (apiHelper == nil) {
         NSString *const signature = [self signature];
         NSError *error = [NSError errorWithDomain:iTermAPIHelperErrorDomain
-                                             code:iTermAPIHelperErrorCodeAPIDisabled
-                                         userInfo:@{ NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Undefined function with signature “%@”", signature]}];
+                                  code:iTermAPIHelperErrorCodeAPIDisabled
+                                  userInfo:@ { NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Undefined function with signature “%@”", signature]}];
         completion(nil, error, nil);
         return;
     }
     self->_connectionKey = [[apiHelper connectionKeyForRPCWithName:self.fullyQualifiedName
-                                                explicitParameters:parameterValues
-                                                             scope:scope
-                                                    fullParameters:&fullParameters] copy];
+                             explicitParameters:parameterValues
+                             scope:scope
+                             fullParameters:&fullParameters] copy];
     [apiHelper dispatchRPCWithName:self.fullyQualifiedName
-                         arguments:fullParameters
-                        completion:^(id apiResult, NSError *apiError) {
-                            NSSet<NSString *> *missing = nil;
-                            if (apiError.code == iTermAPIHelperErrorCodeUnregisteredFunction) {
-                                missing = [NSSet setWithObject:self.signature];
-                            }
-                            completion(apiResult, apiError, missing);
-                        }];
+               arguments:fullParameters
+              completion:^(id apiResult, NSError *apiError) {
+                  NSSet<NSString *> *missing = nil;
+                  if (apiError.code == iTermAPIHelperErrorCodeUnregisteredFunction) {
+            missing = [NSSet setWithObject:self.signature];
+        }
+        completion(apiResult, apiError, missing);
+    }];
 }
 
 - (BOOL)isBuiltinFunction {
     return [[iTermBuiltInFunctions sharedInstance] haveFunctionWithName:_name
-                                                              namespace:_namespace
-                                                              arguments:_argToExpression.allKeys];
+                                                   namespace:_namespace
+                                                   arguments:_argToExpression.allKeys];
 }
 
 - (void)callBuiltinFunctionWithScope:(iTermVariableScope *)scope
-                     parameterValues:(NSDictionary<NSString *, id> *)parameterValues
-                          completion:(void (^)(id, NSError *))completion {
+    parameterValues:(NSDictionary<NSString *, id> *)parameterValues
+    completion:(void (^)(id, NSError *))completion {
     iTermBuiltInFunctions *bif = [iTermBuiltInFunctions sharedInstance];
     [bif callFunctionWithName:_name
-                    namespace:_namespace
-                   parameters:parameterValues
-                        scope:scope
-                   completion:completion];
+         namespace:_namespace
+         parameters:parameterValues
+         scope:scope
+         completion:completion];
 }
 
 - (void)didEvaluateArgument:(NSString *)key {
@@ -412,63 +412,63 @@ void iTermFunctionCallSplitFullyQualifiedName(NSString *fqName, NSString **names
 }
 
 - (void)evaluateParametersWithScope:(iTermVariableScope *)scope
-                         invocation:(NSString *)invocation
-                        synchronous:(BOOL)synchronous
-                         completion:(void (^)(NSDictionary<NSString *, id> *parameterValues,
-                                              NSError *depError,
-                                              NSSet<NSString *> *missing))completion {
+    invocation:(NSString *)invocation
+    synchronous:(BOOL)synchronous
+    completion:(void (^)(NSDictionary<NSString *, id> *parameterValues,
+    NSError *depError,
+    NSSet<NSString *> *missing))completion {
     dispatch_group_t group = dispatch_group_create();
     NSMutableDictionary<NSString *, id> *parameterValues = [NSMutableDictionary dictionary];
     NSMutableSet<NSString *> *missing = [NSMutableSet set];
     __block NSError *depError = nil;
     __weak __typeof(self) weakSelf = self;
     [_argToExpression enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, iTermParsedExpression *_Nonnull parsedExpression, BOOL * _Nonnull stop) {
-        dispatch_group_enter(group);
+                         dispatch_group_enter(group);
         [self evaluateArgumentWithParsedExpression:parsedExpression
-                                        invocation:invocation
-                                             scope:scope
-                                       synchronous:synchronous
-                                        completion:^(NSError *error, id value, NSSet<NSString *> *innerMissing) {
-                                            [weakSelf didEvaluateArgument:key];
-                                            [missing unionSet:innerMissing];
-                                            if (error) {
-                                                depError = error;
-                                                *stop = YES;
-                                            } else {
-                                                parameterValues[key] = value ?: [NSNull null];
-                                            }
-                                            dispatch_group_leave(group);
-                                        }];
+              invocation:invocation
+              scope:scope
+              synchronous:synchronous
+             completion:^(NSError *error, id value, NSSet<NSString *> *innerMissing) {
+                 [weakSelf didEvaluateArgument:key];
+            [missing unionSet:innerMissing];
+            if (error) {
+                depError = error;
+                *stop = YES;
+            } else {
+                parameterValues[key] = value ?: [NSNull null];
+            }
+            dispatch_group_leave(group);
+        }];
     }];
     if (synchronous) {
         completion(parameterValues, depError, missing);
         return;
     }
-    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^ {
         completion(parameterValues, depError, missing);
     });
 }
 
 - (void)evaluateArgumentWithParsedExpression:(iTermParsedExpression *)parsedExpression
-                                  invocation:(NSString *)invocation
-                                       scope:(iTermVariableScope *)scope
-                                 synchronous:(BOOL)synchronous
-                                  completion:(void (^)(NSError *error, id value, NSSet<NSString *> *missing))completion {
+    invocation:(NSString *)invocation
+    scope:(iTermVariableScope *)scope
+    synchronous:(BOOL)synchronous
+    completion:(void (^)(NSError *error, id value, NSSet<NSString *> *missing))completion {
     iTermExpressionEvaluator *parameterEvaluator = [[iTermExpressionEvaluator alloc] initWithParsedExpression:parsedExpression
-                                                                                                   invocation:invocation
-                                                                                                        scope:scope];
+                                             invocation:invocation
+                                             scope:scope];
     [self->_evaluators addObject:parameterEvaluator];
     [parameterEvaluator evaluateWithTimeout:synchronous ? 0 : INFINITY completion:^(iTermExpressionEvaluator *evaluator) {
-        if (!evaluator.error) {
-            completion(nil, evaluator.value, evaluator.missingValues);
-            return;
-        }
+                           if (!evaluator.error) {
+                               completion(nil, evaluator.value, evaluator.missingValues);
+                               return;
+                           }
 
-        NSError *error = nil;
-        if (parsedExpression.expressionType == iTermParsedExpressionTypeFunctionCall) {
+                           NSError *error = nil;
+                           if (parsedExpression.expressionType == iTermParsedExpressionTypeFunctionCall) {
             error = [self errorForDependentCall:parsedExpression.functionCall
-                            thatFailedWithError:evaluator.error
-                                  connectionKey:self->_connectionKey];
+                          thatFailedWithError:evaluator.error
+                          connectionKey:self->_connectionKey];
         } else {
             error = evaluator.error;
         }
@@ -477,19 +477,19 @@ void iTermFunctionCallSplitFullyQualifiedName(NSString *fqName, NSString **names
 }
 
 - (NSError *)errorForDependentCall:(iTermScriptFunctionCall *)call
-               thatFailedWithError:(NSError *)error
-                     connectionKey:(id)connectionKey {
+    thatFailedWithError:(NSError *)error
+    connectionKey:(id)connectionKey {
     if (error.code == iTermAPIHelperErrorCodeUnregisteredFunction && [error.domain isEqualToString:iTermAPIHelperErrorDomain]) {
         return error;
     }
     NSString *reason = [NSString stringWithFormat:@"In call to %@: %@", call.name, error.localizedDescription];
-    NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: reason };
+    NSDictionary *userInfo = @ { NSLocalizedDescriptionKey: reason };
     if (error.userInfo[iTermAPIHelperFunctionCallErrorUserInfoKeyConnection]) {
         userInfo = [userInfo dictionaryBySettingObject:error.userInfo[iTermAPIHelperFunctionCallErrorUserInfoKeyConnection]
-                                                forKey:iTermAPIHelperFunctionCallErrorUserInfoKeyConnection];
+                             forKey:iTermAPIHelperFunctionCallErrorUserInfoKeyConnection];
     } else if (connectionKey) {
         userInfo = [userInfo dictionaryBySettingObject:connectionKey
-                                                forKey:iTermAPIHelperFunctionCallErrorUserInfoKeyConnection];
+                             forKey:iTermAPIHelperFunctionCallErrorUserInfoKeyConnection];
     }
     NSString *traceback = error.localizedFailureReason;
     if (traceback) {
@@ -497,8 +497,8 @@ void iTermFunctionCallSplitFullyQualifiedName(NSString *fqName, NSString **names
     }
 
     return [NSError errorWithDomain:@"com.iterm2.call"
-                               code:1
-                           userInfo:userInfo];
+                    code:1
+                    userInfo:userInfo];
 }
 
 @end

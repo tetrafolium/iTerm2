@@ -20,9 +20,9 @@
     id classDescription = [NSClassDescription classDescriptionForClass:[PTYTab class]];
 
     return [[NSUniqueIDSpecifier alloc] initWithContainerClassDescription:classDescription
-                                                       containerSpecifier:[self.delegate objectSpecifier]
-                                                                      key:@"sessions"
-                                                                 uniqueID:self.guid];
+                                        containerSpecifier:[self.delegate objectSpecifier]
+                                        key:@"sessions"
+                                        uniqueID:self.guid];
 }
 
 // Handlers for supported commands:
@@ -39,15 +39,15 @@
 
     [aCommand suspendExecution];
     [self startProgram:args[@"command"]
-           environment:@{}
-           customShell:nil
-                isUTF8:[args[@"isUTF8"] boolValue]
-         substitutions:nil
-           arrangement:nil
-            completion:^(BOOL ok) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [aCommand resumeExecutionWithResult:nil];
-        });
+          environment:@ {}
+          customShell:nil
+          isUTF8:[args[@"isUTF8"] boolValue]
+          substitutions:nil
+          arrangement:nil
+         completion:^(BOOL ok) {
+             dispatch_async(dispatch_get_main_queue(), ^ {
+                 [aCommand resumeExecutionWithResult:nil];
+             });
     }];
 
     return;
@@ -96,8 +96,8 @@
 
     if (contentsOfFile != nil) {
         aString = [NSString stringWithContentsOfFile:contentsOfFile
-                                            encoding:NSUTF8StringEncoding
-                                               error:nil];
+                            encoding:NSUTF8StringEncoding
+                            error:nil];
     }
 
     if (self.tmuxMode == TMUX_CLIENT) {
@@ -164,9 +164,9 @@
 }
 
 - (void)splitVertically:(BOOL)vertically
-            withProfile:(Profile *)profile
-                command:(NSString *)command
-             completion:(void (^)(PTYSession *session))completion {
+    withProfile:(Profile *)profile
+    command:(NSString *)command
+    completion:(void (^)(PTYSession *session))completion {
     PTYSession *formerSession = [self activateSessionAndTab];
     if (command) {
         // Create a modified profile to run "command".
@@ -178,13 +178,13 @@
     // NOTE: This will return nil for tmux tabs. I could fix it by using the async version of the
     // split function, but this is Applescript and I hate it.
     [[self.delegate realParentWindow] asyncSplitVertically:vertically
-                                                    before:NO
-                                                   profile:profile
-                                             targetSession:[[self.delegate realParentWindow] currentSession]
-                                                completion:nil
-                                                     ready:^(PTYSession *session, BOOL ok) {
-        [formerSession activateSessionAndTab];
-        completion(session);
+                                      before:NO
+                                      profile:profile
+                                      targetSession:[[self.delegate realParentWindow] currentSession]
+                                      completion:nil
+                                     ready:^(PTYSession *session, BOOL ok) {
+                                         [formerSession activateSessionAndTab];
+                                         completion(session);
     }];
 }
 
@@ -196,11 +196,11 @@
         PTYSession *formerSession = [self activateSessionAndTab];
         [scriptCommand suspendExecution];
         [self splitVertically:YES
-                  withProfile:profile
-                      command:args[@"command"]
-                   completion:^(PTYSession *session) {
-            [formerSession activateSessionAndTab];
-            dispatch_async(dispatch_get_main_queue(), ^{
+              withProfile:profile
+              command:args[@"command"]
+             completion:^(PTYSession *session) {
+                 [formerSession activateSessionAndTab];
+                 dispatch_async(dispatch_get_main_queue(), ^ {
                 [scriptCommand resumeExecutionWithResult:session.objectSpecifier ? session : nil];
             });
         }];
@@ -218,11 +218,11 @@
     NSDictionary *args = [scriptCommand evaluatedArguments];
     [scriptCommand suspendExecution];
     [self splitVertically:YES
-              withProfile:[[ProfileModel sharedInstance] defaultBookmark]
-                  command:args[@"command"]
-               completion:^(PTYSession *session) {
-        [formerSession activateSessionAndTab];
-        dispatch_async(dispatch_get_main_queue(), ^{
+          withProfile:[[ProfileModel sharedInstance] defaultBookmark]
+          command:args[@"command"]
+         completion:^(PTYSession *session) {
+             [formerSession activateSessionAndTab];
+             dispatch_async(dispatch_get_main_queue(), ^ {
             [scriptCommand resumeExecutionWithResult:session.objectSpecifier ? session : nil];
         });
     }];
@@ -234,11 +234,11 @@
     NSDictionary *args = [scriptCommand evaluatedArguments];
     [scriptCommand suspendExecution];
     [self splitVertically:YES
-              withProfile:self.profile
-                  command:args[@"command"]
-               completion:^(PTYSession *session) {
-        [formerSession activateSessionAndTab];
-        dispatch_async(dispatch_get_main_queue(), ^{
+          withProfile:self.profile
+          command:args[@"command"]
+         completion:^(PTYSession *session) {
+             [formerSession activateSessionAndTab];
+             dispatch_async(dispatch_get_main_queue(), ^ {
             [scriptCommand resumeExecutionWithResult:session.objectSpecifier ? session : nil];
         });
     }];
@@ -253,11 +253,11 @@
         PTYSession *formerSession = [self activateSessionAndTab];
         [scriptCommand suspendExecution];
         [self splitVertically:NO
-                  withProfile:profile
-                      command:args[@"command"]
-                   completion:^(PTYSession *session) {
-            [formerSession activateSessionAndTab];
-            dispatch_async(dispatch_get_main_queue(), ^{
+              withProfile:profile
+              command:args[@"command"]
+             completion:^(PTYSession *session) {
+                 [formerSession activateSessionAndTab];
+                 dispatch_async(dispatch_get_main_queue(), ^ {
                 [scriptCommand resumeExecutionWithResult:session.objectSpecifier ? session : nil];
             });
         }];
@@ -275,12 +275,12 @@
     NSDictionary *args = [scriptCommand evaluatedArguments];
     [scriptCommand suspendExecution];
     [self splitVertically:NO
-              withProfile:[[ProfileModel sharedInstance] defaultBookmark]
-                  command:args[@"command"]
-               completion:^(PTYSession *session) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [scriptCommand resumeExecutionWithResult:session.objectSpecifier ? session : nil];
-        });
+          withProfile:[[ProfileModel sharedInstance] defaultBookmark]
+          command:args[@"command"]
+         completion:^(PTYSession *session) {
+             dispatch_async(dispatch_get_main_queue(), ^ {
+                 [scriptCommand resumeExecutionWithResult:session.objectSpecifier ? session : nil];
+             });
         [formerSession activateSessionAndTab];
     }];
     return nil;
@@ -291,11 +291,11 @@
     NSDictionary *args = [scriptCommand evaluatedArguments];
     [scriptCommand suspendExecution];
     [self splitVertically:NO
-              withProfile:self.profile
-                  command:args[@"command"]
-               completion:^(PTYSession *session) {
-        [formerSession activateSessionAndTab];
-        dispatch_async(dispatch_get_main_queue(), ^{
+          withProfile:self.profile
+          command:args[@"command"]
+         completion:^(PTYSession *session) {
+             [formerSession activateSessionAndTab];
+             dispatch_async(dispatch_get_main_queue(), ^ {
             [scriptCommand resumeExecutionWithResult:session.objectSpecifier ? session : nil];
         });
     }];
@@ -315,7 +315,7 @@
 }
 
 - (void)setBackgroundColor:(NSColor *)color {
-    [self setSessionSpecificProfileValues:@{ KEY_BACKGROUND_COLOR: [color dictionaryValue] }];
+    [self setSessionSpecificProfileValues:@ { KEY_BACKGROUND_COLOR: [color dictionaryValue] }];
 }
 
 - (NSColor *)boldColor {
@@ -323,7 +323,7 @@
 }
 
 - (void)setBoldColor:(NSColor *)color {
-    [self setSessionSpecificProfileValues:@{ KEY_BOLD_COLOR: [color dictionaryValue] }];
+    [self setSessionSpecificProfileValues:@ { KEY_BOLD_COLOR: [color dictionaryValue] }];
 }
 
 - (NSColor *)cursorColor {
@@ -331,7 +331,7 @@
 }
 
 - (void)setCursorColor:(NSColor *)color {
-    [self setSessionSpecificProfileValues:@{ KEY_CURSOR_COLOR: [color dictionaryValue] }];
+    [self setSessionSpecificProfileValues:@ { KEY_CURSOR_COLOR: [color dictionaryValue] }];
 }
 
 - (NSColor *)cursorTextColor {
@@ -339,7 +339,7 @@
 }
 
 - (void)setCursorTextColor:(NSColor *)color {
-    [self setSessionSpecificProfileValues:@{ KEY_CURSOR_TEXT_COLOR: [color dictionaryValue] }];
+    [self setSessionSpecificProfileValues:@ { KEY_CURSOR_TEXT_COLOR: [color dictionaryValue] }];
 }
 
 - (NSColor *)foregroundColor {
@@ -347,7 +347,7 @@
 }
 
 - (void)setForegroundColor:(NSColor *)color {
-    [self setSessionSpecificProfileValues:@{ KEY_FOREGROUND_COLOR: [color dictionaryValue] }];
+    [self setSessionSpecificProfileValues:@ { KEY_FOREGROUND_COLOR: [color dictionaryValue] }];
 }
 
 - (NSColor *)underlineColor {
@@ -355,7 +355,7 @@
 }
 
 - (void)setUnderlineColor:(NSColor *)color {
-    [self setSessionSpecificProfileValues:@{ KEY_UNDERLINE_COLOR: [color dictionaryValue] }];
+    [self setSessionSpecificProfileValues:@ { KEY_UNDERLINE_COLOR: [color dictionaryValue] }];
 }
 
 - (NSColor *)selectedTextColor {
@@ -363,7 +363,7 @@
 }
 
 - (void)setSelectedTextColor:(NSColor *)color {
-    [self setSessionSpecificProfileValues:@{ KEY_SELECTED_TEXT_COLOR: [color dictionaryValue] }];
+    [self setSessionSpecificProfileValues:@ { KEY_SELECTED_TEXT_COLOR: [color dictionaryValue] }];
 }
 
 - (NSColor *)selectionColor {
@@ -371,7 +371,7 @@
 }
 
 - (void)setSelectionColor:(NSColor *)color {
-    [self setSessionSpecificProfileValues:@{ KEY_SELECTION_COLOR: [color dictionaryValue] }];
+    [self setSessionSpecificProfileValues:@ { KEY_SELECTION_COLOR: [color dictionaryValue] }];
 }
 
 - (NSString *)text {
@@ -383,11 +383,11 @@
 }
 
 - (void)setAnswerBackString:(NSString *)string {
-    [self setSessionSpecificProfileValues:@{ KEY_ANSWERBACK_STRING: string ?: @"" }];
+    [self setSessionSpecificProfileValues:@ { KEY_ANSWERBACK_STRING: string ?: @"" }];
 }
 
 - (void)setName:(NSString *)name {
-    [self setSessionSpecificProfileValues:@{ KEY_NAME: name ?: @"" }];
+    [self setSessionSpecificProfileValues:@ { KEY_NAME: name ?: @"" }];
 }
 
 #pragma mark ANSI Colors
@@ -397,7 +397,7 @@
 }
 
 - (void)setAnsiBlackColor:(NSColor*)color {
-    [self setSessionSpecificProfileValues:@{ KEY_ANSI_0_COLOR: [color dictionaryValue] }];
+    [self setSessionSpecificProfileValues:@ { KEY_ANSI_0_COLOR: [color dictionaryValue] }];
 }
 
 - (NSColor *)ansiRedColor {
@@ -405,7 +405,7 @@
 }
 
 - (void)setAnsiRedColor:(NSColor*)color {
-    [self setSessionSpecificProfileValues:@{ KEY_ANSI_1_COLOR: [color dictionaryValue] }];
+    [self setSessionSpecificProfileValues:@ { KEY_ANSI_1_COLOR: [color dictionaryValue] }];
 }
 
 - (NSColor *)ansiGreenColor {
@@ -413,7 +413,7 @@
 }
 
 - (void)setAnsiGreenColor:(NSColor*)color {
-    [self setSessionSpecificProfileValues:@{ KEY_ANSI_2_COLOR: [color dictionaryValue] }];
+    [self setSessionSpecificProfileValues:@ { KEY_ANSI_2_COLOR: [color dictionaryValue] }];
 }
 
 - (NSColor *)ansiYellowColor {
@@ -421,7 +421,7 @@
 }
 
 - (void)setAnsiYellowColor:(NSColor*)color {
-    [self setSessionSpecificProfileValues:@{ KEY_ANSI_3_COLOR: [color dictionaryValue] }];
+    [self setSessionSpecificProfileValues:@ { KEY_ANSI_3_COLOR: [color dictionaryValue] }];
 }
 
 - (NSColor *)ansiBlueColor {
@@ -429,7 +429,7 @@
 }
 
 - (void)setAnsiBlueColor:(NSColor*)color {
-    [self setSessionSpecificProfileValues:@{ KEY_ANSI_4_COLOR: [color dictionaryValue] }];
+    [self setSessionSpecificProfileValues:@ { KEY_ANSI_4_COLOR: [color dictionaryValue] }];
 }
 
 - (NSColor *)ansiMagentaColor {
@@ -437,7 +437,7 @@
 }
 
 - (void)setAnsiMagentaColor:(NSColor*)color {
-    [self setSessionSpecificProfileValues:@{ KEY_ANSI_5_COLOR: [color dictionaryValue] }];
+    [self setSessionSpecificProfileValues:@ { KEY_ANSI_5_COLOR: [color dictionaryValue] }];
 }
 
 - (NSColor *)ansiCyanColor {
@@ -445,7 +445,7 @@
 }
 
 - (void)setAnsiCyanColor:(NSColor*)color {
-    [self setSessionSpecificProfileValues:@{ KEY_ANSI_6_COLOR: [color dictionaryValue] }];
+    [self setSessionSpecificProfileValues:@ { KEY_ANSI_6_COLOR: [color dictionaryValue] }];
 }
 
 - (NSColor *)ansiWhiteColor {
@@ -453,7 +453,7 @@
 }
 
 - (void)setAnsiWhiteColor:(NSColor*)color {
-    [self setSessionSpecificProfileValues:@{ KEY_ANSI_7_COLOR: [color dictionaryValue] }];
+    [self setSessionSpecificProfileValues:@ { KEY_ANSI_7_COLOR: [color dictionaryValue] }];
 }
 
 #pragma mark Ansi Bright Colors
@@ -463,7 +463,7 @@
 }
 
 - (void)setAnsiBrightBlackColor:(NSColor*)color {
-    [self setSessionSpecificProfileValues:@{ KEY_ANSI_8_COLOR: [color dictionaryValue] }];
+    [self setSessionSpecificProfileValues:@ { KEY_ANSI_8_COLOR: [color dictionaryValue] }];
 }
 
 - (NSColor *)ansiBrightRedColor {
@@ -471,7 +471,7 @@
 }
 
 - (void)setAnsiBrightRedColor:(NSColor*)color {
-    [self setSessionSpecificProfileValues:@{ KEY_ANSI_9_COLOR: [color dictionaryValue] }];
+    [self setSessionSpecificProfileValues:@ { KEY_ANSI_9_COLOR: [color dictionaryValue] }];
 }
 
 - (NSColor *)ansiBrightGreenColor {
@@ -479,7 +479,7 @@
 }
 
 - (void)setAnsiBrightGreenColor:(NSColor*)color {
-    [self setSessionSpecificProfileValues:@{ KEY_ANSI_10_COLOR: [color dictionaryValue] }];
+    [self setSessionSpecificProfileValues:@ { KEY_ANSI_10_COLOR: [color dictionaryValue] }];
 }
 
 - (NSColor *)ansiBrightYellowColor {
@@ -487,7 +487,7 @@
 }
 
 - (void)setAnsiBrightYellowColor:(NSColor*)color {
-    [self setSessionSpecificProfileValues:@{ KEY_ANSI_11_COLOR: [color dictionaryValue] }];
+    [self setSessionSpecificProfileValues:@ { KEY_ANSI_11_COLOR: [color dictionaryValue] }];
 }
 
 - (NSColor *)ansiBrightBlueColor {
@@ -495,7 +495,7 @@
 }
 
 - (void)setAnsiBrightBlueColor:(NSColor*)color {
-    [self setSessionSpecificProfileValues:@{ KEY_ANSI_12_COLOR: [color dictionaryValue] }];
+    [self setSessionSpecificProfileValues:@ { KEY_ANSI_12_COLOR: [color dictionaryValue] }];
 }
 
 - (NSColor *)ansiBrightMagentaColor {
@@ -503,7 +503,7 @@
 }
 
 - (void)setAnsiBrightMagentaColor:(NSColor*)color {
-    [self setSessionSpecificProfileValues:@{ KEY_ANSI_13_COLOR: [color dictionaryValue] }];
+    [self setSessionSpecificProfileValues:@ { KEY_ANSI_13_COLOR: [color dictionaryValue] }];
 }
 
 - (NSColor *)ansiBrightCyanColor {
@@ -511,7 +511,7 @@
 }
 
 - (void)setAnsiBrightCyanColor:(NSColor*)color {
-    [self setSessionSpecificProfileValues:@{ KEY_ANSI_14_COLOR: [color dictionaryValue] }];
+    [self setSessionSpecificProfileValues:@ { KEY_ANSI_14_COLOR: [color dictionaryValue] }];
 }
 
 - (NSColor *)ansiBrightWhiteColor {
@@ -519,23 +519,23 @@
 }
 
 - (void)setAnsiBrightWhiteColor:(NSColor*)color {
-    [self setSessionSpecificProfileValues:@{ KEY_ANSI_15_COLOR: [color dictionaryValue] }];
+    [self setSessionSpecificProfileValues:@ { KEY_ANSI_15_COLOR: [color dictionaryValue] }];
 }
 
 - (void)setColumns:(int)columns {
     [[self.delegate realParentWindow] sessionInitiatedResize:self
-                                                       width:columns
-                                                      height:self.rows];
+                                      width:columns
+                                      height:self.rows];
 }
 
 - (void)setRows:(int)rows {
     [[self.delegate realParentWindow] sessionInitiatedResize:self
-                                                       width:self.columns
-                                                      height:rows];
+                                      width:self.columns
+                                      height:rows];
 }
 
 - (NSString *)profileName {
-  return self.profile[KEY_NAME];
+    return self.profile[KEY_NAME];
 }
 
 - (NSString *)colorPresetName {

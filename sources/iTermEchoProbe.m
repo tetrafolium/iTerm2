@@ -35,7 +35,7 @@ typedef NS_ENUM(NSUInteger, iTermEchoProbeState) {
 }
 
 - (void)beginProbeWithBackspace:(NSData *)backspace
-                       password:(nonnull NSString *)password {
+    password:(nonnull NSString *)password {
     _password = [password copy];
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(timeout) object:nil];
 
@@ -54,8 +54,8 @@ typedef NS_ENUM(NSUInteger, iTermEchoProbeState) {
             _state = iTermEchoProbeWaiting;
         }
         [self performSelector:@selector(timeout)
-                   withObject:nil
-                   afterDelay:[iTermAdvancedSettingsModel echoProbeDuration]];
+              withObject:nil
+              afterDelay:[iTermAdvancedSettingsModel echoProbeDuration]];
     } else {
         // Rare case: we don't know how to send a backspace. Just enter the password.
         [self enterPassword];
@@ -88,43 +88,43 @@ typedef NS_ENUM(NSUInteger, iTermEchoProbeState) {
 
 iTermEchoProbeState iTermEchoProbeGetNextState(iTermEchoProbeState state, VT100Token *token) {
     switch (state) {
-        case iTermEchoProbeOff:
-        case iTermEchoProbeFailed:
-            return state;
-            
-        case iTermEchoProbeWaiting:
-            if (token->type == VT100_ASCIISTRING && [[token stringForAsciiData] isEqualToString:@"*"]) {
-                return iTermEchoProbeOneAsterisk;
-            } else {
-                return iTermEchoProbeFailed;
-            }
-            
-        case iTermEchoProbeOneAsterisk:
-            if (token->type == VT100CC_BS ||
-                (token->type == VT100CSI_CUB && token.csi->p[0] == 1)) {
-                return iTermEchoProbeBackspaceOverAsterisk;
-            } else {
-                return iTermEchoProbeFailed;
-            }
-    
-        case iTermEchoProbeBackspaceOverAsterisk:
-            if (token->type == VT100_ASCIISTRING && [[token stringForAsciiData] isEqualToString:@" "]) {
-                return iTermEchoProbeSpaceOverAsterisk;
-            } else if (token->type == VT100CSI_EL && token.csi->p[0] == 0) {
-                return iTermEchoProbeBackspaceOverSpace;
-            } else {
-                return iTermEchoProbeFailed;
-            }
-            
-        case iTermEchoProbeSpaceOverAsterisk:
-            if (token->type == VT100CC_BS) {
-                return iTermEchoProbeBackspaceOverSpace;
-            } else {
-                return iTermEchoProbeFailed;
-            }
-            
-        case iTermEchoProbeBackspaceOverSpace:
+    case iTermEchoProbeOff:
+    case iTermEchoProbeFailed:
+        return state;
+
+    case iTermEchoProbeWaiting:
+        if (token->type == VT100_ASCIISTRING && [[token stringForAsciiData] isEqualToString:@"*"]) {
+            return iTermEchoProbeOneAsterisk;
+        } else {
             return iTermEchoProbeFailed;
+        }
+
+    case iTermEchoProbeOneAsterisk:
+        if (token->type == VT100CC_BS ||
+                (token->type == VT100CSI_CUB && token.csi->p[0] == 1)) {
+            return iTermEchoProbeBackspaceOverAsterisk;
+        } else {
+            return iTermEchoProbeFailed;
+        }
+
+    case iTermEchoProbeBackspaceOverAsterisk:
+        if (token->type == VT100_ASCIISTRING && [[token stringForAsciiData] isEqualToString:@" "]) {
+            return iTermEchoProbeSpaceOverAsterisk;
+        } else if (token->type == VT100CSI_EL && token.csi->p[0] == 0) {
+            return iTermEchoProbeBackspaceOverSpace;
+        } else {
+            return iTermEchoProbeFailed;
+        }
+
+    case iTermEchoProbeSpaceOverAsterisk:
+        if (token->type == VT100CC_BS) {
+            return iTermEchoProbeBackspaceOverSpace;
+        } else {
+            return iTermEchoProbeFailed;
+        }
+
+    case iTermEchoProbeBackspaceOverSpace:
+        return iTermEchoProbeFailed;
     }
 }
 
@@ -143,19 +143,19 @@ iTermEchoProbeState iTermEchoProbeGetNextState(iTermEchoProbeState state, VT100T
 - (void)timeout {
     @synchronized (self) {
         switch (_state) {
-            case iTermEchoProbeWaiting:
-            case iTermEchoProbeBackspaceOverSpace:
-                // It looks like we're at a password prompt. Send the password.
-                [self enterPassword];
-                break;
-                
-            case iTermEchoProbeFailed:
-            case iTermEchoProbeOff:
-            case iTermEchoProbeSpaceOverAsterisk:
-            case iTermEchoProbeBackspaceOverAsterisk:
-            case iTermEchoProbeOneAsterisk:
-                [self.delegate echoProbeDidFail:self];
-                break;
+        case iTermEchoProbeWaiting:
+        case iTermEchoProbeBackspaceOverSpace:
+            // It looks like we're at a password prompt. Send the password.
+            [self enterPassword];
+            break;
+
+        case iTermEchoProbeFailed:
+        case iTermEchoProbeOff:
+        case iTermEchoProbeSpaceOverAsterisk:
+        case iTermEchoProbeBackspaceOverAsterisk:
+        case iTermEchoProbeOneAsterisk:
+            [self.delegate echoProbeDidFail:self];
+            break;
         }
         _state = iTermEchoProbeOff;
         _password = nil;

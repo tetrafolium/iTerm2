@@ -35,8 +35,8 @@ typedef struct {
 @property (nonatomic) iTermStandardKeyMapperConfiguration configuration;
 
 + (unichar)codeForSpecialControlCharacter:(unichar)character
-               characterIgnoringModifiers:(unichar)characterIgnoringModifiers
-                             shiftPressed:(BOOL)shiftPressed;
+    characterIgnoringModifiers:(unichar)characterIgnoringModifiers
+    shiftPressed:(BOOL)shiftPressed;
 @end
 
 NS_ASSUME_NONNULL_END

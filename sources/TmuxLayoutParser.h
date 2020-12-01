@@ -47,7 +47,7 @@ typedef NS_ENUM(NSInteger, LayoutNodeType) {
 + (instancetype)sharedInstance;
 - (NSMutableDictionary *)parsedLayoutFromString:(NSString *)layout;
 - (NSMutableDictionary *)windowPane:(int)windowPane
-                        inParseTree:(NSMutableDictionary *)parseTree;
+    inParseTree:(NSMutableDictionary *)parseTree;
 - (NSArray *)windowPanesInParseTree:(NSDictionary *)parseTree;
 
 // For each leaf node, perform selector taking the NSMutableDictionary for the
@@ -55,8 +55,8 @@ typedef NS_ENUM(NSInteger, LayoutNodeType) {
 // nil, the DFS continues; otherwise the DFS stops and that value is returned
 // here.
 - (id)depthFirstSearchParseTree:(NSMutableDictionary *)parseTree
-                callingSelector:(SEL)selector
-                       onTarget:(id)target
-                     withObject:(id)obj;
+    callingSelector:(SEL)selector
+    onTarget:(id)target
+    withObject:(id)obj;
 
 @end

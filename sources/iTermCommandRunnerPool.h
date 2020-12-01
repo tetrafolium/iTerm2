@@ -20,10 +20,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSDictionary<NSString *, NSString *> *environment;
 
 - (instancetype)initWithCapacity:(int)capacity
-                         command:(NSString *)command
-                       arguments:(NSArray<NSString *> *)arguments
-                workingDirectory:(NSString *)workingDirectory
-                     environment:(NSDictionary<NSString *, NSString *> *)environment NS_DESIGNATED_INITIALIZER;
+    command:(NSString *)command
+    arguments:(NSArray<NSString *> *)arguments
+    workingDirectory:(NSString *)workingDirectory
+    environment:(NSDictionary<NSString *, NSString *> *)environment NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 

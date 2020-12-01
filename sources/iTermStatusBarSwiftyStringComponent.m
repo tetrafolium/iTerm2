@@ -23,7 +23,7 @@ NSString *const iTermStatusBarSwiftyStringComponentExpressionKey = @"expression"
 }
 
 - (instancetype)initWithConfiguration:(NSDictionary<iTermStatusBarComponentConfigurationKey,id> *)configuration
-                                scope:(nullable iTermVariableScope *)scope {
+    scope:(nullable iTermVariableScope *)scope {
     self = [super initWithConfiguration:configuration scope:scope];
     if (self) {
         [self updateWithKnobValues:self.configuration[iTermStatusBarComponentConfigurationKeyKnobValues]];
@@ -43,20 +43,20 @@ NSString *const iTermStatusBarSwiftyStringComponentExpressionKey = @"expression"
 - (NSArray<iTermStatusBarComponentKnob *> *)statusBarComponentKnobs {
     iTermStatusBarComponentKnob *expressionKnob =
         [[iTermStatusBarComponentKnob alloc] initWithLabelText:@"String Value:"
-                                                          type:iTermStatusBarComponentKnobTypeText
-                                                   placeholder:@"String with \\(expressions)"
-                                                  defaultValue:@""
-                                                           key:iTermStatusBarSwiftyStringComponentExpressionKey];
+                                             type:iTermStatusBarComponentKnobTypeText
+                                             placeholder:@"String with \\(expressions)"
+                                             defaultValue:@""
+                                             key:iTermStatusBarSwiftyStringComponentExpressionKey];
     return [@[ expressionKnob ] arrayByAddingObjectsFromArray:[super statusBarComponentKnobs]];
 }
 
 + (NSDictionary *)statusBarComponentDefaultKnobs {
     NSDictionary *fromSuper = [super statusBarComponentDefaultKnobs];
-    return [fromSuper dictionaryByMergingDictionary:@{ iTermStatusBarSwiftyStringComponentExpressionKey: @"" }];
+    return [fromSuper dictionaryByMergingDictionary:@ { iTermStatusBarSwiftyStringComponentExpressionKey: @"" }];
 }
 
 - (id)statusBarComponentExemplarWithBackgroundColor:(NSColor *)backgroundColor
-                                          textColor:(NSColor *)textColor {
+    textColor:(NSColor *)textColor {
     if (!_swiftyString.swiftyString.length) {
         return @"\\(expression)";
     } else {
@@ -97,12 +97,12 @@ NSString *const iTermStatusBarSwiftyStringComponentExpressionKey = @"expression"
 - (void)onClick:(id)sender {
     if (_errorReason) {
         [iTermWarning showWarningWithTitle:_errorReason
-                                   actions:@[ @"OK" ]
-                                 accessory:nil
-                                identifier:@"NoSyncInterpolatedStatusBarComponentError"
-                               silenceable:kiTermWarningTypePersistent
-                                   heading:@"Error"
-                                    window:self.statusBarComponentView.window];
+                      actions:@[ @"OK" ]
+                      accessory:nil
+                      identifier:@"NoSyncInterpolatedStatusBarComponentError"
+                      silenceable:kiTermWarningTypePersistent
+                      heading:@"Error"
+                      window:self.statusBarComponentView.window];
     }
 }
 
@@ -118,17 +118,17 @@ NSString *const iTermStatusBarSwiftyStringComponentExpressionKey = @"expression"
         self.stringValue = expression;
     } else {
         _swiftyString = [[iTermSwiftyString alloc] initWithString:expression
-                                                            scope:self.scope
-                                                         observer:^NSString *(NSString * _Nonnull newValue, NSError *error) {
-                                                             return [weakSelf didEvaluateExpression:expression withResult:newValue error:error];
-                                                         }];
+                                                   scope:self.scope
+                                  observer:^NSString *(NSString * _Nonnull newValue, NSError *error) {
+                                      return [weakSelf didEvaluateExpression:expression withResult:newValue error:error];
+                                  }];
         self.stringValue = _swiftyString.evaluatedString;
     }
 }
 
 - (NSString *)didEvaluateExpression:(NSString *)expression
-                         withResult:(NSString *)newValue
-                              error:(NSError *)error {
+    withResult:(NSString *)newValue
+    error:(NSError *)error {
     static NSString *ladybug = @"🐞";
     if (error != nil) {
         NSString *message = [NSString stringWithFormat:@"Error while evaluating “%@”:\n%@", expression, error.localizedDescription];

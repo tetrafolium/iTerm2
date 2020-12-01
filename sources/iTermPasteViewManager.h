@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) int remainingLength;
 
 - (void)startWithViewForDropdown:(NSView *)dropdownSuperview
-         statusBarViewController:(iTermStatusBarViewController *)statusBarController;
+    statusBarViewController:(iTermStatusBarViewController *)statusBarController;
 
 - (void)didStop;
 

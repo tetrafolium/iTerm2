@@ -36,18 +36,18 @@
         sourceRect.size.width = containerAspectRatio * self.size.height;
         sourceRect.origin.x = (self.size.width - sourceRect.size.width) / 2.0;
     }
-    return [NSImage imageOfSize:size drawBlock:^{
-        [self drawInRect:NSMakeRect(0, 0, size.width, size.height)
-                fromRect:sourceRect
-               operation:NSCompositingOperationCopy
-                fraction:1];
-    }];
+    return [NSImage imageOfSize:size drawBlock:^ {
+                [self drawInRect:NSMakeRect(0, 0, size.width, size.height)
+                 fromRect:sourceRect
+                 operation:NSCompositingOperationCopy
+                 fraction:1];
+            }];
 }
 
 + (NSImage *)imageOfSize:(NSSize)size color:(NSColor *)color {
-    return [self imageOfSize:size drawBlock:^{
-        [color set];
-        NSRectFill(NSMakeRect(0, 0, size.width, size.height));
+    return [self imageOfSize:size drawBlock:^ {
+             [color set];
+             NSRectFill(NSMakeRect(0, 0, size.width, size.height));
     }];
 }
 
@@ -63,9 +63,9 @@
     }
     [self lockFocus];
 
-    [NSAppearance it_performBlockWithCurrentAppearanceSetToAppearanceForCurrentTheme:^{
-        block();
-    }];
+    [NSAppearance it_performBlockWithCurrentAppearanceSetToAppearanceForCurrentTheme:^ {
+                     block();
+                 }];
 
     [self unlockFocus];
 }
@@ -85,32 +85,32 @@
 }
 
 + (instancetype)imageWithRawData:(NSData *)data
-                            size:(NSSize)size
-                   bitsPerSample:(NSInteger)bitsPerSample
-                 samplesPerPixel:(NSInteger)samplesPerPixel
-                        hasAlpha:(BOOL)hasAlpha
-                  colorSpaceName:(NSString *)colorSpaceName {
+    size:(NSSize)size
+    bitsPerSample:(NSInteger)bitsPerSample
+    samplesPerPixel:(NSInteger)samplesPerPixel
+    hasAlpha:(BOOL)hasAlpha
+    colorSpaceName:(NSString *)colorSpaceName {
     if (samplesPerPixel == 1) {
         return [self imageWithRawData:[self dataWithFourBytesPerPixelFromDataWithOneBytePerPixel:data]
-                                 size:size
-                        bitsPerSample:8
-                      samplesPerPixel:4
-                             hasAlpha:YES
-                       colorSpaceName:colorSpaceName];
+                     size:size
+                     bitsPerSample:8
+                     samplesPerPixel:4
+                     hasAlpha:YES
+                     colorSpaceName:colorSpaceName];
     }
-    
+
     assert(data.length == size.width * size.height * bitsPerSample * samplesPerPixel / 8);
     NSBitmapImageRep *bitmapImageRep =
         [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:nil  // allocate the pixel buffer for us
-                                                pixelsWide:size.width
-                                                pixelsHigh:size.height
-                                             bitsPerSample:bitsPerSample
-                                           samplesPerPixel:samplesPerPixel
-                                                  hasAlpha:hasAlpha
-                                                  isPlanar:NO
-                                            colorSpaceName:colorSpaceName
-                                               bytesPerRow:bitsPerSample * samplesPerPixel * size.width / 8
-                                              bitsPerPixel:bitsPerSample * samplesPerPixel];  // 0 means OS infers it
+                                  pixelsWide:size.width
+                                  pixelsHigh:size.height
+                                  bitsPerSample:bitsPerSample
+                                  samplesPerPixel:samplesPerPixel
+                                  hasAlpha:hasAlpha
+                                  isPlanar:NO
+                                  colorSpaceName:colorSpaceName
+                                  bytesPerRow:bitsPerSample * samplesPerPixel * size.width / 8
+                                  bitsPerPixel:bitsPerSample * samplesPerPixel];  // 0 means OS infers it
 
     memmove([bitmapImageRep bitmapData], data.bytes, data.length);
 
@@ -121,13 +121,21 @@
 }
 
 + (NSString *)extensionForUniformType:(NSString *)type {
-    NSDictionary *map = @{ (NSString *)kUTTypeBMP: @"bmp",
-                           (NSString *)kUTTypeGIF: @"gif",
-                           (NSString *)kUTTypeJPEG2000: @"jp2",
-                           (NSString *)kUTTypeJPEG: @"jpeg",
-                           (NSString *)kUTTypePNG: @"png",
-                           (NSString *)kUTTypeTIFF: @"tiff",
-                           (NSString *)kUTTypeICO: @"ico" };
+    NSDictionary *map = @ { (NSString *)kUTTypeBMP:
+                            @"bmp",
+                            (NSString *)kUTTypeGIF:
+                            @"gif",
+                            (NSString *)kUTTypeJPEG2000:
+                            @"jp2",
+                            (NSString *)kUTTypeJPEG:
+                            @"jpeg",
+                            (NSString *)kUTTypePNG:
+                            @"png",
+                            (NSString *)kUTTypeTIFF:
+                            @"tiff",
+                            (NSString *)kUTTypeICO:
+                            @"ico"
+                          };
     return map[type];
 }
 
@@ -149,7 +157,7 @@
 + (instancetype)it_cacheableImageNamed:(NSImageName)name forClass:(Class)theClass {
     static NSMutableDictionary<NSString *, NSImage *> *cache;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         cache = [NSMutableDictionary dictionary];
     });
     NSString *key = [NSString stringWithFormat:@"%@\n%@", NSStringFromClass(theClass), name];
@@ -173,9 +181,9 @@
     for (int i = 0; i < radius; i++) {
         [image lockFocus];
         [self drawInRect:frame
-                fromRect:frame
-               operation:NSCompositingOperationSourceOver
-                fraction:1];
+              fromRect:frame
+              operation:NSCompositingOperationSourceOver
+              fraction:1];
         [image unlockFocus];
         image = [self onePixelBoxBlurOfImage:image alpha:1.0/9.0];
     }
@@ -192,9 +200,9 @@
                                          dy,
                                          size.width,
                                          size.height)
-                     fromRect:NSMakeRect(0, 0, size.width, size.height)
-                    operation:NSCompositingOperationSourceOver
-                     fraction:alpha];
+                   fromRect:NSMakeRect(0, 0, size.width, size.height)
+                   operation:NSCompositingOperationSourceOver
+                   fraction:alpha];
         }
     }
     [destination unlockFocus];
@@ -202,25 +210,25 @@
 }
 
 + (CGContextRef)newBitmapContextOfSize:(NSSize)size storage:(NSMutableData *)data {
-  NSInteger bytesPerRow = size.width * 4;
-  NSUInteger storageNeeded = bytesPerRow * size.height;
-  [data setLength:storageNeeded];
+    NSInteger bytesPerRow = size.width * 4;
+    NSUInteger storageNeeded = bytesPerRow * size.height;
+    [data setLength:storageNeeded];
 
-  CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-  CGContextRef context = CGBitmapContextCreate((void *)data.bytes,
-                                               size.width,
-                                               size.height,
-                                               8,
-                                               bytesPerRow,
-                                               colorSpace,
-                                               (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
-  CGColorSpaceRelease(colorSpace);
-  if (!context) {
-    return NULL;
-  }
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef context = CGBitmapContextCreate((void *)data.bytes,
+                           size.width,
+                           size.height,
+                           8,
+                           bytesPerRow,
+                           colorSpace,
+                           (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
+    CGColorSpaceRelease(colorSpace);
+    if (!context) {
+        return NULL;
+    }
 
 
-  return context;
+    return context;
 }
 
 - (CGContextRef)newBitmapContextWithStorage:(NSMutableData *)data {
@@ -265,11 +273,11 @@
 // TODO: Should this use -bitmapImageRep?
 - (NSData *)dataForFileOfType:(NSBitmapImageFileType)fileType {
     CGImageRef cgImage = [self CGImageForProposedRect:NULL
-                                              context:nil
-                                                hints:nil];
+                               context:nil
+                               hints:nil];
     NSBitmapImageRep *imageRep = [[NSBitmapImageRep alloc] initWithCGImage:cgImage];
     [imageRep setSize:self.size];
-    return [imageRep representationUsingType:fileType properties:@{}];
+    return [imageRep representationUsingType:fileType properties:@ {}];
 }
 
 - (NSData *)rawPixelsInRGBColorSpace {
@@ -290,23 +298,23 @@
     }
 
     NSBitmapImageRep *rep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
-                                                                    pixelsWide:width
-                                                                    pixelsHigh:height
-                                                                 bitsPerSample:8
-                                                               samplesPerPixel:4
-                                                                      hasAlpha:YES
-                                                                      isPlanar:NO
-                                                                colorSpaceName:NSDeviceRGBColorSpace
-                                                                   bytesPerRow:width * 4
-                                                                  bitsPerPixel:32];
+                                                      pixelsWide:width
+                                                      pixelsHigh:height
+                                                      bitsPerSample:8
+                                                      samplesPerPixel:4
+                                                      hasAlpha:YES
+                                                      isPlanar:NO
+                                                      colorSpaceName:NSDeviceRGBColorSpace
+                                                      bytesPerRow:width * 4
+                                                      bitsPerPixel:32];
 
     NSGraphicsContext *ctx = [NSGraphicsContext graphicsContextWithBitmapImageRep: rep];
     [NSGraphicsContext saveGraphicsState];
     [NSGraphicsContext setCurrentContext:ctx];
     [self drawAtPoint:NSZeroPoint
-             fromRect:NSZeroRect
-            operation:NSCompositingOperationCopy
-             fraction:1.0];
+          fromRect:NSZeroRect
+          operation:NSCompositingOperationCopy
+          fraction:1.0];
     [ctx flushGraphics];
     [NSGraphicsContext restoreGraphicsState];
 
@@ -337,9 +345,9 @@
     NSSize size = self.size;
     NSImage *image = [self copy];
     image.template = NO;
-    [image it_drawWithBlock:^{
-        [tintColor set];
-        NSRectFillUsingOperation(NSMakeRect(0, 0, size.width, size.height),
+    [image it_drawWithBlock:^ {
+              [tintColor set];
+              NSRectFillUsingOperation(NSMakeRect(0, 0, size.width, size.height),
                                  NSCompositingOperationSourceAtop);
     }];
     return image;
@@ -390,36 +398,36 @@
         return nil;
     }
 
-    return [NSImage imageOfSize:newSize drawBlock:^{
-        [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
+    return [NSImage imageOfSize:newSize drawBlock:^ {
+                [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
         [self drawInRect:NSMakeRect(0, 0, newSize.width, newSize.height)
-                fromRect:NSMakeRect(0, 0, self.size.width, self.size.height)
-               operation:NSCompositingOperationCopy
-                fraction:1];
+              fromRect:NSMakeRect(0, 0, self.size.width, self.size.height)
+              operation:NSCompositingOperationCopy
+              fraction:1];
     }];
 }
 
 static NSBitmapImageRep * iTermCreateBitmapRep(NSSize size,
-                                               NSImage *sourceImage) {
+        NSImage *sourceImage) {
     NSBitmapImageRep *rep = [[NSBitmapImageRep alloc]
-              initWithBitmapDataPlanes:NULL
-                            pixelsWide:size.width
-                            pixelsHigh:size.height
-                         bitsPerSample:8
-                       samplesPerPixel:4
-                              hasAlpha:YES
-                              isPlanar:NO
+                             initWithBitmapDataPlanes:NULL
+                             pixelsWide:size.width
+                             pixelsHigh:size.height
+                             bitsPerSample:8
+                             samplesPerPixel:4
+                             hasAlpha:YES
+                             isPlanar:NO
                              colorSpaceName:sourceImage.bitmapImageRep.colorSpaceName
-                           bytesPerRow:0
-                          bitsPerPixel:0];
+                             bytesPerRow:0
+                             bitsPerPixel:0];
     rep.size = size;
 
     [NSGraphicsContext saveGraphicsState];
     [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithBitmapImageRep:rep]];
     [sourceImage drawInRect:NSMakeRect(0, 0, size.width, size.height)
-                   fromRect:NSZeroRect
-                  operation:NSCompositingOperationCopy
-                   fraction:1.0];
+                 fromRect:NSZeroRect
+                 operation:NSCompositingOperationCopy
+                 fraction:1.0];
     [NSGraphicsContext restoreGraphicsState];
 
     return rep;
@@ -432,7 +440,7 @@ static NSBitmapImageRep * iTermCreateBitmapRep(NSSize size,
     }
     NSBitmapImageRep *lowdpi = iTermCreateBitmapRep(pointSize, sourceImage);
     const NSSize retinaPixelSize = NSMakeSize(pointSize.width * 2,
-                                              pointSize.height * 2);
+                                   pointSize.height * 2);
     NSBitmapImageRep *hidpi = iTermCreateBitmapRep(retinaPixelSize, sourceImage);
 
     NSImage *image = [[NSImage alloc] initWithSize:pointSize];
@@ -449,12 +457,12 @@ static NSBitmapImageRep * iTermCreateBitmapRep(NSSize size,
     const NSSize size = self.size;
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
     CGContextRef context = CGBitmapContextCreate(nil,
-                                                 size.width,
-                                                 size.height,
-                                                 8,
-                                                 0,
-                                                 colorSpace,
-                                                 kCGImageAlphaNone);
+                           size.width,
+                           size.height,
+                           8,
+                           0,
+                           colorSpace,
+                           kCGImageAlphaNone);
     const CGRect rect = CGRectMake(0,
                                    0,
                                    size.width,
@@ -463,7 +471,7 @@ static NSBitmapImageRep * iTermCreateBitmapRep(NSSize size,
     CGImageRef cgImage = CGBitmapContextCreateImage(context);
 
     NSImage *result = [[NSImage alloc] initWithCGImage:cgImage
-                                                  size:size];
+                                       size:size];
 
     CFRelease(cgImage);
     CGContextRelease(context);

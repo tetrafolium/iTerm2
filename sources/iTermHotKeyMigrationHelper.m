@@ -25,7 +25,7 @@
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     static id instance;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -39,7 +39,7 @@
 
     DLog(@"Migrating hotkey prefs…");
     if ([iTermPreferences boolForKey:kPreferenceKeyHotkeyEnabled] &&
-        [iTermPreferences boolForKey:kPreferenceKeyHotKeyTogglesWindow_Deprecated]) {
+            [iTermPreferences boolForKey:kPreferenceKeyHotKeyTogglesWindow_Deprecated]) {
         DLog(@"Legacy preferences have a dedicated window");
 
         NSString *guid = [iTermPreferences stringForKey:kPreferenceKeyHotkeyProfileGuid_Deprecated];
@@ -90,12 +90,12 @@
         DLog(@"Warning about children of hotkey profile");
         NSString *concatenatedNames = [childrensNames componentsJoinedWithOxfordComma];
         NSString *title = [NSString stringWithFormat:@"You have dynamic profiles whose “Dynamic Profile Parent Name” is set to your hotkey window's profile, “%@.” Because multiple hotkey windows are now supported, the hotkey will now toggle a separate window for each of these profiles. Please update your dynamic profiles appropriately. The affected profiles are:\n%@",
-                           profile[KEY_NAME], concatenatedNames];
+                                    profile[KEY_NAME], concatenatedNames];
         [iTermWarning showWarningWithTitle:title
-                                   actions:@[ @"OK" ]
-                                identifier:nil
-                               silenceable:kiTermWarningTypePersistent
-                                    window:nil];
+                      actions:@[ @"OK" ]
+                      identifier:nil
+                      silenceable:kiTermWarningTypePersistent
+                      window:nil];
     }
     return childrensNames.count > 0;
 }
@@ -120,12 +120,12 @@
     }
 
     iTermWarningSelection selection = [iTermWarning showWarningWithTitle:title
-                                                                 actions:actions
-                                                               accessory:nil
-                                                              identifier:nil
-                                                             silenceable:kiTermWarningTypePersistent
-                                                                 heading:@"Problem Updating Hotkey Window"
-                                                                  window:nil];
+                                                    actions:actions
+                                                    accessory:nil
+                                                    identifier:nil
+                                                    silenceable:kiTermWarningTypePersistent
+                                                    heading:@"Problem Updating Hotkey Window"
+                                                    window:nil];
     if (selection == update) {
         NSString *filename = profile[KEY_DYNAMIC_PROFILE_FILENAME];
         [replacementFile writeToFile:filename atomically:NO];
@@ -139,8 +139,8 @@
 - (NSString *)jsonEntriesInDictionary:(NSDictionary *)dictionary {
     NSMutableArray *linesArray = [NSMutableArray array];
     [dictionary enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        NSString *encodedKey = [key stringByEscapingForJSON];
-        NSString *encodedValue = nil;
+                   NSString *encodedKey = [key stringByEscapingForJSON];
+                   NSString *encodedValue = nil;
         if ([obj isKindOfClass:[NSString class]]) {
             encodedValue = [obj stringByEscapingForJSON];
         } else if ([obj isKindOfClass:[NSNumber class]]) {
@@ -155,25 +155,25 @@
 - (NSString *)xmlEntriesInDictionary:(NSDictionary *)dictionary {
     NSMutableArray *linesArray = [NSMutableArray array];
     [dictionary enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        NSString *encodedKey = [key stringByEscapingForXML];
-        NSString *encodedValue = nil;
-        NSString *type = @"";
+                   NSString *encodedKey = [key stringByEscapingForXML];
+                   NSString *encodedValue = nil;
+                   NSString *type = @"";
         if ([obj isKindOfClass:[NSString class]]) {
             type = @"string";
             encodedValue = [obj stringByEscapingForXML];
         } else if ([obj isKindOfClass:[NSNumber class]]) {
             switch (CFNumberGetType((CFNumberRef)obj)) {
-                case kCFNumberFloatType:
-                case kCFNumberFloat32Type:
-                case kCFNumberCGFloatType:
-                case kCFNumberDoubleType:
-                case kCFNumberFloat64Type:
-                    type = @"real";
-                    break;
+            case kCFNumberFloatType:
+            case kCFNumberFloat32Type:
+            case kCFNumberCGFloatType:
+            case kCFNumberDoubleType:
+            case kCFNumberFloat64Type:
+                type = @"real";
+                break;
 
-                default:
-                    type = @"integer";
-                    break;
+            default:
+                type = @"integer";
+                break;
             }
             encodedValue = [obj stringValue];
         }
@@ -189,22 +189,22 @@
     [[iTermDynamicProfileManager sharedInstance] profilesInFile:filename fileType:&fileType];
     NSString *lines = nil;
     switch (fileType) {
-        case kDynamicProfileFileTypeJSON: {
-            lines = [self jsonEntriesInDictionary:[self hotkeyDictionary]];
-            break;
-        }
-        case kDynamicProfileFileTypePropertyList: {
-            lines = [self xmlEntriesInDictionary:[self hotkeyDictionary]];
-            break;
-        }
+    case kDynamicProfileFileTypeJSON: {
+        lines = [self jsonEntriesInDictionary:[self hotkeyDictionary]];
+        break;
+    }
+    case kDynamicProfileFileTypePropertyList: {
+        lines = [self xmlEntriesInDictionary:[self hotkeyDictionary]];
+        break;
+    }
 
     }
     NSAlert *alert = [[[NSAlert alloc] init] autorelease];
     alert.messageText = @"Changes to Make";
     alert.informativeText = [NSString stringWithFormat:@"Add these settings to the profile named “%@” in “%@”:\n%@",
-                             profile[KEY_NAME],
-                             filename,
-                             lines];
+                                      profile[KEY_NAME],
+                                      filename,
+                                      lines];
     [alert addButtonWithTitle:@"OK"];
     [alert addButtonWithTitle:@"Copy to Pasteboard"];
     if ([alert runModal] == NSAlertSecondButtonReturn) {
@@ -218,10 +218,10 @@
     NSString *filename = profile[KEY_DYNAMIC_PROFILE_FILENAME];
     iTermDynamicProfileFileType fileType;
     NSArray<Profile *> *profiles = [[iTermDynamicProfileManager sharedInstance] profilesInFile:filename
-                                                                                      fileType:&fileType];
+                                                                                fileType:&fileType];
     NSUInteger index = [profiles indexOfObjectPassingTest:^BOOL(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        return [obj[KEY_GUID] isEqualToString:profile[KEY_GUID]];
-    }];
+                 return [obj[KEY_GUID] isEqualToString:profile[KEY_GUID]];
+             }];
     if (index != NSNotFound) {
         Profile *modifiedProfile = [[profiles[index] mutableCopy] autorelease];
         [modifiedProfile setValuesForKeysWithDictionary:[self hotkeyDictionary]];
@@ -230,17 +230,17 @@
 
         NSDictionary *dict = [[iTermDynamicProfileManager sharedInstance] dictionaryForProfiles:modifiedProfilesArray];
         switch (fileType) {
-            case kDynamicProfileFileTypeJSON: {
-                NSError *error = nil;
-                NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&error];
-                if (error) {
-                    XLog(@"Failed to create JSON data from dictionary %@ with error %@", dict, error);
-                }
-                return data;
+        case kDynamicProfileFileTypeJSON: {
+            NSError *error = nil;
+            NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&error];
+            if (error) {
+                XLog(@"Failed to create JSON data from dictionary %@ with error %@", dict, error);
             }
+            return data;
+        }
 
-            case kDynamicProfileFileTypePropertyList:
-                return [dict propertyListData];
+        case kDynamicProfileFileTypePropertyList:
+            return [dict propertyListData];
         }
     }
     return nil;
@@ -261,16 +261,27 @@
 #pragma clang diagnostic pop
     iTermHotKeyDockPreference dockAction = dockIconTogglesWindow ? iTermHotKeyDockPreferenceShowIfNoOtherWindowsOpen : iTermHotKeyDockPreferenceDoNotShow;
 
-    NSDictionary *newSettings = @{ KEY_HAS_HOTKEY: @YES,
-                                   KEY_HOTKEY_KEY_CODE: @(keyCode),
-                                   KEY_HOTKEY_CHARACTERS: characters,
-                                   KEY_HOTKEY_CHARACTERS_IGNORING_MODIFIERS: characters,
-                                   KEY_HOTKEY_MODIFIER_FLAGS: @(modifiers),
-                                   KEY_HOTKEY_AUTOHIDE: @(autohides),
-                                   KEY_HOTKEY_REOPEN_ON_ACTIVATION: @NO,
-                                   KEY_HOTKEY_ANIMATE: @(animate),
-                                   KEY_HOTKEY_FLOAT: @NO,
-                                   KEY_HOTKEY_DOCK_CLICK_ACTION: @(dockAction) };
+    NSDictionary *newSettings = @ { KEY_HAS_HOTKEY:
+                                    @YES,
+                                    KEY_HOTKEY_KEY_CODE:
+                                    @(keyCode),
+                                    KEY_HOTKEY_CHARACTERS:
+                                    characters,
+                                    KEY_HOTKEY_CHARACTERS_IGNORING_MODIFIERS:
+                                    characters,
+                                    KEY_HOTKEY_MODIFIER_FLAGS:
+                                    @(modifiers),
+                                    KEY_HOTKEY_AUTOHIDE:
+                                    @(autohides),
+                                    KEY_HOTKEY_REOPEN_ON_ACTIVATION:
+                                    @NO,
+                                    KEY_HOTKEY_ANIMATE:
+                                    @(animate),
+                                    KEY_HOTKEY_FLOAT:
+                                    @NO,
+                                    KEY_HOTKEY_DOCK_CLICK_ACTION:
+                                    @(dockAction)
+                                  };
     return newSettings;
 }
 

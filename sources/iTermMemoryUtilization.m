@@ -27,7 +27,7 @@
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     static id instance;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -45,8 +45,8 @@
 
 - (void)addSubscriber:(id)subscriber block:(void (^)(double))block {
     [_publisher addSubscriber:subscriber block:^(NSNumber * _Nonnull payload) {
-        block(payload.doubleValue);
-    }];
+                   block(payload.doubleValue);
+               }];
     NSNumber *last = _publisher.historicalValues.lastObject;
     if (last != nil) {
         block(last.doubleValue);
@@ -68,7 +68,7 @@
 - (long long)pageSize {
     static vm_size_t pagesize = 0;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         mach_port_t host_port = mach_host_self();
         host_page_size(host_port, &pagesize);
     });
@@ -125,10 +125,10 @@
         _timer = nil;
     } else if (!_timer) {
         _timer = [NSTimer scheduledTimerWithTimeInterval:self.cadence
-                                                  target:self
-                                                selector:@selector(update)
-                                                userInfo:nil
-                                                 repeats:YES];
+                          target:self
+                          selector:@selector(update)
+                          userInfo:nil
+                          repeats:YES];
     }
 }
 

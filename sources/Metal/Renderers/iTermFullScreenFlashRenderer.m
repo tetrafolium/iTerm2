@@ -12,15 +12,15 @@
 - (void)writeDebugInfoToFolder:(NSURL *)folder {
     [super writeDebugInfoToFolder:folder];
     NSString *s = [NSString stringWithFormat:
-                   @"color=(%@, %@, %@, %@)",
-                   @(self.color.x),
-                   @(self.color.y),
-                   @(self.color.z),
-                   @(self.color.w)];
+                            @"color=(%@, %@, %@, %@)",
+                            @(self.color.x),
+                            @(self.color.y),
+                            @(self.color.z),
+                            @(self.color.w)];
     [s writeToURL:[folder URLByAppendingPathComponent:@"state.txt"]
        atomically:NO
-         encoding:NSUTF8StringEncoding
-            error:NULL];
+       encoding:NSUTF8StringEncoding
+       error:NULL];
 }
 
 - (vector_float4)premultipliedColor {
@@ -41,10 +41,10 @@
     self = [super init];
     if (self) {
         _metalRenderer = [[iTermMetalRenderer alloc] initWithDevice:device
-                                                 vertexFunctionName:@"iTermFullScreenFlashVertexShader"
-                                               fragmentFunctionName:@"iTermFullScreenFlashFragmentShader"
-                                                           blending:[iTermMetalBlending premultipliedCompositing]
-                                                transientStateClass:[iTermFullScreenFlashRendererTransientState class]];
+                                                     vertexFunctionName:@"iTermFullScreenFlashVertexShader"
+                                                     fragmentFunctionName:@"iTermFullScreenFlashFragmentShader"
+                                                     blending:[iTermMetalBlending premultipliedCompositing]
+                                                     transientStateClass:[iTermFullScreenFlashRendererTransientState class]];
         _colorBufferPool = [[iTermMetalBufferPool alloc] initWithDevice:device bufferSize:sizeof(vector_float4)];
     }
     return self;
@@ -59,7 +59,7 @@
 }
 
 - (void)drawWithFrameData:(nonnull iTermMetalFrameData *)frameData
-           transientState:(__kindof iTermMetalRendererTransientState *)transientState {
+    transientState:(__kindof iTermMetalRendererTransientState *)transientState {
     iTermFullScreenFlashRendererTransientState *tState = transientState;
     const vector_float4 color = tState.premultipliedColor;
     if (color.w > 0) {
@@ -67,23 +67,23 @@
                                  transientState.configuration.viewportSize.y);
         id<MTLBuffer> vertexBuffer = [_metalRenderer newQuadOfSize:size poolContext:tState.poolContext];
         id<MTLBuffer> colorBuffer = [_colorBufferPool requestBufferFromContext:tState.poolContext
-                                                                     withBytes:&color
-                                                                checkIfChanged:YES];
+                                                      withBytes:&color
+                                                      checkIfChanged:YES];
         [_metalRenderer drawWithTransientState:tState
-                                 renderEncoder:frameData.renderEncoder
-                              numberOfVertices:6
-                                  numberOfPIUs:0
-                                 vertexBuffers:@{ @(iTermVertexInputIndexVertices): vertexBuffer }
-                               fragmentBuffers:@{ @(iTermFragmentBufferIndexFullScreenFlashColor): colorBuffer }
-                                      textures:@{}];
+                        renderEncoder:frameData.renderEncoder
+                        numberOfVertices:6
+                        numberOfPIUs:0
+                        vertexBuffers:@ { @(iTermVertexInputIndexVertices): vertexBuffer }
+                        fragmentBuffers:@ { @(iTermFragmentBufferIndexFullScreenFlashColor): colorBuffer }
+                        textures:@ {}];
     }
 }
 
 - (nullable __kindof iTermMetalRendererTransientState *)createTransientStateForConfiguration:(nonnull iTermRenderConfiguration *)configuration
-                                                                              commandBuffer:(nonnull id<MTLCommandBuffer>)commandBuffer {
+    commandBuffer:(nonnull id<MTLCommandBuffer>)commandBuffer {
     __kindof iTermMetalRendererTransientState * _Nonnull transientState =
-    [_metalRenderer createTransientStateForConfiguration:configuration
-                                           commandBuffer:commandBuffer];
+        [_metalRenderer createTransientStateForConfiguration:configuration
+                        commandBuffer:commandBuffer];
     [self initializeTransientState:transientState];
     return transientState;
 }

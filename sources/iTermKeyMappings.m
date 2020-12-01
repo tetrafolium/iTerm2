@@ -24,10 +24,10 @@ static NSDictionary *gGlobalKeyMapping;
 #pragma mark Action-Returning
 
 + (iTermKeyBindingAction *)actionForKeystroke:(iTermKeystroke *)keystroke
-                                  keyMappings:(NSDictionary *)keyMappings {
+    keyMappings:(NSDictionary *)keyMappings {
     if (keyMappings) {
         iTermKeyBindingAction *action = [self localActionForKeystroke:keystroke
-                                                          keyMappings:keyMappings];
+                                              keyMappings:keyMappings];
         if (action) {
             return action;
         }
@@ -38,7 +38,7 @@ static NSDictionary *gGlobalKeyMapping;
     }
 
     return [self localActionForKeystroke:keystroke
-                             keyMappings:[self globalKeyMap]];
+                 keyMappings:[self globalKeyMap]];
 }
 
 + (iTermKeyBindingAction *)globalActionAtIndex:(NSInteger)rowIndex {
@@ -51,7 +51,7 @@ static NSDictionary *gGlobalKeyMapping;
 }
 
 + (iTermKeyBindingAction *)localActionForKeystroke:(iTermKeystroke *)keystroke
-                                       keyMappings:(NSDictionary *)keyMappings {
+    keyMappings:(NSDictionary *)keyMappings {
     NSDictionary *theKeyMapping = [keystroke valueInBindingDictionary:keyMappings];
 
     if (theKeyMapping == nil) {
@@ -67,15 +67,15 @@ static NSDictionary *gGlobalKeyMapping;
     NSDictionary *keyMapping = sourceProfile[KEY_KEYBOARD_MAP];
     NSArray *keys = keyMapping.allKeys;
     NSArray *keystrokes = [keys mapWithBlock:^id(id anObject) {
-        return [[iTermKeystroke alloc] initWithSerialized:anObject];
-    }];
+             return [[iTermKeystroke alloc] initWithSerialized:anObject];
+         }];
     return [NSSet setWithArray:keystrokes];
 }
 
 + (NSSet<iTermKeystroke *> *)keystrokesInGlobalMapping {
     return [NSSet setWithArray:[[[self globalKeyMap] allKeys] mapWithBlock:^id(id anObject) {
-        return [[iTermKeystroke alloc] initWithSerialized:anObject];
-    }]];
+              return [[iTermKeystroke alloc] initWithSerialized:anObject];
+          }]];
 }
 
 #pragma mark Mapping-Related
@@ -98,12 +98,12 @@ static NSDictionary *gGlobalKeyMapping;
     NSMutableArray<iTermTuple<iTermKeystroke *, iTermKeyBindingAction *> *> *result = [NSMutableArray array];
     NSDictionary<id, iTermKeyBindingAction *> *keyboardMap = profile[KEY_KEYBOARD_MAP];
     [keyboardMap enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull serialized, iTermKeyBindingAction * _Nonnull action, BOOL * _Nonnull stop) {
-        iTermKeystroke *key = [[iTermKeystroke alloc] initWithSerialized:serialized];
-        if (!key) {
+                    iTermKeystroke *key = [[iTermKeystroke alloc] initWithSerialized:serialized];
+                    if (!key) {
             return;
         }
         [result addObject:[iTermTuple tupleWithObject:key
-                                            andObject:action]];
+                           andObject:action]];
     }];
 
     return result;
@@ -115,16 +115,16 @@ static NSDictionary *gGlobalKeyMapping;
     NSDictionary* km = [self globalKeyMap];
     NSArray *serialized = [[km allKeys] sortedArrayUsingSelector:@selector(compareSerializedKeystroke:)];
     return [serialized mapWithBlock:^id(id anObject) {
-        return [[iTermKeystroke alloc] initWithSerialized:anObject];
-    }];
+                   return [[iTermKeystroke alloc] initWithSerialized:anObject];
+               }];
 }
 
 + (NSArray<iTermKeystroke *> *)sortedKeystrokesForProfile:(Profile *)profile {
     NSDictionary *km = profile[KEY_KEYBOARD_MAP];
     NSArray *serialized = [[km allKeys] sortedArrayUsingSelector:@selector(compareSerializedKeystroke:)];
     return [serialized mapWithBlock:^id(id anObject) {
-        return [[iTermKeystroke alloc] initWithSerialized:anObject];
-    }];
+                   return [[iTermKeystroke alloc] initWithSerialized:anObject];
+               }];
 }
 
 + (iTermKeystroke *)keystrokeAtIndex:(int)rowIndex inprofile:(Profile *)profile {
@@ -151,24 +151,24 @@ static NSDictionary *gGlobalKeyMapping;
     NSDictionary *km = profile[KEY_KEYBOARD_MAP];
     NSArray *serialized = [[km allKeys] sortedArrayUsingSelector:@selector(compareSerializedKeystroke:)];
     return [serialized mapWithBlock:^id(id anObject) {
-        return [[iTermKeystroke alloc] initWithSerialized:anObject];
-    }];
+                   return [[iTermKeystroke alloc] initWithSerialized:anObject];
+               }];
 }
 
 #pragma mark - Mutation
 
 + (void)removeAllGlobalKeyMappings {
     if (gGlobalKeyMapping) {
-        gGlobalKeyMapping = @{};
+        gGlobalKeyMapping = @ {};
     }
-    [[NSUserDefaults standardUserDefaults] setObject:@{} forKey:@"GlobalKeyMap"];
+    [[NSUserDefaults standardUserDefaults] setObject:@ {} forKey:@"GlobalKeyMap"];
 }
 
 + (void)setMappingAtIndex:(int)rowIndex
-             forKeystroke:(iTermKeystroke*)keyStroke
-                   action:(iTermKeyBindingAction *)action
-                createNew:(BOOL)newMapping
-             inDictionary:(NSMutableDictionary *)mutableKeyMapping {
+    forKeystroke:(iTermKeystroke*)keyStroke
+    action:(iTermKeyBindingAction *)action
+    createNew:(BOOL)newMapping
+    inDictionary:(NSMutableDictionary *)mutableKeyMapping {
     assert(keyStroke);
     iTermKeystroke *originalKeystroke = nil;
 
@@ -198,21 +198,21 @@ static NSDictionary *gGlobalKeyMapping;
 }
 
 + (void)setMappingAtIndex:(int)rowIndex
-             forKeystroke:(iTermKeystroke *)keystroke
-                   action:(iTermKeyBindingAction *)action
-                createNew:(BOOL)newMapping
-                inProfile:(MutableProfile *)profile {
+    forKeystroke:(iTermKeystroke *)keystroke
+    action:(iTermKeyBindingAction *)action
+    createNew:(BOOL)newMapping
+    inProfile:(MutableProfile *)profile {
     NSMutableDictionary *keyMapping = [profile[KEY_KEYBOARD_MAP] mutableCopy];
     [self setMappingAtIndex:rowIndex
-               forKeystroke:keystroke
-                     action:action
-                  createNew:newMapping
-               inDictionary:keyMapping];
+          forKeystroke:keystroke
+          action:action
+          createNew:newMapping
+          inDictionary:keyMapping];
     profile[KEY_KEYBOARD_MAP] = keyMapping;
 }
 
 + (void)removeKeystroke:(iTermKeystroke *)keystroke
-            fromProfile:(MutableProfile *)profile {
+    fromProfile:(MutableProfile *)profile {
     NSMutableDictionary *km = [profile[KEY_KEYBOARD_MAP] mutableCopy];
     id key = [keystroke keyInBindingDictionary:km];
     if (key) {
@@ -232,11 +232,11 @@ static NSDictionary *gGlobalKeyMapping;
 
 + (void)removeMappingAtIndex:(int)rowIndex fromProfile:(MutableProfile *)profile {
     profile[KEY_KEYBOARD_MAP] = [self removeMappingAtIndex:rowIndex
-                                              inDictionary:profile[KEY_KEYBOARD_MAP]];
+                                 inDictionary:profile[KEY_KEYBOARD_MAP]];
 }
 
 + (void)removeAllMappingsInProfile:(MutableProfile *)profile {
-    profile[KEY_KEYBOARD_MAP] = @{};
+    profile[KEY_KEYBOARD_MAP] = @ {};
 }
 
 #pragma mark - Global State
@@ -276,18 +276,18 @@ static NSDictionary *gGlobalKeyMapping;
 #pragma mark - High-Level APIs
 
 + (iTermKeystroke *)keystrokeForMappingReferencingProfileWithGuid:(NSString *)guid
-                                                        inProfile:(Profile *)profile {
+    inProfile:(Profile *)profile {
     __block iTermKeystroke *result = nil;
     NSDictionary *keyboardMap = profile[KEY_KEYBOARD_MAP];
 
     // Search for a keymapping with an action that references a profile.
     [keyboardMap enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull keyMap, BOOL * _Nonnull stop) {
-        iTermKeyBindingAction *action = [iTermKeyBindingAction withDictionary:keyMap];
-        if (action.keyAction == KEY_ACTION_NEW_TAB_WITH_PROFILE ||
-            action.keyAction == KEY_ACTION_NEW_WINDOW_WITH_PROFILE ||
-            action.keyAction == KEY_ACTION_SPLIT_HORIZONTALLY_WITH_PROFILE ||
-            action.keyAction == KEY_ACTION_SPLIT_VERTICALLY_WITH_PROFILE ||
-            action.keyAction == KEY_ACTION_SET_PROFILE) {
+                    iTermKeyBindingAction *action = [iTermKeyBindingAction withDictionary:keyMap];
+                    if (action.keyAction == KEY_ACTION_NEW_TAB_WITH_PROFILE ||
+                            action.keyAction == KEY_ACTION_NEW_WINDOW_WITH_PROFILE ||
+                            action.keyAction == KEY_ACTION_SPLIT_HORIZONTALLY_WITH_PROFILE ||
+                            action.keyAction == KEY_ACTION_SPLIT_VERTICALLY_WITH_PROFILE ||
+                            action.keyAction == KEY_ACTION_SET_PROFILE) {
             NSString *referencedGuid = action.parameter;
             if ([referencedGuid isEqualToString:guid]) {
                 result = [[iTermKeystroke alloc] initWithSerialized:key];
@@ -304,7 +304,7 @@ static NSDictionary *gGlobalKeyMapping;
         while (YES) {
             iTermKeystroke *keystrokeToRemove =
                 [iTermKeyMappings keystrokeForMappingReferencingProfileWithGuid:guid
-                                                                      inProfile:mutableProfile ?: profile];
+                                  inProfile:mutableProfile ?: profile];
             if (!keystrokeToRemove) {
                 break;
             }
@@ -332,16 +332,16 @@ static NSDictionary *gGlobalKeyMapping;
         for (NSInteger i = 0; i < [mutableGlobalKeyMap count]; i++) {
             iTermKeyBindingAction *action = [self globalActionAtIndex:i];
             if (action.keyAction == KEY_ACTION_NEW_TAB_WITH_PROFILE ||
-                action.keyAction == KEY_ACTION_NEW_WINDOW_WITH_PROFILE ||
-                action.keyAction == KEY_ACTION_SPLIT_HORIZONTALLY_WITH_PROFILE ||
-                action.keyAction == KEY_ACTION_SPLIT_VERTICALLY_WITH_PROFILE ||
-                action.keyAction == KEY_ACTION_SET_PROFILE) {
+                    action.keyAction == KEY_ACTION_NEW_WINDOW_WITH_PROFILE ||
+                    action.keyAction == KEY_ACTION_SPLIT_HORIZONTALLY_WITH_PROFILE ||
+                    action.keyAction == KEY_ACTION_SPLIT_VERTICALLY_WITH_PROFILE ||
+                    action.keyAction == KEY_ACTION_SET_PROFILE) {
                 NSString *referencedGuid = action.parameter;
                 if (![referencedGuid isEqualToString:guid]) {
                     continue;
                 }
                 mutableGlobalKeyMap = [self removeMappingAtIndex:i
-                                                    inDictionary:mutableGlobalKeyMap];
+                                            inDictionary:mutableGlobalKeyMap];
                 [self setGlobalKeyMap:mutableGlobalKeyMap];
                 change = YES;
                 break;

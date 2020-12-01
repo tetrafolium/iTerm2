@@ -19,8 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nullable, copy) NSString *path;
 
 - (instancetype)initWithCommand:(NSString *)command
-                          shell:(NSString *)shell
-                          title:(NSString *)title NS_DESIGNATED_INITIALIZER;
+    shell:(NSString *)shell
+    title:(NSString *)title NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 

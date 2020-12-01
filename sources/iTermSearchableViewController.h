@@ -11,7 +11,7 @@
 - (NSString *)documentOwnerIdentifier;
 - (NSArray<iTermPreferencesSearchDocument *> *)searchableViewControllerDocuments;
 - (NSView *)searchableViewControllerRevealItemForDocument:(iTermPreferencesSearchDocument *)document
-                                                 forQuery:(NSString *)query
-                                            willChangeTab:(BOOL *)willChangeTab;
+    forQuery:(NSString *)query
+    willChangeTab:(BOOL *)willChangeTab;
 @end
 

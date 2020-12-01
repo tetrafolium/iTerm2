@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) int terminationStatus;  // only defined if haveWaited is YES
 
 - (instancetype)initWithReport:(iTermMultiServerReportChild *)report
-                        thread:(iTermThread *)thread NS_DESIGNATED_INITIALIZER;
+    thread:(iTermThread *)thread NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (void)addWaitCallback:(iTermCallback<id, iTermResult<NSNumber *> *> *)callback;

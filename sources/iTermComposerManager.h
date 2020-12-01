@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSView *)composerManagerContainerView:(iTermComposerManager *)composerManager;
 - (void)composerManagerDidRemoveTemporaryStatusBarComponent:(iTermComposerManager *)composerManager;
 - (void)composerManager:(iTermComposerManager *)composerManager
-            sendCommand:(NSString *)command;
+    sendCommand:(NSString *)command;
 - (void)composerManagerDidDismissMinimalView:(iTermComposerManager *)composerManager;
 - (NSAppearance *_Nullable)composerManagerAppearance:(iTermComposerManager *)composerManager;
 @end

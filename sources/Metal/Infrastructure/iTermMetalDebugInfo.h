@@ -33,7 +33,7 @@ NS_CLASS_AVAILABLE(10_11, NA)
 - (void)setFragmentBuffer:(id<MTLBuffer>)buffer atIndex:(NSUInteger)index;
 - (void)setFragmentTexture:(id <MTLTexture>)texture atIndex:(NSUInteger)index;
 - (void)drawWithVertexCount:(NSUInteger)vertexCount
-              instanceCount:(NSUInteger)instanceCount;
+    instanceCount:(NSUInteger)instanceCount;
 
 @end
 
@@ -54,8 +54,8 @@ NS_CLASS_AVAILABLE(10_11, NA)
 - (void)addCellRenderer:(id<iTermMetalCellRenderer>)renderer;
 - (iTermMetalDebugDrawInfo *)newDrawWithFormatter:(id<iTermMetalDebugInfoFormatter>)formatter;
 - (void)addRenderOutputData:(NSData *)data
-                       size:(CGSize)size
-             transientState:(iTermMetalRendererTransientState *)tState;
+    size:(CGSize)size
+    transientState:(iTermMetalRendererTransientState *)tState;
 
 - (NSData *)newArchive;
 

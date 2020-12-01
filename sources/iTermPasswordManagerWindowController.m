@@ -61,12 +61,12 @@ static NSString *const iTermPasswordManagerAccountNameUserNameSeparator = @"\u20
 
 - (void)setAccountName:(NSString *)accountName {
     _accountName = [accountName stringByReplacingOccurrencesOfString:iTermPasswordManagerAccountNameUserNameSeparator
-                                                          withString:@""];
+                                withString:@""];
 }
 
 - (void)setUserName:(NSString *)userName {
     _userName = [userName stringByReplacingOccurrencesOfString:iTermPasswordManagerAccountNameUserNameSeparator
-                                                    withString:@""];
+                          withString:@""];
 }
 
 @end
@@ -121,8 +121,8 @@ static NSString *const iTermPasswordManagerAccountNameUserNameSeparator = @"\u20
 
     NSArray<iTermPasswordEntry *> *unsortedEntries =
     [[SSKeychain accountsForService:kServiceName] mapWithBlock:^iTermPasswordEntry *(NSDictionary *account) {
-        NSString *maybeCombinedAccountName = account[(NSString *)kSecAttrAccount];
-        if (!maybeCombinedAccountName) {
+                                                     NSString *maybeCombinedAccountName = account[(NSString *)kSecAttrAccount];
+                                                     if (!maybeCombinedAccountName) {
             return nil;
         }
         iTermPasswordEntry *passwordEntry = [[iTermPasswordEntry alloc] initWithMaybeCombinedAccountName:maybeCombinedAccountName];
@@ -133,8 +133,8 @@ static NSString *const iTermPasswordManagerAccountNameUserNameSeparator = @"\u20
     }];
 
     return [unsortedEntries sortedArrayUsingComparator:^NSComparisonResult(iTermPasswordEntry * _Nonnull obj1, iTermPasswordEntry * _Nonnull obj2) {
-        return [obj1.accountName localizedCaseInsensitiveCompare:obj2.accountName];
-    }];
+                        return [obj1.accountName localizedCaseInsensitiveCompare:obj2.accountName];
+                    }];
 }
 
 + (void)authenticateWithPolicy:(LAPolicy)policy context:(LAContext *)myContext reply:(void(^)(BOOL success, NSError * __nullable error))reply {
@@ -146,24 +146,24 @@ static NSString *const iTermPasswordManagerAccountNameUserNameSeparator = @"\u20
         [[iTermApplication sharedApplication] setLocalAuthenticationDialogOpen:YES];
     }
     [myContext evaluatePolicy:policy
-              localizedReason:myLocalizedReasonString
-                        reply:^(BOOL success, NSError *error) {
-        DLog(@"Policy evaluation success=%@ error=%@", @(success), error);
-        LAContext *theContext NS_VALID_UNTIL_END_OF_SCOPE;
-        theContext = myContext;
-        if (policy == LAPolicyDeviceOwnerAuthentication) {
+               localizedReason:myLocalizedReasonString
+              reply:^(BOOL success, NSError *error) {
+                  DLog(@"Policy evaluation success=%@ error=%@", @(success), error);
+                  LAContext *theContext NS_VALID_UNTIL_END_OF_SCOPE;
+                  theContext = myContext;
+                  if (policy == LAPolicyDeviceOwnerAuthentication) {
             [[iTermApplication sharedApplication] setLocalAuthenticationDialogOpen:NO];
         }
         if (success) {
-            dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_main_queue(), ^ {
                 sAuthenticated = YES;
                 reply(success, error);
             });
         } else {
-            dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_main_queue(), ^ {
                 sAuthenticated = NO;
                 if (error.code != LAErrorSystemCancel &&
-                    error.code != LAErrorAppCancel) {
+                        error.code != LAErrorAppCancel) {
                     BOOL isTouchID = (policy == LAPolicyDeviceOwnerAuthenticationWithBiometrics);
                     NSAlert *alert = [[NSAlert alloc] init];
                     alert.messageText = @"Authentication Failed";
@@ -179,35 +179,35 @@ static NSString *const iTermPasswordManagerAccountNameUserNameSeparator = @"\u20
 
 + (NSString *)reasonForAuthenticationError:(NSError *)error touchID:(BOOL)touchID {
     switch (error.code) {
-        case LAErrorAuthenticationFailed:
-            return @"valid credentials weren't supplied.";
+    case LAErrorAuthenticationFailed:
+        return @"valid credentials weren't supplied.";
 
-        case LAErrorUserCancel:
-            return touchID ? @"touch ID was cancelled." : @"password entry was cancelled.";
+    case LAErrorUserCancel:
+        return touchID ? @"touch ID was cancelled." : @"password entry was cancelled.";
 
-        case LAErrorUserFallback:
-            return @"password authentication was requested.";
+    case LAErrorUserFallback:
+        return @"password authentication was requested.";
 
-        case LAErrorSystemCancel:
-            return touchID ? @"the system cancelled the Touch ID request." : @"the system cancelled the authentication request.";
+    case LAErrorSystemCancel:
+        return touchID ? @"the system cancelled the Touch ID request." : @"the system cancelled the authentication request.";
 
-        case LAErrorPasscodeNotSet:
-            return @"no passcode is set.";
+    case LAErrorPasscodeNotSet:
+        return @"no passcode is set.";
 
-        case kLAErrorTouchIDNotAvailable:
-            return @"touch ID is not available.";
+    case kLAErrorTouchIDNotAvailable:
+        return @"touch ID is not available.";
 
-        case LAErrorBiometryNotEnrolled:
-            return @"touch ID doesn't have any fingers enrolled.";
+    case LAErrorBiometryNotEnrolled:
+        return @"touch ID doesn't have any fingers enrolled.";
 
-        case LAErrorBiometryLockout:
-            return @"there were too many failed Touch ID attempts.";
+    case LAErrorBiometryLockout:
+        return @"there were too many failed Touch ID attempts.";
 
-        case LAErrorAppCancel:
-            return touchID ? @"touch ID was cancelled by iTerm2." : @"authentication was cancelled by iTerm2.";
+    case LAErrorAppCancel:
+        return touchID ? @"touch ID was cancelled by iTerm2." : @"authentication was cancelled by iTerm2.";
 
-        case LAErrorInvalidContext:
-            return @"the context is invalid. This is a bug in iTerm2. Please report it.";
+    case LAErrorInvalidContext:
+        return @"the context is invalid. This is a bug in iTerm2. Please report it.";
     }
     return [error localizedDescription];
 }
@@ -217,22 +217,22 @@ static NSString *const iTermPasswordManagerAccountNameUserNameSeparator = @"\u20
     if (self) {
         [self requestAuthenticationIfPossible];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(reloadAccounts)
-                                                     name:kPasswordManagersShouldReloadData
-                                                   object:nil];
+                                              selector:@selector(reloadAccounts)
+                                              name:kPasswordManagersShouldReloadData
+                                              object:nil];
     }
     return self;
 }
 
 - (void)awakeFromNib {
     [[NSDistributedNotificationCenter defaultCenter] addObserver:[self class]
-                                                        selector:@selector(staticScreenDidLock:)
-                                                            name:@"com.apple.screenIsLocked"
-                                                          object:nil];
+                                                     selector:@selector(staticScreenDidLock:)
+                                                     name:@"com.apple.screenIsLocked"
+                                                     object:nil];
     [[NSDistributedNotificationCenter defaultCenter] addObserver:self
-                                                        selector:@selector(instanceScreenDidLock:)
-                                                            name:@"com.apple.screenIsLocked"
-                                                          object:nil];
+                                                     selector:@selector(instanceScreenDidLock:)
+                                                     name:@"com.apple.screenIsLocked"
+                                                     object:nil];
     _broadcastButton.state = NSControlStateValueOff;
     [_tableView setDoubleAction:@selector(doubleClickOnTableView:)];
     [self reloadAccounts];
@@ -248,8 +248,8 @@ static NSString *const iTermPasswordManagerAccountNameUserNameSeparator = @"\u20
     // awakeFromNib is called more than once.
     if (!_eventMonitor) {
         _eventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskKeyDown handler:^NSEvent * _Nullable(NSEvent * _Nonnull event) {
-            return [weakSelf caughtKeyDownEvent:event];
-        }];
+                    return [weakSelf caughtKeyDownEvent:event];
+                }];
     }
 }
 
@@ -290,8 +290,8 @@ static NSString *const iTermPasswordManagerAccountNameUserNameSeparator = @"\u20
 // Make tab jump to 2-factor field from search field when there is exactly one search result or from table view.
 - (NSEvent *)caughtKeyDownEvent:(NSEvent *)event {
     if ([self eventIsTab:event] &&
-        [self tabShouldSelectTwoFactorField] &&
-        [_twoFactorCode acceptsFirstResponder]) {
+            [self tabShouldSelectTwoFactorField] &&
+            [_twoFactorCode acceptsFirstResponder]) {
         [NSApp.keyWindow makeFirstResponder:_twoFactorCode];
         return nil;
     }
@@ -328,7 +328,7 @@ static NSString *const iTermPasswordManagerAccountNameUserNameSeparator = @"\u20
     const NSUInteger index = [self indexOfAccountName:name];
     if (index != NSNotFound) {
         [_tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index]
-                byExtendingSelection:NO];
+                    byExtendingSelection:NO];
     } else if (!sAuthenticated) {
         _accountNameToSelectAfterAuthentication = [name copy];
     }
@@ -420,8 +420,8 @@ static NSString *const iTermPasswordManagerAccountNameUserNameSeparator = @"\u20
 
             if ([self runModal:alert] == NSAlertFirstButtonReturn) {
                 [[self keychain] setPassword:newPassword.stringValue
-                                  forService:kServiceName
-                                     account:_entries[row].combinedAccountNameUserName];
+                                 forService:kServiceName
+                                 account:_entries[row].combinedAccountNameUserName];
                 [self passwordsDidChange];
             }
         }
@@ -435,7 +435,7 @@ static NSString *const iTermPasswordManagerAccountNameUserNameSeparator = @"\u20
         DLog(@"enterPassword: giving password to delegate");
         NSString *twoFactorCode = [_twoFactorCode.stringValue stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         [_delegate iTermPasswordManagerEnterPassword:[password stringByAppendingString:twoFactorCode]
-                                           broadcast:_broadcastButton.state == NSControlStateValueOn];
+                   broadcast:_broadcastButton.state == NSControlStateValueOn];
         DLog(@"enterPassword: closing sheet");
         [self closeOrEndSheet];
     }
@@ -446,7 +446,7 @@ static NSString *const iTermPasswordManagerAccountNameUserNameSeparator = @"\u20
     NSString *userName = [self selectedUserName];
     if (userName.length > 0) {
         [_delegate iTermPasswordManagerEnterUserName:userName
-                                           broadcast:_broadcastButton.state == NSControlStateValueOn];
+                   broadcast:_broadcastButton.state == NSControlStateValueOn];
     }
 }
 
@@ -571,14 +571,14 @@ static NSString *const iTermPasswordManagerAccountNameUserNameSeparator = @"\u20
 
 - (BOOL)policyAvailableOnThisOSVersion:(LAPolicy)policy {
     switch (policy) {
-        case LAPolicyDeviceOwnerAuthenticationWithBiometrics:
-            return IsTouchBarAvailable();
+    case LAPolicyDeviceOwnerAuthenticationWithBiometrics:
+        return IsTouchBarAvailable();
 
-        case LAPolicyDeviceOwnerAuthentication:
-            return YES;
+    case LAPolicyDeviceOwnerAuthentication:
+        return YES;
 
-        default:
-            return NO;
+    default:
+        return NO;
     }
 }
 
@@ -602,10 +602,10 @@ static NSString *const iTermPasswordManagerAccountNameUserNameSeparator = @"\u20
 - (void)authenticateWithPolicy:(LAPolicy)policy context:(LAContext *)myContext {
     __weak __typeof(self) weakSelf = self;
     [[self class] authenticateWithPolicy:policy context:myContext reply:^(BOOL success, NSError * _Nullable error) {
-        DLog(@"Authentication completed with succes=%@ error=%@", @(success), error);
+                     DLog(@"Authentication completed with succes=%@ error=%@", @(success), error);
         [weakSelf didAuthenticateWithContext:myContext
-                                     success:success
-                                       error:error];
+                  success:success
+                  error:error];
     }];
 }
 
@@ -648,12 +648,12 @@ static NSString *const iTermPasswordManagerAccountNameUserNameSeparator = @"\u20
     }
     NSError *error = nil;
     NSString *password = [[self keychain] passwordForService:kServiceName
-                                                     account:_entries[index].combinedAccountNameUserName
-                                                       error:&error];
+                                          account:_entries[index].combinedAccountNameUserName
+                                          error:&error];
     if (error) {
         DLog(@"selectedPassword: return nil, keychain gave error %@", error);
         static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
+        dispatch_once(&onceToken, ^ {
             NSAlert *alert = [[NSAlert alloc] init];
             alert.messageText = [NSString stringWithFormat:@"Could not get password. Keychain query failed: %@", error];
             [alert addButtonWithTitle:@"OK"];
@@ -695,14 +695,14 @@ static NSString *const iTermPasswordManagerAccountNameUserNameSeparator = @"\u20
 - (NSUInteger)indexOfAccountName:(NSString *)name {
     NSUInteger result =
     [_entries indexOfObjectPassingTest:^BOOL(iTermPasswordEntry * _Nonnull entry, NSUInteger idx, BOOL * _Nonnull stop) {
-        return [entry.combinedAccountNameUserName isEqualToString:name];
-    }];
+                 return [entry.combinedAccountNameUserName isEqualToString:name];
+             }];
     if (result != NSNotFound) {
         return result;
     }
     return [_entries indexOfObjectPassingTest:^BOOL(iTermPasswordEntry * _Nonnull entry, NSUInteger idx, BOOL * _Nonnull stop) {
-        return [entry.accountName isEqualToString:name];
-    }];
+                 return [entry.accountName isEqualToString:name];
+             }];
 }
 
 - (NSString *)nameForNewAccount {
@@ -715,8 +715,8 @@ static NSString *const iTermPasswordManagerAccountNameUserNameSeparator = @"\u20
         if (number == 10) {
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             dateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"MM-dd-yyyy HH:mm:ss"
-                                                                       options:0
-                                                                        locale:[NSLocale currentLocale]];
+                                                        options:0
+                                                        locale:[NSLocale currentLocale]];
             NSString *formattedDate = [dateFormatter stringFromDate:[NSDate date]];
             return [NSString stringWithFormat:@"New Account %@", formattedDate];
         }
@@ -761,8 +761,8 @@ static NSString *const iTermPasswordManagerAccountNameUserNameSeparator = @"\u20
 }
 
 - (id)tableView:(NSTableView *)aTableView
-objectValueForTableColumn:(NSTableColumn *)aTableColumn
-            row:(NSInteger)rowIndex {
+    objectValueForTableColumn:(NSTableColumn *)aTableColumn
+    row:(NSInteger)rowIndex {
     if (rowIndex >= [self numberOfRowsInTableView:aTableView]) {
         // Sanity check.
         return nil;
@@ -778,9 +778,9 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 }
 
 - (void)tableView:(NSTableView *)aTableView
-   setObjectValue:(id)anObject
-   forTableColumn:(NSTableColumn *)aTableColumn
-              row:(NSInteger)rowIndex {
+    setObjectValue:(id)anObject
+    forTableColumn:(NSTableColumn *)aTableColumn
+    row:(NSInteger)rowIndex {
     if (!sAuthenticated) {
         return;
     }
@@ -796,17 +796,17 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 
         NSError *error = nil;
         NSString *password = [[self keychain] passwordForService:kServiceName
-                                                         account:existingAccountName
-                                                           error:&error];
+                                              account:existingAccountName
+                                              error:&error];
         if (!error) {
             if (!password) {
                 password = @"";
             }
             if ([[self keychain] deletePasswordForService:kServiceName account:existingAccountName]) {
                 [[self keychain] setPassword:password
-                                  forService:kServiceName
-                                     account:entry.combinedAccountNameUserName
-                                       error:nil];
+                                 forService:kServiceName
+                                 account:entry.combinedAccountNameUserName
+                                 error:nil];
                 [self reloadAccounts];
 
                 const NSUInteger index = [self indexOfAccountName:entry.accountName];
@@ -822,8 +822,8 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 #pragma mark - NSTableViewDelegate
 
 - (BOOL)tableView:(NSTableView *)aTableView
-shouldEditTableColumn:(NSTableColumn *)aTableColumn
-              row:(NSInteger)rowIndex {
+    shouldEditTableColumn:(NSTableColumn *)aTableColumn
+    row:(NSInteger)rowIndex {
     if (aTableColumn == _accountNameColumn || aTableColumn == _userNameColumn) {
         return YES;
     } else {
@@ -838,8 +838,8 @@ shouldEditTableColumn:(NSTableColumn *)aTableColumn
 }
 
 - (NSCell *)tableView:(NSTableView *)tableView
-dataCellForTableColumn:(NSTableColumn *)tableColumn
-                  row:(NSInteger)row {
+    dataCellForTableColumn:(NSTableColumn *)tableColumn
+    row:(NSInteger)row {
     if (tableColumn == _accountNameColumn) {
         NSTextFieldCell *cell = [[NSTextFieldCell alloc] initTextCell:@"name"];
         [cell setEditable:YES];

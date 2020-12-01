@@ -45,9 +45,9 @@
             _webView = webView;
 
             [[NSNotificationCenter defaultCenter] addObserver:self
-                                                     selector:@selector(didRegister:)
-                                                         name:iTermToolbeltDidRegisterDynamicToolNotification
-                                                       object:nil];
+                                                  selector:@selector(didRegister:)
+                                                  name:iTermToolbeltDidRegisterDynamicToolNotification
+                                                  object:nil];
 
             _url = [url copy];
             _identifier = [identifier copy];

@@ -10,32 +10,32 @@
 @implementation iTermTruncatedQuotedRecognizer
 
 + (id)quotedRecogniserWithStartQuote:(NSString *)startQuote
-                            endQuote:(NSString *)endQuote
-                                name:(NSString *)name {
+    endQuote:(NSString *)endQuote
+    name:(NSString *)name {
     return [self quotedRecogniserWithStartQuote:startQuote endQuote:endQuote escapeSequence:nil name:name];
 }
 
 + (id)quotedRecogniserWithStartQuote:(NSString *)startQuote
-                            endQuote:(NSString *)endQuote
-                      escapeSequence:(NSString *)escapeSequence
-                                name:(NSString *)name {
+    endQuote:(NSString *)endQuote
+    escapeSequence:(NSString *)escapeSequence
+    name:(NSString *)name {
     return [self quotedRecogniserWithStartQuote:startQuote endQuote:endQuote escapeSequence:escapeSequence maximumLength:NSNotFound name:name];
 }
 
 + (id)quotedRecogniserWithStartQuote:(NSString *)startQuote
-                            endQuote:(NSString *)endQuote
-                      escapeSequence:(NSString *)escapeSequence
-                       maximumLength:(NSUInteger)maximumLength
-                                name:(NSString *)name {
+    endQuote:(NSString *)endQuote
+    escapeSequence:(NSString *)escapeSequence
+    maximumLength:(NSUInteger)maximumLength
+    name:(NSString *)name {
     return [[self alloc] initWithStartQuote:startQuote
-                                   endQuote:endQuote
-                             escapeSequence:escapeSequence
-                              maximumLength:maximumLength
-                                       name:name];
+                         endQuote:endQuote
+                         escapeSequence:escapeSequence
+                         maximumLength:maximumLength
+                         name:name];
 }
 
 - (CPToken *)recogniseTokenInString:(NSString *)tokenString
-               currentTokenPosition:(NSUInteger *)tokenPosition {
+    currentTokenPosition:(NSUInteger *)tokenPosition {
     NSString *(^er)(NSString *tokenStream, NSUInteger *quotePosition) = [self escapeReplacer];
     NSUInteger startQuoteLength = [self.startQuote length];
     NSUInteger endQuoteLength = [self.endQuote length];
@@ -60,32 +60,32 @@
         CFRange endRange;
         CFRange escapeRange;
         BOOL matchedEndSequence = CFStringFindWithOptions((CFStringRef)tokenString,
-                                                          (CFStringRef)self.endQuote,
-                                                          searchRange,
-                                                          0L,
-                                                          &endRange);
+                                  (CFStringRef)self.endQuote,
+                                  searchRange,
+                                  0L,
+                                  &endRange);
         BOOL matchedEscapeSequence = nil == self.escapeSequence ? NO : CFStringFindWithOptions((CFStringRef)tokenString, (CFStringRef)self.escapeSequence, searchRange, 0L, &escapeRange);
 
         while (matchedEndSequence && searchRange.location < inputLength) {
             if (!matchedEscapeSequence || endRange.location < escapeRange.location) {
                 *tokenPosition = endRange.location + endRange.length;
                 CFStringRef substr = CFStringCreateWithSubstring(kCFAllocatorDefault,
-                                                                 (CFStringRef)tokenString,
-                                                                 CFRangeMake(searchRange.location,
-                                                                             endRange.location - searchRange.location));
+                                     (CFStringRef)tokenString,
+                                     CFRangeMake(searchRange.location,
+                                                 endRange.location - searchRange.location));
                 CFStringAppend(outputString, substr);
                 CFRelease(substr);
                 CPQuotedToken *t = [CPQuotedToken content:(__bridge NSString *)outputString
-                                               quotedWith:self.startQuote
-                                                     name:[self name]];
+                                                  quotedWith:self.startQuote
+                                                  name:[self name]];
                 CFRelease(outputString);
                 return t;
             } else {
                 NSUInteger quotedPosition = escapeRange.location + escapeRange.length;
                 CFStringRef substr = CFStringCreateWithSubstring(kCFAllocatorDefault,
-                                                                 (CFStringRef)tokenString,
-                                                                 CFRangeMake(searchRange.location,
-                                                                             escapeRange.location - searchRange.location));
+                                     (CFStringRef)tokenString,
+                                     CFRangeMake(searchRange.location,
+                                                 escapeRange.location - searchRange.location));
                 CFStringAppend(outputString, substr);
                 CFRelease(substr);
                 BOOL appended = NO;
@@ -117,13 +117,13 @@
         // Reached the limit without finding an end quote.
         *tokenPosition = searchRange.location + searchRange.length;
         CFStringRef substr = CFStringCreateWithSubstring(kCFAllocatorDefault,
-                                                         (CFStringRef)tokenString,
-                                                         searchRange);
+                             (CFStringRef)tokenString,
+                             searchRange);
         CFStringAppend(outputString, substr);
         CFRelease(substr);
         CPQuotedToken *t = [CPQuotedToken content:(__bridge NSString *)outputString
-                                       quotedWith:self.startQuote
-                                             name:[self name]];
+                                          quotedWith:self.startQuote
+                                          name:[self name]];
         CFRelease(outputString);
         return t;
     }

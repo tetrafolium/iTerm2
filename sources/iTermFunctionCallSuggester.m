@@ -32,7 +32,7 @@
 }
 
 - (instancetype)initWithFunctionSignatures:(NSDictionary<NSString *,NSArray<NSString *> *> *)functionSignatures
-                                pathSource:(NSSet<NSString *> *(^)(NSString *prefix))pathSource {
+    pathSource:(NSSet<NSString *> *(^)(NSString *prefix))pathSource {
     self = [super init];
     if (self) {
         _functionSignatures = [functionSignatures copy];
@@ -66,12 +66,12 @@
 
 - (void)addTokenRecognizersToTokenizer:(CPTokeniser *)tokenizer {
     iTermSwiftyStringRecognizer *swiftyRecognizer =
-    [[iTermSwiftyStringRecognizer alloc] initWithStartQuote:@"\""
-                                                   endQuote:@"\""
+        [[iTermSwiftyStringRecognizer alloc] initWithStartQuote:@"\""
+                                             endQuote:@"\""
                                              escapeSequence:@"\\"
-                                              maximumLength:NSNotFound
-                                                       name:@"SwiftyString"
-                                         tolerateTruncation:YES];
+                                             maximumLength:NSNotFound
+                                             name:@"SwiftyString"
+                                             tolerateTruncation:YES];
 
     [iTermExpressionParser setEscapeReplacerInStringRecognizer:swiftyRecognizer];
     [_tokenizer addTokenRecogniser:swiftyRecognizer];
@@ -88,162 +88,169 @@
 - (void)loadRulesAndTransforms {
     __weak __typeof(self) weakSelf = self;
     [_grammarProcessor addProductionRule:@"call ::= <funcname> <arglist>"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return [weakSelf callWithName:syntaxTree.children[0]
-                                                     arglist:syntaxTree.children[1]];
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return [weakSelf callWithName:syntaxTree.children[0]
+                                  arglist:syntaxTree.children[1]];
+                      }];
     [_grammarProcessor addProductionRule:@"call ::= 'EOF'"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return [weakSelf callWithName:@""
-                                                     arglist:@{ @"partial-arglist": @YES }];
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return [weakSelf callWithName:@""
+                                  arglist:@ { @"partial-arglist": @YES }];
+                      }];
 
     [_grammarProcessor addProductionRule:@"funcname ::= 'Identifier'"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return [syntaxTree.children[0] identifier];
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return [syntaxTree.children[0] identifier];
+                      }];
     [_grammarProcessor addProductionRule:@"funcname ::= 'Identifier' '.' 'Identifier'"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return [NSString stringWithFormat:@"%@.%@",
-                                       [syntaxTree.children[0] identifier],
-                                       [syntaxTree.children[2] identifier]];
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return [NSString stringWithFormat:@"%@.%@",
+                                  [syntaxTree.children[0] identifier],
+                                  [syntaxTree.children[2] identifier]];
+                      }];
 
     [_grammarProcessor addProductionRule:@"arglist ::= 'EOF'"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return @{ @"partial-arglist": @YES };
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return @ { @"partial-arglist": @YES };
+                      }];
     [_grammarProcessor addProductionRule:@"arglist ::= '(' <args> ')'"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return @{ @"complete-arglist": @YES };
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return @ { @"complete-arglist": @YES };
+                      }];
     [_grammarProcessor addProductionRule:@"arglist ::= '(' ')'"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return @{ @"complete-arglist": @YES };
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return @ { @"complete-arglist": @YES };
+                      }];
     [_grammarProcessor addProductionRule:@"arglist ::= '(' <args> 'EOF'"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return @{ @"partial-arglist": @YES,
-                                         @"args": syntaxTree.children[1] };
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return @ { @"partial-arglist": @YES,
+                                     @"args": syntaxTree.children[1]
+                                   };
+                      }];
     [_grammarProcessor addProductionRule:@"arglist ::= '(' 'EOF'"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return @{ @"partial-arglist": @YES,
-                                         @"args": @[] };
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return @ { @"partial-arglist": @YES,
+                                     @"args": @[]
+                                   };
+                      }];
     [_grammarProcessor addProductionRule:@"args ::= <arg>"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return @[ syntaxTree.children[0] ];
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return @[ syntaxTree.children[0] ];
+                      }];
     [_grammarProcessor addProductionRule:@"args ::= <arg> ',' 'EOF'"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return @[ syntaxTree.children[0], @"," ];
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return @[ syntaxTree.children[0], @"," ];
+                      }];
     [_grammarProcessor addProductionRule:@"args ::= <arg> ',' <args>"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return [@[ syntaxTree.children[0], @"," ] arrayByAddingObjectsFromArray:syntaxTree.children[2]];
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return [@[ syntaxTree.children[0], @"," ] arrayByAddingObjectsFromArray:syntaxTree.children[2]];
+                      }];
     [_grammarProcessor addProductionRule:@"arg ::= 'Identifier' ':' <expression>"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return @{ @"identifier": [syntaxTree.children[0] identifier],
-                                         @"colon": @YES,
-                                         @"expression": syntaxTree.children[2] };
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return @ { @"identifier": [syntaxTree.children[0] identifier],
+                                     @"colon": @YES,
+                                     @"expression": syntaxTree.children[2]
+                                   };
+                      }];
     [_grammarProcessor addProductionRule:@"arg ::= 'Identifier' ':' 'EOF'"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return @{ @"identifier": [syntaxTree.children[0] identifier],
-                                         @"colon": @YES };
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return @ { @"identifier": [syntaxTree.children[0] identifier],
+                                     @"colon": @YES
+                                   };
+                      }];
     [_grammarProcessor addProductionRule:@"arg ::= 'Identifier' 'EOF'"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return @{ @"identifier": [syntaxTree.children[0] identifier] };
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return @ { @"identifier": [syntaxTree.children[0] identifier] };
+                      }];
     [_grammarProcessor addProductionRule:@"expression ::= <path>"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return @{ @"path": syntaxTree.children[0] };
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return @ { @"path": syntaxTree.children[0] };
+                      }];
     [_grammarProcessor addProductionRule:@"expression ::= <path> '[' 'Number' ']'"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return @{ @"path": syntaxTree.children[0] };
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return @ { @"path": syntaxTree.children[0] };
+                      }];
     [_grammarProcessor addProductionRule:@"expression ::= <path> '?'"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return @{ @"path": syntaxTree.children[0],
-                                         @"terminated": @YES };
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return @ { @"path": syntaxTree.children[0],
+                                     @"terminated": @YES
+                                   };
+                      }];
     [_grammarProcessor addProductionRule:@"expression ::= 'Number'"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return @{ @"literal": @YES };
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return @ { @"literal": @YES };
+                      }];
     [_grammarProcessor addProductionRule:@"expression ::= 'SwiftyString'"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               iTermSwiftyStringToken *token = [iTermSwiftyStringToken castFrom:syntaxTree.children[0]];
-                               if (token.truncated && !token.endsWithLiteral) {
-                                   return @{ @"truncated_interpolation": token.truncatedPart };
-                               } else {
-                                   return @{ @"literal": @YES };
-                               }
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          iTermSwiftyStringToken *token = [iTermSwiftyStringToken castFrom:syntaxTree.children[0]];
+                          if (token.truncated && !token.endsWithLiteral) {
+            return @ { @"truncated_interpolation": token.truncatedPart };
+        } else {
+            return @ { @"literal": @YES };
+        }
+    }];
     [_grammarProcessor addProductionRule:@"expression ::= <composed_call>"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return @{ @"call": syntaxTree.children[0] };
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return @ { @"call": syntaxTree.children[0] };
+                      }];
 
     // Array literals
     [_grammarProcessor addProductionRule:@"expression ::= '[' <comma_delimited_expressions> 'EOF'"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return [syntaxTree.children[1] dictionaryBySettingObject:@YES forKey:@"inside-truncated-array-literal"];
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return [syntaxTree.children[1] dictionaryBySettingObject:@YES forKey:@"inside-truncated-array-literal"];
+                      }];
     [_grammarProcessor addProductionRule:@"expression ::= '[' <comma_delimited_expressions> ']'"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return @{ @"literal": @YES };
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return @ { @"literal": @YES };
+                      }];
     [_grammarProcessor addProductionRule:@"comma_delimited_expressions ::= <expression>"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return syntaxTree.children[0];
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return syntaxTree.children[0];
+                      }];
     [_grammarProcessor addProductionRule:@"comma_delimited_expressions ::= <expression> ',' <comma_delimited_expressions>"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return syntaxTree.children.lastObject;
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return syntaxTree.children.lastObject;
+                      }];
 
     [_grammarProcessor addProductionRule:@"path ::= 'Identifier'"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return [syntaxTree.children[0] identifier];
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return [syntaxTree.children[0] identifier];
+                      }];
     [_grammarProcessor addProductionRule:@"path ::= 'Identifier' '.' 'EOF'"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return [NSString stringWithFormat:@"%@.", [syntaxTree.children[0] identifier]];
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return [NSString stringWithFormat:@"%@.", [syntaxTree.children[0] identifier]];
+                      }];
     [_grammarProcessor addProductionRule:@"path ::= 'Identifier' '.' <path>"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return [NSString stringWithFormat:@"%@.%@",
-                                       [syntaxTree.children[0] identifier],
-                                       syntaxTree.children[2]];
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return [NSString stringWithFormat:@"%@.%@",
+                                  [syntaxTree.children[0] identifier],
+                                  syntaxTree.children[2]];
+                      }];
     [_grammarProcessor addProductionRule:@"composed_call ::= <funcname> <composed_arglist>"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return [weakSelf callWithName:syntaxTree.children[0]
-                                                     arglist:syntaxTree.children[1]];
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return [weakSelf callWithName:syntaxTree.children[0]
+                                  arglist:syntaxTree.children[1]];
+                      }];
     [_grammarProcessor addProductionRule:@"composed_arglist ::= '(' <args> ')'"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return @{ @"complete-arglist": @YES };
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return @ { @"complete-arglist": @YES };
+                      }];
     [_grammarProcessor addProductionRule:@"composed_arglist ::= '(' <args> 'EOF'"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return @{ @"partial-arglist": @YES,
-                                         @"args": syntaxTree.children[1] };
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return @ { @"partial-arglist": @YES,
+                                     @"args": syntaxTree.children[1]
+                                   };
+                      }];
     [_grammarProcessor addProductionRule:@"composed_arglist ::= '(' 'EOF'"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return @{ @"partial-arglist": @YES,
-                                         @"args": @[] };
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return @ { @"partial-arglist": @YES,
+                                     @"args": @[]
+                                   };
+                      }];
     [_grammarProcessor addProductionRule:@"composed_arglist ::= '(' ')'"
-                           treeTransform:^id(CPSyntaxTree *syntaxTree) {
-                               return @{ @"complete-arglist": @YES };
-                           }];
+                      treeTransform:^id(CPSyntaxTree *syntaxTree) {
+                          return @ { @"complete-arglist": @YES };
+                      }];
 }
 
 - (NSArray<NSString *> *)suggestionsForString:(NSString *)prefix {
@@ -263,18 +270,18 @@
 
 - (NSArray<NSString *> *)parsedResult:(id)result forString:(NSString *)prefix {
     return [[NSArray castFrom:result] mapWithBlock:^id(NSString *s) {
-        return [prefix stringByAppendingString:s];
-    }];
+                                  return [prefix stringByAppendingString:s];
+                              }];
 }
 
 #pragma mark - Private
 
 - (NSArray<NSString *> *)usedParameterNamesInPartialArgList:(NSArray *)partialArgList {
     return [partialArgList mapWithBlock:^id(id object) {
-        if ([object isEqual:@","]) {
-            return nil;
-        } else {
-            NSDictionary *dict = object;
+                       if ([object isEqual:@","]) {
+                           return nil;
+                       } else {
+                           NSDictionary *dict = object;
             return [dict[@"identifier"] stringByAppendingString:@":"];
         }
     }];
@@ -293,15 +300,15 @@
     }] mapWithBlock:^id(NSString *s) {
         NSString *firstArgName  = [[self argumentNamesForFunction:s].firstObject stringByAppendingString:@":"] ?: @")";
         return [NSString stringWithFormat:@"%@(%@",
-                [s substringFromIndex:prefix.length],
-                firstArgName];
+                         [s substringFromIndex:prefix.length],
+                         firstArgName];
     }];
 }
 
 // partialArgList is an array alternating between arg-dicts and @",".
 // an arg-dict has an identifier, maybe a colon, and maybe an expression.
 - (NSArray<NSString *> *)suggestedNextArgumentForExistingArgs:(NSArray *)partialArgList
-                                                     function:(NSString *)function {
+    function:(NSString *)function {
     if (partialArgList == nil) {
         // No open paren yet
         return [self suggestionsForFunctionName:function];
@@ -315,11 +322,11 @@
         NSDictionary *argDict = lastArg;
         if (argDict[@"colon"]) {
             NSString *nextArgumentName = [[self argumentNamesForFunction:function] objectPassingTest:^BOOL(NSString *element, NSUInteger index, BOOL *stop) {
-                return ![usedParameterNames containsObject:[element stringByAppendingString:@":"]];
-            }];
+                                                         return ![usedParameterNames containsObject:[element stringByAppendingString:@":"]];
+                                                     }];
             NSArray *suggestions = [self suggestedExpressions:argDict[@"expression"]
-                                             nextArgumentName:nextArgumentName
-                                             valuesMustBeArgs:YES];
+                                         nextArgumentName:nextArgumentName
+                                         valuesMustBeArgs:YES];
             return suggestions;
         }
         prefix = argDict[@"identifier"] ?: @"";
@@ -331,8 +338,8 @@
         usedParameterNames = [usedParameterNames arrayByRemovingLastObject];
     }
     return [self suggestedParameterNamesForFunction:function
-                                          excluding:usedParameterNames
-                                             prefix:prefix];
+                 excluding:usedParameterNames
+                 prefix:prefix];
 }
 
 // An expression dictionary is one of
@@ -342,8 +349,8 @@
 // @{ @"truncated_interpolation": @"truncated expression" }
 // @{ @"call": @[ suggestions ] };
 - (NSArray<NSString *> *)suggestedExpressions:(NSDictionary *)expression
-                             nextArgumentName:(NSString *)nextArgumentName
-                             valuesMustBeArgs:(BOOL)valuesMustBeArgs {
+    nextArgumentName:(NSString *)nextArgumentName
+    valuesMustBeArgs:(BOOL)valuesMustBeArgs {
     if (expression == nil || expression[@"literal"] || expression[@"terminated"]) {
         return @[];
     } else if (expression[@"call"]) {
@@ -358,7 +365,7 @@
         // The truncated_interpolation's value would be bar("baz\(blatz(
         // A few recursions later you should get suggestions for blatz's arguments.
         iTermFunctionCallSuggester *inner = [[iTermFunctionCallSuggester alloc] initWithFunctionSignatures:_functionSignatures
-                                                                                                pathSource:_pathSource];
+                                                                                pathSource:_pathSource];
         return [inner suggestionsForString:expression[@"truncated_interpolation"]];
     } else {
         NSArray<NSString *> *legalPaths = [_pathSource(expression[@"path"]) allObjects];
@@ -366,27 +373,27 @@
         if (valuesMustBeArgs && !insideTruncatedArrayLiteral) {
             if (nextArgumentName == nil) {
                 legalPaths = [legalPaths mapWithBlock:^id(NSString *anObject) {
-                    if ([anObject hasSuffix:@"."]) {
-                        return anObject;
-                    }
+                               if ([anObject hasSuffix:@"."]) {
+                                   return anObject;
+                               }
                     return [anObject stringByAppendingString:@")"];
                 }];
             } else {
                 legalPaths = [legalPaths mapWithBlock:^id(NSString *anObject) {
-                    return [anObject stringByAppendingFormat:@", %@:", nextArgumentName];
-                }];
+                               return [anObject stringByAppendingFormat:@", %@:", nextArgumentName];
+                           }];
             }
         }
         return [self pathsAndFunctionSuggestionsWithPrefix:expression[@"path"]
-                                                legalPaths:legalPaths];
+                     legalPaths:legalPaths];
     }
 }
 
 - (NSArray<NSString *> *)pathsAndFunctionSuggestionsWithPrefix:(NSString *)prefix
-                                                    legalPaths:(NSArray<NSString *> *)legalPaths {
+    legalPaths:(NSArray<NSString *> *)legalPaths {
     NSArray<NSString *> *functionNames = _functionSignatures.allKeys;
     functionNames = [functionNames mapWithBlock:^id(NSString *anObject) {
-        NSString *firstArgName  = [self argumentNamesForFunction:anObject].firstObject ?: @")";
+                      NSString *firstArgName  = [self argumentNamesForFunction:anObject].firstObject ?: @")";
         firstArgName = [firstArgName stringByAppendingString:@":"];
         return [anObject stringByAppendingFormat:@"(%@", firstArgName];
     }];
@@ -400,11 +407,11 @@
 }
 
 - (NSArray<NSString *> *)suggestedParameterNamesForFunction:(NSString *)function
-                                                  excluding:(NSArray<NSString *> *)exclusions
-                                                     prefix:(NSString *)prefix {
+    excluding:(NSArray<NSString *> *)exclusions
+    prefix:(NSString *)prefix {
     NSArray<NSString *> *legalNames = [[self argumentNamesForFunction:function] mapWithBlock:^id(NSString *anObject) {
-        return [anObject stringByAppendingString:@":"];
-    }];
+                                                 return [anObject stringByAppendingString:@":"];
+                                             }];
     if (!legalNames) {
         return @[];
     }
@@ -420,7 +427,7 @@
     NSDictionary *arglist = [NSDictionary castFrom:maybeArglistDict];
     if (arglist[@"partial-arglist"]) {
         return [self suggestedNextArgumentForExistingArgs:arglist[@"args"]
-                                                 function:function];
+                     function:function];
     }
     return @[];
 }
@@ -447,7 +454,7 @@
 
 - (CPRecoveryAction *)parser:(CPParser *)parser
     didEncounterErrorOnInput:(CPTokenStream *)inputStream
-                   expecting:(NSSet *)acceptableTokens {
+    expecting:(NSSet *)acceptableTokens {
     if (inputStream.peekToken == nil && [acceptableTokens containsObject:@"EOF"]) {
         return [CPRecoveryAction recoveryActionWithAdditionalToken:[CPEOFToken eof]];
     }
@@ -472,9 +479,9 @@
     parser.tolerateTruncation = YES;
     NSInteger index = [parser enumerateSwiftySubstringsWithBlock:nil];
     if (index > prefix.length ||
-        index == NSNotFound ||
-        !parser.wasTruncated ||
-        parser.wasTruncatedInLiteral) {
+            index == NSNotFound ||
+            !parser.wasTruncated ||
+            parser.wasTruncatedInLiteral) {
         return @[];
     }
     NSString *truncatedExpression = [prefix substringFromIndex:index];
@@ -482,12 +489,12 @@
 
     undecoratedSuggestions = [super suggestionsForString:truncatedExpression];
     NSArray<NSString *> *allSuggestions = [undecoratedSuggestions mapWithBlock:^id(NSString *tail) {
-        return [prefix stringByAppendingString:tail];
-    }];
+                               return [prefix stringByAppendingString:tail];
+                           }];
     NSArray<NSString *> *suggestionsUpToFirstPeriod = [allSuggestions mapWithBlock:^id(NSString *string) {
-        NSInteger remaining = string.length;
-        remaining -= prefix.length;
-        if (remaining <= 0) {
+                       NSInteger remaining = string.length;
+                       remaining -= prefix.length;
+                       if (remaining <= 0) {
             return nil;
         }
         NSInteger index = [string rangeOfString:@"." options:0 range:NSMakeRange(prefix.length, remaining)].location;
@@ -498,19 +505,19 @@
         }
     }];
     return [[suggestionsUpToFirstPeriod sortedArrayUsingSelector:@selector(compare:)] reduceWithFirstValue:@[] block:^id(NSArray *uniqueValues, NSString *string) {
-        if (uniqueValues.count < 50 &&
-            ![NSObject object:uniqueValues.lastObject isEqualToObject:string]) {
-            return [uniqueValues arrayByAddingObject:string];
-        } else {
-            return uniqueValues;
-        }
-    }];
+                                                                                  if (uniqueValues.count < 50 &&
+                                                                                      ![NSObject object:uniqueValues.lastObject isEqualToObject:string]) {
+                                                                                      return [uniqueValues arrayByAddingObject:string];
+                                                                                  } else {
+                                                                                      return uniqueValues;
+                                                                                  }
+                                                                              }];
 }
 
 - (NSArray<NSString *> *)parsedResult:(id)result forString:(NSString *)prefix {
     NSArray<NSString *> *suggestions = [self suggestedExpressions:[NSDictionary castFrom:result]
-                                                 nextArgumentName:nil
-                                                 valuesMustBeArgs:NO];
+                                             nextArgumentName:nil
+                                             valuesMustBeArgs:NO];
     return suggestions;
 }
 

@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface iTermActionsEditingViewController : NSViewController
 
 - (void)defineControlsInContainer:(iTermPreferencesBaseViewController *)container
-                    containerView:(NSView *)containerView;
+    containerView:(NSView *)containerView;
 @end
 
 NS_ASSUME_NONNULL_END

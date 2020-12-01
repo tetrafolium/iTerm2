@@ -30,7 +30,7 @@
 }
 
 - (id)statusBarComponentExemplarWithBackgroundColor:(NSColor *)backgroundColor
-                                          textColor:(NSColor *)textColor {
+    textColor:(NSColor *)textColor {
     return @"Snippet…";
 }
 

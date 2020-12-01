@@ -85,8 +85,8 @@
     if (!_timer) {
         __weak __typeof(self) weakSelf = self;
         _timer = [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
-            [weakSelf update];
-        }];
+                    [weakSelf update];
+                }];
     }
     [self update];
 }
@@ -98,9 +98,9 @@
 
 - (IBAction)forceQuit:(id)sender {
     [_outlineView.selectedRowIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
-        iTermJobProxy *job = [self->_outlineView itemAtRow:idx];
-        pid_t pid = job.pid;
-        if (pid) {
+                                        iTermJobProxy *job = [self->_outlineView itemAtRow:idx];
+                                        pid_t pid = job.pid;
+                                        if (pid) {
             DLog(@"Send SIGKILL to %@", @(pid));
             kill(pid, SIGKILL);
         }
@@ -167,7 +167,7 @@
             DLog(@"Insert index %@ in %@", @(i), old);
             [_outlineView insertItemsAtIndexes:[NSIndexSet indexSetWithIndex:o + offset] inParent:old withAnimation:YES];
             [old.children insertObject:newChild atIndex:o + offset];
-            dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_main_queue(), ^ {
                 [self->_outlineView expandItem:newChild expandChildren:YES];
             });
             offset += 1;
@@ -186,7 +186,7 @@
         DLog(@"Insert index %@ in %@", @(i), old);
         [_outlineView insertItemsAtIndexes:[NSIndexSet indexSetWithIndex:o + offset] inParent:old withAnimation:YES];
         [old.children insertObject:newChildren[n] atIndex:o + offset];
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^ {
             [self->_outlineView expandItem:newChildren[n] expandChildren:YES];
         });
         offset += 1;
@@ -196,7 +196,7 @@
         DLog(@"Expandable changed for %@", old);
         [_outlineView reloadItem:old reloadChildren:NO];
         if (old.children.count) {
-            dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_main_queue(), ^ {
                 [self->_outlineView expandItem:old expandChildren:YES];
             });
         }
@@ -248,13 +248,13 @@
         view.textField = textField;
         [view addSubview:textField];
         [view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[textField]-0-|"
-                                                                     options:0
-                                                                     metrics:nil
-                                                                       views:@{ @"textField": textField }]];
+                              options:0
+                              metrics:nil
+                              views:@ { @"textField": textField }]];
         [view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[textField]-0-|"
-                                                                     options:0
-                                                                     metrics:nil
-                                                                       views:@{ @"textField": textField }]];
+                              options:0
+                              metrics:nil
+                              views:@ { @"textField": textField }]];
         textField.frame = view.bounds;
         textField.autoresizingMask = (NSViewWidthSizable | NSViewHeightSizable);
     }

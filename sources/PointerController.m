@@ -28,8 +28,8 @@
 @synthesize delegate = delegate_;
 
 - (void)performAction:(NSString *)action
-             forEvent:(NSEvent *)event
-         withArgument:(NSString *)argument
+    forEvent:(NSEvent *)event
+    withArgument:(NSString *)argument
 {
     DLog(@"Perform action %@", action);
     if ([action isEqualToString:kPasteFromClipboardPointerAction]) {
@@ -48,10 +48,10 @@
         [delegate_ openTargetWithEvent:event];
     } else if ([action isEqualToString:kSmartSelectionPointerAction]) {
         [delegate_ smartSelectAndMaybeCopyWithEvent:event
-                                   ignoringNewlines:NO];
+                   ignoringNewlines:NO];
     } else if ([action isEqualToString:kSmartSelectionIgnoringNewlinesPointerAction]) {
         [delegate_ smartSelectAndMaybeCopyWithEvent:event
-                                   ignoringNewlines:YES];
+                   ignoringNewlines:YES];
     } else if ([action isEqualToString:kContextMenuPointerAction]) {
         [delegate_ openContextMenuWithEvent:event];
     } else if ([action isEqualToString:kNextTabPointerAction]) {
@@ -108,8 +108,8 @@
 }
 
 - (NSString *)actionForEvent:(NSEvent *)event
-                      clicks:(int)clicks
-                 withTouches:(int)numTouches
+    clicks:(int)clicks
+    withTouches:(int)numTouches
 {
     NSUInteger modifierFlags = [event it_modifierFlags];
     if (ignoreOption_) {
@@ -125,32 +125,32 @@
     if (numTouches <= 2) {
         DLog(@"Look up action for a two or one-finger touch click");
         return [PointerPrefsController actionWithButton:[event buttonNumber]
-                                              numClicks:clicks
-                                              modifiers:modifierFlags];
+                                       numClicks:clicks
+                                       modifiers:modifierFlags];
     } else {
         DLog(@"Look up action for a three-or-more finger tap");
         return [PointerPrefsController actionForTapWithTouches:numTouches
-                                                     modifiers:modifierFlags];
+                                       modifiers:modifierFlags];
     }
 }
 
 - (NSString *)argumentForEvent:(NSEvent *)event
-                        clicks:(int)clicks
-                   withTouches:(int)numTouches
+    clicks:(int)clicks
+    withTouches:(int)numTouches
 {
     if (clicks == 1 && [self eventEmulatesRightClick:event]) {
         // Ctrl-click emulates right button
         return [PointerPrefsController argumentWithButton:1
-                                                numClicks:1
-                                                modifiers:0];
+                                       numClicks:1
+                                       modifiers:0];
     }
     if (numTouches <= 2) {
         return [PointerPrefsController argumentWithButton:[event buttonNumber]
-                                                numClicks:clicks
-                                                modifiers:[event it_modifierFlags]];
+                                       numClicks:clicks
+                                       modifiers:[event it_modifierFlags]];
     } else {
         return [PointerPrefsController argumentForTapWithTouches:numTouches
-                                                       modifiers:[event it_modifierFlags]];
+                                       modifiers:[event it_modifierFlags]];
     }
 }
 
@@ -188,18 +188,18 @@
     ignoreOption_ = ignoreOption;
     mouseDownButton_ = [event buttonNumber];
     return [self actionForEvent:event
-                         clicks:clicks_
-                    withTouches:numTouches] != nil;
+                 clicks:clicks_
+                 withTouches:numTouches] != nil;
 }
 
 - (BOOL)mouseUp:(NSEvent *)event withTouches:(int)numTouches {
     _previousStage = 0;
     NSString *argument = [self argumentForEvent:event
-                                         clicks:clicks_
-                                    withTouches:numTouches];
+                               clicks:clicks_
+                               withTouches:numTouches];
     NSString *action = [self actionForEvent:event
-                                     clicks:clicks_
-                                withTouches:numTouches];
+                             clicks:clicks_
+                             withTouches:numTouches];
     DLog(@"mouseUp action=%@", action);
     if (action) {
         [self performAction:action forEvent:event withArgument:argument];
@@ -215,9 +215,9 @@
         _previousStage = event.stage;
         if (event.stage == 2 && previousStage < 2) {
             NSString *action = [PointerPrefsController actionForGesture:kForceTouchSingleClick
-                                                              modifiers:[event it_modifierFlags]];
+                                                       modifiers:[event it_modifierFlags]];
             NSString *argument = [PointerPrefsController argumentForGesture:kForceTouchSingleClick
-                                                                  modifiers:[event it_modifierFlags]];
+                                                         modifiers:[event it_modifierFlags]];
             if (action) {
                 [self performAction:action forEvent:event withArgument:argument];
                 return YES;
@@ -248,9 +248,9 @@
         gesture = kThreeFingerSwipeDown;
     }
     NSString *action = [PointerPrefsController actionForGesture:gesture
-                                                      modifiers:[event it_modifierFlags]];
+                                               modifiers:[event it_modifierFlags]];
     NSString *argument = [PointerPrefsController argumentForGesture:gesture
-                                                          modifiers:[event it_modifierFlags]];
+                                                 modifiers:[event it_modifierFlags]];
     if (action) {
         [self performAction:action forEvent:event withArgument:argument];
     }

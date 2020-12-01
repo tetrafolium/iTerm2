@@ -25,7 +25,7 @@ static NSString *const kOldStyleUrlHandlersUserDefaultsKey = @"URLHandlers";
 + (instancetype)sharedInstance {
     static id instance;
     static dispatch_once_t once;
-    dispatch_once(&once, ^{
+    dispatch_once(&once, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -48,7 +48,7 @@ static NSString *const kOldStyleUrlHandlersUserDefaultsKey = @"URLHandlers";
             for (id key in tempDict) {
                 int theIndex = [[tempDict objectForKey:key] intValue];
                 if (theIndex >= 0 &&
-                    theIndex  < [profileModel numberOfBookmarks]) {
+                        theIndex  < [profileModel numberOfBookmarks]) {
                     NSString *guid = [[profileModel profileAtIndex:theIndex] objectForKey:KEY_GUID];
                     _urlHandlersByGuid[key] = guid;
                 }
@@ -70,26 +70,26 @@ static NSString *const kOldStyleUrlHandlersUserDefaultsKey = @"URLHandlers";
     BOOL set = YES;
 
     appURL = (NSURL *)LSCopyDefaultApplicationURLForURL((CFURLRef)[NSURL URLWithString:[scheme stringByAppendingString:@":"]],
-                                                        kLSRolesAll,
-                                                        NULL);
+             kLSRolesAll,
+             NULL);
     [appURL autorelease];
 
     if (appURL == nil) {
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
         alert.messageText = [NSString stringWithFormat:@"iTerm is not the default handler for %@. "
-                             @"Would you like to set iTerm as the default handler?",
-                             scheme];
+                                      @"Would you like to set iTerm as the default handler?",
+                                      scheme];
         alert.informativeText = @"There is currently no handler.";
         [alert addButtonWithTitle:@"OK"];
         [alert addButtonWithTitle:@"Cancel"];
         set = ([alert runModal] == NSAlertFirstButtonReturn);
     } else if (![[[NSFileManager defaultManager] displayNameAtPath:[appURL path]] isEqualToString:@"iTerm 2"]) {
         NSString *theTitle = [NSString stringWithFormat:@"iTerm is not the default handler for %@. "
-                                                        @"Would you like to set iTerm as the default handler?", scheme];
+                                       @"Would you like to set iTerm as the default handler?", scheme];
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
         alert.messageText = theTitle;
         alert.informativeText = [NSString stringWithFormat:@"The current handler is: %@",
-                                 [[NSFileManager defaultManager] displayNameAtPath:[appURL path]]];
+                                          [[NSFileManager defaultManager] displayNameAtPath:[appURL path]]];
         [alert addButtonWithTitle:@"OK"];
         [alert addButtonWithTitle:@"Cancel"];
         set = ([alert runModal] == NSAlertFirstButtonReturn);
@@ -114,14 +114,14 @@ static NSString *const kOldStyleUrlHandlersUserDefaultsKey = @"URLHandlers";
 
 - (void)updateUserDefaults {
     [[NSUserDefaults standardUserDefaults] setObject:_urlHandlersByGuid
-                                              forKey:kUrlHandlersUserDefaultsKey];
+                                           forKey:kUrlHandlersUserDefaultsKey];
 }
 
 - (Profile *)profileForScheme:(NSString *)url {
     NSString* handlerId = (NSString *)LSCopyDefaultHandlerForURLScheme((CFStringRef)url);
     Profile *profile = nil;
     if ([handlerId isEqualToString:@"com.googlecode.iterm2"] ||
-        [handlerId isEqualToString:@"net.sourceforge.iterm"]) {
+            [handlerId isEqualToString:@"net.sourceforge.iterm"]) {
         profile = [[ProfileModel sharedInstance] bookmarkWithGuid:[self guidForScheme:url]];
     }
     if (handlerId) {
@@ -182,7 +182,7 @@ static NSString *const kOldStyleUrlHandlersUserDefaultsKey = @"URLHandlers";
     DLog(@"openFile: %@ with fragment %@", fullPath, fragment);
     if (fragment) {
         NSURLComponents *components = [NSURLComponents componentsWithURL:[NSURL fileURLWithPath:fullPath]
-                                                 resolvingAgainstBaseURL:NO];
+                                                       resolvingAgainstBaseURL:NO];
         components.fragment = fragment;
         [[NSWorkspace sharedWorkspace] openURL:components.URL];
         return YES;

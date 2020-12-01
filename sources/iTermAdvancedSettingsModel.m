@@ -184,7 +184,7 @@ BOOL UseSystemCursorWhenPossibleDefault(void) {
 
 + (void)enumerateDictionaries:(void (^)(NSDictionary *))block {
     [self enumerateMethods:^(Method method, SEL selector) {
-        NSString *name = NSStringFromSelector(selector);
+             NSString *name = NSStringFromSelector(selector);
         if ([name hasPrefix:@"advancedSettingsModelDictionary_"]) {
             NSDictionary *(*impl)(id, SEL) = (NSDictionary *(*)(id, SEL))method_getImplementation(method);
             NSDictionary *dict = impl(self, selector);
@@ -622,13 +622,13 @@ DEFINE_SETTABLE_BOOL(setCookie, SetCookie, NO, SECTION_SCRIPTING @"Set ITERM2_CO
         static iTermUserDefaultsObserver *observer;
         observer = [[iTermUserDefaultsObserver alloc] init];
         [self enumerateMethods:^(Method method, SEL selector) {
-            NSString *name = NSStringFromSelector(selector);
+                 NSString *name = NSStringFromSelector(selector);
             if ([name hasPrefix:@"load_"]) {
                 NSString *(*impl)(id, SEL) = (NSString *(*)(id, SEL))method_getImplementation(method);
                 NSString *identifier = impl(self, selector);
 
-                [observer observeKey:identifier block:^{
-                    impl(self, selector);
+                [observer observeKey:identifier block:^ {
+                             impl(self, selector);
                     [[NSNotificationCenter defaultCenter] postNotificationName:iTermAdvancedSettingsDidChange object:nil];
                 }];
             }
@@ -645,7 +645,7 @@ DEFINE_SETTABLE_BOOL(setCookie, SetCookie, NO, SECTION_SCRIPTING @"Set ITERM2_CO
 
 + (void)loadAdvancedSettingsFromUserDefaults {
     [self enumerateMethods:^(Method method, SEL selector) {
-        NSString *name = NSStringFromSelector(selector);
+             NSString *name = NSStringFromSelector(selector);
         if ([name hasPrefix:@"load_"]) {
             NSString *(*impl)(id, SEL) = (NSString *(*)(id, SEL))method_getImplementation(method);
             impl(self, selector);

@@ -105,7 +105,7 @@ typedef struct {
         return;
     }
     _locationsHaveChanged = YES;
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         self->_locationsHaveChanged = NO;
         [self.delegate findOnPageLocationsDidChange];
     });
@@ -116,17 +116,17 @@ typedef struct {
 }
 
 - (void)findString:(NSString *)aString
-  forwardDirection:(BOOL)direction
-              mode:(iTermFindMode)mode
-        withOffset:(int)offset
-           context:(FindContext *)findContext
-     numberOfLines:(int)numberOfLines
+    forwardDirection:(BOOL)direction
+    mode:(iTermFindMode)mode
+    withOffset:(int)offset
+    context:(FindContext *)findContext
+    numberOfLines:(int)numberOfLines
     totalScrollbackOverflow:(long long)totalScrollbackOverflow
-scrollToFirstResult:(BOOL)scrollToFirstResult {
+    scrollToFirstResult:(BOOL)scrollToFirstResult {
     _searchingForward = direction;
     _findOffset = offset;
     if ([_lastStringSearchedFor isEqualToString:aString] &&
-        _mode == mode) {
+            _mode == mode) {
         _haveRevealedSearchResult = NO;  // select the next item before/after the current selection.
         _searchingForNextResult = scrollToFirstResult;
         // I would like to call selectNextResultForward:withOffset: here, but
@@ -145,13 +145,13 @@ scrollToFirstResult:(BOOL)scrollToFirstResult {
         // forwards, but most searches are reverse searches begun at the end,
         // so it will get a result sooner.
         [_delegate findOnPageSetFindString:aString
-                          forwardDirection:NO
-                                      mode:mode
-                               startingAtX:0
-                               startingAtY:numberOfLines + 1 + totalScrollbackOverflow
-                                withOffset:0
-                                 inContext:findContext
-                           multipleResults:YES];
+                   forwardDirection:NO
+                   mode:mode
+                   startingAtX:0
+                   startingAtY:numberOfLines + 1 + totalScrollbackOverflow
+                   withOffset:0
+                   inContext:findContext
+                   multipleResults:YES];
 
         [_copiedContext copyFromFindContext:findContext];
         _copiedContext.results = nil;
@@ -206,10 +206,10 @@ scrollToFirstResult:(BOOL)scrollToFirstResult {
 // 2. If _searchingForNextResult is true, highlight the next result before/after
 //   the current selection and flip _searchingForNextResult to false.
 - (BOOL)continueFind:(double *)progress
-             context:(FindContext *)context
-               width:(int)width
-       numberOfLines:(int)numberOfLines
-  overflowAdjustment:(long long)overflowAdjustment {
+    context:(FindContext *)context
+    width:(int)width
+    numberOfLines:(int)numberOfLines
+    overflowAdjustment:(long long)overflowAdjustment {
     BOOL more = NO;
     BOOL redraw = NO;
 
@@ -218,7 +218,7 @@ scrollToFirstResult:(BOOL)scrollToFirstResult {
     if (_findInProgress) {
         // Collect more results.
         more = [_delegate continueFindAllResults:newSearchResults
-                                       inContext:context];
+                          inContext:context];
         *progress = [context progress];
     } else {
         *progress = 1;
@@ -236,10 +236,10 @@ scrollToFirstResult:(BOOL)scrollToFirstResult {
     // Highlight next result if needed.
     if (_searchingForNextResult) {
         if ([self selectNextResultForward:_searchingForward
-                               withOffset:_findOffset
-                                    width:width
-                            numberOfLines:numberOfLines
-                       overflowAdjustment:overflowAdjustment]) {
+                     withOffset:_findOffset
+                     width:width
+                     numberOfLines:numberOfLines
+                     overflowAdjustment:overflowAdjustment]) {
             _searchingForNextResult = NO;
         }
     }
@@ -258,18 +258,18 @@ scrollToFirstResult:(BOOL)scrollToFirstResult {
 
     NSInteger insertionIndex = [_searchResults indexOfObject:searchResult
                                                inSortedRange:NSMakeRange(0, _searchResults.count)
-                                                     options:NSBinarySearchingInsertionIndex
-                                             usingComparator:^NSComparisonResult(SearchResult  * _Nonnull obj1, SearchResult  * _Nonnull obj2) {
-                                                 NSComparisonResult result = [obj1 compare:obj2];
-                                                 switch (result) {
-                                                     case NSOrderedAscending:
-                                                         return NSOrderedDescending;
-                                                     case NSOrderedDescending:
-                                                         return NSOrderedAscending;
-                                                     default:
-                                                         return result;
-                                                 }
-                                             }];
+                                               options:NSBinarySearchingInsertionIndex
+                   usingComparator:^NSComparisonResult(SearchResult  * _Nonnull obj1, SearchResult  * _Nonnull obj2) {
+                       NSComparisonResult result = [obj1 compare:obj2];
+                       switch (result) {
+        case NSOrderedAscending:
+            return NSOrderedDescending;
+        case NSOrderedDescending:
+            return NSOrderedAscending;
+        default:
+            return result;
+        }
+    }];
     [_searchResults insertObject:searchResult atIndex:insertionIndex];
     if (@available(macOS 10.14, *)) {
         [_locations addIndex:searchResult.absStartY];
@@ -323,10 +323,10 @@ scrollToFirstResult:(BOOL)scrollToFirstResult {
 // Select the next highlighted result by searching findResults_ for a match just before/after the
 // current selection.
 - (BOOL)selectNextResultForward:(BOOL)forward
-                     withOffset:(int)offset
-                          width:(int)width
-                  numberOfLines:(int)numberOfLines
-             overflowAdjustment:(long long)overflowAdjustment {
+    withOffset:(int)offset
+    width:(int)width
+    numberOfLines:(int)numberOfLines
+    overflowAdjustment:(long long)overflowAdjustment {
     NSRange range = NSMakeRange(NSNotFound, 0);
     int start;
     int stride;
@@ -440,10 +440,10 @@ scrollToFirstResult:(BOOL)scrollToFirstResult {
     querySearchResult.absStartY = query;
     NSInteger index = [_searchResults indexOfObject:querySearchResult
                                       inSortedRange:NSMakeRange(0, _searchResults.count)
-                                            options:(NSBinarySearchingInsertionIndex | NSBinarySearchingFirstEqual)
-                                    usingComparator:^NSComparisonResult(SearchResult * _Nonnull obj1, SearchResult * _Nonnull obj2) {
-                                        return [@(obj2.absStartY) compare:@(obj1.absStartY)];
-                                    }];
+                                      options:(NSBinarySearchingInsertionIndex | NSBinarySearchingFirstEqual)
+                   usingComparator:^NSComparisonResult(SearchResult * _Nonnull obj1, SearchResult * _Nonnull obj2) {
+                       return [@(obj2.absStartY) compare:@(obj1.absStartY)];
+                   }];
     if (index == _searchResults.count) {
         index--;
     }
@@ -461,10 +461,10 @@ scrollToFirstResult:(BOOL)scrollToFirstResult {
     querySearchResult.absStartY = query;
     NSInteger index = [_searchResults indexOfObject:querySearchResult
                                       inSortedRange:NSMakeRange(0, _searchResults.count)
-                                            options:(NSBinarySearchingInsertionIndex | NSBinarySearchingLastEqual)
-                                    usingComparator:^NSComparisonResult(SearchResult * _Nonnull obj1, SearchResult * _Nonnull obj2) {
-                                        return [@(obj2.absStartY) compare:@(obj1.absStartY)];
-                                    }];
+                                      options:(NSBinarySearchingInsertionIndex | NSBinarySearchingLastEqual)
+                   usingComparator:^NSComparisonResult(SearchResult * _Nonnull obj1, SearchResult * _Nonnull obj2) {
+                       return [@(obj2.absStartY) compare:@(obj1.absStartY)];
+                   }];
     if (index == _searchResults.count) {
         index--;
     }
@@ -582,8 +582,8 @@ scrollToFirstResult:(BOOL)scrollToFirstResult {
         // valid ones end. Because search results are sorted descending, a prefix of _searchResults
         // will contain the valid ones.
         const NSInteger index = [_searchResults indexOfObject:temp inSortedRange:NSMakeRange(0, _searchResults.count) options:NSBinarySearchingInsertionIndex usingComparator:^NSComparisonResult(SearchResult *_Nonnull obj1, SearchResult *_Nonnull obj2) {
-            return [@(-obj1.absEndY) compare:@(-obj2.absEndY)];
-        }];
+                           return [@(-obj1.absEndY) compare:@(-obj2.absEndY)];
+                       }];
         if (index == NSNotFound) {
             _cachedCounts.count = 0;
             _cachedCounts.index = 0;
@@ -591,7 +591,7 @@ scrollToFirstResult:(BOOL)scrollToFirstResult {
         }
         _cachedCounts.count = index + 1;
     }
-    
+
     if (self.selectedResult == nil) {
         _cachedCounts.index = 0;
         return;
@@ -599,9 +599,9 @@ scrollToFirstResult:(BOOL)scrollToFirstResult {
 
     // Do a binary search to find the current result.
     _cachedCounts.index = [_searchResults indexOfObject:self.selectedResult inSortedRange:NSMakeRange(0, _searchResults.count) options:NSBinarySearchingFirstEqual usingComparator:^NSComparisonResult(SearchResult *_Nonnull obj1, SearchResult *_Nonnull obj2) {
-        const NSComparisonResult result = [obj1 compare:obj2];
-        // Swap ascending and descending because the values or ordered descending.
-        switch (result) {
+                       const NSComparisonResult result = [obj1 compare:obj2];
+                       // Swap ascending and descending because the values or ordered descending.
+                       switch (result) {
         case NSOrderedSame:
             return result;
         case NSOrderedAscending:

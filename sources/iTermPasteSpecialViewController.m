@@ -93,7 +93,7 @@ static NSString *const kSubstitution = @"Substitution";
 
 // TODO: When 10.7 support is dropped use NSByteCountFormatter
 - (NSString *)descriptionForByteSize:(double)chunkSize {
-    NSArray *units = @[ @"", @"k", @"M", @"G", @"T" , @"P", @"E", @"Z", @"Y" ];
+    NSArray *units = @[ @"", @"k", @"M", @"G", @"T", @"P", @"E", @"Z", @"Y" ];
     int multiplier = 1024;
     int exponent = 0;
 
@@ -105,8 +105,8 @@ static NSString *const kSubstitution = @"Substitution";
     [formatter setMaximumFractionDigits:2];
     [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
     NSString *description = [NSString stringWithFormat:@"%@ %@B",
-                             [formatter stringFromNumber:@(chunkSize)],
-                             units[exponent]];
+                                      [formatter stringFromNumber:@(chunkSize)],
+                                      units[exponent]];
     return description;
 }
 
@@ -131,8 +131,8 @@ static NSString *const kSubstitution = @"Substitution";
     [formatter setMaximumFractionDigits:2];
     [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
     NSString *description = [NSString stringWithFormat:@"%@ %@",
-                             [formatter stringFromNumber:@(duration / multiplier)],
-                             units];
+                                      [formatter stringFromNumber:@(duration / multiplier)],
+                                      units];
     return description;
 }
 
@@ -398,25 +398,38 @@ static NSString *const kSubstitution = @"Substitution";
 
 - (NSString *)stringEncodedSettings {
     NSDictionary *dict =
-        @{ kChunkSize: @(self.chunkSize),
-           kDelayBetweenChunks: @(self.delayBetweenChunks),
-           kNumberOfSpacesPerTab: @(self.numberOfSpacesPerTab),
-           kSelectedTabTransform: @(self.selectedTabTransform),
-           kShouldConvertNewlines: @(self.shouldConvertNewlines),
-           kShouldRemoveNewlines: @(self.shouldRemoveNewlines),
-           kShouldConvertUnicodePunctuation: @(self.shouldConvertUnicodePunctuation),
-           kShouldEscapeShellCharsWithBackslash: @(self.shouldEscapeShellCharsWithBackslash),
-           kShouldRemoveControlCodes: @(self.shouldRemoveControlCodes),
-           kShouldUseBracketedPasteMode: @(self.shouldUseBracketedPasteMode),
-           kShouldBase64Encode: @(self.shouldBase64Encode),
-           kShouldUseRegexSubstitution: @(self.shouldUseRegexSubstitution),
-           kRegularExpression: self.regexString ?: @"",
-           kSubstitution: self.substitutionString ?: @"",
-           kShouldWaitForPrompts: @(self.shouldWaitForPrompt)
-         };
+        @ { kChunkSize:
+            @(self.chunkSize),
+            kDelayBetweenChunks:
+            @(self.delayBetweenChunks),
+            kNumberOfSpacesPerTab:
+            @(self.numberOfSpacesPerTab),
+            kSelectedTabTransform:
+            @(self.selectedTabTransform),
+            kShouldConvertNewlines:
+            @(self.shouldConvertNewlines),
+            kShouldRemoveNewlines:
+            @(self.shouldRemoveNewlines),
+            kShouldConvertUnicodePunctuation:
+            @(self.shouldConvertUnicodePunctuation),
+            kShouldEscapeShellCharsWithBackslash:
+            @(self.shouldEscapeShellCharsWithBackslash),
+            kShouldRemoveControlCodes:
+            @(self.shouldRemoveControlCodes),
+            kShouldUseBracketedPasteMode:
+            @(self.shouldUseBracketedPasteMode),
+            kShouldBase64Encode:
+            @(self.shouldBase64Encode),
+            kShouldUseRegexSubstitution:
+            @(self.shouldUseRegexSubstitution),
+            kRegularExpression:
+            self.regexString ?: @"",
+            kSubstitution: self.substitutionString ?: @"",
+            kShouldWaitForPrompts: @(self.shouldWaitForPrompt)
+          };
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict
-                                                       options:0
-                                                         error:nil];
+                                            options:0
+                                            error:nil];
     return [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding] autorelease];
 }
 
@@ -549,15 +562,15 @@ static NSString *const kSubstitution = @"Substitution";
         flags |= kPasteFlagsUseRegexSubstitution;
     }
     PasteEvent *pasteEvent = [PasteEvent pasteEventWithString:string
-                                                        flags:flags
-                                             defaultChunkSize:chunkSize
-                                                     chunkKey:nil
-                                                 defaultDelay:delayBetweenChunks
-                                                     delayKey:nil
-                                                 tabTransform:selectedTabTransform
-                                                 spacesPerTab:numberOfSpacesPerTab
-                                                        regex:dict[kRegularExpression] ?: @""
-                                                 substitution:dict[kSubstitution] ?: @""];
+                                         flags:flags
+                                         defaultChunkSize:chunkSize
+                                         chunkKey:nil
+                                         defaultDelay:delayBetweenChunks
+                                         delayKey:nil
+                                         tabTransform:selectedTabTransform
+                                         spacesPerTab:numberOfSpacesPerTab
+                                         regex:dict[kRegularExpression] ?: @""
+                                         substitution:dict[kSubstitution] ?: @""];
     return pasteEvent;
 }
 

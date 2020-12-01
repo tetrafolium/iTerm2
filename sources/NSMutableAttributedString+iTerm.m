@@ -26,18 +26,18 @@
 
 - (void)iterm_appendString:(NSString *)string withAttributes:(NSDictionary *)attributes {
     [self appendAttributedString:[[NSAttributedString alloc] initWithString:string
-                                                                 attributes:attributes]];
+                                  attributes:attributes]];
 }
 
 - (void)trimTrailingWhitespace {
     NSCharacterSet *nonWhitespaceSet = [[NSCharacterSet whitespaceCharacterSet] invertedSet];
     NSRange rangeOfLastWantedCharacter = [self.string rangeOfCharacterFromSet:nonWhitespaceSet
-                                                                      options:NSBackwardsSearch];
+                                                      options:NSBackwardsSearch];
     if (rangeOfLastWantedCharacter.location == NSNotFound) {
         [self deleteCharactersInRange:NSMakeRange(0, self.length)];
     } else if (NSMaxRange(rangeOfLastWantedCharacter) < self.length) {
         [self deleteCharactersInRange:NSMakeRange(NSMaxRange(rangeOfLastWantedCharacter),
-                                                  self.length - NSMaxRange(rangeOfLastWantedCharacter))];
+                self.length - NSMaxRange(rangeOfLastWantedCharacter))];
     }
 }
 
@@ -57,9 +57,9 @@
 }
 
 + (instancetype)attributedStringWithLinkToURL:(NSString *)urlString string:(NSString *)string {
-    NSDictionary *linkAttributes = @{ NSLinkAttributeName: [NSURL URLWithString:urlString] };
+    NSDictionary *linkAttributes = @ { NSLinkAttributeName: [NSURL URLWithString:urlString] };
     return [[NSAttributedString alloc] initWithString:string
-                                           attributes:linkAttributes];
+                                       attributes:linkAttributes];
 }
 
 + (instancetype)attributedStringWithAttributedStrings:(NSArray<NSAttributedString *> *)strings {
@@ -106,8 +106,8 @@
     NSRange nextRange = NSMakeRange(0, string.length);
     do {
         range = [string rangeOfString:separator
-                              options:0
-                                range:nextRange];
+                        options:0
+                        range:nextRange];
         if (range.location != NSNotFound) {
             [indices addIndex:range.location];
             nextRange.location = range.location + range.length;
@@ -118,9 +118,9 @@
     NSMutableArray *result = [NSMutableArray array];
     __block NSUInteger startAt = 0;
     [indices enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-        [result addObject:[self attributedSubstringFromRange:NSMakeRange(startAt, idx - startAt)]];
-        startAt = idx + separator.length;
-    }];
+                [result addObject:[self attributedSubstringFromRange:NSMakeRange(startAt, idx - startAt)]];
+                startAt = idx + separator.length;
+            }];
     [result addObject:[self attributedSubstringFromRange:NSMakeRange(startAt, string.length - startAt)]];
 
     return result;
@@ -129,18 +129,18 @@
 - (NSAttributedString *)attributedStringByRemovingColor {
     NSMutableAttributedString *result = [[NSMutableAttributedString alloc] init];
     [self enumerateAttributesInRange:NSMakeRange(0, self.length)
-                             options:0
-                          usingBlock:^(NSDictionary<NSAttributedStringKey, id> * _Nonnull attrs,
-                                       NSRange range,
-                                       BOOL * _Nonnull stop) {
-        if (attrs[NSAttachmentAttributeName]) {
-            NSTextAttachment *attachment = attrs[NSAttachmentAttributeName];
+          options:0
+          usingBlock:^(NSDictionary<NSAttributedStringKey, id> * _Nonnull attrs,
+                  NSRange range,
+         BOOL * _Nonnull stop) {
+             if (attrs[NSAttachmentAttributeName]) {
+                 NSTextAttachment *attachment = attrs[NSAttachmentAttributeName];
             NSTextAttachment *replacement = [[NSTextAttachment alloc] init];
             replacement.image = [attachment.image grayscaleImage];
             [result appendAttributedString:[NSAttributedString attributedStringWithAttachment:replacement]];
             return;
         }
-        
+
         NSString *string = [self.string substringWithRange:range];
         NSMutableDictionary *attributes = [attrs mutableCopy];
         [attributes removeObjectForKey:NSBackgroundColorAttributeName];

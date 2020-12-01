@@ -17,11 +17,11 @@
 + (instancetype)imageOfSize:(NSSize)size drawBlock:(void (^ NS_NOESCAPE)(void))block;
 
 + (instancetype)imageWithRawData:(NSData *)data
-                            size:(NSSize)size
-                   bitsPerSample:(NSInteger)bitsPerSample  // e.g. 8 or 1
-                 samplesPerPixel:(NSInteger)samplesPerPixel  // e.g. 4 (RGBA) or 1
-                        hasAlpha:(BOOL)hasAlpha
-                  colorSpaceName:(NSString *)colorSpaceName;  // e.g., NSCalibratedRGBColorSpace
+    size:(NSSize)size
+    bitsPerSample:(NSInteger)bitsPerSample  // e.g. 8 or 1
+    samplesPerPixel:(NSInteger)samplesPerPixel  // e.g. 4 (RGBA) or 1
+    hasAlpha:(BOOL)hasAlpha
+    colorSpaceName:(NSString *)colorSpaceName;  // e.g., NSCalibratedRGBColorSpace
 
 // Load a file and create a low DPI version by downscaling it and use the file itself as the
 // high DPI representation.

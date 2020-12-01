@@ -38,10 +38,10 @@ static NSString *iTermPasteViewControllerNibName(BOOL mini) {
 @synthesize remainingLength = remainingLength_;
 
 - (instancetype)initWithContext:(PasteContext *)pasteContext
-                         length:(int)length
-                           mini:(BOOL)mini {
+    length:(int)length
+    mini:(BOOL)mini {
     self = [super initWithNibName:iTermPasteViewControllerNibName(mini)
-                           bundle:[NSBundle bundleForClass:self.class]];
+                  bundle:[NSBundle bundleForClass:self.class]];
     if (self) {
         [self view];
         _mini = mini;
@@ -57,9 +57,9 @@ static NSString *iTermPasteViewControllerNibName(BOOL mini) {
         pasteContext_ = [pasteContext retain];
         totalLength_ = remainingLength_ = length;
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(themeDidChange:)
-                                                     name:kRefreshTerminalNotification
-                                                   object:nil];
+                                              selector:@selector(themeDidChange:)
+                                              name:kRefreshTerminalNotification
+                                              object:nil];
     }
     return self;
 }
@@ -150,9 +150,9 @@ static NSString *iTermPasteViewControllerNibName(BOOL mini) {
     [[NSAnimationContext currentContext] setDuration:kAnimationDuration];
     self.view.animator.alphaValue = 0;
     [self.view performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:kAnimationDuration];
-    [[NSAnimationContext currentContext] setCompletionHandler:^{
-        completion();
-    }];
+    [[NSAnimationContext currentContext] setCompletionHandler:^ {
+                                            completion();
+                                        }];
 }
 
 - (void)themeDidChange:(id)sender {

@@ -52,29 +52,29 @@ typedef NS_OPTIONS(NSUInteger, iTermGraphEncoderArrayOptions) {
 //
 // The block can return NO to rollback any changes it has made.
 - (BOOL)encodeChildWithKey:(NSString *)key
-                identifier:(NSString *)identifier
-                generation:(NSInteger)generation
-                     block:(BOOL (^ NS_NOESCAPE)(iTermGraphEncoder *subencoder))block;
+    identifier:(NSString *)identifier
+    generation:(NSInteger)generation
+    block:(BOOL (^ NS_NOESCAPE)(iTermGraphEncoder *subencoder))block;
 
 // Return nil from block to stop adding elements. Otherwise, return identifier.
 // The block should use `identifier` as the key for the POD/graph it encodes.
 // The keys of the POD/graphs encoded with `subencoder` are ignored.
 - (void)encodeArrayWithKey:(NSString *)key
-                generation:(NSInteger)generation
-               identifiers:(NSArray<NSString *> *)identifiers
-                   options:(iTermGraphEncoderArrayOptions)options
-                     block:(BOOL (^ NS_NOESCAPE)(NSString *identifier,
-                                                 NSInteger i,
-                                                 iTermGraphEncoder *subencoder,
-                                                 BOOL *stop))block;
+    generation:(NSInteger)generation
+    identifiers:(NSArray<NSString *> *)identifiers
+    options:(iTermGraphEncoderArrayOptions)options
+    block:(BOOL (^ NS_NOESCAPE)(NSString *identifier,
+    NSInteger i,
+    iTermGraphEncoder *subencoder,
+    BOOL *stop))block;
 
 - (void)encodeDictionary:(NSDictionary *)dict
-                 withKey:(NSString *)key
-              generation:(NSInteger)generation;
+    withKey:(NSString *)key
+    generation:(NSInteger)generation;
 
 - (instancetype)initWithKey:(NSString *)key
-                 identifier:(NSString *)identifier
-                 generation:(NSInteger)generation NS_DESIGNATED_INITIALIZER;
+    identifier:(NSString *)identifier
+    generation:(NSInteger)generation NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithRecord:(iTermEncoderGraphRecord *)record;
 

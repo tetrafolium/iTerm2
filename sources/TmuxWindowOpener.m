@@ -84,7 +84,7 @@ NSString *const kTmuxWindowOpenerWindowOptionStyleValueFullScreen = @"FullScreen
     [_completion release];
     [_unpausingWindowPanes release];
     [_newWindowBlock release];
-    
+
     [super dealloc];
 }
 
@@ -102,9 +102,9 @@ NSString *const kTmuxWindowOpenerWindowOptionStyleValueFullScreen = @"FullScreen
     NSMutableArray *cmdList = [NSMutableArray array];
     DLog(@"Parse this tree: %@", self.parseTree);
     [[TmuxLayoutParser sharedInstance] depthFirstSearchParseTree:self.parseTree
-                                                 callingSelector:@selector(appendRequestsForNode:toArray:)
-                                                        onTarget:self
-                                                      withObject:cmdList];
+                                       callingSelector:@selector(appendRequestsForNode:toArray:)
+                                       onTarget:self
+                                       withObject:cmdList];
     if (self.zoomed.boolValue) {
         // Unzoom the window because there's no way to tell which window pane is zoomed in tmux 2.1.
         // I submitted a patch to tmux (commit 531869bd92f0daff3cc3c3cc0ab273846f411dc8) to correct
@@ -157,7 +157,7 @@ NSString *const kTmuxWindowOpenerWindowOptionStyleValueFullScreen = @"FullScreen
     for (NSNumber *addedPane in [parser windowPanesInParseTree:self.parseTree]) {
         if (![oldPanes containsObject:addedPane]) {
             [self appendRequestsForWindowPane:addedPane
-                                      toArray:cmdList];
+                  toArray:cmdList];
         }
     }
     if (cmdList.count) {
@@ -167,8 +167,8 @@ NSString *const kTmuxWindowOpenerWindowOptionStyleValueFullScreen = @"FullScreen
         return NO;
     }
     [tab setTmuxLayout:self.parseTree
-        tmuxController:controller_
-                zoomed:_zoomed];
+         tmuxController:controller_
+         zoomed:_zoomed];
     return YES;
 }
 
@@ -177,7 +177,7 @@ NSString *const kTmuxWindowOpenerWindowOptionStyleValueFullScreen = @"FullScreen
 // This is called for each window pane via a DFS. It sends all commands needed
 // to open a window.
 - (id)appendRequestsForNode:(NSMutableDictionary *)node
-                    toArray:(NSMutableArray *)cmdList {
+    toArray:(NSMutableArray *)cmdList {
     NSNumber *wp = [node objectForKey:kLayoutDictWindowPaneKey];
     DLog(@"Append requests for node: %@", node);
     [self appendRequestsForWindowPane:wp toArray:cmdList];
@@ -185,7 +185,7 @@ NSString *const kTmuxWindowOpenerWindowOptionStyleValueFullScreen = @"FullScreen
 }
 
 - (void)appendRequestsForWindowPane:(NSNumber *)wp
-                            toArray:(NSMutableArray *)cmdList {
+    toArray:(NSMutableArray *)cmdList {
     [cmdList addObject:[self dictForRequestHistoryForWindowPane:wp alt:NO]];
     [cmdList addObject:[self dictForRequestHistoryForWindowPane:wp alt:YES]];
     [cmdList addObject:[self dictForDumpStateForWindowPane:wp]];
@@ -205,10 +205,10 @@ NSString *const kTmuxWindowOpenerWindowOptionStyleValueFullScreen = @"FullScreen
     // The tricky case: if we got unpaused before accepting notifications, this unpauses the pane.
     NSString *command = [NSString stringWithFormat:@"refresh-client -A '%%%@:continue'", wp];
     return [gateway_ dictionaryForCommand:command
-                           responseTarget:self
-                         responseSelector:@selector(requestDidComplete)
-                           responseObject:nil
-                                    flags:kTmuxGatewayCommandShouldTolerateErrors];
+                     responseTarget:self
+                     responseSelector:@selector(requestDidComplete)
+                     responseObject:nil
+                     flags:kTmuxGatewayCommandShouldTolerateErrors];
 }
 
 - (NSDictionary *)dictToToggleZoomForWindow {
@@ -216,10 +216,10 @@ NSString *const kTmuxWindowOpenerWindowOptionStyleValueFullScreen = @"FullScreen
     DLog(@"Increment pending requests to %d", pendingRequests_);
     NSString *command = [NSString stringWithFormat:@"resize-pane -Z -t @%d", self.windowIndex];
     return [gateway_ dictionaryForCommand:command
-                           responseTarget:self
-                         responseSelector:@selector(requestDidComplete)
-                           responseObject:nil
-                                    flags:kTmuxGatewayCommandShouldTolerateErrors];
+                     responseTarget:self
+                     responseSelector:@selector(requestDidComplete)
+                     responseObject:nil
+                     flags:kTmuxGatewayCommandShouldTolerateErrors];
 }
 
 - (NSDictionary *)dictForGetPendingOutputForWindowPane:(NSNumber *)wp {
@@ -228,38 +228,38 @@ NSString *const kTmuxWindowOpenerWindowOptionStyleValueFullScreen = @"FullScreen
 
     NSString *command = [NSString stringWithFormat:@"capture-pane -p -P -C -t \"%%%d\"", [wp intValue]];
     return [gateway_ dictionaryForCommand:command
-                           responseTarget:self
-                         responseSelector:@selector(getPendingOutputResponse:pane:)
-                           responseObject:wp
-                                    flags:kTmuxGatewayCommandWantsData | kTmuxGatewayCommandShouldTolerateErrors];
+                     responseTarget:self
+                     responseSelector:@selector(getPendingOutputResponse:pane:)
+                     responseObject:wp
+                     flags:kTmuxGatewayCommandWantsData | kTmuxGatewayCommandShouldTolerateErrors];
 }
 
 - (NSDictionary *)dictForGetUserVars:(NSNumber *)wp {
     ++pendingRequests_;
     DLog(@"Increment pending requests to %d", pendingRequests_);
     NSString *command = [NSString stringWithFormat:@"show-options -v -p -t %%%d @uservars",
-                         [wp intValue]];
+                                  [wp intValue]];
     return [gateway_ dictionaryForCommand:command
-                           responseTarget:self
-                         responseSelector:@selector(getUserVarsResponse:pane:)
-                           responseObject:wp
-                                    flags:kTmuxGatewayCommandShouldTolerateErrors];
+                     responseTarget:self
+                     responseSelector:@selector(getUserVarsResponse:pane:)
+                     responseObject:wp
+                     flags:kTmuxGatewayCommandShouldTolerateErrors];
 }
 
 - (NSDictionary *)dictForDumpStateForWindowPane:(NSNumber *)wp {
     ++pendingRequests_;
     DLog(@"Increment pending requests to %d", pendingRequests_);
     NSString *command = [NSString stringWithFormat:@"list-panes -t \"%%%d\" -F \"%@\"", [wp intValue],
-                         [TmuxStateParser format]];
+                                  [TmuxStateParser format]];
     return [gateway_ dictionaryForCommand:command
-                           responseTarget:self
-                         responseSelector:@selector(dumpStateResponse:pane:)
-                           responseObject:wp
-                                    flags:kTmuxGatewayCommandShouldTolerateErrors];
+                     responseTarget:self
+                     responseSelector:@selector(dumpStateResponse:pane:)
+                     responseObject:wp
+                     flags:kTmuxGatewayCommandShouldTolerateErrors];
 }
 
 - (NSDictionary *)dictForRequestHistoryForWindowPane:(NSNumber *)wp
-                                                 alt:(BOOL)alternate {
+    alt:(BOOL)alternate {
     ++pendingRequests_;
     DLog(@"Increment pending requests to %d", pendingRequests_);
     NSString *maybeN = @"";
@@ -267,16 +267,16 @@ NSString *const kTmuxWindowOpenerWindowOptionStyleValueFullScreen = @"FullScreen
         maybeN = @"N";
     }
     NSString *command = [NSString stringWithFormat:@"capture-pane -peqJ%@ %@-t \"%%%d\" -S -%d",
-                         maybeN,
-                         (alternate ? @"-a " : @""), [wp intValue], self.maxHistory];
+                                  maybeN,
+                                  (alternate ? @"-a " : @""), [wp intValue], self.maxHistory];
     return [gateway_ dictionaryForCommand:command
-                           responseTarget:self
-                         responseSelector:@selector(dumpHistoryResponse:paneAndAlternate:)
-                           responseObject:[NSArray arrayWithObjects:
-                                           wp,
-                                           [NSNumber numberWithBool:alternate],
-                                           nil]
-                                    flags:kTmuxGatewayCommandShouldTolerateErrors];
+                     responseTarget:self
+                     responseSelector:@selector(dumpHistoryResponse:paneAndAlternate:)
+                     responseObject:[NSArray arrayWithObjects:
+                            wp,
+                            [NSNumber numberWithBool:alternate],
+                            nil]
+                     flags:kTmuxGatewayCommandShouldTolerateErrors];
 }
 
 - (void)didReceiveError {
@@ -289,7 +289,7 @@ NSString *const kTmuxWindowOpenerWindowOptionStyleValueFullScreen = @"FullScreen
 - (void)finishErroneously {
     if (self.target) {
         [self.target performSelector:self.selector
-                          withObject:self];
+                     withObject:self];
     }
     if (self.completion) {
         self.completion(windowIndex_);
@@ -299,7 +299,7 @@ NSString *const kTmuxWindowOpenerWindowOptionStyleValueFullScreen = @"FullScreen
 // Command response handler for dump-history
 // info is an array: [window pane number, isAlternate flag]
 - (void)dumpHistoryResponse:(NSString *)response
-           paneAndAlternate:(NSArray *)info {
+    paneAndAlternate:(NSArray *)info {
     if (!response) {
         [self didReceiveError];
         return;
@@ -308,8 +308,8 @@ NSString *const kTmuxWindowOpenerWindowOptionStyleValueFullScreen = @"FullScreen
     NSNumber *wp = [info objectAtIndex:0];
     NSNumber *alt = [info objectAtIndex:1];
     NSArray *history = [[TmuxHistoryParser sharedInstance] parseDumpHistoryResponse:response
-                                                             ambiguousIsDoubleWidth:ambiguousIsDoubleWidth_
-                                                                     unicodeVersion:self.unicodeVersion];
+                                                           ambiguousIsDoubleWidth:ambiguousIsDoubleWidth_
+                                                           unicodeVersion:self.unicodeVersion];
     if (history) {
         if ([alt boolValue]) {
             [altHistories_ setObject:history forKey:wp];
@@ -359,7 +359,7 @@ static int OctalValue(const char *bytes) {
 
         // TODO: Fix tmux and update this code.
         if (c == '\\' &&
-            response.length >= i + 4) {
+                response.length >= i + 4) {
             // tmux has a bug where control characters get escaped but backslashes do not.
             // Only accept octal values that are control codes to minimize the chance of problems.
             int octalValue = OctalValue(bytes + i + 1);
@@ -400,7 +400,7 @@ static int OctalValue(const char *bytes) {
     }
 
     NSDictionary *state = [[TmuxStateParser sharedInstance] parsedStateFromString:response
-                                                                        forPaneId:[wp intValue]];
+                                                            forPaneId:[wp intValue]];
     [states_ setObject:state forKey:wp];
     [self requestDidComplete];
 }
@@ -427,7 +427,7 @@ static int OctalValue(const char *bytes) {
     }
     if (_unpausingWindowPanes) {
         [self.target performSelector:self.selector
-                          withObject:self];
+                     withObject:self];
         return;
     }
     NSWindowController<iTermWindowController> *term = nil;
@@ -471,8 +471,8 @@ static int OctalValue(const char *bytes) {
     if (tabToUpdate_) {
         DLog(@"Updating existing tab");
         [tabToUpdate_ setTmuxLayout:parseTree
-                     tmuxController:controller_
-                             zoomed:@NO];
+                      tmuxController:controller_
+                      zoomed:@NO];
         if ([tabToUpdate_ updatedTmuxLayoutRequiresAdjustment]) {
             DLog(@"layout requires adjustment! fit the layout to windows");
             [controller_ fitLayoutToWindows];
@@ -482,9 +482,9 @@ static int OctalValue(const char *bytes) {
             DLog(@"Calling loadTmuxLayout");
             // Safety valve: don't open an existing tmux window.
             [term loadTmuxLayout:parseTree
-                          window:windowIndex_
+                  window:windowIndex_
                   tmuxController:controller_
-                            name:name_];
+                  name:name_];
 
             // Check if we know the position for the window
             NSArray *panes = [[TmuxLayoutParser sharedInstance] windowPanesInParseTree:parseTree];
@@ -519,7 +519,7 @@ static int OctalValue(const char *bytes) {
     }
     if (self.target) {
         [self.target performSelector:self.selector
-                          withObject:self];
+                     withObject:self];
     }
     DLog(@"useOriginalWindow=%@ initialTabs=%@ initial=%@ windowPos=%@",
          @(useOriginalWindow), @(initialTabs), @(self.initial), windowPos);
@@ -541,9 +541,9 @@ static int OctalValue(const char *bytes) {
 // Add info from command responses to leaf nodes of parse tree.
 - (void)decorateParseTree:(NSMutableDictionary *)parseTree {
     [[TmuxLayoutParser sharedInstance] depthFirstSearchParseTree:parseTree
-                                                 callingSelector:@selector(decorateWindowPane:)
-                                                        onTarget:self
-                                                      withObject:nil];
+                                       callingSelector:@selector(decorateWindowPane:)
+                                       onTarget:self
+                                       withObject:nil];
     if (self.manuallyOpened) {
         parseTree[kLayoutDictTabOpenedManually] = @YES;
     } else if (self.tabIndex) {

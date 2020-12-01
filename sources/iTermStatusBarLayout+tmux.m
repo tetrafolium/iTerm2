@@ -61,12 +61,12 @@
 
 + (NSDictionary *)tmux_configurationWithInterpolatedStringExpression:(NSString *)expression {
     NSString *interpolatedString = [NSString stringWithFormat:@"\\(%@)", expression];
-    return @{ iTermStatusBarComponentConfigurationKeyKnobValues: @{ iTermStatusBarSwiftyStringComponentExpressionKey: interpolatedString } };
+    return @ { iTermStatusBarComponentConfigurationKeyKnobValues: @{ iTermStatusBarSwiftyStringComponentExpressionKey: interpolatedString } };
 }
 
 + (instancetype)tmuxLayoutWithController:(TmuxController *)controller
-                                   scope:(iTermVariableScope *)scope
-                                  window:(int)window {
+    scope:(iTermVariableScope *)scope
+    window:(int)window {
     NSDictionary<iTermStatusBarComponentConfigurationKey, id> *leftConfiguration;
     NSDictionary<iTermStatusBarComponentConfigurationKey, id> *rightConfiguration;
 
@@ -74,16 +74,16 @@
     rightConfiguration = [self tmux_configurationWithInterpolatedStringExpression:iTermVariableKeySessionTmuxStatusRight];
 
     id<iTermStatusBarComponent> leftComponent = [[iTermStatusBarTmuxLeftComponent alloc] initWithConfiguration:leftConfiguration
-                                                                                                         scope:scope];
+                                                    scope:scope];
     id<iTermStatusBarComponent> rightComponent = [[iTermStatusBarTmuxRightComponent alloc] initWithConfiguration:rightConfiguration
-                                                                                                           scope:scope];
-    id<iTermStatusBarComponent> springComponent = [[iTermStatusBarSpringComponent alloc] initWithConfiguration:@{}
-                                                                                                         scope:scope];
+                                                     scope:scope];
+    id<iTermStatusBarComponent> springComponent = [[iTermStatusBarSpringComponent alloc] initWithConfiguration:@ {}
+                                                  scope:scope];
 
     NSDictionary *layoutDict = [iTermProfilePreferences objectForKey:KEY_STATUS_BAR_LAYOUT
-                                                           inProfile:[controller profileForWindow:window]];
+                                                        inProfile:[controller profileForWindow:window]];
     iTermStatusBarLayout *layout = [[iTermStatusBarLayout alloc] initWithDictionary:layoutDict
-                                                                              scope:scope];
+                                                                 scope:scope];
     layout.components = @[ leftComponent, springComponent, rightComponent ];
     return layout;
 }

@@ -40,19 +40,19 @@
         // maybe pass isUTF8 all the way through?
         [self suspendExecution];
         [iTermSessionLauncher launchBookmark:profile
-                                  inTerminal:nil
-                                     withURL:nil
-                            hotkeyWindowType:iTermHotkeyWindowTypeNone
-                                     makeKey:YES
-                                 canActivate:YES
-                          respectTabbingMode:NO
-                                     command:command
-                                 makeSession:nil
+                              inTerminal:nil
+                              withURL:nil
+                              hotkeyWindowType:iTermHotkeyWindowTypeNone
+                              makeKey:YES
+                              canActivate:YES
+                              respectTabbingMode:NO
+                              command:command
+                              makeSession:nil
                               didMakeSession:nil
-                                  completion:^(PTYSession *session, BOOL ok) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                    [self resumeExecutionWithResult:[iTermScriptingWindow scriptingWindowWithWindow:session.delegate.realParentWindow.window]];
-            });
+                             completion:^(PTYSession *session, BOOL ok) {
+                                 dispatch_async(dispatch_get_main_queue(), ^ {
+                                     [self resumeExecutionWithResult:[iTermScriptingWindow scriptingWindowWithWindow:session.delegate.realParentWindow.window]];
+                                 });
         }];
     }
     return nil;

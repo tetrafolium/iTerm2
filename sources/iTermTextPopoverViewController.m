@@ -30,8 +30,11 @@ const CGFloat iTermTextPopoverViewControllerHorizontalMarginWidth = 4;
     if (!string.length) {
         return;
     }
-    NSDictionary *attributes = @{ NSFontAttributeName: self.textView.font,
-                                  NSForegroundColorAttributeName: self.textView.textColor ?: [NSColor textColor] };
+    NSDictionary *attributes = @ { NSFontAttributeName:
+                                   self.textView.font,
+                                   NSForegroundColorAttributeName:
+                                   self.textView.textColor ?: [NSColor textColor]
+                                 };
     [_textView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:string attributes:attributes]];
 }
 

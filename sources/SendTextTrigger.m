@@ -26,23 +26,23 @@
 
 
 - (BOOL)performActionWithCapturedStrings:(NSString *const *)capturedStrings
-                          capturedRanges:(const NSRange *)capturedRanges
-                            captureCount:(NSInteger)captureCount
-                               inSession:(PTYSession *)aSession
-                                onString:(iTermStringLine *)stringLine
-                    atAbsoluteLineNumber:(long long)lineNumber
-                        useInterpolation:(BOOL)useInterpolation
-                                    stop:(BOOL *)stop {
+    capturedRanges:(const NSRange *)capturedRanges
+    captureCount:(NSInteger)captureCount
+    inSession:(PTYSession *)aSession
+    onString:(iTermStringLine *)stringLine
+    atAbsoluteLineNumber:(long long)lineNumber
+    useInterpolation:(BOOL)useInterpolation
+    stop:(BOOL *)stop {
     [self paramWithBackreferencesReplacedWithValues:capturedStrings
-                                              count:captureCount
-                                              scope:aSession.variablesScope
-                                   useInterpolation:useInterpolation
-                                         completion:^(NSString *message) {
-                                             if (!message) {
-                                                 return;
-                                             }
-                                             [aSession writeTaskNoBroadcast:message];
-                                         }];
+          count:captureCount
+          scope:aSession.variablesScope
+          useInterpolation:useInterpolation
+         completion:^(NSString *message) {
+             if (!message) {
+                 return;
+             }
+        [aSession writeTaskNoBroadcast:message];
+    }];
     return YES;
 }
 

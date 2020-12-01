@@ -14,8 +14,8 @@
 }
 
 - (instancetype)initWithRequest:(iTermMultiServerRequestLaunch)request
-                     callback:(iTermMultiClientLaunchCallback *)callback
-                         thread:(iTermThread *)thread {
+    callback:(iTermMultiClientLaunchCallback *)callback
+    thread:(iTermThread *)thread {
     self = [super init];
     if (self) {
         _launchRequest = request;

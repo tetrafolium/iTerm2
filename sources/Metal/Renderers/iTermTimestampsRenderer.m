@@ -52,14 +52,14 @@
 - (void)writeDebugInfoToFolder:(NSURL *)folder {
     [super writeDebugInfoToFolder:folder];
     NSMutableString *s = [NSMutableString stringWithFormat:@"backgroundColor=%@\ntextColor=%@\n",
-                          _backgroundColor, _textColor];
+                                          _backgroundColor, _textColor];
     [_timestamps enumerateObjectsUsingBlock:^(NSDate * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [s appendFormat:@"%@\n", obj];
-    }];
+                    [s appendFormat:@"%@\n", obj];
+                }];
     [s writeToURL:[folder URLByAppendingPathComponent:@"state.txt"]
        atomically:NO
-         encoding:NSUTF8StringEncoding
-            error:NULL];
+       encoding:NSUTF8StringEncoding
+       error:NULL];
 }
 
 - (void)addPooledTexture:(iTermPooledTexture *)pooledTexture {
@@ -74,31 +74,31 @@
     const CGFloat rowHeight = self.cellConfiguration.cellSize.height / self.cellConfiguration.scale;
     if (!_drawHelper) {
         _drawHelper = [[iTermTimestampDrawHelper alloc] initWithBackgroundColor:_backgroundColor
-                                                                      textColor:_textColor
-                                                                            now:[NSDate timeIntervalSinceReferenceDate]
-                                                             useTestingTimezone:NO
-                                                                      rowHeight:rowHeight
-                                                                         retina:self.configuration.scale > 1];
+                                                        textColor:_textColor
+                                                        now:[NSDate timeIntervalSinceReferenceDate]
+                                                        useTestingTimezone:NO
+                                                        rowHeight:rowHeight
+                                                        retina:self.configuration.scale > 1];
         [_timestamps enumerateObjectsUsingBlock:^(NSDate * _Nonnull date, NSUInteger idx, BOOL * _Nonnull stop) {
-            [self->_drawHelper setDate:date forLine:idx];
-        }];
+                        [self->_drawHelper setDate:date forLine:idx];
+                    }];
     }
     const CGFloat visibleWidth = _drawHelper.suggestedWidth;
     const vector_float4 textColor = simd_make_float4(_textColor.redComponent,
-                                                     _textColor.greenComponent,
-                                                     _textColor.blueComponent,
-                                                     _textColor.alphaComponent);
+                                    _textColor.greenComponent,
+                                    _textColor.blueComponent,
+                                    _textColor.alphaComponent);
     const vector_float4 backgroundColor = simd_make_float4(_backgroundColor.redComponent,
-                                                           _backgroundColor.greenComponent,
-                                                           _backgroundColor.blueComponent,
-                                                           _backgroundColor.alphaComponent);
+                                          _backgroundColor.greenComponent,
+                                          _backgroundColor.blueComponent,
+                                          _backgroundColor.alphaComponent);
     const CGFloat scale = self.configuration.scale;
     const CGFloat vmargin = self.margins.bottom / scale;
     [_timestamps enumerateObjectsUsingBlock:^(NSDate * _Nonnull date, NSUInteger idx, BOOL * _Nonnull stop) {
-        iTermTimestampKey *key = [[iTermTimestampKey alloc] init];
-        key.width = visibleWidth;
-        key.textColor = textColor;
-        key.backgroundColor = backgroundColor;
+                    iTermTimestampKey *key = [[iTermTimestampKey alloc] init];
+                    key.width = visibleWidth;
+                    key.textColor = textColor;
+                    key.backgroundColor = backgroundColor;
         key.date = [self->_drawHelper rowIsRepeat:idx] ? -1 : round(date.timeIntervalSinceReferenceDate);
         block(idx,
               key,
@@ -122,8 +122,8 @@
                       self.useThinStrokes,
                       self.antialiased);
     [_drawHelper drawRow:row
-               inContext:[NSGraphicsContext currentContext]
-                   frame:NSMakeRect(0, 0, size.width, size.height)];
+                 inContext:[NSGraphicsContext currentContext]
+                 frame:NSMakeRect(0, 0, size.width, size.height)];
     [image unlockFocus];
 
     return image;
@@ -148,11 +148,11 @@
         }
 #endif
         _cellRenderer = [[iTermMetalCellRenderer alloc] initWithDevice:device
-                                                    vertexFunctionName:@"iTermTimestampsVertexShader"
-                                                  fragmentFunctionName:@"iTermTimestampsFragmentShader"
-                                                              blending:blending
+                                                        vertexFunctionName:@"iTermTimestampsVertexShader"
+                                                        fragmentFunctionName:@"iTermTimestampsFragmentShader"
+                                                        blending:blending
                                                         piuElementSize:0
-                                                   transientStateClass:[iTermTimestampsRendererTransientState class]];
+                                                        transientStateClass:[iTermTimestampsRendererTransientState class]];
         _cache = [[NSCache alloc] init];
     }
     return self;
@@ -167,13 +167,13 @@
 }
 
 - (nullable __kindof iTermMetalRendererTransientState *)createTransientStateForCellConfiguration:(iTermCellRenderConfiguration *)configuration
-                                                                                   commandBuffer:(id<MTLCommandBuffer>)commandBuffer {
+    commandBuffer:(id<MTLCommandBuffer>)commandBuffer {
     if (!_enabled) {
         return nil;
     }
     __kindof iTermMetalCellRendererTransientState * _Nonnull transientState =
         [_cellRenderer createTransientStateForCellConfiguration:configuration
-                                                  commandBuffer:commandBuffer];
+                       commandBuffer:commandBuffer];
     [self initializeTransientState:transientState];
     return transientState;
 }
@@ -182,21 +182,21 @@
 }
 
 - (void)drawWithFrameData:(iTermMetalFrameData *)frameData
-           transientState:(__kindof iTermMetalCellRendererTransientState *)transientState {
+    transientState:(__kindof iTermMetalCellRendererTransientState *)transientState {
     iTermTimestampsRendererTransientState *tState = transientState;
     _cache.countLimit = tState.cellConfiguration.gridSize.height * 4;
     const CGFloat scale = tState.configuration.scale;
     [tState enumerateRows:^(int row, iTermTimestampKey *key, NSRect frame) {
-        iTermPooledTexture *pooledTexture = [self->_cache objectForKey:key];
-        if (!pooledTexture) {
+               iTermPooledTexture *pooledTexture = [self->_cache objectForKey:key];
+               if (!pooledTexture) {
             NSImage *image = [tState imageForRow:row];
             iTermMetalBufferPoolContext *context = tState.poolContext;
             id<MTLTexture> texture = [self->_cellRenderer textureFromImage:image
-                                                                   context:context
-                                                                      pool:self->_texturePool];
+                                                          context:context
+                                                          pool:self->_texturePool];
             assert(texture);
             pooledTexture = [[iTermPooledTexture alloc] initWithTexture:texture
-                                                                   pool:self->_texturePool];
+                                                        pool:self->_texturePool];
             [self->_cache setObject:pooledTexture forKey:key];
         }
         [tState addPooledTexture:pooledTexture];
@@ -208,19 +208,19 @@
             overflow = pooledTexture.texture.width - tState.configuration.viewportSize.x - slop;
         }
         tState.vertexBuffer = [self->_cellRenderer newQuadWithFrame:CGRectMake(frame.origin.x * scale + overflow,
-                                                                               frame.origin.y * scale,
-                                                                               frame.size.width * scale,
-                                                                               frame.size.height * scale)
-                                                       textureFrame:CGRectMake(0, 0, 1, 1)
-                                                        poolContext:tState.poolContext];
+                                                   frame.origin.y * scale,
+                                                   frame.size.width * scale,
+                                                   frame.size.height * scale)
+                                                   textureFrame:CGRectMake(0, 0, 1, 1)
+                                                   poolContext:tState.poolContext];
 
         [self->_cellRenderer drawWithTransientState:tState
-                                      renderEncoder:frameData.renderEncoder
-                                   numberOfVertices:6
-                                       numberOfPIUs:0
-                                      vertexBuffers:@{ @(iTermVertexInputIndexVertices): tState.vertexBuffer }
-                                    fragmentBuffers:@{}
-                                           textures:@{ @(iTermTextureIndexPrimary): pooledTexture.texture } ];
+                             renderEncoder:frameData.renderEncoder
+                             numberOfVertices:6
+                             numberOfPIUs:0
+                             vertexBuffers:@ { @(iTermVertexInputIndexVertices): tState.vertexBuffer }
+                             fragmentBuffers:@ {}
+                             textures:@ { @(iTermTextureIndexPrimary): pooledTexture.texture } ];
     }];
 }
 

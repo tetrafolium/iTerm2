@@ -51,9 +51,9 @@ typedef enum {
     [_copyTo allowMultipleSelections];
     [self updateLabel];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(profileFieldsDidChange)
-                                                 name:kPreferencePanelDidUpdateProfileFields
-                                               object:nil];
+                                          selector:@selector(profileFieldsDidChange)
+                                          name:kPreferencePanelDidUpdateProfileFields
+                                          object:nil];
 }
 
 - (void)setSourceGuid:(NSString *)sourceGuid {
@@ -107,8 +107,8 @@ typedef enum {
     [self.window.sheetParent endSheet:self.window];
 
     [[NSNotificationCenter defaultCenter] postNotificationName:kReloadAllProfiles
-                                                        object:nil
-                                                      userInfo:nil];
+                                          object:nil
+                                          userInfo:nil];
 }
 
 - (IBAction)cancelBulkCopy:(id)sender {
@@ -125,8 +125,8 @@ typedef enum {
 }
 
 - (void)copyAttributes:(BulkCopySettings)attributes
-   fromProfileWithGuid:(NSString*)guid
-     toProfileWithGuid:(NSString*)destGuid {
+    fromProfileWithGuid:(NSString*)guid
+    toProfileWithGuid:(NSString*)destGuid {
     ProfileModel *profileModel = [ProfileModel sharedInstance];
 
     Profile* dest = [profileModel bookmarkWithGuid:destGuid];
@@ -135,30 +135,30 @@ typedef enum {
     NSArray *keys = nil;
 
     switch (attributes) {
-        case BulkCopyColors:
-            keys = _keysForColors;
-            break;
-        case BulkCopyText:
-            keys = _keysForText;
-            break;
-        case BulkCopyWindow:
-            keys = _keysForWindow;
-            break;
-        case BulkCopyTerminal:
-            keys = _keysForTerminal;
-            break;
-        case BulkCopyKeyboard:
-            keys = _keysForKeyboard;
-            break;
-        case BulkCopySession:
-            keys = _keysForSession;
-            break;
-        case BulkCopyAdvanced:
-            keys = _keysForAdvanced;
-            break;
-        default:
-            NSLog(@"Unexpected copy attribute %d", (int)attributes);
-            return;
+    case BulkCopyColors:
+        keys = _keysForColors;
+        break;
+    case BulkCopyText:
+        keys = _keysForText;
+        break;
+    case BulkCopyWindow:
+        keys = _keysForWindow;
+        break;
+    case BulkCopyTerminal:
+        keys = _keysForTerminal;
+        break;
+    case BulkCopyKeyboard:
+        keys = _keysForKeyboard;
+        break;
+    case BulkCopySession:
+        keys = _keysForSession;
+        break;
+    case BulkCopyAdvanced:
+        keys = _keysForAdvanced;
+        break;
+    default:
+        NSLog(@"Unexpected copy attribute %d", (int)attributes);
+        return;
     }
 
     for (NSString *theKey in keys) {

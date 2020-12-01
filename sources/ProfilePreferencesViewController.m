@@ -128,17 +128,17 @@ NSString *const kProfileSessionHotkeyDidChange = @"kProfileSessionHotkeyDidChang
     self = [super init];
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(reloadProfiles)
-                                                     name:kReloadAllProfiles
-                                                   object:nil];
+                                              selector:@selector(reloadProfiles)
+                                              name:kReloadAllProfiles
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(sessionProfileDidChange:)
-                                                     name:kSessionProfileDidChange
-                                                   object:nil];
+                                              selector:@selector(sessionProfileDidChange:)
+                                              name:kSessionProfileDidChange
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(profileWasDeleted:)
-                                                     name:kProfileWasDeletedNotification
-                                                   object:nil];
+                                              selector:@selector(profileWasDeleted:)
+                                              name:kProfileWasDeletedNotification
+                                              object:nil];
     }
     return self;
 }
@@ -165,13 +165,13 @@ NSString *const kProfileSessionHotkeyDidChange = @"kProfileSessionHotkeyDidChang
 
 - (NSArray *)tabViewTuples {
     return @[ @[ _generalTab, _generalViewController.view ],
-              @[ _colorsTab, _colorsViewController.view ],
-              @[ _textTab, _textViewController.view ],
-              @[ _windowTab, _windowViewController.view ],
-              @[ _terminalTab, _terminalViewController.view ],
-              @[ _sessionTab, _sessionViewController.view ],
-              @[ _keysTab, _keysViewController.view ],
-              @[ _advancedTab, _advancedViewController.view ] ];
+                 @[ _colorsTab, _colorsViewController.view ],
+                 @[ _textTab, _textViewController.view ],
+                 @[ _windowTab, _windowViewController.view ],
+                 @[ _terminalTab, _terminalViewController.view ],
+                 @[ _sessionTab, _sessionViewController.view ],
+                 @[ _keysTab, _keysViewController.view ],
+                 @[ _advancedTab, _advancedViewController.view ] ];
 }
 
 - (void)awakeFromNib {
@@ -241,8 +241,8 @@ NSString *const kProfileSessionHotkeyDidChange = @"kProfileSessionHotkeyDidChang
     [self updateSubviewsForProfile:profile];
     [self reloadData];
     [[NSNotificationCenter defaultCenter] postNotificationName:kPreferencePanelDidUpdateProfileFields
-                                                        object:nil
-                                                      userInfo:nil];
+                                          object:nil
+                                          userInfo:nil];
 }
 
 - (void)layoutSubviewsForEditCurrentSessionMode {
@@ -297,7 +297,7 @@ NSString *const kProfileSessionHotkeyDidChange = @"kProfileSessionHotkeyDidChang
 }
 
 - (void)openToProfileWithGuidAndEditHotKey:(NSString *)guid
-                                     scope:(iTermVariableScope<iTermSessionScope> *)scope {
+    scope:(iTermVariableScope<iTermSessionScope> *)scope {
     self.scope = scope;
     [_profilesListView reloadData];
     if ([[self selectedProfile][KEY_GUID] isEqualToString:guid]) {
@@ -322,8 +322,8 @@ NSString *const kProfileSessionHotkeyDidChange = @"kProfileSessionHotkeyDidChang
 }
 
 - (void)openToProfileWithGuid:(NSString *)guid
-andEditComponentWithIdentifier:(NSString *)identifier
-                        scope:(iTermVariableScope<iTermSessionScope> *)scope {
+    andEditComponentWithIdentifier:(NSString *)identifier
+    scope:(iTermVariableScope<iTermSessionScope> *)scope {
     self.scope = scope;
     [_profilesListView reloadData];
     if ([[self selectedProfile][KEY_GUID] isEqualToString:guid]) {
@@ -338,8 +338,8 @@ andEditComponentWithIdentifier:(NSString *)identifier
 }
 
 - (void)openToProfileWithGuid:(NSString *)guid
-             selectGeneralTab:(BOOL)selectGeneralTab
-                        scope:(iTermVariableScope<iTermSessionScope> *)scope {
+    selectGeneralTab:(BOOL)selectGeneralTab
+    scope:(iTermVariableScope<iTermSessionScope> *)scope {
     self.scope = scope;
     [_profilesListView reloadData];
     if ([[self selectedProfile][KEY_GUID] isEqualToString:guid]) {
@@ -353,8 +353,8 @@ andEditComponentWithIdentifier:(NSString *)identifier
     // Use safeMakeFirstResponder in case the profile name is not visible at the time it is called.
     // Prevents an annoying message threatening a crash that never comes.
     [self.view.window performSelector:@selector(safeMakeFirstResponder:)
-                           withObject:_generalViewController.profileNameFieldForEditCurrentSession
-                           afterDelay:0];
+                      withObject:_generalViewController.profileNameFieldForEditCurrentSession
+                      afterDelay:0];
 }
 
 - (void)changeFont:(id)fontManager {
@@ -379,8 +379,8 @@ andEditComponentWithIdentifier:(NSString *)identifier
     [self updateSubviewsForProfile:profile];
     if (!_tabView.isHidden) {
         [[NSNotificationCenter defaultCenter] postNotificationName:kPreferencePanelDidUpdateProfileFields
-                                                            object:nil
-                                                          userInfo:nil];
+                                              object:nil
+                                              userInfo:nil];
     }
 
     [self reloadProfileInProfileViewControllers];
@@ -406,12 +406,12 @@ andEditComponentWithIdentifier:(NSString *)identifier
 
 - (BOOL)confirmProfileDeletion:(Profile *)profile {
     NSMutableString *question = [NSMutableString stringWithFormat:@"Delete profile %@?",
-                                 profile[KEY_NAME]];
+                                                 profile[KEY_NAME]];
     if ([iTermWarning showWarningWithTitle:question
-                                   actions:@[ @"Delete", @"Cancel" ]
-                                identifier:@"DeleteProfile"
-                               silenceable:kiTermWarningTypeTemporarilySilenceable
-                                    window:self.view.window] == kiTermWarningSelection0) {
+                         actions:@[ @"Delete", @"Cancel" ]
+                         identifier:@"DeleteProfile"
+                         silenceable:kiTermWarningTypeTemporarilySilenceable
+                         window:self.view.window] == kiTermWarningSelection0) {
         return YES;
     } else {
         return NO;
@@ -435,8 +435,8 @@ andEditComponentWithIdentifier:(NSString *)identifier
 
 - (id<iTermSearchableViewController>)viewControllerWithOwnerIdentifier:(NSString *)ownerIdentifier {
     return [[self tabViewControllers] objectPassingTest:^BOOL(id<iTermSearchableViewController> vc, NSUInteger index, BOOL *stop) {
-        return [vc.documentOwnerIdentifier isEqualToString:ownerIdentifier];
-    }];
+                                  return [vc.documentOwnerIdentifier isEqualToString:ownerIdentifier];
+                              }];
 }
 
 - (void)updateSubviewsForProfile:(Profile *)profile {
@@ -477,10 +477,10 @@ andEditComponentWithIdentifier:(NSString *)identifier
     // Compute left margin
     const CGFloat kSideMarginBetweenWindowAndTabView = 9;
     if (_profilesListView.isHidden) {
-      spaceLeft = kSideMarginBetweenWindowAndTabView;
+        spaceLeft = kSideMarginBetweenWindowAndTabView;
     } else {
-      // Leave space the for the profiles list view on the left.
-      spaceLeft = NSMaxX(_profilesListView.frame) + kSideMarginBetweenWindowAndTabView;
+        // Leave space the for the profiles list view on the left.
+        spaceLeft = NSMaxX(_profilesListView.frame) + kSideMarginBetweenWindowAndTabView;
     }
 
     // Other margins are easy.
@@ -518,9 +518,10 @@ andEditComponentWithIdentifier:(NSString *)identifier
     _desiredFrame = frame;
     NSTimeInterval duration = [window animationResizeTime:frame];
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-        context.duration = duration;
+                           context.duration = duration;
         [window.animator setFrame:frame display:YES];
-    } completionHandler:^{
+    }
+    completionHandler:^ {
         self->_desiredFrame = NSZeroRect;
         NSRect rect = frame;
         rect.size.width += 1;
@@ -624,12 +625,12 @@ andEditComponentWithIdentifier:(NSString *)identifier
 
     NSString *title =
         [NSString stringWithFormat:@"Replace profile “%@” with the current session's settings?",
-            [iTermProfilePreferences stringForKey:KEY_NAME inProfile:destination]];
+                  [iTermProfilePreferences stringForKey:KEY_NAME inProfile:destination]];
     if ([iTermWarning showWarningWithTitle:title
-                                   actions:@[ @"Replace", @"Cancel" ]
-                                 identifier:@"NoSyncReplaceProfileWarning"
-                               silenceable:kiTermWarningTypePermanentlySilenceable
-                                    window:self.view.window] == kiTermWarningSelection1) {
+                         actions:@[ @"Replace", @"Cancel" ]
+                         identifier:@"NoSyncReplaceProfileWarning"
+                         silenceable:kiTermWarningTypePermanentlySilenceable
+                         window:self.view.window] == kiTermWarningSelection1) {
         return;
     }
     if (destination.profileIsDynamic) {
@@ -643,12 +644,12 @@ andEditComponentWithIdentifier:(NSString *)identifier
     [[ProfileModel sharedInstance] setBookmark:copyOfSource withGuid:profileGuid];
 
     [[NSNotificationCenter defaultCenter] postNotificationName:kReloadAllProfiles
-                                                        object:nil
-                                                      userInfo:nil];
+                                          object:nil
+                                          userInfo:nil];
 
     // Update user defaults
     [[NSUserDefaults standardUserDefaults] setObject:[[ProfileModel sharedInstance] rawData]
-                                              forKey: @"New Bookmarks"];
+                                           forKey: @"New Bookmarks"];
 }
 
 - (IBAction)openCopyBookmarks:(id)sender
@@ -668,8 +669,8 @@ andEditComponentWithIdentifier:(NSString *)identifier
 
     __weak __typeof(self) weakSelf = self;
     [self.view.window beginSheet:_bulkCopyController.window completionHandler:^(NSModalResponse returnCode) {
-        __strong __typeof(weakSelf) strongSelf = weakSelf;
-        if (!strongSelf) {
+                         __strong __typeof(weakSelf) strongSelf = weakSelf;
+                         if (!strongSelf) {
             return;
         }
         [strongSelf->_bulkCopyController.window close];
@@ -713,8 +714,8 @@ andEditComponentWithIdentifier:(NSString *)identifier
 
 - (NSString *)jsonForProfile:(Profile *)profile error:(NSError **)error {
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[profile it_jsonSafeValue]
-                                                       options:NSJSONWritingPrettyPrinted
-                                                         error:error];
+                                            options:NSJSONWritingPrettyPrinted
+                                            error:error];
 
     if (jsonData) {
         return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -768,12 +769,12 @@ andEditComponentWithIdentifier:(NSString *)identifier
                 }
                 iTermWarningSelection selection =
                     [iTermWarning showWarningWithTitle:[NSString stringWithFormat:@"Import from %@ failed: %@", url.path, error.localizedDescription]
-                                               actions:actions
-                                             accessory:nil
-                                            identifier:@"NoSyncJSONImportFailed"
-                                           silenceable:kiTermWarningTypeTemporarilySilenceable
-                                               heading:@"Could not Import Profile"
-                                                window:self.view.window];
+                                  actions:actions
+                                  accessory:nil
+                                  identifier:@"NoSyncJSONImportFailed"
+                                  silenceable:kiTermWarningTypeTemporarilySilenceable
+                                  heading:@"Could not Import Profile"
+                                  window:self.view.window];
                 if (selection == kiTermWarningSelection1) {
                     return;
                 }
@@ -790,8 +791,8 @@ andEditComponentWithIdentifier:(NSString *)identifier
     }
 
     id object = [NSJSONSerialization JSONObjectWithData:data
-                                           options:NSJSONReadingAllowFragments
-                                             error:error];
+                                     options:NSJSONReadingAllowFragments
+                                     error:error];
     if (!object) {
         return NO;
     }
@@ -799,7 +800,7 @@ andEditComponentWithIdentifier:(NSString *)identifier
     NSDictionary *dict = [NSDictionary castFrom:object];
     if (!dict) {
         if (error) {
-            *error = [[NSError alloc] initWithDomain:@"com.iterm2.json-import-profile" code:0 userInfo:@{ NSLocalizedDescriptionKey: @"Invalid JSON: does not have a top-level dictionary." }];
+            *error = [[NSError alloc] initWithDomain:@"com.iterm2.json-import-profile" code:0 userInfo:@ { NSLocalizedDescriptionKey: @"Invalid JSON: does not have a top-level dictionary." }];
         }
         return NO;
     }
@@ -812,7 +813,7 @@ andEditComponentWithIdentifier:(NSString *)identifier
             return [self tryToImportMultipleProfilesFromJSONObject:profiles error:error];
         }
         if (error) {
-            *error = [[NSError alloc] initWithDomain:@"com.iterm2.json-import-profile" code:0 userInfo:@{ NSLocalizedDescriptionKey: @"Invalid JSON: missing Name or Guid key in top-level dictionary." }];
+            *error = [[NSError alloc] initWithDomain:@"com.iterm2.json-import-profile" code:0 userInfo:@ { NSLocalizedDescriptionKey: @"Invalid JSON: missing Name or Guid key in top-level dictionary." }];
         }
         return NO;
     }
@@ -830,9 +831,9 @@ andEditComponentWithIdentifier:(NSString *)identifier
     __block BOOL ok = YES;
     __block NSError *internalError = nil;
     [profiles enumerateObjectsUsingBlock:^(id  _Nonnull object, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSDictionary *dict = [NSDictionary castFrom:object];
-        if (!dict) {
-            internalError = [[NSError alloc] initWithDomain:@"com.iterm2.json-import-profile" code:0 userInfo:@{ NSLocalizedDescriptionKey: @"Invalid JSON: not an array of dictionaries." }];
+                 NSDictionary *dict = [NSDictionary castFrom:object];
+                 if (!dict) {
+            internalError = [[NSError alloc] initWithDomain:@"com.iterm2.json-import-profile" code:0 userInfo:@ { NSLocalizedDescriptionKey: @"Invalid JSON: not an array of dictionaries." }];
             ok = NO;
             *stop = YES;
             return;
@@ -842,7 +843,7 @@ andEditComponentWithIdentifier:(NSString *)identifier
         NSString *guid = dict[KEY_GUID];
         if (!name || !guid) {
             NSString *reason = [NSString stringWithFormat:@"Invalid JSON: missing Name or Guid key in profile number %@.", @(idx + 1)];
-            internalError = [[NSError alloc] initWithDomain:@"com.iterm2.json-import-profile" code:0 userInfo:@{ NSLocalizedDescriptionKey: reason }];
+            internalError = [[NSError alloc] initWithDomain:@"com.iterm2.json-import-profile" code:0 userInfo:@ { NSLocalizedDescriptionKey: reason }];
             ok = NO;
             *stop = YES;
             return;
@@ -873,7 +874,7 @@ andEditComponentWithIdentifier:(NSString *)identifier
         NSAlert *alert = [[NSAlert alloc] init];
         alert.messageText = @"Error";
         alert.informativeText = [NSString stringWithFormat:@"Couldn't save to %@: %@", path,
-                                 [error localizedDescription]];
+                                          [error localizedDescription]];
         [alert runModal];
         return NO;
     }
@@ -889,10 +890,10 @@ andEditComponentWithIdentifier:(NSString *)identifier
     }
 
     iTermSavePanel *savePanel = [iTermSavePanel showWithOptions:0
-                                                     identifier:@"SaveProfile"
-                                               initialDirectory:NSHomeDirectory()
+                                                identifier:@"SaveProfile"
+                                                initialDirectory:NSHomeDirectory()
                                                 defaultFilename:[self.selectedProfile[KEY_NAME] stringByAppendingPathExtension:@"json"] ?: @"UnknownProfile.json"
-                                               allowedFileTypes:@[ @"json" ]];
+                                                allowedFileTypes:@[ @"json" ]];
     if (!savePanel.path) {
         return;
     }
@@ -902,7 +903,7 @@ andEditComponentWithIdentifier:(NSString *)identifier
         NSAlert *alert = [[NSAlert alloc] init];
         alert.messageText = @"Error";
         alert.informativeText = [NSString stringWithFormat:@"Couldn't convert profile to JSON: %@",
-                                 [error localizedDescription]];
+                                          [error localizedDescription]];
         [alert runModal];
         return;
     }
@@ -914,10 +915,10 @@ andEditComponentWithIdentifier:(NSString *)identifier
 
 - (IBAction)saveAllProfilesAsJSON:(id)sender {
     iTermSavePanel *savePanel = [iTermSavePanel showWithOptions:0
-                                                     identifier:@"SaveProfile"
-                                               initialDirectory:NSHomeDirectory()
+                                                identifier:@"SaveProfile"
+                                                initialDirectory:NSHomeDirectory()
                                                 defaultFilename:@"Profiles.json"
-                                               allowedFileTypes:@[ @"json" ]];
+                                                allowedFileTypes:@[ @"json" ]];
     if (!savePanel.path) {
         return;
     }
@@ -972,7 +973,7 @@ andEditComponentWithIdentifier:(NSString *)identifier
 }
 
 - (void)profilePreferencesContentViewSizeDidChange:(iTermSizeRememberingView *)view {
-    if (_tabView.selectedTabViewItem.view == view ){
+    if (_tabView.selectedTabViewItem.view == view ) {
         [self resizeWindowForView:view animated:YES];
     }
 }
@@ -982,7 +983,7 @@ andEditComponentWithIdentifier:(NSString *)identifier
 }
 
 - (void)profilePreferencesViewController:(iTermProfilePreferencesBaseViewController *)viewController
-                    willSetObjectWithKey:(NSString *)key {
+    willSetObjectWithKey:(NSString *)key {
     if (_needsWarning) {
         return;
     }
@@ -991,7 +992,7 @@ andEditComponentWithIdentifier:(NSString *)identifier
     if (viewController.delegate.profilePreferencesCurrentModel == [ProfileModel sessionsInstance]) {
         return;
     }
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         [weakSelf showWarningIfNeeded];
     });
 }
@@ -1017,13 +1018,13 @@ andEditComponentWithIdentifier:(NSString *)identifier
     NSString *profileName = [profile objectForKey:KEY_NAME] ?: @"(unknown name)";
     NSString *message = [NSString stringWithFormat:@"The selected profile, “%@”, is a dynamic profile. Changes made through preferences will be lost when you restart iTerm2. To modify this profile you must edit its source file.", profileName];
     const iTermWarningSelection selection =
-    [iTermWarning showWarningWithTitle:message
-                               actions:@[ @"OK", @"Reveal in Finder" ]
-                             accessory:nil
-                            identifier:@"NoSyncDynamicProfileChangeWillBeLost"
-                           silenceable:kiTermWarningTypeTemporarilySilenceable
-                               heading:@"Changes Will Be Lost"
-                                window:self.view.window];
+        [iTermWarning showWarningWithTitle:message
+                      actions:@[ @"OK", @"Reveal in Finder" ]
+                      accessory:nil
+                      identifier:@"NoSyncDynamicProfileChangeWillBeLost"
+                      silenceable:kiTermWarningTypeTemporarilySilenceable
+                      heading:@"Changes Will Be Lost"
+                      window:self.view.window];
     if (selection == kiTermWarningSelection0) {
         return;
     }
@@ -1043,12 +1044,12 @@ andEditComponentWithIdentifier:(NSString *)identifier
 
 - (void)profilesGeneralPreferencesNameDidEndEditing {
     [[NSNotificationCenter defaultCenter] postNotificationName:kProfileSessionNameDidEndEditing
-                                                        object:[_profilesListView selectedGuid]];
+                                          object:[_profilesListView selectedGuid]];
 }
 
 - (void)profilesGeneralPreferencesSessionHotkeyDidChange {
     [[NSNotificationCenter defaultCenter] postNotificationName:kProfileSessionHotkeyDidChange
-                                                        object:[_profilesListView selectedGuid]];
+                                          object:[_profilesListView selectedGuid]];
 }
 
 - (iTermVariableScope<iTermSessionScope> *)profilesGeneralPreferencesScope {
@@ -1065,8 +1066,8 @@ andEditComponentWithIdentifier:(NSString *)identifier
 
 - (NSArray<iTermPreferencesSearchDocument *> *)searchableViewControllerDocuments {
     return [[[self tabViewControllers] mapWithBlock:^id(id<iTermSearchableViewController> vc) {
-        return [vc searchableViewControllerDocuments];
-    }] flattenedArray];
+                                   return [vc searchableViewControllerDocuments];
+                               }] flattenedArray];
 }
 
 - (void)revealControl:(NSControl *)control {
@@ -1081,12 +1082,12 @@ andEditComponentWithIdentifier:(NSString *)identifier
 }
 
 - (NSView *)searchableViewControllerRevealItemForDocument:(iTermPreferencesSearchDocument *)document
-                                                 forQuery:(NSString *)query
-                                            willChangeTab:(BOOL *)willChangeTab {
+    forQuery:(NSString *)query
+    willChangeTab:(BOOL *)willChangeTab {
     for (id<iTermSearchableViewController> vc in [self tabViewControllers]) {
         NSView *view = [vc searchableViewControllerRevealItemForDocument:document
-                                                                forQuery:query
-                                                           willChangeTab:willChangeTab];
+                           forQuery:query
+                           willChangeTab:willChangeTab];
         if (view) {
             return view;
         }

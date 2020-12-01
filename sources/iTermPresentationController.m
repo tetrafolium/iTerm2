@@ -22,8 +22,8 @@
 NSNotificationName const iTermScreenParametersDidChangeNontrivally = @"iTermScreenParametersDidChangeNontrivally";
 static _Atomic int gShouldPostNontrivialScreenParametersChange;
 static void iTermDisplayReconfigurationCallback(CGDirectDisplayID display,
-                                                CGDisplayChangeSummaryFlags flags,
-                                                void *userInfo) {
+        CGDisplayChangeSummaryFlags flags,
+        void *userInfo) {
     DLog(@"iTermDisplayReconfigurationCallback display=%@ flags=%@", @(display), @(flags));
     if (gShouldPostNontrivialScreenParametersChange) {
         return;
@@ -32,12 +32,12 @@ static void iTermDisplayReconfigurationCallback(CGDirectDisplayID display,
     if (flags & mask) {
         gShouldPostNontrivialScreenParametersChange = YES;
         DLog(@"Set needs iTermScreenParametersDidChangeNontrivally");
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^ {
             if (gShouldPostNontrivialScreenParametersChange) {
                 gShouldPostNontrivialScreenParametersChange = NO;
                 DLog(@"Post iTermScreenParametersDidChangeNontrivally");
                 [[NSNotificationCenter defaultCenter] postNotificationName:iTermScreenParametersDidChangeNontrivally
-                                                                    object:nil];
+                                                      object:nil];
             }
         });
     }
@@ -54,7 +54,7 @@ static void iTermDisplayReconfigurationCallback(CGDirectDisplayID display,
 + (instancetype)sharedInstance {
     static iTermPresentationController *instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -65,15 +65,15 @@ static void iTermDisplayReconfigurationCallback(CGDirectDisplayID display,
     if (self) {
         _screenFrames = [self currentScreenFrames];
         [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
-                                                               selector:@selector(activeSpaceDidChange:)
-                                                                   name:NSWorkspaceActiveSpaceDidChangeNotification
-                                                                 object:nil];
+                                        selector:@selector(activeSpaceDidChange:)
+                                        name:NSWorkspaceActiveSpaceDidChangeNotification
+                                        object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(screenParametersDidChange:)
-                                                     name:NSApplicationDidChangeScreenParametersNotification
-                                                   object:nil];
+                                              selector:@selector(screenParametersDidChange:)
+                                              name:NSApplicationDidChangeScreenParametersNotification
+                                              object:nil];
         static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
+        dispatch_once(&onceToken, ^ {
             CGDisplayRegisterReconfigurationCallback(iTermDisplayReconfigurationCallback, nil);
         });
     }
@@ -104,7 +104,7 @@ static void iTermDisplayReconfigurationCallback(CGDirectDisplayID display,
     DLog(@"App active=%@", @(active));
     if (active) {
         [self findScreensToHideDock:screensToHideDock
-                               menu:screensToHideMenu];
+              menu:screensToHideMenu];
     }
 
     if (gDebugLogging) {
@@ -124,21 +124,21 @@ static void iTermDisplayReconfigurationCallback(CGDirectDisplayID display,
     NSScreen *screenWithDock = shouldHideDock ? (currentScreenWithDock ?: _lastScreen) : nil;
 
     if (sanityCheck &&
-        !shouldHideDock &&
-        ![self anyScreenHasDock] &&
-        [self dockIsCurrentlyHidden] &&
-        screensToHideDock.count > 0) {
+            !shouldHideDock &&
+            ![self anyScreenHasDock] &&
+            [self dockIsCurrentlyHidden] &&
+            screensToHideDock.count > 0) {
         // This happens when -update is called when a fullscreen window is causing the dock to be
         // hidden. The easiest way to reproduce it is to turn off input broadcasting.
         DLog(@"Schedule sanity check for next spin of the runlooop. Showing the dock while hidden and no screen has the dock and there is a full screen window.");
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^ {
             [self updateWithSanityCheck:NO];
         });
     }
 
     [self setApplicationPresentationFlagsWithHiddenDock:shouldHideDock
-                                                menuBar:shouldHideMenuBar
-                                         screenWithDock:screenWithDock];
+          menuBar:shouldHideMenuBar
+          screenWithDock:screenWithDock];
     DLog(@"END update");
 }
 
@@ -170,7 +170,7 @@ static void iTermDisplayReconfigurationCallback(CGDirectDisplayID display,
         return NO;
     }
     NSArray<id<iTermPresentationControllerManagedWindowController>> *windowControllers =
-        [self.delegate presentationControllerManagedWindows];
+                [self.delegate presentationControllerManagedWindows];
     for (id<iTermPresentationControllerManagedWindowController> windowController in windowControllers) {
         NSScreen *screen = nil;
         if (![self windowControllerIsWorthyOfConsideration:windowController screen:&screen]) {
@@ -206,29 +206,55 @@ static void iTermDisplayReconfigurationCallback(CGDirectDisplayID display,
 
 NSString *PODescription(NSApplicationPresentationOptions presentationOptions) {
     NSMutableArray *array = [NSMutableArray array];
-    if ((presentationOptions & (1 <<  0))) { [array addObject:@"NSApplicationPresentationAutoHideDock"]; }
-    if ((presentationOptions & (1 <<  1))) { [array addObject:@"NSApplicationPresentationHideDock"]; }
-    if ((presentationOptions & (1 <<  2))) { [array addObject:@"NSApplicationPresentationAutoHideMenuBar"]; }
-    if ((presentationOptions & (1 <<  3))) { [array addObject:@"NSApplicationPresentationHideMenuBar"]; }
-    if ((presentationOptions & (1 <<  4))) { [array addObject:@"NSApplicationPresentationDisableAppleMenu"]; }
-    if ((presentationOptions & (1 <<  5))) { [array addObject:@"NSApplicationPresentationDisableProcessSwitching"]; }
-    if ((presentationOptions & (1 <<  6))) { [array addObject:@"NSApplicationPresentationDisableForceQuit"]; }
-    if ((presentationOptions & (1 <<  7))) { [array addObject:@"NSApplicationPresentationDisableSessionTermination"]; }
-    if ((presentationOptions & (1 <<  8))) { [array addObject:@"NSApplicationPresentationDisableHideApplication"]; }
-    if ((presentationOptions & (1 <<  9))) { [array addObject:@"NSApplicationPresentationDisableMenuBarTransparency"]; }
-    if ((presentationOptions & (1 << 10))) { [array addObject:@"NSApplicationPresentationFullScreen"]; }
-    if ((presentationOptions & (1 << 11))) { [array addObject:@"NSApplicationPresentationAutoHideToolbar"]; }
-    if ((presentationOptions & (1 << 12))) { [array addObject:@"NSApplicationPresentationDisableCursorLocationAssistance"]; }
+    if ((presentationOptions & (1 <<  0))) {
+        [array addObject:@"NSApplicationPresentationAutoHideDock"];
+    }
+    if ((presentationOptions & (1 <<  1))) {
+        [array addObject:@"NSApplicationPresentationHideDock"];
+    }
+    if ((presentationOptions & (1 <<  2))) {
+        [array addObject:@"NSApplicationPresentationAutoHideMenuBar"];
+    }
+    if ((presentationOptions & (1 <<  3))) {
+        [array addObject:@"NSApplicationPresentationHideMenuBar"];
+    }
+    if ((presentationOptions & (1 <<  4))) {
+        [array addObject:@"NSApplicationPresentationDisableAppleMenu"];
+    }
+    if ((presentationOptions & (1 <<  5))) {
+        [array addObject:@"NSApplicationPresentationDisableProcessSwitching"];
+    }
+    if ((presentationOptions & (1 <<  6))) {
+        [array addObject:@"NSApplicationPresentationDisableForceQuit"];
+    }
+    if ((presentationOptions & (1 <<  7))) {
+        [array addObject:@"NSApplicationPresentationDisableSessionTermination"];
+    }
+    if ((presentationOptions & (1 <<  8))) {
+        [array addObject:@"NSApplicationPresentationDisableHideApplication"];
+    }
+    if ((presentationOptions & (1 <<  9))) {
+        [array addObject:@"NSApplicationPresentationDisableMenuBarTransparency"];
+    }
+    if ((presentationOptions & (1 << 10))) {
+        [array addObject:@"NSApplicationPresentationFullScreen"];
+    }
+    if ((presentationOptions & (1 << 11))) {
+        [array addObject:@"NSApplicationPresentationAutoHideToolbar"];
+    }
+    if ((presentationOptions & (1 << 12))) {
+        [array addObject:@"NSApplicationPresentationDisableCursorLocationAssistance"];
+    }
     return [array componentsJoinedByString:@", "];
 }
 
 - (void)setApplicationPresentationFlagsWithHiddenDock:(BOOL)shouldHideDock
-                                              menuBar:(BOOL)shouldHideMenuBar
-                                       screenWithDock:(NSScreen *)screenWithDock {
+    menuBar:(BOOL)shouldHideMenuBar
+    screenWithDock:(NSScreen *)screenWithDock {
     DLog(@"setting options: hide dock=%@ hide menu bar=%@", @(shouldHideDock), @(shouldHideMenuBar));
 
     const NSApplicationPresentationOptions mask = (NSApplicationPresentationAutoHideMenuBar |
-                                                   NSApplicationPresentationAutoHideDock);
+            NSApplicationPresentationAutoHideDock);
     NSApplicationPresentationOptions presentationOptions = (NSApp.presentationOptions & ~mask);
     if (shouldHideDock) {
         presentationOptions |= NSApplicationPresentationAutoHideDock;
@@ -266,9 +292,9 @@ NSString *PODescription(NSApplicationPresentationOptions presentationOptions) {
 }
 
 - (void)findScreensToHideDock:(NSMutableArray<NSScreen *> *)screensToHideDock
-                         menu:(NSMutableArray<NSScreen *> *)screensToHideMenu {
+    menu:(NSMutableArray<NSScreen *> *)screensToHideMenu {
     NSArray<id<iTermPresentationControllerManagedWindowController>> *windowControllers =
-        [self.delegate presentationControllerManagedWindows];
+                [self.delegate presentationControllerManagedWindows];
 
     DLog(@"Considering the following window controllers: %@", windowControllers);
     for (id<iTermPresentationControllerManagedWindowController> windowController in windowControllers) {
@@ -283,14 +309,14 @@ NSString *PODescription(NSApplicationPresentationOptions presentationOptions) {
         }
         [screensToHideDock addObject:screen];
         if (![screensToHideMenu containsObject:screen] &&
-            [self shouldHideMenuForWindowController:windowController]) {
+                [self shouldHideMenuForWindowController:windowController]) {
             [screensToHideMenu addObject:screen];
         }
     }
 }
 
 - (BOOL)windowControllerIsWorthyOfConsideration:(id<iTermPresentationControllerManagedWindowController>)windowController
-                                         screen:(out NSScreen **)screenPtr {
+    screen:(out NSScreen **)screenPtr {
     DLog(@"Checking if %@ is worthy of consideration", windowController);
     BOOL lion = NO;
     const BOOL fullscreen = [windowController presentationControllerManagedWindowControllerIsFullScreen:&lion];
@@ -335,8 +361,8 @@ NSString *PODescription(NSApplicationPresentationOptions presentationOptions) {
 
 - (BOOL)anyScreenHasMenuBar:(NSArray<NSScreen *> *)screens {
     return [screens anyWithBlock:^BOOL(NSScreen *screen) {
-        return [self screenHasMenuBar:screen];
-    }];
+                return [self screenHasMenuBar:screen];
+            }];
 }
 
 // This method lies to you when you do this:
@@ -351,10 +377,10 @@ NSString *PODescription(NSApplicationPresentationOptions presentationOptions) {
 - (NSScreen *)screenWithDockFromScreens:(NSArray<NSScreen *> *)screens {
     DLog(@"Checking if any screen has dock in %@", screens);
     return [screens objectPassingTest:^BOOL(NSScreen *screen, NSUInteger index, BOOL *stop) {
-        // We need to check both the screen we were given as well as the current "real" screen,
-        // because they can have different visibleFrames. My theory is that NSScreen is immutable
-        // and copies of it proliferate with different attributes.
-        BOOL result = NO;
+                // We need to check both the screen we were given as well as the current "real" screen,
+                // because they can have different visibleFrames. My theory is that NSScreen is immutable
+                // and copies of it proliferate with different attributes.
+                BOOL result = NO;
         if ([screen hasDock]) {
             DLog(@"Screen %@ hasDock", screen);
             result = YES;
@@ -394,8 +420,8 @@ NSString *PODescription(NSApplicationPresentationOptions presentationOptions) {
 
 - (NSArray<NSValue *> *)currentScreenFrames {
     return [[NSScreen screens] mapWithBlock:^id(NSScreen *screen) {
-        return [NSValue valueWithRect:screen.frame];
-    }];
+                           return [NSValue valueWithRect:screen.frame];
+                       }];
 }
 
 - (BOOL)screenParametersReallyDidChange {

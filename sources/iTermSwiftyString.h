@@ -48,18 +48,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSSet<NSString *> *dependencies;
 
 - (instancetype)initWithString:(NSString *)swiftyString
-                         scope:(nullable iTermVariableScope *)scope
-                      observer:(NSString *(^ _Nullable)(NSString * _Nullable newValue, NSError * _Nullable error))observer NS_DESIGNATED_INITIALIZER;
+    scope:(nullable iTermVariableScope *)scope
+    observer:(NSString *(^ _Nullable)(NSString * _Nullable newValue, NSError * _Nullable error))observer NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithScope:(nullable iTermVariableScope *)scope
-                   sourcePath:(NSString *)sourcePath
-              destinationPath:(nullable NSString *)destinationPath NS_DESIGNATED_INITIALIZER;
+    sourcePath:(NSString *)sourcePath
+    destinationPath:(nullable NSString *)destinationPath NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 - (void)invalidate;
 - (void)evaluateSynchronously:(BOOL)synchronously
-                    withScope:(iTermVariableScope *)scope
-                   completion:(void (^)(NSString *result, NSError *error, NSSet<NSString *> *missing))completion;
+    withScope:(iTermVariableScope *)scope
+    completion:(void (^)(NSString *result, NSError *error, NSSet<NSString *> *missing))completion;
 
 @end
 
@@ -70,12 +70,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithString:(NSString *)swiftyString NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithScope:(nullable iTermVariableScope *)scope
-                   sourcePath:(NSString *)sourcePath
-              destinationPath:(nullable NSString *)destinationPath NS_UNAVAILABLE;
+    sourcePath:(NSString *)sourcePath
+    destinationPath:(nullable NSString *)destinationPath NS_UNAVAILABLE;
 
 - (instancetype)initWithString:(NSString *)swiftyString
-                         scope:(nullable iTermVariableScope *)scope
-                      observer:(NSString *(^ _Nullable)(NSString * _Nullable newValue, NSError * _Nullable error))observer NS_UNAVAILABLE;
+    scope:(nullable iTermVariableScope *)scope
+    observer:(NSString *(^ _Nullable)(NSString * _Nullable newValue, NSError * _Nullable error))observer NS_UNAVAILABLE;
 
 @end
 

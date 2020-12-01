@@ -21,8 +21,8 @@ const int iTermMinimumPythonEnvironmentVersion = 70;
 @protocol iTermOptionalComponentDownloadPhaseDelegate<NSObject>
 - (void)optionalComponentDownloadPhaseDidComplete:(iTermOptionalComponentDownloadPhase *)sender;
 - (void)optionalComponentDownloadPhase:(iTermOptionalComponentDownloadPhase *)sender
-                    didProgressToBytes:(double)bytesWritten
-                               ofTotal:(double)totalBytes;
+    didProgressToBytes:(double)bytesWritten
+    ofTotal:(double)totalBytes;
 @end
 
 @interface iTermOptionalComponentDownloadPhase()<NSURLSessionDownloadDelegate>
@@ -37,8 +37,8 @@ const int iTermMinimumPythonEnvironmentVersion = 70;
 }
 
 - (instancetype)initWithURL:(NSURL *)url
-                      title:(NSString *)title
-           nextPhaseFactory:(iTermOptionalComponentDownloadPhase *(^)(iTermOptionalComponentDownloadPhase *))nextPhaseFactory {
+    title:(NSString *)title
+    nextPhaseFactory:(iTermOptionalComponentDownloadPhase *(^)(iTermOptionalComponentDownloadPhase *))nextPhaseFactory {
     self = [super init];
     if (self) {
         _url = [url copy];
@@ -68,8 +68,8 @@ const int iTermMinimumPythonEnvironmentVersion = 70;
     self.downloading = YES;
     NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
     _urlSession = [NSURLSession sessionWithConfiguration:sessionConfig
-                                                delegate:self
-                                           delegateQueue:nil];
+                                delegate:self
+                                delegateQueue:nil];
     _task = [_urlSession downloadTaskWithURL:_url];
     [_task resume];
 }
@@ -90,11 +90,11 @@ const int iTermMinimumPythonEnvironmentVersion = 70;
 #pragma mark - NSURLSessionDownloadDelegate
 
 - (void)URLSession:(NSURLSession *)session
-      downloadTask:(NSURLSessionDownloadTask *)downloadTask
-      didWriteData:(int64_t)bytesWritten
- totalBytesWritten:(int64_t)totalBytesWritten
-totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    downloadTask:(NSURLSessionDownloadTask *)downloadTask
+    didWriteData:(int64_t)bytesWritten
+    totalBytesWritten:(int64_t)totalBytesWritten
+    totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
+    dispatch_async(dispatch_get_main_queue(), ^ {
         if (self.downloading) {
             // Was not canceled
             [self.delegate optionalComponentDownloadPhase:self didProgressToBytes:totalBytesWritten ofTotal:downloadTask.countOfBytesExpectedToReceive];
@@ -103,18 +103,18 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
 }
 
 - (void)URLSession:(NSURLSession *)session
-      downloadTask:(NSURLSessionDownloadTask *)downloadTask
-didFinishDownloadingToURL:(NSURL *)location {
+    downloadTask:(NSURLSessionDownloadTask *)downloadTask
+    didFinishDownloadingToURL:(NSURL *)location {
     _stream = [NSInputStream inputStreamWithURL:location];
     [_stream open];
 }
 
 - (void)URLSession:(NSURLSession *)session
-              task:(NSURLSessionTask *)task
-didCompleteWithError:(nullable NSError *)error {
+    task:(NSURLSessionTask *)task
+    didCompleteWithError:(nullable NSError *)error {
     if ([error.domain isEqualToString:NSURLErrorDomain] &&
-        error.code == kCFURLErrorNetworkConnectionLost &&
-        _continuationsLeft > 0) {
+            error.code == kCFURLErrorNetworkConnectionLost &&
+            _continuationsLeft > 0) {
         // There seems to be a bug in Big Sur. There's a spurious "The network connection was lost"
         // error. I get it every once in a while, and a user reported it in issue 9236. This attempts
         // to work around it.
@@ -130,8 +130,8 @@ didCompleteWithError:(nullable NSError *)error {
             _continuationsLeft -= 1;
             NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
             _urlSession = [NSURLSession sessionWithConfiguration:sessionConfig
-                                                        delegate:self
-                                                   delegateQueue:nil];
+                                        delegate:self
+                                        delegateQueue:nil];
             _task = [_urlSession downloadTaskWithResumeData:resumeData];
             [_task resume];
             return;
@@ -140,10 +140,10 @@ didCompleteWithError:(nullable NSError *)error {
     if (!error) {
         int statusCode = [[NSHTTPURLResponse castFrom:task.response] statusCode];
         if (statusCode != 200 && statusCode != 206) {
-            error = [NSError errorWithDomain:@"com.iterm2" code:1 userInfo:@{ NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Server returned status code %@: %@", @(statusCode), [NSHTTPURLResponse localizedStringForStatusCode:statusCode] ] }];
+            error = [NSError errorWithDomain:@"com.iterm2" code:1 userInfo:@ { NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Server returned status code %@: %@", @(statusCode), [NSHTTPURLResponse localizedStringForStatusCode:statusCode] ] }];
         }
     }
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         if (!self.downloading) {
             // Was canceled
             return;
@@ -161,9 +161,9 @@ didCompleteWithError:(nullable NSError *)error {
 @implementation iTermDownloadableComponentInfo
 
 - (instancetype)initWithURL:(NSURL *)url
-                       size:(NSInteger)size
-                  signature:(NSString *)signature
-         isSitePackagesOnly:(BOOL)isSitePackagesOnly {
+    size:(NSInteger)size
+    signature:(NSString *)signature
+    isSitePackagesOnly:(BOOL)isSitePackagesOnly {
     if (!url || size == 0 || signature.length == 0) {
         return nil;
     }
@@ -182,8 +182,8 @@ didCompleteWithError:(nullable NSError *)error {
 @implementation iTermManifestDownloadPhase
 
 - (instancetype)initWithURL:(NSURL *)url
-     requestedPythonVersion:(NSString *)requestedPythonVersion
-           nextPhaseFactory:(iTermOptionalComponentDownloadPhase *(^)(iTermOptionalComponentDownloadPhase *))nextPhaseFactory {
+    requestedPythonVersion:(NSString *)requestedPythonVersion
+    nextPhaseFactory:(iTermOptionalComponentDownloadPhase *(^)(iTermOptionalComponentDownloadPhase *))nextPhaseFactory {
     self = [super initWithURL:url title:@"Finding latest version…" nextPhaseFactory:nextPhaseFactory];
     if (self) {
         _requestedPythonVersion = [requestedPythonVersion copy];
@@ -197,14 +197,14 @@ didCompleteWithError:(nullable NSError *)error {
     }
     const NSInteger previousVersion = existingFullComponent.integerValue;
     if (previousVersion >= _sitePackagesDependencies.location &&
-        previousVersion < NSMaxRange(_sitePackagesDependencies)) {
+            previousVersion < NSMaxRange(_sitePackagesDependencies)) {
         return _sitePackagesComponent;
     }
     return _fullComponent;
 }
 
 - (BOOL)iTermVersionAtLeast:(NSString *)minVersion
-                     atMost:(NSString *)maxVersion {
+    atMost:(NSString *)maxVersion {
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     if (!version) {
         return NO;
@@ -255,8 +255,8 @@ didCompleteWithError:(nullable NSError *)error {
                 }
             } else if (requestedPartCount == 2) {
                 NSArray<NSString *> *twoPartPythonVersions = [pythonVersions mapWithBlock:^id(NSString *possiblyThreePartVersion) {
-                    NSArray<NSString *> *parts = [possiblyThreePartVersion componentsSeparatedByString:@"."];
-                    if (parts.count != 3) {
+                                   NSArray<NSString *> *parts = [possiblyThreePartVersion componentsSeparatedByString:@"."];
+                                   if (parts.count != 3) {
                         return nil;
                     }
                     return [[parts subarrayToIndex:2] componentsJoinedByString:@"."];
@@ -282,26 +282,26 @@ didCompleteWithError:(nullable NSError *)error {
 }
 
 - (void)URLSession:(NSURLSession *)session
-              task:(NSURLSessionTask *)task
-didCompleteWithError:(nullable NSError *)error {
+    task:(NSURLSessionTask *)task
+    didCompleteWithError:(nullable NSError *)error {
     if (!error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^ {
             NSDictionary *dict = [self parsedManifestFromInputStream:self.stream];
             NSError *innerError = nil;
             const int version = [dict[@"version"] intValue];
             if (version < iTermMinimumPythonEnvironmentVersion) {
-                innerError = [NSError errorWithDomain:@"com.iterm2" code:3 userInfo:@{ NSLocalizedDescriptionKey: @"☹️ No usable version found." }];
+innerError = [NSError errorWithDomain:@"com.iterm2" code:3 userInfo:@ { NSLocalizedDescriptionKey: @"☹️ No usable version found." }];
             } else if (dict) {
                 self->_fullComponent =
-                [[iTermDownloadableComponentInfo alloc] initWithURL:[NSURL URLWithString:dict[@"url"]]
-                                                               size:dict[@"size"] ? [dict[@"size"] integerValue] : 30 * 1000 * 1000
-                                                          signature:dict[@"signature"]
-                                                 isSitePackagesOnly:NO];
+                    [[iTermDownloadableComponentInfo alloc] initWithURL:[NSURL URLWithString:dict[@"url"]]
+                                                            size:dict[@"size"] ? [dict[@"size"] integerValue] : 30 * 1000 * 1000
+                                                            signature:dict[@"signature"]
+                                                            isSitePackagesOnly:NO];
                 self->_sitePackagesComponent =
-                [[iTermDownloadableComponentInfo alloc] initWithURL:[NSURL URLWithString:dict[@"site-packages-url"]]
-                                                               size:[dict[@"site-packages-size"] integerValue]
-                                                          signature:dict[@"site-packages-signature"]
-                                                 isSitePackagesOnly:YES];
+                    [[iTermDownloadableComponentInfo alloc] initWithURL:[NSURL URLWithString:dict[@"site-packages-url"]]
+                                                            size:[dict[@"site-packages-size"] integerValue]
+                                                            signature:dict[@"site-packages-signature"]
+                                                            isSitePackagesOnly:YES];
                 const NSInteger fullMin = [dict[@"site-packages-full-min"] integerValue];
                 const NSInteger fullMax = [dict[@"site-packages-full-max"] integerValue];
                 if (fullMin && fullMax && fullMax >= fullMin) {
@@ -309,11 +309,11 @@ didCompleteWithError:(nullable NSError *)error {
                 } else {
                     self->_sitePackagesDependencies = NSMakeRange(NSNotFound, 0);
                 }
-                
+
                 self->_version = version;
                 self->_pythonVersionsInArchive = [dict[@"python_versions"] copy];
             } else {
-                innerError = [NSError errorWithDomain:@"com.iterm2" code:2 userInfo:@{ NSLocalizedDescriptionKey: @"☹️ Malformed manifest." }];
+                innerError = [NSError errorWithDomain:@"com.iterm2" code:2 userInfo:@ { NSLocalizedDescriptionKey: @"☹️ Malformed manifest." }];
             }
             [super URLSession:session task:task didCompleteWithError:innerError];
         });
@@ -327,11 +327,11 @@ didCompleteWithError:(nullable NSError *)error {
 @implementation iTermPayloadDownloadPhase
 
 - (instancetype)initWithURL:(NSURL *)url
-                    version:(int)version
-          expectedSignature:(NSString *)expectedSignature
-     requestedPythonVersion:(NSString *)requestedPythonVersion
-           expectedVersions:(NSArray<NSString *> *)expectedVersions
-           nextPhaseFactory:(iTermOptionalComponentDownloadPhase *(^)(iTermOptionalComponentDownloadPhase *))nextPhaseFactory {
+    version:(int)version
+    expectedSignature:(NSString *)expectedSignature
+    requestedPythonVersion:(NSString *)requestedPythonVersion
+    expectedVersions:(NSArray<NSString *> *)expectedVersions
+    nextPhaseFactory:(iTermOptionalComponentDownloadPhase *(^)(iTermOptionalComponentDownloadPhase *))nextPhaseFactory {
     self = [super initWithURL:url title:@"Downloading Python runtime…" nextPhaseFactory:nextPhaseFactory];
     if (self) {
         _version = version;
@@ -460,12 +460,12 @@ didCompleteWithError:(nullable NSError *)error {
 }
 
 - (void)optionalComponentDownloadPhase:(iTermOptionalComponentDownloadPhase *)sender
-                    didProgressToBytes:(double)bytesWritten
-                               ofTotal:(double)totalBytes {
+    didProgressToBytes:(double)bytesWritten
+    ofTotal:(double)totalBytes {
     self->_progressIndicator.doubleValue = bytesWritten / totalBytes;
     self->_progressLabel.stringValue = [NSString stringWithFormat:@"%@ of %@",
-                                        [NSString it_formatBytes:bytesWritten],
-                                        [NSString it_formatBytes:totalBytes]];
+                                                 [NSString it_formatBytes:bytesWritten],
+                                                 [NSString it_formatBytes:totalBytes]];
 }
 
 @end

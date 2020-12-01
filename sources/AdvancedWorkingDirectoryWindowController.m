@@ -72,35 +72,35 @@ static const NSInteger kRecycleDirectoryTag = 2;
 
 - (NSString *)valueForTag:(NSInteger)tag {
     switch (tag) {
-        case kCustomDirectoryTag:
-            return kProfilePreferenceInitialDirectoryCustomValue;
+    case kCustomDirectoryTag:
+        return kProfilePreferenceInitialDirectoryCustomValue;
 
-        case kRecycleDirectoryTag:
-            return kProfilePreferenceInitialDirectoryRecycleValue;
+    case kRecycleDirectoryTag:
+        return kProfilePreferenceInitialDirectoryRecycleValue;
 
-        case kHomeDirectoryTag:
-        default:
-            return kProfilePreferenceInitialDirectoryHomeValue;
+    case kHomeDirectoryTag:
+    default:
+        return kProfilePreferenceInitialDirectoryHomeValue;
 
-   }
+    }
 }
 
 - (void)setProfile:(NSDictionary *)profile {
     _profile = [profile copy];
     [self setAdvancedBookmarkMatrix:_windowDirectoryType
-                          withValue:[_profile objectForKey:KEY_AWDS_WIN_OPTION]];
+          withValue:[_profile objectForKey:KEY_AWDS_WIN_OPTION]];
     [self safelySetStringValue:[_profile objectForKey:KEY_AWDS_WIN_DIRECTORY]
-                            in:_windowDirectory];
+          in:_windowDirectory];
 
     [self setAdvancedBookmarkMatrix:_tabDirectoryType
-                          withValue:[_profile objectForKey:KEY_AWDS_TAB_OPTION]];
+          withValue:[_profile objectForKey:KEY_AWDS_TAB_OPTION]];
     [self safelySetStringValue:[_profile objectForKey:KEY_AWDS_TAB_DIRECTORY]
-                            in:_tabDirectory];
+          in:_tabDirectory];
 
     [self setAdvancedBookmarkMatrix:_paneDirectoryType
-                          withValue:[_profile objectForKey:KEY_AWDS_PANE_OPTION]];
+          withValue:[_profile objectForKey:KEY_AWDS_PANE_OPTION]];
     [self safelySetStringValue:[_profile objectForKey:KEY_AWDS_PANE_DIRECTORY]
-                            in:_paneDirectory];
+          in:_paneDirectory];
 }
 
 @end

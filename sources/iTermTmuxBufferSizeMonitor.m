@@ -85,11 +85,11 @@ static double TimespecToSeconds(struct timespec* ts) {
 - (NSString *)description {
     NSArray<NSString *> *descriptions =
     [_data mapWithBlock:^NSString *(iTermTmuxBufferSizeDataPoint *point) {
-        return point.description;
-    }];
+              return point.description;
+          }];
     NSString *data = [descriptions componentsJoinedByString:@", "];
     return [NSString stringWithFormat:@"<%@: %p %@>", NSStringFromClass(self.class), self,
-            data];
+                     data];
 }
 
 - (void)addDataPoint:(iTermTmuxBufferSizeDataPoint *)dataPoint {
@@ -153,7 +153,7 @@ static double TimespecToSeconds(struct timespec* ts) {
 }
 
 - (instancetype)initWithController:(TmuxController *)controller
-                          pauseAge:(NSTimeInterval)pauseAge {
+    pauseAge:(NSTimeInterval)pauseAge {
     self = [super init];
     if (self) {
         _controller = controller;
@@ -179,8 +179,8 @@ static double TimespecToSeconds(struct timespec* ts) {
 
     if (now - series.lastUpdateTime > 0.5) {
         iTermTmuxBufferSizeDataPoint *dataPoint =
-        [[iTermTmuxBufferSizeDataPoint alloc] initWithTime:now
-                                                       age:age];
+            [[iTermTmuxBufferSizeDataPoint alloc] initWithTime:now
+                                                  age:age];
         [series addDataPoint:dataPoint];
     }
 }
@@ -199,10 +199,10 @@ static double TimespecToSeconds(struct timespec* ts) {
 - (void)update:(NSTimer *)timer {
     const NSTimeInterval now = [iTermTmuxBufferSizeDataPoint now];
     [_series enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull wp, iTermTimeSeries * _Nonnull series, BOOL * _Nonnull stop) {
-        if (series.count < 4) {
-            // Not enough info to make a decision
-            return;
-        }
+                if (series.count < 4) {
+                    // Not enough info to make a decision
+                    return;
+                }
         const NSTimeInterval ttl = [self ttlForSeries:series now:now];
         [self maybeWarnPane:wp.intValue ttl:ttl lastTTL:series.lastTTL series:series];
         series.lastTTL = ttl;
@@ -214,9 +214,9 @@ static double TimespecToSeconds(struct timespec* ts) {
 }
 
 - (void)maybeWarnPane:(int)wp
-                  ttl:(NSTimeInterval)ttl
-              lastTTL:(NSTimeInterval)lastTTL
-               series:(iTermTimeSeries *)series {
+    ttl:(NSTimeInterval)ttl
+    lastTTL:(NSTimeInterval)lastTTL
+    series:(iTermTimeSeries *)series {
     BOOL redzone = NO;
     if (![self shouldWarnPaneWithTTL:ttl lastTTL:lastTTL redzone:&redzone]) {
         DLog(@"Not in red zone");

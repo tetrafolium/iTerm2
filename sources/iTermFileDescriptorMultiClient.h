@@ -35,10 +35,10 @@ typedef NS_ENUM(NSUInteger, iTermFileDescriptorMultiClientErrorCode) {
 @protocol iTermFileDescriptorMultiClientDelegate<NSObject>
 
 - (void)fileDescriptorMultiClient:(iTermFileDescriptorMultiClient *)client
-                 didDiscoverChild:(iTermFileDescriptorMultiClientChild *)child;
+    didDiscoverChild:(iTermFileDescriptorMultiClientChild *)child;
 
 - (void)fileDescriptorMultiClient:(iTermFileDescriptorMultiClient *)client
-                childDidTerminate:(iTermFileDescriptorMultiClientChild *)child;
+    childDidTerminate:(iTermFileDescriptorMultiClientChild *)child;
 
 - (void)fileDescriptorMultiClientDidClose:(iTermFileDescriptorMultiClient *)client;
 
@@ -59,15 +59,15 @@ typedef NS_ENUM(NSUInteger, iTermFileDescriptorMultiClientErrorCode) {
 - (void)attachWithCallback:(iTermCallback<id, NSNumber *> *)callback;
 
 - (void)launchChildWithExecutablePath:(const char *)path
-                                 argv:(const char *_Nonnull *_Nonnull)argv
-                          environment:(const char *_Nonnull *_Nonnull)environment
-                                  pwd:(const char *)pwd
-                             ttyState:(iTermTTYState)ttyStatePtr
-                             callback:(iTermMultiClientLaunchCallback *)callback;
+    argv:(const char *_Nonnull *_Nonnull)argv
+    environment:(const char *_Nonnull *_Nonnull)environment
+    pwd:(const char *)pwd
+    ttyState:(iTermTTYState)ttyStatePtr
+    callback:(iTermMultiClientLaunchCallback *)callback;
 
 - (void)waitForChild:(iTermFileDescriptorMultiClientChild *)child
-  removePreemptively:(BOOL)removePreemptively
-            callback:(iTermCallback<id, iTermResult<NSNumber *> *> *)callback;  // number is integer status
+    removePreemptively:(BOOL)removePreemptively
+    callback:(iTermCallback<id, iTermResult<NSNumber *> *> *)callback;  // number is integer status
 
 @end
 

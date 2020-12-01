@@ -46,15 +46,15 @@
 }
 
 - (void)urlActionForClickAtCoord:(VT100GridCoord)coord
-                      completion:(void (^)(URLAction *))completion {
+    completion:(void (^)(URLAction *))completion {
     [self urlActionForClickAtCoord:coord
-            respectingHardNewlines:![self ignoreHardNewlinesInURLs]
-                        completion:completion];
+          respectingHardNewlines:![self ignoreHardNewlinesInURLs]
+          completion:completion];
 }
 
 - (void)urlActionForClickAtCoord:(VT100GridCoord)coord
-          respectingHardNewlines:(BOOL)respectHardNewlines
-                      completion:(void (^)(URLAction *))completion {
+    respectingHardNewlines:(BOOL)respectHardNewlines
+    completion:(void (^)(URLAction *))completion {
     DLog(@"urlActionForClickAt:%@ respectingHardNewlines:%@",
          VT100GridCoordDescription(coord), @(respectHardNewlines));
     if (coord.y < 0) {
@@ -74,20 +74,20 @@
     [extractor restrictToLogicalWindowIncludingCoord:coord];
 
     [self.delegate urlActionHelper:self
-            workingDirectoryOnLine:coord.y
-                        completion:^(NSString *workingDirectory) {
-        [iTermURLActionFactory urlActionAtCoord:coord
-                            respectHardNewlines:respectHardNewlines
-                               workingDirectory:workingDirectory ?: @""
-                                     remoteHost:[self.delegate urlActionHelper:self remoteHostOnLine:coord.y]
-                                      selectors:[self.delegate urlActionHelperSmartSelectionActionSelectorDictionary:self]
-                                          rules:[self.delegate urlActionHelperSmartSelectionRules:self]
-                                      extractor:extractor
-                      semanticHistoryController:self.semanticHistoryController
-                                    pathFactory:^SCPPath *(NSString *path, int line) {
-                                        return [self.delegate urlActionHelper:self secureCopyPathForFile:path onLine:line];
-                                    }
-                                     completion:completion];
+                   workingDirectoryOnLine:coord.y
+                  completion:^(NSString *workingDirectory) {
+                      [iTermURLActionFactory urlActionAtCoord:coord
+                       respectHardNewlines:respectHardNewlines
+                       workingDirectory:workingDirectory ?: @""
+                       remoteHost:[self.delegate urlActionHelper:self remoteHostOnLine:coord.y]
+                       selectors:[self.delegate urlActionHelperSmartSelectionActionSelectorDictionary:self]
+                       rules:[self.delegate urlActionHelperSmartSelectionRules:self]
+                       extractor:extractor
+                       semanticHistoryController:self.semanticHistoryController
+                      pathFactory:^SCPPath *(NSString *path, int line) {
+                          return [self.delegate urlActionHelper:self secureCopyPathForFile:path onLine:line];
+                      }
+                      completion:completion];
     }];
 }
 
@@ -100,14 +100,14 @@
     // I tried respecting hard newlines if that is a legal URL, but that's such a broad definition
     // that it doesn't work well. Hard EOLs mid-url are very common. Let's try always ignoring them.
     [self urlActionForClickAtCoord:coord
-            respectingHardNewlines:![self ignoreHardNewlinesInURLs]
-                        completion:^(URLAction *action) {
-                            [weakSelf finishOpeningTargetWithEvent:event
-                                                             coord:coord
-                                                      inBackground:openInBackground
-                                                            action:action
-                                                        generation:generation];
-                        }];
+          respectingHardNewlines:![self ignoreHardNewlinesInURLs]
+         completion:^(URLAction *action) {
+             [weakSelf finishOpeningTargetWithEvent:event
+              coord:coord
+              inBackground:openInBackground
+              action:action
+              generation:generation];
+         }];
 }
 
 - (void)findUrlInString:(NSString *)aURLString andOpenInBackground:(BOOL)background {
@@ -127,8 +127,8 @@
 }
 
 - (void)downloadFileAtSecureCopyPath:(SCPPath *)scpPath
-                         displayName:(NSString *)name
-                      locationInView:(VT100GridCoordRange)range {
+    displayName:(NSString *)name
+    locationInView:(VT100GridCoordRange)range {
     [self.delegate urlActionHelper:self startSecureCopyDownload:scpPath];
 
     NSDictionary *attributes = [self.delegate urlActionHelperAttributes:self];
@@ -141,26 +141,26 @@
 
     NSPoint point = [self.delegate urlActionHelper:self pointForCoord:range.start];
     [[FileTransferManager sharedInstance] animateImage:image
-                            intoDownloadsMenuFromPoint:point
-                                              onScreen:[self.delegate urlActionHelperScreen:self]];
+                                          intoDownloadsMenuFromPoint:point
+                                          onScreen:[self.delegate urlActionHelperScreen:self]];
 }
 
 - (SmartMatch *)smartSelectAtAbsoluteCoord:(VT100GridAbsCoord)absCoord
-                                        to:(VT100GridAbsWindowedRange *)rangePtr
-                          ignoringNewlines:(BOOL)ignoringNewlines
-                            actionRequired:(BOOL)actionRequired
-                           respectDividers:(BOOL)respectDividers {
+    to:(VT100GridAbsWindowedRange *)rangePtr
+    ignoringNewlines:(BOOL)ignoringNewlines
+    actionRequired:(BOOL)actionRequired
+    respectDividers:(BOOL)respectDividers {
     const long long totalScrollbackOverflow = [self.delegate urlActionTotalScrollbackOverflow:self];
     BOOL ok;
     const VT100GridCoord coord = VT100GridCoordFromAbsCoord(absCoord,
-                                                            totalScrollbackOverflow,
-                                                            &ok);
+                                 totalScrollbackOverflow,
+                                 &ok);
     if (!ok) {
         *rangePtr = VT100GridAbsWindowedRangeMake(VT100GridAbsCoordRangeMake(0,
-                                                                             totalScrollbackOverflow,
-                                                                             0,
-                                                                             totalScrollbackOverflow),
-                                                  -1, -1);
+                    totalScrollbackOverflow,
+                    0,
+                    totalScrollbackOverflow),
+                    -1, -1);
         return nil;
     }
     iTermTextExtractor *extractor = [self.delegate urlActionHelperNewTextExtractor:self];
@@ -169,13 +169,13 @@
     }
     VT100GridWindowedRange relativeRange;
     SmartMatch *result = [extractor smartSelectionAt:coord
-                                           withRules:[self.delegate urlActionHelperSmartSelectionRules:self]
-                                      actionRequired:actionRequired
-                                               range:&relativeRange
+                                    withRules:[self.delegate urlActionHelperSmartSelectionRules:self]
+                                    actionRequired:actionRequired
+                                    range:&relativeRange
                                     ignoringNewlines:ignoringNewlines];
     if (result) {
         *rangePtr = VT100GridAbsWindowedRangeFromWindowedRange(relativeRange,
-                                                               totalScrollbackOverflow);
+                    totalScrollbackOverflow);
     } else {
         *rangePtr = VT100GridAbsWindowedRangeMake(VT100GridAbsCoordRangeMake(-1, -1, -1, -1), -1, -1);
     }
@@ -183,32 +183,32 @@
 }
 
 - (void)openSemanticHistoryPath:(NSString *)path
-                  orRawFilename:(NSString *)rawFileName
-                       fragment:(NSString *)fragment
-               workingDirectory:(NSString *)workingDirectory
-                     lineNumber:(NSString *)lineNumber
-                   columnNumber:(NSString *)columnNumber
-                         prefix:(NSString *)prefix
-                         suffix:(NSString *)suffix
-                     completion:(void (^)(BOOL ok))completion {
+    orRawFilename:(NSString *)rawFileName
+    fragment:(NSString *)fragment
+    workingDirectory:(NSString *)workingDirectory
+    lineNumber:(NSString *)lineNumber
+    columnNumber:(NSString *)columnNumber
+    prefix:(NSString *)prefix
+    suffix:(NSString *)suffix
+    completion:(void (^)(BOOL ok))completion {
     NSDictionary *subs = [self semanticHistorySubstitutionsWithPrefix:prefix
-                                                               suffix:suffix
-                                                                 path:path
-                                                     workingDirectory:workingDirectory
-                                                           lineNumber:lineNumber
-                                                         columnNumber:columnNumber];
+                               suffix:suffix
+                               path:path
+                               workingDirectory:workingDirectory
+                               lineNumber:lineNumber
+                               columnNumber:columnNumber];
     [self.semanticHistoryController openPath:path
-                               orRawFilename:rawFileName
+                                    orRawFilename:rawFileName
                                     fragment:fragment
-                               substitutions:subs
-                                       scope:[self.delegate urlActionHelperScope:self]
-                                  lineNumber:lineNumber
-                                columnNumber:columnNumber
-                                  completion:completion];
+                                    substitutions:subs
+                                    scope:[self.delegate urlActionHelperScope:self]
+                                    lineNumber:lineNumber
+                                    columnNumber:columnNumber
+                                    completion:completion];
 }
 
 - (void)smartSelectAndMaybeCopyWithEvent:(NSEvent *)event
-                        ignoringNewlines:(BOOL)ignoringNewlines {
+    ignoringNewlines:(BOOL)ignoringNewlines {
     const VT100GridAbsCoord coord = [self.delegate urlActionHelper:self absCoordForEvent:event allowRightMarginOverflow:NO];
 
     [self smartSelectAtAbsoluteCoord:coord ignoringNewlines:ignoringNewlines];
@@ -232,37 +232,37 @@
         NSString *lineNumber = (parts.count > 0) ? parts[0] : nil;
         NSString *columnNumber = (parts.count > 1) ? parts[1] : nil;
         NSDictionary *subs = [self semanticHistorySubstitutionsWithPrefix:@""
-                                                                   suffix:url.path
-                                                                     path:url.path
-                                                         workingDirectory:workingDirectory
-                                                               lineNumber:lineNumber.isNumeric ? lineNumber : nil
-                                                             columnNumber:columnNumber.isNumeric && lineNumber.isNumeric ? columnNumber : nil];
+                                   suffix:url.path
+                                   path:url.path
+                                   workingDirectory:workingDirectory
+                                   lineNumber:lineNumber.isNumeric ? lineNumber : nil
+                                   columnNumber:columnNumber.isNumeric && lineNumber.isNumeric ? columnNumber : nil];
         [self.semanticHistoryController openPath:url.path
-                                   orRawFilename:url.path
+                                        orRawFilename:url.path
                                         fragment:url.fragment
-                                   substitutions:subs
-                                           scope:[self.delegate urlActionHelperScope:self]
-                                      lineNumber:lineNumber
-                                    columnNumber:columnNumber
-                                      completion:^(BOOL ignore) {}];
+                                        substitutions:subs
+                                        scope:[self.delegate urlActionHelperScope:self]
+                                        lineNumber:lineNumber
+                                        columnNumber:columnNumber
+                                       completion:^(BOOL ignore) {}];
         return;
     }
     if (background) {
         [[NSWorkspace sharedWorkspace] openURLs:@[ url ]
-                        withAppBundleIdentifier:nil
-                                        options:NSWorkspaceLaunchWithoutActivation
-                 additionalEventParamDescriptor:nil
-                              launchIdentifiers:nil];
+                                       withAppBundleIdentifier:nil
+                                       options:NSWorkspaceLaunchWithoutActivation
+                                       additionalEventParamDescriptor:nil
+                                       launchIdentifiers:nil];
     } else {
         [[NSWorkspace sharedWorkspace] openURL:url];
     }
 }
 
 - (void)finishOpeningTargetWithEvent:(NSEvent *)event
-                               coord:(VT100GridCoord)coord
-                        inBackground:(BOOL)openInBackground
-                              action:(URLAction *)action
-                          generation:(NSInteger)generation {
+    coord:(VT100GridCoord)coord
+    inBackground:(BOOL)openInBackground
+    action:(URLAction *)action
+    generation:(NSInteger)generation {
     if (generation != _openTargetGeneration) {
         DLog(@"Canceled open target for generation %@", @(generation));
         return;
@@ -276,79 +276,79 @@
     DLog(@"openTargetWithEvent generation %@ has action=%@", @(generation), action);
     if (action) {
         switch (action.actionType) {
-            case kURLActionOpenExistingFile: {
-                iTermLocatedString *locatedPrefix = [extractor wrappedLocatedStringAt:coord
-                                                                              forward:NO
-                                                                  respectHardNewlines:![self ignoreHardNewlinesInURLs]
-                                                                             maxChars:[iTermAdvancedSettingsModel maxSemanticHistoryPrefixOrSuffix]
-                                                                    continuationChars:nil
-                                                                  convertNullsToSpace:YES];
-                NSString *extendedPrefix = locatedPrefix.string;
+        case kURLActionOpenExistingFile: {
+            iTermLocatedString *locatedPrefix = [extractor wrappedLocatedStringAt:coord
+                                                           forward:NO
+                                                           respectHardNewlines:![self ignoreHardNewlinesInURLs]
+                                                           maxChars:[iTermAdvancedSettingsModel maxSemanticHistoryPrefixOrSuffix]
+                                                           continuationChars:nil
+                                                           convertNullsToSpace:YES];
+            NSString *extendedPrefix = locatedPrefix.string;
 
-                iTermLocatedString *locatedSuffix = [extractor wrappedLocatedStringAt:coord
-                                                                              forward:YES
-                                                                  respectHardNewlines:![self ignoreHardNewlinesInURLs]
-                                                                             maxChars:[iTermAdvancedSettingsModel maxSemanticHistoryPrefixOrSuffix]
-                                                                    continuationChars:nil
-                                                                  convertNullsToSpace:YES];
-                NSString *extendedSuffix = locatedSuffix.string;
+            iTermLocatedString *locatedSuffix = [extractor wrappedLocatedStringAt:coord
+                                                           forward:YES
+                                                           respectHardNewlines:![self ignoreHardNewlinesInURLs]
+                                                           maxChars:[iTermAdvancedSettingsModel maxSemanticHistoryPrefixOrSuffix]
+                                                           continuationChars:nil
+                                                           convertNullsToSpace:YES];
+            NSString *extendedSuffix = locatedSuffix.string;
 
-                __weak __typeof(self) weakSelf = self;
-                [self openSemanticHistoryPath:action.fullPath
-                                orRawFilename:action.rawFilename
-                                     fragment:nil
-                             workingDirectory:action.workingDirectory
-                                   lineNumber:action.lineNumber
-                                 columnNumber:action.columnNumber
-                                       prefix:extendedPrefix
-                                       suffix:extendedSuffix
-                                   completion:^(BOOL ok) {
-                                       if (!ok) {
-                                           [weakSelf findUrlInString:action.string
-                                                 andOpenInBackground:openInBackground];
-                                       }
-                                   }];
-                break;
-            }
-            case kURLActionOpenURL: {
-                NSURL *url = [NSURL URLWithUserSuppliedString:action.string];
-                if ([url.scheme isEqualToString:@"file"] &&
+            __weak __typeof(self) weakSelf = self;
+            [self openSemanticHistoryPath:action.fullPath
+                  orRawFilename:action.rawFilename
+                  fragment:nil
+                  workingDirectory:action.workingDirectory
+                  lineNumber:action.lineNumber
+                  columnNumber:action.columnNumber
+                  prefix:extendedPrefix
+                  suffix:extendedSuffix
+                 completion:^(BOOL ok) {
+                     if (!ok) {
+                         [weakSelf findUrlInString:action.string
+                          andOpenInBackground:openInBackground];
+                     }
+                 }];
+            break;
+        }
+        case kURLActionOpenURL: {
+            NSURL *url = [NSURL URLWithUserSuppliedString:action.string];
+            if ([url.scheme isEqualToString:@"file"] &&
                     url.host.length > 0 &&
                     ![url.host isEqualToString:[NSHost fullyQualifiedDomainName]]) {
-                    SCPPath *path = [[SCPPath alloc] init];
-                    path.path = url.path;
-                    path.hostname = url.host;
-                    path.username = [self.class usernameToDownloadFileOnHost:url.host];
-                    if (path.username == nil) {
-                        return;
-                    }
-                    [self downloadFileAtSecureCopyPath:path
-                                           displayName:url.path.lastPathComponent
-                                        locationInView:action.range.coordRange];
-                } else {
-                    [self openURL:url inBackground:openInBackground workingDirectory:action.workingDirectory];
+                SCPPath *path = [[SCPPath alloc] init];
+                path.path = url.path;
+                path.hostname = url.host;
+                path.username = [self.class usernameToDownloadFileOnHost:url.host];
+                if (path.username == nil) {
+                    return;
                 }
-                break;
+                [self downloadFileAtSecureCopyPath:path
+                      displayName:url.path.lastPathComponent
+                      locationInView:action.range.coordRange];
+            } else {
+                [self openURL:url inBackground:openInBackground workingDirectory:action.workingDirectory];
             }
+            break;
+        }
 
-            case kURLActionSmartSelectionAction: {
-                DLog(@"Run smart selection selector %@", NSStringFromSelector(action.selector));
-                [self.smartSelectionActionTarget it_performNonObjectReturningSelector:action.selector
-                                                                           withObject:action];
-                break;
-            }
+        case kURLActionSmartSelectionAction: {
+            DLog(@"Run smart selection selector %@", NSStringFromSelector(action.selector));
+            [self.smartSelectionActionTarget it_performNonObjectReturningSelector:action.selector
+                                             withObject:action];
+            break;
+        }
 
-            case kURLActionOpenImage:
-                DLog(@"Open image");
-                [[NSWorkspace sharedWorkspace] openFile:[(iTermImageInfo *)action.identifier nameForNewSavedTempFile]];
-                break;
+        case kURLActionOpenImage:
+            DLog(@"Open image");
+            [[NSWorkspace sharedWorkspace] openFile:[(iTermImageInfo *)action.identifier nameForNewSavedTempFile]];
+            break;
 
-            case kURLActionSecureCopyFile:
-                DLog(@"Secure copy file.");
-                [self downloadFileAtSecureCopyPath:action.identifier
-                                       displayName:action.string
-                                    locationInView:action.range.coordRange];
-                break;
+        case kURLActionSecureCopyFile:
+            DLog(@"Secure copy file.");
+            [self downloadFileAtSecureCopyPath:action.identifier
+                  displayName:action.string
+                  locationInView:action.range.coordRange];
+            break;
         }
     }
 }
@@ -356,19 +356,20 @@
 #pragma mark - Semantic History
 
 - (NSDictionary *)semanticHistorySubstitutionsWithPrefix:(NSString *)prefix
-                                                  suffix:(NSString *)suffix
-                                                    path:(NSString *)path
-                                        workingDirectory:(NSString *)workingDirectory
-                                              lineNumber:(NSString *)lineNumber
-                                            columnNumber:(NSString *)columnNumber {
+    suffix:(NSString *)suffix
+    path:(NSString *)path
+    workingDirectory:(NSString *)workingDirectory
+    lineNumber:(NSString *)lineNumber
+    columnNumber:(NSString *)columnNumber {
     return
-    @{ kSemanticHistoryPrefixSubstitutionKey: [prefix stringEscapedForBash] ?: @"",
-       kSemanticHistorySuffixSubstitutionKey: [suffix stringEscapedForBash] ?: @"",
-       kSemanticHistoryPathSubstitutionKey: [path stringEscapedForBash] ?: @"",
-       kSemanticHistoryWorkingDirectorySubstitutionKey: [workingDirectory stringEscapedForBash] ?: @"",
-       kSemanticHistoryLineNumberKey: lineNumber ?: @"",
-       kSemanticHistoryColumnNumberKey: columnNumber ?: @""
-       };
+        @ { kSemanticHistoryPrefixSubstitutionKey:
+            [prefix stringEscapedForBash] ?: @"",
+            kSemanticHistorySuffixSubstitutionKey: [suffix stringEscapedForBash] ?: @"",
+            kSemanticHistoryPathSubstitutionKey: [path stringEscapedForBash] ?: @"",
+            kSemanticHistoryWorkingDirectorySubstitutionKey: [workingDirectory stringEscapedForBash] ?: @"",
+            kSemanticHistoryLineNumberKey: lineNumber ?: @"",
+            kSemanticHistoryColumnNumberKey: columnNumber ?: @""
+          };
 }
 
 #pragma mark - Secure Copy
@@ -396,24 +397,24 @@
 
 - (void)smartSelectWithEvent:(NSEvent *)event {
     const VT100GridAbsCoord coord = [self.delegate urlActionHelper:self
-                                                  absCoordForEvent:event
-                                          allowRightMarginOverflow:NO];
+                                                   absCoordForEvent:event
+                                                   allowRightMarginOverflow:NO];
     [self smartSelectAtAbsoluteCoord:coord ignoringNewlines:NO];
 }
 
 - (BOOL)smartSelectAtAbsoluteCoord:(VT100GridAbsCoord)coord ignoringNewlines:(BOOL)ignoringNewlines {
     VT100GridAbsWindowedRange range;
     SmartMatch *smartMatch = [self smartSelectAtAbsoluteCoord:coord
-                                                           to:&range
-                                             ignoringNewlines:ignoringNewlines
-                                               actionRequired:NO
-                                              respectDividers:[[NSUserDefaults standardUserDefaults] boolForKey:kSelectionRespectsSoftBoundariesKey]];
+                                   to:&range
+                                   ignoringNewlines:ignoringNewlines
+                                   actionRequired:NO
+                                   respectDividers:[[NSUserDefaults standardUserDefaults] boolForKey:kSelectionRespectsSoftBoundariesKey]];
 
     iTermSelection *selection = [self.delegate urlActionHelperSelection:self];
     [selection beginSelectionAtAbsCoord:range.coordRange.start
-                                   mode:kiTermSelectionModeCharacter
-                                 resume:NO
-                                 append:NO];
+               mode:kiTermSelectionModeCharacter
+               resume:NO
+               append:NO];
     [selection moveSelectionEndpointTo:range.coordRange.end];
     if (!ignoringNewlines) {
         // TODO(georgen): iTermSelection doesn't have a mode for smart selection ignoring newlines.

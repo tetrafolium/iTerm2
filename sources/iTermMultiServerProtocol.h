@@ -239,19 +239,19 @@ typedef struct {
 
 int __attribute__((warn_unused_result))
 iTermMultiServerProtocolParseMessageFromClient(iTermClientServerProtocolMessage *message,
-                                               iTermMultiServerClientOriginatedMessage *out);
+        iTermMultiServerClientOriginatedMessage *out);
 
 int __attribute__((warn_unused_result))
 iTermMultiServerProtocolEncodeMessageFromClient(iTermMultiServerClientOriginatedMessage *obj,
-                                                iTermClientServerProtocolMessage *message);
+        iTermClientServerProtocolMessage *message);
 
 int __attribute__((warn_unused_result))
 iTermMultiServerProtocolParseMessageFromServer(iTermClientServerProtocolMessage *message,
-                                               iTermMultiServerServerOriginatedMessage *out);
+        iTermMultiServerServerOriginatedMessage *out);
 
 int __attribute__((warn_unused_result))
 iTermMultiServerProtocolEncodeMessageFromServer(iTermMultiServerServerOriginatedMessage *obj,
-                                                iTermClientServerProtocolMessage *message);
+        iTermClientServerProtocolMessage *message);
 
 void iTermMultiServerClientOriginatedMessageFree(iTermMultiServerClientOriginatedMessage *obj);
 void iTermMultiServerServerOriginatedMessageFree(iTermMultiServerServerOriginatedMessage *obj);
@@ -272,7 +272,7 @@ iTermMultiServerRead(int fd, iTermClientServerProtocolMessage *message);
 // sets *receivedFileDescriptorPtr to the file derscriptor you now own.
 int __attribute__((warn_unused_result))
 iTermMultiServerProtocolGetFileDescriptor(iTermClientServerProtocolMessage *message,
-                                          int *receivedFileDescriptorPtr);
+        int *receivedFileDescriptorPtr);
 
 void
 iTermMultiServerProtocolLogMessageFromClient(iTermMultiServerClientOriginatedMessage *message);

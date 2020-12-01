@@ -23,7 +23,7 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p frame=%@ isHidden=%@ alphaValue=%@>",
-            [self class], self, NSStringFromRect(self.frame), @(self.isHidden), @(self.alphaValue)];
+                     [self class], self, NSStringFromRect(self.frame), @(self.isHidden), @(self.alphaValue)];
 }
 
 - (void)setColor:(NSColor*)color {
@@ -50,7 +50,7 @@
             NSRectFillUsingOperation(view.frame, NSCompositingOperationCopy);
         }
     }
-    
+
     [super drawRect:dirtyRect];
 }
 

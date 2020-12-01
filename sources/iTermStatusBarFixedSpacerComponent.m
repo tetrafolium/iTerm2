@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithConfiguration:(NSDictionary<iTermStatusBarComponentConfigurationKey,id> *)configuration
-                                scope:(nullable iTermVariableScope *)scope {
+    scope:(nullable iTermVariableScope *)scope {
     self = [super initWithConfiguration:configuration scope:scope];
     if (self) {
         _width = [self widthInDictionary:configuration[iTermStatusBarComponentConfigurationKeyKnobValues]];
@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 - (id)statusBarComponentExemplarWithBackgroundColor:(NSColor *)backgroundColor
-                                          textColor:(NSColor *)textColor {
+    textColor:(NSColor *)textColor {
     return @"╠══╣";
 }
 
@@ -65,25 +65,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray<iTermStatusBarComponentKnob *> *)statusBarComponentKnobs {
     iTermStatusBarComponentKnob *backgroundColorKnob =
-    [[iTermStatusBarComponentKnob alloc] initWithLabelText:@"Color"
-                                                      type:iTermStatusBarComponentKnobTypeColor
-                                               placeholder:nil
-                                              defaultValue:nil
-                                                       key:iTermStatusBarSharedBackgroundColorKey];
+        [[iTermStatusBarComponentKnob alloc] initWithLabelText:@"Color"
+                                             type:iTermStatusBarComponentKnobTypeColor
+                                             placeholder:nil
+                                             defaultValue:nil
+                                             key:iTermStatusBarSharedBackgroundColorKey];
     iTermStatusBarComponentKnob *widthKnob =
-    [[iTermStatusBarComponentKnob alloc] initWithLabelText:@"Width"
-                                                      type:iTermStatusBarComponentKnobTypeDouble
-                                               placeholder:nil
-                                              defaultValue:@5
-                                                       key:iTermStatusBarFixedSpacerComponentWidthKnob];
+        [[iTermStatusBarComponentKnob alloc] initWithLabelText:@"Width"
+                                             type:iTermStatusBarComponentKnobTypeDouble
+                                             placeholder:nil
+                                             defaultValue:@5
+                                             key:iTermStatusBarFixedSpacerComponentWidthKnob];
     return @[ backgroundColorKnob, widthKnob, [self newPriorityKnob] ];
 }
 
 + (NSDictionary *)statusBarComponentDefaultKnobs {
     NSDictionary *knobs = [super statusBarComponentDefaultKnobs];
-    knobs = [knobs dictionaryByMergingDictionary:@{ iTermStatusBarFixedSpacerComponentWidthKnob: @5 }];
+    knobs = [knobs dictionaryByMergingDictionary:@ { iTermStatusBarFixedSpacerComponentWidthKnob: @5 }];
     knobs = [knobs dictionaryBySettingObject:@(iTermStatusBarBaseComponentDefaultPriority)
-                                      forKey:iTermStatusBarPriorityKey];
+                   forKey:iTermStatusBarPriorityKey];
     return knobs;
 }
 

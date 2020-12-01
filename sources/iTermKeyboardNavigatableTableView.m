@@ -11,7 +11,7 @@
 @implementation iTermKeyboardNavigatableTableView
 
 - (void)keyDown:(NSEvent *)theEvent {
-  [self interpretKeyEvents:[NSArray arrayWithObject:theEvent]];
+    [self interpretKeyEvents:[NSArray arrayWithObject:theEvent]];
 }
 
 // Our superclass responds to selectAll but it can't actually be used because these tables only

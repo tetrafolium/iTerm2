@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (id)statusBarComponentExemplarWithBackgroundColor:(NSColor *)backgroundColor
-                                          textColor:(NSColor *)textColor {
+    textColor:(NSColor *)textColor {
     [self doesNotRecognizeSelector:_cmd];
     return @"[=== ]";
 }
@@ -68,8 +68,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSView *)statusBarComponentView {
     if (!_viewController) {
         _viewController = [[PasteViewController alloc] initWithContext:self.pasteContext
-                                                                length:self.bufferLength
-                                                                  mini:YES];
+                                                       length:self.bufferLength
+                                                       mini:YES];
         _viewController.delegate = self;
     }
     return _viewController.view;

@@ -103,8 +103,8 @@ static const float kAnimationDuration = 0.2;
 - (void)close {
     DLog(@"Closing find view %@", self.view);
     [NSAnimationContext beginGrouping];
-    [[NSAnimationContext currentContext] setCompletionHandler:^{
-        [[self view] setHidden:YES];
+    [[NSAnimationContext currentContext] setCompletionHandler:^ {
+                                            [[self view] setHidden:YES];
         [[[[self view] window] contentView] setNeedsDisplay:YES];
         [self.driver setVisible:NO];
     }];
@@ -119,18 +119,18 @@ static const float kAnimationDuration = 0.2;
     [[NSAnimationContext currentContext] setDuration:kAnimationDuration];
     DLog(@"Animate find view %@ to full size frame: %@",
          self.view, NSStringFromRect([self fullSizeFrame]));
-    
+
     [NSAnimationContext beginGrouping];
-    
-    [[NSAnimationContext currentContext] setCompletionHandler:^{
-        [[[[self view] window] contentView] setNeedsDisplay:YES];
-    }];
+
+    [[NSAnimationContext currentContext] setCompletionHandler:^ {
+                                            [[[[self view] window] contentView] setNeedsDisplay:YES];
+                                        }];
 
     self.view.frame = self.fullSizeFrame;
     self.view.animator.alphaValue = 1.0;
 
     [NSAnimationContext endGrouping];
-    
+
     DLog(@"Grab focus for find view %@", self.view);
     [[[self view] window] makeFirstResponder:findBarTextField_];
 }
@@ -140,14 +140,14 @@ static const float kAnimationDuration = 0.2;
     if (round(progress * 100) != round(cell.fraction * 100)) {
         [findBarTextField_ setNeedsDisplay:YES];
     }
-    
+
     [cell setFraction:progress];
     if (cell.needsAnimation && !_animationTimer) {
         _animationTimer = [NSTimer scheduledTimerWithTimeInterval:1/60.0
-                                                           target:self
-                                                         selector:@selector(redrawSearchField:)
-                                                         userInfo:nil
-                                                          repeats:YES];
+                                   target:self
+                                   selector:@selector(redrawSearchField:)
+                                   userInfo:nil
+                                   repeats:YES];
     }
 }
 
@@ -180,7 +180,7 @@ static const float kAnimationDuration = 0.2;
         [self.driver searchNext];
     }
     [sender setSelected:NO
-             forSegment:[sender selectedSegment]];
+            forSegment:[sender selectedSegment]];
 }
 
 - (IBAction)changeMode:(id)sender {
@@ -205,26 +205,26 @@ static const float kAnimationDuration = 0.2;
     if (field != findBarTextField_) {
         return;
     }
-    
+
     [self.driver userDidEditSearchQuery:findBarTextField_.stringValue
-                            fieldEditor:aNotification.userInfo[@"NSFieldEditor"]];
+                 fieldEditor:aNotification.userInfo[@"NSFieldEditor"]];
 }
 
 - (NSArray *)control:(NSControl *)control
-            textView:(NSTextView *)textView
-         completions:(NSArray *)words  // Dictionary words
- forPartialWordRange:(NSRange)charRange
- indexOfSelectedItem:(NSInteger *)index {
+    textView:(NSTextView *)textView
+    completions:(NSArray *)words  // Dictionary words
+    forPartialWordRange:(NSRange)charRange
+    indexOfSelectedItem:(NSInteger *)index {
     DLog(@"completions:forPartialWordRange: existing string is %@, range is %@\n%@",
          textView.string, NSStringFromRange(charRange), [NSThread callStackSymbols]);
 
     *index = -1;
     return [self.driver completionsForText:[textView string]
-                                     range:charRange];
+                        range:charRange];
 }
 
 - (BOOL)control:(NSControl *)control
-       textView:(NSTextView *)textView
+    textView:(NSTextView *)textView
     doCommandBySelector:(SEL)commandSelector {
     DLog(@"doCommandBySelector: %@\n%@", NSStringFromSelector(commandSelector), [NSThread callStackSymbols]);
     if (control != findBarTextField_) {
@@ -262,21 +262,21 @@ static const float kAnimationDuration = 0.2;
 
     int move = [[[aNotification userInfo] objectForKey:@"NSTextMovement"] intValue];
     switch (move) {
-        case NSOtherTextMovement:
-            // Focus lost
-            [self.driver didLoseFocus];
-            break;
-        case NSReturnTextMovement: {
-            // Return key
-            const BOOL shiftPressed = !!([[NSApp currentEvent] it_modifierFlags] & NSEventModifierFlagShift);
-            const BOOL swap = [iTermAdvancedSettingsModel swapFindNextPrevious];
-            if  (!shiftPressed ^ swap) {
-                [self.driver searchNext];
-            } else {
-                [self.driver searchPrevious];
-            }
-            break;
+    case NSOtherTextMovement:
+        // Focus lost
+        [self.driver didLoseFocus];
+        break;
+    case NSReturnTextMovement: {
+        // Return key
+        const BOOL shiftPressed = !!([[NSApp currentEvent] it_modifierFlags] & NSEventModifierFlagShift);
+        const BOOL swap = [iTermAdvancedSettingsModel swapFindNextPrevious];
+        if  (!shiftPressed ^ swap) {
+            [self.driver searchNext];
+        } else {
+            [self.driver searchPrevious];
         }
+        break;
+    }
     }
     return;
 }
@@ -339,7 +339,7 @@ static const float kAnimationDuration = 0.2;
 
 - (void)deselectFindBarTextField {
     NSText *fieldEditor = [[[self view] window] fieldEditor:YES
-                                                  forObject:findBarTextField_];
+                                        forObject:findBarTextField_];
     [fieldEditor setSelectedRange:NSMakeRange([[fieldEditor string] length], 0)];
     [fieldEditor setNeedsDisplay:YES];
 }

@@ -21,9 +21,9 @@
 
 @interface iTermExpressionEvaluator(Private)
 - (void)didCompleteWithResult:(id)result
-                        error:(NSError *)error
-                      missing:(NSSet<NSString *> *)missing
-                   completion:(void (^)(iTermExpressionEvaluator *))completion;
+    error:(NSError *)error
+    missing:(NSSet<NSString *> *)missing
+    completion:(void (^)(iTermExpressionEvaluator *))completion;
 @end
 
 @implementation iTermExpressionEvaluator {
@@ -37,8 +37,8 @@
 }
 
 - (instancetype)initWithParsedExpression:(iTermParsedExpression *)parsedExpression
-                              invocation:(NSString *)invocation
-                                   scope:(iTermVariableScope *)scope {
+    invocation:(NSString *)invocation
+    scope:(iTermVariableScope *)scope {
     self = [super init];
     if (self) {
         _invocation = [invocation copy];
@@ -50,34 +50,34 @@
 }
 
 - (instancetype)initWithExpressionString:(NSString *)expressionString
-                                   scope:(iTermVariableScope *)scope {
+    scope:(iTermVariableScope *)scope {
     iTermParsedExpression *parsedExpression =
-    [[iTermExpressionParser expressionParser] parse:expressionString
-                                                scope:scope];
+        [[iTermExpressionParser expressionParser] parse:expressionString
+                                                  scope:scope];
     return [self initWithParsedExpression:parsedExpression
-                               invocation:expressionString
-                                    scope:scope];
+                 invocation:expressionString
+                 scope:scope];
 }
 
 - (instancetype)initWithStrictInterpolatedString:(NSString *)interpolatedString
-                                           scope:(iTermVariableScope *)scope {
+    scope:(iTermVariableScope *)scope {
     iTermParsedExpression *parsedExpression =
-    [iTermExpressionParser parsedExpressionWithInterpolatedString:interpolatedString
-                                                 escapingFunction:nil
-                                                            scope:scope
-                                                           strict:YES];
+        [iTermExpressionParser parsedExpressionWithInterpolatedString:interpolatedString
+                               escapingFunction:nil
+                               scope:scope
+                               strict:YES];
     return [self initWithParsedExpression:parsedExpression
-                               invocation:interpolatedString
-                                    scope:scope];
+                 invocation:interpolatedString
+                 scope:scope];
 }
 
 - (instancetype)initWithInterpolatedString:(NSString *)interpolatedString
-                                     scope:(iTermVariableScope *)scope {
+    scope:(iTermVariableScope *)scope {
     iTermParsedExpression *parsedExpression = [iTermExpressionParser parsedExpressionWithInterpolatedString:interpolatedString
-                                                                                                      scope:scope];
+                                  scope:scope];
     return [self initWithParsedExpression:parsedExpression
-                               invocation:interpolatedString
-                                    scope:scope];
+                 invocation:interpolatedString
+                 scope:scope];
 }
 
 - (id)value {
@@ -96,14 +96,14 @@ static NSMutableArray *iTermExpressionEvaluatorGlobalStore(void) {
                  @"Expression evaluation should only occur on the main queue.");
     static NSMutableArray *array;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         array = [NSMutableArray array];
     });
     return array;
 }
 
 - (void)evaluateWithTimeout:(NSTimeInterval)timeout
-                 completion:(void (^)(iTermExpressionEvaluator *))completion {
+    completion:(void (^)(iTermExpressionEvaluator *))completion {
     _hasBeenEvaluated = YES;
     assert(!_isBeingEvaluated);
     _isBeingEvaluated = YES;
@@ -117,20 +117,20 @@ static NSMutableArray *iTermExpressionEvaluatorGlobalStore(void) {
         NSLog(@"Evaluate %@", _parsedExpression);
     }
     [self evaluateParsedExpression:_parsedExpression
-                        invocation:_invocation
-                       withTimeout:timeout
-                        completion:^(id result, NSError *error, NSSet<NSString *> *missing) {
-                            if (debug) {
-                                NSLog(@"%@ result=%@, error=%@, missing=%@", descr, result, error, missing);
-                            }
-                            [weakSelf didCompleteWithResult:result error:error missing:missing completion:completion];
-                        }];
+          invocation:_invocation
+          withTimeout:timeout
+         completion:^(id result, NSError *error, NSSet<NSString *> *missing) {
+             if (debug) {
+                 NSLog(@"%@ result=%@, error=%@, missing=%@", descr, result, error, missing);
+             }
+        [weakSelf didCompleteWithResult:result error:error missing:missing completion:completion];
+    }];
 }
 
 - (void)didCompleteWithResult:(id)result
-                        error:(NSError *)error
-                      missing:(NSSet<NSString *> *)missing
-                   completion:(void (^)(iTermExpressionEvaluator *))completion{
+    error:(NSError *)error
+    missing:(NSSet<NSString *> *)missing
+    completion:(void (^)(iTermExpressionEvaluator *))completion {
     if (error) {
         _value = nil;
     } else {
@@ -144,29 +144,29 @@ static NSMutableArray *iTermExpressionEvaluatorGlobalStore(void) {
 }
 
 - (void)evaluateSwiftyString:(NSString *)string
-                 withTimeout:(NSTimeInterval)timeout
-                  completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
+    withTimeout:(NSTimeInterval)timeout
+    completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
     NSMutableArray *parts = [NSMutableArray array];
     __block NSError *firstError = nil;
     dispatch_group_t group = dispatch_group_create();
     NSMutableSet<NSString *> *missingFunctionSignatures = [NSMutableSet set];
     [string enumerateSwiftySubstrings:^(NSUInteger index, NSString *substring, BOOL isLiteral, BOOL *stop) {
-        if (isLiteral) {
-            [parts addObject:[substring it_stringByExpandingBackslashEscapedCharacters]];
-        } else {
-            dispatch_group_enter(group);
+               if (isLiteral) {
+                   [parts addObject:[substring it_stringByExpandingBackslashEscapedCharacters]];
+               } else {
+                   dispatch_group_enter(group);
             [parts addObject:@""];
 
             iTermParsedExpression *parsedExpression =
-            [[iTermExpressionParser expressionParser] parse:substring
-                                                        scope:self->_scope];
+                [[iTermExpressionParser expressionParser] parse:substring
+                                                          scope:self->_scope];
             iTermExpressionEvaluator *innerEvaluator = [[iTermExpressionEvaluator alloc] initWithParsedExpression:parsedExpression
-                                                                                                       invocation:string
-                                                                                                            scope:self->_scope];
+                                                     invocation:string
+                                                     scope:self->_scope];
             [self->_innerEvaluators addObject:innerEvaluator];
             [innerEvaluator evaluateWithTimeout:timeout completion:^(iTermExpressionEvaluator *evaluator) {
-                [missingFunctionSignatures unionSet:evaluator.missingValues];
-                if (evaluator.error) {
+                               [missingFunctionSignatures unionSet:evaluator.missingValues];
+                               if (evaluator.error) {
                     firstError = evaluator.error;
                 } else {
                     parts[index] = [self stringFromJSONObject:evaluator.value];
@@ -180,7 +180,7 @@ static NSMutableArray *iTermExpressionEvaluatorGlobalStore(void) {
                    firstError,
                    missingFunctionSignatures);
     } else {
-        dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        dispatch_group_notify(group, dispatch_get_main_queue(), ^ {
             completion([parts componentsJoinedByString:@""],
                        firstError,
                        missingFunctionSignatures);
@@ -189,65 +189,65 @@ static NSMutableArray *iTermExpressionEvaluatorGlobalStore(void) {
 }
 
 - (void)evaluateParsedExpression:(iTermParsedExpression *)parsedExpression
-                      invocation:(NSString *)invocation
-                     withTimeout:(NSTimeInterval)timeout
-                      completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
+    invocation:(NSString *)invocation
+    withTimeout:(NSTimeInterval)timeout
+    completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
     switch (parsedExpression.expressionType) {
-        case iTermParsedExpressionTypeFunctionCall: {
-            assert(parsedExpression.functionCall);
-            [parsedExpression.functionCall performFunctionCallFromInvocation:invocation
-                                                                    receiver:nil
-                                                                       scope:_scope
-                                                                     timeout:timeout
-                                                                  completion:completion];
-            return;
-        }
-
-        case iTermParsedExpressionTypeInterpolatedString: {
-            [self evaluateInterpolatedStringParts:parsedExpression.interpolatedStringParts
-                                       invocation:invocation
-                                      withTimeout:timeout
+    case iTermParsedExpressionTypeFunctionCall: {
+        assert(parsedExpression.functionCall);
+        [parsedExpression.functionCall performFunctionCallFromInvocation:invocation
+                                       receiver:nil
+                                       scope:_scope
+                                       timeout:timeout
                                        completion:completion];
-            return;
-        }
+        return;
+    }
 
-        case iTermParsedExpressionTypeArrayOfExpressions: {
-            [self evaluateArray:parsedExpression.arrayOfExpressions
-                     invocation:invocation
-                    withTimeout:timeout
-                     completion:completion];
-            return;
-        }
-        case iTermParsedExpressionTypeArrayOfValues:
-        case iTermParsedExpressionTypeString:
-        case iTermParsedExpressionTypeNumber:
-            completion(parsedExpression.object, nil, nil);
-            return;
+    case iTermParsedExpressionTypeInterpolatedString: {
+        [self evaluateInterpolatedStringParts:parsedExpression.interpolatedStringParts
+              invocation:invocation
+              withTimeout:timeout
+              completion:completion];
+        return;
+    }
 
-        case iTermParsedExpressionTypeError:
-            completion(nil, parsedExpression.error, nil);
-            return;
+    case iTermParsedExpressionTypeArrayOfExpressions: {
+        [self evaluateArray:parsedExpression.arrayOfExpressions
+              invocation:invocation
+              withTimeout:timeout
+              completion:completion];
+        return;
+    }
+    case iTermParsedExpressionTypeArrayOfValues:
+    case iTermParsedExpressionTypeString:
+    case iTermParsedExpressionTypeNumber:
+        completion(parsedExpression.object, nil, nil);
+        return;
 
-        case iTermParsedExpressionTypeNil:
-            completion(nil, nil, nil);
-            return;
+    case iTermParsedExpressionTypeError:
+        completion(nil, parsedExpression.error, nil);
+        return;
 
-        case iTermParsedExpressionTypeArrayLookup:
-        case iTermParsedExpressionTypeVariableReference:
-            assert(NO);
+    case iTermParsedExpressionTypeNil:
+        completion(nil, nil, nil);
+        return;
+
+    case iTermParsedExpressionTypeArrayLookup:
+    case iTermParsedExpressionTypeVariableReference:
+        assert(NO);
     }
 
     NSString *reason = [NSString stringWithFormat:@"Invalid parsed expression type %@", @(parsedExpression.expressionType)];
     NSError *error = [NSError errorWithDomain:@"com.iterm2.expression-evaluator"
-                                         code:2
-                                     userInfo:@{ NSLocalizedDescriptionKey: reason}];
+                              code:2
+                              userInfo:@ { NSLocalizedDescriptionKey: reason}];
     completion(nil, error, nil);
 }
 
 - (void)evaluateInterpolatedStringParts:(NSArray<iTermParsedExpression *> *)interpolatedStringParts
-                             invocation:(NSString *)invocation
-                            withTimeout:(NSTimeInterval)timeout
-                             completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
+    invocation:(NSString *)invocation
+    withTimeout:(NSTimeInterval)timeout
+    completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
     BOOL debug = _debug;
     if (_debug) {
         NSLog(@"Evaluate parts: %@", interpolatedStringParts);
@@ -260,20 +260,20 @@ static NSMutableArray *iTermExpressionEvaluatorGlobalStore(void) {
         group = dispatch_group_create();
     }
     [interpolatedStringParts enumerateObjectsUsingBlock:^(iTermParsedExpression *_Nonnull parsedExpression,
-                                                          NSUInteger idx,
-                                                          BOOL * _Nonnull stop) {
-        if (parsedExpression.expressionType == iTermParsedExpressionTypeString && parsedExpression.string) {
-            // Shortcut. String literals get appended without messing with dispatch groups or inner
-            // evaluators. They are also not subject to escaping, since they were under the control
-            // of the caller before getting here.
-            [parts addObject:parsedExpression.string];
-            return;
-        }
+                                    NSUInteger idx,
+                            BOOL * _Nonnull stop) {
+                                if (parsedExpression.expressionType == iTermParsedExpressionTypeString && parsedExpression.string) {
+                                    // Shortcut. String literals get appended without messing with dispatch groups or inner
+                                    // evaluators. They are also not subject to escaping, since they were under the control
+                                    // of the caller before getting here.
+                                    [parts addObject:parsedExpression.string];
+                                    return;
+                                }
 
         [parts addObject:@""];
         iTermExpressionEvaluator *innerEvaluator = [[iTermExpressionEvaluator alloc] initWithParsedExpression:parsedExpression
-                                                                                                   invocation:invocation
-                                                                                                        scope:self->_scope];
+                                                 invocation:invocation
+                                                 scope:self->_scope];
         [self->_innerEvaluators addObject:innerEvaluator];
         if (group) {
             if (debug) {
@@ -282,8 +282,8 @@ static NSMutableArray *iTermExpressionEvaluatorGlobalStore(void) {
             dispatch_group_enter(group);
         }
         [innerEvaluator evaluateWithTimeout:timeout completion:^(iTermExpressionEvaluator *evaluator) {
-            [missingFunctionSignatures unionSet:evaluator.missingValues];
-            if (evaluator.error) {
+                           [missingFunctionSignatures unionSet:evaluator.missingValues];
+                           if (evaluator.error) {
                 firstError = evaluator.error;
                 [self logError:evaluator.error invocation:invocation];
             } else {
@@ -307,19 +307,19 @@ static NSMutableArray *iTermExpressionEvaluatorGlobalStore(void) {
                    missingFunctionSignatures);
     } else {
         __weak __typeof(self) weakSelf = self;
-        dispatch_notify(group, dispatch_get_main_queue(), ^{
+        dispatch_notify(group, dispatch_get_main_queue(), ^ {
             [weakSelf didFinishEvaluatingInterpolatedStringWithParts:parts
-                                                               error:firstError
-                                                             missing:missingFunctionSignatures
-                                                          completion:completion];
+                      error:firstError
+                      missing:missingFunctionSignatures
+                      completion:completion];
         });
     }
 }
 
 - (void)didFinishEvaluatingInterpolatedStringWithParts:(NSArray *)parts
-                                                 error:(NSError *)firstError
-                                               missing:(NSSet<NSString *> *)missingFunctionSignatures
-                                            completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
+    error:(NSError *)firstError
+    missing:(NSSet<NSString *> *)missingFunctionSignatures
+    completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
     if (_debug) {
         NSLog(@"Group completed");
     }
@@ -329,9 +329,9 @@ static NSMutableArray *iTermExpressionEvaluatorGlobalStore(void) {
 }
 
 - (void)evaluateArray:(NSArray *)array
-           invocation:(NSString *)invocation
-          withTimeout:(NSTimeInterval)timeInterval
-           completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
+    invocation:(NSString *)invocation
+    withTimeout:(NSTimeInterval)timeInterval
+    completion:(void (^)(id, NSError *, NSSet<NSString *> *))completion {
     __block NSError *errorOut = nil;
     NSMutableSet<NSString *> *missing = [NSMutableSet set];
     NSMutableArray *populatedArray = [array mutableCopy];
@@ -341,18 +341,18 @@ static NSMutableArray *iTermExpressionEvaluatorGlobalStore(void) {
     }
     [array enumerateObjectsUsingBlock:^(iTermParsedExpression *_Nonnull parsedExpression,
                                         NSUInteger idx,
-                                        BOOL * _Nonnull stop) {
-        iTermExpressionEvaluator *innerEvaluator = [[iTermExpressionEvaluator alloc] initWithParsedExpression:parsedExpression
-                                                                                                   invocation:invocation
-                                                                                                        scope:self->_scope];
+          BOOL * _Nonnull stop) {
+              iTermExpressionEvaluator *innerEvaluator = [[iTermExpressionEvaluator alloc] initWithParsedExpression:parsedExpression
+                invocation:invocation
+                scope:self->_scope];
         [self->_innerEvaluators addObject:innerEvaluator];
         if (group) {
             dispatch_group_enter(group);
         }
         __block BOOL alreadyRun = NO;
-        [innerEvaluator evaluateWithTimeout:timeInterval completion:^(iTermExpressionEvaluator *evaluator){
-            assert(!alreadyRun);
-            alreadyRun = YES;
+        [innerEvaluator evaluateWithTimeout:timeInterval completion:^(iTermExpressionEvaluator *evaluator) {
+                           assert(!alreadyRun);
+                           alreadyRun = YES;
             [missing unionSet:evaluator.missingValues];
             if (evaluator.error) {
                 errorOut = evaluator.error;
@@ -365,7 +365,7 @@ static NSMutableArray *iTermExpressionEvaluatorGlobalStore(void) {
         }];
     }];
     if (group) {
-        dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        dispatch_group_notify(group, dispatch_get_main_queue(), ^ {
             completion(populatedArray, errorOut, missing);
         });
     } else {
@@ -385,8 +385,8 @@ static NSMutableArray *iTermExpressionEvaluatorGlobalStore(void) {
     NSArray *array = [NSArray castFrom:jsonObject];
     if (array) {
         return [NSString stringWithFormat:@"[%@]", [[array mapWithBlock:^id(id anObject) {
-            return [self stringFromJSONObject:anObject];
-        }] componentsJoinedByString:@", "]];
+                     return [self stringFromJSONObject:anObject];
+                 }] componentsJoinedByString:@", "]];
     }
 
     if ([NSNull castFrom:jsonObject] || !jsonObject) {
@@ -398,8 +398,8 @@ static NSMutableArray *iTermExpressionEvaluatorGlobalStore(void) {
 
 - (void)logError:(NSError *)error invocation:(NSString *)invocation {
     NSString *message =
-    [NSString stringWithFormat:@"Error evaluating expression %@: %@\n",
-     invocation, error.localizedDescription];
+        [NSString stringWithFormat:@"Error evaluating expression %@: %@\n",
+                  invocation, error.localizedDescription];
     [[iTermScriptHistoryEntry globalEntry] addOutput:message];
 }
 

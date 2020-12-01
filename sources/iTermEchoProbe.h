@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) BOOL isActive;
 
 - (void)beginProbeWithBackspace:(NSData *)backspaceData
-                       password:(NSString *)password;
+    password:(NSString *)password;
 - (void)updateEchoProbeStateWithTokenCVector:(CVector *)vector;
 - (void)enterPassword;
 

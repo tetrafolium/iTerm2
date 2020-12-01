@@ -18,7 +18,7 @@ NSString *const iTermStatusBarUnreadCountDidChange = @"iTermStatusBarUnreadCount
 + (instancetype)sharedInstance {
     static id instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -34,22 +34,22 @@ NSString *const iTermStatusBarUnreadCountDidChange = @"iTermStatusBarUnreadCount
 }
 
 - (void)setUnreadCountForComponentWithIdentifier:(NSString *)identifier
-                                           count:(NSInteger)count {
+    count:(NSInteger)count {
     _identifierToCount[identifier] = @(count);
     [[NSNotificationCenter defaultCenter] postNotificationName:iTermStatusBarUnreadCountDidChange
-                                                        object:identifier];
+                                          object:identifier];
 }
 
 - (void)setUnreadCountForComponentWithIdentifier:(NSString *)identifier
-                                           count:(NSInteger)count
-                                       sessionID:(NSString *)sessionID {
+    count:(NSInteger)count
+    sessionID:(NSString *)sessionID {
     _sessionAndIdentifierToCount[[iTermTuple tupleWithObject:sessionID andObject:identifier]] = @(count);
     [[NSNotificationCenter defaultCenter] postNotificationName:iTermStatusBarUnreadCountDidChange
-                                                        object:identifier];
+                                          object:identifier];
 }
 
 - (NSInteger)unreadCountForComponentWithIdentifier:(NSString *)identifier
-                                         sessionID:(NSString *)sessionID {
+    sessionID:(NSString *)sessionID {
     NSNumber *number = _sessionAndIdentifierToCount[[iTermTuple tupleWithObject:sessionID andObject:identifier]];
     if (number) {
         return [number integerValue];

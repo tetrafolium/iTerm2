@@ -22,7 +22,7 @@
 + (instancetype)keyClick {
     static iTermSoundPlayer *instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] initWithPath:[self keyClickPath]];
     });
     return instance;

@@ -72,7 +72,7 @@
 - (void)updateViewsEnabled {
     NSArray<NSView *> *buttons =
         @[ _pinned, _showAutoHiddenWindowOnAppActivation, _animate, _floats, _doNotShowOnDockClick,
-           _alwaysShowOnDockClick, _showIfNoWindowsOpenOnDockClick ];
+                    _alwaysShowOnDockClick, _showIfNoWindowsOpenOnDockClick ];
     for (NSButton *button in buttons) {
         button.enabled = self.model.hotKeyAssigned;
     }
@@ -103,17 +103,17 @@
     _floats.state = _model.floats ? NSControlStateValueOn : NSControlStateValueOff;
 
     switch (_model.dockPreference) {
-        case iTermHotKeyDockPreferenceDoNotShow:
-            _doNotShowOnDockClick.state = NSControlStateValueOn;
-            break;
+    case iTermHotKeyDockPreferenceDoNotShow:
+        _doNotShowOnDockClick.state = NSControlStateValueOn;
+        break;
 
-        case iTermHotKeyDockPreferenceAlwaysShow:
-            _alwaysShowOnDockClick.state = NSControlStateValueOn;
-            break;
+    case iTermHotKeyDockPreferenceAlwaysShow:
+        _alwaysShowOnDockClick.state = NSControlStateValueOn;
+        break;
 
-        case iTermHotKeyDockPreferenceShowIfNoOtherWindowsOpen:
-            _showIfNoWindowsOpenOnDockClick.state = NSControlStateValueOn;
-            break;
+    case iTermHotKeyDockPreferenceShowIfNoOtherWindowsOpen:
+        _showIfNoWindowsOpenOnDockClick.state = NSControlStateValueOn;
+        break;
     }
     [self updateViewsEnabled];
 }
@@ -157,13 +157,13 @@
     [_tableView reloadData];
     __weak __typeof(self) weakSelf = self;
     [self.window beginSheet:_editAdditionalWindow completionHandler:^(NSModalResponse returnCode) {
-        __strong __typeof(self) strongSelf = weakSelf;
-        if (!strongSelf) {
+                    __strong __typeof(self) strongSelf = weakSelf;
+                    if (!strongSelf) {
             return;
         }
         self.model.alternateShortcuts = [strongSelf->_mutableShortcuts filteredArrayUsingBlock:^BOOL(iTermShortcut *shortcut) {
-            return shortcut.charactersIgnoringModifiers.length > 0;
-        }];
+                                          return shortcut.charactersIgnoringModifiers.length > 0;
+                                      }];
         strongSelf->_mutableShortcuts = nil;
     }];
     [self updateAdditionalHotKeysViews];
@@ -211,7 +211,7 @@
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     return [iTermAdditionalHotKeyObjectValue objectValueWithShortcut:_mutableShortcuts[row]
-                                                    inUseDescriptors:self.descriptorsInUseByOtherProfiles];
+                                             inUseDescriptors:self.descriptorsInUseByOtherProfiles];
 }
 
 @end

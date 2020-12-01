@@ -28,15 +28,15 @@ NSString *const iTermEventTapEventTappedNotification = @"iTermEventTapEventTappe
         _types = types;
         _observers = [[NSMutableArray alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(secureInputDidChange:)
-                                                     name:iTermDidToggleSecureInputNotification
-                                                   object:nil];
+                                              selector:@selector(secureInputDidChange:)
+                                              name:iTermDidToggleSecureInputNotification
+                                              object:nil];
     }
     return self;
 }
 
 - (BOOL)isProcessTrustedWithPrompt:(BOOL)prompt {
-    return AXIsProcessTrustedWithOptions((__bridge CFDictionaryRef)@{(__bridge id)kAXTrustedCheckOptionPrompt: @(prompt)});
+    return AXIsProcessTrustedWithOptions((__bridge CFDictionaryRef)@ {(__bridge id)kAXTrustedCheckOptionPrompt: @(prompt)});
 }
 
 - (void)secureInputDidChange:(NSNotification *)notification {
@@ -128,8 +128,8 @@ static CGEventRef iTermEventTapCallback(CGEventTapProxy proxy,
 }
 
 - (CGEventRef)eventTapCallbackWithProxy:(CGEventTapProxy)proxy
-                                   type:(CGEventType)type
-                                  event:(CGEventRef)event {
+    type:(CGEventType)type
+    event:(CGEventRef)event {
     DLog(@"Event tap running");
     if (type == kCGEventTapDisabledByTimeout || type == kCGEventTapDisabledByUserInput) {
         DLog(@"Event tap disabled (type is %@)", @(type));
@@ -172,8 +172,8 @@ static CGEventRef iTermEventTapCallback(CGEventTapProxy proxy,
 
 - (void)pruneReleasedObservers {
     [_observers removeObjectsPassingTest:^BOOL(iTermWeakReference<id<iTermEventTapObserver>> *anObject) {
-        return anObject.weaklyReferencedObject == nil;
-    }];
+                   return anObject.weaklyReferencedObject == nil;
+               }];
 }
 
 - (void)reEnable {
@@ -188,7 +188,7 @@ static CGEventRef iTermEventTapCallback(CGEventTapProxy proxy,
     sessionInfoDict = CGSessionCopyCurrentDictionary();
     if (sessionInfoDict) {
         NSNumber *userIsActiveNumber = CFDictionaryGetValue(sessionInfoDict,
-                                                            kCGSessionOnConsoleKey);
+                                       kCGSessionOnConsoleKey);
         if (!userIsActiveNumber) {
             CFRelease(sessionInfoDict);
             return YES;
@@ -229,7 +229,7 @@ static CGEventRef iTermEventTapCallback(CGEventTapProxy proxy,
     if (!_machPort) {
         XLog(@"CGEventTapCreate failed");
         AppendPinnedDebugLogMessage(@"EventTap", @"CGEventTapCreate failed");
-        AXIsProcessTrustedWithOptions((__bridge CFDictionaryRef)@{(__bridge id)kAXTrustedCheckOptionPrompt: @YES});
+        AXIsProcessTrustedWithOptions((__bridge CFDictionaryRef)@ {(__bridge id)kAXTrustedCheckOptionPrompt: @YES});
         goto error;
     }
 
@@ -280,7 +280,7 @@ error:
     if (!createIfNeeded) {
         return instance;
     }
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[iTermFlagsChangedEventTap alloc] initPrivate];
     });
     return instance;
@@ -289,7 +289,7 @@ error:
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     static id instance;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[iTermFlagsChangedEventTap alloc] initPrivate];
     });
     return instance;
@@ -301,8 +301,8 @@ error:
         self.remappingDelegate = self;
         __weak __typeof(self) weakSelf = self;
         [iTermFlagsChangedNotification subscribe:self block:^(iTermFlagsChangedNotification * _Nonnull notification) {
-            [weakSelf flagsDidChange:notification];
-        }];
+                                          [weakSelf flagsDidChange:notification];
+                                      }];
     }
     return self;
 }

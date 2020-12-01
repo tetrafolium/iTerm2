@@ -50,9 +50,9 @@ static iTermLABColor BackgroundLAB(LightnessAndAngle laa) {
 @implementation iTermColorSuggester
 
 - (instancetype)initWithDefaultTextColor:(NSColor *)defaultTextColor
-                  defaultBackgroundColor:(NSColor *)defaultBackgroundColor
-                       minimumDifference:(CGFloat)minimumDifference
-                                    seed:(long)seed {
+    defaultBackgroundColor:(NSColor *)defaultBackgroundColor
+    minimumDifference:(CGFloat)minimumDifference
+    seed:(long)seed {
     self = [super init];
     if (self) {
         const iTermLABColor defaultBackgroundLAB = [defaultBackgroundColor labColor];

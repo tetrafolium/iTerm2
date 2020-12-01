@@ -18,7 +18,7 @@
 static dispatch_queue_t iTermPathFinderQueue(void) {
     static dispatch_queue_t queue;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         queue = dispatch_queue_create("com.iterm2.path-finder", DISPATCH_QUEUE_SERIAL);
     });
     return queue;
@@ -36,9 +36,9 @@ static dispatch_queue_t iTermPathFinderQueue(void) {
 }
 
 - (instancetype)initWithPrefix:(NSString *)beforeStringIn
-                        suffix:(NSString *)afterStringIn
-              workingDirectory:(NSString *)workingDirectory
-                trimWhitespace:(BOOL)trimWhitespace {
+    suffix:(NSString *)afterStringIn
+    workingDirectory:(NSString *)workingDirectory
+    trimWhitespace:(BOOL)trimWhitespace {
     self = [super init];
     if (self) {
         _beforeStringIn = [beforeStringIn copy];
@@ -55,7 +55,7 @@ static dispatch_queue_t iTermPathFinderQueue(void) {
 }
 
 - (void)searchWithCompletion:(void (^)(void))completion {
-    dispatch_async(iTermPathFinderQueue(), ^{
+    dispatch_async(iTermPathFinderQueue(), ^ {
         [self searchSynchronously];
         dispatch_async(dispatch_get_main_queue(), ^{
             completion();
@@ -124,7 +124,7 @@ static dispatch_queue_t iTermPathFinderQueue(void) {
             // with the suffix is always preferred if it exists.
             static NSArray *questionableSuffixes;
             static dispatch_once_t onceToken;
-            dispatch_once(&onceToken, ^{
+            dispatch_once(&onceToken, ^ {
                 questionableSuffixes = @[ @"!", @"?", @".", @",", @";", @":", @"...", @"…" ];
             });
             for (NSString *modifiedPossiblePath in [self pathsFromPath:trimmedPath byRemovingBadSuffixes:questionableSuffixes]) {
@@ -135,8 +135,8 @@ static dispatch_queue_t iTermPathFinderQueue(void) {
                 BOOL exists = NO;
                 if (workingDirectoryIsOk || [modifiedPossiblePath hasPrefix:@"/"]) {
                     iTermPathCleaner *cleaner = [[iTermPathCleaner alloc] initWithPath:modifiedPossiblePath
-                                                                                suffix:nil
-                                                                      workingDirectory:_workingDirectory];
+                                                                          suffix:nil
+                                                                          workingDirectory:_workingDirectory];
                     cleaner.fileManager = self.fileManager;
                     [cleaner cleanSynchronously];
                     exists = (cleaner.cleanPath != nil);
@@ -150,7 +150,7 @@ static dispatch_queue_t iTermPathFinderQueue(void) {
                     [right appendString:extra];
 
                     if (_trimWhitespace &&
-                        [[right stringByTrimmingTrailingCharactersFromCharacterSet:whitespaceCharset] length] == 0) {
+                            [[right stringByTrimmingTrailingCharactersFromCharacterSet:whitespaceCharset] length] == 0) {
                         // trimmedPath is trim(left + right). If trim(right) is empty
                         // then we don't want to count trailing whitespace from left in the chars
                         // taken from prefix.
@@ -187,7 +187,7 @@ static dispatch_queue_t iTermPathFinderQueue(void) {
 
 - (BOOL)fileExistsAtPathLocally:(NSString *)path {
     _workingDirectoryIsLocal = [self.fileManager fileIsLocal:path
-                                      additionalNetworkPaths:[[iTermAdvancedSettingsModel pathsToIgnore] componentsSeparatedByString:@","]];
+                                                 additionalNetworkPaths:[[iTermAdvancedSettingsModel pathsToIgnore] componentsSeparatedByString:@","]];
     if (!_workingDirectoryIsLocal) {
         return NO;
     }
@@ -205,18 +205,18 @@ static dispatch_queue_t iTermPathFinderQueue(void) {
     NSMutableArray<NSString *> *parts = [NSMutableArray array];
     __block NSRange lastRange = NSMakeRange(0, 0);
     [string enumerateStringsMatchedByRegex:@"([^\t ():\",]*)([\t ():\",])"
-                                   options:0
-                                   inRange:NSMakeRange(0, string.length)
-                                     error:nil
-                        enumerationOptions:0
-                                usingBlock:^(NSInteger captureCount,
-                                             NSString *const __unsafe_unretained *capturedStrings,
-                                             const NSRange *capturedRanges,
-                                             volatile BOOL *const stop) {
-                                    [parts addObject:capturedStrings[1]];
-                                    [parts addObject:capturedStrings[2]];
-                                    lastRange = capturedRanges[2];
-                                }];
+            options:0
+            inRange:NSMakeRange(0, string.length)
+            error:nil
+            enumerationOptions:0
+            usingBlock:^(NSInteger captureCount,
+                  NSString *const __unsafe_unretained *capturedStrings,
+                  const NSRange *capturedRanges,
+           volatile BOOL *const stop) {
+               [parts addObject:capturedStrings[1]];
+        [parts addObject:capturedStrings[2]];
+        lastRange = capturedRanges[2];
+    }];
     const NSInteger suffixStartIndex = NSMaxRange(lastRange);
     if (suffixStartIndex < string.length) {
         [parts addObject:[string substringFromIndex:suffixStartIndex]];

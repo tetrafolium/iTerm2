@@ -23,7 +23,7 @@
 }
 
 + (void)subscribe:(NSObject *)owner
-            block:(void (^)(iTermMultiServerChildDidTerminateNotification * _Nonnull notification))block {
+    block:(void (^)(iTermMultiServerChildDidTerminateNotification * _Nonnull notification))block {
     [self internalSubscribe:owner withBlock:block];
 }
 

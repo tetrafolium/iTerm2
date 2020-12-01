@@ -27,8 +27,8 @@ static void APSWriteToScriptHistory(id<iTermAutomaticProfileSwitcherDelegate> de
     NSString *string = [[NSString alloc] initWithFormat:format arguments:args];
     va_end(args);
     NSString *output = [NSString stringWithFormat:@"[%@] %@\n",
-                        [delegate automaticProfileSwitcherSessionName],
-                        string];
+                                 [delegate automaticProfileSwitcherSessionName],
+                                 string];
     [[iTermScriptHistoryEntry apsEntry] addOutput:output];
 }
 
@@ -54,9 +54,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSDictionary *)savedState {
-    return @{ kProfileKey: _profile,
-              kOriginalProfileKey: _originalProfile ?: [NSNull null],
-              kOverriddenFieldsKey: _overriddenFields ?: [NSNull null] };
+    return @ { kProfileKey:
+               _profile,
+               kOriginalProfileKey:
+               _originalProfile ?: [NSNull null],
+               kOverriddenFieldsKey: _overriddenFields ?: [NSNull null]
+             };
 }
 
 @end
@@ -85,7 +88,7 @@ static NSString *const kStackKey = @"Profile Stack";
 }
 
 - (instancetype)initWithDelegate:(id<iTermAutomaticProfileSwitcherDelegate>)delegate
-                      savedState:(NSDictionary *)savedState {
+    savedState:(NSDictionary *)savedState {
     self = [self initWithDelegate:delegate];
     if (self) {
         for (NSDictionary *dict in savedState[kStackKey]) {
@@ -102,9 +105,9 @@ static NSString *const kStackKey = @"Profile Stack";
 
 - (void)commonInit {
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(reloadAllProfiles)
-                                                 name:kReloadAllProfiles
-                                               object:nil];
+                                          selector:@selector(reloadAllProfiles)
+                                          name:kReloadAllProfiles
+                                          object:nil];
 }
 
 - (void)reloadAllProfiles {
@@ -115,9 +118,9 @@ static NSString *const kStackKey = @"Profile Stack";
 #pragma mark - APIs
 
 - (void)setHostname:(nullable NSString *)hostname
-           username:(nullable NSString *)username
-               path:(nullable NSString *)path
-                job:(nullable NSString *)job {
+    username:(nullable NSString *)username
+    path:(nullable NSString *)path
+    job:(nullable NSString *)job {
     APSLog(@"APS: Updating configuration to hostname=%@, username=%@, path=%@, job=%@",
            hostname, username, path, job);
     if (_switching) {
@@ -126,11 +129,11 @@ static NSString *const kStackKey = @"Profile Stack";
     }
     NSString *guid = [self.delegate automaticProfileSwitcherCurrentProfile][KEY_GUID];
     if (!_dirty &&
-        [hostname isEqualToString:_lastHostname] &&
-        [username isEqualToString:_lastUsername] &&
-        [path isEqualToString:_lastPath] &&
-        [job isEqualToString:_lastJob] &&
-        [_lastProfileGUID isEqualToString:guid]) {
+            [hostname isEqualToString:_lastHostname] &&
+            [username isEqualToString:_lastUsername] &&
+            [path isEqualToString:_lastPath] &&
+            [job isEqualToString:_lastJob] &&
+            [_lastProfileGUID isEqualToString:guid]) {
         APSLog(@"Nothing changed.");
         return;
     }
@@ -145,17 +148,17 @@ static NSString *const kStackKey = @"Profile Stack";
 
     Profile *currentProfile = [_delegate automaticProfileSwitcherCurrentProfile];
     double scoreForCurrentProfile = [self highestScoreForProfile:currentProfile
-                                                        hostname:hostname
-                                                        username:username
-                                                            path:path
-                                                             job:job];
+                                          hostname:hostname
+                                          username:username
+                                          path:path
+                                          job:job];
     double scoreForTopmostMatchingSavedProfile = 0;
     iTermSavedProfile *topmostMatchingSavedProfile =
         [self topmostSavedProfileMatchingHostname:hostname
-                                         username:username
-                                             path:path
-                                              job:job
-                                            score:&scoreForTopmostMatchingSavedProfile];
+              username:username
+              path:path
+              job:job
+              score:&scoreForTopmostMatchingSavedProfile];
     APSLog(@"The current profile is %@ with a score of %0.2f. The highest-ranking profile in the stack is %@, with score of %0.2f",
            currentProfile[KEY_NAME],
            scoreForCurrentProfile,
@@ -163,8 +166,8 @@ static NSString *const kStackKey = @"Profile Stack";
            scoreForTopmostMatchingSavedProfile);
 
     if (topmostMatchingSavedProfile &&
-        ![topmostMatchingSavedProfile.originalProfile isEqualToProfile:currentProfile] &&
-        scoreForTopmostMatchingSavedProfile > scoreForCurrentProfile) {
+            ![topmostMatchingSavedProfile.originalProfile isEqualToProfile:currentProfile] &&
+            scoreForTopmostMatchingSavedProfile > scoreForCurrentProfile) {
         APSLog(@"Profile %@ is in the stack and outranks the current profile. Will switch, but first, remove it and subsequent entries from the stack.", topmostMatchingSavedProfile.profile[KEY_NAME]);
         while (_profileStack.lastObject.originalProfile == topmostMatchingSavedProfile.originalProfile) {
             APSLog(@"Pop");
@@ -177,11 +180,11 @@ static NSString *const kStackKey = @"Profile Stack";
         APSLog(@"No profile in the stack outranks the current profile. Check if any profile not in the stack outranks the current profile.");
         double scoreOfHighestScoringProfile = 0;
         Profile *highestScoringProfile = [self highestScoringProfileForHostname:hostname
-                                                                       username:username
-                                                                           path:path
-                                                                            job:job
-                                                                         sticky:&sticky
-                                                                          score:&scoreOfHighestScoringProfile];
+                                               username:username
+                                               path:path
+                                               job:job
+                                               sticky:&sticky
+                                               score:&scoreOfHighestScoringProfile];
         APSLog(@"The highest scoring profile is %@ with a score of %@",
                highestScoringProfile[KEY_NAME],
                @(scoreOfHighestScoringProfile));
@@ -232,14 +235,14 @@ static NSString *const kStackKey = @"Profile Stack";
     for (iTermSavedProfile *savedProfile in _profileStack) {
         [stack addObject:savedProfile.savedState];
     }
-    return @{ kStackKey: stack };
+    return @ { kStackKey: stack };
 }
 
 #pragma mark - Diagnostics
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p stack=%@>",
-            NSStringFromClass(self.class), self, self.profileStackString];
+                     NSStringFromClass(self.class), self, self.profileStackString];
 }
 
 - (NSString *)profileStackString {
@@ -254,11 +257,11 @@ static NSString *const kStackKey = @"Profile Stack";
 
 // Search all the profiles for one that is the best match for the current configuration.
 - (nullable Profile *)highestScoringProfileForHostname:(NSString *)hostname
-                                              username:(NSString *)username
-                                                  path:(NSString *)path
-                                                   job:(NSString *)job
-                                                sticky:(BOOL *)sticky
-                                                 score:(double *)scorePtr {
+    username:(NSString *)username
+    path:(NSString *)path
+    job:(NSString *)job
+    sticky:(BOOL *)sticky
+    score:(double *)scorePtr {
     // Construct a map from host binding to profile. This could be expensive with a lot of profiles
     // but it should be fairly rare for this code to run.
     NSMutableDictionary<NSString *, Profile *> *ruleToProfileMap = [NSMutableDictionary dictionary];
@@ -300,16 +303,16 @@ static NSString *const kStackKey = @"Profile Stack";
         APSLog(@"Stack is now: %@", [self profileStackString]);
     } else {
         APSLog(@"Not pushing profile %@ because it matches the top of the stack.",
-             _delegate.automaticProfileSwitcherCurrentProfile[KEY_NAME]);
+               _delegate.automaticProfileSwitcherCurrentProfile[KEY_NAME]);
     }
 }
 
 // Does any rule in |candidate| match the current configuration?
 - (double)highestScoreForProfile:(Profile *)candidate
-                        hostname:(NSString *)hostname
-                        username:(NSString *)username
-                            path:(NSString *)path
-                             job:(NSString *)job {
+    hostname:(NSString *)hostname
+    username:(NSString *)username
+    path:(NSString *)path
+    job:(NSString *)job {
     double highestScore = 0;
     for (NSString *ruleString in candidate[KEY_BOUND_HOSTS]) {
         iTermRule *rule = [iTermRule ruleWithString:ruleString];
@@ -322,10 +325,10 @@ static NSString *const kStackKey = @"Profile Stack";
 // Search the stack (without modifying it) and return a saved profile that matches the current
 // configuration, or nil if none matches.
 - (nullable iTermSavedProfile *)topmostSavedProfileMatchingHostname:(NSString *)hostname
-                                                           username:(NSString *)username
-                                                               path:(NSString *)path
-                                                                job:(NSString *)job
-                                                              score:(double *)scorePtr {
+    username:(NSString *)username
+    path:(NSString *)path
+    job:(NSString *)job
+    score:(double *)scorePtr {
     for (iTermSavedProfile *savedProfile in [_profileStack reverseObjectEnumerator]) {
         double score = [self highestScoreForProfile:savedProfile.profile hostname:hostname username:username path:path job:job];
         if (score > 0) {

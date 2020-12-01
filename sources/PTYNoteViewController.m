@@ -101,10 +101,10 @@ static const CGFloat kBottomPadding = 3;
     scrollView_.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 
     self.textView = [[[NSTextView alloc] initWithFrame:NSMakeRect(0,
-                                                                  0,
-                                                                  scrollView_.contentSize.width,
-                                                                  scrollView_.contentSize.height)]
-                     autorelease];
+                                          0,
+                                          scrollView_.contentSize.width,
+                                          scrollView_.contentSize.height)]
+                                         autorelease];
     textView_.allowsUndo = YES;
     textView_.minSize = scrollView_.frame.size;
     textView_.maxSize = NSMakeSize(FLT_MAX, FLT_MAX);
@@ -177,9 +177,9 @@ static const CGFloat kBottomPadding = 3;
     watchForUpdate_ = watchForUpdate;
     if (watchForUpdate) {
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(checkForUpdate)
-                                                     name:PTYNoteViewControllerShouldUpdatePosition
-                                                   object:nil];
+                                              selector:@selector(checkForUpdate)
+                                              name:PTYNoteViewControllerShouldUpdatePosition
+                                              object:nil];
     } else {
         [[NSNotificationCenter defaultCenter] removeObserver:self];
     }
@@ -203,12 +203,12 @@ static const CGFloat kBottomPadding = 3;
     hidden_ = hidden;
     [noteView_ setHidden:NO];
     [NSView animateWithDuration:0.25
-                     animations:^{
-                         [noteView_.animator setAlphaValue:(hidden ? 0 : 1)];
-                     }
-                     completion:^(BOOL finished) {
-                         [self finalizeToggleOfHide:hidden];
-                     }];
+           animations:^ {
+               [noteView_.animator setAlphaValue:(hidden ? 0 : 1)];
+           }
+           completion:^(BOOL finished) {
+        [self finalizeToggleOfHide:hidden];
+    }];
     if (!hidden) {
         gVisibleNotes++;
         if (gVisibleNotes == 1) {
@@ -255,10 +255,10 @@ static const CGFloat kBottomPadding = 3;
 
     NSSize scrollViewSize = [NSScrollView frameSizeForContentSize:usedRect.size
                                           horizontalScrollerClass:[[scrollView_ horizontalScroller] class]
-                                            verticalScrollerClass:[[scrollView_ verticalScroller] class]
-                                                       borderType:NSNoBorder
-                                                      controlSize:NSControlSizeRegular
-                                                    scrollerStyle:[scrollView_ scrollerStyle]];
+                                          verticalScrollerClass:[[scrollView_ verticalScroller] class]
+                                          borderType:NSNoBorder
+                                          controlSize:NSControlSizeRegular
+                                          scrollerStyle:[scrollView_ scrollerStyle]];
     NSRect theFrame = NSMakeRect(NSMinX(scrollView_.frame),
                                  NSMinY(scrollView_.frame),
                                  scrollViewSize.width,
@@ -334,7 +334,7 @@ static const CGFloat kBottomPadding = 3;
 #pragma mark - IntervalTreeObject
 
 - (NSDictionary *)dictionaryValue {
-    return @{ kNoteViewTextKey: textView_.string ?: @"" };
+    return @ { kNoteViewTextKey: textView_.string ?: @"" };
 }
 
 @end

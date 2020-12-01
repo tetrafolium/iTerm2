@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface iTermCache<KeyType, ValueType>: NSObject
+@interface iTermCache<KeyType, ValueType> : NSObject
 
 - (instancetype)initWithCapacity:(NSInteger)capacity NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;

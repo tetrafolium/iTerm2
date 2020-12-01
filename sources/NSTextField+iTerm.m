@@ -71,7 +71,7 @@
 
 - (int)separatorTolerantIntValue {
     NSString *digits = [[self stringValue] stringByReplacingOccurrencesOfRegex:@"[^0-9]"
-                                                                    withString:@""];
+                                           withString:@""];
     if ([[self stringValue] hasPrefix:@"-"]) {
         return -[digits intValue];
     } else {
@@ -81,7 +81,7 @@
 
 - (NSUInteger)separatorTolerantUnsignedIntegerValue {
     NSString *digits = [[self stringValue] stringByReplacingOccurrencesOfRegex:@"[^0-9]"
-                                                                    withString:@""];
+                                           withString:@""];
     return [digits iterm_unsignedIntegerValue];
 }
 
@@ -94,10 +94,15 @@
     // According to Apple these two are needed to make it clickable.
     link.allowsEditingTextAttributes = YES;
     link.selectable = YES;
-    NSDictionary *attributes = @{ NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle),
-                                  NSForegroundColorAttributeName: [NSColor colorWithCalibratedRed:0 green:0 blue:0.93 alpha:1],
-                                  NSCursorAttributeName: [NSCursor pointingHandCursor],
-                                  NSLinkAttributeName: url };
+    NSDictionary *attributes = @ { NSUnderlineStyleAttributeName:
+                                   @(NSUnderlineStyleSingle),
+                                   NSForegroundColorAttributeName:
+                                   [NSColor colorWithCalibratedRed:0 green:0 blue:0.93 alpha:1],
+                                   NSCursorAttributeName:
+                                   [NSCursor pointingHandCursor],
+                                   NSLinkAttributeName:
+                                   url
+                                 };
     NSMutableAttributedString *attributedString = [[self.attributedStringValue mutableCopy] autorelease];
     for (NSString *key in attributes) {
         [attributedString addAttribute:key value:attributes[key] range:NSMakeRange(0, [attributedString length])];

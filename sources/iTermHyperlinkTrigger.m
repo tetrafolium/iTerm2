@@ -38,32 +38,32 @@
 }
 
 - (BOOL)performActionWithCapturedStrings:(NSString *const *)capturedStrings
-                          capturedRanges:(const NSRange *)capturedRanges
-                            captureCount:(NSInteger)captureCount
-                               inSession:(PTYSession *)aSession
-                                onString:(iTermStringLine *)stringLine
-                    atAbsoluteLineNumber:(long long)lineNumber
-                        useInterpolation:(BOOL)useInterpolation
-                                    stop:(BOOL *)stop {
+    capturedRanges:(const NSRange *)capturedRanges
+    captureCount:(NSInteger)captureCount
+    inSession:(PTYSession *)aSession
+    onString:(iTermStringLine *)stringLine
+    atAbsoluteLineNumber:(long long)lineNumber
+    useInterpolation:(BOOL)useInterpolation
+    stop:(BOOL *)stop {
     const NSRange rangeInString = capturedRanges[0];
-    
+
     [self paramWithBackreferencesReplacedWithValues:capturedStrings
-                                              count:captureCount
-                                              scope:aSession.variablesScope
-                                   useInterpolation:useInterpolation
-                                         completion:^(NSString *urlString) {
-                                             [self performActionWithURLString:urlString
-                                                                        range:rangeInString
-                                                                      session:aSession
-                                                           absoluteLineNumber:lineNumber];
-                                         }];
+          count:captureCount
+          scope:aSession.variablesScope
+          useInterpolation:useInterpolation
+         completion:^(NSString *urlString) {
+             [self performActionWithURLString:urlString
+              range:rangeInString
+              session:aSession
+              absoluteLineNumber:lineNumber];
+         }];
     return YES;
 }
 
 - (void)performActionWithURLString:(NSString *)urlString
-                             range:(NSRange)rangeInString
-                           session:(PTYSession *)aSession
-                absoluteLineNumber:(long long)lineNumber {
+    range:(NSRange)rangeInString
+    session:(PTYSession *)aSession
+    absoluteLineNumber:(long long)lineNumber {
     NSURL *url = urlString.length ? [NSURL URLWithUserSuppliedString:urlString] : nil;
     if (!url) {
         return;
@@ -71,16 +71,16 @@
 
     // add URL to URL Store and retrieve URL code for later reference
     unsigned short code = [[iTermURLStore sharedInstance] codeForURL:url withParams:@""];
-    
+
     // add url link to screen
     [[aSession screen] linkTextInRange:rangeInString
-             basedAtAbsoluteLineNumber:lineNumber
-                               URLCode:code];
-    
+                       basedAtAbsoluteLineNumber:lineNumber
+                       URLCode:code];
+
     // add invisible URL Mark so the URL can automatically freed
     iTermURLMark *mark = [aSession.screen addMarkStartingAtAbsoluteLine:lineNumber
-                                                                oneLine:YES
-                                                                ofClass:[iTermURLMark class]];
+                                          oneLine:YES
+                                          ofClass:[iTermURLMark class]];
     mark.code = code;
 }
 

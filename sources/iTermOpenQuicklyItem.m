@@ -57,7 +57,7 @@
 @implementation iTermOpenQuicklyArrangementItem
 
 - (NSImage *)icon {
-  return [NSImage it_imageNamed:@"restore-arrangement" forClass:self.class];
+    return [NSImage it_imageNamed:@"restore-arrangement" forClass:self.class];
 }
 
 @end
@@ -78,7 +78,8 @@
 
 @end
 
-@implementation iTermOpenQuicklyActionItem : iTermOpenQuicklyItem
+@implementation iTermOpenQuicklyActionItem :
+iTermOpenQuicklyItem
 
 - (NSImage *)icon {
     return [NSImage it_imageNamed:@"OpenQuicklyActionIcon" forClass:self.class];
@@ -86,7 +87,8 @@
 
 @end
 
-@implementation iTermOpenQuicklySnippetItem : iTermOpenQuicklyItem
+@implementation iTermOpenQuicklySnippetItem :
+iTermOpenQuicklyItem
 
 - (NSImage *)icon {
     return [NSImage it_imageNamed:@"OpenQuicklySnippetIcon" forClass:self.class];

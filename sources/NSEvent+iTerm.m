@@ -25,13 +25,13 @@
     globalCoord.y += windowOrigin.y;
 
     CGEventRef fakeCgEvent = CGEventCreateMouseEvent(NULL,
-                                                     eventType,
-                                                     globalCoord,
-                                                     2);
+                             eventType,
+                             globalCoord,
+                             2);
     int64_t clickCount = 1;
     if (self.type == NSEventTypeLeftMouseDown || self.type == NSEventTypeLeftMouseUp ||
-        self.type == NSEventTypeRightMouseDown || self.type == NSEventTypeRightMouseUp ||
-        self.type == NSEventTypeOtherMouseDown || self.type == NSEventTypeOtherMouseUp) {
+            self.type == NSEventTypeRightMouseDown || self.type == NSEventTypeRightMouseUp ||
+            self.type == NSEventTypeOtherMouseDown || self.type == NSEventTypeOtherMouseUp) {
         clickCount = [self clickCount];
     }
     CGEventSetIntegerValueField(fakeCgEvent, kCGMouseEventClickState, clickCount);
@@ -51,14 +51,14 @@
 
 - (NSEvent *)eventWithButtonNumber:(NSInteger)buttonNumber {
     NSEvent *original = [NSEvent mouseEventWithType:NSEventTypeOtherMouseDown
-                                           location:self.locationInWindow
-                                      modifierFlags:self.modifierFlags
-                                          timestamp:self.timestamp
-                                       windowNumber:self.windowNumber
-                                            context:[NSGraphicsContext currentContext]
-                                        eventNumber:self.eventNumber
-                                         clickCount:self.clickCount
-                                           pressure:self.pressure];
+                                 location:self.locationInWindow
+                                 modifierFlags:self.modifierFlags
+                                 timestamp:self.timestamp
+                                 windowNumber:self.windowNumber
+                                 context:[NSGraphicsContext currentContext]
+                                 eventNumber:self.eventNumber
+                                 clickCount:self.clickCount
+                                 pressure:self.pressure];
     CGEventRef cgEvent = [original CGEvent];
     CGEventRef modifiedCGEvent = CGEventCreateCopy(cgEvent);
     CGEventSetIntegerValueField(modifiedCGEvent, kCGMouseEventButtonNumber, buttonNumber);
@@ -71,21 +71,21 @@
     if (![iTermAdvancedSettingsModel workAroundNumericKeypadBug]) {
         return self.modifierFlags;
     }
-    
+
     switch (self.type) {
-        case NSEventTypeKeyUp:
-        case NSEventTypeKeyDown:
-            break;
-        default:
-            return self.modifierFlags;
+    case NSEventTypeKeyUp:
+    case NSEventTypeKeyDown:
+        break;
+    default:
+        return self.modifierFlags;
     }
 
     switch (self.keyCode) {
-        case kVK_ANSI_KeypadEquals:
-            return self.modifierFlags | NSEventModifierFlagNumericPad;
-            
-        default:
-            return self.modifierFlags;
+    case kVK_ANSI_KeypadEquals:
+        return self.modifierFlags | NSEventModifierFlagNumericPad;
+
+    default:
+        return self.modifierFlags;
     }
 }
 
@@ -103,7 +103,7 @@
     // Mouse wheel
     CGEventRef cgEvent = self.CGEvent;
     const double originalDeltaY = CGEventGetDoubleValueField(cgEvent,
-                                                             kCGScrollWheelEventFixedPtDeltaAxis1);
+                                  kCGScrollWheelEventFixedPtDeltaAxis1);
     if (round(originalDeltaY) != 0) {
         return self;
     }

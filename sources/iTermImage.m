@@ -35,7 +35,7 @@ static NSDictionary *GIFProperties(CGImageSourceRef source, size_t i) {
     CFDictionaryRef const properties = CGImageSourceCopyPropertiesAtIndex(source, i, NULL);
     if (properties) {
         NSDictionary *gifProperties = (NSDictionary *)CFDictionaryGetValue(properties,
-                                                                           kCGImagePropertyGIFDictionary);
+                                      kCGImagePropertyGIFDictionary);
         gifProperties = [gifProperties copy];
         CFRelease(properties);
         return gifProperties;
@@ -48,7 +48,7 @@ static NSTimeInterval DelayInGifProperties(NSDictionary *gifProperties) {
     NSTimeInterval delay = 0.01;
     if (gifProperties) {
         NSNumber *number = (id)CFDictionaryGetValue((CFDictionaryRef)gifProperties,
-                                                    kCGImagePropertyGIFUnclampedDelayTime);
+                           kCGImagePropertyGIFUnclampedDelayTime);
         if (number == NULL || [number doubleValue] == 0) {
             number = (id)CFDictionaryGetValue((CFDictionaryRef)gifProperties,
                                               kCGImagePropertyGIFDelayTime);
@@ -74,8 +74,8 @@ static NSTimeInterval DelayInGifProperties(NSDictionary *gifProperties) {
 + (instancetype)imageWithCompressedData:(NSData *)compressedData {
     char *bytes = (char *)compressedData.bytes;
     if (compressedData.length > 2 &&
-        bytes[0] == 27 &&
-        bytes[1] == 'P') {
+            bytes[0] == 27 &&
+            bytes[1] == 'P') {
         return [[iTermImage alloc] initWithSixelData:compressedData];
     }
 #if DECODE_IMAGES_IN_PROCESS
@@ -84,7 +84,7 @@ static NSTimeInterval DelayInGifProperties(NSDictionary *gifProperties) {
 #else
     iTermImageDecoderDriver *driver = [[iTermImageDecoderDriver alloc] init];
     NSData *jsonData = [driver jsonForCompressedImageData:compressedData
-                                                     type:@"image/*"];
+                               type:@"image/*"];
     if (jsonData) {
         return [[iTermImage alloc] initWithJson:jsonData];
     } else {
@@ -100,7 +100,7 @@ static NSTimeInterval DelayInGifProperties(NSDictionary *gifProperties) {
 - (instancetype)initWithSixelData:(NSData *)sixel {
     iTermImageDecoderDriver *driver = [[iTermImageDecoderDriver alloc] init];
     NSData *jsonData = [driver jsonForCompressedImageData:sixel
-                                                     type:@"image/x-sixel"];
+                               type:@"image/x-sixel"];
     if (!jsonData) {
         return nil;
     }
@@ -122,7 +122,7 @@ static NSTimeInterval DelayInGifProperties(NSDictionary *gifProperties) {
     if (self) {
         NSImage *image = [[NSImage alloc] initWithData:data];
         CGImageSourceRef source = CGImageSourceCreateWithData((CFDataRef)data,
-                                                              (CFDictionaryRef)@{});
+                                  (CFDictionaryRef)@ {});
         size_t count = CGImageSourceGetCount(source);
         NSImageRep *rep = [[image representations] firstObject];
         NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
@@ -159,8 +159,8 @@ static NSTimeInterval DelayInGifProperties(NSDictionary *gifProperties) {
                 for (size_t i = 0; i < count; ++i) {
                     CGImageRef imageRef = CGImageSourceCreateImageAtIndex(source, i, NULL);
                     NSImage *image = [[NSImage alloc] initWithCGImage:imageRef
-                                                                 size:NSMakeSize(CGImageGetWidth(imageRef),
-                                                                                 CGImageGetHeight(imageRef))];
+                                                      size:NSMakeSize(CGImageGetWidth(imageRef),
+                                                      CGImageGetHeight(imageRef))];
                     if (!image) {
                         if (imageRef) {
                             CFRelease(imageRef);
@@ -227,7 +227,7 @@ static NSTimeInterval DelayInGifProperties(NSDictionary *gifProperties) {
 
         _size = NSMakeSize([size[0] doubleValue], [size[1] doubleValue]);
         if (_size.width <= 0 || _size.width >= kMaxDimension ||
-            _size.height <= 0 || _size.height >= kMaxDimension) {
+                _size.height <= 0 || _size.height >= kMaxDimension) {
             DLog(@"Bogus size %@", NSStringFromSize(_size));
             return nil;
         }
@@ -257,11 +257,11 @@ static NSTimeInterval DelayInGifProperties(NSDictionary *gifProperties) {
             }
 
             NSImage *image = [NSImage imageWithRawData:data
-                                                  size:_size
-                                         bitsPerSample:8
-                                       samplesPerPixel:4
-                                              hasAlpha:YES
-                                        colorSpaceName:NSDeviceRGBColorSpace];
+                                      size:_size
+                                      bitsPerSample:8
+                                      samplesPerPixel:4
+                                      hasAlpha:YES
+                                      colorSpaceName:NSDeviceRGBColorSpace];
             if (!image) {
                 DLog(@"Failed to create NSImage from data");
                 return nil;

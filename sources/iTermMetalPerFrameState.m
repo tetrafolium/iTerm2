@@ -65,7 +65,9 @@ typedef struct {
 } iTermBackgroundColorKey;
 
 static vector_float4 VectorForColor(NSColor *color) {
-    return (vector_float4) { color.redComponent, color.greenComponent, color.blueComponent, color.alphaComponent };
+    return (vector_float4) {
+        color.redComponent, color.greenComponent, color.blueComponent, color.alphaComponent
+    };
 }
 
 static NSColor *ColorForVector(vector_float4 v) {
@@ -122,9 +124,9 @@ typedef struct {
 }
 
 - (instancetype)initWithTextView:(PTYTextView *)textView
-                          screen:(VT100Screen *)screen
-                            glue:(id<iTermMetalPerFrameStateDelegate>)glue
-                         context:(CGContextRef)context {
+    screen:(VT100Screen *)screen
+    glue:(id<iTermMetalPerFrameStateDelegate>)glue
+    context:(CGContextRef)context {
     assert([NSThread isMainThread]);
     self = [super init];
     if (self) {
@@ -132,9 +134,9 @@ typedef struct {
         _rows = [NSMutableArray array];
         _startTime = [NSDate timeIntervalSinceReferenceDate];
         _metalContext = CGContextRetain(context);
-        [textView performBlockWithFlickerFixerGrid:^{
-            [self loadAllWithTextView:textView screen:screen glue:glue];
-        }];
+        [textView performBlockWithFlickerFixerGrid:^ {
+                     [self loadAllWithTextView:textView screen:screen glue:glue];
+                 }];
     }
     return self;
 }
@@ -146,8 +148,8 @@ typedef struct {
 }
 
 - (void)loadAllWithTextView:(PTYTextView *)textView
-                     screen:(VT100Screen *)screen
-                       glue:(id<iTermMetalPerFrameStateDelegate>)glue {
+    screen:(VT100Screen *)screen
+    glue:(id<iTermMetalPerFrameStateDelegate>)glue {
     iTermTextDrawingHelper *drawingHelper = textView.drawingHelper;
 
     [_configuration loadSettingsWithDrawingHelper:drawingHelper textView:textView glue:glue];
@@ -167,15 +169,15 @@ typedef struct {
 }
 
 - (void)loadSettingsWithDrawingHelper:(iTermTextDrawingHelper *)drawingHelper
-                             textView:(PTYTextView *)textView {
+    textView:(PTYTextView *)textView {
     _numberOfScrollbackLines = textView.dataSource.numberOfScrollbackLines;
     _cursorBlinking = textView.isCursorBlinking;
     _inputMethodMarkedRange = drawingHelper.inputMethodMarkedRange;
 }
 
 - (void)loadMetricsWithDrawingHelper:(iTermTextDrawingHelper *)drawingHelper
-                            textView:(PTYTextView *)textView
-                              screen:(VT100Screen *)screen {
+    textView:(PTYTextView *)textView
+    screen:(VT100Screen *)screen {
     _documentVisibleRect = textView.enclosingScrollView.documentVisibleRect;
 
     _visibleRange = [drawingHelper coordRangeForRect:_documentVisibleRect];
@@ -192,38 +194,38 @@ typedef struct {
 }
 
 - (void)loadLinesWithDrawingHelper:(iTermTextDrawingHelper *)drawingHelper
-                          textView:(PTYTextView *)textView
-                            screen:(VT100Screen *)screen {
+    textView:(PTYTextView *)textView
+    screen:(VT100Screen *)screen {
     iTermMetalPerFrameStateRowFactory *factory = [[iTermMetalPerFrameStateRowFactory alloc] initWithDrawingHelper:drawingHelper
-                                                                                                         textView:textView
-                                                                                                           screen:screen
-                                                                                                    configuration:_configuration
-                                                                                                            width:_configuration->_gridSize.width];
+                                                      textView:textView
+                                                      screen:screen
+                                                      configuration:_configuration
+                                                      width:_configuration->_gridSize.width];
     for (int i = _visibleRange.start.y; i < _visibleRange.end.y; i++) {
         [_rows addObject:[factory newRowForLine:i]];
     }
 }
 
 - (void)loadBadgeWithDrawingHelper:(iTermTextDrawingHelper *)drawingHelper
-                          textView:(PTYTextView *)textView {
+    textView:(PTYTextView *)textView {
     _badgeImage = drawingHelper.badgeImage;
     if (_badgeImage) {
         _badgeDestinationRect = [iTermTextDrawingHelper rectForBadgeImageOfSize:_badgeImage.size
-                                                                destinationRect:textView.enclosingScrollView.documentVisibleRect
-                                                           destinationFrameSize:textView.frame.size
-                                                                    visibleSize:textView.enclosingScrollView.documentVisibleRect.size
-                                                                  sourceRectPtr:&_badgeSourceRect
-                                                                        margins:NSEdgeInsetsMake(drawingHelper.badgeTopMargin,
-                                                                                                 0,
-                                                                                                 0,
-                                                                                                 drawingHelper.badgeRightMargin)];
+                                                        destinationRect:textView.enclosingScrollView.documentVisibleRect
+                                                        destinationFrameSize:textView.frame.size
+                                                        visibleSize:textView.enclosingScrollView.documentVisibleRect.size
+                                                        sourceRectPtr:&_badgeSourceRect
+                                                        margins:NSEdgeInsetsMake(drawingHelper.badgeTopMargin,
+                                                                0,
+                                                                0,
+                                                                drawingHelper.badgeRightMargin)];
     }
 }
 
 - (void)loadBlinkingCursorWithTextView:(PTYTextView *)textView
-                                  glue:(id<iTermMetalPerFrameStateDelegate>)glue {
+    glue:(id<iTermMetalPerFrameStateDelegate>)glue {
     VT100GridCoord cursorScreenCoord = VT100GridCoordMake(textView.dataSource.cursorX - 1,
-                                                          textView.dataSource.cursorY - 1);
+                                       textView.dataSource.cursorY - 1);
     NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
     if (!VT100GridCoordEquals(cursorScreenCoord, glue.oldCursorScreenCoord)) {
         glue.lastTimeCursorMoved = now;
@@ -233,22 +235,22 @@ typedef struct {
 }
 
 - (void)loadCursorInfoWithDrawingHelper:(iTermTextDrawingHelper *)drawingHelper
-                               textView:(PTYTextView *)textView {
+    textView:(PTYTextView *)textView {
     _cursorVisible = drawingHelper.cursorVisible;
     const int offset = _visibleRange.start.y - _numberOfScrollbackLines;
     _cursorInfo = [[iTermMetalCursorInfo alloc] init];
     _cursorInfo.password = drawingHelper.passwordInput;
     _cursorInfo.copyMode = drawingHelper.copyMode;
     _cursorInfo.copyModeCursorCoord = VT100GridCoordMake(drawingHelper.copyModeCursorCoord.x,
-                                                         drawingHelper.copyModeCursorCoord.y - _visibleRange.start.y);
+                                      drawingHelper.copyModeCursorCoord.y - _visibleRange.start.y);
     _cursorInfo.copyModeCursorSelecting = drawingHelper.copyModeSelecting;
     _cursorInfo.coord = VT100GridCoordMake(textView.dataSource.cursorX - 1,
                                            textView.dataSource.cursorY - 1 - offset);
     NSInteger lineWithCursor = textView.dataSource.cursorY - 1 + _numberOfScrollbackLines;
     if ([self shouldDrawCursor] &&
-        _cursorVisible &&
-        _visibleRange.start.y <= lineWithCursor &&
-        lineWithCursor < _visibleRange.end.y) {
+            _cursorVisible &&
+            _visibleRange.start.y <= lineWithCursor &&
+            lineWithCursor < _visibleRange.end.y) {
 
         _cursorInfo.cursorVisible = YES;
         _cursorInfo.type = drawingHelper.cursorType;
@@ -284,32 +286,32 @@ typedef struct {
                     _cursorInfo.frameOnly = YES;
                 } else if (smartCursorColor) {
                     _cursorInfo.textColor = [self fastCursorColorForCharacter:screenChar
-                                                               wantBackground:YES
-                                                                        muted:NO];
+                                                  wantBackground:YES
+                                                  muted:NO];
                     _cursorInfo.cursorColor = [smartCursorColor backgroundColorForCharacter:screenChar];
                     NSColor *regularTextColor = [NSColor colorWithRed:_cursorInfo.textColor.x
-                                                                green:_cursorInfo.textColor.y
-                                                                 blue:_cursorInfo.textColor.z
-                                                                alpha:_cursorInfo.textColor.w];
+                                                         green:_cursorInfo.textColor.y
+                                                         blue:_cursorInfo.textColor.z
+                                                         alpha:_cursorInfo.textColor.w];
                     NSColor *smartTextColor = [smartCursorColor textColorForCharacter:screenChar
-                                                                     regularTextColor:regularTextColor
-                                                                 smartBackgroundColor:_cursorInfo.cursorColor];
+                                                                regularTextColor:regularTextColor
+                                                                smartBackgroundColor:_cursorInfo.cursorColor];
                     CGFloat components[4];
                     [smartTextColor getComponents:components];
                     _cursorInfo.textColor = simd_make_float4(components[0],
-                                                             components[1],
-                                                             components[2],
-                                                             components[3]);
+                                            components[1],
+                                            components[2],
+                                            components[3]);
                 } else {
                     if (_configuration->_reverseVideo) {
                         _cursorInfo.textColor = [_configuration->_colorMap fastColorForKey:kColorMapBackground];
                     } else {
                         _cursorInfo.textColor = [self colorForCode:ALTSEM_CURSOR
-                                                             green:0
-                                                              blue:0
-                                                         colorMode:ColorModeAlternate
-                                                              bold:NO
-                                                             faint:NO
+                                                      green:0
+                                                      blue:0
+                                                      colorMode:ColorModeAlternate
+                                                      bold:NO
+                                                      faint:NO
                                                       isBackground:NO];
                     }
                 }
@@ -332,12 +334,12 @@ typedef struct {
         startCoord.y += drawingHelper.numberOfScrollbackLines - _visibleRange.start.y;
         [self copyMarkedText:drawingHelper.markedText.string
               cursorLocation:drawingHelper.inputMethodSelectedRange.location
-                          to:drawingHelper.cursorCoord
-      ambiguousIsDoubleWidth:drawingHelper.ambiguousIsDoubleWidth
-               normalization:drawingHelper.normalization
+              to:drawingHelper.cursorCoord
+              ambiguousIsDoubleWidth:drawingHelper.ambiguousIsDoubleWidth
+              normalization:drawingHelper.normalization
               unicodeVersion:drawingHelper.unicodeVersion
-                   gridWidth:drawingHelper.gridSize.width
-            numberOfIMELines:drawingHelper.numberOfIMELines];
+              gridWidth:drawingHelper.gridSize.width
+              numberOfIMELines:drawingHelper.numberOfIMELines];
     }
 }
 
@@ -346,19 +348,19 @@ typedef struct {
 }
 
 - (iTermCharacterSourceDescriptor *)characterSourceDescriptorForASCIIWithGlyphSize:(CGSize)glyphSize
-                                                                       asciiOffset:(CGSize)asciiOffset {
+    asciiOffset:(CGSize)asciiOffset {
     return [iTermCharacterSourceDescriptor characterSourceDescriptorWithAsciiFont:_configuration->_asciiFont
-                                                                     nonAsciiFont:_configuration->_nonAsciiFont
-                                                                      asciiOffset:asciiOffset
-                                                                        glyphSize:glyphSize
-                                                                         cellSize:_configuration->_cellSize
-                                                           cellSizeWithoutSpacing:_configuration->_cellSizeWithoutSpacing
-                                                                            scale:_configuration->_scale
-                                                                      useBoldFont:_configuration->_useBoldFont
-                                                                    useItalicFont:_configuration->_useItalicFont
-                                                                 usesNonAsciiFont:_configuration->_useNonAsciiFont
-                                                                 asciiAntiAliased:_configuration->_asciiAntialias
-                                                              nonAsciiAntiAliased:_configuration->_nonasciiAntialias];
+                                           nonAsciiFont:_configuration->_nonAsciiFont
+                                           asciiOffset:asciiOffset
+                                           glyphSize:glyphSize
+                                           cellSize:_configuration->_cellSize
+                                           cellSizeWithoutSpacing:_configuration->_cellSizeWithoutSpacing
+                                           scale:_configuration->_scale
+                                           useBoldFont:_configuration->_useBoldFont
+                                           useItalicFont:_configuration->_useItalicFont
+                                           usesNonAsciiFont:_configuration->_useNonAsciiFont
+                                           asciiAntiAliased:_configuration->_asciiAntialias
+                                           nonAsciiAntiAliased:_configuration->_nonasciiAntialias];
 }
 
 - (CGFloat)transparencyAlpha {
@@ -394,11 +396,11 @@ typedef struct {
     NSRange rangeOfRows = NSMakeRange(_visibleRange.start.y, _visibleRange.end.y - _visibleRange.start.y + 1);
     NSArray<NSNumber *> *rows = [NSArray sequenceWithRange:rangeOfRows];
     _rowToAnnotationRanges = [rows reduceWithFirstValue:[NSMutableDictionary dictionary] block:^id(NSMutableDictionary *dict, NSNumber *second) {
-        NSArray<NSValue *> *ranges = [textView.dataSource charactersWithNotesOnLine:second.intValue];
-        if (ranges.count) {
+             NSArray<NSValue *> *ranges = [textView.dataSource charactersWithNotesOnLine:second.intValue];
+             if (ranges.count) {
             NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
             [ranges enumerateObjectsUsingBlock:^(NSValue * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                VT100GridRange gridRange = [obj gridRangeValue];
+                       VT100GridRange gridRange = [obj gridRangeValue];
                 [indexes addIndexesInRange:NSMakeRange(gridRange.location, gridRange.length)];
             }];
             dict[@(second.intValue - self->_visibleRange.start.y)] = indexes;
@@ -417,7 +419,7 @@ typedef struct {
     }
     NSRect frame = NSMakeRect(0, vmargin, textView.visibleRect.size.width, textView.visibleRect.size.height);
     [textView.indicatorsHelper enumerateTopRightIndicatorsInFrame:frame andDraw:NO block:^(NSString *identifier, NSImage *image, NSRect rect) {
-        rect.origin.y = frame.size.height - NSMaxY(rect);
+                                  rect.origin.y = frame.size.height - NSMaxY(rect);
         iTermIndicatorDescriptor *indicator = [[iTermIndicatorDescriptor alloc] init];
         indicator.identifier = identifier;
         indicator.image = image;
@@ -426,7 +428,7 @@ typedef struct {
         [self->_indicators addObject:indicator];
     }];
     [textView.indicatorsHelper enumerateCenterIndicatorsInFrame:frame block:^(NSString *identifier, NSImage *image, NSRect rect, CGFloat alpha) {
-        rect.origin.y = frame.size.height - NSMaxY(rect);
+                                  rect.origin.y = frame.size.height - NSMaxY(rect);
         iTermIndicatorDescriptor *indicator = [[iTermIndicatorDescriptor alloc] init];
         indicator.identifier = identifier;
         indicator.image = image;
@@ -438,13 +440,13 @@ typedef struct {
 }
 
 - (void)copyMarkedText:(NSString *)str
-        cursorLocation:(int)cursorLocation
-                    to:(VT100GridCoord)startCoord
-ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
-         normalization:(iTermUnicodeNormalization)normalization
-        unicodeVersion:(NSInteger)unicodeVersion
-             gridWidth:(int)gridWidth
-      numberOfIMELines:(int)numberOfIMELines {
+    cursorLocation:(int)cursorLocation
+    to:(VT100GridCoord)startCoord
+    ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
+    normalization:(iTermUnicodeNormalization)normalization
+    unicodeVersion:(NSInteger)unicodeVersion
+    gridWidth:(int)gridWidth
+    numberOfIMELines:(int)numberOfIMELines {
     const int maxLen = [str length] * kMaxParts;
     screen_char_t buf[maxLen];
     screen_char_t fg = {0}, bg = {0};
@@ -501,11 +503,11 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
             c.underline = YES;
             c.underlineStyle = VT100UnderlineStyleSingle;
             c.strikethrough = NO;
-            
+
             if (i + 1 < len &&
-                coord.x == gridWidth -1 &&
-                buf[i+1].code == DWC_RIGHT &&
-                !buf[i+1].complexChar) {
+                    coord.x == gridWidth -1 &&
+                    buf[i+1].code == DWC_RIGHT &&
+                    !buf[i+1].complexChar) {
                 // Bump DWC to start of next line instead of splitting it
                 c.code = ' ';
                 c.complexChar = NO;
@@ -565,8 +567,8 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
 
 - (void)enumerateIndicatorsInFrame:(NSRect)frame block:(void (^)(iTermIndicatorDescriptor * _Nonnull))block {
     [_indicators enumerateObjectsUsingBlock:^(iTermIndicatorDescriptor * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        block(obj);
-    }];
+                    block(obj);
+                }];
 }
 
 - (void)metalEnumerateHighlightedRows:(void (^)(vector_float3, NSTimeInterval, int))block {
@@ -669,15 +671,15 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
 
 // Private queue
 - (void)metalGetGlyphKeys:(iTermMetalGlyphKey *)glyphKeys
-               attributes:(iTermMetalGlyphAttributes *)attributes
-                imageRuns:(NSMutableArray<iTermMetalImageRun *> *)imageRuns
-               background:(iTermMetalBackgroundColorRLE *)backgroundRLE
-                 rleCount:(int *)rleCount
-                markStyle:(out iTermMarkStyle *)markStylePtr
-                      row:(int)row
-                    width:(int)width
-           drawableGlyphs:(int *)drawableGlyphsPtr
-                     date:(out NSDate **)datePtr {
+    attributes:(iTermMetalGlyphAttributes *)attributes
+    imageRuns:(NSMutableArray<iTermMetalImageRun *> *)imageRuns
+    background:(iTermMetalBackgroundColorRLE *)backgroundRLE
+    rleCount:(int *)rleCount
+    markStyle:(out iTermMarkStyle *)markStylePtr
+    row:(int)row
+    width:(int)width
+    drawableGlyphs:(int *)drawableGlyphsPtr
+    date:(out NSDate **)datePtr {
     NSCharacterSet *boxCharacterSet = [iTermBoxDrawingBezierCurveFactory boxDrawingCharactersWithBezierPathsIncludingPowerline:_configuration->_useNativePowerlineGlyphs];
     if (_configuration->_timestampsEnabled) {
         *datePtr = _rows[row]->_date;
@@ -738,13 +740,13 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
         vector_float4 backgroundColor;
         vector_float4 unprocessedBackgroundColor;
         if (x > 0 &&
-            backgroundKey.bgColor == lastBackgroundKey.bgColor &&
-            backgroundKey.bgGreen == lastBackgroundKey.bgGreen &&
-            backgroundKey.bgBlue == lastBackgroundKey.bgBlue &&
-            backgroundKey.bgColorMode == lastBackgroundKey.bgColorMode &&
-            backgroundKey.selected == lastBackgroundKey.selected &&
-            backgroundKey.isMatch == lastBackgroundKey.isMatch &&
-            backgroundKey.image == lastBackgroundKey.image) {
+                backgroundKey.bgColor == lastBackgroundKey.bgColor &&
+                backgroundKey.bgGreen == lastBackgroundKey.bgGreen &&
+                backgroundKey.bgBlue == lastBackgroundKey.bgBlue &&
+                backgroundKey.bgColorMode == lastBackgroundKey.bgColorMode &&
+                backgroundKey.selected == lastBackgroundKey.selected &&
+                backgroundKey.isMatch == lastBackgroundKey.isMatch &&
+                backgroundKey.image == lastBackgroundKey.image) {
 
             const int previousRLE = rles - 1;
             backgroundColor = backgroundRLE[previousRLE].color;
@@ -766,11 +768,11 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
         attributes[x].annotation = annotated;
 
         const BOOL characterIsDrawable = iTermTextDrawingHelperIsCharacterDrawable(&line[x],
-                                                                                   x > 0 ? &line[x - 1] : NULL,
-                                                                                   line[x].complexChar && (ScreenCharToStr(&line[x]) != nil),
-                                                                                   _configuration->_blinkingItemsVisible,
-                                                                                   _configuration->_blinkAllowed,
-                                                                                   NO /* preferSpeedToFullLigatureSupport */);
+                                         x > 0 ? &line[x - 1] : NULL,
+                                         line[x].complexChar && (ScreenCharToStr(&line[x]) != nil),
+                                         _configuration->_blinkingItemsVisible,
+                                         _configuration->_blinkAllowed,
+                                         NO /* preferSpeedToFullLigatureSupport */);
         const BOOL isBoxDrawingCharacter = (characterIsDrawable &&
                                             !line[x].complexChar &&
                                             line[x].code > 127 &&
@@ -789,28 +791,28 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
         currentColorKey->background = backgroundColor;
         currentColorKey->isBoxDrawing = isBoxDrawingCharacter;
         if (x > 0 &&
-            currentColorKey->isMatch == previousColorKey->isMatch &&
-            currentColorKey->inUnderlinedRange == previousColorKey->inUnderlinedRange &&
-            currentColorKey->selected == previousColorKey->selected &&
-            currentColorKey->foregroundColor == previousColorKey->foregroundColor &&
-            currentColorKey->mode == previousColorKey->mode &&
-            currentColorKey->fgGreen == previousColorKey->fgGreen &&
-            currentColorKey->fgBlue == previousColorKey->fgBlue &&
-            currentColorKey->bold == previousColorKey->bold &&
-            currentColorKey->faint == previousColorKey->faint &&
-            simd_equal(currentColorKey->background, previousColorKey->background) &&
-            currentColorKey->isBoxDrawing == previousColorKey->isBoxDrawing) {
+                currentColorKey->isMatch == previousColorKey->isMatch &&
+                currentColorKey->inUnderlinedRange == previousColorKey->inUnderlinedRange &&
+                currentColorKey->selected == previousColorKey->selected &&
+                currentColorKey->foregroundColor == previousColorKey->foregroundColor &&
+                currentColorKey->mode == previousColorKey->mode &&
+                currentColorKey->fgGreen == previousColorKey->fgGreen &&
+                currentColorKey->fgBlue == previousColorKey->fgBlue &&
+                currentColorKey->bold == previousColorKey->bold &&
+                currentColorKey->faint == previousColorKey->faint &&
+                simd_equal(currentColorKey->background, previousColorKey->background) &&
+                currentColorKey->isBoxDrawing == previousColorKey->isBoxDrawing) {
             attributes[x].foregroundColor = attributes[x - 1].foregroundColor;
         } else {
             vector_float4 textColor = [self textColorForCharacter:&line[x]
-                                                             line:row
-                                                  backgroundColor:unprocessedBackgroundColor
-                                                         selected:selected
-                                                        findMatch:findMatch
-                                                inUnderlinedRange:inUnderlinedRange && !annotated
-                                                            index:x
-                                                       boxDrawing:isBoxDrawingCharacter
-                                                           caches:&caches];
+                                            line:row
+                                            backgroundColor:unprocessedBackgroundColor
+                                            selected:selected
+                                            findMatch:findMatch
+                                            inUnderlinedRange:inUnderlinedRange && !annotated
+                                            index:x
+                                            boxDrawing:isBoxDrawingCharacter
+                                            caches:&caches];
             attributes[x].foregroundColor = textColor;
             attributes[x].foregroundColor.w = 1;
         }
@@ -841,8 +843,8 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
 
         if (line[x].image) {
             if (line[x].code == previousImageCode &&
-                line[x].foregroundColor == ((previousImageCoord.x + 1) & 0xff) &&
-                line[x].backgroundColor == previousImageCoord.y) {
+                    line[x].foregroundColor == ((previousImageCoord.x + 1) & 0xff) &&
+                    line[x].backgroundColor == previousImageCoord.y) {
                 imageRuns.lastObject.length = imageRuns.lastObject.length + 1;
                 previousImageCoord.x++;
             } else {
@@ -875,9 +877,9 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
             glyphKeys[x].typeface = (boldBit | italicBit);
             glyphKeys[x].drawable = YES;
             if (x < width &&
-                line[x + 1].complexChar &&
-                !(!line[x].complexChar && line[x].code < 128) &&
-                ComplexCharCodeIsSpacingCombiningMark(line[x + 1].code)) {
+                    line[x + 1].complexChar &&
+                    !(!line[x].complexChar && line[x].code < 128) &&
+                    ComplexCharCodeIsSpacingCombiningMark(line[x + 1].code)) {
                 // Next character is a combining spacing mark that will join with this non-ascii character.
                 glyphKeys[x].combiningSuccessor = line[x + 1].code;
             } else {
@@ -894,9 +896,9 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
 
     // Tweak the text color for the cell that has a box cursor.
     if (row == _cursorInfo.coord.y &&
-        _cursorInfo.type == CURSOR_BOX &&
-        _cursorInfo.cursorVisible &&
-        !_cursorInfo.frameOnly) {
+            _cursorInfo.type == CURSOR_BOX &&
+            _cursorInfo.cursorVisible &&
+            !_cursorInfo.frameOnly) {
         vector_float4 cursorTextColor;
         if (_cursorInfo.shouldDrawText) {
             cursorTextColor = _cursorInfo.textColor;
@@ -904,11 +906,11 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
             cursorTextColor = VectorForColor([_configuration->_colorMap colorForKey:kColorMapBackground]);
         } else {
             cursorTextColor = [self colorForCode:ALTSEM_CURSOR
-                                           green:0
-                                            blue:0
-                                       colorMode:ColorModeAlternate
-                                            bold:NO
-                                           faint:NO
+                                    green:0
+                                    blue:0
+                                    colorMode:ColorModeAlternate
+                                    bold:NO
+                                    faint:NO
                                     isBackground:NO];
         }
         if (_cursorInfo.coord.x < width) {
@@ -921,23 +923,23 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
 
 - (BOOL)useThinStrokesWithAttributes:(iTermMetalGlyphAttributes *)attributes {
     switch (_configuration->_thinStrokes) {
-        case iTermThinStrokesSettingAlways:
-            return YES;
+    case iTermThinStrokesSettingAlways:
+        return YES;
 
-        case iTermThinStrokesSettingDarkBackgroundsOnly:
-            break;
+    case iTermThinStrokesSettingDarkBackgroundsOnly:
+        break;
 
-        case iTermThinStrokesSettingNever:
+    case iTermThinStrokesSettingNever:
+        return NO;
+
+    case iTermThinStrokesSettingRetinaDarkBackgroundsOnly:
+        if (!_configuration->_isRetina) {
             return NO;
+        }
+        break;
 
-        case iTermThinStrokesSettingRetinaDarkBackgroundsOnly:
-            if (!_configuration->_isRetina) {
-                return NO;
-            }
-            break;
-
-        case iTermThinStrokesSettingRetinaOnly:
-            return _configuration->_isRetina;
+    case iTermThinStrokesSettingRetinaOnly:
+        return _configuration->_isRetina;
     }
 
     const float backgroundBrightness = SIMDPerceivedBrightness(attributes->backgroundColor);
@@ -974,7 +976,9 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
         };
         return [self unprocessedColorForBackgroundColorKey:&temp];
     } else if (colorKey->isMatch) {
-        color = (vector_float4){ 1, 1, 0, 1 };
+        color = (vector_float4) {
+            1, 1, 0, 1
+        };
     } else {
         const BOOL defaultBackground = (colorKey->bgColor == ALTSEM_DEFAULT &&
                                         colorKey->bgColorMode == ColorModeAlternate);
@@ -988,11 +992,11 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
             // Reverse video is only applied to default background-
             // color chars.
             color = [self colorForCode:ALTSEM_DEFAULT
-                                 green:0
-                                  blue:0
-                             colorMode:ColorModeAlternate
-                                  bold:NO
-                                 faint:NO
+                          green:0
+                          blue:0
+                          colorMode:ColorModeAlternate
+                          bold:NO
+                          faint:NO
                           isBackground:NO];
         } else if (defaultBackground) {
             color = simd_make_float4(0, 0, 0, 0);
@@ -1000,11 +1004,11 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
         } else {
             // Use the regular background color.
             color = [self colorForCode:colorKey->bgColor
-                                 green:colorKey->bgGreen
-                                  blue:colorKey->bgBlue
-                             colorMode:colorKey->bgColorMode
-                                  bold:NO
-                                 faint:NO
+                          green:colorKey->bgGreen
+                          blue:colorKey->bgBlue
+                          colorMode:colorKey->bgColorMode
+                          bold:NO
+                          faint:NO
                           isBackground:YES];
         }
     }
@@ -1013,18 +1017,18 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
 }
 
 - (vector_float4)colorForCode:(int)theIndex
-                        green:(int)green
-                         blue:(int)blue
-                    colorMode:(ColorMode)theMode
-                         bold:(BOOL)isBold
-                        faint:(BOOL)isFaint
-                 isBackground:(BOOL)isBackground {
+    green:(int)green
+    blue:(int)blue
+    colorMode:(ColorMode)theMode
+    bold:(BOOL)isBold
+    faint:(BOOL)isFaint
+    isBackground:(BOOL)isBackground {
     iTermColorMapKey key = [self colorMapKeyForCode:theIndex
-                                              green:green
-                                               blue:blue
-                                          colorMode:theMode
-                                               bold:isBold
-                                       isBackground:isBackground];
+                                 green:green
+                                 blue:blue
+                                 colorMode:theMode
+                                 bold:isBold
+                                 isBackground:isBackground];
     if (isBackground) {
         return VectorForColor([_configuration->_colorMap colorForKey:key]);
     } else {
@@ -1037,131 +1041,133 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
 }
 
 - (iTermColorMapKey)colorMapKeyForCode:(int)theIndex
-                                 green:(int)green
-                                  blue:(int)blue
-                             colorMode:(ColorMode)theMode
-                                  bold:(BOOL)isBold
-                          isBackground:(BOOL)isBackground {
+    green:(int)green
+    blue:(int)blue
+    colorMode:(ColorMode)theMode
+    bold:(BOOL)isBold
+    isBackground:(BOOL)isBackground {
     BOOL isBackgroundForDefault = isBackground;
     switch (theMode) {
-        case ColorModeAlternate:
-            switch (theIndex) {
-                case ALTSEM_SELECTED:
-                    if (isBackground) {
-                        return kColorMapSelection;
-                    } else {
-                        return kColorMapSelectedText;
-                    }
-                case ALTSEM_CURSOR:
-                    if (isBackground) {
-                        return kColorMapCursor;
-                    } else {
-                        return kColorMapCursorText;
-                    }
-                case ALTSEM_SYSTEM_MESSAGE:
-                    return [_configuration->_colorMap keyForSystemMessageForBackground:isBackground];
-                case ALTSEM_REVERSED_DEFAULT:
-                    isBackgroundForDefault = !isBackgroundForDefault;
-                    // Fall through.
-                case ALTSEM_DEFAULT:
-                    if (isBackgroundForDefault) {
-                        return kColorMapBackground;
-                    } else {
-                        if (isBold && _configuration->_useCustomBoldColor) {
-                            return kColorMapBold;
-                        } else {
-                            return kColorMapForeground;
-                        }
-                    }
+    case ColorModeAlternate:
+        switch (theIndex) {
+        case ALTSEM_SELECTED:
+            if (isBackground) {
+                return kColorMapSelection;
+            } else {
+                return kColorMapSelectedText;
             }
-            break;
-        case ColorMode24bit:
-            return [iTermColorMap keyFor8bitRed:theIndex green:green blue:blue];
-        case ColorModeNormal:
-            // Render bold text as bright. The spec (ECMA-48) describes the intense
-            // display setting (esc[1m) as "bold or bright". We make it a
-            // preference.
-            if (isBold &&
+        case ALTSEM_CURSOR:
+            if (isBackground) {
+                return kColorMapCursor;
+            } else {
+                return kColorMapCursorText;
+            }
+        case ALTSEM_SYSTEM_MESSAGE:
+            return [_configuration->_colorMap keyForSystemMessageForBackground:isBackground];
+        case ALTSEM_REVERSED_DEFAULT:
+            isBackgroundForDefault = !isBackgroundForDefault;
+        // Fall through.
+        case ALTSEM_DEFAULT:
+            if (isBackgroundForDefault) {
+                return kColorMapBackground;
+            } else {
+                if (isBold && _configuration->_useCustomBoldColor) {
+                    return kColorMapBold;
+                } else {
+                    return kColorMapForeground;
+                }
+            }
+        }
+        break;
+    case ColorMode24bit:
+        return [iTermColorMap keyFor8bitRed:theIndex green:green blue:blue];
+    case ColorModeNormal:
+        // Render bold text as bright. The spec (ECMA-48) describes the intense
+        // display setting (esc[1m) as "bold or bright". We make it a
+        // preference.
+        if (isBold &&
                 _configuration->_brightenBold &&
                 (theIndex < 8) &&
                 !isBackground) { // Only colors 0-7 can be made "bright".
-                theIndex |= 8;  // set "bright" bit.
-            }
-            return kColorMap8bitBase + (theIndex & 0xff);
+            theIndex |= 8;  // set "bright" bit.
+        }
+        return kColorMap8bitBase + (theIndex & 0xff);
 
-        case ColorModeInvalid:
-            return kColorMapInvalid;
+    case ColorModeInvalid:
+        return kColorMapInvalid;
     }
     ITAssertWithMessage(ok, @"Bogus color mode %d", (int)theMode);
     return kColorMapInvalid;
 }
 
 - (id)metalASCIICreationIdentifierWithOffset:(CGSize)asciiOffset {
-    return @{ @"font": _configuration->_asciiFont.font ?: [NSNull null],
-              @"boldFont": _configuration->_asciiFont.boldVersion ?: [NSNull null],
-              @"boldItalicFont": _configuration->_asciiFont.boldItalicVersion ?: [NSNull null],
-              @"useBold": @(_configuration->_useBoldFont),
-              @"useItalic": @(_configuration->_useItalicFont),
-              @"asciiAntialiased": @(_configuration->_asciiAntialias),
-              @"nonasciiAntialiased": @(_configuration->_nonasciiAntialias),
-              @"asciiOffset": @(asciiOffset), };
+    return @ { @"font":
+               _configuration->_asciiFont.font ?: [NSNull null],
+               @"boldFont": _configuration->_asciiFont.boldVersion ?: [NSNull null],
+               @"boldItalicFont": _configuration->_asciiFont.boldItalicVersion ?: [NSNull null],
+               @"useBold": @(_configuration->_useBoldFont),
+               @"useItalic": @(_configuration->_useItalicFont),
+               @"asciiAntialiased": @(_configuration->_asciiAntialias),
+               @"nonasciiAntialiased": @(_configuration->_nonasciiAntialias),
+               @"asciiOffset": @(asciiOffset),
+             };
 }
 
 - (nullable NSDictionary<NSNumber *, iTermCharacterBitmap *> *)metalImagesForGlyphKey:(iTermMetalGlyphKey *)glyphKey
-                                                                          asciiOffset:(CGSize)asciiOffset
-                                                                                 size:(CGSize)size
-                                                                                scale:(CGFloat)scale
-                                                                                emoji:(nonnull BOOL *)emoji {
+    asciiOffset:(CGSize)asciiOffset
+    size:(CGSize)size
+    scale:(CGFloat)scale
+    emoji:(nonnull BOOL *)emoji {
     const BOOL bold = !!(glyphKey->typeface & iTermMetalGlyphKeyTypefaceBold);
     const BOOL italic = !!(glyphKey->typeface & iTermMetalGlyphKeyTypefaceItalic);
     const BOOL isAscii = !glyphKey->isComplex && (glyphKey->code < 128);
 
     const int radius = iTermTextureMapMaxCharacterParts / 2;
     iTermCharacterSourceDescriptor *descriptor =
-    [iTermCharacterSourceDescriptor characterSourceDescriptorWithAsciiFont:_configuration->_asciiFont
-                                                              nonAsciiFont:_configuration->_nonAsciiFont
-                                                               asciiOffset:asciiOffset
-                                                                 glyphSize:size
-                                                                  cellSize:_configuration->_cellSize
-                                                    cellSizeWithoutSpacing:_configuration->_cellSizeWithoutSpacing
-                                                                     scale:scale
-                                                               useBoldFont:_configuration->_useBoldFont
-                                                             useItalicFont:_configuration->_useItalicFont
-                                                          usesNonAsciiFont:_configuration->_useNonAsciiFont
-                                                          asciiAntiAliased:_configuration->_asciiAntialias
-                                                       nonAsciiAntiAliased:_configuration->_nonasciiAntialias];
+        [iTermCharacterSourceDescriptor characterSourceDescriptorWithAsciiFont:_configuration->_asciiFont
+                                        nonAsciiFont:_configuration->_nonAsciiFont
+                                        asciiOffset:asciiOffset
+                                        glyphSize:size
+                                        cellSize:_configuration->_cellSize
+                                        cellSizeWithoutSpacing:_configuration->_cellSizeWithoutSpacing
+                                        scale:scale
+                                        useBoldFont:_configuration->_useBoldFont
+                                        useItalicFont:_configuration->_useItalicFont
+                                        usesNonAsciiFont:_configuration->_useNonAsciiFont
+                                        asciiAntiAliased:_configuration->_asciiAntialias
+                                        nonAsciiAntiAliased:_configuration->_nonasciiAntialias];
     iTermCharacterSourceAttributes *attributes =
-    [iTermCharacterSourceAttributes characterSourceAttributesWithThinStrokes:glyphKey->thinStrokes
-                                                                        bold:bold
-                                                                      italic:italic];
+        [iTermCharacterSourceAttributes characterSourceAttributesWithThinStrokes:glyphKey->thinStrokes
+                                        bold:bold
+                                        italic:italic];
     NSString *string = CharToStr(glyphKey->code, glyphKey->isComplex);
     if (glyphKey->combiningSuccessor) {
         if (ComplexCharCodeIsSpacingCombiningMark(glyphKey->combiningSuccessor) &&
-            !(glyphKey->isComplex && ComplexCharCodeIsSpacingCombiningMark(glyphKey->code))) {
+                !(glyphKey->isComplex && ComplexCharCodeIsSpacingCombiningMark(glyphKey->code))) {
             // Append the successor cell's spacing combining mark, provided it has a predecessor.
             NSString *successorString = CharToStr(glyphKey->combiningSuccessor, YES);
             string = [string stringByAppendingString:successorString];
         }
     }
     iTermCharacterSource *characterSource =
-    [[iTermCharacterSource alloc] initWithCharacter:string
-                                         descriptor:descriptor
-                                         attributes:attributes
-                                         boxDrawing:glyphKey->boxDrawing
-                                             radius:radius
-                           useNativePowerlineGlyphs:_configuration->_useNativePowerlineGlyphs
-                                            context:_metalContext];
+        [[iTermCharacterSource alloc] initWithCharacter:string
+                                      descriptor:descriptor
+                                      attributes:attributes
+                                      boxDrawing:glyphKey->boxDrawing
+                                      radius:radius
+                                      useNativePowerlineGlyphs:_configuration->_useNativePowerlineGlyphs
+                                      context:_metalContext];
     if (characterSource == nil) {
         return nil;
     }
 
     NSMutableDictionary<NSNumber *, iTermCharacterBitmap *> *result = [NSMutableDictionary dictionary];
     [characterSource.parts enumerateObjectsUsingBlock:^(NSNumber * _Nonnull partNumber, NSUInteger idx, BOOL * _Nonnull stop) {
-        int part = partNumber.intValue;
-        if (isAscii &&
-            part != iTermImagePartFromDeltas(0, 0) &&
-            part != iTermImagePartFromDeltas(-1, 0) &&
-            part != iTermImagePartFromDeltas(1, 0)) {
+                              int part = partNumber.intValue;
+                              if (isAscii &&
+                                      part != iTermImagePartFromDeltas(0, 0) &&
+                part != iTermImagePartFromDeltas(-1, 0) &&
+                part != iTermImagePartFromDeltas(1, 0)) {
             return;
         }
         result[partNumber] = [characterSource bitmapForPart:part];
@@ -1173,8 +1179,8 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
 }
 
 - (void)metalGetUnderlineDescriptorsForASCII:(out iTermMetalUnderlineDescriptor *)ascii
-                                    nonASCII:(out iTermMetalUnderlineDescriptor *)nonAscii
-                               strikethrough:(out iTermMetalUnderlineDescriptor *)strikethrough {
+    nonASCII:(out iTermMetalUnderlineDescriptor *)nonAscii
+    strikethrough:(out iTermMetalUnderlineDescriptor *)strikethrough {
     *ascii = _configuration->_asciiUnderlineDescriptor;
     *nonAscii = _configuration->_nonAsciiUnderlineDescriptor;
     *strikethrough = _configuration->_strikethroughUnderlineDescriptor;
@@ -1182,10 +1188,10 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
 
 // Use 24-bit color to set the text and background color of a cell.
 - (void)setTextColor:(vector_float4)textColor
-     backgroundColor:(vector_float4)backgroundColor
-             atCoord:(VT100GridCoord)coord
-               lines:(screen_char_t *)lines
-            gridSize:(VT100GridSize)gridSize {
+    backgroundColor:(vector_float4)backgroundColor
+    atCoord:(VT100GridCoord)coord
+    lines:(screen_char_t *)lines
+    gridSize:(VT100GridSize)gridSize {
     if (coord.x < 0 || coord.y < 0 || coord.x >= gridSize.width || coord.y >= gridSize.height) {
         return;
     }
@@ -1205,13 +1211,13 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
     iTermData *data = _rows[0]->_screenCharLine;
     screen_char_t *line = data.mutableBytes;
     for (int i = 0, o = MAX(0, _configuration->_gridSize.width - (int)debugString.length);
-         i < debugString.length && o < _configuration->_gridSize.width;
-         i++, o++) {
+            i < debugString.length && o < _configuration->_gridSize.width;
+            i++, o++) {
         [self setTextColor:simd_make_float4(1, 0, 1, 1)
-           backgroundColor:simd_make_float4(0.1, 0.1, 0.1, 1)
-                   atCoord:VT100GridCoordMake(o, 0)
-                     lines:line
-                  gridSize:_configuration->_gridSize];
+              backgroundColor:simd_make_float4(0.1, 0.1, 0.1, 1)
+              atCoord:VT100GridCoordMake(o, 0)
+              lines:line
+              gridSize:_configuration->_gridSize];
         line[o].code = [debugString characterAtIndex:i];
     }
     [data checkForOverrun];
@@ -1238,16 +1244,16 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
 
 - (BOOL)thinStrokesForTimestamps {
     switch (_configuration->_thinStrokes) {
-        case iTermThinStrokesSettingNever:
-            return NO;
-        case iTermThinStrokesSettingAlways:
-            return YES;
-        case iTermThinStrokesSettingRetinaOnly:
-            return _configuration->_isRetina;
-        case iTermThinStrokesSettingDarkBackgroundsOnly:
-            return self.timestampsBackgroundColor.isDark;
-        case iTermThinStrokesSettingRetinaDarkBackgroundsOnly:
-            return _configuration->_isRetina && self.timestampsBackgroundColor.isDark;
+    case iTermThinStrokesSettingNever:
+        return NO;
+    case iTermThinStrokesSettingAlways:
+        return YES;
+    case iTermThinStrokesSettingRetinaOnly:
+        return _configuration->_isRetina;
+    case iTermThinStrokesSettingDarkBackgroundsOnly:
+        return self.timestampsBackgroundColor.isDark;
+    case iTermThinStrokesSettingRetinaDarkBackgroundsOnly:
+        return _configuration->_isRetina && self.timestampsBackgroundColor.isDark;
     }
 }
 
@@ -1258,14 +1264,14 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
 #pragma mark - Color
 
 - (vector_float4)textColorForCharacter:(const screen_char_t *const)c
-                                  line:(int)line
-                       backgroundColor:(vector_float4)unprocessedBackgroundColor
-                              selected:(BOOL)selected
-                             findMatch:(BOOL)findMatch
-                     inUnderlinedRange:(BOOL)inUnderlinedRange
-                                 index:(int)index
-                            boxDrawing:(BOOL)isBoxDrawingCharacter
-                                caches:(iTermMetalPerFrameStateCaches *)caches {
+    line:(int)line
+    backgroundColor:(vector_float4)unprocessedBackgroundColor
+    selected:(BOOL)selected
+    findMatch:(BOOL)findMatch
+    inUnderlinedRange:(BOOL)inUnderlinedRange
+    index:(int)index
+    boxDrawing:(BOOL)isBoxDrawingCharacter
+    caches:(iTermMetalPerFrameStateCaches *)caches {
     vector_float4 rawColor = { 0, 0, 0, 0 };
     iTermColorMap *colorMap = _configuration->_colorMap;
     const BOOL needsProcessing = (colorMap.minimumContrast > 0.001 ||
@@ -1276,7 +1282,9 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
 
     if (findMatch) {
         // Black-on-yellow search result.
-        rawColor = (vector_float4){ 0, 0, 0, 1 };
+        rawColor = (vector_float4) {
+            0, 0, 0, 1
+        };
         caches->havePreviousCharacterAttributes = NO;
     } else if (inUnderlinedRange) {
         // Blue link text.
@@ -1289,10 +1297,10 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
     } else if (_configuration->_reverseVideo &&
                ((c->foregroundColor == ALTSEM_DEFAULT && c->foregroundColorMode == ColorModeAlternate) ||
                 (c->foregroundColor == ALTSEM_CURSOR && c->foregroundColorMode == ColorModeAlternate))) {
-           // Reverse video is on. Either is cursor or has default foreground color. Use
-           // background color.
-           rawColor = VectorForColor([colorMap colorForKey:kColorMapBackground]);
-           caches->havePreviousCharacterAttributes = NO;
+        // Reverse video is on. Either is cursor or has default foreground color. Use
+        // background color.
+        rawColor = VectorForColor([colorMap colorForKey:kColorMapBackground]);
+        caches->havePreviousCharacterAttributes = NO;
     } else if (!caches->havePreviousCharacterAttributes ||
                c->foregroundColor != caches->previousCharacterAttributes.foregroundColor ||
                c->fgGreen != caches->previousCharacterAttributes.fgGreen ||
@@ -1305,11 +1313,11 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
         caches->previousCharacterAttributes = *c;
         caches->havePreviousCharacterAttributes = YES;
         rawColor = [self colorForCode:c->foregroundColor
-                                green:c->fgGreen
-                                 blue:c->fgBlue
-                            colorMode:c->foregroundColorMode
-                                 bold:c->bold
-                                faint:c->faint
+                         green:c->fgGreen
+                         blue:c->fgBlue
+                         colorMode:c->foregroundColorMode
+                         bold:c->bold
+                         faint:c->faint
                          isBackground:NO];
     } else {
         // Foreground attributes are just like the last character. There is a cached foreground color.
@@ -1329,8 +1337,8 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
     vector_float4 result;
     if (needsProcessing) {
         result = VectorForColor([_configuration->_colorMap processedTextColorForTextColor:ColorForVector(rawColor)
-                                                      overBackgroundColor:ColorForVector(unprocessedBackgroundColor)
-                                                   disableMinimumContrast:isBoxDrawingCharacter]);
+                                                           overBackgroundColor:ColorForVector(unprocessedBackgroundColor)
+                                                           disableMinimumContrast:isBoxDrawingCharacter]);
     } else {
         result = rawColor;
     }
@@ -1353,40 +1361,40 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
 
 - (iTermCursorNeighbors)cursorNeighbors {
     return [iTermSmartCursorColor neighborsForCursorAtCoord:_cursorInfo.coord
-                                                   gridSize:_configuration->_gridSize
-                                                 lineSource:^const screen_char_t *(int y) {
-                                                     const int i = y + self->_numberOfScrollbackLines - self->_visibleRange.start.y;
-                                                     if (i >= 0 && i < self->_rows.count) {
-                                                         return (const screen_char_t *)self->_rows[i]->_screenCharLine.bytes;
-                                                     } else {
-                                                         return nil;
-                                                     }
-                                                 }];
+                                  gridSize:_configuration->_gridSize
+                          lineSource:^const screen_char_t *(int y) {
+                              const int i = y + self->_numberOfScrollbackLines - self->_visibleRange.start.y;
+                              if (i >= 0 && i < self->_rows.count) {
+            return (const screen_char_t *)self->_rows[i]->_screenCharLine.bytes;
+        } else {
+            return nil;
+        }
+    }];
 }
 
 - (vector_float4)fastCursorColorForCharacter:(screen_char_t)screenChar
-                              wantBackground:(BOOL)wantBackgroundColor
-                                       muted:(BOOL)muted {
+    wantBackground:(BOOL)wantBackgroundColor
+    muted:(BOOL)muted {
     BOOL isBackground = [iTermTextDrawingHelper cursorUsesBackgroundColorForScreenChar:screenChar
-                                                                        wantBackground:wantBackgroundColor
-                                                                          reverseVideo:_configuration->_reverseVideo];
+                                                wantBackground:wantBackgroundColor
+                                                reverseVideo:_configuration->_reverseVideo];
 
     vector_float4 color;
     if (wantBackgroundColor) {
         color = [self colorForCode:screenChar.backgroundColor
-                             green:screenChar.bgGreen
-                              blue:screenChar.bgBlue
-                         colorMode:screenChar.backgroundColorMode
-                              bold:screenChar.bold
-                             faint:screenChar.faint
+                      green:screenChar.bgGreen
+                      blue:screenChar.bgBlue
+                      colorMode:screenChar.backgroundColorMode
+                      bold:screenChar.bold
+                      faint:screenChar.faint
                       isBackground:isBackground];
     } else {
         color = [self colorForCode:screenChar.foregroundColor
-                             green:screenChar.fgGreen
-                              blue:screenChar.fgBlue
-                         colorMode:screenChar.foregroundColorMode
-                              bold:screenChar.bold
-                             faint:screenChar.faint
+                      green:screenChar.fgGreen
+                      blue:screenChar.fgBlue
+                      colorMode:screenChar.foregroundColorMode
+                      bold:screenChar.bold
+                      faint:screenChar.faint
                       isBackground:isBackground];
     }
     if (muted) {
@@ -1396,8 +1404,8 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
 }
 
 - (NSColor *)cursorColorForCharacter:(screen_char_t)screenChar
-                      wantBackground:(BOOL)wantBackgroundColor
-                               muted:(BOOL)muted {
+    wantBackground:(BOOL)wantBackgroundColor
+    muted:(BOOL)muted {
     vector_float4 v = [self fastCursorColorForCharacter:screenChar wantBackground:wantBackgroundColor muted:muted];
     return [NSColor colorWithRed:v.x green:v.y blue:v.z alpha:v.w];
 }
@@ -1408,17 +1416,17 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
 
 - (NSColor *)cursorWhiteColor {
     NSColor *whiteColor = [NSColor colorWithCalibratedRed:1
-                                                    green:1
-                                                     blue:1
-                                                    alpha:1];
+                                   green:1
+                                   blue:1
+                                   alpha:1];
     return [_configuration->_colorMap colorByDimmingTextColor:whiteColor];
 }
 
 - (NSColor *)cursorBlackColor {
     NSColor *blackColor = [NSColor colorWithCalibratedRed:0
-                                                    green:0
-                                                     blue:0
-                                                    alpha:1];
+                                   green:0
+                                   blue:0
+                                   alpha:1];
     return [_configuration->_colorMap colorByDimmingTextColor:blackColor];
 }
 
@@ -1440,9 +1448,9 @@ ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
 
 - (BOOL)hideCursorBecauseBlinking {
     if (_cursorBlinking &&
-        _configuration->_isInKeyWindow &&
-        _configuration->_textViewIsActiveSession &&
-        _timeSinceCursorMoved > 0.5) {
+            _configuration->_isInKeyWindow &&
+            _configuration->_textViewIsActiveSession &&
+            _timeSinceCursorMoved > 0.5) {
         // Allow the cursor to blink if it is configured, the window is key, this session is active
         // in the tab, and the cursor has not moved for half a second.
         return !_configuration->_blinkingItemsVisible;

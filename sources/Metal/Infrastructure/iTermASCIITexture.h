@@ -34,7 +34,7 @@ static_assert(iTermASCIITextureAttributesItalic == iTermMetalGlyphKeyTypefaceIta
 #endif
 
 NS_INLINE iTermASCIITextureAttributes iTermASCIITextureAttributesFromGlyphKeyTypeface(iTermMetalGlyphKeyTypeface typeface,
-                                                                                      BOOL thinStrokes) {
+        BOOL thinStrokes) {
     static const int mask = ((1 << iTermMetalGlyphKeyTypefaceNumberOfBitsNeeded) - 1);
     iTermASCIITextureAttributes result = (typeface & mask);
     if (thinStrokes) {
@@ -67,9 +67,9 @@ NS_CLASS_AVAILABLE(10_11, NA)
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithAttributes:(iTermASCIITextureAttributes)attributes
-                        descriptor:(iTermCharacterSourceDescriptor *)descriptor
-                            device:(id<MTLDevice>)device
-                          creation:(NSDictionary<NSNumber *, iTermCharacterBitmap *> * _Nonnull (^)(char, iTermASCIITextureAttributes))creation NS_DESIGNATED_INITIALIZER;
+    descriptor:(iTermCharacterSourceDescriptor *)descriptor
+    device:(id<MTLDevice>)device
+    creation:(NSDictionary<NSNumber *, iTermCharacterBitmap *> * _Nonnull (^)(char, iTermASCIITextureAttributes))creation NS_DESIGNATED_INITIALIZER;
 
 @end
 
@@ -103,9 +103,9 @@ NS_CLASS_AVAILABLE(10_11, NA)
 @property (nonatomic, readonly) vector_float2 atlasSize;
 
 - (instancetype)initWithDevice:(id<MTLDevice>)device
-            creationIdentifier:(id)creationIdentifier
-                    descriptor:(iTermCharacterSourceDescriptor *)descriptor
-                      creation:(NSDictionary<NSNumber *, iTermCharacterBitmap *> *(^)(char, iTermASCIITextureAttributes))creation NS_DESIGNATED_INITIALIZER;
+    creationIdentifier:(id)creationIdentifier
+    descriptor:(iTermCharacterSourceDescriptor *)descriptor
+    creation:(NSDictionary<NSNumber *, iTermCharacterBitmap *> *(^)(char, iTermASCIITextureAttributes))creation NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (iTermASCIITexture *)asciiTextureForAttributes:(iTermASCIITextureAttributes)attributes;

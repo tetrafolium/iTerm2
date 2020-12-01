@@ -19,6 +19,6 @@
 
 + (instancetype)sharedInstance;
 - (void)addSubscriber:(id)subscriber
-                block:(void (^)(double bytesPerSecondRead, double bytesPerSecondWrite))block;
+    block:(void (^)(double bytesPerSecondRead, double bytesPerSecondWrite))block;
 
 @end

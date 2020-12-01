@@ -80,14 +80,14 @@ NSString *kStateDictMouseUTF8Mode = @"mouse_utf8_flag";
 + (NSString *)format {
     NSMutableString *format = [NSMutableString string];
     NSArray *theModes = [NSArray arrayWithObjects:
-                         kStateDictPaneId, kStateDictSavedGrid, kStateDictAltSavedCX,
-                         kStateDictAltSavedCY,
-                         kStateDictCursorX, kStateDictCursorY, kStateDictScrollRegionUpper,
-                         kStateDictScrollRegionLower, kStateDictTabstops, kStateDictCursorMode,
-                         kStateDictInsertMode,
-                         kStateDictKCursorMode, kStateDictKKeypadMode, kStateDictWrapMode,
-                         kStateDictMouseStandardMode, kStateDictMouseButtonMode,
-                         kStateDictMouseAnyMode, kStateDictMouseUTF8Mode, nil];
+                                 kStateDictPaneId, kStateDictSavedGrid, kStateDictAltSavedCX,
+                                 kStateDictAltSavedCY,
+                                 kStateDictCursorX, kStateDictCursorY, kStateDictScrollRegionUpper,
+                                 kStateDictScrollRegionLower, kStateDictTabstops, kStateDictCursorMode,
+                                 kStateDictInsertMode,
+                                 kStateDictKCursorMode, kStateDictKKeypadMode, kStateDictWrapMode,
+                                 kStateDictMouseStandardMode, kStateDictMouseButtonMode,
+                                 kStateDictMouseAnyMode, kStateDictMouseUTF8Mode, nil];
     for (NSString *value in theModes) {
         [format appendFormat:@"%@=#{%@}", value, value];
         if (value != [theModes lastObject]) {
@@ -119,25 +119,25 @@ NSString *kStateDictMouseUTF8Mode = @"mouse_utf8_flag";
 
 
     NSDictionary *fieldTypes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                intType, kStateDictSavedGrid,
-                                intType, kStateDictCursorX,
-                                intType, kStateDictCursorY,
-                                intType, kStateDictAltSavedCX,
-                                intType, kStateDictAltSavedCY,
-                                uintType, kStateDictCursorMode,
-                                uintType, kStateDictInsertMode,
-                                uintType, kStateDictKCursorMode,
-                                uintType, kStateDictKKeypadMode,
-                                uintType, kStateDictMouseStandardMode,
-                                uintType, kStateDictMouseButtonMode,
-                                uintType, kStateDictMouseAnyMode,
-                                uintType, kStateDictMouseUTF8Mode,
-                                uintType, kStateDictWrapMode,
-                                uintType, kStateDictScrollRegionUpper,
-                                uintType, kStateDictScrollRegionLower,
-                                paneIdNumberType, kStateDictPaneId,
-                                intlistType, kStateDictTabstops,
-                                nil];
+                                             intType, kStateDictSavedGrid,
+                                             intType, kStateDictCursorX,
+                                             intType, kStateDictCursorY,
+                                             intType, kStateDictAltSavedCX,
+                                             intType, kStateDictAltSavedCY,
+                                             uintType, kStateDictCursorMode,
+                                             uintType, kStateDictInsertMode,
+                                             uintType, kStateDictKCursorMode,
+                                             uintType, kStateDictKKeypadMode,
+                                             uintType, kStateDictMouseStandardMode,
+                                             uintType, kStateDictMouseButtonMode,
+                                             uintType, kStateDictMouseAnyMode,
+                                             uintType, kStateDictMouseUTF8Mode,
+                                             uintType, kStateDictWrapMode,
+                                             uintType, kStateDictScrollRegionUpper,
+                                             uintType, kStateDictScrollRegionLower,
+                                             paneIdNumberType, kStateDictPaneId,
+                                             intlistType, kStateDictTabstops,
+                                             nil];
 
     NSArray *fields = [state componentsSeparatedByString:@"\t"];
     NSMutableDictionary *result = [NSMutableDictionary dictionary];
@@ -162,7 +162,7 @@ NSString *kStateDictMouseUTF8Mode = @"mouse_utf8_flag";
 }
 
 - (NSMutableDictionary *)parsedStateFromString:(NSString *)stateLines
-                                     forPaneId:(int)paneId
+    forPaneId:(int)paneId
 {
     NSArray *states = [stateLines componentsSeparatedByString:@"\n"];
     for (NSString *state in states) {

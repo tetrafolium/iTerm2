@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)sharedActuator {
     static dispatch_once_t onceToken;
     static iTermHapticActuator *sharedActuator;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         sharedActuator = [[iTermHapticActuator alloc] init];
     });
     return sharedActuator;
@@ -43,18 +43,18 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (self) {
         _feedbackType = iTermHapticFeedbackTypeStrong;
-        
+
         _MTActuatorCreateFromDeviceID = iTermGetMTActuatorCreateFromDeviceIDFunction();
         _MTActuatorOpen = iTermGetMTActuatorOpenFunction();
         _MTActuatorClose = iTermGetMTActuatorCloseFunction();
         _MTActuatorActuate = iTermGetMTActuatorActuateFunction();
         _MTActuatorIsOpen = iTermGetMTActuatorIsOpenFunction();
-        
+
         if (!_MTActuatorCreateFromDeviceID ||
-            !_MTActuatorOpen ||
-            !_MTActuatorClose ||
-            !_MTActuatorActuate ||
-            !_MTActuatorIsOpen) {
+                !_MTActuatorOpen ||
+                !_MTActuatorClose ||
+                !_MTActuatorActuate ||
+                !_MTActuatorIsOpen) {
             return nil;
         }
     }
@@ -67,32 +67,32 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)actuateTouchDownFeedback {
     [self actuateActuationID:[self actuationIDForType:_feedbackType]
-                    unknown1:0
-                    unknown2:0.0
-                    unknown3:2.0];
+          unknown1:0
+          unknown2:0.0
+          unknown3:2.0];
 }
 
 - (void)actuateTouchUpFeedback {
     [self actuateActuationID:[self actuationIDForType:_feedbackType]
-                    unknown1:0
-                    unknown2:0.0
-                    unknown3:0.0];
+          unknown1:0
+          unknown2:0.0
+          unknown3:0.0];
 }
 
 - (BOOL)actuateActuationID:(SInt32)actuationID
-                  unknown1:(UInt32)unknown1
-                  unknown2:(Float32)unknown2
-                  unknown3:(Float32)unknown3 {
+    unknown1:(UInt32)unknown1
+    unknown2:(Float32)unknown2
+    unknown3:(Float32)unknown3 {
     [self _htk_main_openActuator];
     BOOL result = [self _htk_main_actuateActuationID:actuationID unknown1:unknown1 unknown2:unknown2 unknown3:unknown3];
-    
+
     // In case we failed to actuate with existing actuator, reopen it and try again.
     if (!result) {
         [self _htk_main_closeActuator];
         [self _htk_main_openActuator];
         result = [self _htk_main_actuateActuationID:actuationID unknown1:unknown1 unknown2:unknown2 unknown3:unknown3];
     }
-    
+
     return result;
 }
 
@@ -110,7 +110,7 @@ static const UInt64 kKnownAppleMultitouchDeviceMultitouchIDs[] = {
     if (_actuatorRef) {
         return;
     }
-    
+
     if (self.lastKnownMultitouchDeviceMultitouchID) {
         const CFTypeRef actuatorRef = _MTActuatorCreateFromDeviceID(self.lastKnownMultitouchDeviceMultitouchID);
         if (!actuatorRef) {
@@ -136,7 +136,7 @@ static const UInt64 kKnownAppleMultitouchDeviceMultitouchIDs[] = {
             return;
         }
     }
-    
+
     const IOReturn error = _MTActuatorOpen(_actuatorRef);
     if (error != kIOReturnSuccess) {
         DLog(@"Fail to MTActuatorOpen: %p error: 0x%x", _actuatorRef, error);
@@ -150,7 +150,7 @@ static const UInt64 kKnownAppleMultitouchDeviceMultitouchIDs[] = {
     if (!_actuatorRef) {
         return;
     }
-    
+
     const IOReturn error = _MTActuatorClose(_actuatorRef);
     if (error != kIOReturnSuccess) {
         DLog(@"Fail to MTActuatorClose: %p error: 0x%x", _actuatorRef, error);
@@ -164,7 +164,7 @@ static const UInt64 kKnownAppleMultitouchDeviceMultitouchIDs[] = {
         DLog(@"The actuator is not opend yet.");
         return NO;
     }
-    
+
     const IOReturn error = _MTActuatorActuate(_actuatorRef, actuationID, unknown1, unknown2, unknown3);
     if (error != kIOReturnSuccess) {
         DLog(@"Fail to MTActuatorActuate: %p, %d, %d, %f, %f error: 0x%x", _actuatorRef, actuationID, unknown1, unknown2, unknown3, error);
@@ -179,16 +179,16 @@ static const UInt64 kKnownAppleMultitouchDeviceMultitouchIDs[] = {
     // $ otool -s __TEXT __tpad_act_plist /System/Library/PrivateFrameworks/MultitouchSupport.framework/Versions/Current/MultitouchSupport|tail -n +3|awk -F'\t' '{print $2}'|xxd -r -p
     // This show a embeded property list file in `MultitouchSupport.framework`.
     // There are default 1, 2, 3, 4, 5, 6, 15, and 16 actuation IDs now.
-    
+
     switch (type) {
-        case iTermHapticFeedbackTypeNone:
-            return 0;
-        case iTermHapticFeedbackTypeWeak:
-            return 3;
-        case iTermHapticFeedbackTypeMedium:
-            return 4;
-        case iTermHapticFeedbackTypeStrong:
-            return 6;
+    case iTermHapticFeedbackTypeNone:
+        return 0;
+    case iTermHapticFeedbackTypeWeak:
+        return 3;
+    case iTermHapticFeedbackTypeMedium:
+        return 4;
+    case iTermHapticFeedbackTypeStrong:
+        return 6;
     }
     return 0;
 }

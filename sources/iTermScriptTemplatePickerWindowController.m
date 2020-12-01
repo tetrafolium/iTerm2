@@ -76,8 +76,8 @@
     __weak __typeof(self) weakSelf = self;
     NSCursor *cursor = _cursor;
     [self.window.contentView enumerateHierarchy:^(NSView *view) {
-        [weakSelf.window.contentView addCursorRect:view.bounds cursor:cursor];
-    }];
+                                [weakSelf.window.contentView addCursorRect:view.bounds cursor:cursor];
+                            }];
     [_basic addTrackingRect:_basic.bounds owner:_basic userData:NULL assumeInside:NO];
     [_pyenv addTrackingRect:_pyenv.bounds owner:_pyenv userData:NULL assumeInside:NO];
 }
@@ -90,15 +90,15 @@
     [self.window.contentView addSubview:_templateView];
 
     [NSView animateWithDuration:0.25
-                     animations:^{
-                         NSRect frame = self->_environmentView.frame;
-                         frame.origin.x -= frame.size.width;
-                         self->_environmentView.animator.frame = frame;
+           animations:^ {
+               NSRect frame = self->_environmentView.frame;
+               frame.origin.x -= frame.size.width;
+               self->_environmentView.animator.frame = frame;
 
-                         frame = self->_templateView.frame;
-                         frame.origin.x = 0;
-                         self->_templateView.animator.frame = frame;
-                     } completion:nil];
+               frame = self->_templateView.frame;
+               frame.origin.x = 0;
+               self->_templateView.animator.frame = frame;
+           } completion:nil];
 }
 
 #pragma mark - Actions

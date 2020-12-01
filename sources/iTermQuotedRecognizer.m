@@ -31,7 +31,7 @@
 
     long inputLength = [tokenString length];
     CFRange searchRange = CFRangeMake(*tokenPosition, MIN(inputLength - *tokenPosition,
-                                                          startQuoteLength + endQuoteLength + self.maximumLength));
+                                      startQuoteLength + endQuoteLength + self.maximumLength));
     CFRange range;
     BOOL matched;
     if (self.startQuote.length == 0) {
@@ -56,16 +56,16 @@
         CFRange endRange;
         CFRange escapeRange;
         BOOL matchedEndSequence = CFStringFindWithOptions((CFStringRef)tokenString,
-                                                          (CFStringRef)self.endQuote,
-                                                          searchRange,
-                                                          0L,
-                                                          &endRange);
+                                  (CFStringRef)self.endQuote,
+                                  searchRange,
+                                  0L,
+                                  &endRange);
         BOOL matchedEscapeSequence =
             (nil == self.escapeSequence) ? NO : CFStringFindWithOptions((CFStringRef)tokenString,
-                                                                        (CFStringRef)self.escapeSequence,
-                                                                        searchRange,
-                                                                        0L,
-                                                                        &escapeRange);
+                    (CFStringRef)self.escapeSequence,
+                    searchRange,
+                    0L,
+                    &escapeRange);
 
         while (matchedEndSequence && searchRange.location < inputLength)
         {

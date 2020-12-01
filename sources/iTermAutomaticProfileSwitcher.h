@@ -48,16 +48,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithDelegate:(id<iTermAutomaticProfileSwitcherDelegate>)delegate NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithDelegate:(id<iTermAutomaticProfileSwitcherDelegate>)delegate
-                      savedState:(NSDictionary *)savedState;
+    savedState:(NSDictionary *)savedState;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (NSDictionary *)savedState;
 
 // Call this when the hostname, username, or path changes.
 - (void)setHostname:(nullable NSString *)hostname
-           username:(nullable NSString *)username
-               path:(nullable NSString *)path
-                job:(nullable NSString *)job;
+    username:(nullable NSString *)username
+    path:(nullable NSString *)path
+    job:(nullable NSString *)job;
 
 @end
 

@@ -70,7 +70,7 @@ const CGFloat kEdgeWidth = 3;
 - (void)drawFocusRingMaskWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
     if (controlView.frame.origin.y >= 0) {
         [super drawFocusRingMaskWithFrame:NSInsetRect(cellFrame, kFocusRingInset.width, kFocusRingInset.height)
-                                   inView:controlView];
+               inView:controlView];
     }
 }
 
@@ -94,8 +94,8 @@ const CGFloat kEdgeWidth = 3;
     }
     cellFrame = NSInsetRect(cellFrame, xInset, yInset);
     NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:cellFrame
-                                                         xRadius:4
-                                                         yRadius:4];
+                                       xRadius:4
+                                       yRadius:4];
     [path fill];
 
     [self drawProgressBarInFrame:originalFrame path:path];
@@ -107,8 +107,8 @@ const CGFloat kEdgeWidth = 3;
 
         cellFrame = NSInsetRect(cellFrame, 0.25, 0.25);
         path = [NSBezierPath bezierPathWithRoundedRect:cellFrame
-                                               xRadius:4
-                                               yRadius:4];
+                             xRadius:4
+                             yRadius:4];
         [path setLineWidth:0.25];
         [[NSColor colorWithCalibratedWhite:0.7 alpha:1] set];
         [path stroke];
@@ -132,7 +132,7 @@ const CGFloat kEdgeWidth = 3;
 
 // Work around a macOS bug that prevents updating the text rect while the search field has keyboard focus.
 - (void)updateKeyboardClipViewIfNeeded {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         NSTextField *textField = [NSTextField castFrom:self.controlView];
         id cell = textField.cell;
         if ([cell isKindOfClass:[iTermSearchFieldCell class]]) {
@@ -143,8 +143,8 @@ const CGFloat kEdgeWidth = 3;
 
 - (void)reallyUpdateKeyboardClipView:(NSTextField *)textField {
     NSView *keyboardClipView = [self.controlView.subviews objectPassingTest:^BOOL(__kindof NSView *element, NSUInteger index, BOOL *stop) {
-        return [NSStringFromClass([element class]) isEqualToString:@"_NSKeyboardFocusClipView"];
-    }];
+                                  return [NSStringFromClass([element class]) isEqualToString:@"_NSKeyboardFocusClipView"];
+                              }];
     if (!keyboardClipView) {
         return;
     }
@@ -212,7 +212,7 @@ const CGFloat kEdgeWidth = 3;
 - (NSDictionary *)attributesForIndexAndCount {
     NSTextField *textField = [NSTextField castFrom:self.controlView];
     if (textField.attributedStringValue.length == 0) {
-        return @{};
+        return @ {};
     }
     NSMutableDictionary *attributes = [[textField.attributedStringValue attributesAtIndex:0 effectiveRange:nil] mutableCopy];
     attributes[NSForegroundColorAttributeName] = [attributes[NSForegroundColorAttributeName] colorWithAlphaComponent:0.5];
@@ -235,9 +235,9 @@ const CGFloat kEdgeWidth = 3;
 
     const CGFloat alpha = 0.3 * _alphaMultiplier;
     [[NSColor colorWithCalibratedRed:0.6
-                               green:0.6
-                               blue:1.0
-                               alpha:alpha] set];
+      green:0.6
+      blue:1.0
+      alpha:alpha] set];
     NSRectFillUsingOperation(blueRect, NSCompositingOperationSourceOver);
 
     [[NSGraphicsContext currentContext] restoreGraphicsState];

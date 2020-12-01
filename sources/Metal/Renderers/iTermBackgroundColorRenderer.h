@@ -10,9 +10,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) vector_float4 defaultBackgroundColor;
 
 - (void)setColorRLEs:(const iTermMetalBackgroundColorRLE *)rles
-               count:(size_t)count
-                 row:(int)row
-       repeatingRows:(int)repeatingRows;
+    count:(size_t)count
+    row:(int)row
+    repeatingRows:(int)repeatingRows;
 
 @end
 

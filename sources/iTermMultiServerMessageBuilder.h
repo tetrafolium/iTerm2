@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface iTermMultiServerMessageBuilder: NSObject
+@interface iTermMultiServerMessageBuilder : NSObject
 @property (nonatomic, readonly) iTermMultiServerMessage *message;
 @property (nonatomic, readonly) NSInteger length;
 

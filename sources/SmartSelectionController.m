@@ -60,7 +60,7 @@ static NSString *const kLogDebugInfoKey = @"Log Smart Selection Debug Info";
     static NSArray *rulesArray;
     if (!rulesArray) {
         NSString* plistFile = [[NSBundle bundleForClass:[self class]] pathForResource:@"SmartSelectionRules"
-                                                                               ofType:@"plist"];
+                                                                    ofType:@"plist"];
         NSDictionary* rulesDict = [NSDictionary dictionaryWithContentsOfFile:plistFile];
         ITCriticalError(rulesDict != nil, @"Failed to parse SmartSelectionRules: %@", [NSString stringWithContentsOfFile:plistFile encoding:NSUTF8StringEncoding error:nil]);
         rulesArray = [rulesDict objectForKey:@"Rules"];
@@ -77,11 +77,17 @@ static NSString *const kLogDebugInfoKey = @"Log Smart Selection Debug Info";
 }
 
 + (double)precisionInRule:(NSDictionary *)rule {
-    NSDictionary *precisionValues = @{ kVeryLowPrecision: @0.00001,
-                                       kLowPrecision: @0.001,
-                                       kNormalPrecision: @1.0,
-                                       kHighPrecision: @1000.0,
-                                       kVeryHighPrecision: @1000000.0 };
+    NSDictionary *precisionValues = @ { kVeryLowPrecision:
+                                        @0.00001,
+                                        kLowPrecision:
+                                        @0.001,
+                                        kNormalPrecision:
+                                        @1.0,
+                                        kHighPrecision:
+                                        @1000.0,
+                                        kVeryHighPrecision:
+                                        @1000000.0
+                                      };
 
     NSString *precision = rule[kPrecisionKey];
     return [precisionValues[precision] doubleValue];
@@ -116,8 +122,11 @@ static NSString *const kLogDebugInfoKey = @"Log Smart Selection Debug Info";
 }
 
 - (NSDictionary *)defaultRule {
-    return @{ kRegexKey: @"",
-              kPrecisionKey: kVeryLowPrecision };
+    return @ { kRegexKey:
+               @"",
+               kPrecisionKey:
+               kVeryLowPrecision
+             };
 }
 
 - (void)setRule:(NSDictionary *)rule forRow:(NSInteger)rowIndex {
@@ -145,7 +154,7 @@ static NSString *const kLogDebugInfoKey = @"Log Smart Selection Debug Info";
 - (IBAction)addRule:(id)sender {
     [self setRule:[self defaultRule] forRow:-1];
     [tableView_ selectRowIndexes:[NSIndexSet indexSetWithIndex:tableView_.numberOfRows - 1]
-            byExtendingSelection:NO];
+                byExtendingSelection:NO];
 }
 
 - (IBAction)removeRule:(id)sender {
@@ -161,8 +170,8 @@ static NSString *const kLogDebugInfoKey = @"Log Smart Selection Debug Info";
 - (IBAction)loadDefaults:(id)sender {
     Profile *bookmark = [self bookmark];
     [[self modelForBookmark:bookmark] setObject:[SmartSelectionController defaultRules]
-                                         forKey:KEY_SMART_SELECTION_RULES
-                                     inBookmark:bookmark];
+                                      forKey:KEY_SMART_SELECTION_RULES
+                                      inBookmark:bookmark];
     [tableView_ reloadData];
     [delegate_ smartSelectionChanged:nil];
 }
@@ -173,11 +182,17 @@ static NSString *const kLogDebugInfoKey = @"Log Smart Selection Debug Info";
 }
 
 - (NSString *)displayNameForPrecision:(NSString *)precision {
-    NSDictionary *names = @{ kVeryLowPrecision: @"Very Low",
-                             kLowPrecision: @"Low",
-                             kNormalPrecision: @"Normal",
-                             kHighPrecision: @"High",
-                             kVeryHighPrecision: @"Very High" };
+    NSDictionary *names = @ { kVeryLowPrecision:
+                              @"Very Low",
+                              kLowPrecision:
+                              @"Low",
+                              kNormalPrecision:
+                              @"Normal",
+                              kHighPrecision:
+                              @"High",
+                              kVeryHighPrecision:
+                              @"Very High"
+                            };
     return names[precision] ?: @"Undefined";
 }
 
@@ -203,8 +218,8 @@ static NSString *const kLogDebugInfoKey = @"Log Smart Selection Debug Info";
 }
 
 - (id)tableView:(NSTableView *)aTableView
-        objectValueForTableColumn:(NSTableColumn *)aTableColumn
-            row:(NSInteger)rowIndex {
+    objectValueForTableColumn:(NSTableColumn *)aTableColumn
+    row:(NSInteger)rowIndex {
     NSArray<NSDictionary *> *rules = self.rules;
     if (rowIndex < 0 || rowIndex >= rules.count) {
         DLog(@"Asked for row %@ out of %@", @(rowIndex), rules);
@@ -222,10 +237,10 @@ static NSString *const kLogDebugInfoKey = @"Log Smart Selection Debug Info";
 }
 
 - (void)tableView:(NSTableView *)aTableView
-   setObjectValue:(id)anObject
-   forTableColumn:(NSTableColumn
-                   *)aTableColumn
-              row:(NSInteger)rowIndex {
+    setObjectValue:(id)anObject
+    forTableColumn:(NSTableColumn
+    *)aTableColumn
+    row:(NSInteger)rowIndex {
     NSMutableDictionary *rule = [self.rules[rowIndex] mutableCopy];
 
     if (aTableColumn == regexColumn_) {
@@ -241,10 +256,10 @@ static NSString *const kLogDebugInfoKey = @"Log Smart Selection Debug Info";
 #pragma mark - NSTableViewDelegate
 
 - (BOOL)tableView:(NSTableView *)aTableView
-      shouldEditTableColumn:(NSTableColumn *)aTableColumn
-              row:(NSInteger)rowIndex {
+    shouldEditTableColumn:(NSTableColumn *)aTableColumn
+    row:(NSInteger)rowIndex {
     if (aTableColumn == regexColumn_ ||
-        aTableColumn == notesColumn_) {
+            aTableColumn == notesColumn_) {
         return YES;
     }
     return NO;
@@ -252,7 +267,7 @@ static NSString *const kLogDebugInfoKey = @"Log Smart Selection Debug Info";
 
 - (NSCell *)tableView:(NSTableView *)tableView
     dataCellForTableColumn:(NSTableColumn *)tableColumn
-                  row:(NSInteger)row {
+    row:(NSInteger)row {
     if (tableColumn == precisionColumn_) {
         NSPopUpButtonCell *cell =
             [[NSPopUpButtonCell alloc] initTextCell:[self displayNameForPrecision:kVeryLowPrecision] pullsDown:NO];
@@ -288,7 +303,7 @@ static NSString *const kLogDebugInfoKey = @"Log Smart Selection Debug Info";
 
 - (IBAction)logDebugInfoChanged:(id)sender {
     [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:logDebugInfo_.state]
-                                              forKey:kLogDebugInfoKey];
+                                           forKey:kLogDebugInfoKey];
 }
 
 + (BOOL)logDebugInfo {
@@ -315,8 +330,8 @@ static NSString *const kLogDebugInfoKey = @"Log Smart Selection Debug Info";
     [contextMenuPrefsController_ setDelegate:self];
     __weak __typeof(self) weakSelf = self;
     [self.window beginSheet:contextMenuPrefsController_.window completionHandler:^(NSModalResponse returnCode) {
-        __strong __typeof(weakSelf) strongSelf = weakSelf;
-        if (strongSelf) {
+                    __strong __typeof(weakSelf) strongSelf = weakSelf;
+                    if (strongSelf) {
             [strongSelf->contextMenuPrefsController_.window close];
         }
     }];

@@ -35,11 +35,11 @@ NSString *const iTermStatusBarElementPasteboardType = @"com.iterm2.status-bar-el
 }
 
 - (instancetype)initWithComponentFactory:(id<iTermStatusBarComponentFactory>)factory
-                         layoutAlgorithm:(iTermStatusBarLayoutAlgorithmSetting)layoutAlgorithm
-                                   knobs:(NSDictionary *)knobs {
+    layoutAlgorithm:(iTermStatusBarLayoutAlgorithmSetting)layoutAlgorithm
+    knobs:(NSDictionary *)knobs {
     return [self initWithComponent:[factory newComponentWithKnobs:knobs
-                                                  layoutAlgorithm:layoutAlgorithm
-                                                            scope:nil]];
+                                    layoutAlgorithm:layoutAlgorithm
+                                    scope:nil]];
 }
 
 - (NSString *)description {
@@ -47,23 +47,26 @@ NSString *const iTermStatusBarElementPasteboardType = @"com.iterm2.status-bar-el
 }
 
 - (NSAttributedString *)exemplarWithBackgroundColor:(NSColor *)defaultBackgroundColor
-                                          textColor:(NSColor *)defaultTextColor
-                                        defaultFont:(NSFont *)defaultFont {
+    textColor:(NSColor *)defaultTextColor
+    defaultFont:(NSFont *)defaultFont {
     NSColor *backgroundColor = self.component.statusBarBackgroundColor ?: defaultBackgroundColor;
     NSColor *textColor = self.component.statusBarTextColor;
     if (textColor == [NSColor labelColor] || textColor == nil) {
         textColor = defaultTextColor;
     }
     id object = [self.component statusBarComponentExemplarWithBackgroundColor:backgroundColor
-                                                                    textColor:textColor];
+                                textColor:textColor];
     if ([object isKindOfClass:[NSAttributedString class]]) {
         return object;
     }
 
     NSFont *font = defaultFont ?: [NSFont systemFontOfSize:[NSFont systemFontSize]];
-    NSDictionary *attributes = @{ NSFontAttributeName: font,
-                                  NSForegroundColorAttributeName: textColor ?: [NSColor labelColor],
-                                  NSBackgroundColorAttributeName: [NSColor clearColor] };
+    NSDictionary *attributes = @ { NSFontAttributeName:
+                                   font,
+                                   NSForegroundColorAttributeName:
+                                   textColor ?: [NSColor labelColor],
+                                   NSBackgroundColorAttributeName: [NSColor clearColor]
+                                 };
     return [[NSAttributedString alloc] initWithString:object attributes:attributes];
 }
 
@@ -75,8 +78,8 @@ NSString *const iTermStatusBarElementPasteboardType = @"com.iterm2.status-bar-el
     NSDictionary *dict = _component.configuration[iTermStatusBarComponentConfigurationKeyLayoutAdvancedConfigurationDictionaryValue];
     iTermStatusBarAdvancedConfiguration *advancedConfiguration = [iTermStatusBarAdvancedConfiguration advancedConfigurationFromDictionary:dict];
     return [[iTermStatusBarSetupElement alloc] initWithComponent:[_component.statusBarComponentFactory newComponentWithKnobs:knobs
-                                                                                                             layoutAlgorithm:advancedConfiguration.layoutAlgorithm
-                                                                                                                       scope:nil]];
+                                               layoutAlgorithm:advancedConfiguration.layoutAlgorithm
+                                               scope:nil]];
 }
 
 #pragma mark - NSCoding
@@ -88,16 +91,16 @@ NSString *const iTermStatusBarElementPasteboardType = @"com.iterm2.status-bar-el
     }
     NSDictionary *knobs = [aDecoder decodeObjectOfClass:[NSDictionary class] forKey:@"knobs"];
     return [self initWithComponentFactory:factory
-                          layoutAlgorithm:[aDecoder decodeIntegerForKey:@"layoutAlgorithm"]
-                                    knobs:knobs];
+                 layoutAlgorithm:[aDecoder decodeIntegerForKey:@"layoutAlgorithm"]
+                 knobs:knobs];
 }
 
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:_component.statusBarComponentFactory forKey:@"componentFactory"];
-    NSDictionary *knobs = _component.configuration[iTermStatusBarComponentConfigurationKeyKnobValues] ?: @{};
+    NSDictionary *knobs = _component.configuration[iTermStatusBarComponentConfigurationKeyKnobValues] ?: @ {};
     [aCoder encodeObject:knobs
-                  forKey:@"knobs"];
+            forKey:@"knobs"];
     NSDictionary *dict = _component.configuration[iTermStatusBarComponentConfigurationKeyLayoutAdvancedConfigurationDictionaryValue];
     iTermStatusBarAdvancedConfiguration *advancedConfiguration = [iTermStatusBarAdvancedConfiguration advancedConfigurationFromDictionary:dict];
     [aCoder encodeInteger:advancedConfiguration.layoutAlgorithm forKey:@"layoutAlgorithm"];
@@ -117,8 +120,8 @@ NSString *const iTermStatusBarElementPasteboardType = @"com.iterm2.status-bar-el
     }
 
     return [NSKeyedArchiver archivedDataWithRootObject:self
-                                 requiringSecureCoding:NO
-                                                 error:nil];
+                            requiringSecureCoding:NO
+                            error:nil];
 }
 
 #pragma mark - NSPasteboardReading
@@ -131,14 +134,14 @@ NSString *const iTermStatusBarElementPasteboardType = @"com.iterm2.status-bar-el
     // I haven't tested this because I think it's unreachable. If it breaks then it's because
     // whatever this decodes doesn't conform to secure coding.
     NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:propertyList
-                                                                                error:nil];
+                                                               error:nil];
     return [self initWithCoder:unarchiver];
 }
 
 #pragma mark - iTermStatusBarComponentDelegate
 
 - (void)statusBarComponentKnobsDidChange:(id<iTermStatusBarComponent>)component
-                             updatedKeys:(NSSet<NSString *> *)updatedKeys {
+    updatedKeys:(NSSet<NSString *> *)updatedKeys {
     [self.delegate itermStatusBarSetupElementDidChange:self updatedKeys:updatedKeys];
 }
 
@@ -190,9 +193,9 @@ NSString *const iTermStatusBarElementPasteboardType = @"com.iterm2.status-bar-el
 }
 
 - (void)statusBarComponent:(id<iTermStatusBarComponent>)component
-      reportScriptingError:(NSError *)error
-             forInvocation:(NSString *)invocation
-                    origin:(NSString *)origin {
+    reportScriptingError:(NSError *)error
+    forInvocation:(NSString *)invocation
+    origin:(NSString *)origin {
     assert(NO);
 }
 

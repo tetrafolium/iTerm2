@@ -30,13 +30,13 @@ NS_INLINE BOOL isc1(int c) {
 - (void)unhookDCS;
 
 - (void)parseControlWithData:(unsigned char *)datap
-                     datalen:(int)datalen
-                       rmlen:(int *)rmlen
-                 incidentals:(CVector *)incidentals
-                       token:(VT100Token *)token
-                    encoding:(NSStringEncoding)encoding
-                  savedState:(NSMutableDictionary *)savedState
-                   dcsHooked:(BOOL *)dcsHooked;
+    datalen:(int)datalen
+    rmlen:(int *)rmlen
+    incidentals:(CVector *)incidentals
+    token:(VT100Token *)token
+    encoding:(NSStringEncoding)encoding
+    savedState:(NSMutableDictionary *)savedState
+    dcsHooked:(BOOL *)dcsHooked;
 
 - (void)startTmuxRecoveryModeWithID:(NSString *)dcsID;
 

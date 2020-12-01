@@ -52,8 +52,8 @@ typedef NS_ENUM(NSInteger, iTermSelectionMode) {
 
 // Returns the indexes of cells on the given line containing the given (non-complex) character.
 - (NSIndexSet *)selectionIndexesOnAbsoluteLine:(long long)line
-                           containingCharacter:(unichar)c
-                                       inRange:(NSRange)range;
+    containingCharacter:(unichar)c
+    inRange:(NSRange)range;
 
 @end
 
@@ -66,8 +66,8 @@ typedef NS_ENUM(NSInteger, iTermSelectionMode) {
 @property(nonatomic, assign) BOOL connected;  // If connected, no newline occurs before the next sub
 
 + (instancetype)subSelectionWithAbsRange:(VT100GridAbsWindowedRange)range
-                                    mode:(iTermSelectionMode)mode
-                                   width:(int)width;
+    mode:(iTermSelectionMode)mode
+    width:(int)width;
 - (BOOL)containsAbsCoord:(VT100GridAbsCoord)coord;
 
 @end
@@ -133,9 +133,9 @@ typedef NS_ENUM(NSInteger, iTermSelectionMode) {
 // existing set of subselections.
 // Start a new selection, erasing the old one. Enters live selection.
 - (void)beginSelectionAtAbsCoord:(VT100GridAbsCoord)absCoord
-                            mode:(iTermSelectionMode)mode
-                          resume:(BOOL)resume
-                          append:(BOOL)append;
+    mode:(iTermSelectionMode)mode
+    resume:(BOOL)resume
+    append:(BOOL)append;
 
 // Start extending an existing election, moving an endpoint to the given
 // coordinate in a way appropriate for the selection mode. Enters live selection.
@@ -185,12 +185,12 @@ typedef NS_ENUM(NSInteger, iTermSelectionMode) {
 
 // Load selection from serialized dict
 - (void)setFromDictionaryValue:(NSDictionary *)dict
-                         width:(int)width
-       totalScrollbackOverflow:(long long)totalScrollbackOverflow;
+    width:(int)width
+    totalScrollbackOverflow:(long long)totalScrollbackOverflow;
 
 // Serialized.
 - (NSDictionary *)dictionaryValueWithYOffset:(int)yOffset
-                     totalScrollbackOverflow:(long long)totalScrollbackOverflow;
+    totalScrollbackOverflow:(long long)totalScrollbackOverflow;
 
 // Utility methods
 - (BOOL)absCoord:(VT100GridAbsCoord)a isBeforeAbsCoord:(VT100GridAbsCoord)b;

@@ -41,9 +41,9 @@ NS_ASSUME_NONNULL_BEGIN
 // If stopAtUnescapedQuote is NO then truncation can only be in expressions, not literals.
 // Non literals may contain swifty strings.
 - (NSInteger)enumerateSwiftySubstringsWithBlock:(void (^ _Nullable)(NSUInteger index,
-                                                                    NSString *substring,
-                                                                    BOOL isLiteral,
-                                                                    BOOL *stop))block;
+    NSString *substring,
+    BOOL isLiteral,
+    BOOL *stop))block;
 
 @end
 

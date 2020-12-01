@@ -52,9 +52,9 @@ static const CGFloat kButtonSize = 17;
 
         NSImage *closeImage = [NSImage it_imageNamed:@"closebutton" forClass:self.class];
         closeButton_ = [[NoFirstResponderButton alloc] initWithFrame:NSMakeRect(x,
-                                                                                (frame.size.height - kButtonSize) / 2,
-                                                                                kButtonSize,
-                                                                                kButtonSize)];
+                                                       (frame.size.height - kButtonSize) / 2,
+                                                       kButtonSize,
+                                                       kButtonSize)];
         [closeButton_ setButtonType:NSButtonTypeMomentaryPushIn];
         [closeButton_ setImage:closeImage];
         [closeButton_ setTarget:self];
@@ -76,9 +76,9 @@ static const CGFloat kButtonSize = 17;
         menuButton_.action = @selector(openMenu:);
 
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(modifierShortcutDidChange:)
-                                                     name:kPSMModifierChangedNotification
-                                                   object:nil];
+                                              selector:@selector(modifierShortcutDidChange:)
+                                              name:kPSMModifierChangedNotification
+                                              object:nil];
 
         menuButton_.frame = NSMakeRect(frame.size.width - menuButton_.image.size.width - 6,
                                        (frame.size.height - menuButton_.image.size.height) / 2,
@@ -104,7 +104,7 @@ static const CGFloat kButtonSize = 17;
         [self addSubview:label_];
 
         [self addCursorRect:NSMakeRect(0, 0, frame.size.width, frame.size.height)
-                     cursor:[NSCursor arrowCursor]];
+              cursor:[NSCursor arrowCursor]];
 
         [self updateTextColor];
     }
@@ -134,9 +134,9 @@ static const CGFloat kButtonSize = 17;
         const CGFloat margin = 5;
         const CGFloat minX = NSMaxX(closeButton_.frame) + margin;
         _statusBarViewController.view.frame = NSMakeRect(minX,
-                                                         1,
-                                                         NSMinX(menuButton_.frame) - margin - minX,
-                                                         self.frame.size.height);
+                                              1,
+                                              NSMinX(menuButton_.frame) - margin - minX,
+                                              self.frame.size.height);
         label_.hidden = YES;
     } else {
         // You can have either a label or a status bar but not both.
@@ -196,25 +196,25 @@ static const CGFloat kButtonSize = 17;
     }
     NSString *prefix = @"";
     switch ([iTermPreferences intForKey:kPreferenceKeySwitchPaneModifier]) {
-        case kPreferenceModifierTagNone:
-            return title_;
-            break;
+    case kPreferenceModifierTagNone:
+        return title_;
+        break;
 
-        case kPreferencesModifierTagEitherCommand:
-            prefix = [NSString stringForModifiersWithMask:NSEventModifierFlagCommand];
-            break;
+    case kPreferencesModifierTagEitherCommand:
+        prefix = [NSString stringForModifiersWithMask:NSEventModifierFlagCommand];
+        break;
 
-        case kPreferencesModifierTagEitherOption:
-            prefix = [NSString stringForModifiersWithMask:NSEventModifierFlagOption];
-            break;
+    case kPreferencesModifierTagEitherOption:
+        prefix = [NSString stringForModifiersWithMask:NSEventModifierFlagOption];
+        break;
 
-        case kPreferencesModifierTagCommandAndOption:
-            prefix = [NSString stringForModifiersWithMask:(NSEventModifierFlagCommand | NSEventModifierFlagOption)];
-            break;
+    case kPreferencesModifierTagCommandAndOption:
+        prefix = [NSString stringForModifiersWithMask:(NSEventModifierFlagCommand | NSEventModifierFlagOption)];
+        break;
 
-        case kPreferencesModifierTagControl:
-            prefix = [NSString stringForModifiersWithMask:NSEventModifierFlagControl];
-            break;
+    case kPreferencesModifierTagControl:
+        prefix = [NSString stringForModifiersWithMask:NSEventModifierFlagControl];
+        break;
     }
     return [NSString stringWithFormat:@"%@%@   %@", prefix, @(_ordinal), title_];
 }
@@ -250,38 +250,38 @@ static const CGFloat kButtonSize = 17;
         return;
     }
     switch ([self.effectiveAppearance it_tabStyle:preferredStyle]) {
-        case TAB_STYLE_AUTOMATIC:
-        case TAB_STYLE_COMPACT:
-        case TAB_STYLE_MINIMAL:
-            assert(NO);
-            
-        case TAB_STYLE_LIGHT:
-            if (dimmingAmount_ > 0) {
-                // Not selected
-                whiteLevel = 0.3;
-            } else {
-                // selected
-                whiteLevel = 0.2;
-            }
-            break;
+    case TAB_STYLE_AUTOMATIC:
+    case TAB_STYLE_COMPACT:
+    case TAB_STYLE_MINIMAL:
+        assert(NO);
 
-        case TAB_STYLE_LIGHT_HIGH_CONTRAST:
-            whiteLevel = 0;
-            break;
+    case TAB_STYLE_LIGHT:
+        if (dimmingAmount_ > 0) {
+            // Not selected
+            whiteLevel = 0.3;
+        } else {
+            // selected
+            whiteLevel = 0.2;
+        }
+        break;
 
-        case TAB_STYLE_DARK:
-            if (dimmingAmount_ > 0) {
-                // Not selected
-                whiteLevel = 0.6;
-            } else {
-                // selected
-                whiteLevel = 0.8;
-            }
-            break;
+    case TAB_STYLE_LIGHT_HIGH_CONTRAST:
+        whiteLevel = 0;
+        break;
 
-        case TAB_STYLE_DARK_HIGH_CONTRAST:
-            whiteLevel = 1;
-            break;
+    case TAB_STYLE_DARK:
+        if (dimmingAmount_ > 0) {
+            // Not selected
+            whiteLevel = 0.6;
+        } else {
+            // selected
+            whiteLevel = 0.8;
+        }
+        break;
+
+    case TAB_STYLE_DARK_HIGH_CONTRAST:
+        whiteLevel = 1;
+        break;
     }
     [label_ setTextColor:[NSColor colorWithCalibratedWhite:whiteLevel alpha:1]];
     [self setNeedsDisplay:YES];

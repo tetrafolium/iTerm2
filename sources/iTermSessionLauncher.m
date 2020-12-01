@@ -29,45 +29,45 @@
     NSFont *font = [ITAddressBookMgr fontWithDesc:[profile objectForKey:KEY_NORMAL_FONT]];
     if (!font) {
         [iTermWarning showWarningWithTitle:[NSString stringWithFormat:@"Couldn’t find the specified font “%@” or the fallback standard fixed-pitch font, Menlo. Please ensure at least one of these is installed.", profile[KEY_NORMAL_FONT]]
-                                   actions:@[ @"OK" ]
-                                 accessory:nil
-                                identifier:nil
-                               silenceable:kiTermWarningTypePersistent
-                                   heading:@"Invalid Profile"
-                                    window:nil];
+                      actions:@[ @"OK" ]
+                      accessory:nil
+                      identifier:nil
+                      silenceable:kiTermWarningTypePersistent
+                      heading:@"Invalid Profile"
+                      window:nil];
         return NO;
     }
     return YES;
 }
 
 + (void)launchBookmark:(NSDictionary *)bookmarkData
-            inTerminal:(PseudoTerminal *)theTerm
+    inTerminal:(PseudoTerminal *)theTerm
     respectTabbingMode:(BOOL)respectTabbingMode
-            completion:(void (^)(PTYSession *session))completion {
+    completion:(void (^)(PTYSession *session))completion {
     return [self launchBookmark:bookmarkData
-                     inTerminal:theTerm
-                        withURL:nil
-                       hotkeyWindowType:iTermHotkeyWindowTypeNone
-                        makeKey:YES
-                    canActivate:YES
-             respectTabbingMode:respectTabbingMode
-                        command:nil
-                    makeSession:nil
+                 inTerminal:theTerm
+                 withURL:nil
+                 hotkeyWindowType:iTermHotkeyWindowTypeNone
+                 makeKey:YES
+                 canActivate:YES
+                 respectTabbingMode:respectTabbingMode
+                 command:nil
+                 makeSession:nil
                  didMakeSession:completion
-                     completion:nil];
+                 completion:nil];
 }
 
 + (void)launchBookmark:(NSDictionary *)bookmarkData
-            inTerminal:(PseudoTerminal *)theTerm
-               withURL:(NSString *)url
-      hotkeyWindowType:(iTermHotkeyWindowType)hotkeyWindowType
-               makeKey:(BOOL)makeKey
-           canActivate:(BOOL)canActivate
+    inTerminal:(PseudoTerminal *)theTerm
+    withURL:(NSString *)url
+    hotkeyWindowType:(iTermHotkeyWindowType)hotkeyWindowType
+    makeKey:(BOOL)makeKey
+    canActivate:(BOOL)canActivate
     respectTabbingMode:(BOOL)respectTabbingMode
-               command:(NSString *)command
-           makeSession:(void (^)(Profile *profile, PseudoTerminal *windowController, void (^completion)(PTYSession *)))makeSession
-        didMakeSession:(void (^)(PTYSession *))didMakeSession
-            completion:(void (^ _Nullable)(PTYSession *, BOOL))completion {
+    command:(NSString *)command
+    makeSession:(void (^)(Profile *profile, PseudoTerminal *windowController, void (^completion)(PTYSession *)))makeSession
+    didMakeSession:(void (^)(PTYSession *))didMakeSession
+    completion:(void (^ _Nullable)(PTYSession *, BOOL))completion {
     iTermSessionLauncher *launcher = [[iTermSessionLauncher alloc] initWithProfile:bookmarkData windowController:theTerm];
     launcher.url = url;
     launcher.hotkeyWindowType = hotkeyWindowType;
@@ -84,7 +84,7 @@
 
 
 - (instancetype)initWithProfile:(nullable Profile *)profile
-               windowController:(nullable PseudoTerminal *)windowController {
+    windowController:(nullable PseudoTerminal *)windowController {
     self = [super init];
     if (self) {
         _profile = [profile copy];
@@ -114,34 +114,34 @@
 
     BOOL toggle = NO;
     PseudoTerminal *windowController = [self possiblyNewWindowControllerForProfile:profile
-                                                         toggleFullScreen:&toggle];
+                                             toggleFullScreen:&toggle];
     __weak __typeof(self) weakSelf = self;
     [self makeSessionWithProfile:profile
-                windowController:windowController
-                      completion:
-     ^(PTYSession *session, BOOL willCallCompletionBlock) {
-         DLog(@"session=%@ willCallCompletionBlock=%@", session, @(willCallCompletionBlock));
-         if (!session && windowController.numberOfTabs == 0) {
-             DLog(@"abort");
-             [[windowController window] close];
-             if (!willCallCompletionBlock) {
-                 [weakSelf setFinishedWithSuccess:NO];
-             }
-             weakSelf.session = nil;
-             return;
-         }
-         [self setSession:session withSideEffects:NO];
-         if (toggle) {
-             DLog(@"toggle");
-             [windowController delayedEnterFullscreen];
-         }
-         [weakSelf makeKeyAndActivateIfNeeded:windowController];
+          windowController:windowController
+          completion:
+         ^(PTYSession *session, BOOL willCallCompletionBlock) {
+             DLog(@"session=%@ willCallCompletionBlock=%@", session, @(willCallCompletionBlock));
+             if (!session && windowController.numberOfTabs == 0) {
+            DLog(@"abort");
+            [[windowController window] close];
+            if (!willCallCompletionBlock) {
+                [weakSelf setFinishedWithSuccess:NO];
+            }
+            weakSelf.session = nil;
+            return;
+        }
+        [self setSession:session withSideEffects:NO];
+        if (toggle) {
+            DLog(@"toggle");
+            [windowController delayedEnterFullscreen];
+        }
+        [weakSelf makeKeyAndActivateIfNeeded:windowController];
 
-         if (!willCallCompletionBlock) {
-             [weakSelf setFinishedWithSuccess:YES];
-         }
-         [self setSession:session withSideEffects:YES];
-     }];
+        if (!willCallCompletionBlock) {
+            [weakSelf setFinishedWithSuccess:YES];
+        }
+        [self setSession:session withSideEffects:YES];
+    }];
 }
 
 - (void)prepareToLaunch {
@@ -177,8 +177,8 @@
         // activateIgnoringApp: happens asynchronously which means doing makeKeyAndOrderFront:
         // immediately after it won't do what you want. Issue 6397
         NSWindow *termWindow = [term window];
-        [[iTermApplication sharedApplication] activateAppWithCompletion:^{
-            DLog(@"App activated. Order window front.");
+        [[iTermApplication sharedApplication] activateAppWithCompletion:^ {
+                                                 DLog(@"App activated. Order window front.");
             [termWindow makeKeyAndOrderFront:nil];
         }];
     } else {
@@ -192,26 +192,26 @@
 }
 
 - (void)makeSessionWithProfile:(Profile *)profile
-              windowController:(PseudoTerminal *)windowController
-                    completion:(void (^)(PTYSession *, BOOL willCallCompletionBlock))completion {
+    windowController:(PseudoTerminal *)windowController
+    completion:(void (^)(PTYSession *, BOOL willCallCompletionBlock))completion {
     if (_makeSession) {
         [self makeSessionByBlockWithProfile:profile
-                           windowController:windowController
-                                 completion:completion];
+              windowController:windowController
+              completion:completion];
     } else if (_url) {
         [self makeSessionByURLWithProfile:profile
-                         windowController:windowController
-                               completion:completion];
+              windowController:windowController
+              completion:completion];
     } else {
         [self makeSessionByCreatingTabWithProfile:profile
-                                 windowController:windowController
-                                       completion:completion];
+              windowController:windowController
+              completion:completion];
     }
 }
 
 - (void)makeSessionByBlockWithProfile:(Profile *)profile
-                     windowController:(PseudoTerminal *)windowController
-                           completion:(void (^)(PTYSession *, BOOL willCallCompletionBlock))completion {
+    windowController:(PseudoTerminal *)windowController
+    completion:(void (^)(PTYSession *, BOOL willCallCompletionBlock))completion {
     DLog(@"Create a session via callback");
     __block BOOL finished = NO;
     _makeSession(profile, windowController, ^(PTYSession *session) {
@@ -222,31 +222,31 @@
 }
 
 - (void)makeSessionByURLWithProfile:(Profile *)profile
-                   windowController:(PseudoTerminal *)windowController
-                         completion:(void (^)(PTYSession *, BOOL willCallCompletionBlock))completion {
+    windowController:(PseudoTerminal *)windowController
+    completion:(void (^)(PTYSession *, BOOL willCallCompletionBlock))completion {
     DLog(@"Creating a new session by URL: %@", _url);
     PTYSession *session = [windowController.sessionFactory newSessionWithProfile:profile
-                                                                          parent:nil];
+                                                           parent:nil];
     [windowController addSessionInNewTab:session];
     __weak __typeof(self) weakSelf = self;
 
     iTermSessionAttachOrLaunchRequest *launchRequest =
-    [iTermSessionAttachOrLaunchRequest launchRequestWithSession:session
-                                                      canPrompt:YES
-                                                     objectType:self.objectType
-                                            hasServerConnection:NO
-                                               serverConnection:(iTermGeneralServerConnection){}
-                                                      urlString:_url
-                                                   allowURLSubs:YES
-                                                    environment:@{}
-                                                    customShell:[ITAddressBookMgr customShellForProfile:profile]
-                                                         oldCWD:nil
-                                                 forceUseOldCWD:NO
-                                                        command:nil
-                                                         isUTF8:nil
-                                                  substitutions:nil
-                                               windowController:windowController
-                                                          ready:^(BOOL ok) {
+        [iTermSessionAttachOrLaunchRequest launchRequestWithSession:session
+                                           canPrompt:YES
+                                           objectType:self.objectType
+                                           hasServerConnection:NO
+                                      serverConnection:(iTermGeneralServerConnection) {}
+                                      urlString:_url
+                                      allowURLSubs:YES
+                                      environment:@ {}
+    customShell:[ITAddressBookMgr customShellForProfile:profile]
+    oldCWD:nil
+    forceUseOldCWD:NO
+    command:nil
+    isUTF8:nil
+    substitutions:nil
+    windowController:windowController
+    ready:^(BOOL ok) {
         if (ok) {
             DLog(@"success");
             completion(session, YES);
@@ -256,8 +256,8 @@
             completion(nil, YES);
         }
     }
-                                                     completion:
-     ^(PTYSession *newSession, BOOL ok) {
+    completion:
+    ^(PTYSession *newSession, BOOL ok) {
         DLog(@"launch by url finished with ok=%@", @(ok));
         [weakSelf setFinishedWithSuccess:ok];
     }];
@@ -265,24 +265,28 @@
 }
 
 - (void)makeSessionByCreatingTabWithProfile:(Profile *)profile
-                           windowController:(PseudoTerminal *)windowController
-                                 completion:(void (^)(PTYSession *, BOOL willCallCompletionBlock))completion {
+    windowController:(PseudoTerminal *)windowController
+    completion:(void (^)(PTYSession *, BOOL willCallCompletionBlock))completion {
     DLog(@"Make session by creating tab");
     __weak __typeof(self) weakSelf = self;
     [windowController asyncCreateTabWithProfile:profile
-                                    withCommand:_command
-                                    environment:nil
-                                 didMakeSession:^(PTYSession *session) { completion(session, YES); }
-                                completion:^(PTYSession *newSession, BOOL ok) { [weakSelf setFinishedWithSuccess:ok]; }];
+                      withCommand:_command
+                      environment:nil
+                     didMakeSession:^(PTYSession *session) {
+                         completion(session, YES);
+                     }
+                     completion:^(PTYSession *newSession, BOOL ok) {
+        [weakSelf setFinishedWithSuccess:ok];
+    }];
 }
 
 - (NSDictionary *)profile:(NSDictionary *)aDict
-        modifiedToOpenURL:(NSString *)url
-            forObjectType:(iTermObjectType)objectType {
+    modifiedToOpenURL:(NSString *)url
+    forObjectType:(iTermObjectType)objectType {
     if (aDict == nil ||
-        [[ITAddressBookMgr bookmarkCommandSwiftyString:aDict
-                                         forObjectType:objectType] isEqualToString:@"$$"] ||
-        ![[aDict objectForKey:KEY_CUSTOM_COMMAND] isEqualToString:kProfilePreferenceCommandTypeCustomValue]) {
+            [[ITAddressBookMgr bookmarkCommandSwiftyString:aDict
+              forObjectType:objectType] isEqualToString:@"$$"] ||
+            ![[aDict objectForKey:KEY_CUSTOM_COMMAND] isEqualToString:kProfilePreferenceCommandTypeCustomValue]) {
         Profile *prototype = aDict;
         if (!prototype) {
             prototype = [[iTermController sharedInstance] defaultBookmark];
@@ -379,15 +383,17 @@
         }
     }
     DLog(@"Use command line: %@", tempString);
-    return [prototype dictionaryByMergingDictionary:@{ KEY_COMMAND_LINE: tempString,
-                                                       KEY_CUSTOM_COMMAND: kProfilePreferenceCommandTypeCustomValue }];
+    return [prototype dictionaryByMergingDictionary:@ { KEY_COMMAND_LINE: tempString,
+                      KEY_CUSTOM_COMMAND: kProfilePreferenceCommandTypeCustomValue
+                                                      }];
 }
 
 - (Profile *)profileByModifyingProfile:(Profile *)prototype toFtpTo:(NSString *)url {
     NSMutableString *tempString = [NSMutableString stringWithFormat:@"%@ %@", [iTermAdvancedSettingsModel pathToFTP], url];
     DLog(@"Command line is %@", tempString);
-    return [prototype dictionaryByMergingDictionary:@{ KEY_COMMAND_LINE: tempString,
-                                                       KEY_CUSTOM_COMMAND: kProfilePreferenceCommandTypeCustomValue }];
+    return [prototype dictionaryByMergingDictionary:@ { KEY_COMMAND_LINE: tempString,
+                      KEY_CUSTOM_COMMAND: kProfilePreferenceCommandTypeCustomValue
+                                                      }];
 }
 
 - (Profile *)profileByModifyingProfile:(NSDictionary *)prototype toTelnetTo:(NSURL *)url {
@@ -410,8 +416,9 @@
         [tempString appendFormat:@" %@", url.port];
     }
     DLog(@"Command line is %@", tempString);
-    return [prototype dictionaryByMergingDictionary:@{ KEY_COMMAND_LINE: tempString,
-                                                       KEY_CUSTOM_COMMAND: kProfilePreferenceCommandTypeCustomValue }];
+    return [prototype dictionaryByMergingDictionary:@ { KEY_COMMAND_LINE: tempString,
+                      KEY_CUSTOM_COMMAND: kProfilePreferenceCommandTypeCustomValue
+                                                      }];
 }
 
 
@@ -445,10 +452,10 @@
 }
 
 - (PseudoTerminal *)possiblyNewWindowControllerForProfile:(Profile *)profile
-                                         toggleFullScreen:(BOOL *)togglePtr {
+    toggleFullScreen:(BOOL *)togglePtr {
     PseudoTerminal *windowController = [[iTermController sharedInstance] windowControllerForNewTabWithProfile:profile
-                                                                                                    candidate:_windowController
-                                                                                           respectTabbingMode:_respectTabbingMode];
+                                                                         candidate:_windowController
+                                                                         respectTabbingMode:_respectTabbingMode];
     *togglePtr = NO;
     if (windowController != nil && [windowController windowInitialized]) {
         DLog(@"Use an existing window");
@@ -468,19 +475,19 @@
         // windows separately from tabs, but that is no longer possible.
         DLog(@"Finish initialization of an existing window controller");
         [windowController finishInitializationWithSmartLayout:YES
-                                                   windowType:windowType
-                                              savedWindowType:iTermWindowDefaultType()
-                                                       screen:profile[KEY_SCREEN] ? [profile[KEY_SCREEN] intValue] : -1
-                                             hotkeyWindowType:_hotkeyWindowType
-                                                      profile:profile];
+                          windowType:windowType
+                          savedWindowType:iTermWindowDefaultType()
+                          screen:profile[KEY_SCREEN] ? [profile[KEY_SCREEN] intValue] : -1
+                          hotkeyWindowType:_hotkeyWindowType
+                          profile:profile];
     } else {
         DLog(@"Create a new window controller");
         windowController = [[PseudoTerminal alloc] initWithSmartLayout:YES
-                                                            windowType:windowType
-                                                       savedWindowType:windowType
-                                                                screen:profile[KEY_SCREEN] ? [profile[KEY_SCREEN] intValue] : -1
-                                                      hotkeyWindowType:_hotkeyWindowType
-                                                               profile:profile];
+                                                   windowType:windowType
+                                                   savedWindowType:windowType
+                                                   screen:profile[KEY_SCREEN] ? [profile[KEY_SCREEN] intValue] : -1
+                                                   hotkeyWindowType:_hotkeyWindowType
+                                                   profile:profile];
     }
     if ([profile[KEY_HIDE_AFTER_OPENING] boolValue]) {
         DLog(@"hide after opening");
@@ -528,7 +535,7 @@
     _finished = YES;
     if (_completion) {
         // Ensure the completion block runs after the caller returns for better consistency.
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^ {
             if (self.completion) {
                 self.completion(self.session, ok);
             }

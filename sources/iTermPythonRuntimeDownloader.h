@@ -57,10 +57,10 @@ typedef NS_ENUM(NSUInteger, iTermPythonRuntimeDownloaderStatus) {
 
 // This downloads only if the minimum version is not installed.
 - (void)downloadOptionalComponentsIfNeededWithConfirmation:(BOOL)confirm
-                                             pythonVersion:(NSString *)pythonVersion
-                                 minimumEnvironmentVersion:(NSInteger)minimumEnvironmentVersion
-                                        requiredToContinue:(BOOL)requiredToContinue
-                                            withCompletion:(void (^)(iTermPythonRuntimeDownloaderStatus))completion;
+    pythonVersion:(NSString *)pythonVersion
+    minimumEnvironmentVersion:(NSInteger)minimumEnvironmentVersion
+    requiredToContinue:(BOOL)requiredToContinue
+    withCompletion:(void (^)(iTermPythonRuntimeDownloaderStatus))completion;
 
 // Returns the path of the python binary given a root directory having a pyenv.
 - (NSString *)pyenvAt:(NSString *)root pythonVersion:(NSString *)pythonVersion;
@@ -74,23 +74,23 @@ typedef NS_ENUM(NSUInteger, iTermInstallPythonStatus) {
 
 // Installs the environment somewhere and shows a please wait window. Higher level API.
 - (void)installPythonEnvironmentTo:(NSURL *)folder
-                      dependencies:(NSArray<NSString *> *)dependencies
-                     pythonVersion:(nullable NSString *)pythonVersion
-                        completion:(void (^)(BOOL ok))completion;
+    dependencies:(NSArray<NSString *> *)dependencies
+    pythonVersion:(nullable NSString *)pythonVersion
+    completion:(void (^)(BOOL ok))completion;
 
 // Install a copy of the current environment somewhere. Lower level API. No UI.
 - (void)installPythonEnvironmentTo:(NSURL *)container
-                  eventualLocation:(NSURL *)eventualLocation
-                     pythonVersion:(NSString *)pythonVersion
-                environmentVersion:(NSInteger)environmentVersion
-                      dependencies:(NSArray<NSString *> *)dependencies
-                    createSetupCfg:(BOOL)createSetupCfg
-                        completion:(void (^)(iTermInstallPythonStatus))completion;
+    eventualLocation:(NSURL *)eventualLocation
+    pythonVersion:(NSString *)pythonVersion
+    environmentVersion:(NSInteger)environmentVersion
+    dependencies:(NSArray<NSString *> *)dependencies
+    createSetupCfg:(BOOL)createSetupCfg
+    completion:(void (^)(iTermInstallPythonStatus))completion;
 
 - (void)runPip3InContainer:(NSURL *)container
-             pythonVersion:(NSString *)pythonVersion
-             withArguments:(NSArray<NSString *> *)arguments
-                completion:(void (^)(BOOL ok, NSData *output))completion;
+    pythonVersion:(NSString *)pythonVersion
+    withArguments:(NSArray<NSString *> *)arguments
+    completion:(void (^)(BOOL ok, NSData *output))completion;
 
 // Max environment version for the given optional pythonVersion.
 - (int)installedVersionWithPythonVersion:(NSString *)pythonVersion;

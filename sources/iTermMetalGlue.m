@@ -50,9 +50,9 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(imageDidLoad:)
-                                                     name:iTermImageDidLoad
-                                                   object:nil];
+                                              selector:@selector(imageDidLoad:)
+                                              name:iTermImageDidLoad
+                                              object:nil];
         _missingImages = [NSMutableSet set];
         _loadedImages = [NSMutableSet set];
     }
@@ -95,15 +95,15 @@ NS_ASSUME_NONNULL_BEGIN
     ITBetaAssert(self.delegate != nil, @"Nil delegate");
     ITBetaAssert(self.delegate.metalGlueContext != nil, @"Nil metal glue context");
     return [[iTermMetalPerFrameState alloc] initWithTextView:self.textView
-                                                      screen:self.screen
-                                                        glue:self
-                                                     context:self.delegate.metalGlueContext];
+                                            screen:self.screen
+                                            glue:self
+                                            context:self.delegate.metalGlueContext];
 }
 
 - (void)metalDidFindImages:(NSSet<NSString *> *)foundImages
-             missingImages:(NSSet<NSString *> *)missingImages
-            animatedLines:(NSSet<NSNumber *> *)animatedLines {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    missingImages:(NSSet<NSString *> *)missingImages
+    animatedLines:(NSSet<NSNumber *> *)animatedLines {
+    dispatch_async(dispatch_get_main_queue(), ^ {
         [self->_missingImages unionSet:missingImages];
         [self->_missingImages minusSet:foundImages];
         if (animatedLines.count) {
@@ -131,7 +131,7 @@ NS_ASSUME_NONNULL_BEGIN
     // Don't invoke the callback if geometry has changed.
     iTermMetalPerFrameState *state = (iTermMetalPerFrameState *)perFrameState;
     if (!VT100GridSizeEquals(state.gridSize, VT100GridSizeMake(_textView.dataSource.width,
-                                                               _textView.dataSource.height))) {
+                             _textView.dataSource.height))) {
         return;
     }
     if (!CGSizeEqualToSize(state.cellSize,

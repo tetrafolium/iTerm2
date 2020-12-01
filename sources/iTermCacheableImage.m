@@ -17,11 +17,11 @@
 
 - (NSImage *)imageAtPath:(NSString *)path ofSize:(NSSize)size flipped:(BOOL)flipped {
     if (_image &&
-        path &&
-        _path &&
-        [path isEqualToString:_path] &&
-        NSEqualSizes(size, _size) &&
-        flipped == _flipped) {
+            path &&
+            _path &&
+            [path isEqualToString:_path] &&
+            NSEqualSizes(size, _size) &&
+            flipped == _flipped) {
         return _image;
     }
 

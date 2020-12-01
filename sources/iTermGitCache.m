@@ -21,7 +21,7 @@
 
 - (void)setState:(iTermGitState *)state forPath:(NSString *)path ttl:(NSTimeInterval)ttl {
     _cache[path] = state;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(ttl * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(ttl * NSEC_PER_SEC)), dispatch_get_main_queue(), ^ {
         if (self->_cache[path] == state) {
             [self->_cache removeObjectForKey:path];
         }

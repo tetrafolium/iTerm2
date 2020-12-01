@@ -29,8 +29,8 @@
 }
 
 - (instancetype)initWithPathSource:(NSSet<NSString *> *(^)(NSString *))pathSource
-                  passthrough:(id)passthrough
-                functionsOnly:(BOOL)functionsOnly {
+    passthrough:(id)passthrough
+    functionsOnly:(BOOL)functionsOnly {
     self = [super init];
     if (self) {
         NSDictionary<NSString *,NSArray<NSString *> *> *registeredSignatures =
@@ -40,7 +40,7 @@
         NSDictionary<NSString *,NSArray<NSString *> *> *combinedSignatures = [registeredSignatures dictionaryByMergingDictionary:bifSignatures];
         Class suggesterClass = functionsOnly ? [iTermFunctionCallSuggester class] : [iTermSwiftyStringSuggester class];
         _suggester = [[suggesterClass alloc] initWithFunctionSignatures:combinedSignatures
-                                                             pathSource:pathSource];
+                                             pathSource:pathSource];
         _passthrough = passthrough;
     }
     return self;
@@ -63,10 +63,10 @@
 }
 
 - (NSArray *)control:(NSControl *)control
-            textView:(NSTextView *)textView
-         completions:(NSArray *)words  // Dictionary words
- forPartialWordRange:(NSRange)charRange
- indexOfSelectedItem:(NSInteger *)index {
+    textView:(NSTextView *)textView
+    completions:(NSArray *)words  // Dictionary words
+    forPartialWordRange:(NSRange)charRange
+    indexOfSelectedItem:(NSInteger *)index {
     NSArray<NSString *> *suggestions = [self suggestionsForRange:charRange];
     *index = -1;  // Don't select anything. Doing so causes pathological behavior when you press period.
     return suggestions;
@@ -87,8 +87,8 @@
     }
 
     suggestions = [suggestions mapWithBlock:^id(NSString *s) {
-        return [s substringFromIndex:charRange.location];
-    }];
+                    return [s substringFromIndex:charRange.location];
+                }];
 
     suggestions = [suggestions sortedArrayUsingSelector:@selector(compare:)];
     suggestions = [suggestions uniq];
@@ -100,42 +100,42 @@
 }
 
 - (BOOL)control:(NSControl *)control
-       textView:(NSTextView *)textView
-doCommandBySelector:(SEL)commandSelector {
+    textView:(NSTextView *)textView
+    doCommandBySelector:(SEL)commandSelector {
     if (commandSelector == @selector(capitalizeWord:) ||
-        commandSelector == @selector(changeCaseOfLetter:) ||
-        commandSelector == @selector(deleteBackward:) ||
-        commandSelector == @selector(deleteBackwardByDecomposingPreviousCharacter:) ||
-        commandSelector == @selector(deleteForward:) ||
-        commandSelector == @selector(deleteToBeginningOfLine:) ||
-        commandSelector == @selector(deleteToBeginningOfParagraph:) ||
-        commandSelector == @selector(deleteToEndOfLine:) ||
-        commandSelector == @selector(deleteToEndOfParagraph:) ||
-        commandSelector == @selector(deleteToMark:) ||
-        commandSelector == @selector(deleteWordBackward:) ||
-        commandSelector == @selector(deleteWordForward:) ||
-        commandSelector == @selector(indent:) ||
-        commandSelector == @selector(insertBacktab:) ||
-        commandSelector == @selector(insertContainerBreak:) ||
-        commandSelector == @selector(insertDoubleQuoteIgnoringSubstitution:) ||
-        commandSelector == @selector(insertLineBreak:) ||
-        commandSelector == @selector(insertNewline:) ||
-        commandSelector == @selector(insertNewlineIgnoringFieldEditor:) ||
-        commandSelector == @selector(insertParagraphSeparator:) ||
-        commandSelector == @selector(insertSingleQuoteIgnoringSubstitution:) ||
-        commandSelector == @selector(insertTab:) ||
-        commandSelector == @selector(insertTabIgnoringFieldEditor:) ||
-        commandSelector == @selector(lowercaseWord:) ||
-        commandSelector == @selector(makeBaseWritingDirectionLeftToRight:) ||
-        commandSelector == @selector(makeBaseWritingDirectionNatural:) ||
-        commandSelector == @selector(makeBaseWritingDirectionRightToLeft:) ||
-        commandSelector == @selector(makeTextWritingDirectionLeftToRight:) ||
-        commandSelector == @selector(makeTextWritingDirectionNatural:) ||
-        commandSelector == @selector(makeTextWritingDirectionRightToLeft:) ||
-        commandSelector == @selector(transpose:) ||
-        commandSelector == @selector(transposeWords:) ||
-        commandSelector == @selector(uppercaseWord:) ||
-        commandSelector == @selector(yank:)) {
+            commandSelector == @selector(changeCaseOfLetter:) ||
+            commandSelector == @selector(deleteBackward:) ||
+            commandSelector == @selector(deleteBackwardByDecomposingPreviousCharacter:) ||
+            commandSelector == @selector(deleteForward:) ||
+            commandSelector == @selector(deleteToBeginningOfLine:) ||
+            commandSelector == @selector(deleteToBeginningOfParagraph:) ||
+            commandSelector == @selector(deleteToEndOfLine:) ||
+            commandSelector == @selector(deleteToEndOfParagraph:) ||
+            commandSelector == @selector(deleteToMark:) ||
+            commandSelector == @selector(deleteWordBackward:) ||
+            commandSelector == @selector(deleteWordForward:) ||
+            commandSelector == @selector(indent:) ||
+            commandSelector == @selector(insertBacktab:) ||
+            commandSelector == @selector(insertContainerBreak:) ||
+            commandSelector == @selector(insertDoubleQuoteIgnoringSubstitution:) ||
+            commandSelector == @selector(insertLineBreak:) ||
+            commandSelector == @selector(insertNewline:) ||
+            commandSelector == @selector(insertNewlineIgnoringFieldEditor:) ||
+            commandSelector == @selector(insertParagraphSeparator:) ||
+            commandSelector == @selector(insertSingleQuoteIgnoringSubstitution:) ||
+            commandSelector == @selector(insertTab:) ||
+            commandSelector == @selector(insertTabIgnoringFieldEditor:) ||
+            commandSelector == @selector(lowercaseWord:) ||
+            commandSelector == @selector(makeBaseWritingDirectionLeftToRight:) ||
+            commandSelector == @selector(makeBaseWritingDirectionNatural:) ||
+            commandSelector == @selector(makeBaseWritingDirectionRightToLeft:) ||
+            commandSelector == @selector(makeTextWritingDirectionLeftToRight:) ||
+            commandSelector == @selector(makeTextWritingDirectionNatural:) ||
+            commandSelector == @selector(makeTextWritingDirectionRightToLeft:) ||
+            commandSelector == @selector(transpose:) ||
+            commandSelector == @selector(transposeWords:) ||
+            commandSelector == @selector(uppercaseWord:) ||
+            commandSelector == @selector(yank:)) {
         self.backspaceKey = YES;
     }
 

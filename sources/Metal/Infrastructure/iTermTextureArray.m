@@ -22,18 +22,18 @@
 }
 
 - (instancetype)initWithTextureWidth:(uint32_t)width
-                       textureHeight:(uint32_t)height
-                         arrayLength:(NSUInteger)length
-                                bgra:(BOOL)bgra
-                              device:(id <MTLDevice>)device {
+    textureHeight:(uint32_t)height
+    arrayLength:(NSUInteger)length
+    bgra:(BOOL)bgra
+    device:(id <MTLDevice>)device {
     self = [super init];
     if (self) {
         _width = width;
         _height = height;
         _arrayLength = length;
         CGSize atlasSize = [iTermTextureArray atlasSizeForUnitSize:CGSizeMake(width, height)
-                                                       arrayLength:length
-                                                       cellsPerRow:&_cellsPerRow];
+                                              arrayLength:length
+                                              cellsPerRow:&_cellsPerRow];
 
         MTLTextureDescriptor *textureDescriptor = [[MTLTextureDescriptor alloc] init];
 
@@ -48,9 +48,9 @@
         _texture = [device newTextureWithDescriptor:textureDescriptor];
         _texture.label = @"iTermTextureArray";
         [iTermTexture setBytesPerRow:_atlasSize.width * 4
-                         rawDataSize:_atlasSize.width * _atlasSize.height * 4
-                     samplesPerPixel:4
-                          forTexture:_texture];
+                      rawDataSize:_atlasSize.width * _atlasSize.height * 4
+                      samplesPerPixel:4
+                      forTexture:_texture];
     }
 
     return self;
@@ -71,18 +71,18 @@
 }
 
 - (void)copyTextureAtIndex:(NSInteger)index
-                   toArray:(iTermTextureArray *)destination
-                     index:(NSInteger)destinationIndex
-                   blitter:(id<MTLBlitCommandEncoder>)blitter {
+    toArray:(iTermTextureArray *)destination
+    index:(NSInteger)destinationIndex
+    blitter:(id<MTLBlitCommandEncoder>)blitter {
     [blitter copyFromTexture:_texture
-                 sourceSlice:0
-                 sourceLevel:0
-                sourceOrigin:[self offsetForIndex:index]
-                  sourceSize:MTLSizeMake(_width, _height, 1)
-                   toTexture:destination.texture
-            destinationSlice:0
-            destinationLevel:0
-           destinationOrigin:[destination offsetForIndex:destinationIndex]];
+             sourceSlice:0
+             sourceLevel:0
+             sourceOrigin:[self offsetForIndex:index]
+             sourceSize:MTLSizeMake(_width, _height, 1)
+             toTexture:destination.texture
+             destinationSlice:0
+             destinationLevel:0
+             destinationOrigin:[destination offsetForIndex:destinationIndex]];
 }
 
 - (MTLOrigin)offsetForIndex:(NSInteger)index {
@@ -101,10 +101,10 @@
     MTLRegion region = MTLRegionMake2D(origin.x, origin.y, _width, _height);
 
     [_texture replaceRegion:region
-                mipmapLevel:0
-                      slice:0
-                  withBytes:bitmap.data.bytes
-                bytesPerRow:bitmap.size.width * 4
+              mipmapLevel:0
+              slice:0
+              withBytes:bitmap.data.bytes
+              bytesPerRow:bitmap.size.width * 4
               bytesPerImage:bitmap.size.height * bitmap.size.width * 4];
 }
 
@@ -124,12 +124,12 @@
     uint32_t rowBytes = width * 4;
 
     CGContextRef context = CGBitmapContextCreate(NULL,
-                                                  width,
-                                                  height,
-                                                  8,
-                                                  rowBytes,
-                                                  colorSpace,
-                                                  kCGImageAlphaPremultipliedLast);
+                           width,
+                           height,
+                           8,
+                           rowBytes,
+                           colorSpace,
+                           kCGImageAlphaPremultipliedLast);
 
     CGColorSpaceRelease(colorSpace);
 
@@ -153,10 +153,10 @@
         MTLRegion region = MTLRegionMake2D(origin.x, origin.y, _width, _height);
 
         [_texture replaceRegion:region
-                    mipmapLevel:0
-                          slice:0
-                      withBytes:bytes
-                    bytesPerRow:rowBytes
+                  mipmapLevel:0
+                  slice:0
+                  withBytes:bytes
+                  bytesPerRow:rowBytes
                   bytesPerImage:rowBytes*height];
     }
 

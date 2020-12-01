@@ -52,10 +52,10 @@
 }
 
 + (BOOL)isDoubleWidthCharacter:(int)unicode
-        ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
-                unicodeVersion:(NSInteger)version {
+    ambiguousIsDoubleWidth:(BOOL)ambiguousIsDoubleWidth
+    unicodeVersion:(NSInteger)version {
     if (unicode <= 0xa0 ||
-        (unicode > 0x452 && unicode < 0x1100)) {
+            (unicode > 0x452 && unicode < 0x1100)) {
         // Quickly cover the common cases.
         return NO;
     }
@@ -64,7 +64,7 @@
         return YES;
     }
     if (ambiguousIsDoubleWidth &&
-        [[NSCharacterSet ambiguousWidthCharacterSetForUnicodeVersion:version] longCharacterIsMember:unicode]) {
+            [[NSCharacterSet ambiguousWidthCharacterSetForUnicodeVersion:version] longCharacterIsMember:unicode]) {
         return YES;
     }
     return NO;
@@ -105,7 +105,7 @@
     DLog(@"Getting pasteboard string...");
     if ([bestType isEqualToString:NSPasteboardTypeFileURL]) {
         NSArray<NSURL *> *urls = [board readObjectsForClasses:@[ [NSURL class] ]
-                                                           options:nil];
+                                        options:nil];
         NSMutableArray *escapedFilenames = [NSMutableArray array];
         DLog(@"Pasteboard has filenames: %@.", urls);
         for (NSURL *url in urls) {
@@ -173,11 +173,11 @@
 - (NSString*)stringWithLinefeedNewlines
 {
     return [[self stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\r"]
-               stringByReplacingOccurrencesOfString:@"\n" withString:@"\r"];
+            stringByReplacingOccurrencesOfString:@"\n" withString:@"\r"];
 }
 
 - (NSArray *)componentsBySplittingProfileListQuery {
-    return [self componentsBySplittingStringWithQuotesAndBackslashEscaping:@{}];
+    return [self componentsBySplittingStringWithQuotesAndBackslashEscaping:@ {}];
 }
 
 - (NSString *)it_substringToIndex:(NSInteger)index {
@@ -220,8 +220,8 @@
 - (NSString *)it_escapedForRegex {
     NSMutableString *result = [NSMutableString string];
     [self enumerateLongCharacters:^(UTF32Char c, BOOL *stop) {
-        [result appendFormat:@"\\U%08x", c];
-    }];
+             [result appendFormat:@"\\U%08x", c];
+         }];
     return result;
 }
 
@@ -230,10 +230,11 @@
     NSNumber *akey = @'a';
     NSNumber *tkey = @'t';
     NSNumber *rkey = @'r';
-    return [self componentsBySplittingStringWithQuotesAndBackslashEscaping:@{ nkey: @"\n",
-                                                                              akey: @"\x07",
-                                                                              tkey: @"\t",
-                                                                              rkey: @"\r" } ];
+    return [self componentsBySplittingStringWithQuotesAndBackslashEscaping:@ { nkey: @"\n",
+                 akey: @"\x07",
+                 tkey: @"\t",
+                 rkey: @"\r"
+                                                                             } ];
 }
 
 - (NSString *)it_compressedString {
@@ -248,11 +249,17 @@
     NSNumber *tkey = @'t';
     NSNumber *rkey = @'r';
     NSNumber *bskey = @'\\';
-    NSDictionary *escapes = @{ nkey: @('\n'),
-                               akey: @('\x07'),
-                               tkey: @('\t'),
-                               rkey: @('\r'),
-                               bskey: @('\\') };
+    NSDictionary *escapes = @ { nkey:
+                                @('\n'),
+                                akey:
+                                @('\x07'),
+                                tkey:
+                                @('\t'),
+                                rkey:
+                                @('\r'),
+                                bskey:
+                                @('\\')
+                              };
     NSMutableString *result = [NSMutableString string];
     NSInteger start = 0;
     BOOL escape = NO;
@@ -427,8 +434,8 @@ static int fromhex(unichar c) {
             }
         }
         range = [self rangeOfString:@"\\x"
-                            options:0
-                              range:NSMakeRange(range.location + 1, self.length - range.location - 1)];
+                      options:0
+                      range:NSMakeRange(range.location + 1, self.length - range.location - 1)];
     }
 
     NSString *newString = self;
@@ -459,8 +466,8 @@ static int fromhex(unichar c) {
             [ranges insertObject:[NSValue valueWithRange:range] atIndex:0];
         }
         range = [self rangeOfString:br
-                            options:0
-                              range:NSMakeRange(range.location + 1, self.length - range.location - 1)];
+                      options:0
+                      range:NSMakeRange(range.location + 1, self.length - range.location - 1)];
     }
 
     NSString *newString = self;
@@ -477,7 +484,7 @@ static int fromhex(unichar c) {
 // foo\"bar -> foo\\\"bar
 - (NSString *)stringByEscapingQuotes {
     return [[self stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"]
-               stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+            stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
 }
 
 // Returns the number of valid bytes in a sequence from a row in table 3-7 of the Unicode 6.2 spec.
@@ -651,12 +658,12 @@ int decode_utf8_char(const unsigned char *datap,
             utf8DecodeResult = -utf8DecodeResult;
         } else if (theChar > 0xFFFF) {
             // Convert to surrogate pair.
-           UniChar high, low;
-           high = ((theChar - 0x10000) >> 10) + 0xd800;
-           low = (theChar & 0x3ff) + 0xdc00;
+            UniChar high, low;
+            high = ((theChar - 0x10000) >> 10) + 0xd800;
+            low = (theChar & 0x3ff) + 0xdc00;
 
-           [utf16Data appendBytes:&high length:sizeof(high)];
-           theChar = low;
+            [utf16Data appendBytes:&high length:sizeof(high)];
+            theChar = low;
         }
 
         UniChar c = theChar;
@@ -670,21 +677,21 @@ int decode_utf8_char(const unsigned char *datap,
 }
 
 - (NSString *)stringWithOnlyDigits {
-  NSMutableString *s = [NSMutableString string];
-  for (int i = 0; i < self.length; i++) {
-    unichar c = [self characterAtIndex:i];
-    if (iswdigit(c)) {
-      [s appendFormat:@"%c", (char)c];
+    NSMutableString *s = [NSMutableString string];
+    for (int i = 0; i < self.length; i++) {
+        unichar c = [self characterAtIndex:i];
+        if (iswdigit(c)) {
+            [s appendFormat:@"%c", (char)c];
+        }
     }
-  }
-  return s;
+    return s;
 }
 
 - (NSString*)stringByTrimmingLeadingWhitespace {
     int i = 0;
 
     while ((i < self.length) &&
-           [[NSCharacterSet whitespaceCharacterSet] characterIsMember:[self characterAtIndex:i]]) {
+            [[NSCharacterSet whitespaceCharacterSet] characterIsMember:[self characterAtIndex:i]]) {
         i++;
     }
     return [self substringFromIndex:i];
@@ -692,7 +699,7 @@ int decode_utf8_char(const unsigned char *datap,
 
 - (NSString *)stringByBase64DecodingStringWithEncoding:(NSStringEncoding)encoding {
     return [[NSString alloc] initWithData:[NSData dataWithBase64EncodedString:self]
-                                 encoding:encoding];
+                             encoding:encoding];
 }
 
 - (NSString *)stringByTrimmingTrailingWhitespace {
@@ -702,7 +709,7 @@ int decode_utf8_char(const unsigned char *datap,
 - (NSString *)stringByTrimmingTrailingCharactersFromCharacterSet:(NSCharacterSet *)charset {
     NSCharacterSet *invertedCharset = [charset invertedSet];
     NSRange rangeOfLastWantedCharacter = [self rangeOfCharacterFromSet:invertedCharset
-                                                               options:NSBackwardsSearch];
+                                               options:NSBackwardsSearch];
     if (rangeOfLastWantedCharacter.location == NSNotFound) {
         if ([self rangeOfCharacterFromSet:charset].location == NSNotFound) {
             return self;
@@ -719,8 +726,8 @@ int decode_utf8_char(const unsigned char *datap,
 // Returns a substring of contiguous characters only from a given character set
 // including some character in the middle of the "haystack" (source) string.
 - (NSString *)substringIncludingOffset:(int)offset
-            fromCharacterSet:(NSCharacterSet *)charSet
-        charsTakenFromPrefix:(int*)charsTakenFromPrefixPtr
+    fromCharacterSet:(NSCharacterSet *)charSet
+    charsTakenFromPrefix:(int*)charsTakenFromPrefixPtr
 {
     if (![self length]) {
         if (charsTakenFromPrefixPtr) {
@@ -729,11 +736,11 @@ int decode_utf8_char(const unsigned char *datap,
         return @"";
     }
     NSRange firstBadCharRange = [self rangeOfCharacterFromSet:[charSet invertedSet]
-                                                      options:NSBackwardsSearch
-                                                        range:NSMakeRange(0, offset)];
+                                      options:NSBackwardsSearch
+                                      range:NSMakeRange(0, offset)];
     NSRange lastBadCharRange = [self rangeOfCharacterFromSet:[charSet invertedSet]
-                                                     options:0
-                                                       range:NSMakeRange(offset, [self length] - offset)];
+                                     options:0
+                                     range:NSMakeRange(offset, [self length] - offset)];
     int start = 0;
     int end = [self length];
     if (firstBadCharRange.location != NSNotFound) {
@@ -757,10 +764,11 @@ int decode_utf8_char(const unsigned char *datap,
     if (self.length == 0) {
         return self;
     }
-    NSDictionary *wrappers = @{ @('('): @")",
-                                @('[') : @"]",
-                                @('"'): @"\"",
-                                @('\''): @"'" };
+    NSDictionary *wrappers = @ { @('('): @")",
+                                 @('[') : @"]",
+                                 @('"'): @"\"",
+                                 @('\''): @"'"
+                               };
     unichar c = [self characterAtIndex:0];
     NSString *closingString = wrappers[@(c)];
     NSString *string = self;
@@ -825,11 +833,11 @@ int decode_utf8_char(const unsigned char *datap,
     }
     NSString *trimmed = [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSArray *pairs = @[ @[ @"(", @")" ],
-                        @[ @"<", @">" ],
-                        @[ @"[", @"]" ],
-                        @[ @"{", @"}", ],
-                        @[ @"\'", @"\'" ],
-                        @[ @"\"", @"\"" ] ];
+                           @[ @"<", @">" ],
+                           @[ @"[", @"]" ],
+                           @[ @"{", @"}", ],
+                           @[ @"\'", @"\'" ],
+                           @[ @"\"", @"\"" ] ];
     for (NSArray *pair in pairs) {
         if ([trimmed hasPrefix:pair[0]] && [trimmed hasSuffix:pair[1]]) {
             return [[self substringWithRange:NSMakeRange(1, self.length - 2)] stringByRemovingEnclosingBrackets];
@@ -917,7 +925,8 @@ int decode_utf8_char(const unsigned char *datap,
     for (int i = 0; i + 1 < hexEncodedString.length; i += 2) {
         char buffer[3] = { [hexEncodedString characterAtIndex:i],
                            [hexEncodedString characterAtIndex:i + 1],
-                           0 };
+                           0
+                         };
         int value;
         sscanf(buffer, "%02x", &value);
         [result appendFormat:@"%C", (unichar)value];
@@ -929,11 +938,11 @@ int decode_utf8_char(const unsigned char *datap,
 // You should call TECDisposeConverter on the returned obj.
 static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant variant) {
     TextEncoding utf16Encoding = CreateTextEncoding(kTextEncodingUnicodeDefault,
-                                                    kTextEncodingDefaultVariant,
-                                                    kUnicodeUTF16Format);
+                                 kTextEncodingDefaultVariant,
+                                 kUnicodeUTF16Format);
     TextEncoding hfsPlusEncoding = CreateTextEncoding(kTextEncodingUnicodeDefault,
-                                                      variant,
-                                                      kUnicodeUTF16Format);
+                                   variant,
+                                   kUnicodeUTF16Format);
 
     TECObjectRef conv;
     if (TECCreateConverter(&conv, utf16Encoding, hfsPlusEncoding) != noErr) {
@@ -948,7 +957,7 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
     static TECObjectRef gHFSPlusComposed;
     static TECObjectRef gHFSPlusDecomposed;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         gHFSPlusComposed = CreateTECConverterForUTF8Variants(kUnicodeHFSPlusCompVariant);
         gHFSPlusDecomposed = CreateTECConverterForUTF8Variants(kUnicodeHFSPlusDecompVariant);
     });
@@ -1066,22 +1075,39 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
     };
 
     NSDictionary *regexes =
-        @{ @"^(([0-7]{3}))": @(kSpecialCharacterThreeDigitOctal),
-           @"^(([0-7]{2}))(?:[^0-8]|$)": @(kSpecialCharacterTwoDigitOctal),
-           @"^(([0-7]))(?:[^0-8]|$)": @(kSpecialCharacterOneDigitOctal),
-           @"^(x([0-9a-fA-F]{2}))": @(kSpecialCharacterTwoDigitHex),
-           @"^(x([0-9a-fA-F]))(?:[^0-9a-fA-F]|$)": @(kSpecialCharacterOneDigitHex),
-           @"^(u([0-9a-fA-F]{4}))": @(kSpecialCharacterFourDigitUnicode),
-           @"^(b)": @(kSpecialCharacterBackspace),
-           @"^(e)": @(kSpecialCharacterEscape),
-           @"^(f)": @(kSpecialCharacterFormFeed),
-           @"^(n)": @(kSpecialCharacterNewline),
-           @"^(r)": @(kSpecialCharacterReturn),
-           @"^(t)": @(kSpecialCharacterTab),
-           @"^(\\\\)": @(kSpecialCharacterBackslash),
-           @"^(\")": @(kSpecialCharacterDoubleQuote),
-           @"^(<C-([A-Za-z])>)": @(kSpecialCharacterControlKey),
-           @"^(<M-([A-Za-z])>)": @(kSpecialCharacterMetaKey) };
+        @ { @"^(([0-7]{3}))":
+            @(kSpecialCharacterThreeDigitOctal),
+            @"^(([0-7]{2}))(?:[^0-8]|$)":
+            @(kSpecialCharacterTwoDigitOctal),
+            @"^(([0-7]))(?:[^0-8]|$)":
+            @(kSpecialCharacterOneDigitOctal),
+            @"^(x([0-9a-fA-F]{2}))":
+            @(kSpecialCharacterTwoDigitHex),
+            @"^(x([0-9a-fA-F]))(?:[^0-9a-fA-F]|$)":
+            @(kSpecialCharacterOneDigitHex),
+            @"^(u([0-9a-fA-F]{4}))":
+            @(kSpecialCharacterFourDigitUnicode),
+            @"^(b)":
+            @(kSpecialCharacterBackspace),
+            @"^(e)":
+            @(kSpecialCharacterEscape),
+            @"^(f)":
+            @(kSpecialCharacterFormFeed),
+            @"^(n)":
+            @(kSpecialCharacterNewline),
+            @"^(r)":
+            @(kSpecialCharacterReturn),
+            @"^(t)":
+            @(kSpecialCharacterTab),
+            @"^(\\\\)":
+            @(kSpecialCharacterBackslash),
+            @"^(\")":
+            @(kSpecialCharacterDoubleQuote),
+            @"^(<C-([A-Za-z])>)":
+            @(kSpecialCharacterControlKey),
+            @"^(<M-([A-Za-z])>)":
+            @(kSpecialCharacterMetaKey)
+          };
 
 
     NSMutableString *result = [NSMutableString string];
@@ -1089,7 +1115,7 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
     NSUInteger index = [self indexOfSubstring:@"\\" fromIndex:0];
     while (index != NSNotFound && index < self.length) {
         [result appendString:[self substringWithRange:NSMakeRange(haveAppendedUpToIndex,
-                                                                  index - haveAppendedUpToIndex)]];
+                              index - haveAppendedUpToIndex)]];
         haveAppendedUpToIndex = index + 1;
         NSString *fragment = [self substringFromIndex:haveAppendedUpToIndex];
         BOOL foundMatch = NO;
@@ -1103,57 +1129,57 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
                 // capture[1]: Characters to consume
                 // capture[2]: Optional. Characters of interest.
                 switch ([regexes[regex] intValue]) {
-                    case kSpecialCharacterThreeDigitOctal:
-                    case kSpecialCharacterTwoDigitOctal:
-                    case kSpecialCharacterOneDigitOctal:
-                        [result appendString:[capture[2] octalCharacter]];
-                        break;
+                case kSpecialCharacterThreeDigitOctal:
+                case kSpecialCharacterTwoDigitOctal:
+                case kSpecialCharacterOneDigitOctal:
+                    [result appendString:[capture[2] octalCharacter]];
+                    break;
 
-                    case kSpecialCharacterFourDigitUnicode:
-                    case kSpecialCharacterTwoDigitHex:
-                    case kSpecialCharacterOneDigitHex:
-                        [result appendString:[capture[2] hexCharacter]];
-                        break;
+                case kSpecialCharacterFourDigitUnicode:
+                case kSpecialCharacterTwoDigitHex:
+                case kSpecialCharacterOneDigitHex:
+                    [result appendString:[capture[2] hexCharacter]];
+                    break;
 
-                    case kSpecialCharacterBackspace:
-                        [result appendFormat:@"%c", 0x7f];
-                        break;
+                case kSpecialCharacterBackspace:
+                    [result appendFormat:@"%c", 0x7f];
+                    break;
 
-                    case kSpecialCharacterEscape:
-                        [result appendFormat:@"%c", 27];
-                        break;
+                case kSpecialCharacterEscape:
+                    [result appendFormat:@"%c", 27];
+                    break;
 
-                    case kSpecialCharacterFormFeed:
-                        [result appendFormat:@"%c", 12];
-                        break;
+                case kSpecialCharacterFormFeed:
+                    [result appendFormat:@"%c", 12];
+                    break;
 
-                    case kSpecialCharacterNewline:
-                        [result appendString:@"\n"];
-                        break;
+                case kSpecialCharacterNewline:
+                    [result appendString:@"\n"];
+                    break;
 
-                    case kSpecialCharacterReturn:
-                        [result appendString:@"\r"];
-                        break;
+                case kSpecialCharacterReturn:
+                    [result appendString:@"\r"];
+                    break;
 
-                    case kSpecialCharacterTab:
-                        [result appendString:@"\t"];
-                        break;
+                case kSpecialCharacterTab:
+                    [result appendString:@"\t"];
+                    break;
 
-                    case kSpecialCharacterBackslash:
-                        [result appendString:@"\\"];
-                        break;
+                case kSpecialCharacterBackslash:
+                    [result appendString:@"\\"];
+                    break;
 
-                    case kSpecialCharacterDoubleQuote:
-                        [result appendString:@"\""];
-                        break;
+                case kSpecialCharacterDoubleQuote:
+                    [result appendString:@"\""];
+                    break;
 
-                    case kSpecialCharacterControlKey:
-                        [result appendString:[capture[2] controlCharacter]];
-                        break;
+                case kSpecialCharacterControlKey:
+                    [result appendString:[capture[2] controlCharacter]];
+                    break;
 
-                    case kSpecialCharacterMetaKey:
-                        [result appendString:[capture[2] metaCharacter]];
-                        break;
+                case kSpecialCharacterMetaKey:
+                    [result appendString:[capture[2] metaCharacter]];
+                    break;
                 }
                 haveAppendedUpToIndex = index;
                 break;
@@ -1167,7 +1193,7 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
 
     index = self.length;
     [result appendString:[self substringWithRange:NSMakeRange(haveAppendedUpToIndex,
-                                                              index - haveAppendedUpToIndex)]];
+                          index - haveAppendedUpToIndex)]];
 
     return result;
 }
@@ -1188,7 +1214,7 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
         return nil;
     } else {
         return [iTermTuple tupleWithObject:[self substringToIndex:range.location]
-                                 andObject:[self substringFromIndex:range.location + 1]];
+                           andObject:[self substringFromIndex:range.location + 1]];
     }
 }
 
@@ -1216,9 +1242,9 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
     for (NSString *original in substitutions) {
         NSString *replacement = substitutions[original];
         [temp replaceOccurrencesOfString:original
-                              withString:replacement
-                                 options:NSLiteralSearch
-                                   range:NSMakeRange(0, temp.length)];
+              withString:replacement
+              options:NSLiteralSearch
+              range:NSMakeRange(0, temp.length)];
     }
     return temp;
 }
@@ -1305,7 +1331,7 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
 
 - (NSString *)stringByReplacingControlCharactersWithCaretLetter {
     return [self stringByReplacingOccurrencesOfRegex:@"[\x00-\x1f\x7f]" usingBlock:^NSString *(NSInteger captureCount, NSString *const __unsafe_unretained *capturedStrings, const NSRange *capturedRanges, volatile BOOL *const stop) {
-        NSMutableString *replacement = [NSMutableString string];
+             NSMutableString *replacement = [NSMutableString string];
         const NSInteger index = capturedRanges[0].location;
         for (NSInteger i = 0; i < capturedRanges[0].length; i++) {
             unichar c = [[self substringWithRange:NSMakeRange(index + i, 1)] characterAtIndex:0];
@@ -1357,8 +1383,8 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
         assert(start <= self.length);
         NSRange searchRange = NSMakeRange(start, self.length - start);
         NSRange matchingRange = [self rangeOfString:part
-                                            options:caseSensitive ? 0 : NSCaseInsensitiveSearch
-                                              range:searchRange];
+                                      options:caseSensitive ? 0 : NSCaseInsensitiveSearch
+                                      range:searchRange];
         if (matchingRange.location == NSNotFound) {
             return NO;
         }
@@ -1382,7 +1408,7 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
     }
     static dispatch_once_t onceToken;
     static NSCharacterSet *exceptions;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         // These characters are forced to be base characters. Apple's function
         // is a bit overzealous in its definition of composed characters. For
         // example, it treats 0b95 0bcd 0b95 0bc1 as a single composed
@@ -1392,7 +1418,7 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
         // actually want, which is to segment on base characters. It isn't as
         // simple as simply splitting on base characters because combining
         // marks can be picky about which preceding characters they'll combine
-        // with. For example, skin tone modifiers don't combine with all emoji. 
+        // with. For example, skin tone modifiers don't combine with all emoji.
         // Apple's function does pick those out properly, so we use it as a
         // starting point and then segment further where we're sure it's safe
         // to do so.
@@ -1425,8 +1451,8 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
         range = NSMakeRange(tempRange.location, tempRange.length);
         if (range.length > 0) {
             NSRange rangeOfFirstException = [self rangeOfCharacterFromSet:exceptions
-                                                                  options:NSLiteralSearch
-                                                                    range:NSMakeRange(range.location + 1, range.length - 1)];
+                                                  options:NSLiteralSearch
+                                                  range:NSMakeRange(range.location + 1, range.length - 1)];
             if (rangeOfFirstException.location != NSNotFound) {
                 const BOOL precededByZWJ = (rangeOfFirstException.location > 0 &&
                                             [self characterAtIndex:rangeOfFirstException.location - 1] == 0x200d);
@@ -1451,7 +1477,7 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
     __block NSString *first = nil;
     __block NSString *tail = self;
     [self enumerateComposedCharacters:^(NSRange range, unichar simple, NSString *complexString, BOOL *stop) {
-        first = [self substringWithRange:range];
+             first = [self substringWithRange:range];
         tail = [self substringFromIndex:NSMaxRange(range)];
         *stop = YES;
     }];
@@ -1464,16 +1490,16 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
 - (NSString *)lastComposedCharacter {
     __block NSString *substring = nil;
     [self enumerateComposedCharacters:^(NSRange range, unichar simple, NSString *complexString, BOOL *stop) {
-        substring = [self substringWithRange:range];
-    }];
+             substring = [self substringWithRange:range];
+         }];
     return substring;
 }
 
 - (NSInteger)numberOfComposedCharacters {
     __block NSInteger count = 0;
     [self enumerateComposedCharacters:^(NSRange range, unichar simple, NSString *complexString, BOOL *stop) {
-        count += 1;
-    }];
+             count += 1;
+         }];
     return count;
 }
 
@@ -1484,8 +1510,8 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
     }
     NSMutableArray<NSString *> *characters = [NSMutableArray array];
     [self enumerateComposedCharacters:^(NSRange range, unichar simple, NSString *complexString, BOOL *stop) {
-        [characters addObject:[self substringWithRange:range]];
-    }];
+             [characters addObject:[self substringWithRange:range]];
+         }];
     const NSInteger prefixLength = (length - numberToOmit) / 2;
     NSString *prefix = [[characters subarrayWithRange:NSMakeRange(0, prefixLength)] componentsJoinedByString:@""];
     const NSInteger suffixLength = length - numberToOmit - prefixLength;
@@ -1494,7 +1520,7 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
 }
 
 - (void)reverseEnumerateSubstringsEqualTo:(NSString *)query
-                                    block:(void (^ NS_NOESCAPE)(NSRange range))block {
+    block:(void (^ NS_NOESCAPE)(NSRange range))block {
     NSRange range = [self rangeOfString:query options:NSBackwardsSearch];
     while (range.location != NSNotFound) {
         block(range);
@@ -1517,14 +1543,14 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
     CGFloat max = 100;
     int points = (min + max) / 2;
     int prevPoints = -1;
-    NSMutableDictionary *attributes = [baseAttributes ?: @{} mutableCopy];
+    NSMutableDictionary *attributes = [baseAttributes ?: @ {} mutableCopy];
     while (points != prevPoints) {
         attributes[NSFontAttributeName] = [NSFont fontWithName:font.fontName size:points];
         NSRect boundingRect = [self boundingRectWithSize:NSMakeSize(CGFLOAT_MAX, CGFLOAT_MAX)
-                                                 options:NSStringDrawingUsesLineFragmentOrigin
-                                              attributes:attributes];
+                                    options:NSStringDrawingUsesLineFragmentOrigin
+                                    attributes:attributes];
         if (boundingRect.size.width > maxSize.width ||
-            boundingRect.size.height > maxSize.height) {
+                boundingRect.size.height > maxSize.height) {
             max = points;
         } else if (boundingRect.size.width < maxSize.width &&
                    boundingRect.size.height < maxSize.height) {
@@ -1604,17 +1630,17 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
 - (NSString *)stringByEscapingForJSON {
     // Escape backslash and " with unicode literals.
     NSString *escaped =
-	[[self stringByReplacingOccurrencesOfString:@"\\" withString:@"\\u005c"]
-               stringByReplacingOccurrencesOfString:@"\"" withString:@"\\u0022"];
+        [[self stringByReplacingOccurrencesOfString:@"\\" withString:@"\\u005c"]
+         stringByReplacingOccurrencesOfString:@"\"" withString:@"\\u0022"];
     return [NSString stringWithFormat:@"\"%@\"", escaped];
 }
 
 - (NSString *)stringByEscapingForXML {
     return [[[[[self stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"]
-                     stringByReplacingOccurrencesOfString:@"\"" withString:@"&quot;"]
-                     stringByReplacingOccurrencesOfString:@"'" withString:@"&#39;"]
-                     stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"]
-                     stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"];
+               stringByReplacingOccurrencesOfString:@"\"" withString:@"&quot;"]
+              stringByReplacingOccurrencesOfString:@"'" withString:@"&#39;"]
+             stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"]
+            stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"];
 }
 
 - (NSArray<NSNumber *> *)codePoints {
@@ -1706,17 +1732,17 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
     *truncated = NO;
     for (NSString *part in [self componentsSeparatedByString:@"\n"]) {
         NSAttributedString *string = [[NSAttributedString alloc] initWithString:part
-                                                                     attributes:attributes];
+                                                                 attributes:attributes];
 
         CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString((__bridge CFMutableAttributedStringRef)string);
         CFRange fitRange;
 
         CFRange textRange = CFRangeMake(0, part.length);
         CGSize frameSize = CTFramesetterSuggestFrameSizeWithConstraints(framesetter,
-                                                                        textRange,
-                                                                        NULL,
-                                                                        bounds,
-                                                                        &fitRange);
+                           textRange,
+                           NULL,
+                           bounds,
+                           &fitRange);
         if (fitRange.length != part.length) {
             *truncated = YES;
         }
@@ -1734,7 +1760,7 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
 
     for (NSString *part in [self componentsSeparatedByString:@"\n"]) {
         NSAttributedString *string = [[NSAttributedString alloc] initWithString:part
-                                                                     attributes:attributes];
+                                                                 attributes:attributes];
 
         CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString((__bridge CFMutableAttributedStringRef)string);
 
@@ -1746,16 +1772,16 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
         CTFrameDraw(textFrame, ctx);
 
         CFRelease(textFrame);
-        
+
         CFRange fitRange;
 
         // Get the height of the line and translate the context down by it
         CFRange textRange = CFRangeMake(0, part.length);
         CGSize frameSize = CTFramesetterSuggestFrameSizeWithConstraints(framesetter,
-                                                                        textRange,
-                                                                        NULL,
-                                                                        rect.size,
-                                                                        &fitRange);
+                           textRange,
+                           NULL,
+                           rect.size,
+                           &fitRange);
         CGContextTranslateCTM(ctx, 0, -frameSize.height);
 
 
@@ -1770,9 +1796,9 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
 - (BOOL)startsWithEmoji {
     static dispatch_once_t onceToken;
     static NSMutableCharacterSet *emojiSet;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         emojiSet = [[NSMutableCharacterSet alloc] init];
-        void (^addRange)(NSUInteger, NSUInteger) = ^(NSUInteger first, NSUInteger last){
+        void (^addRange)(NSUInteger, NSUInteger) = ^(NSUInteger first, NSUInteger last) {
             [emojiSet addCharactersInRange:NSMakeRange(first, last - first + 1)];
         };
         addRange(0x1F600, 0x1F64F);  // Emoticons
@@ -1801,7 +1827,7 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
     static NSMutableArray *froms;
     static NSMutableArray *tos;
     static const int numberOfControlCharacters = 0x20;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         froms = [[NSMutableArray alloc] init];
         tos = [[NSMutableArray alloc] init];
         for (int i = 0; i < numberOfControlCharacters; i++) {
@@ -1814,9 +1840,9 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
     });
     for (int i = 0; i < numberOfControlCharacters ; i++) {
         [s replaceOccurrencesOfString:froms[i]
-                           withString:tos[i]
-                              options:0
-                                range:NSMakeRange(0, [s length])];
+           withString:tos[i]
+           options:0
+           range:NSMakeRange(0, [s length])];
     }
     return [NSString stringWithFormat:@"\"%@\"", s];
 }
@@ -1933,8 +1959,8 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
 - (NSString *)it_twoPartVersionNumber {
     NSArray<NSString *> *parts = [self componentsSeparatedByString:@"."];
     if (![parts allWithBlock:^BOOL(NSString *anObject) {
-        return anObject.isNumeric;
-    }]) {
+          return anObject.isNumeric;
+      }]) {
         return nil;
     }
     if (parts.count < 2) {
@@ -1950,30 +1976,30 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
         unichar c = [self characterAtIndex:i];
         if (c < 128) {
             switch (c) {
-                case '\b':
-                    [result appendString:@"\\b"];
-                    break;
-                case '\f':
-                    [result appendString:@"\\f"];
-                    break;
-                case '\n':
-                    [result appendString:@"\\n"];
-                    break;
-                case '\r':
-                    [result appendString:@"\\r"];
-                    break;
-                case '\t':
-                    [result appendString:@"\\t"];
-                    break;
-                case '\\':
-                    [result appendString:@"\\\\"];
-                    break;
-                case '"':
-                    [result appendString:@"\\\""];
-                    break;
-                default:
-                    [result appendCharacter:c];
-                    break;
+            case '\b':
+                [result appendString:@"\\b"];
+                break;
+            case '\f':
+                [result appendString:@"\\f"];
+                break;
+            case '\n':
+                [result appendString:@"\\n"];
+                break;
+            case '\r':
+                [result appendString:@"\\r"];
+                break;
+            case '\t':
+                [result appendString:@"\\t"];
+                break;
+            case '\\':
+                [result appendString:@"\\\\"];
+                break;
+            case '"':
+                [result appendString:@"\\\""];
+                break;
+            default:
+                [result appendCharacter:c];
+                break;
             }
         } else {
             [result appendFormat:@"\\u%04X", (unsigned int)c];
@@ -2043,14 +2069,14 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
     }
     return result;
 }
-        
+
 - (NSArray<NSString *> *)it_normalizedTokens {
     NSMutableArray<NSString *> *tokens = [NSMutableArray array];
     [self enumerateSubstringsInRange:NSMakeRange(0, self.length)
-                             options:NSStringEnumerationByWords
-                          usingBlock:^(NSString * _Nullable substring, NSRange substringRange, NSRange enclosingRange, BOOL * _Nonnull stop) {
-                              [tokens addObject:[substring localizedLowercaseString]];
-                          }];
+          options:NSStringEnumerationByWords
+         usingBlock:^(NSString * _Nullable substring, NSRange substringRange, NSRange enclosingRange, BOOL * _Nonnull stop) {
+             [tokens addObject:[substring localizedLowercaseString]];
+         }];
     return tokens;
 }
 
@@ -2071,41 +2097,41 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
 
 - (NSString *)it_escapedForEnv {
     NSArray<iTermTuple<NSString *, NSString *> *> *substitutions =
-    @[
-        [iTermTuple tupleWithObject:@"\\" andObject:@"\\\\"],
-        [iTermTuple tupleWithObject:@"\f" andObject:@"\\f"],
-        [iTermTuple tupleWithObject:@"\n" andObject:@"\\n"],
-        [iTermTuple tupleWithObject:@"\r" andObject:@"\\r"],
-        [iTermTuple tupleWithObject:@"\t" andObject:@"\\t"],
-        [iTermTuple tupleWithObject:@"\v" andObject:@"\\v"],
-        [iTermTuple tupleWithObject:@"#" andObject:@"\\#"],
-        [iTermTuple tupleWithObject:@"$" andObject:@"\\$"],
-        [iTermTuple tupleWithObject:@" " andObject:@"\\_"],
-        [iTermTuple tupleWithObject:@"\"" andObject:@"\\\""],
-        [iTermTuple tupleWithObject:@"'" andObject:@"\\'"],
-    ];
+        @[
+            [iTermTuple tupleWithObject:@"\\" andObject:@"\\\\"],
+            [iTermTuple tupleWithObject:@"\f" andObject:@"\\f"],
+            [iTermTuple tupleWithObject:@"\n" andObject:@"\\n"],
+            [iTermTuple tupleWithObject:@"\r" andObject:@"\\r"],
+            [iTermTuple tupleWithObject:@"\t" andObject:@"\\t"],
+            [iTermTuple tupleWithObject:@"\v" andObject:@"\\v"],
+            [iTermTuple tupleWithObject:@"#" andObject:@"\\#"],
+            [iTermTuple tupleWithObject:@"$" andObject:@"\\$"],
+            [iTermTuple tupleWithObject:@" " andObject:@"\\_"],
+            [iTermTuple tupleWithObject:@"\"" andObject:@"\\\""],
+            [iTermTuple tupleWithObject:@"'" andObject:@"\\'"],
+        ];
     return [self stringByPerformingOrderedSubstitutions:[iTermOrderedDictionary withTuples:substitutions]];
 }
 
 - (NSString *)stringByPerformingOrderedSubstitutions:(iTermOrderedDictionary<NSString *, NSString *> *)substitutions {
     return [substitutions.keys reduceWithFirstValue:self block:^NSString *(NSString *accumulator, NSString *key) {
-        NSString *replacement = substitutions[key];
+                           NSString *replacement = substitutions[key];
         return [accumulator stringByReplacingOccurrencesOfString:key withString:replacement];
     }];
 }
 
 - (NSString *)stringByReplacingCharactersAtIndices:(NSIndexSet *)indexSet
-                               withStringFromBlock:(NSString *(^ NS_NOESCAPE)(void))replacement {
+    withStringFromBlock:(NSString *(^ NS_NOESCAPE)(void))replacement {
     NSMutableString *result = [self mutableCopy];
     [indexSet enumerateRangesWithOptions:NSEnumerationReverse usingBlock:^(NSRange range, BOOL * _Nonnull stop) {
-        [result replaceCharactersInRange:range withString:replacement()];
-    }];
+                 [result replaceCharactersInRange:range withString:replacement()];
+             }];
     return [result copy];
 }
 
 - (BOOL)caseInsensitiveHasPrefix:(NSString *)prefix {
     const NSRange prefixRange = [self rangeOfString:prefix
-                                            options:(NSAnchoredSearch | NSCaseInsensitiveSearch)];
+                                      options:(NSAnchoredSearch | NSCaseInsensitiveSearch)];
     return prefixRange.location == 0;
 }
 
@@ -2116,12 +2142,12 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
 - (void)trimTrailingWhitespace {
     NSCharacterSet *nonWhitespaceSet = [[NSCharacterSet whitespaceCharacterSet] invertedSet];
     NSRange rangeOfLastWantedCharacter = [self rangeOfCharacterFromSet:nonWhitespaceSet
-                                                               options:NSBackwardsSearch];
+                                               options:NSBackwardsSearch];
     if (rangeOfLastWantedCharacter.location == NSNotFound) {
         [self deleteCharactersInRange:NSMakeRange(0, self.length)];
     } else if (NSMaxRange(rangeOfLastWantedCharacter) < self.length) {
         [self deleteCharactersInRange:NSMakeRange(NSMaxRange(rangeOfLastWantedCharacter),
-                                                  self.length - NSMaxRange(rangeOfLastWantedCharacter))];
+                self.length - NSMaxRange(rangeOfLastWantedCharacter))];
     }
 }
 
@@ -2132,9 +2158,9 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
 
 - (void)escapeShellCharactersForBash {
     [self escapeShellCharactersWithSingleQuotesIncludingNewlines:YES
-                                                         forBash:YES];
+          forBash:YES];
 }
-        
+
 - (void)escapeShellCharactersIncludingNewlines:(BOOL)includingNewlines {
     if ([iTermAdvancedSettingsModel escapeWithQuotes]) {
         [self escapeShellCharactersWithSingleQuotesIncludingNewlines:includingNewlines];
@@ -2145,11 +2171,11 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
 
 - (void)escapeShellCharactersWithSingleQuotesIncludingNewlines:(BOOL)includingNewlines {
     return [self escapeShellCharactersWithSingleQuotesIncludingNewlines:includingNewlines
-                                                                forBash:NO];
+                 forBash:NO];
 }
-        
+
 - (void)escapeShellCharactersWithSingleQuotesIncludingNewlines:(BOOL)includingNewlines
-                                                       forBash:(BOOL)forBash {
+    forBash:(BOOL)forBash {
     // Only need to escape single quote and backslash in a single-quoted string
     NSMutableString *charsToEscape = [@"\\'" mutableCopy];
     NSMutableCharacterSet *charsToSearch = [NSMutableCharacterSet characterSetWithCharactersInString:[NSString shellEscapableCharacters]];
@@ -2188,9 +2214,9 @@ static TECObjectRef CreateTECConverterForUTF8Variants(TextEncodingVariant varian
             after = @"\\x27";
         }
         [self replaceOccurrencesOfString:before
-                              withString:after
-                                 options:0
-                                   range:NSMakeRange(0, [self length])];
+              withString:after
+              options:0
+              range:NSMakeRange(0, [self length])];
     }
 }
 

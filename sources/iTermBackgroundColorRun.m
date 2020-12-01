@@ -43,8 +43,8 @@ static void iTermMakeBackgroundColorRun(iTermBackgroundColorRun *run,
 @implementation iTermBackgroundColorRunsInLine
 
 + (void)addBackgroundRun:(iTermBackgroundColorRun *)run
-                 toArray:(NSMutableArray *)runs
-                endingAt:(int)end {  // end is the location after the last location in the run
+    toArray:(NSMutableArray *)runs
+    endingAt:(int)end {  // end is the location after the last location in the run
     // Update the range's length.
     NSRange range = run->range;
     range.length = end - range.location;
@@ -58,15 +58,15 @@ static void iTermMakeBackgroundColorRun(iTermBackgroundColorRun *run,
 
 
 + (instancetype)backgroundRunsInLine:(screen_char_t *)theLine
-                          lineLength:(int)width
-                                 row:(int)row
-                     selectedIndexes:(NSIndexSet *)selectedIndexes
-                         withinRange:(NSRange)charRange
-                             matches:(NSData *)matches
-                            anyBlink:(BOOL *)anyBlinkPtr
-                       textExtractor:(iTermTextExtractor *)extractor
-                                   y:(CGFloat)y
-                                line:(int)line {
+    lineLength:(int)width
+    row:(int)row
+    selectedIndexes:(NSIndexSet *)selectedIndexes
+    withinRange:(NSRange)charRange
+    matches:(NSData *)matches
+    anyBlink:(BOOL *)anyBlinkPtr
+    textExtractor:(iTermTextExtractor *)extractor
+    y:(CGFloat)y
+    line:(int)line {
     NSMutableArray *runs = [NSMutableArray array];
     iTermBackgroundColorRun previous;
     iTermBackgroundColorRun current;
@@ -121,7 +121,7 @@ static void iTermMakeBackgroundColorRun(iTermBackgroundColorRun *run,
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p line=%@ numberEquiv=%@ runs:%@>",
-            self.class, self, @(self.line), @(self.numberOfEquivalentRows), self.array];
+                     self.class, self, @(self.line), @(self.numberOfEquivalentRows), self.array];
 }
 
 @end
@@ -146,11 +146,11 @@ static void iTermMakeBackgroundColorRun(iTermBackgroundColorRun *run,
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p selected=%@ range=%@ backgroundColor=%@>",
-            self.class,
-            self,
-            @(_value.selected),
-            NSStringFromRange(_value.range),
-            self.backgroundColor];
+                     self.class,
+                     self,
+                     @(_value.selected),
+                     NSStringFromRange(_value.range),
+                     self.backgroundColor];
 }
 
 - (iTermBackgroundColorRun *)valuePointer {

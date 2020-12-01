@@ -36,7 +36,7 @@
 + (instancetype)sharedInstance {
     static id instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -47,21 +47,21 @@
     if (self) {
         _queue = [[NSMutableArray alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(windowWillTransition:)
-                                                     name:NSWindowWillEnterFullScreenNotification
-                                                   object:nil];
+                                              selector:@selector(windowWillTransition:)
+                                              name:NSWindowWillEnterFullScreenNotification
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(windowWillTransition:)
-                                                     name:NSWindowWillExitFullScreenNotification
-                                                   object:nil];
+                                              selector:@selector(windowWillTransition:)
+                                              name:NSWindowWillExitFullScreenNotification
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(windowDidTransition:)
-                                                     name:NSWindowDidEnterFullScreenNotification
-                                                   object:nil];
+                                              selector:@selector(windowDidTransition:)
+                                              name:NSWindowDidEnterFullScreenNotification
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(windowDidTransition:)
-                                                     name:NSWindowDidExitFullScreenNotification
-                                                   object:nil];
+                                              selector:@selector(windowDidTransition:)
+                                              name:NSWindowDidExitFullScreenNotification
+                                              object:nil];
     }
     return self;
 }
@@ -110,8 +110,8 @@
 // Returns YES if the window is already in the queue. Removes it if its `enterFullScreen` equals `ifEntering`.
 - (BOOL)haveTransitionWithWindow:(NSWindow *)window removeIfEntering:(BOOL)ifEntering {
     NSInteger index = [_queue indexOfObjectPassingTest:^BOOL(iTermFullScreenTransition * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        return obj.window.weaklyReferencedObject == window;
-    }];
+               return obj.window.weaklyReferencedObject == window;
+           }];
     if (index != NSNotFound) {
         iTermFullScreenTransition *transition = _queue[index];
         if (!!transition.enterFullScreen == !!ifEntering) {

@@ -70,16 +70,16 @@
     const CGFloat sideMargin = 2;
     const CGFloat width = MAX(height, NSWidth(textField.frame) + sideMargin);
     NSView *view = [[NSView alloc] initWithFrame:NSMakeRect(0,
-                                                            0,
-                                                            width,
-                                                            height)];
+                                   0,
+                                   width,
+                                   height)];
     view.wantsLayer = YES;
 
     CAShapeLayer *shapeLayer = [[CAShapeLayer alloc] init];
     const CGFloat radius = height / 2.0;
     NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:view.bounds
-                                                         xRadius:radius
-                                                         yRadius:radius];
+                                       xRadius:radius
+                                       yRadius:radius];
     shapeLayer.path = [path iterm_CGPath];
     shapeLayer.fillColor = [[NSColor colorWithSRGBRed:0.976 green:0.243 blue:0.223 alpha:0.92] CGColor];
     if (@available(macOS 10.14, *)) {

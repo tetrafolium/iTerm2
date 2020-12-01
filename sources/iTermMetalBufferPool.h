@@ -32,13 +32,13 @@ NS_CLASS_AVAILABLE(10_11, NA)
 @property (nonatomic) size_t bufferSize;
 
 - (instancetype)initWithDevice:(id<MTLDevice>)device
-                    bufferSize:(size_t)bufferSize NS_DESIGNATED_INITIALIZER;
+    bufferSize:(size_t)bufferSize NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (id<MTLBuffer>)requestBufferFromContext:(iTermMetalBufferPoolContext *)context;
 - (id<MTLBuffer>)requestBufferFromContext:(iTermMetalBufferPoolContext *)context
-                                withBytes:(const void *)bytes
-                           checkIfChanged:(BOOL)checkIfChanged;
+    withBytes:(const void *)bytes
+    checkIfChanged:(BOOL)checkIfChanged;
 
 @end
 
@@ -53,11 +53,11 @@ NS_CLASS_AVAILABLE(10_11, NA)
 - (instancetype)init NS_UNAVAILABLE;
 
 - (id<MTLBuffer>)requestBufferFromContext:(iTermMetalBufferPoolContext *)context
-                                     size:(size_t)size;
+    size:(size_t)size;
 
 - (id<MTLBuffer>)requestBufferFromContext:(iTermMetalBufferPoolContext *)context
-                                     size:(size_t)size
-                                    bytes:(const void *)bytes;
+    size:(size_t)size
+    bytes:(const void *)bytes;
 
 
 @end

@@ -23,7 +23,9 @@ extern NSString *const kEncodedColorDictionarySRGBColorSpace;
 extern NSString *const kEncodedColorDictionaryCalibratedColorSpace;
 
 static inline float SIMDPerceivedBrightness(vector_float4 x) {
-    static const vector_float4 y = (vector_float4){ 0.30, 0.59, 0.11, 0 };
+    static const vector_float4 y = (vector_float4) {
+        0.30, 0.59, 0.11, 0
+    };
     return simd_dot(x, y);
 }
 
@@ -70,32 +72,32 @@ CGFloat PerceivedBrightness(CGFloat r, CGFloat g, CGFloat b);
 
 + (NSColor *)colorWithString:(NSString *)s;
 + (NSColor *)colorWith8BitRed:(int)red
-                        green:(int)green
-                         blue:(int)blue;
+    green:(int)green
+    blue:(int)blue;
 
 + (NSColor *)colorWith8BitRed:(int)red
-                        green:(int)green
-                         blue:(int)blue
-                       muting:(double)muting
-                backgroundRed:(CGFloat)bgRed
-              backgroundGreen:(CGFloat)bgGreen
-               backgroundBlue:(CGFloat)bgBlue;
+    green:(int)green
+    blue:(int)blue
+    muting:(double)muting
+    backgroundRed:(CGFloat)bgRed
+    backgroundGreen:(CGFloat)bgGreen
+    backgroundBlue:(CGFloat)bgBlue;
 
 // Modify r,g,b to have brightness t, placing the values in result which should hold 4 CGFloats.
 + (void)getComponents:(CGFloat *)result
-      forColorWithRed:(CGFloat)r
-                green:(CGFloat)g
-                 blue:(CGFloat)b
-                alpha:(CGFloat)a
-  perceivedBrightness:(CGFloat)t;
+    forColorWithRed:(CGFloat)r
+    green:(CGFloat)g
+    blue:(CGFloat)b
+    alpha:(CGFloat)a
+    perceivedBrightness:(CGFloat)t;
 
 // Fill in result with four values by modifying mainComponents to have at least
 // minimumContrast against otherComponents. All arrays are
 // red,green,blue,alpha. Alpha is copied over from mainComponents to result.
 + (void)getComponents:(CGFloat *)result
-        forComponents:(CGFloat *)mainComponents
-  withContrastAgainstComponents:(CGFloat *)otherComponents
-                minimumContrast:(CGFloat)minimumContrast;
+    forComponents:(CGFloat *)mainComponents
+    withContrastAgainstComponents:(CGFloat *)otherComponents
+    minimumContrast:(CGFloat)minimumContrast;
 
 - (int)nearestIndexIntoAnsi256ColorTable;
 

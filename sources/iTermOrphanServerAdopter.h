@@ -13,12 +13,12 @@
 
 @protocol iTermOrphanServerAdopterDelegate<NSObject>
 - (void)orphanServerAdopterOpenSessionForConnection:(iTermGeneralServerConnection)connection
-                                           inWindow:(id)window
-                                         completion:(void (^)(PTYSession *))completion;
+    inWindow:(id)window
+    completion:(void (^)(PTYSession *))completion;
 
 - (void)orphanServerAdopterOpenSessionForPartialAttachment:(id<iTermPartialAttachment>)partialAttachment
-                                                  inWindow:(id)window
-                                                completion:(void (^)(PTYSession *))completion;
+    inWindow:(id)window
+    completion:(void (^)(PTYSession *))completion;
 @end
 
 @interface iTermOrphanServerAdopter : NSObject

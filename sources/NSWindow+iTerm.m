@@ -32,17 +32,18 @@ NSString *const iTermWindowAppearanceDidChange = @"iTermWindowAppearanceDidChang
 }
 
 - (NSString *)it_styleMaskDescription {
-    NSDictionary *map = @{ @(NSWindowStyleMaskClosable): @"closable",
-                           @(NSWindowStyleMaskMiniaturizable): @"miniaturizable",
-                           @(NSWindowStyleMaskResizable): @"resizable",
-                           @(NSWindowStyleMaskTexturedBackground): @"textured-background",
-                           @(NSWindowStyleMaskUnifiedTitleAndToolbar): @"unified",
-                           @(NSWindowStyleMaskFullScreen): @"fullscreen",
-                           @(NSWindowStyleMaskFullSizeContentView): @"full-size-content-view",
-                           @(NSWindowStyleMaskUtilityWindow): @"utility",
-                           @(NSWindowStyleMaskDocModalWindow): @"doc-modal",
-                           @(NSWindowStyleMaskNonactivatingPanel): @"non-activating-panel",
-                           @(NSWindowStyleMaskHUDWindow): @"hud-window" };
+    NSDictionary *map = @ { @(NSWindowStyleMaskClosable): @"closable",
+                            @(NSWindowStyleMaskMiniaturizable): @"miniaturizable",
+                            @(NSWindowStyleMaskResizable): @"resizable",
+                            @(NSWindowStyleMaskTexturedBackground): @"textured-background",
+                            @(NSWindowStyleMaskUnifiedTitleAndToolbar): @"unified",
+                            @(NSWindowStyleMaskFullScreen): @"fullscreen",
+                            @(NSWindowStyleMaskFullSizeContentView): @"full-size-content-view",
+                            @(NSWindowStyleMaskUtilityWindow): @"utility",
+                            @(NSWindowStyleMaskDocModalWindow): @"doc-modal",
+                            @(NSWindowStyleMaskNonactivatingPanel): @"non-activating-panel",
+                            @(NSWindowStyleMaskHUDWindow): @"hud-window"
+                          };
 
     NSUInteger i = 1;
     NSMutableArray *array = [NSMutableArray array];

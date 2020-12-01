@@ -31,8 +31,8 @@ NSString *const iTermScriptMetadataName = @"metadata.json";
 @implementation iTermScriptArchive
 
 + (instancetype)archiveForScriptIn:(NSString *)container
-                             named:(NSString *)name
-                   fullEnvironment:(BOOL)fullEnvironment {
+    named:(NSString *)name
+    fullEnvironment:(BOOL)fullEnvironment {
     iTermScriptArchive *archive = [[self alloc] init];
     archive.container = container.copy;
     archive.name = name.copy;
@@ -54,16 +54,16 @@ NSString *const iTermScriptMetadataName = @"metadata.json";
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSArray<NSString *> *topLevelItems = [fileManager it_itemsInDirectory:container];
     topLevelItems = [topLevelItems filteredArrayUsingBlock:^BOOL(NSString *anObject) {
-        return ![anObject hasPrefix:@"."];
-    }];
+                      return ![anObject hasPrefix:@"."];
+                  }];
     topLevelItems = [topLevelItems mapWithBlock:^id(NSString *anObject) {
-        return [container stringByAppendingPathComponent:anObject];
-    }];
+                      return [container stringByAppendingPathComponent:anObject];
+                  }];
     return topLevelItems;
 }
 
 + (instancetype)archiveFromContainer:(NSString *)container
-                          deprecated:(out BOOL *)deprecatedPtr {
+    deprecated:(out BOOL *)deprecatedPtr {
     if (deprecatedPtr) {
         *deprecatedPtr = NO;
     }
@@ -76,8 +76,8 @@ NSString *const iTermScriptMetadataName = @"metadata.json";
     NSString *topLevelItem = topLevelItems.firstObject;
     const BOOL topLevelItemIsDirectory = [fileManager itemIsDirectory:topLevelItem];
     if ([[topLevelItem pathExtension] isEqualToString:@"py"] &&
-        !topLevelItemIsDirectory &&
-        [topLevelItem isEqualToString:[container stringByAppendingPathComponent:topLevelItem.lastPathComponent]]) {
+            !topLevelItemIsDirectory &&
+            [topLevelItem isEqualToString:[container stringByAppendingPathComponent:topLevelItem.lastPathComponent]]) {
         // Basic script
         return [iTermScriptArchive archiveForScriptIn:container named:topLevelItems[0].lastPathComponent fullEnvironment:NO];
     }
@@ -125,7 +125,7 @@ NSString *const iTermScriptMetadataName = @"metadata.json";
     // mainPy="dir/name/name.py"
     NSString *mainPy = [[topLevelItem stringByAppendingPathComponent:name] stringByAppendingPathComponent:[name stringByAppendingPathExtension:@"py"]];
     if (![fileManager fileExistsAtPath:mainPy isDirectory:&isDirectory] ||
-        isDirectory) {
+            isDirectory) {
         return nil;
     }
 
@@ -139,44 +139,44 @@ NSString *const iTermScriptMetadataName = @"metadata.json";
 - (BOOL)userAcceptsTrustedScriptAutoLaunchInstall {
     NSString *body = [NSString stringWithFormat:@"“%@” would like to launch automatically when iTerm2 starts. Would you like to allow that?", self.name];
     const iTermWarningSelection selection = [iTermWarning showWarningWithTitle:body
-                                                                       actions:@[ @"Launch Automatically", @"Lauch Manually" ]
-                                                                     accessory:nil
-                                                                    identifier:nil
-                                                                   silenceable:kiTermWarningTypePersistent
-                                                                       heading:@"Allow Auto-Launch?"
-                                                                        window:nil];
+                                                         actions:@[ @"Launch Automatically", @"Lauch Manually" ]
+                                                         accessory:nil
+                                                         identifier:nil
+                                                         silenceable:kiTermWarningTypePersistent
+                                                         heading:@"Allow Auto-Launch?"
+                                                         window:nil];
     return (selection == kiTermWarningSelection0);
 }
 
 - (BOOL)userAcceptsExplicitAutoLaunchInstall {
     NSString *body = [NSString stringWithFormat:@"“%@” can launch automatically when iTerm2 starts. Would you like to allow that?", self.name];
     const iTermWarningSelection selection = [iTermWarning showWarningWithTitle:body
-                                                                       actions:@[ @"Launch Automatically", @"Lauch Manually" ]
-                                                                     accessory:nil
-                                                                    identifier:nil
-                                                                   silenceable:kiTermWarningTypePersistent
-                                                                       heading:@"Allow Auto-Launch?"
-                                                                        window:nil];
+                                                         actions:@[ @"Launch Automatically", @"Lauch Manually" ]
+                                                         accessory:nil
+                                                         identifier:nil
+                                                         silenceable:kiTermWarningTypePersistent
+                                                         heading:@"Allow Auto-Launch?"
+                                                         window:nil];
     return (selection == kiTermWarningSelection0);
 }
 
 - (void)installTrusted:(BOOL)trusted
-       offerAutoLaunch:(BOOL)offerAutoLaunch
-        withCompletion:(void (^)(NSError *, NSURL *location))completion {
+    offerAutoLaunch:(BOOL)offerAutoLaunch
+    withCompletion:(void (^)(NSError *, NSURL *location))completion {
     if (self.fullEnvironment) {
         [self installFullEnvironmentTrusted:trusted
-                            offerAutoLaunch:offerAutoLaunch
-                                 completion:completion];
+              offerAutoLaunch:offerAutoLaunch
+              completion:completion];
     } else {
         [self installBasicTrusted:trusted
-                  offerAutoLaunch:offerAutoLaunch
-                       completion:completion];
+              offerAutoLaunch:offerAutoLaunch
+              completion:completion];
     }
 }
 
 - (void)installBasicTrusted:(BOOL)trusted
-            offerAutoLaunch:(BOOL)offerAutoLaunch
-                 completion:(void (^)(NSError *, NSURL *location))completion {
+    offerAutoLaunch:(BOOL)offerAutoLaunch
+    completion:(void (^)(NSError *, NSURL *location))completion {
     NSString *from = [self.container stringByAppendingPathComponent:self.name];
     NSString *to;
     if ([self shouldAutoLaunchWhenTrusted:trusted offerAutoLaunch:offerAutoLaunch]) {
@@ -186,13 +186,13 @@ NSString *const iTermScriptMetadataName = @"metadata.json";
     }
     NSError *error = nil;
     [[NSFileManager defaultManager] moveItemAtPath:from
-                                            toPath:to
-                                             error:&error];
+                                    toPath:to
+                                    error:&error];
     completion(error, [NSURL fileURLWithPath:to]);
 }
 
 - (BOOL)shouldOfferAutoLaunchWhenTrusted:(BOOL)trusted
-                         offerAutoLaunch:(BOOL)offerAutoLaunch {
+    offerAutoLaunch:(BOOL)offerAutoLaunch {
     if (offerAutoLaunch) {
         return YES;
     }
@@ -203,7 +203,7 @@ NSString *const iTermScriptMetadataName = @"metadata.json";
 }
 
 - (BOOL)shouldAutoLaunchWhenTrusted:(BOOL)trusted
-                    offerAutoLaunch:(BOOL)offerAutoLaunch {
+    offerAutoLaunch:(BOOL)offerAutoLaunch {
     if (![self shouldOfferAutoLaunchWhenTrusted:trusted offerAutoLaunch:offerAutoLaunch]) {
         return NO;
     }
@@ -215,14 +215,14 @@ NSString *const iTermScriptMetadataName = @"metadata.json";
 }
 
 - (void)installFullEnvironmentTrusted:(BOOL)trusted
-                      offerAutoLaunch:(BOOL)offerAutoLaunch
-                           completion:(void (^)(NSError *, NSURL *location))completion {
+    offerAutoLaunch:(BOOL)offerAutoLaunch
+    completion:(void (^)(NSError *, NSURL *location))completion {
     NSString *from = [self.container stringByAppendingPathComponent:self.name];
 
     NSString *setupCfg = [from stringByAppendingPathComponent:iTermScriptSetupCfgName];
     iTermSetupCfgParser *setupParser = [[iTermSetupCfgParser alloc] initWithPath:setupCfg];
     if (!setupParser) {
-        NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: @"Cannot find setup.cfg" };
+        NSDictionary *userInfo = @ { NSLocalizedDescriptionKey: @"Cannot find setup.cfg" };
         NSError *error = [NSError errorWithDomain:@"com.iterm2.scriptarchive" code:1 userInfo:userInfo];
         completion(error, nil);
         return;
@@ -245,9 +245,9 @@ NSString *const iTermScriptMetadataName = @"metadata.json";
         containingFolder = [[NSFileManager defaultManager] scriptsPath];
     }
     [[NSFileManager defaultManager] createDirectoryAtPath:containingFolder
-                              withIntermediateDirectories:YES
-                                               attributes:nil
-                                                    error:nil];
+                                    withIntermediateDirectories:YES
+                                    attributes:nil
+                                    error:nil];
 
     NSString *to = [containingFolder stringByAppendingPathComponent:self.name];
 
@@ -262,97 +262,97 @@ NSString *const iTermScriptMetadataName = @"metadata.json";
 
     NSError *error = nil;
     [[NSFileManager defaultManager] createSymbolicLinkAtPath:to
-                                         withDestinationPath:from
-                                                       error:&error];
+                                    withDestinationPath:from
+                                    error:&error];
     if (error) {
-        NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Could not write to %@", to] };
+        NSDictionary *userInfo = @ { NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Could not write to %@", to] };
         NSError *error = [NSError errorWithDomain:@"com.iterm2.scriptarchive" code:1 userInfo:userInfo];
         completion(error, nil);
         return;
     }
 
     [[iTermPythonRuntimeDownloader sharedInstance] downloadOptionalComponentsIfNeededWithConfirmation:YES
-                                                                                        pythonVersion:setupParser.pythonVersion
-                                                                            minimumEnvironmentVersion:setupParser.minimumEnvironmentVersion
-                                                                                   requiredToContinue:YES
-                                                                                       withCompletion:
-     ^(iTermPythonRuntimeDownloaderStatus status) {
-         switch (status) {
-             case iTermPythonRuntimeDownloaderStatusRequestedVersionNotFound:
-             case iTermPythonRuntimeDownloaderStatusCanceledByUser:
-             case iTermPythonRuntimeDownloaderStatusUnknown:
-             case iTermPythonRuntimeDownloaderStatusWorking:
-             case iTermPythonRuntimeDownloaderStatusError: {
-                 [[NSFileManager defaultManager] removeItemAtPath:to error:nil];
-                 NSString *reason = [self errorReasonForRuntimeDownloaderStatus:status];
-                 NSString *description = [NSString stringWithFormat:@"Python Runtime not downloaded: %@", reason];
-                 NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: description };
-                 NSError *error = [NSError errorWithDomain:@"com.iterm2.scriptarchive" code:3 userInfo:userInfo];
-                 completion(error, nil);
-                 return;
-             }
+                                                   pythonVersion:setupParser.pythonVersion
+                                                   minimumEnvironmentVersion:setupParser.minimumEnvironmentVersion
+                                                   requiredToContinue:YES
+                                                   withCompletion:
+                                                  ^(iTermPythonRuntimeDownloaderStatus status) {
+                                                      switch (status) {
+                                              case iTermPythonRuntimeDownloaderStatusRequestedVersionNotFound:
+                                              case iTermPythonRuntimeDownloaderStatusCanceledByUser:
+                                              case iTermPythonRuntimeDownloaderStatusUnknown:
+                                              case iTermPythonRuntimeDownloaderStatusWorking:
+                                              case iTermPythonRuntimeDownloaderStatusError: {
+                                                          [[NSFileManager defaultManager] removeItemAtPath:to error:nil];
+            NSString *reason = [self errorReasonForRuntimeDownloaderStatus:status];
+            NSString *description = [NSString stringWithFormat:@"Python Runtime not downloaded: %@", reason];
+            NSDictionary *userInfo = @ { NSLocalizedDescriptionKey: description };
+            NSError *error = [NSError errorWithDomain:@"com.iterm2.scriptarchive" code:3 userInfo:userInfo];
+            completion(error, nil);
+            return;
+        }
 
-             case iTermPythonRuntimeDownloaderStatusNotNeeded:
-             case iTermPythonRuntimeDownloaderStatusDownloaded:
-                 break;
-         }
-         NSURL *toURL = [NSURL fileURLWithPath:to];
-         [[iTermPythonRuntimeDownloader sharedInstance] installPythonEnvironmentTo:[NSURL fileURLWithPath:from]
-                                                                  eventualLocation:toURL
-                                                                     pythonVersion:setupParser.pythonVersion
-                                                                environmentVersion:setupParser.minimumEnvironmentVersion
-                                                                      dependencies:dependencies
-                                                                    createSetupCfg:NO
-                                                                        completion:^(iTermInstallPythonStatus status) {
-                                                                            [self didInstallPythonRuntime:status
-                                                                                                     from:from
-                                                                                                       to:to
-                                                                                               completion:
-                                                                             ^(NSError *runtimeInstallError) {
-                                                                                 completion(runtimeInstallError,
-                                                                                            runtimeInstallError == nil ? toURL : nil);
-                                                                             }];
-                                                                        }];
-     }];
+        case iTermPythonRuntimeDownloaderStatusNotNeeded:
+        case iTermPythonRuntimeDownloaderStatusDownloaded:
+            break;
+        }
+        NSURL *toURL = [NSURL fileURLWithPath:to];
+        [[iTermPythonRuntimeDownloader sharedInstance] installPythonEnvironmentTo:[NSURL fileURLWithPath:from]
+                                                       eventualLocation:toURL
+                                                       pythonVersion:setupParser.pythonVersion
+                                                       environmentVersion:setupParser.minimumEnvironmentVersion
+                                                       dependencies:dependencies
+                                                       createSetupCfg:NO
+                                                      completion:^(iTermInstallPythonStatus status) {
+                                                          [self didInstallPythonRuntime:status
+                                                           from:from
+                                                           to:to
+                                                           completion:
+                                                          ^(NSError *runtimeInstallError) {
+                                                              completion(runtimeInstallError,
+                                                                         runtimeInstallError == nil ? toURL : nil);
+                                                          }];
+        }];
+    }];
 }
 
 - (NSString *)errorReasonForRuntimeDownloaderStatus:(iTermPythonRuntimeDownloaderStatus)status {
     switch (status) {
-        case iTermPythonRuntimeDownloaderStatusRequestedVersionNotFound:
-            return @"Requested version not available";
-        case iTermPythonRuntimeDownloaderStatusCanceledByUser:
-            return @"Canceled by user";
-        case iTermPythonRuntimeDownloaderStatusUnknown:
-        case iTermPythonRuntimeDownloaderStatusWorking:
-            return @"An unknown problem occurred";
-        case iTermPythonRuntimeDownloaderStatusError:
-            return @"Network error";
-        case iTermPythonRuntimeDownloaderStatusNotNeeded:
-        case iTermPythonRuntimeDownloaderStatusDownloaded:
-            return nil;
+    case iTermPythonRuntimeDownloaderStatusRequestedVersionNotFound:
+        return @"Requested version not available";
+    case iTermPythonRuntimeDownloaderStatusCanceledByUser:
+        return @"Canceled by user";
+    case iTermPythonRuntimeDownloaderStatusUnknown:
+    case iTermPythonRuntimeDownloaderStatusWorking:
+        return @"An unknown problem occurred";
+    case iTermPythonRuntimeDownloaderStatusError:
+        return @"Network error";
+    case iTermPythonRuntimeDownloaderStatusNotNeeded:
+    case iTermPythonRuntimeDownloaderStatusDownloaded:
+        return nil;
     }
 }
 
 - (void)didInstallPythonRuntime:(iTermInstallPythonStatus)status
-                           from:(NSString *)from
-                             to:(NSString *)to
-                     completion:(void (^)(NSError *))completion {
+    from:(NSString *)from
+    to:(NSString *)to
+    completion:(void (^)(NSError *))completion {
     [[NSFileManager defaultManager] removeItemAtPath:to error:nil];
     switch (status) {
-        case iTermInstallPythonStatusOK:
-            break;
-        case iTermInstallPythonStatusGeneralFailure: {
-            NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: @"Failed to install Python Runtime" };
-            NSError *error = [NSError errorWithDomain:@"com.iterm2.scriptarchive" code:1 userInfo:userInfo];
-            completion(error);
-            return;
-        }
-        case iTermInstallPythonStatusDependencyFailed: {
-            NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: @"Failed to install Python package" };
-            NSError *error = [NSError errorWithDomain:@"com.iterm2.scriptarchive" code:2 userInfo:userInfo];
-            completion(error);
-            return;
-        }
+    case iTermInstallPythonStatusOK:
+        break;
+    case iTermInstallPythonStatusGeneralFailure: {
+        NSDictionary *userInfo = @ { NSLocalizedDescriptionKey: @"Failed to install Python Runtime" };
+        NSError *error = [NSError errorWithDomain:@"com.iterm2.scriptarchive" code:1 userInfo:userInfo];
+        completion(error);
+        return;
+    }
+    case iTermInstallPythonStatusDependencyFailed: {
+        NSDictionary *userInfo = @ { NSLocalizedDescriptionKey: @"Failed to install Python package" };
+        NSError *error = [NSError errorWithDomain:@"com.iterm2.scriptarchive" code:2 userInfo:userInfo];
+        completion(error);
+        return;
+    }
     }
 
     // Finally, move it to its destination.
@@ -361,8 +361,8 @@ NSString *const iTermScriptMetadataName = @"metadata.json";
     [fileManager removeItemAtPath:to error:nil];
     NSError *error = nil;
     [fileManager moveItemAtPath:from
-                         toPath:to
-                          error:&error];
+                 toPath:to
+                 error:&error];
     completion(error);
 }
 

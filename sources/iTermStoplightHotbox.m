@@ -26,8 +26,8 @@
         CGFloat radius = 4;
         [_fillPath lineToPoint:NSMakePoint(maxX, minY + radius)];
         [_fillPath curveToPoint:NSMakePoint(maxX - radius, minY)
-                    controlPoint1:NSMakePoint(maxX, minY + radius / 2)
-                    controlPoint2:NSMakePoint(maxX - radius / 2, minY)];
+                   controlPoint1:NSMakePoint(maxX, minY + radius / 2)
+                   controlPoint2:NSMakePoint(maxX - radius / 2, minY)];
         [_fillPath lineToPoint:NSMakePoint(0, minY)];
 
         const CGFloat inset = 0;
@@ -35,13 +35,13 @@
         [_strokePath moveToPoint:NSMakePoint(maxX - inset, maxY)];
         [_strokePath lineToPoint:NSMakePoint(maxX - inset, minY + inset + radius)];
         [_strokePath curveToPoint:NSMakePoint(maxX - inset - radius, minY + inset)
-                  controlPoint1:NSMakePoint(maxX - inset, minY + inset + radius / 2)
-                  controlPoint2:NSMakePoint(maxX - inset - radius / 2, minY + inset)];
+                     controlPoint1:NSMakePoint(maxX - inset, minY + inset + radius / 2)
+                     controlPoint2:NSMakePoint(maxX - inset - radius / 2, minY + inset)];
         [_strokePath lineToPoint:NSMakePoint(0, minY + inset)];
     }
     [[self.delegate stoplightHotboxColor] set];
     [_fillPath fill];
-    
+
     [[self.delegate stoplightHotboxOutlineColor] set];
     [_strokePath stroke];
 }
@@ -51,11 +51,11 @@
     if (_trackingArea != nil) {
         [self removeTrackingArea:_trackingArea];
     }
-    
+
     _trackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds
-                                                 options:(NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways | NSTrackingCursorUpdate)
-                                                   owner:self
-                                                userInfo:nil];
+                                            options:(NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways | NSTrackingCursorUpdate)
+                                            owner:self
+                                            userInfo:nil];
     [self addTrackingArea:_trackingArea];
 }
 
@@ -99,9 +99,9 @@
 - (void)mouseDown:(NSEvent *)event {
     NSView *superview = [self superview];
     NSPoint hitLocation = [[superview superview] convertPoint:[event locationInWindow]
-                                                     fromView:nil];
+                                                 fromView:nil];
     NSView *hitView = [superview hitTest:hitLocation];
-    
+
 
     const BOOL handleDrag = ([self.delegate stoplightHotboxCanDrag] &&
                              hitView == self);
@@ -109,7 +109,7 @@
         [self trackClickForWindowMove:event];
         return;
     }
-    
+
     [super mouseDown:event];
 }
 
@@ -121,23 +121,23 @@
                                    NSEventMaskLeftMouseDragged |
                                    NSEventMaskLeftMouseUp);
     event = [NSApp nextEventMatchingMask:eventMask
-                               untilDate:[NSDate distantFuture]
-                                  inMode:NSEventTrackingRunLoopMode
-                                 dequeue:YES];
+                   untilDate:[NSDate distantFuture]
+                   inMode:NSEventTrackingRunLoopMode
+                   dequeue:YES];
     while (event && event.type != NSEventTypeLeftMouseUp) {
         @autoreleasepool {
             NSPoint currentPointInScreenCoords = [NSEvent mouseLocation];
-            
+
             origin.x += currentPointInScreenCoords.x - lastPointInScreenCoords.x;
             origin.y += currentPointInScreenCoords.y - lastPointInScreenCoords.y;
             lastPointInScreenCoords = currentPointInScreenCoords;
-            
+
             [window setFrameOrigin:origin];
-            
+
             event = [NSApp nextEventMatchingMask:eventMask
-                                       untilDate:[NSDate distantFuture]
-                                          inMode:NSEventTrackingRunLoopMode
-                                         dequeue:YES];
+                           untilDate:[NSDate distantFuture]
+                           inMode:NSEventTrackingRunLoopMode
+                           dequeue:YES];
         }
     }
 }

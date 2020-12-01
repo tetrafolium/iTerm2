@@ -142,9 +142,13 @@
 
     NSMutableParagraphStyle *paragraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
     paragraphStyle.alignment = NSTextAlignmentCenter;
-    NSDictionary<NSString *, id> *attributes = @{ NSForegroundColorAttributeName: textColor,
-                                                  NSFontAttributeName: [NSFont systemFontOfSize:[NSFont systemFontSize]],
-                                                  NSParagraphStyleAttributeName: paragraphStyle };
+    NSDictionary<NSString *, id> *attributes = @ { NSForegroundColorAttributeName:
+            textColor,
+            NSFontAttributeName:
+            [NSFont systemFontOfSize:[NSFont systemFontSize]],
+            NSParagraphStyleAttributeName:
+            paragraphStyle
+                                                 };
     frame = self.bounds;
     frame.size.height -= 2;
     if (!_clearButton.hidden) {
@@ -203,9 +207,9 @@
     NSSize buttonSize = [[NSImage it_imageNamed:@"Erase" forClass:self.class] size];
 
     _clearButton = [[NSButton alloc] initWithFrame:NSMakeRect(size.width - buttonSize.width - 2,
-                                                              (size.height - buttonSize.height) / 2.0,
-                                                              buttonSize.width,
-                                                              buttonSize.height)];
+                                     (size.height - buttonSize.height) / 2.0,
+                                     buttonSize.width,
+                                     buttonSize.height)];
     [_clearButton setTarget:self];
     [_clearButton setImage:[NSImage it_imageNamed:@"Erase" forClass:self.class]];
     [_clearButton setAction:@selector(clear:)];
@@ -258,8 +262,8 @@
 }
 
 - (NSString *)identifierForCode:(NSUInteger)code
-                      modifiers:(NSEventModifierFlags)modifiers
-                      character:(NSUInteger)character {
+    modifiers:(NSEventModifierFlags)modifiers
+    character:(NSUInteger)character {
     if (code || character) {
         return [NSString stringWithFormat:@"0x%x-0x%x", (int)character, (int)modifiers];
     } else {

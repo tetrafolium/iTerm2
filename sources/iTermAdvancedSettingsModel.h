@@ -10,7 +10,7 @@
 
 @interface iTermAdvancedSettingsModel : NSObject
 
-typedef enum {
+    typedef enum {
     kiTermAdvancedSettingTypeBoolean,
     kiTermAdvancedSettingTypeInteger,
     kiTermAdvancedSettingTypeFloat,

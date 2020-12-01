@@ -24,14 +24,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithConfiguration:(NSDictionary<iTermStatusBarComponentConfigurationKey,id> *)configuration
-                                scope:(nullable iTermVariableScope *)scope {
+    scope:(nullable iTermVariableScope *)scope {
     self = [super initWithConfiguration:configuration scope:scope];
     if (self) {
         _ceiling = 1;
         __weak __typeof(self) weakSelf = self;
         [[iTermNetworkUtilization sharedInstance] addSubscriber:self block:^(double down, double up) {
-            [weakSelf updateWithDown:down up:up];
-        }];
+                                                     [weakSelf updateWithDown:down up:up];
+                                                 }];
     }
     return self;
 }
@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (id)statusBarComponentExemplarWithBackgroundColor:(NSColor *)backgroundColor
-                                          textColor:(NSColor *)textColor {
+    textColor:(NSColor *)textColor {
     return @"2 MB↓ ▃▃▅▂ 1 MB↑";
 }
 
@@ -67,26 +67,27 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (iTermStatusBarSparklinesModel *)sparklinesModel {
     NSArray<iTermNetworkUtilizationSample *> *samples =
-    [[iTermNetworkUtilization sharedInstance] samples];
+        [[iTermNetworkUtilization sharedInstance] samples];
 
     NSArray<NSNumber *> *readValues = [samples mapWithBlock:^id(iTermNetworkUtilizationSample *anObject) {
-        return @(anObject.bytesPerSecondRead);
-    }];
+                return @(anObject.bytesPerSecondRead);
+            }];
     iTermStatusBarTimeSeries *readTimeSeries = [[iTermStatusBarTimeSeries alloc] initWithValues:readValues];
     iTermStatusBarTimeSeriesRendition *readRendition =
-    [[iTermStatusBarTimeSeriesRendition alloc] initWithTimeSeries:readTimeSeries
-                                                            color:[NSColor blueColor]];
+        [[iTermStatusBarTimeSeriesRendition alloc] initWithTimeSeries:readTimeSeries
+                                                   color:[NSColor blueColor]];
 
     NSArray<NSNumber *> *writeValues = [samples mapWithBlock:^id(iTermNetworkUtilizationSample *anObject) {
-        return @(anObject.bytesPerSecondWrite);
-    }];
+                return @(anObject.bytesPerSecondWrite);
+            }];
     iTermStatusBarTimeSeries *writeTimeSeries = [[iTermStatusBarTimeSeries alloc] initWithValues:writeValues];
     iTermStatusBarTimeSeriesRendition *writeRendition =
-    [[iTermStatusBarTimeSeriesRendition alloc] initWithTimeSeries:writeTimeSeries
-                                                            color:[NSColor redColor]];
+        [[iTermStatusBarTimeSeriesRendition alloc] initWithTimeSeries:writeTimeSeries
+                                                   color:[NSColor redColor]];
 
-    return [[iTermStatusBarSparklinesModel alloc] initWithDictionary:@{ @"read": readRendition,
-                                                                        @"write": writeRendition  }];
+    return [[iTermStatusBarSparklinesModel alloc] initWithDictionary:@ { @"read": readRendition,
+                                                  @"write": writeRendition
+                                                                       }];
 }
 
 - (double)ceiling {
@@ -111,9 +112,13 @@ NS_ASSUME_NONNULL_BEGIN
     [leftAlignStyle setAlignment:NSTextAlignmentLeft];
     [leftAlignStyle setLineBreakMode:NSLineBreakByTruncatingTail];
 
-    return @{ NSParagraphStyleAttributeName: leftAlignStyle,
-              NSFontAttributeName: self.font,
-              NSForegroundColorAttributeName: self.textColor };
+    return @ { NSParagraphStyleAttributeName:
+               leftAlignStyle,
+               NSFontAttributeName:
+               self.font,
+               NSForegroundColorAttributeName:
+               self.textColor
+             };
 }
 
 - (NSDictionary *)rightAttributes {
@@ -121,9 +126,13 @@ NS_ASSUME_NONNULL_BEGIN
         [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     [rightAlignStyle setAlignment:NSTextAlignmentRight];
     [rightAlignStyle setLineBreakMode:NSLineBreakByTruncatingTail];
-    return @{ NSParagraphStyleAttributeName: rightAlignStyle,
-              NSFontAttributeName: self.font,
-              NSForegroundColorAttributeName: self.textColor };
+    return @ { NSParagraphStyleAttributeName:
+               rightAlignStyle,
+               NSFontAttributeName:
+               self.font,
+               NSForegroundColorAttributeName:
+               self.textColor
+             };
 }
 
 - (NSString * _Nullable)leftText {

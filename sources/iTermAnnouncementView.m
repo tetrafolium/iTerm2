@@ -22,26 +22,26 @@ static const CGFloat kMargin = 8;
 
 - (void)drawRect:(NSRect)dirtyRect {
     NSColor *color1 = [NSColor colorWithCalibratedRed:241.0 / 255.0
-                                                green:255.0 / 255.0
-                                                 blue:187.0 / 255.0
-                                                alpha:1];
+                               green:255.0 / 255.0
+                               blue:187.0 / 255.0
+                               alpha:1];
     NSColor *color2 = [NSColor colorWithCalibratedRed:245.0 / 255.0
-                                                green:253.0 / 255.0
-                                                 blue:212.0 / 255.0
-                                                alpha:1];
+                               green:253.0 / 255.0
+                               blue:212.0 / 255.0
+                               alpha:1];
     NSGradient *gradient =
         [[NSGradient alloc] initWithStartingColor:color1 endingColor:color2];
     [gradient drawInRect:self.bounds angle:90];
 
     NSColor *lightBorderColor = [NSColor colorWithCalibratedRed:250.0 / 255.0
-                                                          green:253.0 / 255.0
-                                                           blue:240.0 / 255.0
-                                                          alpha:1];
+                                         green:253.0 / 255.0
+                                         blue:240.0 / 255.0
+                                         alpha:1];
 
     NSColor *darkBorderColor = [NSColor colorWithCalibratedRed:220.0 / 255.0
-                                                         green:233.0 / 255.0
-                                                          blue:171.0 / 255.0
-                                                         alpha:1];
+                                        green:233.0 / 255.0
+                                        blue:171.0 / 255.0
+                                        alpha:1];
     [darkBorderColor set];
     NSRectFill(NSMakeRect(0, 0, self.bounds.size.width, 1));
 
@@ -69,9 +69,9 @@ static const CGFloat kMargin = 8;
 }
 
 + (id)announcementViewWithTitle:(NSString *)title
-                           style:(iTermAnnouncementViewStyle)style
-                        actions:(NSArray *)actions
-                          block:(void (^)(int index))block {
+    style:(iTermAnnouncementViewStyle)style
+    actions:(NSArray *)actions
+    block:(void (^)(int index))block {
     iTermAnnouncementView *view = [[self alloc] initWithFrame:NSMakeRect(0, 0, 1000, 44)];
     view.style = style;
     [view setTitle:title];
@@ -97,9 +97,9 @@ static const CGFloat kMargin = 8;
         NSSize closeSize = closeImage.size;
         _buttonWidth = ceil(closeSize.width + kMargin);
         NSButton *closeButton = [[NSButton alloc] initWithFrame:NSMakeRect(frameRect.size.width - _buttonWidth,
-                                                                           floor((frameRect.size.height - closeSize.height) / 2),
-                                                                           closeSize.width,
-                                                                           closeSize.height)];
+                                                  floor((frameRect.size.height - closeSize.height) / 2),
+                                                  closeSize.width,
+                                                  closeSize.height)];
         closeButton.autoresizingMask = NSViewMinXMargin;
         [closeButton setButtonType:NSButtonTypeMomentaryPushIn];
         [closeButton setImage:closeImage];
@@ -116,9 +116,9 @@ static const CGFloat kMargin = 8;
         self.autoresizesSubviews = YES;
 
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(windowAppearanceDidChange:)
-                                                     name:iTermWindowAppearanceDidChange
-                                                   object:nil];
+                                              selector:@selector(windowAppearanceDidChange:)
+                                              name:iTermWindowAppearanceDidChange
+                                              object:nil];
     }
     return self;
 }
@@ -236,15 +236,15 @@ static const CGFloat kMargin = 8;
 - (NSImage *)iconImage {
     NSString *iconString;
     switch (_style) {
-        case kiTermAnnouncementViewStyleWarning:
-            iconString = @"⚠";  // Warning sign
-            break;
-        case kiTermAnnouncementViewStyleQuestion:
-            return [NSImage it_imageNamed:@"QuestionMarkSign" forClass:self.class];
+    case kiTermAnnouncementViewStyleWarning:
+        iconString = @"⚠";  // Warning sign
+        break;
+    case kiTermAnnouncementViewStyleQuestion:
+        return [NSImage it_imageNamed:@"QuestionMarkSign" forClass:self.class];
     }
 
     NSFont *emojiFont = [NSFont fontWithName:@"Apple Color Emoji" size:18];
-    NSDictionary *attributes = @{ NSFontAttributeName: emojiFont };
+    NSDictionary *attributes = @ { NSFontAttributeName: emojiFont };
 
     NSSize size = [iconString sizeWithAttributes:attributes];
     // This is a better estimate of the height. Maybe it doesn't include leading?
@@ -265,9 +265,9 @@ static const CGFloat kMargin = 8;
     {
         [_icon removeFromSuperview];
         _icon = [[NSImageView alloc] initWithFrame:NSMakeRect(kMargin,
-                                                              y,
-                                                              iconImage.size.width,
-                                                              iconImage.size.height)];
+                                     y,
+                                     iconImage.size.width,
+                                     iconImage.size.height)];
         [_icon setImage:iconImage];
         [_internalView addSubview:_icon];
     }
@@ -279,9 +279,9 @@ static const CGFloat kMargin = 8;
 
         rect.size.width -= _buttonWidth;
         NSTextView *textView = [[NSTextView alloc] initWithFrame:rect];
-        NSDictionary *attributes = @{ NSFontAttributeName: [NSFont systemFontOfSize:12] };
+        NSDictionary *attributes = @ { NSFontAttributeName: [NSFont systemFontOfSize:12] };
         NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:title
-                                                                               attributes:attributes];
+                                                                           attributes:attributes];
         textView.textStorage.attributedString = attributedString;
         [textView setEditable:NO];
         textView.autoresizingMask = NSViewWidthSizable | NSViewMaxXMargin;
@@ -293,7 +293,7 @@ static const CGFloat kMargin = 8;
         _textView = textView;
 
         CGFloat height = [title heightWithAttributes:attributes
-                                  constrainedToWidth:rect.size.width];
+                                constrainedToWidth:rect.size.width];
         CGFloat maxHeight = [self maximumHeightForWidth:rect.size.width];
         height = MIN(height, maxHeight);
         _textView.frame = NSMakeRect(rect.origin.x,
@@ -312,9 +312,9 @@ static const CGFloat kMargin = 8;
             [self removeTrackingArea:self.trackingAreas[0]];
         }
         NSTrackingArea *trackingArea =
-        [[NSTrackingArea alloc] initWithRect:_internalView.frame
-                                     options:NSTrackingInVisibleRect | NSTrackingActiveInKeyWindow | NSTrackingCursorUpdate
-                                       owner:self
+            [[NSTrackingArea alloc] initWithRect:_internalView.frame
+                                    options:NSTrackingInVisibleRect | NSTrackingActiveInKeyWindow | NSTrackingCursorUpdate
+                                    owner:self
                                     userInfo:nil];
         [self addTrackingArea:trackingArea];
     }
@@ -340,7 +340,7 @@ static const CGFloat kMargin = 8;
 }
 
 - (NSDictionary *)attributesForHeightMeasurement {
-    return @{ NSFontAttributeName: [NSFont systemFontOfSize:12] };
+    return @ { NSFontAttributeName: [NSFont systemFontOfSize:12] };
 }
 
 - (CGFloat)maximumHeightForWidth:(CGFloat)width {
@@ -414,10 +414,13 @@ static const CGFloat kMargin = 8;
 
 - (void)addDismissOnKeyDownLabel {
     NSMutableAttributedString *string = [_textView.attributedString mutableCopy];
-    NSDictionary *attributes = @{ NSFontAttributeName: [NSFont systemFontOfSize:10],
-                                  NSForegroundColorAttributeName: [NSColor darkGrayColor] };
+    NSDictionary *attributes = @ { NSFontAttributeName:
+                                   [NSFont systemFontOfSize:10],
+                                   NSForegroundColorAttributeName:
+                                   [NSColor darkGrayColor]
+                                 };
     NSAttributedString *notice = [[NSAttributedString alloc] initWithString:@"\nPress any key to dismiss this message."
-                                                                 attributes:attributes];
+                                                             attributes:attributes];
     [string appendAttributedString:notice];
     _textView.textStorage.attributedString = string;
 }

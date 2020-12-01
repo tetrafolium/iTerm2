@@ -41,13 +41,13 @@ static NSString *const kSavedArrangementWillChangeNotification = @"kSavedArrange
 - (void)awakeFromNib {
     [self updateActionsEnabled];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateTableView:)
-                                                 name:kSavedArrangementDidChangeNotification
-                                               object:nil];
+                                          selector:@selector(updateTableView:)
+                                          name:kSavedArrangementDidChangeNotification
+                                          object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(pushUndo)
-                                                 name:kSavedArrangementWillChangeNotification
-                                               object:nil];
+                                          selector:@selector(pushUndo)
+                                          name:kSavedArrangementWillChangeNotification
+                                          object:nil];
 }
 
 + (BOOL)hasWindowArrangement:(NSString *)name {
@@ -71,14 +71,14 @@ static NSString *const kSavedArrangementWillChangeNotification = @"kSavedArrange
 
 + (void)postChangeNotification {
     [[NSNotificationCenter defaultCenter] postNotificationName:kSavedArrangementDidChangeNotification
-                                                        object:nil
-                                                      userInfo:nil];
+                                          object:nil
+                                          userInfo:nil];
 }
 
 + (void)setArrangement:(NSArray *)arrangement withName:(NSString *)name {
     [[NSNotificationCenter defaultCenter] postNotificationName:kSavedArrangementWillChangeNotification
-                                                        object:nil
-                                                      userInfo:nil];
+                                          object:nil
+                                          userInfo:nil];
 
     NSMutableDictionary *arrangements = [NSMutableDictionary dictionaryWithDictionary:[WindowArrangements arrangements]];
     [arrangements setObject:arrangement forKey:name];
@@ -148,9 +148,9 @@ static NSString *const kSavedArrangementWillChangeNotification = @"kSavedArrange
 }
 
 + (void)refreshRestoreArrangementsMenu:(NSMenuItem *)menuItem
-                          withSelector:(SEL)selector
-                       defaultShortcut:(NSString *)defaultShortcut
-                            identifier:(NSString *)identifier {
+    withSelector:(SEL)selector
+    defaultShortcut:(NSString *)defaultShortcut
+    identifier:(NSString *)identifier {
     while ([[menuItem submenu] numberOfItems]) {
         [[menuItem submenu] removeItemAtIndex:0];
     }
@@ -165,8 +165,8 @@ static NSString *const kSavedArrangementWillChangeNotification = @"kSavedArrange
             theShortcut = @"";
         }
         NSMenuItem *individualItem = [[menuItem submenu] addItemWithTitle:theName
-                                                                   action:selector
-                                                            keyEquivalent:theShortcut];
+                                                         action:selector
+                                                         keyEquivalent:theShortcut];
         individualItem.identifier = [NSString stringWithFormat:@"%@:%@", theName, identifier];
     }
 }
@@ -196,7 +196,7 @@ static NSString *const kSavedArrangementWillChangeNotification = @"kSavedArrange
 
 + (NSString *)nameForNewArrangement {
     NSString *name = [self showAlertWithText:@"Name for saved window arrangement:"
-                                defaultInput:[NSString stringWithFormat:@"Arrangement %d", 1 + [WindowArrangements count]]];
+                           defaultInput:[NSString stringWithFormat:@"Arrangement %d", 1 + [WindowArrangements count]]];
     if (!name) {
         return nil;
     }
@@ -285,7 +285,7 @@ static NSString *const kSavedArrangementWillChangeNotification = @"kSavedArrange
     NSUInteger index = [self indexOfRowNamed:newName];
     if (index != NSNotFound) {
         [tableView_ selectRowIndexes:[NSIndexSet indexSetWithIndex:index]
-                byExtendingSelection:NO];
+                    byExtendingSelection:NO];
     }
 }
 
@@ -325,12 +325,12 @@ static NSString *const kSavedArrangementWillChangeNotification = @"kSavedArrange
     [self pushUndo];
     NSMutableArray<NSString *> *names = [NSMutableArray array];
     [rows enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
-        [names addObject:[self nameAtIndex:idx]];
-    }];
+             [names addObject:[self nameAtIndex:idx]];
+         }];
     NSMutableDictionary *temp = [NSMutableDictionary dictionaryWithDictionary:[WindowArrangements arrangements]];
     [names enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [temp removeObjectForKey:obj];
-    }];
+              [temp removeObjectForKey:obj];
+          }];
     [[NSUserDefaults standardUserDefaults] setObject:temp forKey:WINDOW_ARRANGEMENTS];
     [self setDefaultIfNeededAtRow:rows.firstIndex];
 
@@ -359,9 +359,10 @@ static NSString *const kSavedArrangementWillChangeNotification = @"kSavedArrange
 
 - (void)pushUndo {
     [[self undoManager] registerUndoWithTarget:self
-                                      selector:@selector(setArrangements:)
-                                        object:@{ @"default": [WindowArrangements defaultArrangementName] ?: [NSNull null],
-                                                  @"arrangements": [[NSUserDefaults standardUserDefaults] objectForKey:WINDOW_ARRANGEMENTS] ?: @{} }];
+                        selector:@selector(setArrangements:)
+                        object:@ { @"default": [WindowArrangements defaultArrangementName] ?: [NSNull null],
+                                   @"arrangements": [[NSUserDefaults standardUserDefaults] objectForKey:WINDOW_ARRANGEMENTS] ?: @{}
+                                 }];
 }
 
 #pragma mark Delegate methods

@@ -83,7 +83,7 @@
     }
 
     __weak __typeof(self) weakSelf = self;
-    dispatch_source_set_event_handler(_readSource, ^{
+    dispatch_source_set_event_handler(_readSource, ^ {
         [weakSelf didBecomeReadable];
     });
 
@@ -127,7 +127,7 @@
     }
 
     __weak __typeof(self) weakSelf = self;
-    dispatch_source_set_event_handler(_writeSource, ^{
+    dispatch_source_set_event_handler(_writeSource, ^ {
         [weakSelf didBecomeWritable];
     });
 

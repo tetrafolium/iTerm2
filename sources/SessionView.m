@@ -96,8 +96,8 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
     [path lineToPoint:NSMakePoint(0, size.height)];
     [path lineToPoint:NSMakePoint(size.width - radius, size.height)];
     [path curveToPoint:NSMakePoint(size.width, size.height - radius)
-         controlPoint1:NSMakePoint(size.width, size.height)
-         controlPoint2:NSMakePoint(size.width, size.height)];
+          controlPoint1:NSMakePoint(size.width, size.height)
+          controlPoint2:NSMakePoint(size.width, size.height)];
     [path lineToPoint:NSMakePoint(size.width, 0)];
     [path lineToPoint:NSMakePoint(0, 0)];
 
@@ -192,14 +192,14 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
             _backgroundColorView.layer = [[CALayer alloc] init];
             _backgroundColorView.wantsLayer = YES;
             _backgroundColorView.frame = NSMakeRect(0, 0, frame.size.width, frame.size.height);
-            _backgroundColorView.layer.actions = @{@"backgroundColor": [NSNull null]};
+            _backgroundColorView.layer.actions = @ {@"backgroundColor": [NSNull null]};
             [self addSubview:_backgroundColorView];
 
             _legacyScrollerBackgroundView = [[iTermBackgroundColorView alloc] init];
             _legacyScrollerBackgroundView.layer = [[CALayer alloc] init];
             _legacyScrollerBackgroundView.wantsLayer = YES;
             _legacyScrollerBackgroundView.frame = NSMakeRect(0, 0, 0, 0);
-            _legacyScrollerBackgroundView.layer.actions = @{@"backgroundColor": [NSNull null]};
+            _legacyScrollerBackgroundView.layer.actions = @ {@"backgroundColor": [NSNull null]};
             _legacyScrollerBackgroundView.hidden = YES;
             [self addSubview:_legacyScrollerBackgroundView];
         }
@@ -214,10 +214,10 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
         // Allocate a scrollview
         NSRect aRect = self.frame;
         _scrollview = [[PTYScrollView alloc] initWithFrame:NSMakeRect(0,
-                                                                      0,
-                                                                      aRect.size.width,
-                                                                      aRect.size.height)
-                                       hasVerticalScroller:NO];
+                                             0,
+                                             aRect.size.width,
+                                             aRect.size.height)
+                                             hasVerticalScroller:NO];
         self.verticalScroller.ptyScrollerDelegate = self;
         [_scrollview setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
 
@@ -229,7 +229,7 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
         }
 
         _scrollview.contentView.copiesOnScroll = NO;
-        
+
         // assign the main view
         [self addSubviewBelowFindView:_scrollview];
 
@@ -240,30 +240,30 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
                 [self addSubviewBelowFindView:_searchResultsMinimap];
                 iTermTuple<NSColor *, NSColor *> *(^tuple)(NSColor *) = ^iTermTuple<NSColor *, NSColor *> *(NSColor *color) {
                     NSColor *saturated = [NSColor colorWithHue:color.hueComponent
-                                                    saturation:1
-                                                    brightness:1
-                                                         alpha:1];
+                                                  saturation:1
+                                                  brightness:1
+                                                  alpha:1];
                     return [iTermTuple tupleWithObject:saturated
-                                             andObject:[saturated colorDimmedBy:0.2 towardsGrayLevel:1]];
+                                       andObject:[saturated colorDimmedBy:0.2 towardsGrayLevel:1]];
                 };
                 // This order must match the iTermIntervalTreeObjectType enum.
                 NSArray<iTermTuple<NSColor *, NSColor *> *> *colors = @[
-                    // Blue mark
-                    tuple([iTermTextDrawingHelper successMarkColor]),
+                // Blue mark
+                tuple([iTermTextDrawingHelper successMarkColor]),
 
-                     // Yellow mark
-                    [iTermTuple tupleWithObject:[iTermTextDrawingHelper otherMarkColor]
-                                      andObject:[[iTermTextDrawingHelper otherMarkColor] colorDimmedBy:0.2 towardsGrayLevel:1]],
+                // Yellow mark
+                [iTermTuple tupleWithObject:[iTermTextDrawingHelper otherMarkColor]
+                andObject:[[iTermTextDrawingHelper otherMarkColor] colorDimmedBy:0.2 towardsGrayLevel:1]],
 
-                    // Red mark
-                    tuple([iTermTextDrawingHelper errorMarkColor]),
+                // Red mark
+                tuple([iTermTextDrawingHelper errorMarkColor]),
 
-                    // Manually created mark or prompt without code
-                    [iTermTuple tupleWithObject:[NSColor colorWithWhite:0.5 alpha:1]
-                                      andObject:[NSColor colorWithWhite:0.7 alpha:1]],
+                // Manually created mark or prompt without code
+                [iTermTuple tupleWithObject:[NSColor colorWithWhite:0.5 alpha:1]
+                andObject:[NSColor colorWithWhite:0.7 alpha:1]],
 
-                    // Annotation
-                    tuple([NSColor colorWithSRGBRed:1 green:1 blue:0 alpha:1]),
+                // Annotation
+                tuple([NSColor colorWithSRGBRed:1 green:1 blue:0 alpha:1]),
 
                 ];
                 _marksMinimap = [[iTermIncrementalMinimapView alloc] initWithColors:colors];
@@ -274,9 +274,9 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
 #if ENABLE_LOW_POWER_GPU_DETECTION
         if (@available(macOS 10.11, *)) {
             [[NSNotificationCenter defaultCenter] addObserver:self
-                                                     selector:@selector(preferredMetalDeviceDidChange:)
-                                                         name:iTermMetalDeviceProviderPreferredDeviceDidChangeNotification
-                                                       object:nil];
+                                                  selector:@selector(preferredMetalDeviceDidChange:)
+                                                  name:iTermMetalDeviceProviderPreferredDeviceDidChangeNotification
+                                                  object:nil];
         }
 #endif
         if (@available(macOS 10.14, *)) {
@@ -285,9 +285,9 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
                 _scrollview.verticalScroller.frame = [self frameForScroller];
             }
             [[NSNotificationCenter defaultCenter] addObserver:self
-                                                     selector:@selector(scrollerStyleDidChange:)
-                                                         name:@"NSPreferredScrollerStyleDidChangeNotification"
-                                                       object:nil];
+                                                  selector:@selector(scrollerStyleDidChange:)
+                                                  name:@"NSPreferredScrollerStyleDidChangeNotification"
+                                                  object:nil];
         }
     }
     return self;
@@ -346,7 +346,7 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
 }
 
 - (void)setTransparencyAlpha:(CGFloat)transparencyAlpha
-                       blend:(CGFloat)blend {
+    blend:(CGFloat)blend {
     if (@available(macOS 10.14, *)) {
         [CATransaction begin];
         [CATransaction setDisableActions:YES];
@@ -401,13 +401,13 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
 
     iTermDropDownFindViewController *dropDownViewController =
         [[iTermDropDownFindViewController alloc] initWithNibName:nibName
-                                                          bundle:[NSBundle bundleForClass:self.class]];
+                                                 bundle:[NSBundle bundleForClass:self.class]];
     [[dropDownViewController view] setHidden:YES];
     [super addSubview:dropDownViewController.view];
     NSRect aRect = [self frame];
     NSSize size = [[dropDownViewController view] frame].size;
     [dropDownViewController setFrameOrigin:NSMakePoint(aRect.size.width - size.width - 30,
-                                                       aRect.size.height - size.height)];
+                                   aRect.size.height - size.height)];
     return dropDownViewController;
 }
 
@@ -427,12 +427,12 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
 
 - (BOOL)findViewHasKeyboardFocus {
     switch (_findDriverType) {
-        case iTermSessionViewFindDriverDropDown:
-            return !_dropDownFindDriver.isVisible;
-        case iTermSessionViewFindDriverPermanentStatusBar:
-            return NO;
-        case iTermSessionViewFindDriverTemporaryStatusBar:
-            return !_temporaryStatusBarFindDriver.isVisible;
+    case iTermSessionViewFindDriverDropDown:
+        return !_dropDownFindDriver.isVisible;
+    case iTermSessionViewFindDriverPermanentStatusBar:
+        return NO;
+    case iTermSessionViewFindDriverTemporaryStatusBar:
+        return !_temporaryStatusBarFindDriver.isVisible;
     }
     assert(false);
     return YES;
@@ -441,12 +441,12 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
 - (BOOL)findViewIsHidden {
 
     switch (_findDriverType) {
-        case iTermSessionViewFindDriverDropDown:
-            return !_dropDownFindDriver.isVisible;
-        case iTermSessionViewFindDriverPermanentStatusBar:
-            return NO;
-        case iTermSessionViewFindDriverTemporaryStatusBar:
-            return self.delegate.sessionViewStatusBarViewController.temporaryLeftComponent == nil;
+    case iTermSessionViewFindDriverDropDown:
+        return !_dropDownFindDriver.isVisible;
+    case iTermSessionViewFindDriverPermanentStatusBar:
+        return NO;
+    case iTermSessionViewFindDriverTemporaryStatusBar:
+        return self.delegate.sessionViewStatusBarViewController.temporaryLeftComponent == nil;
     }
     assert(false);
     return YES;
@@ -454,12 +454,12 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
 
 - (iTermFindDriver *)findDriver {
     switch (_findDriverType) {
-        case iTermSessionViewFindDriverDropDown:
-            return _dropDownFindDriver;
-        case iTermSessionViewFindDriverPermanentStatusBar:
-            return _permanentStatusBarFindDriver;
-        case iTermSessionViewFindDriverTemporaryStatusBar:
-            return _temporaryStatusBarFindDriver;
+    case iTermSessionViewFindDriverDropDown:
+        return _dropDownFindDriver;
+    case iTermSessionViewFindDriverPermanentStatusBar:
+        return _permanentStatusBarFindDriver;
+    case iTermSessionViewFindDriverTemporaryStatusBar:
+        return _temporaryStatusBarFindDriver;
     }
     assert(false);
     return nil;
@@ -479,12 +479,15 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
 - (void)loadTemporaryStatusBarFindDriverWithStatusBarViewController:(iTermStatusBarViewController *)statusBarViewController {
     NSString *query = [[iTermFindPasteboard sharedInstance] stringValue] ?: @"";
     _findDriverType = iTermSessionViewFindDriverTemporaryStatusBar;
-    NSDictionary *knobs = @{ iTermStatusBarPriorityKey: @(INFINITY),
-                             iTermStatusBarSearchComponentIsTemporaryKey: @YES };
-    NSDictionary *configuration = @{ iTermStatusBarComponentConfigurationKeyKnobValues: knobs};
+    NSDictionary *knobs = @ { iTermStatusBarPriorityKey:
+                              @(INFINITY),
+                              iTermStatusBarSearchComponentIsTemporaryKey:
+                              @YES
+                            };
+    NSDictionary *configuration = @ { iTermStatusBarComponentConfigurationKeyKnobValues: knobs};
     iTermStatusBarSearchFieldComponent *component =
-    [[iTermStatusBarSearchFieldComponent alloc] initWithConfiguration:configuration
-                                                                scope:self.delegate.sessionViewScope];
+        [[iTermStatusBarSearchFieldComponent alloc] initWithConfiguration:configuration
+                                                    scope:self.delegate.sessionViewScope];
     _temporaryStatusBarFindDriver = [[iTermFindDriver alloc] initWithViewController:component.statusBarComponentSearchViewController];
     _temporaryStatusBarFindDriver.delegate = _dropDownFindDriver.delegate;
     _temporaryStatusBarFindDriver.findString = query;
@@ -553,7 +556,7 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
     static id<MTLDevice> chosenDevice;
     static BOOL preferIntegrated;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         preferIntegrated = [iTermPreferences boolForKey:kPreferenceKeyPreferIntegratedGPU];
         if (preferIntegrated) {
             NSArray<id<MTLDevice>> *devices = MTLCopyAllDevices();
@@ -577,7 +580,7 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
         } else {
             static id<MTLDevice> device;
             static dispatch_once_t once;
-            dispatch_once(&once, ^{
+            dispatch_once(&once, ^ {
                 device = MTLCreateSystemDefaultDevice();
             });
             chosenDevice = device;
@@ -592,7 +595,7 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
     }
     // Allocate a new metal view
     _metalView = [[iTermMTKView alloc] initWithFrame:_scrollview.contentView.frame
-                                              device:[self metalDevice]];
+                                       device:[self metalDevice]];
 #if ENABLE_TRANSPARENT_METAL_WINDOWS
     if (iTermTextIsMonochrome()) {
         _metalView.layer.opaque = NO;
@@ -605,7 +608,7 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
     CGColorSpaceRef colorSpace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
     _metalView.colorspace = colorSpace;
     CFRelease(colorSpace);
-    
+
     // Tell the clip view about it so it can ask the metalview to draw itself on scroll.
     _metalClipView.metalView = _metalView;
 
@@ -693,8 +696,8 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
 - (void)addSubviewBelowFindView:(NSView *)aView {
     if ([aView isKindOfClass:[PTYScrollView class]]) {
         NSInteger i = [self.subviews indexOfObjectPassingTest:^BOOL(__kindof NSView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            return [obj isKindOfClass:[MTKView class]];
-        }];
+                          return [obj isKindOfClass:[MTKView class]];
+                      }];
         if (i != NSNotFound) {
             // Insert scrollview after metal view
             [self addSubview:aView positioned:NSWindowAbove relativeTo:self.subviews[i]];
@@ -703,8 +706,8 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
     }
     if ([aView isKindOfClass:[MTKView class]]) {
         NSInteger i = [self.subviews indexOfObjectPassingTest:^BOOL(__kindof NSView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            return [obj isKindOfClass:[PTYScrollView class]];
-        }];
+                          return [obj isKindOfClass:[PTYScrollView class]];
+                      }];
         if (i != NSNotFound) {
             // Insert metal view before scroll view
             [self addSubview:aView positioned:NSWindowBelow relativeTo:self.subviews[i]];
@@ -727,7 +730,7 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
         return NSZeroRect;
     }
     return [_scrollview.verticalScroller convertRect:_scrollview.verticalScroller.bounds
-                                              toView:self];
+                                         toView:self];
 }
 
 - (void)scrollerStyleDidChange:(NSNotification *)notification {
@@ -773,9 +776,9 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
         }
         if (_showBottomStatusBar) {
             _genericStatusBarContainer.frame = NSMakeRect(0,
-                                                          0,
-                                                          self.frame.size.width,
-                                                          _genericStatusBarContainer.frame.size.height);
+                                               0,
+                                               self.frame.size.width,
+                                               _genericStatusBarContainer.frame.size.height);
         }
         if (@available(macOS 10.14, *)) {
             NSRect frame = _imageView.frame;
@@ -939,9 +942,9 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
             [self removeTrackingArea:self.trackingAreas[0]];
         }
         NSTrackingArea *trackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds
-                                                                    options:trackingOptions
-                                                                      owner:self
-                                                                   userInfo:nil];
+                                                               options:trackingOptions
+                                                               owner:self
+                                                               userInfo:nil];
         [self addTrackingArea:trackingArea];
     }
 }
@@ -1018,12 +1021,12 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
         [findView setFrameSize:NSMakeSize(MAX(150, frameSize.width - 50),
                                           [findView frame].size.height)];
         [_dropDownFindViewController setFrameOrigin:NSMakePoint(frameSize.width - [findView frame].size.width - 30,
-                                                                frameSize.height - [findView frame].size.height)];
+                                            frameSize.height - [findView frame].size.height)];
     } else {
         [findView setFrameSize:NSMakeSize(290,
                                           [findView frame].size.height)];
         [_dropDownFindViewController setFrameOrigin:NSMakePoint(frameSize.width - [findView frame].size.width - 30,
-                                                                frameSize.height - [findView frame].size.height)];
+                                            frameSize.height - [findView frame].size.height)];
     }
 }
 
@@ -1047,23 +1050,23 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
 - (void)createSplitSelectionViewWithMode:(SplitSelectionViewMode)mode session:(id)session {
     id<SplitSelectionViewDelegate> delegate;
     switch (mode) {
-        case SplitSelectionViewModeTargetSwap:
-        case SplitSelectionViewModeTargetMove:
-        case SplitSelectionViewModeSourceSwap:
-        case SplitSelectionViewModeSourceMove:
-            delegate = [MovePaneController sharedInstance];
-            break;
-        case SplitSelectionViewModeInspect:
-            delegate = self;
-            break;
+    case SplitSelectionViewModeTargetSwap:
+    case SplitSelectionViewModeTargetMove:
+    case SplitSelectionViewModeSourceSwap:
+    case SplitSelectionViewModeSourceMove:
+        delegate = [MovePaneController sharedInstance];
+        break;
+    case SplitSelectionViewModeInspect:
+        delegate = self;
+        break;
     }
     _splitSelectionView = [[SplitSelectionView alloc] initWithMode:mode
-                                                         withFrame:NSMakeRect(0,
-                                                                              0,
-                                                                              [self frame].size.width,
-                                                                              [self frame].size.height)
-                                                           session:session
-                                                          delegate:delegate];
+                                                      withFrame:NSMakeRect(0,
+                                                              0,
+                                                              [self frame].size.width,
+                                                              [self frame].size.height)
+                                                      session:session
+                                                      delegate:delegate];
     _splitSelectionView.wantsLayer = [iTermPreferences boolForKey:kPreferenceKeyUseMetal];
     [_splitSelectionView setFrameOrigin:NSMakePoint(0, 0)];
     [_splitSelectionView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
@@ -1072,49 +1075,49 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
 
 - (void)setSplitSelectionMode:(SplitSelectionMode)mode move:(BOOL)move session:(id)session {
     switch (mode) {
-        case kSplitSelectionModeOn:
-            if (_splitSelectionView) {
-                return;
-            }
-            if (move) {
-                [self createSplitSelectionViewWithMode:SplitSelectionViewModeTargetMove session:session];
-            } else {
-                [self createSplitSelectionViewWithMode:SplitSelectionViewModeTargetSwap session:session];
-            }
-            break;
+    case kSplitSelectionModeOn:
+        if (_splitSelectionView) {
+            return;
+        }
+        if (move) {
+            [self createSplitSelectionViewWithMode:SplitSelectionViewModeTargetMove session:session];
+        } else {
+            [self createSplitSelectionViewWithMode:SplitSelectionViewModeTargetSwap session:session];
+        }
+        break;
 
-        case kSplitSelectionModeOff:
-            [_splitSelectionView removeFromSuperview];
-            _splitSelectionView = nil;
-            break;
+    case kSplitSelectionModeOff:
+        [_splitSelectionView removeFromSuperview];
+        _splitSelectionView = nil;
+        break;
 
-        case kSplitSelectionModeCancel:
-            if (move) {
-                [self createSplitSelectionViewWithMode:SplitSelectionViewModeSourceMove session:session];
-            } else {
-                [self createSplitSelectionViewWithMode:SplitSelectionViewModeSourceSwap session:session];
-            }
-            break;
+    case kSplitSelectionModeCancel:
+        if (move) {
+            [self createSplitSelectionViewWithMode:SplitSelectionViewModeSourceMove session:session];
+        } else {
+            [self createSplitSelectionViewWithMode:SplitSelectionViewModeSourceSwap session:session];
+        }
+        break;
 
-        case kSplitSelectionModeInspect:
-            [self createSplitSelectionViewWithMode:SplitSelectionViewModeInspect session:session];
-            break;
+    case kSplitSelectionModeInspect:
+        [self createSplitSelectionViewWithMode:SplitSelectionViewModeInspect session:session];
+        break;
     }
 }
 
 - (void)drawBackgroundInRect:(NSRect)rect {
     [_delegate sessionViewDrawBackgroundImageInView:self
-                                           viewRect:rect
-                             blendDefaultBackground:YES];
+               viewRect:rect
+               blendDefaultBackground:YES];
 }
 
 - (NSColor *)backgroundColorForDecorativeSubviews {
     return [[iTermTheme sharedInstance] backgroundColorForDecorativeSubviewsInSessionWithTabColor:self.tabColor
-                                                                              effectiveAppearance:self.effectiveAppearance
-                                                                           sessionBackgroundColor:[_delegate sessionViewBackgroundColor]
-                                                                                 isFirstResponder:[_delegate sessionViewTerminalIsFirstResponder]
-                                                                                      dimOnlyText:[_delegate sessionViewShouldDimOnlyText]
-                                                                            adjustedDimmingAmount:[self adjustedDimmingAmount]];
+                                        effectiveAppearance:self.effectiveAppearance
+                                        sessionBackgroundColor:[_delegate sessionViewBackgroundColor]
+                                        isFirstResponder:[_delegate sessionViewTerminalIsFirstResponder]
+                                        dimOnlyText:[_delegate sessionViewShouldDimOnlyText]
+                                        adjustedDimmingAmount:[self adjustedDimmingAmount]];
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
@@ -1131,7 +1134,7 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
         if (@available(macOS 10.14, *)) {
             // work around issue 7101. Draw a window background colored area under the legacy scroller.
             if (_scrollview.isLegacyScroller &&
-                ![iTermPreferences boolForKey:kPreferenceKeyHideScrollbar]) {
+                    ![iTermPreferences boolForKey:kPreferenceKeyHideScrollbar]) {
                 frame.size.width -= 15;
             }
         }
@@ -1139,9 +1142,9 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
     }
     // 10.13 path: work around issue 6974
     if (_useMetal &&
-        _scrollview.isLegacyScroller &&
-        ![iTermPreferences boolForKey:kPreferenceKeyHideScrollbar] &&
-        [_scrollview.effectiveAppearance.name isEqualToString:NSAppearanceNameVibrantDark]) {
+            _scrollview.isLegacyScroller &&
+            ![iTermPreferences boolForKey:kPreferenceKeyHideScrollbar] &&
+            [_scrollview.effectiveAppearance.name isEqualToString:NSAppearanceNameVibrantDark]) {
         [[NSColor colorWithWhite:20.0 / 255.0 alpha:1] set];
         NSRectFill(NSMakeRect(self.frame.size.width - 15, 0, self.frame.size.height, self.frame.size.height));
     }
@@ -1210,16 +1213,16 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
 
 - (NSRect)contentRect {
     return [self insetRect:self.frame
-                   flipped:NO
-    includeBottomStatusBar:![iTermPreferences boolForKey:kPreferenceKeySeparateStatusBarsPerPane]];
+                 flipped:NO
+                 includeBottomStatusBar:![iTermPreferences boolForKey:kPreferenceKeySeparateStatusBarsPerPane]];
 }
 
 - (void)createSplitSelectionView {
     NSRect frame = self.frame;
     _splitSelectionView = [[SplitSelectionView alloc] initWithFrame:NSMakeRect(0,
-                                                                               0,
-                                                                               frame.size.width,
-                                                                               frame.size.height)];
+                                                      0,
+                                                      frame.size.width,
+                                                      frame.size.height)];
     _splitSelectionView.wantsLayer = [iTermPreferences boolForKey:kPreferenceKeyUseMetal];
     [self addSubviewBelowFindView:_splitSelectionView];
     [[self window] orderFront:nil];
@@ -1296,8 +1299,8 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
 }
 
 - (void)draggingSession:(NSDraggingSession *)session
-           endedAtPoint:(NSPoint)aPoint
-              operation:(NSDragOperation)operation {
+    endedAtPoint:(NSPoint)aPoint
+    operation:(NSDragOperation)operation {
     if (![[MovePaneController sharedInstance] dragFailed]) {
         [[MovePaneController sharedInstance] dropInSession:nil half:kNoHalf atPoint:aPoint];
     }
@@ -1351,9 +1354,9 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
     if (_showTitle) {
         frame.size.height -= iTermGetSessionViewTitleHeight();
         _title = [[SessionTitleView alloc] initWithFrame:NSMakeRect(0,
-                                                                    self.frame.size.height - iTermGetSessionViewTitleHeight(),
-                                                                    self.frame.size.width,
-                                                                    iTermGetSessionViewTitleHeight())];
+                                           self.frame.size.height - iTermGetSessionViewTitleHeight(),
+                                           self.frame.size.width,
+                                           iTermGetSessionViewTitleHeight())];
         [self invalidateStatusBar];
         if (adjustScrollView) {
             [_title setAutoresizingMask:NSViewWidthSizable | NSViewMinYMargin];
@@ -1392,7 +1395,7 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
         return NO;
     }
     _showBottomStatusBar = value;
-    
+
     PTYScrollView *scrollView = [self scrollview];
     NSRect frame = [scrollView frame];
     if (_showBottomStatusBar) {
@@ -1400,9 +1403,9 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
         _title.statusBarViewController = nil;
         frame.size.height -= iTermGetStatusBarHeight();
         _genericStatusBarContainer = [[iTermGenericStatusBarContainer alloc] initWithFrame:NSMakeRect(0,
-                                                                                                      0,
-                                                                                                      self.frame.size.width,
-                                                                                                      iTermGetStatusBarHeight())];
+                                                                             0,
+                                                                             self.frame.size.width,
+                                                                             iTermGetStatusBarHeight())];
         _genericStatusBarContainer.statusBarViewController = statusBar;
         _genericStatusBarContainer.delegate = self;
         [self invalidateStatusBar];
@@ -1431,17 +1434,17 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
         newVC = [self.delegate sessionViewStatusBarViewController];
     }
     switch ((iTermStatusBarPosition)[iTermPreferences unsignedIntegerForKey:kPreferenceKeyStatusBarPosition]) {
-        case iTermStatusBarPositionTop:
-            if (newVC != _title.statusBarViewController) {
-                _title.statusBarViewController = newVC;
-            }
-            break;
-            
-        case iTermStatusBarPositionBottom:
-            if (newVC != _genericStatusBarContainer.statusBarViewController) {
-                _genericStatusBarContainer.statusBarViewController = newVC;
-            }
-            break;
+    case iTermStatusBarPositionTop:
+        if (newVC != _title.statusBarViewController) {
+            _title.statusBarViewController = newVC;
+        }
+        break;
+
+    case iTermStatusBarPositionBottom:
+        if (newVC != _genericStatusBarContainer.statusBarViewController) {
+            _genericStatusBarContainer.statusBarViewController = newVC;
+        }
+        break;
     }
     [self updateFindDriver];
 }
@@ -1477,10 +1480,10 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
     NSSize size =
         [PTYScrollView frameSizeForContentSize:innerSize
                        horizontalScrollerClass:nil
-                         verticalScrollerClass:(hasScrollbar ? [PTYScroller class] : nil)
-                                    borderType:NSNoBorder
-                                   controlSize:NSControlSizeRegular
-                                 scrollerStyle:[[self scrollview] scrollerStyle]];
+                       verticalScrollerClass:(hasScrollbar ? [PTYScroller class] : nil)
+                       borderType:NSNoBorder
+                       controlSize:NSControlSizeRegular
+                       scrollerStyle:[[self scrollview] scrollerStyle]];
 
     if (_showTitle) {
         size.height += iTermGetSessionViewTitleHeight();
@@ -1508,12 +1511,12 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
         verticalScrollerClass = nil;
     }
     NSSize contentSize =
-            [NSScrollView contentSizeForFrameSize:size
-                          horizontalScrollerClass:nil
-                            verticalScrollerClass:verticalScrollerClass
-                                       borderType:[[self scrollview] borderType]
-                                      controlSize:NSControlSizeRegular
-                                    scrollerStyle:[[[self scrollview] verticalScroller] scrollerStyle]];
+        [NSScrollView contentSizeForFrameSize:size
+                      horizontalScrollerClass:nil
+                      verticalScrollerClass:verticalScrollerClass
+                      borderType:[[self scrollview] borderType]
+                      controlSize:NSControlSizeRegular
+                      scrollerStyle:[[[self scrollview] verticalScroller] scrollerStyle]];
     return contentSize;
 }
 
@@ -1526,7 +1529,7 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
                                     aRect.size.width,
                                     iTermGetSessionViewTitleHeight())];
         NSViewController *viewController = [self.delegate sessionViewStatusBarViewController];
-        
+
         [[viewController view] setNeedsLayout:YES];
     }
     [self updateScrollViewFrame];
@@ -1537,10 +1540,10 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
     NSRect aRect = [self frame];
     if (_showBottomStatusBar) {
         _genericStatusBarContainer.frame = NSMakeRect(0,
-                                               0,
-                                               aRect.size.width,
-                                               iTermGetStatusBarHeight());
-        
+                                           0,
+                                           aRect.size.width,
+                                           iTermGetStatusBarHeight());
+
         [_genericStatusBarContainer.statusBarViewController.view setNeedsLayout:YES];
     }
     [self updateScrollViewFrame];
@@ -1552,7 +1555,7 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
     NSRect aRect = self.frame;
     NSView *findView = _dropDownFindViewController.view;
     [_dropDownFindViewController setFrameOrigin:NSMakePoint(aRect.size.width - [findView frame].size.width - 30,
-                                                            aRect.size.height - [findView frame].size.height)];
+                                        aRect.size.height - [findView frame].size.height)];
 }
 
 - (void)updateScrollViewFrame {
@@ -1592,7 +1595,7 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
     }
     if (@available(macOS 10.14, *)) {
         NSRect frame = [self convertRect:_scrollview.verticalScroller.bounds
-                                fromView:_scrollview.verticalScroller];
+                             fromView:_scrollview.verticalScroller];
         PTYScroller *scroller = [PTYScroller castFrom:self.scrollview.verticalScroller];
         if (scroller.ptyScrollerState == PTYScrollerStateOverlayVisibleNarrow) {
             frame.size.width = 11;
@@ -1609,12 +1612,12 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
         }
         if (animated) {
             [NSView animateWithDuration:5.0 / 60.0
-                             animations:^{
-                [[NSAnimationContext currentContext] setTimingFunction:[CAMediaTimingFunction functionWithName:@"easeOut"]];
-                _searchResultsMinimap.animator.frame = frame;
-                _marksMinimap.animator.frame = frame;
-            }
-                             completion:nil];
+                   animations:^ {
+                       [[NSAnimationContext currentContext] setTimingFunction:[CAMediaTimingFunction functionWithName:@"easeOut"]];
+                       _searchResultsMinimap.animator.frame = frame;
+                       _marksMinimap.animator.frame = frame;
+                   }
+                   completion:nil];
         } else {
             _searchResultsMinimap.frame = frame;
             _marksMinimap.frame = frame;
@@ -1631,7 +1634,7 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@:%p frame:%@ size:%@>", [self class], self,
-            [NSValue valueWithRect:[self frame]], VT100GridSizeDescription([_delegate sessionViewGridSize])];
+                     [NSValue valueWithRect:[self frame]], VT100GridSizeDescription([_delegate sessionViewGridSize])];
 }
 
 #pragma mark SessionTitleViewDelegate
@@ -1749,17 +1752,17 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
         NSRect rect = announcement.view.frame;
         rect.origin.y += rect.size.height;
         [NSView animateWithDuration:0.25
-                         animations:^{
-                             [announcement.view.animator setFrame:rect];
-                         }
-                         completion:^(BOOL finished) {
-                             [announcement.view removeFromSuperview];
-                         }];
+               animations:^ {
+                   [announcement.view.animator setFrame:rect];
+               }
+               completion:^(BOOL finished) {
+            [announcement.view removeFromSuperview];
+        }];
 
         if (!_inDealloc) {
             [self performSelector:@selector(showNextAnnouncement)
-                       withObject:nil
-                       afterDelay:[[NSAnimationContext currentContext] duration]];
+                  withObject:nil
+                  afterDelay:[[NSAnimationContext currentContext] duration]];
         }
     }
 }
@@ -1790,28 +1793,28 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
     }
     const CGFloat maxAlpha = _scrollview.verticalScroller.effectiveAppearance.it_isDark ? 0.5 : 0.75;
     switch (state) {
-        case PTYScrollerStateLegacy:
-            _searchResultsMinimap.alphaValue = maxAlpha;
-            _marksMinimap.alphaValue = maxAlpha;
-            [self updateMinimapFrameAnimated:YES];
-            break;
-        case PTYScrollerStateOverlayHidden: {
-            [NSView animateWithDuration:5.0 / 60
-                             animations:^{
-                [[NSAnimationContext currentContext] setTimingFunction:[CAMediaTimingFunction functionWithName:@"easeOut"]];
-                _searchResultsMinimap.animator.alphaValue = 0;
-                _marksMinimap.animator.alphaValue = 0;
-            }
-                             completion:nil];
-            break;
-        }
-        case PTYScrollerStateOverlayVisibleWide:
-        case PTYScrollerStateOverlayVisibleNarrow: {
-            _searchResultsMinimap.alphaValue = maxAlpha;
-            _marksMinimap.alphaValue = maxAlpha;
-            [self updateMinimapFrameAnimated:YES];
-            break;
-        }
+    case PTYScrollerStateLegacy:
+        _searchResultsMinimap.alphaValue = maxAlpha;
+        _marksMinimap.alphaValue = maxAlpha;
+        [self updateMinimapFrameAnimated:YES];
+        break;
+    case PTYScrollerStateOverlayHidden: {
+        [NSView animateWithDuration:5.0 / 60
+               animations:^ {
+                   [[NSAnimationContext currentContext] setTimingFunction:[CAMediaTimingFunction functionWithName:@"easeOut"]];
+                   _searchResultsMinimap.animator.alphaValue = 0;
+                   _marksMinimap.animator.alphaValue = 0;
+               }
+               completion:nil];
+        break;
+    }
+    case PTYScrollerStateOverlayVisibleWide:
+    case PTYScrollerStateOverlayVisibleNarrow: {
+        _searchResultsMinimap.alphaValue = maxAlpha;
+        _marksMinimap.alphaValue = maxAlpha;
+        [self updateMinimapFrameAnimated:YES];
+        break;
+    }
     }
 }
 
@@ -1867,15 +1870,15 @@ NSString *const SessionViewWasSelectedForInspectionNotification = @"SessionViewW
 }
 
 - (void)findString:(NSString *)aString
-  forwardDirection:(BOOL)direction
-              mode:(iTermFindMode)mode
-        withOffset:(int)offset
-scrollToFirstResult:(BOOL)scrollToFirstResult {
+    forwardDirection:(BOOL)direction
+    mode:(iTermFindMode)mode
+    withOffset:(int)offset
+    scrollToFirstResult:(BOOL)scrollToFirstResult {
     [self.delegate findString:aString
-             forwardDirection:direction
-                         mode:mode
+                   forwardDirection:direction
+                   mode:mode
                    withOffset:offset
-          scrollToFirstResult:scrollToFirstResult];
+                   scrollToFirstResult:scrollToFirstResult];
 }
 
 - (void)findViewControllerVisibilityDidChange:(id<iTermFindViewController>)sender {
@@ -1901,10 +1904,10 @@ scrollToFirstResult:(BOOL)scrollToFirstResult {
     if (@available(macOS 10.14, *)) {
         _unobtrusiveMessage = [[iTermUnobtrusiveMessage alloc] initWithMessage:message];
         [self addSubviewBelowFindView:_unobtrusiveMessage];
-        [_unobtrusiveMessage animateFromTopRightWithCompletion:^{
-            [self->_unobtrusiveMessage removeFromSuperview];
-            self->_unobtrusiveMessage = nil;
-        }];
+        [_unobtrusiveMessage animateFromTopRightWithCompletion:^ {
+                                [self->_unobtrusiveMessage removeFromSuperview];
+                                self->_unobtrusiveMessage = nil;
+                            }];
     }
 }
 

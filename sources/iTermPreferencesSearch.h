@@ -19,8 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) double queryIndependentScore;
 
 + (instancetype)documentWithDisplayName:(NSString *)displayName
-                             identifier:(NSString *)identifier
-                         keywordPhrases:(NSArray<NSString *> *)keywordPhrases;
+    identifier:(NSString *)identifier
+    keywordPhrases:(NSArray<NSString *> *)keywordPhrases;
 
 - (instancetype)init NS_UNAVAILABLE;
 @end

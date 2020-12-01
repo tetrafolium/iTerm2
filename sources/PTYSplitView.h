@@ -14,15 +14,15 @@
 @protocol PTYSplitViewDelegate<NSSplitViewDelegate>
 
 - (void)splitView:(PTYSplitView *)splitView
-     draggingDidEndOfSplit:(int)clickedOnSplitterIndex
-                    pixels:(NSSize)changePx;
+    draggingDidEndOfSplit:(int)clickedOnSplitterIndex
+    pixels:(NSSize)changePx;
 
 - (void)splitView:(PTYSplitView *)splitView draggingWillBeginOfSplit:(int)splitterIndex;
 - (void)splitViewDidChangeSubviews:(PTYSplitView *)splitView;
 
 @end
 
-@interface PTYSplitViewDividerInfo: NSObject
+@interface PTYSplitViewDividerInfo : NSObject
 @property (nonatomic, readonly) NSRect frame;
 @property (nonatomic, readonly) BOOL isVertical;
 

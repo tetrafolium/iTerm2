@@ -157,38 +157,38 @@ typedef enum {
 
 - (NSData *)keyArrowUp:(unsigned int)modflag {
     return [self specialKey:TERMINFO_KEY_UP
-                  cursorMod:CURSOR_MOD_UP
-                  cursorSet:CURSOR_SET_UP
-                cursorReset:CURSOR_RESET_UP
-                    modflag:modflag
-                   isCursor:YES];
+                 cursorMod:CURSOR_MOD_UP
+                 cursorSet:CURSOR_SET_UP
+                 cursorReset:CURSOR_RESET_UP
+                 modflag:modflag
+                 isCursor:YES];
 }
 
 - (NSData *)keyArrowDown:(unsigned int)modflag {
     return [self specialKey:TERMINFO_KEY_DOWN
-                  cursorMod:CURSOR_MOD_DOWN
-                  cursorSet:CURSOR_SET_DOWN
-                cursorReset:CURSOR_RESET_DOWN
-                    modflag:modflag
-                   isCursor:YES];
+                 cursorMod:CURSOR_MOD_DOWN
+                 cursorSet:CURSOR_SET_DOWN
+                 cursorReset:CURSOR_RESET_DOWN
+                 modflag:modflag
+                 isCursor:YES];
 }
 
 - (NSData *)keyArrowLeft:(unsigned int)modflag {
     return [self specialKey:TERMINFO_KEY_LEFT
-                  cursorMod:CURSOR_MOD_LEFT
-                  cursorSet:CURSOR_SET_LEFT
-                cursorReset:CURSOR_RESET_LEFT
-                    modflag:modflag
-                   isCursor:YES];
+                 cursorMod:CURSOR_MOD_LEFT
+                 cursorSet:CURSOR_SET_LEFT
+                 cursorReset:CURSOR_RESET_LEFT
+                 modflag:modflag
+                 isCursor:YES];
 }
 
 - (NSData *)keyArrowRight:(unsigned int)modflag {
     return [self specialKey:TERMINFO_KEY_RIGHT
-                  cursorMod:CURSOR_MOD_RIGHT
-                  cursorSet:CURSOR_SET_RIGHT
-                cursorReset:CURSOR_RESET_RIGHT
-                    modflag:modflag
-                   isCursor:YES];
+                 cursorMod:CURSOR_MOD_RIGHT
+                 cursorSet:CURSOR_SET_RIGHT
+                 cursorReset:CURSOR_RESET_RIGHT
+                 modflag:modflag
+                 isCursor:YES];
 }
 
 - (NSData *)keyHome:(unsigned int)modflag screenlikeTerminal:(BOOL)screenlike {
@@ -197,11 +197,11 @@ typedef enum {
         return [NSData dataWithBytes:bytes length:strlen(bytes)];
     }
     return [self specialKey:TERMINFO_KEY_HOME
-                  cursorMod:CURSOR_MOD_HOME
-                  cursorSet:CURSOR_SET_HOME
-                cursorReset:CURSOR_RESET_HOME
-                    modflag:modflag
-                   isCursor:NO];
+                 cursorMod:CURSOR_MOD_HOME
+                 cursorSet:CURSOR_SET_HOME
+                 cursorReset:CURSOR_RESET_HOME
+                 modflag:modflag
+                 isCursor:NO];
 }
 
 - (NSData *)keyEnd:(unsigned int)modflag screenlikeTerminal:(BOOL)screenlike {
@@ -210,17 +210,17 @@ typedef enum {
         return [NSData dataWithBytes:bytes length:strlen(bytes)];
     }
     return [self specialKey:TERMINFO_KEY_END
-                  cursorMod:CURSOR_MOD_END
-                  cursorSet:CURSOR_SET_END
-                cursorReset:CURSOR_RESET_END
-                    modflag:modflag
-                   isCursor:NO];
+                 cursorMod:CURSOR_MOD_END
+                 cursorSet:CURSOR_SET_END
+                 cursorReset:CURSOR_RESET_END
+                 modflag:modflag
+                 isCursor:NO];
 }
 
 - (NSData *)keyInsert {
     if (_keyStrings[TERMINFO_KEY_INS]) {
         return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_INS]
-                              length:strlen(_keyStrings[TERMINFO_KEY_INS])];
+                       length:strlen(_keyStrings[TERMINFO_KEY_INS])];
     } else {
         return [NSData dataWithBytes:KEY_INSERT length:STATIC_STRLEN(KEY_INSERT)];
     }
@@ -230,7 +230,7 @@ typedef enum {
 - (NSData *)keyDelete {
     if (_keyStrings[TERMINFO_KEY_DEL]) {
         return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_DEL]
-                              length:strlen(_keyStrings[TERMINFO_KEY_DEL])];
+                       length:strlen(_keyStrings[TERMINFO_KEY_DEL])];
     } else {
         return [NSData dataWithBytes:KEY_DEL length:STATIC_STRLEN(KEY_DEL)];
     }
@@ -239,7 +239,7 @@ typedef enum {
 - (NSData *)keyBackspace {
     if (_keyStrings[TERMINFO_KEY_BACKSPACE]) {
         return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_BACKSPACE]
-                              length:strlen(_keyStrings[TERMINFO_KEY_BACKSPACE])];
+                       length:strlen(_keyStrings[TERMINFO_KEY_BACKSPACE])];
     } else {
         return [NSData dataWithBytes:KEY_BACKSPACE length:STATIC_STRLEN(KEY_BACKSPACE)];
     }
@@ -250,10 +250,10 @@ typedef enum {
     NSData* theSuffix;
     if (_keyStrings[TERMINFO_KEY_PAGEUP]) {
         theSuffix = [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_PAGEUP]
-                                   length:strlen(_keyStrings[TERMINFO_KEY_PAGEUP])];
+                            length:strlen(_keyStrings[TERMINFO_KEY_PAGEUP])];
     } else {
         theSuffix = [NSData dataWithBytes:KEY_PAGE_UP
-                                   length:STATIC_STRLEN(KEY_PAGE_UP)];
+                            length:STATIC_STRLEN(KEY_PAGE_UP)];
     }
     NSMutableData* data = [[[NSMutableData alloc] init] autorelease];
     if (modflag & NSEventModifierFlagOption) {
@@ -269,10 +269,10 @@ typedef enum {
     NSData* theSuffix;
     if (_keyStrings[TERMINFO_KEY_PAGEDOWN]) {
         theSuffix = [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_PAGEDOWN]
-                                   length:strlen(_keyStrings[TERMINFO_KEY_PAGEDOWN])];
+                            length:strlen(_keyStrings[TERMINFO_KEY_PAGEDOWN])];
     } else {
         theSuffix = [NSData dataWithBytes:KEY_PAGE_DOWN
-                                   length:STATIC_STRLEN(KEY_PAGE_DOWN)];
+                            length:STATIC_STRLEN(KEY_PAGE_DOWN)];
     }
     NSMutableData* data = [[[NSMutableData alloc] init] autorelease];
     if (modflag & NSEventModifierFlagOption) {
@@ -293,7 +293,7 @@ typedef enum {
     if (no <= 5) {
         if (_keyStrings[TERMINFO_KEY_F0+no]) {
             return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_F0+no]
-                                  length:strlen(_keyStrings[TERMINFO_KEY_F0+no])];
+                           length:strlen(_keyStrings[TERMINFO_KEY_F0+no])];
         }
         else {
             sprintf(str, KEY_FUNCTION_FORMAT, no + 10);
@@ -302,7 +302,7 @@ typedef enum {
     else if (no <= 10) {
         if (_keyStrings[TERMINFO_KEY_F0+no]) {
             return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_F0+no]
-                                  length:strlen(_keyStrings[TERMINFO_KEY_F0+no])];
+                           length:strlen(_keyStrings[TERMINFO_KEY_F0+no])];
         }
         else {
             sprintf(str, KEY_FUNCTION_FORMAT, no + 11);
@@ -311,36 +311,36 @@ typedef enum {
     else if (no <= 14)
         if (_keyStrings[TERMINFO_KEY_F0+no]) {
             return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_F0+no]
-                                  length:strlen(_keyStrings[TERMINFO_KEY_F0+no])];
+                           length:strlen(_keyStrings[TERMINFO_KEY_F0+no])];
         }
         else {
             sprintf(str, KEY_FUNCTION_FORMAT, no + 12);
         }
-        else if (no <= 16)
-            if (_keyStrings[TERMINFO_KEY_F0+no]) {
-                return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_F0+no]
-                                      length:strlen(_keyStrings[TERMINFO_KEY_F0+no])];
-            }
-            else {
-                sprintf(str, KEY_FUNCTION_FORMAT, no + 13);
-            }
-            else if (no <= 20)
-                if (_keyStrings[TERMINFO_KEY_F0+no]) {
-                    return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_F0+no]
-                                          length:strlen(_keyStrings[TERMINFO_KEY_F0+no])];
-                }
-                else {
-                    sprintf(str, KEY_FUNCTION_FORMAT, no + 14);
-                }
-                else if (no <=35)
-                    if (_keyStrings[TERMINFO_KEY_F0+no]) {
-                        return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_F0+no]
-                                              length:strlen(_keyStrings[TERMINFO_KEY_F0+no])];
-                    }
-                    else
-                        str[0] = 0;
-                    else
-                        str[0] = 0;
+    else if (no <= 16)
+        if (_keyStrings[TERMINFO_KEY_F0+no]) {
+            return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_F0+no]
+                           length:strlen(_keyStrings[TERMINFO_KEY_F0+no])];
+        }
+        else {
+            sprintf(str, KEY_FUNCTION_FORMAT, no + 13);
+        }
+    else if (no <= 20)
+        if (_keyStrings[TERMINFO_KEY_F0+no]) {
+            return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_F0+no]
+                           length:strlen(_keyStrings[TERMINFO_KEY_F0+no])];
+        }
+        else {
+            sprintf(str, KEY_FUNCTION_FORMAT, no + 14);
+        }
+    else if (no <=35)
+        if (_keyStrings[TERMINFO_KEY_F0+no]) {
+            return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_F0+no]
+                           length:strlen(_keyStrings[TERMINFO_KEY_F0+no])];
+        }
+        else
+            str[0] = 0;
+    else
+        str[0] = 0;
 
     len = strlen(str);
     return [NSData dataWithBytes:str length:len];
@@ -356,60 +356,60 @@ typedef enum {
     }
     // alternate keypad mode
     switch (unicode) {
-        case '0':
-            theData = [NSData dataWithBytes:ALT_KP_0 length:STATIC_STRLEN(ALT_KP_0)];
-            break;
-        case '1':
-            theData = [NSData dataWithBytes:ALT_KP_1 length:STATIC_STRLEN(ALT_KP_1)];
-            break;
-        case '2':
-            theData = [NSData dataWithBytes:ALT_KP_2 length:STATIC_STRLEN(ALT_KP_2)];
-            break;
-        case '3':
-            theData = [NSData dataWithBytes:ALT_KP_3 length:STATIC_STRLEN(ALT_KP_3)];
-            break;
-        case '4':
-            theData = [NSData dataWithBytes:ALT_KP_4 length:STATIC_STRLEN(ALT_KP_4)];
-            break;
-        case '5':
-            theData = [NSData dataWithBytes:ALT_KP_5 length:STATIC_STRLEN(ALT_KP_5)];
-            break;
-        case '6':
-            theData = [NSData dataWithBytes:ALT_KP_6 length:STATIC_STRLEN(ALT_KP_6)];
-            break;
-        case '7':
-            theData = [NSData dataWithBytes:ALT_KP_7 length:STATIC_STRLEN(ALT_KP_7)];
-            break;
-        case '8':
-            theData = [NSData dataWithBytes:ALT_KP_8 length:STATIC_STRLEN(ALT_KP_8)];
-            break;
-        case '9':
-            theData = [NSData dataWithBytes:ALT_KP_9 length:STATIC_STRLEN(ALT_KP_9)];
-            break;
-        case '-':
-            theData = [NSData dataWithBytes:ALT_KP_MINUS length:STATIC_STRLEN(ALT_KP_MINUS)];
-            break;
-        case '+':
-            theData = [NSData dataWithBytes:ALT_KP_PLUS length:STATIC_STRLEN(ALT_KP_PLUS)];
-            break;
-        case '.':
-            theData = [NSData dataWithBytes:ALT_KP_PERIOD length:STATIC_STRLEN(ALT_KP_PERIOD)];
-            break;
-        case '/':
-            theData = [NSData dataWithBytes:ALT_KP_SLASH length:STATIC_STRLEN(ALT_KP_SLASH)];
-            break;
-        case '*':
-            theData = [NSData dataWithBytes:ALT_KP_STAR length:STATIC_STRLEN(ALT_KP_STAR)];
-            break;
-        case '=':
-            theData = [NSData dataWithBytes:ALT_KP_EQUALS length:STATIC_STRLEN(ALT_KP_EQUALS)];
-            break;
-        case 0x03:
-            theData = [NSData dataWithBytes:ALT_KP_ENTER length:STATIC_STRLEN(ALT_KP_ENTER)];
-            break;
-        default:
-            theData = [keystr dataUsingEncoding:NSUTF8StringEncoding];
-            break;
+    case '0':
+        theData = [NSData dataWithBytes:ALT_KP_0 length:STATIC_STRLEN(ALT_KP_0)];
+        break;
+    case '1':
+        theData = [NSData dataWithBytes:ALT_KP_1 length:STATIC_STRLEN(ALT_KP_1)];
+        break;
+    case '2':
+        theData = [NSData dataWithBytes:ALT_KP_2 length:STATIC_STRLEN(ALT_KP_2)];
+        break;
+    case '3':
+        theData = [NSData dataWithBytes:ALT_KP_3 length:STATIC_STRLEN(ALT_KP_3)];
+        break;
+    case '4':
+        theData = [NSData dataWithBytes:ALT_KP_4 length:STATIC_STRLEN(ALT_KP_4)];
+        break;
+    case '5':
+        theData = [NSData dataWithBytes:ALT_KP_5 length:STATIC_STRLEN(ALT_KP_5)];
+        break;
+    case '6':
+        theData = [NSData dataWithBytes:ALT_KP_6 length:STATIC_STRLEN(ALT_KP_6)];
+        break;
+    case '7':
+        theData = [NSData dataWithBytes:ALT_KP_7 length:STATIC_STRLEN(ALT_KP_7)];
+        break;
+    case '8':
+        theData = [NSData dataWithBytes:ALT_KP_8 length:STATIC_STRLEN(ALT_KP_8)];
+        break;
+    case '9':
+        theData = [NSData dataWithBytes:ALT_KP_9 length:STATIC_STRLEN(ALT_KP_9)];
+        break;
+    case '-':
+        theData = [NSData dataWithBytes:ALT_KP_MINUS length:STATIC_STRLEN(ALT_KP_MINUS)];
+        break;
+    case '+':
+        theData = [NSData dataWithBytes:ALT_KP_PLUS length:STATIC_STRLEN(ALT_KP_PLUS)];
+        break;
+    case '.':
+        theData = [NSData dataWithBytes:ALT_KP_PERIOD length:STATIC_STRLEN(ALT_KP_PERIOD)];
+        break;
+    case '/':
+        theData = [NSData dataWithBytes:ALT_KP_SLASH length:STATIC_STRLEN(ALT_KP_SLASH)];
+        break;
+    case '*':
+        theData = [NSData dataWithBytes:ALT_KP_STAR length:STATIC_STRLEN(ALT_KP_STAR)];
+        break;
+    case '=':
+        theData = [NSData dataWithBytes:ALT_KP_EQUALS length:STATIC_STRLEN(ALT_KP_EQUALS)];
+        break;
+    case 0x03:
+        theData = [NSData dataWithBytes:ALT_KP_ENTER length:STATIC_STRLEN(ALT_KP_ENTER)];
+        break;
+    default:
+        theData = [keystr dataUsingEncoding:NSUTF8StringEncoding];
+        break;
     }
 
     return (theData);
@@ -419,32 +419,32 @@ typedef enum {
 {
     static char buf[64]; // This should be enough for all formats.
     switch (self.mouseFormat) {
-        case MOUSE_FORMAT_XTERM_EXT:
-            // TODO: This doesn' thandle positions greater than 223 correctly. It should use UTF-8.
-            snprintf(buf, sizeof(buf), "\033[M%c%lc%lc",
-                     (wint_t) (32 + button),
-                     (wint_t) (32 + x),
-                     (wint_t) (32 + y));
-            break;
-        case MOUSE_FORMAT_URXVT:
-            snprintf(buf, sizeof(buf), "\033[%d;%d;%dM", 32 + button, x, y);
-            break;
-        case MOUSE_FORMAT_SGR:
-            if (button & MOUSE_BUTTON_SGR_RELEASE_FLAG) {
-                // for mouse release event
-                snprintf(buf, sizeof(buf), "\033[<%d;%d;%dm",
-                         button ^ MOUSE_BUTTON_SGR_RELEASE_FLAG,
-                         x,
-                         y);
-            } else {
-                // for mouse press/motion event
-                snprintf(buf, sizeof(buf), "\033[<%d;%d;%dM", button, x, y);
-            }
-            break;
-        case MOUSE_FORMAT_XTERM:
-        default:
-            snprintf(buf, sizeof(buf), "\033[M%c%c%c", 32 + button, MIN(255, 32 + x), MIN(255, 32 + y));
-            break;
+    case MOUSE_FORMAT_XTERM_EXT:
+        // TODO: This doesn' thandle positions greater than 223 correctly. It should use UTF-8.
+        snprintf(buf, sizeof(buf), "\033[M%c%lc%lc",
+                 (wint_t) (32 + button),
+                 (wint_t) (32 + x),
+                 (wint_t) (32 + y));
+        break;
+    case MOUSE_FORMAT_URXVT:
+        snprintf(buf, sizeof(buf), "\033[%d;%d;%dM", 32 + button, x, y);
+        break;
+    case MOUSE_FORMAT_SGR:
+        if (button & MOUSE_BUTTON_SGR_RELEASE_FLAG) {
+            // for mouse release event
+            snprintf(buf, sizeof(buf), "\033[<%d;%d;%dm",
+                     button ^ MOUSE_BUTTON_SGR_RELEASE_FLAG,
+                     x,
+                     y);
+        } else {
+            // for mouse press/motion event
+            snprintf(buf, sizeof(buf), "\033[<%d;%d;%dM", button, x, y);
+        }
+        break;
+    case MOUSE_FORMAT_XTERM:
+    default:
+        snprintf(buf, sizeof(buf), "\033[M%c%c%c", 32 + button, MIN(255, 32 + x), MIN(255, 32 + y));
+        break;
     }
     return buf;
 }
@@ -530,7 +530,7 @@ typedef enum {
     // We uppercase the string to ensure it does not contain a "n".
     // The [ must never be followed by a 0 (see the isiterm2.sh script for justification).
     NSString *version = [NSString stringWithFormat:@"%c[ITERM2 %@n", ESC,
-                         [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] uppercaseString]];
+                                  [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] uppercaseString]];
     return [version dataUsingEncoding:NSUTF8StringEncoding];
 }
 
@@ -546,7 +546,7 @@ typedef enum {
 - (NSData *)reportStatus
 {
     return [NSData dataWithBytes:REPORT_STATUS
-                          length:STATIC_STRLEN(REPORT_STATUS)];
+                   length:STATIC_STRLEN(REPORT_STATUS)];
 }
 
 - (NSData *)reportDeviceAttribute {
@@ -557,10 +557,10 @@ typedef enum {
     // Update: Per issue 7803, VT200 must accept 8-bit CSI. Allow users to elect VT100 reporting by
     // setting $TERM to VT100.
     switch (_vtLevel) {
-        case VT100EmulationLevel100:
-            return [@"\033[?1;2c" dataUsingEncoding:NSUTF8StringEncoding];
-        case VT100EmulationLevel200:
-            return [@"\033[?62;4c" dataUsingEncoding:NSUTF8StringEncoding];
+    case VT100EmulationLevel100:
+        return [@"\033[?1;2c" dataUsingEncoding:NSUTF8StringEncoding];
+    case VT100EmulationLevel200:
+        return [@"\033[?62;4c" dataUsingEncoding:NSUTF8StringEncoding];
     }
 }
 
@@ -580,22 +580,22 @@ typedef enum {
     NSString *string = nil;
     if ([iTermAdvancedSettingsModel oscColorReport16Bits]) {
         string = [NSString stringWithFormat:@"%c]%@%d;rgb:%04x/%04x/%04x%c",
-                  ESC,
-                  prefix,
-                  index,
-                  (int) ([color redComponent] * 65535.0),
-                  (int) ([color greenComponent] * 65535.0),
-                  (int) ([color blueComponent] * 65535.0),
-                  7];
+                           ESC,
+                           prefix,
+                           index,
+                           (int) ([color redComponent] * 65535.0),
+                           (int) ([color greenComponent] * 65535.0),
+                           (int) ([color blueComponent] * 65535.0),
+                           7];
     } else {
         string = [NSString stringWithFormat:@"%c]%@%d;rgb:%02x/%02x/%02x%c",
-                  ESC,
-                  prefix,
-                  index,
-                  (int) ([color redComponent] * 255.0),
-                  (int) ([color greenComponent] * 255.0),
-                  (int) ([color blueComponent] * 255.0),
-                  7];
+                           ESC,
+                           prefix,
+                           index,
+                           (int) ([color redComponent] * 255.0),
+                           (int) ([color greenComponent] * 255.0),
+                           (int) ([color blueComponent] * 255.0),
+                           7];
     }
     return [string dataUsingEncoding:NSUTF8StringEncoding];
 }
@@ -653,18 +653,18 @@ typedef enum {
 }
 
 - (NSData *)specialKey:(int)terminfo
-             cursorMod:(char *)cursorMod
-             cursorSet:(char *)cursorSet
-           cursorReset:(char *)cursorReset
-               modflag:(unsigned int)modflag
-              isCursor:(BOOL)isCursor {
+    cursorMod:(char *)cursorMod
+    cursorSet:(char *)cursorSet
+    cursorReset:(char *)cursorReset
+    modflag:(unsigned int)modflag
+    isCursor:(BOOL)isCursor {
     NSData* prefix = nil;
     NSData* theSuffix;
     const int mod = [self cursorModifierParamForEventModifierFlags:modflag];
     if (_keyStrings[terminfo] && mod == 0 && !isCursor && self.keypadMode) {
         // Application keypad mode.
         theSuffix = [NSData dataWithBytes:_keyStrings[terminfo]
-                                   length:strlen(_keyStrings[terminfo])];
+                            length:strlen(_keyStrings[terminfo])];
     } else {
         if (mod) {
             char buf[20];
@@ -673,10 +673,10 @@ typedef enum {
         } else {
             if (self.cursorMode) {
                 theSuffix = [NSData dataWithBytes:cursorSet
-                                           length:strlen(cursorSet)];
+                                    length:strlen(cursorSet)];
             } else {
                 theSuffix = [NSData dataWithBytes:cursorReset
-                                           length:strlen(cursorReset)];
+                                    length:strlen(cursorReset)];
             }
         }
     }

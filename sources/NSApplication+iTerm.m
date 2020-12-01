@@ -13,7 +13,7 @@
 - (BOOL)isRunningUnitTests {
     static BOOL testing = NO;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         testing = ([[[NSProcessInfo processInfo] environment] objectForKey:@"XCInjectBundle"] != nil ||
                    [[[NSProcessInfo processInfo] environment] objectForKey:@"XCInjectBundleInto"] != nil);
     });

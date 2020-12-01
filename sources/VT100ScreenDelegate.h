@@ -39,7 +39,7 @@
 
 // Called after text was added to the current line. Can be used to check triggers.
 - (void)screenDidAppendStringToCurrentLine:(NSString *)string
-                               isPlainText:(BOOL)plainText;
+    isPlainText:(BOOL)plainText;
 - (void)screenDidAppendAsciiDataToCurrentLine:(AsciiData *)asciiData;
 
 // Change the cursor's appearance.
@@ -47,7 +47,7 @@
 - (void)screenSetCursorType:(ITermCursorType)type;
 
 - (void)screenGetCursorType:(ITermCursorType *)cursorTypeOut
-                   blinking:(BOOL *)blinking;
+    blinking:(BOOL *)blinking;
 
 - (void)screenResetCursorTypeAndBlink;
 
@@ -236,7 +236,7 @@
 - (void)screenCurrentHostDidChange:(VT100RemoteHost *)host;
 - (void)screenCurrentDirectoryDidChangeTo:(NSString *)newPath;
 - (void)screenDidReceiveCustomEscapeSequenceWithParameters:(NSDictionary<NSString *, NSString *> *)parameters
-                                                   payload:(NSString *)payload;
+    payload:(NSString *)payload;
 - (CGFloat)screenBackingScaleFactor;
 
 // Ok to write to shell?
@@ -252,9 +252,9 @@
 - (NSString *)screenProfileName;
 
 - (void)screenLogWorkingDirectoryAtLine:(int)line
-                          withDirectory:(NSString *)directory
-                                 pushed:(BOOL)pushed
-                                 timely:(BOOL)timely;
+    withDirectory:(NSString *)directory
+    pushed:(BOOL)pushed
+    timely:(BOOL)timely;
 
 - (void)screenSuggestShellIntegrationUpgrade;
 - (void)screenDidDetectShell:(NSString *)shell;
@@ -280,9 +280,9 @@
 - (void)screenReportKeyUpDidChange:(BOOL)reportKeyUp;
 - (BOOL)screenConfirmDownloadNamed:(NSString *)name canExceedSize:(NSInteger)limit;
 - (BOOL)screenConfirmDownloadAllowed:(NSString *)name
-                                size:(NSInteger)size
-                       displayInline:(BOOL)displayInline
-                         promptIfBig:(BOOL *)promptIfBig;
+    size:(NSInteger)size
+    displayInline:(BOOL)displayInline
+    promptIfBig:(BOOL *)promptIfBig;
 - (BOOL)screenShouldClearScrollbackBuffer;
 - (VT100GridRange)screenRangeOfVisibleLines;
 

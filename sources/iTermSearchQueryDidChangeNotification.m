@@ -16,8 +16,8 @@
 
 + (void)subscribe:(NSObject *)owner block:(void (^)(void))block {
     [self internalSubscribe:owner withBlock:^(id notification) {
-        block();
-    }];
+             block();
+         }];
 }
 
 @end

@@ -47,9 +47,9 @@ static const CGFloat kCloseButtonLeftMargin = 2;
     self = [super initWithFrame:frame];
     if (self) {
         _title = [[NSTextField alloc] initWithFrame:NSMakeRect(kCloseButtonLeftMargin + kButtonSize,
-                                                               0,
-                                                               frame.size.width - kButtonSize - kRightMargin - kCloseButtonLeftMargin,
-                                                               kTitleHeight)];
+                                      0,
+                                      frame.size.width - kButtonSize - kRightMargin - kCloseButtonLeftMargin,
+                                      kTitleHeight)];
         [_title setEditable:NO];
         [_title bind:@"value" toObject:self withKeyPath:@"name" options:nil];
         _title.backgroundColor = [NSColor clearColor];
@@ -72,9 +72,9 @@ static const CGFloat kCloseButtonLeftMargin = 2;
         [_closeButton release];
 
         _container = [[[NSView alloc] initWithFrame:NSMakeRect(kLeftMargin,
-                                                               kTitleHeight + kMargin,
-                                                               frame.size.width - kLeftMargin - kRightMargin,
-                                                               frame.size.height - kTitleHeight - kMargin - kBottomMargin)] autorelease];
+                                       kTitleHeight + kMargin,
+                                       frame.size.width - kLeftMargin - kRightMargin,
+                                       frame.size.height - kTitleHeight - kMargin - kBottomMargin)] autorelease];
         [_container setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
         [self addSubview:_container];
         [self relayout];

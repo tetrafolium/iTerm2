@@ -15,7 +15,7 @@
 }
 
 + (void)subscribe:(NSObject *)owner
-            block:(void (^)(iTermSetFindStringNotification * _Nonnull))block {
+    block:(void (^)(iTermSetFindStringNotification * _Nonnull))block {
     [self internalSubscribe:owner withBlock:block];
 }
 

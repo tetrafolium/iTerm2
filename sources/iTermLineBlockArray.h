@@ -31,22 +31,22 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setAllBlocksMayHaveDoubleWidthCharacters;
 - (NSInteger)indexOfBlockContainingLineNumber:(int)lineNumber width:(int)width remainder:(out nonnull int *)remainderPtr;
 - (nullable LineBlock *)blockContainingLineNumber:(int)lineNumber
-                                            width:(int)width
-                                        remainder:(out int *)remainderPtr;
+    width:(int)width
+    remainder:(out int *)remainderPtr;
 - (int)numberOfWrappedLinesForWidth:(int)width;
 - (void)enumerateLinesInRange:(NSRange)range
-                        width:(int)width
-                        block:(void (^)(screen_char_t *chars, int length, int eol, screen_char_t continuation, BOOL *stop))block;
+    width:(int)width
+    block:(void (^)(screen_char_t *chars, int length, int eol, screen_char_t continuation, BOOL *stop))block;
 - (NSInteger)numberOfRawLines;
 - (NSInteger)rawSpaceUsed;
 - (NSInteger)rawSpaceUsedInRangeOfBlocks:(NSRange)range;
 
 // If you don't need a yoffset pass -1 for width and NULL for blockOffset to avoid building a cache.
 - (LineBlock *)blockContainingPosition:(long long)p
-                                 width:(int)width
-                             remainder:(nullable int *)remainder
-                           blockOffset:(nullable int *)yoffset
-                                 index:(nullable int *)indexPtr;
+    width:(int)width
+    remainder:(nullable int *)remainder
+    blockOffset:(nullable int *)yoffset
+    index:(nullable int *)indexPtr;
 - (void)sanityCheck;
 - (void)oopsWithWidth:(int)width block:(void (^)(void))block;
 

@@ -79,21 +79,21 @@ const NSInteger iTermQuickPasteBytesPerCallDefaultValue = 768;
     int chunkSize = [iTermPreferences intForKey:kPreferenceKeyPasteSpecialChunkSize];
     NSTimeInterval chunkDelay = [iTermPreferences floatForKey:kPreferenceKeyPasteSpecialChunkDelay];
     [iTermPasteSpecialWindowController showAsPanelInWindow:window
-                                                 chunkSize:chunkSize
-                                        delayBetweenChunks:chunkDelay
-                                         bracketingEnabled:bracketingEnabled
-                                                  encoding:[_delegate pasteHelperEncoding]
-                                          canWaitForPrompt:[_delegate pasteHelperCanWaitForPrompt]
-                                           isAtShellPrompt:![_delegate pasteHelperShouldWaitForPrompt]
-                                        forceEscapeSymbols:NO
-                                                completion:^(PasteEvent *event) {
-                                                    event.suppressMultilinePasteWarning = YES;
-                                                    [self tryToPasteEvent:event];
-                                                    [iTermPreferences setInt:event.defaultChunkSize
-                                                                      forKey:kPreferenceKeyPasteSpecialChunkSize];
-                                                    [iTermPreferences setFloat:event.defaultDelay
-                                                                        forKey:kPreferenceKeyPasteSpecialChunkDelay];
-                                                }];
+                                       chunkSize:chunkSize
+                                       delayBetweenChunks:chunkDelay
+                                       bracketingEnabled:bracketingEnabled
+                                       encoding:[_delegate pasteHelperEncoding]
+                                       canWaitForPrompt:[_delegate pasteHelperCanWaitForPrompt]
+                                       isAtShellPrompt:![_delegate pasteHelperShouldWaitForPrompt]
+                                       forceEscapeSymbols:NO
+                                      completion:^(PasteEvent *event) {
+                                          event.suppressMultilinePasteWarning = YES;
+        [self tryToPasteEvent:event];
+        [iTermPreferences setInt:event.defaultChunkSize
+                          forKey:kPreferenceKeyPasteSpecialChunkSize];
+        [iTermPreferences setFloat:event.defaultDelay
+                          forKey:kPreferenceKeyPasteSpecialChunkDelay];
+    }];
 }
 
 - (void)abort {
@@ -134,17 +134,17 @@ const NSInteger iTermQuickPasteBytesPerCallDefaultValue = 768;
 
     if (flags & kPasteFlagsConvertUnicodePunctuation) {
         theString = [theString stringByReplacingOccurrencesOfString:kPasteSpecialViewControllerUnicodeDoubleQuotesRegularExpression
-                                                         withString:@"\""
-                                                            options:NSRegularExpressionSearch
-                                                              range:NSMakeRange(0, theString.length)];
+                               withString:@"\""
+                               options:NSRegularExpressionSearch
+                               range:NSMakeRange(0, theString.length)];
         theString = [theString stringByReplacingOccurrencesOfString:kPasteSpecialViewControllerUnicodeSingleQuotesRegularExpression
-                                                         withString:@"'"
-                                                            options:NSRegularExpressionSearch
-                                                              range:NSMakeRange(0, theString.length)];
+                               withString:@"'"
+                               options:NSRegularExpressionSearch
+                               range:NSMakeRange(0, theString.length)];
         theString = [theString stringByReplacingOccurrencesOfString:kPasteSpecialViewControllerUnicodeDashesRegularExpression
-                                                         withString:@"-"
-                                                            options:NSRegularExpressionSearch
-                                                              range:NSMakeRange(0, theString.length)];
+                               withString:@"-"
+                               options:NSRegularExpressionSearch
+                               range:NSMakeRange(0, theString.length)];
     }
 
     if (flags & kPasteFlagsRemovingUnsafeControlCodes) {
@@ -152,24 +152,24 @@ const NSInteger iTermQuickPasteBytesPerCallDefaultValue = 768;
         // and shell escape (22) are removed. This must be done before transforming tabs since
         // that transformation might add ^Vs.
         theString =
-        [[theString componentsSeparatedByCharactersInSet:[iTermPasteHelper unsafeControlCodeSet]]
-         componentsJoinedByString:@""];
+            [[theString componentsSeparatedByCharactersInSet:[iTermPasteHelper unsafeControlCodeSet]]
+                                                                                                    componentsJoinedByString:@""];
     }
 
     switch (pasteEvent.tabTransform) {
-        case kTabTransformNone:
-            break;
+    case kTabTransformNone:
+        break;
 
-        case kTabTransformConvertToSpaces: {
-            NSString *spaces = [@" " stringRepeatedTimes:pasteEvent.spacesPerTab];
-            theString = [theString stringByReplacingOccurrencesOfString:@"\t"
-                                                             withString:spaces];
-            break;
-        }
+    case kTabTransformConvertToSpaces: {
+        NSString *spaces = [@" " stringRepeatedTimes:pasteEvent.spacesPerTab];
+        theString = [theString stringByReplacingOccurrencesOfString:@"\t"
+                               withString:spaces];
+        break;
+    }
 
-        case kTabTransformEscapeWithCtrlV:
-            theString = [theString stringWithShellEscapedTabs];
-            break;
+    case kTabTransformEscapeWithCtrlV:
+        theString = [theString stringWithShellEscapedTabs];
+        break;
     }
 
     if (flags & kPasteFlagsEscapeSpecialCharacters) {
@@ -186,7 +186,7 @@ const NSInteger iTermQuickPasteBytesPerCallDefaultValue = 768;
         NSString *replacement = nil;
         @try {
             replacement = [theString stringByReplacingOccurrencesOfRegex:pasteEvent.regex ?: @""
-                                                              withString:[pasteEvent.substitution stringByExpandingVimSpecialCharacters] ?: @""] ?: @"";
+                                     withString:[pasteEvent.substitution stringByExpandingVimSpecialCharacters] ?: @""] ?: @"";
             if (replacement) {
                 theString = replacement;
             }
@@ -204,26 +204,26 @@ const NSInteger iTermQuickPasteBytesPerCallDefaultValue = 768;
 
 - (void)pasteString:(NSString *)theString stringConfig:(NSString *)jsonConfig {
     PasteEvent *pasteEvent = [iTermPasteSpecialViewController pasteEventForConfig:jsonConfig
-                                                                           string:theString];
+                                                              string:theString];
     [self tryToPasteEvent:pasteEvent];
 }
 
 - (void)pasteString:(NSString *)theString
-             slowly:(BOOL)slowly
-   escapeShellChars:(BOOL)escapeShellChars
-           isUpload:(BOOL)isUpload
-       tabTransform:(iTermTabTransformTags)tabTransform
-       spacesPerTab:(int)spacesPerTab {
+    slowly:(BOOL)slowly
+    escapeShellChars:(BOOL)escapeShellChars
+    isUpload:(BOOL)isUpload
+    tabTransform:(iTermTabTransformTags)tabTransform
+    spacesPerTab:(int)spacesPerTab {
     [self pasteString:theString slowly:slowly escapeShellChars:escapeShellChars isUpload:isUpload tabTransform:tabTransform spacesPerTab:spacesPerTab progress:nil];
 }
 
 - (PasteEvent *)pasteEventWithString:(NSString *)theString
-                              slowly:(BOOL)slowly
-                    escapeShellChars:(BOOL)escapeShellChars
-                            isUpload:(BOOL)isUpload
-                        tabTransform:(iTermTabTransformTags)tabTransform
-                        spacesPerTab:(int)spacesPerTab
-                            progress:(void (^)(NSInteger))progress {
+    slowly:(BOOL)slowly
+    escapeShellChars:(BOOL)escapeShellChars
+    isUpload:(BOOL)isUpload
+    tabTransform:(iTermTabTransformTags)tabTransform
+    spacesPerTab:(int)spacesPerTab
+    progress:(void (^)(NSInteger))progress {
     NSUInteger bracketFlag = [_delegate pasteHelperShouldBracket] ? kPasteFlagsBracket : 0;
     NSUInteger flags = (kPasteFlagsSanitizingNewlines |
                         kPasteFlagsRemovingUnsafeControlCodes |
@@ -247,15 +247,15 @@ const NSInteger iTermQuickPasteBytesPerCallDefaultValue = 768;
         delayKey = @"QuickPasteDelayBetweenCalls";
     }
     PasteEvent *event = [PasteEvent pasteEventWithString:theString
-                                                   flags:flags
-                                        defaultChunkSize:defaultChunkSize
-                                                chunkKey:chunkKey
-                                            defaultDelay:defaultDelay
-                                                delayKey:delayKey
-                                            tabTransform:tabTransform
-                                            spacesPerTab:spacesPerTab
-                                                   regex:nil
-                                            substitution:nil];
+                                    flags:flags
+                                    defaultChunkSize:defaultChunkSize
+                                    chunkKey:chunkKey
+                                    defaultDelay:defaultDelay
+                                    delayKey:delayKey
+                                    tabTransform:tabTransform
+                                    spacesPerTab:spacesPerTab
+                                    regex:nil
+                                    substitution:nil];
     event.slow = slowly;
     event.progress = progress;
     event.isUpload = isUpload;
@@ -263,19 +263,19 @@ const NSInteger iTermQuickPasteBytesPerCallDefaultValue = 768;
 }
 
 - (void)pasteString:(NSString *)theString
-             slowly:(BOOL)slowly
-   escapeShellChars:(BOOL)escapeShellChars
-           isUpload:(BOOL)isUpload
-       tabTransform:(iTermTabTransformTags)tabTransform
-       spacesPerTab:(int)spacesPerTab
-           progress:(void (^)(NSInteger))progress {
+    slowly:(BOOL)slowly
+    escapeShellChars:(BOOL)escapeShellChars
+    isUpload:(BOOL)isUpload
+    tabTransform:(iTermTabTransformTags)tabTransform
+    spacesPerTab:(int)spacesPerTab
+    progress:(void (^)(NSInteger))progress {
     PasteEvent *event = [self pasteEventWithString:theString
-                                            slowly:slowly
-                                  escapeShellChars:escapeShellChars
-                                          isUpload:isUpload
-                                      tabTransform:tabTransform
-                                      spacesPerTab:spacesPerTab
-                                          progress:progress];
+                              slowly:slowly
+                              escapeShellChars:escapeShellChars
+                              isUpload:isUpload
+                              tabTransform:tabTransform
+                              spacesPerTab:spacesPerTab
+                              progress:progress];
     [self tryToPasteEvent:event];
 }
 
@@ -339,15 +339,15 @@ const NSInteger iTermQuickPasteBytesPerCallDefaultValue = 768;
 - (void)pasteSlowly:(NSString *)theString {
     DLog(@"pasteSlowly length=%@", @(theString.length));
     PasteEvent *pasteEvent = [PasteEvent pasteEventWithString:theString
-                                                        flags:0
-                                             defaultChunkSize:16
-                                                     chunkKey:@"SlowPasteBytesPerCall"
-                                                 defaultDelay:0.125
-                                                     delayKey:@"SlowPasteDelayBetweenCalls"
-                                                tabTransform:kTabTransformNone
-                                                 spacesPerTab:4
-                                                        regex:nil
-                                                 substitution:nil];
+                                         flags:0
+                                         defaultChunkSize:16
+                                         chunkKey:@"SlowPasteBytesPerCall"
+                                         defaultDelay:0.125
+                                         delayKey:@"SlowPasteDelayBetweenCalls"
+                                         tabTransform:kTabTransformNone
+                                         spacesPerTab:4
+                                         regex:nil
+                                         substitution:nil];
 
     [self pasteLiteralEventUnconditionallyImmediately:pasteEvent];
 }
@@ -358,15 +358,15 @@ const NSInteger iTermQuickPasteBytesPerCallDefaultValue = 768;
     // outrun a shell's ability to read from its buffer. Why this crazy
     // thing? See bug 1031.
     PasteEvent *pasteEvent = [PasteEvent pasteEventWithString:aString
-                                                        flags:0
-                                             defaultChunkSize:iTermQuickPasteBytesPerCallDefaultValue
-                                                     chunkKey:@"QuickPasteBytesPerCall"
-                                                 defaultDelay:0.01
-                                                     delayKey:@"QuickPasteDelayBetweenCalls"
-                                                tabTransform:kTabTransformNone
-                                                 spacesPerTab:4
-                                                        regex:nil
-                                                 substitution:nil];
+                                         flags:0
+                                         defaultChunkSize:iTermQuickPasteBytesPerCallDefaultValue
+                                         chunkKey:@"QuickPasteBytesPerCall"
+                                         defaultDelay:0.01
+                                         delayKey:@"QuickPasteDelayBetweenCalls"
+                                         tabTransform:kTabTransformNone
+                                         spacesPerTab:4
+                                         regex:nil
+                                         substitution:nil];
 
     [self pasteLiteralEventUnconditionallyImmediately:pasteEvent];
 }
@@ -414,11 +414,11 @@ const NSInteger iTermQuickPasteBytesPerCallDefaultValue = 768;
 }
 
 - (void)showPasteIndicatorInView:(NSView *)view
-         statusBarViewController:(iTermStatusBarViewController *)statusBarViewController {
+    statusBarViewController:(iTermStatusBarViewController *)statusBarViewController {
     _pasteViewManager.pasteContext = _pasteContext;
     _pasteViewManager.bufferLength = _buffer.length;
     [_pasteViewManager startWithViewForDropdown:view
-                        statusBarViewController:statusBarViewController];
+                       statusBarViewController:statusBarViewController];
 }
 
 - (void)hidePasteIndicator {
@@ -479,10 +479,10 @@ const NSInteger iTermQuickPasteBytesPerCallDefaultValue = 768;
 - (void)scheduleNextPasteForCurrentPasteContext {
     [_timer invalidate];
     _timer = [self scheduledTimerWithTimeInterval:_pasteContext.delayBetweenCalls
-                                           target:self
-                                         selector:@selector(pasteNextChunkAndScheduleTimer)
-                                         userInfo:nil
-                                          repeats:NO];
+                   target:self
+                   selector:@selector(pasteNextChunkAndScheduleTimer)
+                   userInfo:nil
+                   repeats:NO];
     if (_pasteContext.isUpload) {
         // Ensure the timer runs while the uploads menu is open.
         [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
@@ -511,9 +511,9 @@ const NSInteger iTermQuickPasteBytesPerCallDefaultValue = 768;
     const NSTimeInterval kMinEstimatedPasteTimeToShowIndicator = 3;
     if (!pasteEvent.isUpload) {
         if ((sumOfDelays + timeSpentWriting > kMinEstimatedPasteTimeToShowIndicator) ||
-            _pasteContext.blockAtNewline) {
+                _pasteContext.blockAtNewline) {
             [self showPasteIndicatorInView:[_delegate pasteHelperViewForIndicator]
-                   statusBarViewController:[_delegate pasteHelperStatusBarViewController]];
+                  statusBarViewController:[_delegate pasteHelperStatusBarViewController]];
         }
     }
 
@@ -538,23 +538,23 @@ const NSInteger iTermQuickPasteBytesPerCallDefaultValue = 768;
             NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
             numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
             const iTermWarningSelection selection =
-            [iTermWarning showWarningWithTitle:[NSString stringWithFormat:@"OK to paste %@ characters?", [numberFormatter stringFromNumber:@(pasteEvent.string.length)]]
-                                       actions:@[ @"OK", @"Cancel", @"Advanced…" ]
-                                     accessory:nil
-                                    identifier:@"NoSyncPasteOverCharacterLimitWarning"
-                                   silenceable:kiTermWarningTypePersistent
-                                       heading:@"Paste Limit Exceeded"
-                                        window:self.delegate.pasteHelperViewForIndicator.window];
+                [iTermWarning showWarningWithTitle:[NSString stringWithFormat:@"OK to paste %@ characters?", [numberFormatter stringFromNumber:@(pasteEvent.string.length)]]
+                              actions:@[ @"OK", @"Cancel", @"Advanced…" ]
+                              accessory:nil
+                              identifier:@"NoSyncPasteOverCharacterLimitWarning"
+                              silenceable:kiTermWarningTypePersistent
+                              heading:@"Paste Limit Exceeded"
+                              window:self.delegate.pasteHelperViewForIndicator.window];
             switch (selection) {
-                case kiTermWarningSelection0:
-                    break;
-                case kiTermWarningSelection1:
-                    return NO;
-                case kiTermWarningSelection2:
-                    [self showAdvancedPasteWithFlags:0];
-                    return NO;
-                default:
-                    break;
+            case kiTermWarningSelection0:
+                break;
+            case kiTermWarningSelection1:
+                return NO;
+            case kiTermWarningSelection2:
+                [self showAdvancedPasteWithFlags:0];
+                return NO;
+            default:
+                break;
             }
         }
     }
@@ -569,12 +569,12 @@ const NSInteger iTermQuickPasteBytesPerCallDefaultValue = 768;
         return YES;
     }
     if ([iTermAdvancedSettingsModel suppressMultilinePasteWarningWhenPastingOneLineWithTerminalNewline] &&
-        rangeOfFirstNewline.location == pasteEvent.string.length - 1) {
+            rangeOfFirstNewline.location == pasteEvent.string.length - 1) {
         return YES;
     }
     BOOL atShellPrompt = [_delegate pasteHelperIsAtShellPrompt];
     if ([iTermAdvancedSettingsModel suppressMultilinePasteWarningWhenNotAtShellPrompt] &&
-        !atShellPrompt) {
+            !atShellPrompt) {
         return YES;
     }
     if (pasteEvent.suppressMultilinePasteWarning) {
@@ -586,15 +586,19 @@ const NSInteger iTermQuickPasteBytesPerCallDefaultValue = 768;
 
     __block BOOL result = YES;
     iTermWarningAction *cancel = [iTermWarningAction warningActionWithLabel:@"Cancel"
-                                                                      block:^(iTermWarningSelection selection) { result = NO; }];
+                       block:^(iTermWarningSelection selection) {
+                           result = NO;
+                       }];
     iTermWarningAction *paste = [iTermWarningAction warningActionWithLabel:@"Paste"
-                                                                     block:^(iTermWarningSelection selection) { result = YES; }];
+                       block:^(iTermWarningSelection selection) {
+                           result = YES;
+                       }];
     iTermWarningAction *pasteWithoutNewline =
         [iTermWarningAction warningActionWithLabel:@"Paste Without Newline"
-                                             block:^(iTermWarningSelection selection) {
-            [pasteEvent trimNewlines];
-            result = YES;
-        }];
+                       block:^(iTermWarningSelection selection) {
+                           [pasteEvent trimNewlines];
+                           result = YES;
+                       }];
 
     [actions addObject:paste];
     [actions addObject:cancel];
@@ -603,11 +607,11 @@ const NSInteger iTermQuickPasteBytesPerCallDefaultValue = 768;
     if (lines.count > 1) {
         if (atShellPrompt) {
             theTitle = [NSString stringWithFormat:@"OK to paste %d lines at shell prompt?",
-                        (int)[lines count]];
+                                 (int)[lines count]];
         } else {
             prompt = [iTermAdvancedSettingsModel promptForPasteWhenNotAtPrompt];
             theTitle = [NSString stringWithFormat:@"OK to paste %d lines?",
-                        (int)[lines count]];
+                                 (int)[lines count]];
         }
     } else {
         [actions insertObject:pasteWithoutNewline atIndex:1];
@@ -626,8 +630,8 @@ const NSInteger iTermQuickPasteBytesPerCallDefaultValue = 768;
     // Issue 5115
     [iTermWarning unsilenceIdentifier:identifier ifSelectionEquals:[actions indexOfObjectIdenticalTo:cancel]];
     [actions addObject:[iTermWarningAction warningActionWithLabel:@"Advanced…" block:^(iTermWarningSelection selection) {
-        PTYSessionPasteFlags flags = 0;
-        if (pasteEvent.slow) {
+                PTYSessionPasteFlags flags = 0;
+                if (pasteEvent.slow) {
             flags |= kPTYSessionPasteSlowly;
             // The other two flags do not appear to be used
         }
@@ -647,25 +651,25 @@ const NSInteger iTermQuickPasteBytesPerCallDefaultValue = 768;
 
 - (void)showAdvancedPasteWithFlags:(PTYSessionPasteFlags)flags {
     PasteEvent *temporaryEvent = [self pasteEventWithString:@""
-                                                     slowly:!!(flags & kPTYSessionPasteSlowly)
-                                           escapeShellChars:!!(flags & kPTYSessionPasteEscapingSpecialCharacters)
-                                                   isUpload:NO
-                                               tabTransform:kTabTransformNone
-                                               spacesPerTab:4
-                                                   progress:nil];
+                                       slowly:!!(flags & kPTYSessionPasteSlowly)
+                                       escapeShellChars:!!(flags & kPTYSessionPasteEscapingSpecialCharacters)
+                                       isUpload:NO
+                                       tabTransform:kTabTransformNone
+                                       spacesPerTab:4
+                                       progress:nil];
     PasteContext *temporaryContext = [[PasteContext alloc] initWithPasteEvent:temporaryEvent];
     [iTermPasteSpecialWindowController showAsPanelInWindow:self.delegate.pasteHelperViewForIndicator.window
-                                                 chunkSize:temporaryContext.bytesPerCall
-                                        delayBetweenChunks:temporaryContext.delayBetweenCalls
-                                         bracketingEnabled:[self.delegate pasteHelperShouldBracket]
-                                                  encoding:[_delegate pasteHelperEncoding]
-                                          canWaitForPrompt:[_delegate pasteHelperCanWaitForPrompt]
-                                           isAtShellPrompt:![_delegate pasteHelperShouldWaitForPrompt]
-                                        forceEscapeSymbols:!!(flags & kPTYSessionPasteEscapingSpecialCharacters)
-                                                completion:^(PasteEvent *event) {
-                                                    event.suppressMultilinePasteWarning = YES;
-                                                    [self tryToPasteEvent:event];
-                                                }];
+                                       chunkSize:temporaryContext.bytesPerCall
+                                       delayBetweenChunks:temporaryContext.delayBetweenCalls
+                                       bracketingEnabled:[self.delegate pasteHelperShouldBracket]
+                                       encoding:[_delegate pasteHelperEncoding]
+                                       canWaitForPrompt:[_delegate pasteHelperCanWaitForPrompt]
+                                       isAtShellPrompt:![_delegate pasteHelperShouldWaitForPrompt]
+                                       forceEscapeSymbols:!!(flags & kPTYSessionPasteEscapingSpecialCharacters)
+                                      completion:^(PasteEvent *event) {
+                                          event.suppressMultilinePasteWarning = YES;
+        [self tryToPasteEvent:event];
+    }];
 }
 
 - (int)numberOfSpacesToConvertTabsTo:(NSString *)source {
@@ -675,23 +679,23 @@ const NSInteger iTermQuickPasteBytesPerCallDefaultValue = 768;
 
         iTermWarningSelection selection =
             [iTermWarning showWarningWithTitle:@"You're about to paste a string with tabs."
-                                       actions:@[ @"OK", @"Cancel", @"Convert tabs to spaces", @"Advanced…" ]
-                                     accessory:accessoryController.view
-                                    identifier:@"AboutToPasteTabsWithCancel"
-                                   silenceable:kiTermWarningTypePermanentlySilenceable
-                                        window:self.delegate.pasteHelperViewForIndicator.window];
+                          actions:@[ @"OK", @"Cancel", @"Convert tabs to spaces", @"Advanced…" ]
+                          accessory:accessoryController.view
+                          identifier:@"AboutToPasteTabsWithCancel"
+                          silenceable:kiTermWarningTypePermanentlySilenceable
+                          window:self.delegate.pasteHelperViewForIndicator.window];
         switch (selection) {
-            case kiTermWarningSelection0:  // Paste with tabs
-                return kNumberOfSpacesPerTabNoConversion;
-            case kiTermWarningSelection1:  // Cancel
-                return kNumberOfSpacesPerTabCancel;
-            case kiTermWarningSelection2:  // Convert to spaces
-                [accessoryController saveToUserDefaults];
-                return accessoryController.numberOfSpaces;
-            case kiTermWarningSelection3:  // Advanced
-                return kNumberOfSpacesPerTabOpenAdvancedPaste;
-            default:
-                return kNumberOfSpacesPerTabNoConversion;
+        case kiTermWarningSelection0:  // Paste with tabs
+            return kNumberOfSpacesPerTabNoConversion;
+        case kiTermWarningSelection1:  // Cancel
+            return kNumberOfSpacesPerTabCancel;
+        case kiTermWarningSelection2:  // Convert to spaces
+            [accessoryController saveToUserDefaults];
+            return accessoryController.numberOfSpaces;
+        case kiTermWarningSelection3:  // Advanced
+            return kNumberOfSpacesPerTabOpenAdvancedPaste;
+        default:
+            return kNumberOfSpacesPerTabNoConversion;
         }
     }
     return kNumberOfSpacesPerTabNoConversion;
@@ -718,15 +722,15 @@ const NSInteger iTermQuickPasteBytesPerCallDefaultValue = 768;
 #pragma mark - Testing
 
 - (NSTimer *)scheduledTimerWithTimeInterval:(NSTimeInterval)ti
-                                     target:(id)aTarget
-                                   selector:(SEL)aSelector
-                                   userInfo:(id)userInfo
-                                    repeats:(BOOL)yesOrNo {
+    target:(id)aTarget
+    selector:(SEL)aSelector
+    userInfo:(id)userInfo
+    repeats:(BOOL)yesOrNo {
     return [NSTimer scheduledTimerWithTimeInterval:ti
-                                            target:aTarget
-                                          selector:aSelector
-                                          userInfo:userInfo
-                                           repeats:yesOrNo];
+                    target:aTarget
+                    selector:aSelector
+                    userInfo:userInfo
+                    repeats:yesOrNo];
 }
 
 @end

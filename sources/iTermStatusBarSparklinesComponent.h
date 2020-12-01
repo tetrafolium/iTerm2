@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface iTermStatusBarTimeSeries: NSObject
+@interface iTermStatusBarTimeSeries : NSObject
 @property (nonatomic, readonly) NSArray<NSNumber *> *values;
 @property (nonatomic, readonly) NSInteger count;
 
@@ -19,17 +19,17 @@ NS_ASSUME_NONNULL_BEGIN
 - (iTermStatusBarTimeSeries *)timeSeriesWithLastN:(NSInteger)n;
 @end
 
-@interface iTermStatusBarTimeSeriesRendition: NSObject
+@interface iTermStatusBarTimeSeriesRendition : NSObject
 @property (nonatomic, readonly, strong) iTermStatusBarTimeSeries *timeSeries;
 @property (nonatomic, readonly, strong) NSColor *color;
 @property (nonatomic, readonly) NSNumber *maximumValue;
 
 - (instancetype)initWithTimeSeries:(iTermStatusBarTimeSeries *)timeSeries
-                             color:(NSColor *)color NS_DESIGNATED_INITIALIZER;
+    color:(NSColor *)color NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 @end
 
-@interface iTermStatusBarSparklinesModel: NSObject
+@interface iTermStatusBarSparklinesModel : NSObject
 @property (nonatomic, readonly) NSDictionary<NSString *, iTermStatusBarTimeSeriesRendition *> *timeSeriesDict;
 @property (nonatomic, readonly) NSInteger count;
 @property (nonatomic, readonly, nullable) NSNumber *maximumValue;

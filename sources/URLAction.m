@@ -50,7 +50,7 @@
 }
 
 + (instancetype)urlActionToPerformSmartSelectionRule:(NSDictionary *)rule
-                                            onString:(NSString *)content {
+    onString:(NSString *)content {
     URLAction *action = [self urlAction];
     action.string = content;
     action.rule = rule;
@@ -78,24 +78,24 @@
 - (NSString *)description {
     NSString *actionType = @"?";
     switch (self.actionType) {
-        case kURLActionOpenExistingFile:
-            actionType = @"OpenExistingFile";
-            break;
-        case kURLActionOpenURL:
-            actionType = @"OpenURL";
-            break;
-        case kURLActionSmartSelectionAction:
-            actionType = @"SmartSelectionAction";
-            break;
-        case kURLActionOpenImage:
-            actionType = @"OpenImage";
-            break;
-        case kURLActionSecureCopyFile:
-            actionType = @"SecureCopyFile";
-            break;
+    case kURLActionOpenExistingFile:
+        actionType = @"OpenExistingFile";
+        break;
+    case kURLActionOpenURL:
+        actionType = @"OpenURL";
+        break;
+    case kURLActionSmartSelectionAction:
+        actionType = @"SmartSelectionAction";
+        break;
+    case kURLActionOpenImage:
+        actionType = @"OpenImage";
+        break;
+    case kURLActionSecureCopyFile:
+        actionType = @"SecureCopyFile";
+        break;
     }
     return [NSString stringWithFormat:@"<%@: %p actionType=%@ string=%@ rule=%@ range=%@>",
-            [self class], self, actionType, self.string, self.rule, VT100GridWindowedRangeDescription(_range)];
+                     [self class], self, actionType, self.string, self.rule, VT100GridWindowedRangeDescription(_range)];
 }
 
 @end

@@ -61,8 +61,8 @@
 
 - (iTermEditKeyActionWindowController *)newEditKeyActionWindowControllerForAction:(iTermAction *)action {
     iTermEditKeyActionWindowController *windowController =
-    [[iTermEditKeyActionWindowController alloc] initWithContext:iTermVariablesSuggestionContextSession
-                                                           mode:iTermEditKeyActionWindowControllerModeUnbound];
+        [[iTermEditKeyActionWindowController alloc] initWithContext:iTermVariablesSuggestionContextSession
+                                                    mode:iTermEditKeyActionWindowControllerModeUnbound];
     windowController.titleIsInterpolated = YES;
     if (action) {
         windowController.label = action.title;
@@ -73,8 +73,8 @@
     windowController.parameterValue = action.parameter;
     windowController.action = action.action;
     [self.view.window beginSheet:windowController.window completionHandler:^(NSModalResponse returnCode) {
-        [self editActionDidComplete:action];
-    }];
+                         [self editActionDidComplete:action];
+                     }];
     return windowController;
 }
 

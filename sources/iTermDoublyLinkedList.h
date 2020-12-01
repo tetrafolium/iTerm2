@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class iTermDoublyLinkedList<T>;
 
-@interface iTermDoublyLinkedListEntry<T>: NSObject
+@interface iTermDoublyLinkedListEntry<T> : NSObject
 @property (nullable, nonatomic, weak) iTermDoublyLinkedList<T> *dll;
 @property (nullable, nonatomic, strong) iTermDoublyLinkedListEntry<T> *dllNext;
 @property (nullable, nonatomic, strong) iTermDoublyLinkedListEntry<T> *dllPrevious;
@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 @end
 
-@interface iTermDoublyLinkedList<T>: NSObject
+@interface iTermDoublyLinkedList<T> : NSObject
 @property (nullable, nonatomic, readonly) iTermDoublyLinkedListEntry<T> *first;
 @property (nullable, nonatomic, readonly) iTermDoublyLinkedListEntry<T> *last;
 @property (nonatomic, readonly) NSInteger count;

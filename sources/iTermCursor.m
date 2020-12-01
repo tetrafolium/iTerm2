@@ -29,17 +29,17 @@
 
 + (iTermCursor *)cursorOfType:(ITermCursorType)theType {
     switch (theType) {
-        case CURSOR_UNDERLINE:
-            return [[[iTermUnderlineCursor alloc] init] autorelease];
+    case CURSOR_UNDERLINE:
+        return [[[iTermUnderlineCursor alloc] init] autorelease];
 
-        case CURSOR_VERTICAL:
-            return [[[iTermVerticalCursor alloc] init] autorelease];
+    case CURSOR_VERTICAL:
+        return [[[iTermVerticalCursor alloc] init] autorelease];
 
-        case CURSOR_BOX:
-            return [[[iTermBoxCursor alloc] init] autorelease];
+    case CURSOR_BOX:
+        return [[[iTermBoxCursor alloc] init] autorelease];
 
-        default:
-            return nil;
+    default:
+        return nil;
     }
 }
 
@@ -50,14 +50,14 @@
 }
 
 - (void)drawWithRect:(NSRect)rect
-         doubleWidth:(BOOL)doubleWidth
-          screenChar:(screen_char_t)screenChar
-     backgroundColor:(NSColor *)backgroundColor
-     foregroundColor:(NSColor *)foregroundColor
-               smart:(BOOL)smart
-             focused:(BOOL)focused
-               coord:(VT100GridCoord)coord
-             outline:(BOOL)outline {
+    doubleWidth:(BOOL)doubleWidth
+    screenChar:(screen_char_t)screenChar
+    backgroundColor:(NSColor *)backgroundColor
+    foregroundColor:(NSColor *)foregroundColor
+    smart:(BOOL)smart
+    focused:(BOOL)focused
+    coord:(VT100GridCoord)coord
+    outline:(BOOL)outline {
 }
 
 - (void)drawOutlineOfRect:(NSRect)cursorRect withColor:(NSColor *)color {
@@ -76,14 +76,14 @@
 @implementation iTermUnderlineCursor
 
 - (void)drawWithRect:(NSRect)rect
-         doubleWidth:(BOOL)doubleWidth
-          screenChar:(screen_char_t)screenChar
-     backgroundColor:(NSColor *)backgroundColor
-     foregroundColor:(NSColor *)foregroundColor
-               smart:(BOOL)smart
-             focused:(BOOL)focused
-               coord:(VT100GridCoord)coord
-             outline:(BOOL)outline {
+    doubleWidth:(BOOL)doubleWidth
+    screenChar:(screen_char_t)screenChar
+    backgroundColor:(NSColor *)backgroundColor
+    foregroundColor:(NSColor *)foregroundColor
+    smart:(BOOL)smart
+    focused:(BOOL)focused
+    coord:(VT100GridCoord)coord
+    outline:(BOOL)outline {
     const CGFloat height = [iTermAdvancedSettingsModel underlineCursorHeight];
     NSRect cursorRect = NSMakeRect(rect.origin.x,
                                    rect.origin.y + rect.size.height - height - [iTermAdvancedSettingsModel underlineCursorOffset],
@@ -102,14 +102,14 @@
 @implementation iTermVerticalCursor
 
 - (void)drawWithRect:(NSRect)rect
-         doubleWidth:(BOOL)doubleWidth
-          screenChar:(screen_char_t)screenChar
-     backgroundColor:(NSColor *)backgroundColor
-     foregroundColor:(NSColor *)foregroundColor
-               smart:(BOOL)smart
-             focused:(BOOL)focused
-               coord:(VT100GridCoord)coord
-             outline:(BOOL)outline {
+    doubleWidth:(BOOL)doubleWidth
+    screenChar:(screen_char_t)screenChar
+    backgroundColor:(NSColor *)backgroundColor
+    foregroundColor:(NSColor *)foregroundColor
+    smart:(BOOL)smart
+    focused:(BOOL)focused
+    coord:(VT100GridCoord)coord
+    outline:(BOOL)outline {
     NSRect cursorRect = NSMakeRect(rect.origin.x, rect.origin.y, [iTermAdvancedSettingsModel verticalBarCursorWidth], rect.size.height);
     if (outline) {
         [self drawOutlineOfRect:cursorRect withColor:backgroundColor];
@@ -124,14 +124,14 @@
 @implementation iTermCopyModeCursor
 
 - (void)drawWithRect:(NSRect)rect
-         doubleWidth:(BOOL)doubleWidth
-          screenChar:(screen_char_t)screenChar
-     backgroundColor:(NSColor *)backgroundColor
-     foregroundColor:(NSColor *)foregroundColor
-               smart:(BOOL)smart
-             focused:(BOOL)focused
-               coord:(VT100GridCoord)coord
-             outline:(BOOL)outline {
+    doubleWidth:(BOOL)doubleWidth
+    screenChar:(screen_char_t)screenChar
+    backgroundColor:(NSColor *)backgroundColor
+    foregroundColor:(NSColor *)foregroundColor
+    smart:(BOOL)smart
+    focused:(BOOL)focused
+    coord:(VT100GridCoord)coord
+    outline:(BOOL)outline {
     const CGFloat heightFraction = 1 / 3.0;
     NSRect cursorRect = NSMakeRect(rect.origin.x - rect.size.width,
                                    rect.origin.y,
@@ -171,14 +171,14 @@
 }
 
 - (void)drawWithRect:(NSRect)rect
-         doubleWidth:(BOOL)doubleWidth
-          screenChar:(screen_char_t)screenChar
-     backgroundColor:(NSColor *)backgroundColor
-     foregroundColor:(NSColor *)foregroundColor
-               smart:(BOOL)smart
-             focused:(BOOL)focused
-               coord:(VT100GridCoord)coord
-             outline:(BOOL)outline {
+    doubleWidth:(BOOL)doubleWidth
+    screenChar:(screen_char_t)screenChar
+    backgroundColor:(NSColor *)backgroundColor
+    foregroundColor:(NSColor *)foregroundColor
+    smart:(BOOL)smart
+    focused:(BOOL)focused
+    coord:(VT100GridCoord)coord
+    outline:(BOOL)outline {
     assert(!outline);
 
     // Draw the colored box/frame
@@ -203,37 +203,37 @@
         CGContextRef ctx = (CGContextRef)[[NSGraphicsContext currentContext] CGContext];
         if (smart && focused) {
             [self drawSmartCursorCharacter:screenChar
-                               doubleWidth:doubleWidth
-                           backgroundColor:backgroundColor
-                                       ctx:ctx
-                                     coord:coord];
+                  doubleWidth:doubleWidth
+                  backgroundColor:backgroundColor
+                  ctx:ctx
+                  coord:coord];
         } else {
             // Non-smart
             [self.delegate cursorDrawCharacterAt:coord
-                                     doubleWidth:doubleWidth
-                                   overrideColor:foregroundColor
-                                         context:ctx
-                                 backgroundColor:backgroundColor];
+                           doubleWidth:doubleWidth
+                           overrideColor:foregroundColor
+                           context:ctx
+                           backgroundColor:backgroundColor];
         }
     }
 }
 
 - (void)drawSmartCursorCharacter:(screen_char_t)screenChar
-                     doubleWidth:(BOOL)doubleWidth
-                 backgroundColor:(NSColor *)backgroundColor
-                             ctx:(CGContextRef)ctx
-                           coord:(VT100GridCoord)coord {
+    doubleWidth:(BOOL)doubleWidth
+    backgroundColor:(NSColor *)backgroundColor
+    ctx:(CGContextRef)ctx
+    coord:(VT100GridCoord)coord {
     NSColor *regularTextColor = [self.delegate cursorColorForCharacter:screenChar
-                                                        wantBackground:YES
-                                                                 muted:NO];
+                                               wantBackground:YES
+                                               muted:NO];
     NSColor *overrideColor = [_smartCursorColor textColorForCharacter:screenChar
-                                                     regularTextColor:regularTextColor
-                                                 smartBackgroundColor:backgroundColor];
+                                                regularTextColor:regularTextColor
+                                                smartBackgroundColor:backgroundColor];
     [self.delegate cursorDrawCharacterAt:coord
-                             doubleWidth:doubleWidth
-                           overrideColor:overrideColor
-                                 context:ctx
-                         backgroundColor:nil];
+                   doubleWidth:doubleWidth
+                   overrideColor:overrideColor
+                   context:ctx
+                   backgroundColor:nil];
 
 }
 

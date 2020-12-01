@@ -32,11 +32,11 @@
     }
 
     const NSEventModifierFlags allEventModifierFlags = (NSEventModifierFlagControl |
-                                                        NSEventModifierFlagOption |
-                                                        NSEventModifierFlagShift |
-                                                        NSEventModifierFlagCommand);
+            NSEventModifierFlagOption |
+            NSEventModifierFlagShift |
+            NSEventModifierFlagCommand);
     if (_event.keyCode == kVK_Space &&
-        (_event.modifierFlags & allEventModifierFlags) == NSEventModifierFlagShift) {
+            (_event.modifierFlags & allEventModifierFlags) == NSEventModifierFlagShift) {
         // Shift+Space is special. No other unicode character + shift reports a CSI u.
         return [self termkeySequenceForEvent];
     }
@@ -74,7 +74,7 @@
 // CSI code
 // CSI 1 ; modifiers code
 - (NSString *)reallySpecialSequenceWithCode:(NSString *)code
-                             eventModifiers:(NSEventModifierFlags)eventModifiers {
+    eventModifiers:(NSEventModifierFlags)eventModifiers {
     const int csiModifiers = [self csiModifiersForEventModifiers:eventModifiers];
     if (csiModifiers == 1) {
         return [NSString stringWithFormat:@"%c[%@", 27, code];
@@ -86,7 +86,7 @@
 // CSI code ~
 // CSI code ; modifier ~
 - (NSString *)sequenceForNonUnicodeKeypress:(NSString *)code
-                             eventModifiers:(NSEventModifierFlags)eventModifiers {
+    eventModifiers:(NSEventModifierFlags)eventModifiers {
     const int csiModifiers = [self csiModifiersForEventModifiers:eventModifiers];
     if (csiModifiers == 1) {
         return [NSString stringWithFormat:@"%c[%@~", 27, code];
@@ -145,84 +145,84 @@
 }
 
 - (NSString *)sequenceForApplicationCursorCodePoint:(int)unicode
-                                            keyCode:(int)keyCode
-                                     eventModifiers:(NSEventModifierFlags)eventModifiers {
+    keyCode:(int)keyCode
+    eventModifiers:(NSEventModifierFlags)eventModifiers {
     // DECCKM selects behavior for arrows, home, and end. This is what xterm does.
     switch (unicode) {
-        case NSUpArrowFunctionKey:
-            return [self cursorModeStringWithCode:@"A" eventModifiers:eventModifiers];
-        case NSDownArrowFunctionKey:
-            return [self cursorModeStringWithCode:@"B" eventModifiers:eventModifiers];
-        case NSRightArrowFunctionKey:
-            return [self cursorModeStringWithCode:@"C" eventModifiers:eventModifiers];
-        case NSLeftArrowFunctionKey:
-            return [self cursorModeStringWithCode:@"D" eventModifiers:eventModifiers];
-        case NSHomeFunctionKey:
-            return [self cursorModeStringWithCode:@"H" eventModifiers:eventModifiers];
-        case NSEndFunctionKey:
-            return [self cursorModeStringWithCode:@"F" eventModifiers:eventModifiers];
+    case NSUpArrowFunctionKey:
+        return [self cursorModeStringWithCode:@"A" eventModifiers:eventModifiers];
+    case NSDownArrowFunctionKey:
+        return [self cursorModeStringWithCode:@"B" eventModifiers:eventModifiers];
+    case NSRightArrowFunctionKey:
+        return [self cursorModeStringWithCode:@"C" eventModifiers:eventModifiers];
+    case NSLeftArrowFunctionKey:
+        return [self cursorModeStringWithCode:@"D" eventModifiers:eventModifiers];
+    case NSHomeFunctionKey:
+        return [self cursorModeStringWithCode:@"H" eventModifiers:eventModifiers];
+    case NSEndFunctionKey:
+        return [self cursorModeStringWithCode:@"F" eventModifiers:eventModifiers];
     }
     return nil;
 }
 
 - (NSString *)sequenceForApplicationKeypadCodePoint:(int)unicode
-                                            keyCode:(int)keyCode
-                                     eventModifiers:(NSEventModifierFlags)eventModifiers {
+    keyCode:(int)keyCode
+    eventModifiers:(NSEventModifierFlags)eventModifiers {
     switch (keyCode) {
-        case kVK_ANSI_KeypadEnter:
-            return [self cursorModeStringWithCode:@"M" eventModifiers:eventModifiers];
-        case kVK_ANSI_KeypadMultiply:
-            return [self cursorModeStringWithCode:@"j" eventModifiers:eventModifiers];
-        case kVK_ANSI_KeypadPlus:
-            return [self cursorModeStringWithCode:@"k" eventModifiers:eventModifiers];
-        case kVK_ANSI_KeypadMinus:
-            return [self cursorModeStringWithCode:@"m" eventModifiers:eventModifiers];
-        case kVK_ANSI_KeypadDecimal:
-            return [self cursorModeStringWithCode:@"n" eventModifiers:eventModifiers];
-        case kVK_ANSI_KeypadDivide:
-            return [self cursorModeStringWithCode:@"o" eventModifiers:eventModifiers];
-        case kVK_ANSI_Keypad0:
-            return [self cursorModeStringWithCode:@"p" eventModifiers:eventModifiers];
-        case kVK_ANSI_Keypad1:
-            return [self cursorModeStringWithCode:@"q" eventModifiers:eventModifiers];
-        case kVK_ANSI_Keypad2:
-            return [self cursorModeStringWithCode:@"r" eventModifiers:eventModifiers];
-        case kVK_ANSI_Keypad3:
-            return [self cursorModeStringWithCode:@"s" eventModifiers:eventModifiers];
-        case kVK_ANSI_Keypad4:
-            return [self cursorModeStringWithCode:@"t" eventModifiers:eventModifiers];
-        case kVK_ANSI_Keypad5:
-            return [self cursorModeStringWithCode:@"u" eventModifiers:eventModifiers];
-        case kVK_ANSI_Keypad6:
-            return [self cursorModeStringWithCode:@"v" eventModifiers:eventModifiers];
-        case kVK_ANSI_Keypad7:
-            return [self cursorModeStringWithCode:@"w" eventModifiers:eventModifiers];
-        case kVK_ANSI_Keypad8:
-            return [self cursorModeStringWithCode:@"x" eventModifiers:eventModifiers];
-        case kVK_ANSI_Keypad9:
-            return [self cursorModeStringWithCode:@"y" eventModifiers:eventModifiers];
-        case kVK_ANSI_KeypadEquals:
-            return [self cursorModeStringWithCode:@"X" eventModifiers:eventModifiers];
+    case kVK_ANSI_KeypadEnter:
+        return [self cursorModeStringWithCode:@"M" eventModifiers:eventModifiers];
+    case kVK_ANSI_KeypadMultiply:
+        return [self cursorModeStringWithCode:@"j" eventModifiers:eventModifiers];
+    case kVK_ANSI_KeypadPlus:
+        return [self cursorModeStringWithCode:@"k" eventModifiers:eventModifiers];
+    case kVK_ANSI_KeypadMinus:
+        return [self cursorModeStringWithCode:@"m" eventModifiers:eventModifiers];
+    case kVK_ANSI_KeypadDecimal:
+        return [self cursorModeStringWithCode:@"n" eventModifiers:eventModifiers];
+    case kVK_ANSI_KeypadDivide:
+        return [self cursorModeStringWithCode:@"o" eventModifiers:eventModifiers];
+    case kVK_ANSI_Keypad0:
+        return [self cursorModeStringWithCode:@"p" eventModifiers:eventModifiers];
+    case kVK_ANSI_Keypad1:
+        return [self cursorModeStringWithCode:@"q" eventModifiers:eventModifiers];
+    case kVK_ANSI_Keypad2:
+        return [self cursorModeStringWithCode:@"r" eventModifiers:eventModifiers];
+    case kVK_ANSI_Keypad3:
+        return [self cursorModeStringWithCode:@"s" eventModifiers:eventModifiers];
+    case kVK_ANSI_Keypad4:
+        return [self cursorModeStringWithCode:@"t" eventModifiers:eventModifiers];
+    case kVK_ANSI_Keypad5:
+        return [self cursorModeStringWithCode:@"u" eventModifiers:eventModifiers];
+    case kVK_ANSI_Keypad6:
+        return [self cursorModeStringWithCode:@"v" eventModifiers:eventModifiers];
+    case kVK_ANSI_Keypad7:
+        return [self cursorModeStringWithCode:@"w" eventModifiers:eventModifiers];
+    case kVK_ANSI_Keypad8:
+        return [self cursorModeStringWithCode:@"x" eventModifiers:eventModifiers];
+    case kVK_ANSI_Keypad9:
+        return [self cursorModeStringWithCode:@"y" eventModifiers:eventModifiers];
+    case kVK_ANSI_KeypadEquals:
+        return [self cursorModeStringWithCode:@"X" eventModifiers:eventModifiers];
     }
 
     return nil;
 }
 
 - (NSString *)sequenceForApplicationModeCodePoint:(int)unicode
-                                          keyCode:(int)keyCode
-                                   eventModifiers:(NSEventModifierFlags)eventModifiers {
+    keyCode:(int)keyCode
+    eventModifiers:(NSEventModifierFlags)eventModifiers {
     if (_configuration.applicationCursorMode) {
         NSString *result = [self sequenceForApplicationCursorCodePoint:unicode
-                                                               keyCode:keyCode
-                                                        eventModifiers:eventModifiers];
+                                 keyCode:keyCode
+                                 eventModifiers:eventModifiers];
         if (result) {
             return result;
         }
     }
     if (_configuration.applicationKeypadMode) {
         NSString *result = [self sequenceForApplicationKeypadCodePoint:unicode
-                                                               keyCode:keyCode
-                                                        eventModifiers:eventModifiers];
+                                 keyCode:keyCode
+                                 eventModifiers:eventModifiers];
         if (result) {
             return result;
         }
@@ -233,11 +233,11 @@
 
 // Function keys, arrows, and keypad.
 - (NSString *)termkeySequenceForSpecialKey:(int)unicode
-                                   keyCode:(int)keyCode
-                            eventModifiers:(NSEventModifierFlags)eventModifiers {
+    keyCode:(int)keyCode
+    eventModifiers:(NSEventModifierFlags)eventModifiers {
     NSString *applicationModeResult = [self sequenceForApplicationModeCodePoint:unicode
-                                                                        keyCode:keyCode
-                                                                 eventModifiers:eventModifiers];
+                                            keyCode:keyCode
+                                            eventModifiers:eventModifiers];
     if (applicationModeResult) {
         return applicationModeResult;
     }
@@ -247,70 +247,70 @@
     }
 
     switch (unicode) {
-        // Special keys
-        case NSInsertFunctionKey:
-        case NSHelpFunctionKey:  // On Apple keyboards help is where insert belongs.
-            return [self sequenceForNonUnicodeKeypress:@"2" eventModifiers:eventModifiers];
-        case NSDeleteFunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"3" eventModifiers:eventModifiers];
-        case NSPageUpFunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"5" eventModifiers:eventModifiers];
-        case NSPageDownFunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"6" eventModifiers:eventModifiers];
-        case NSF5FunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"15" eventModifiers:eventModifiers];
-        case NSF6FunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"17" eventModifiers:eventModifiers];
-        case NSF7FunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"18" eventModifiers:eventModifiers];
-        case NSF8FunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"19" eventModifiers:eventModifiers];
-        case NSF9FunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"20" eventModifiers:eventModifiers];
-        case NSF10FunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"21" eventModifiers:eventModifiers];
-        case NSF11FunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"23" eventModifiers:eventModifiers];
-        case NSF12FunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"24" eventModifiers:eventModifiers];
-        case NSF13FunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"25" eventModifiers:eventModifiers];
-        case NSF14FunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"26" eventModifiers:eventModifiers];
-        case NSF15FunctionKey:
-            return [self sequenceForNonUnicodeKeypress:@"28" eventModifiers:eventModifiers];
+    // Special keys
+    case NSInsertFunctionKey:
+    case NSHelpFunctionKey:  // On Apple keyboards help is where insert belongs.
+        return [self sequenceForNonUnicodeKeypress:@"2" eventModifiers:eventModifiers];
+    case NSDeleteFunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"3" eventModifiers:eventModifiers];
+    case NSPageUpFunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"5" eventModifiers:eventModifiers];
+    case NSPageDownFunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"6" eventModifiers:eventModifiers];
+    case NSF5FunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"15" eventModifiers:eventModifiers];
+    case NSF6FunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"17" eventModifiers:eventModifiers];
+    case NSF7FunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"18" eventModifiers:eventModifiers];
+    case NSF8FunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"19" eventModifiers:eventModifiers];
+    case NSF9FunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"20" eventModifiers:eventModifiers];
+    case NSF10FunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"21" eventModifiers:eventModifiers];
+    case NSF11FunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"23" eventModifiers:eventModifiers];
+    case NSF12FunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"24" eventModifiers:eventModifiers];
+    case NSF13FunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"25" eventModifiers:eventModifiers];
+    case NSF14FunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"26" eventModifiers:eventModifiers];
+    case NSF15FunctionKey:
+        return [self sequenceForNonUnicodeKeypress:@"28" eventModifiers:eventModifiers];
 
-        // Really special keys
-        case NSUpArrowFunctionKey:
-            return [self reallySpecialSequenceWithCode:@"A" eventModifiers:eventModifiers];
-        case NSDownArrowFunctionKey:
-            return [self reallySpecialSequenceWithCode:@"B" eventModifiers:eventModifiers];
-        case NSRightArrowFunctionKey:
-            return [self reallySpecialSequenceWithCode:@"C" eventModifiers:eventModifiers];
-        case NSLeftArrowFunctionKey:
-            return [self reallySpecialSequenceWithCode:@"D" eventModifiers:eventModifiers];
-        case NSHomeFunctionKey:
-            return [self reallySpecialSequenceWithCode:@"H" eventModifiers:eventModifiers];
-        case NSEndFunctionKey:
-            return [self reallySpecialSequenceWithCode:@"F" eventModifiers:eventModifiers];
-        case NSF1FunctionKey:
-            return [self reallySpecialSequenceWithCode:@"P" eventModifiers:eventModifiers];
-        case NSF2FunctionKey:
-            return [self reallySpecialSequenceWithCode:@"Q" eventModifiers:eventModifiers];
-        case NSF3FunctionKey:
-            return [self reallySpecialSequenceWithCode:@"R" eventModifiers:eventModifiers];
-        case NSF4FunctionKey:
-            return [self reallySpecialSequenceWithCode:@"S" eventModifiers:eventModifiers];
+    // Really special keys
+    case NSUpArrowFunctionKey:
+        return [self reallySpecialSequenceWithCode:@"A" eventModifiers:eventModifiers];
+    case NSDownArrowFunctionKey:
+        return [self reallySpecialSequenceWithCode:@"B" eventModifiers:eventModifiers];
+    case NSRightArrowFunctionKey:
+        return [self reallySpecialSequenceWithCode:@"C" eventModifiers:eventModifiers];
+    case NSLeftArrowFunctionKey:
+        return [self reallySpecialSequenceWithCode:@"D" eventModifiers:eventModifiers];
+    case NSHomeFunctionKey:
+        return [self reallySpecialSequenceWithCode:@"H" eventModifiers:eventModifiers];
+    case NSEndFunctionKey:
+        return [self reallySpecialSequenceWithCode:@"F" eventModifiers:eventModifiers];
+    case NSF1FunctionKey:
+        return [self reallySpecialSequenceWithCode:@"P" eventModifiers:eventModifiers];
+    case NSF2FunctionKey:
+        return [self reallySpecialSequenceWithCode:@"Q" eventModifiers:eventModifiers];
+    case NSF3FunctionKey:
+        return [self reallySpecialSequenceWithCode:@"R" eventModifiers:eventModifiers];
+    case NSF4FunctionKey:
+        return [self reallySpecialSequenceWithCode:@"S" eventModifiers:eventModifiers];
     }
 
     return nil;
 }
 
 - (NSString *)termkeySequenceForModifiedC0Control:(int)keyCode
-                                   eventModifiers:(NSEventModifierFlags)eventModifiers {
+    eventModifiers:(NSEventModifierFlags)eventModifiers {
     const NSEventModifierFlags allEventModifierFlags = (NSEventModifierFlagControl |
-                                                        NSEventModifierFlagOption |
-                                                        NSEventModifierFlagShift);
+            NSEventModifierFlagOption |
+            NSEventModifierFlagShift);
     if ((eventModifiers & allEventModifierFlags) == NSEventModifierFlagOption) {
         // Prefer to use esc+ for these, per LeoNerd in email.
         return nil;
@@ -325,40 +325,40 @@
     const BOOL anyModifierPressed = !!(eventModifiers & allEventModifierFlags);
     if (!anyModifierPressed) {
         switch (keyCode) {
-            case kVK_Return:
-            case kVK_ANSI_KeypadEnter:  // Keypad enter appears to be unspecified.
-                return [self stringWithCharacter:0x0d];
-            case kVK_Escape:
-                return [self stringWithCharacter:0x1b];
-            case kVK_Delete: // Backspace
-                return [self stringWithCharacter:0x7f];
-            case kVK_Space:
-                return [self stringWithCharacter:0x20];
-            case kVK_Tab:
-                return [self stringWithCharacter:0x09];
+        case kVK_Return:
+        case kVK_ANSI_KeypadEnter:  // Keypad enter appears to be unspecified.
+            return [self stringWithCharacter:0x0d];
+        case kVK_Escape:
+            return [self stringWithCharacter:0x1b];
+        case kVK_Delete: // Backspace
+            return [self stringWithCharacter:0x7f];
+        case kVK_Space:
+            return [self stringWithCharacter:0x20];
+        case kVK_Tab:
+            return [self stringWithCharacter:0x09];
         }
         return nil;
     }
 
     // Some modifier pressed. These support reporting the shift key.
     switch (keyCode) {
-        case kVK_Return:
-        case kVK_ANSI_KeypadEnter:  // Keypad enter appears to be unspecified.
-            return [self csiUForCode:@"13" eventModifiers:eventModifiers];
-        case kVK_Escape:
-            return [self csiUForCode:@"27" eventModifiers:eventModifiers];
-        case kVK_Delete: // Backspace
-            return [self csiUForCode:@"127" eventModifiers:eventModifiers];
-        case kVK_Space:
-            return [self csiUForCode:@"32" eventModifiers:eventModifiers];
-        case kVK_Tab:
-            if (eventModifiers & NSEventModifierFlagShift) {
-                // A really careful reading of the spec shows you ignore the shift modifier here.
-                // The shiftness is communicated by being CSI code 'Z' rather than 'u'.
-                return [self csiZWithEventModifiers:(eventModifiers & ~NSEventModifierFlagShift)];
-            } else {
-                return [self csiUForCode:@"9" eventModifiers:eventModifiers];
-            }
+    case kVK_Return:
+    case kVK_ANSI_KeypadEnter:  // Keypad enter appears to be unspecified.
+        return [self csiUForCode:@"13" eventModifiers:eventModifiers];
+    case kVK_Escape:
+        return [self csiUForCode:@"27" eventModifiers:eventModifiers];
+    case kVK_Delete: // Backspace
+        return [self csiUForCode:@"127" eventModifiers:eventModifiers];
+    case kVK_Space:
+        return [self csiUForCode:@"32" eventModifiers:eventModifiers];
+    case kVK_Tab:
+        if (eventModifiers & NSEventModifierFlagShift) {
+            // A really careful reading of the spec shows you ignore the shift modifier here.
+            // The shiftness is communicated by being CSI code 'Z' rather than 'u'.
+            return [self csiZWithEventModifiers:(eventModifiers & ~NSEventModifierFlagShift)];
+        } else {
+            return [self csiUForCode:@"9" eventModifiers:eventModifiers];
+        }
     }
 
     return nil;
@@ -387,17 +387,17 @@
         return nil;
     }
     switch ([self optionKeyBehavior]) {
-        case OPT_ESC:
-            return [self dataByPrependingEsc:data];
+    case OPT_ESC:
+        return [self dataByPrependingEsc:data];
 
-        case OPT_META:
-            if (data.length > 0) {
-                return [self dataBySettingMetaFlagOnFirstByte:data];
-            }
-            return data;
+    case OPT_META:
+        if (data.length > 0) {
+            return [self dataBySettingMetaFlagOnFirstByte:data];
+        }
+        return data;
 
-        case OPT_NORMAL:
-            return data;
+    case OPT_NORMAL:
+        return data;
     }
 }
 
@@ -420,8 +420,8 @@
 // Only control pressed
 - (NSString *)modifiedUnicodeStringForControlCharacter:(unichar)codePoint {
     switch (codePoint) {
-        case ' ':
-            return [self stringWithCharacter:0];
+    case ' ':
+        return [self stringWithCharacter:0];
     }
 
     if (codePoint < 'a') {
@@ -440,8 +440,8 @@ static BOOL CodePointInPrivateUseArea(unichar c) {
 }
 
 - (NSString *)termkeySequenceForCodePoint:(unichar)codePoint
-                                modifiers:(NSEventModifierFlags)eventModifiers
-                                  keyCode:(int)keyCode {
+    modifiers:(NSEventModifierFlags)eventModifiers
+    keyCode:(int)keyCode {
     // Modified C0
     // Enter, delete, space, tab.
     NSString *sequence = [self termkeySequenceForModifiedC0Control:keyCode eventModifiers:eventModifiers];
@@ -451,9 +451,9 @@ static BOOL CodePointInPrivateUseArea(unichar c) {
 
     const NSEventModifierFlags maybeFunction = CodePointInPrivateUseArea(codePoint) ? NSEventModifierFlagFunction : 0;
     const NSEventModifierFlags allEventModifierFlags = (NSEventModifierFlagControl |
-                                                        NSEventModifierFlagOption |
-                                                        NSEventModifierFlagShift |
-                                                        maybeFunction);
+            NSEventModifierFlagOption |
+            NSEventModifierFlagShift |
+            maybeFunction);
 
     // Special and very special keys
     // Function keys, arrows, and keypad in application keypad mode.
@@ -480,8 +480,8 @@ static BOOL CodePointInPrivateUseArea(unichar c) {
 
     // Modified Unicode - option
     const NSEventModifierFlags allEventModifierFlagsExShift = (NSEventModifierFlagControl |
-                                                               NSEventModifierFlagOption |
-                                                               maybeFunction);
+            NSEventModifierFlagOption |
+            maybeFunction);
     if ((eventModifiers & allEventModifierFlagsExShift) == NSEventModifierFlagOption) {
         // Legacy code path: option-letter, for the "simplest form of these keys." Not sure what
         // he meant exactly, but anything that's not a function key seems simple to me. ¯\_(ツ)_/¯
@@ -511,7 +511,7 @@ static NSRange iTermMakeRange(NSInteger smallestValueInRange,
 - (BOOL)codePointIsCharacter:(unichar)codePoint {
     static dispatch_once_t onceToken;
     static NSCharacterSet *characters;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         NSMutableCharacterSet *mutableSet = [[NSMutableCharacterSet alloc] init];
         [mutableSet addCharactersInRange:iTermMakeRange(0xe000, 0xf8ff)];
         [mutableSet addCharactersInRange:iTermMakeRange(0xfdd0, 0xfdd0)];
@@ -525,13 +525,13 @@ static NSRange iTermMakeRange(NSInteger smallestValueInRange,
 
 - (BOOL)shiftAllowedForKeycode:(int)code {
     switch (code) {
-        case kVK_Return:
-        case kVK_ANSI_KeypadEnter:  // Keypad enter appears to be unspecified.
-        case kVK_Escape:
-        case kVK_Delete:  // backspace
-        case kVK_Space:
-        case kVK_Tab:
-            return YES;
+    case kVK_Return:
+    case kVK_ANSI_KeypadEnter:  // Keypad enter appears to be unspecified.
+    case kVK_Escape:
+    case kVK_Delete:  // backspace
+    case kVK_Space:
+    case kVK_Tab:
+        return YES;
     }
     return NO;
 }
@@ -542,8 +542,8 @@ static NSRange iTermMakeRange(NSInteger smallestValueInRange,
     }
     const unichar codePoint = [_event.charactersIgnoringModifiers characterAtIndex:0];
     return [self termkeySequenceForCodePoint:codePoint
-                                   modifiers:_event.it_modifierFlags
-                                     keyCode:_event.keyCode];
+                 modifiers:_event.it_modifierFlags
+                 keyCode:_event.keyCode];
 }
 
 #pragma mark - iTerm
@@ -594,8 +594,8 @@ static NSRange iTermMakeRange(NSInteger smallestValueInRange,
     if (event.charactersIgnoringModifiers.length > 0) {
         const unichar codePoint = [event.charactersIgnoringModifiers characterAtIndex:0];
         if ([self sequenceForApplicationModeCodePoint:codePoint
-                                              keyCode:event.keyCode
-                                       eventModifiers:event.it_modifierFlags]) {
+                     keyCode:event.keyCode
+                     eventModifiers:event.it_modifierFlags]) {
             // Application cursor keys in effect. Don't let cocoa call insertText:.
             DLog(@"termkey app cursor key -> bypass pre-cocoa");
             return YES;

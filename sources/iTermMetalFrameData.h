@@ -161,7 +161,7 @@ NS_CLASS_AVAILABLE(10_11, NA)
 @property (nonatomic, strong) MTLRenderPassDescriptor *temporaryRenderPassDescriptor;
 
 - (instancetype)initWithView:(MTKView *)view
-         fullSizeTexturePool:(iTermTexturePool *)fullSizeTexturePool NS_DESIGNATED_INITIALIZER;
+    fullSizeTexturePool:(iTermTexturePool *)fullSizeTexturePool NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (NSTimeInterval)measureTimeForStat:(iTermMetalFrameDataStat)stat ofBlock:(void (^ NS_NOESCAPE)(void))block;
@@ -173,17 +173,17 @@ NS_CLASS_AVAILABLE(10_11, NA)
 - (void)dispatchToQueue:(dispatch_queue_t)queue forCompletion:(void (^)(void))block;
 - (void)enqueueDrawCallsWithBlock:(void (^)(void))block;
 - (void)didCompleteWithAggregateStats:(iTermPreciseTimerStats *)aggregateStats
-                           histograms:(NSArray<iTermHistogram *> *)aggregateHistograms
-                                owner:(NSString *)owner;
+    histograms:(NSArray<iTermHistogram *> *)aggregateHistograms
+    owner:(NSString *)owner;
 
 - (__kindof iTermMetalRendererTransientState *)transientStateForRenderer:(NSObject *)renderer;
 - (void)setTransientState:(iTermMetalRendererTransientState *)tState forRenderer:(NSObject *)renderer;
 - (MTLRenderPassDescriptor *)newRenderPassDescriptorWithLabel:(NSString *)label
-                                                         fast:(BOOL)fast;
+    fast:(BOOL)fast;
 
 - (void)updateRenderEncoderWithRenderPassDescriptor:(MTLRenderPassDescriptor *)renderPassDescriptor
-                                               stat:(iTermMetalFrameDataStat)stat
-                                              label:(NSString *)label;
+    stat:(iTermMetalFrameDataStat)stat
+    label:(NSString *)label;
 
 @end
 

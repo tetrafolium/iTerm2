@@ -38,9 +38,9 @@ static NSString *const iTermRestorableStateControllerUserDefaultsKeyCount = @"No
         return;
     }
     __weak __typeof(self) weakSelf = self;
-    const BOOL saved = [_saver saveSynchronously:sync withCompletion:^{
-        [weakSelf didSave];
-    }];
+    const BOOL saved = [_saver saveSynchronously:sync withCompletion:^ {
+               [weakSelf didSave];
+           }];
     // Do this after saveSynchronously:withCompletion:. It guarantees not to run its completion block
     // synchronously. It could fail if it was already busy saving, in which case we don't want
     // to reset _needsSave. Considering it is busy, the other guy will eventually finish and cause
@@ -62,7 +62,7 @@ static NSString *const iTermRestorableStateControllerUserDefaultsKeyCount = @"No
 #pragma mark - Restore
 
 - (void)restoreWithReady:(void (^)(void))ready
-              completion:(void (^)(void))completion {
+    completion:(void (^)(void))completion {
     DLog(@"restoreWindows");
     if (!self.restorer) {
         DLog(@"Have no restorer.");
@@ -72,28 +72,28 @@ static NSString *const iTermRestorableStateControllerUserDefaultsKeyCount = @"No
     }
     __weak __typeof(self) weakSelf = self;
     [self.restorer loadRestorableStateIndexWithCompletion:^(id<iTermRestorableStateIndex> index) {
-        [weakSelf restoreWithIndex:index ready:ready completion:completion];
-    }];
+                      [weakSelf restoreWithIndex:index ready:ready completion:completion];
+                  }];
 }
 
 - (void)restoreWithIndex:(id<iTermRestorableStateIndex>)index
-                   ready:(void (^)(void))ready
-              completion:(void (^)(void))completion {
+    ready:(void (^)(void))ready
+    completion:(void (^)(void))completion {
     DLog(@"Have an index. Proceeding to restore windows.");
     const NSInteger count = [[NSUserDefaults standardUserDefaults] integerForKey:iTermRestorableStateControllerUserDefaultsKeyCount];
     if (count > 1) {
         const iTermWarningSelection selection =
-        [iTermWarning showWarningWithTitle:@"Some windows had trouble restoring last time iTerm2 launched. Try again?"
-                                   actions:@[ @"OK", @"Cancel" ]
-                                 accessory:nil
-                                identifier:@"RestoreWindows"
-                               silenceable:kiTermWarningTypePersistent
-                                   heading:@"Restore Windows?"
-                                    window:nil];
+            [iTermWarning showWarningWithTitle:@"Some windows had trouble restoring last time iTerm2 launched. Try again?"
+                          actions:@[ @"OK", @"Cancel" ]
+                          accessory:nil
+                          identifier:@"RestoreWindows"
+                          silenceable:kiTermWarningTypePersistent
+                          heading:@"Restore Windows?"
+                          window:nil];
         if (selection == kiTermWarningSelection1) {
             [index restorableStateIndexUnlink];
             [[NSUserDefaults standardUserDefaults] setInteger:0
-                                                       forKey:iTermRestorableStateControllerUserDefaultsKeyCount];
+                                                   forKey:iTermRestorableStateControllerUserDefaultsKeyCount];
             DLog(@"Ready after warning");
             ready();
             completion();
@@ -101,12 +101,12 @@ static NSString *const iTermRestorableStateControllerUserDefaultsKeyCount = @"No
         }
     }
     [[NSUserDefaults standardUserDefaults] setInteger:count + 1
-                                               forKey:iTermRestorableStateControllerUserDefaultsKeyCount];
+                                           forKey:iTermRestorableStateControllerUserDefaultsKeyCount];
     DLog(@"set restoring to YES");
     _restoring = YES;
-    [self reallyRestoreWindows:index withCompletion:^{
-        [self didRestoreFromIndex:index];
-        completion();
+    [self reallyRestoreWindows:index withCompletion:^ {
+             [self didRestoreFromIndex:index];
+             completion();
     }];
     DLog(@"Ready - normal case");
     ready();
@@ -117,20 +117,20 @@ static NSString *const iTermRestorableStateControllerUserDefaultsKeyCount = @"No
     DLog(@"set restoring to NO");
     _restoring = NO;
     [[NSUserDefaults standardUserDefaults] setInteger:0
-                                               forKey:iTermRestorableStateControllerUserDefaultsKeyCount];
+                                           forKey:iTermRestorableStateControllerUserDefaultsKeyCount];
     [index restorableStateIndexUnlink];
 }
 
 // Main queue
 - (void)reallyRestoreWindows:(id<iTermRestorableStateIndex>)index
-              withCompletion:(void (^)(void))completion {
+    withCompletion:(void (^)(void))completion {
     [self.restorer restoreApplicationState];
 
     const NSInteger count = [index restorableStateIndexNumberOfWindows];
 
     // When all windows have finished being restored, mark the restoration as a success.
     dispatch_group_t group = dispatch_group_create();
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         dispatch_group_notify(group, dispatch_get_main_queue(), ^{
             for (NSInteger i = 0; i < count; i++) {
                 [[index restorableStateRecordAtIndex:i] didFinishRestoring];
@@ -143,9 +143,9 @@ static NSString *const iTermRestorableStateControllerUserDefaultsKeyCount = @"No
         _numberOfWindowsRestored += 1;
         dispatch_group_enter(group);
         [self.restorer restoreWindowWithRecord:[index restorableStateRecordAtIndex:i]
-                                    completion:^{
-            dispatch_group_leave(group);
-        }];
+                      completion:^ {
+                          dispatch_group_leave(group);
+                      }];
     }
 }
 

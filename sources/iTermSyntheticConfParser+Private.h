@@ -9,7 +9,7 @@
 
 // Exposed for testing
 
-@interface iTermSyntheticDirectory: NSObject
+@interface iTermSyntheticDirectory : NSObject
 // Something like "/bar"
 @property (nonatomic, readonly) NSString *root;
 // Something like "/System/Volumes/Data/bar"

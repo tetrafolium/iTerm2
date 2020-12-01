@@ -9,7 +9,7 @@
 #import "iTermSizeRememberingView.h"
 
 @implementation iTermSizeRememberingView {
-  NSSize _originalSize;
+    NSSize _originalSize;
 }
 
 - (instancetype)initWithFrame:(NSRect)frame {

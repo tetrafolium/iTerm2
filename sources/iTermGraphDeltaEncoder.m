@@ -15,15 +15,15 @@
 
 - (instancetype)initWithPreviousRevision:(iTermEncoderGraphRecord * _Nullable)previousRevision {
     return [self initWithKey:@""
-                  identifier:@""
-                  generation:previousRevision.generation + 1
-            previousRevision:previousRevision];
+                 identifier:@""
+                 generation:previousRevision.generation + 1
+                 previousRevision:previousRevision];
 }
 
 - (instancetype)initWithKey:(NSString *)key
-                 identifier:(NSString *)identifier
-                 generation:(NSInteger)generation
-           previousRevision:(iTermEncoderGraphRecord * _Nullable)previousRevision {
+    identifier:(NSString *)identifier
+    generation:(NSInteger)generation
+    previousRevision:(iTermEncoderGraphRecord * _Nullable)previousRevision {
     assert(identifier);
     self = [super initWithKey:key identifier:identifier generation:generation];
     if (self) {
@@ -36,11 +36,11 @@
 }
 
 - (BOOL)encodeChildWithKey:(NSString *)key
-                identifier:(NSString *)identifier
-                generation:(NSInteger)generation
-                     block:(BOOL (^ NS_NOESCAPE)(iTermGraphEncoder *subencoder))block {
+    identifier:(NSString *)identifier
+    generation:(NSInteger)generation
+    block:(BOOL (^ NS_NOESCAPE)(iTermGraphEncoder *subencoder))block {
     iTermEncoderGraphRecord *record = [_previousRevision childRecordWithKey:key
-                                                                 identifier:identifier];
+                                                         identifier:identifier];
     if (!record) {
         // A wholly new key+identifier
         [super encodeChildWithKey:key identifier:identifier generation:generation block:block];
@@ -59,9 +59,9 @@
     }
     assert(record.generation < generation);
     iTermGraphEncoder *encoder = [[iTermGraphDeltaEncoder alloc] initWithKey:key
-                                                                  identifier:identifier
-                                                                  generation:realGeneration
-                                                            previousRevision:record];
+                                                                 identifier:identifier
+                                                                 generation:realGeneration
+                                                                 previousRevision:record];
     if (!block(encoder)) {
         return NO;
     }
@@ -70,17 +70,17 @@
 }
 
 - (BOOL)enumerateRecords:(void (^)(iTermEncoderGraphRecord * _Nullable before,
-                                   iTermEncoderGraphRecord * _Nullable after,
-                                   NSNumber *parent,
-                                   NSString *path,
-                                   BOOL *stop))block {
+    iTermEncoderGraphRecord * _Nullable after,
+    NSNumber *parent,
+    NSString *path,
+    BOOL *stop))block {
     BOOL stop = NO;
     @try {
         block(_previousRevision, self.record, @0, @"root", &stop);
     } @catch (NSException *exception) {
         [exception it_rethrowWithMessage:@"(1) %@ vs %@",
-         _previousRevision.compactDescription,
-         self.record.compactDescription];
+                   _previousRevision.compactDescription,
+                   self.record.compactDescription];
     }
 
     if (stop) {
@@ -90,26 +90,28 @@
 }
 
 - (BOOL)enumerateBefore:(iTermEncoderGraphRecord *)preRecord
-                  after:(iTermEncoderGraphRecord *)postRecord
-                 parent:(NSNumber *)parent
-                   path:(NSString *)path
-                  block:(void (^)(iTermEncoderGraphRecord * _Nullable before,
-                                  iTermEncoderGraphRecord * _Nullable after,
-                                  NSNumber *parent,
-                                  NSString *path,
-                                  BOOL *stop))block {
+    after:(iTermEncoderGraphRecord *)postRecord
+    parent:(NSNumber *)parent
+    path:(NSString *)path
+    block:(void (^)(iTermEncoderGraphRecord * _Nullable before,
+    iTermEncoderGraphRecord * _Nullable after,
+    NSNumber *parent,
+    NSString *path,
+    BOOL *stop))block {
     iTermOrderedDictionary<NSDictionary *, iTermEncoderGraphRecord *> *beforeDict =
-    [iTermOrderedDictionary byMapping:preRecord.graphRecords block:^id _Nonnull(NSUInteger index,
-                                                                                iTermEncoderGraphRecord * _Nonnull record) {
-        return @{ @"key": record.key,
-                  @"identifier": record.identifier };
-    }];
+        [iTermOrderedDictionary byMapping:preRecord.graphRecords block:^id _Nonnull(NSUInteger index,
+                           iTermEncoderGraphRecord * _Nonnull record) {
+                               return @ { @"key": record.key,
+                                          @"identifier": record.identifier
+                                        };
+                           }];
     iTermOrderedDictionary<NSDictionary *, iTermEncoderGraphRecord *> *afterDict =
-    [iTermOrderedDictionary byMapping:postRecord.graphRecords block:^id _Nonnull(NSUInteger index,
-                                                                                iTermEncoderGraphRecord * _Nonnull record) {
-        return @{ @"key": record.key,
-                  @"identifier": record.identifier };
-    }];
+        [iTermOrderedDictionary byMapping:postRecord.graphRecords block:^id _Nonnull(NSUInteger index,
+                           iTermEncoderGraphRecord * _Nonnull record) {
+                               return @ { @"key": record.key,
+                                          @"identifier": record.identifier
+                                        };
+                           }];
     __block BOOL ok = YES;
     void (^handle)(NSDictionary *,
                    iTermEncoderGraphRecord *,
@@ -117,45 +119,45 @@
                    BOOL *) = ^(NSDictionary *key,
                                iTermEncoderGraphRecord *record,
                                NSString *path,
-                               BOOL *stop) {
+    BOOL *stop) {
         iTermEncoderGraphRecord *before = beforeDict[key];
         iTermEncoderGraphRecord *after = afterDict[key];
         @try {
             block(before, after, parent, path, stop);
         } @catch (NSException *exception) {
             [exception it_rethrowWithMessage:@"(2) %@ [%@] vs %@ [%@]",
-             before.compactDescription,
-             beforeDict.debugString,
-             after.compactDescription,
-             afterDict.debugString];
+                       before.compactDescription,
+                       beforeDict.debugString,
+                       after.compactDescription,
+                       afterDict.debugString];
         }
         @try {
             // Now recurse for their descendants.
             ok = [self enumerateBefore:before
-                                 after:after
-                                parent:before ? before.rowid : after.rowid
-                                  path:path
-                                 block:block];
+                       after:after
+                       parent:before ? before.rowid : after.rowid
+                       path:path
+                       block:block];
         } @catch (NSException *exception) {
             [exception it_rethrowWithMessage:@"(3) %@ [%@] vs %@ [%@]",
-             before.compactDescription,
-             beforeDict.debugString,
-             after.compactDescription,
-             afterDict.debugString];
+                       before.compactDescription,
+                       beforeDict.debugString,
+                       after.compactDescription,
+                       afterDict.debugString];
         }
     };
     NSMutableSet<NSDictionary *> *seenKeys = [NSMutableSet set];
     [beforeDict.keys enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
-        handle(key, beforeDict[key], [NSString stringWithFormat:@"%@.%@[%@]", path, key[@"key"], key[@"identifier"]], stop);
+                        handle(key, beforeDict[key], [NSString stringWithFormat:@"%@.%@[%@]", path, key[@"key"], key[@"identifier"]], stop);
         [seenKeys addObject:key];
     }];
     if (!ok) {
         return NO;
     }
     [afterDict.keys enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([seenKeys containsObject:key]) {
-            return;
-        }
+                       if ([seenKeys containsObject:key]) {
+                           return;
+                       }
         handle(key, afterDict[key], [NSString stringWithFormat:@"%@.%@[%@]", path, key[@"key"], key[@"identifier"]], stop);
     }];
     return ok;

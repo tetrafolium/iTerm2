@@ -98,12 +98,12 @@
 }
 
 - (instancetype)initWithChunkSize:(NSInteger)chunkSize
-               delayBetweenChunks:(NSTimeInterval)delayBetweenChunks
-                bracketingEnabled:(BOOL)bracketingEnabled
-                 canWaitForPrompt:(BOOL)canWaitForPrompt
-                  isAtShellPrompt:(BOOL)isAtShellPrompt
-               forceEscapeSymbols:(BOOL)forceEscapeSymbols
-                   encoding:(NSStringEncoding)encoding {
+    delayBetweenChunks:(NSTimeInterval)delayBetweenChunks
+    bracketingEnabled:(BOOL)bracketingEnabled
+    canWaitForPrompt:(BOOL)canWaitForPrompt
+    isAtShellPrompt:(BOOL)isAtShellPrompt
+    forceEscapeSymbols:(BOOL)forceEscapeSymbols
+    encoding:(NSStringEncoding)encoding {
     self = [super initWithWindowNibName:@"iTermPasteSpecialWindow"];
     if (self) {
         _index = -1;
@@ -139,7 +139,7 @@
                 }
                 [labels addObject:[NSNull null]];
                 [values addObject:@""];
-           }
+            }
         }
 
         [self getLabels:labels andValues:values];
@@ -179,13 +179,13 @@
     __block NSUInteger indexToSelect = 0;
     if ([iTermAdvancedSettingsModel includePasteHistoryInAdvancedPaste]) {
         [_labels enumerateObjectsUsingBlock:^(id  _Nonnull label, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ([label isKindOfClass:[NSNull class]]) {
-                indexToSelect = idx + 1;
+                    if ([label isKindOfClass:[NSNull class]]) {
+                        indexToSelect = idx + 1;
                 [_itemList.menu addItem:[NSMenuItem separatorItem]];
             } else {
                 NSMenuItem *item = [[[NSMenuItem alloc] initWithTitle:label
-                                                               action:nil
-                                                        keyEquivalent:@""] autorelease];
+                                                         action:nil
+                                                         keyEquivalent:@""] autorelease];
                 [_itemList.menu addItem:item];
             }
         }];
@@ -222,8 +222,8 @@
                 }
             }
             NSString *label = [NSString stringWithFormat:@"%@: “%@”",
-                               [((NSString *)description ?: @"Unknown Type") stringByCapitalizingFirstLetter],
-                               [string ellipsizedDescriptionNoLongerThan:100]];
+                                        [((NSString *)description ?: @"Unknown Type") stringByCapitalizingFirstLetter],
+                                        [string ellipsizedDescriptionNoLongerThan:100]];
             if (description) {
                 CFRelease(description);
             }
@@ -236,7 +236,7 @@
             if (!data) {
                 for (NSString *typeName in item.types) {
                     if ([typeName hasPrefix:@"public."] &&
-                        ![typeName isEqualTo:(NSString *)kUTTypeFileURL]) {
+                            ![typeName isEqualTo:(NSString *)kUTTypeFileURL]) {
                         data = [item dataForType:typeName];
                         description = UTTypeCopyDescription((CFStringRef)typeName);
                         break;
@@ -256,8 +256,8 @@
     // Now handle file references.
     NSArray<NSURL *> *urls = [pasteboard readObjectsForClasses:@[ [NSURL class] ] options:0];
     NSArray<NSString *> *filenames = [urls mapWithBlock:^id(NSURL *anObject) {
-        return anObject.path;
-    }];
+             return anObject.path;
+         }];
     // Join the filenames to add an item for the names themselves.
     NSMutableArray *modifiedFilenames = [NSMutableArray array];
     if (filenames.count == 1) {
@@ -280,7 +280,7 @@
     for (NSString *filename in filenames) {
         BOOL isDirectory;
         if ([fileManager fileExistsAtPath:filename isDirectory:&isDirectory] &&
-            !isDirectory) {
+                !isDirectory) {
             [values addObject:[[[iTermFileReference alloc] initWithName:filename] autorelease]];
             [labels addObject:[NSString stringWithFormat:@"Contents of %@", filename]];
         }
@@ -319,7 +319,7 @@
     BOOL containsTabs = [string containsString:@"\t"];
     NSInteger tabTransformTag = [iTermPreferences intForKey:kPreferenceKeyPasteSpecialTabTransform];
     NSCharacterSet *theSet =
-            [NSCharacterSet characterSetWithCharactersInString:[NSString shellEscapableCharacters]];
+        [NSCharacterSet characterSetWithCharactersInString:[NSString shellEscapableCharacters]];
     BOOL containsShellCharacters =
         [string rangeOfCharacterFromSet:theSet].location != NSNotFound;
     BOOL containsDosNewlines = [string containsString:@"\n"];
@@ -386,10 +386,10 @@
     }
 
     _statsLabel.stringValue = [NSString stringWithFormat:@"%@ byte%@ in %@ line%@.",
-                               [[bytesFormatter stringFromNumber:@(numBytes)] stringWithFirstLetterCapitalized],
-                               numBytes == 1 ? @"" : @"s",
-                               [linesFormatter stringFromNumber:@(numberOfLines)],
-                               numberOfLines == 1 ? @"" : @"s"];
+                                        [[bytesFormatter stringFromNumber:@(numBytes)] stringWithFirstLetterCapitalized],
+                                        numBytes == 1 ? @"" : @"s",
+                                        [linesFormatter stringFromNumber:@(numberOfLines)],
+                                        numberOfLines == 1 ? @"" : @"s"];
     [self updateDuration];
 }
 
@@ -411,26 +411,26 @@
 }
 
 + (void)showAsPanelInWindow:(NSWindow *)presentingWindow
-                  chunkSize:(NSInteger)chunkSize
-         delayBetweenChunks:(NSTimeInterval)delayBetweenChunks
-          bracketingEnabled:(BOOL)bracketingEnabled
-                   encoding:(NSStringEncoding)encoding
-           canWaitForPrompt:(BOOL)canWaitForPrompt
-            isAtShellPrompt:(BOOL)isAtShellPrompt
-         forceEscapeSymbols:(BOOL)forceEscapeSymbols
-                 completion:(iTermPasteSpecialCompletionBlock)completion {
+    chunkSize:(NSInteger)chunkSize
+    delayBetweenChunks:(NSTimeInterval)delayBetweenChunks
+    bracketingEnabled:(BOOL)bracketingEnabled
+    encoding:(NSStringEncoding)encoding
+    canWaitForPrompt:(BOOL)canWaitForPrompt
+    isAtShellPrompt:(BOOL)isAtShellPrompt
+    forceEscapeSymbols:(BOOL)forceEscapeSymbols
+    completion:(iTermPasteSpecialCompletionBlock)completion {
     iTermPasteSpecialWindowController *controller =
         [[[iTermPasteSpecialWindowController alloc] initWithChunkSize:chunkSize
-                                                   delayBetweenChunks:delayBetweenChunks
-                                                    bracketingEnabled:bracketingEnabled
+                                                     delayBetweenChunks:delayBetweenChunks
+                                                     bracketingEnabled:bracketingEnabled
                                                      canWaitForPrompt:canWaitForPrompt
-                                                      isAtShellPrompt:isAtShellPrompt
-                                                   forceEscapeSymbols:forceEscapeSymbols
-                                                             encoding:encoding] autorelease];
+                                                     isAtShellPrompt:isAtShellPrompt
+                                                     forceEscapeSymbols:forceEscapeSymbols
+                                                     encoding:encoding] autorelease];
     NSWindow *window = [controller window];
     [presentingWindow beginSheet:window completionHandler:^(NSModalResponse returnCode) {
-        [NSApp stopModal];
-    }];
+                         [NSApp stopModal];
+                     }];
 
     [NSApp runModalForWindow:window];
     [presentingWindow endSheet:window];
@@ -456,31 +456,31 @@
     }
     if (_pasteSpecialViewController.isEscapeShellCharsWithBackslashEnabled) {
         [iTermPreferences setBool:_pasteSpecialViewController.shouldEscapeShellCharsWithBackslash
-                       forKey:kPreferenceKeyPasteSpecialEscapeShellCharsWithBackslash];
+                          forKey:kPreferenceKeyPasteSpecialEscapeShellCharsWithBackslash];
     }
     if (_pasteSpecialViewController.isConvertNewlinesEnabled) {
         [iTermPreferences setBool:_pasteSpecialViewController.shouldConvertNewlines
-                           forKey:kPreferenceKeyPasteSpecialConvertDosNewlines];
+                          forKey:kPreferenceKeyPasteSpecialConvertDosNewlines];
     }
     if (_pasteSpecialViewController.isBracketedPasteEnabled) {
         [iTermPreferences setBool:_pasteSpecialViewController.shouldUseBracketedPasteMode
-                           forKey:kPreferenceKeyPasteSpecialBracketedPasteMode];
+                          forKey:kPreferenceKeyPasteSpecialBracketedPasteMode];
     }
     if (_pasteSpecialViewController.isRemoveControlCodesEnabled) {
         [iTermPreferences setBool:_pasteSpecialViewController.shouldRemoveControlCodes
-                           forKey:kPreferenceKeyPasteSpecialRemoveControlCodes];
+                          forKey:kPreferenceKeyPasteSpecialRemoveControlCodes];
     }
     if (_pasteSpecialViewController.isConvertUnicodePunctuationEnabled) {
         [iTermPreferences setBool:_pasteSpecialViewController.shouldConvertUnicodePunctuation
-                           forKey:kPreferenceKeyPasteSpecialConvertUnicodePunctuation];
+                          forKey:kPreferenceKeyPasteSpecialConvertUnicodePunctuation];
     }
     if (_pasteSpecialViewController.isUseRegexSubstitutionEnabled) {
         [iTermPreferences setBool:_pasteSpecialViewController.shouldUseRegexSubstitution
-                           forKey:kPreferencesKeyPasteSpecialUseRegexSubstitution];
+                          forKey:kPreferencesKeyPasteSpecialUseRegexSubstitution];
         [iTermPreferences setString:_pasteSpecialViewController.regexString
-                             forKey:kPreferencesKeyPasteSpecialRegex];
+                          forKey:kPreferencesKeyPasteSpecialRegex];
         [iTermPreferences setString:_pasteSpecialViewController.substitutionString
-                             forKey:kPreferencesKeyPasteSpecialSubstitution];
+                          forKey:kPreferencesKeyPasteSpecialSubstitution];
     }
 }
 
@@ -507,15 +507,15 @@
         flags &= ~kPasteFlagsUseRegexSubstitution;
     }
     return [PasteEvent pasteEventWithString:string
-                                      flags:flags
-                           defaultChunkSize:self.chunkSize
-                                   chunkKey:nil
-                               defaultDelay:self.delayBetweenChunks
-                                   delayKey:nil
-                               tabTransform:tabTransform
-                               spacesPerTab:_pasteSpecialViewController.numberOfSpacesPerTab
-                                      regex:_pasteSpecialViewController.regexString
-                               substitution:_pasteSpecialViewController.substitutionString];
+                       flags:flags
+                       defaultChunkSize:self.chunkSize
+                       chunkKey:nil
+                       defaultDelay:self.delayBetweenChunks
+                       delayKey:nil
+                       tabTransform:tabTransform
+                       spacesPerTab:_pasteSpecialViewController.numberOfSpacesPerTab
+                       regex:_pasteSpecialViewController.regexString
+                       substitution:_pasteSpecialViewController.substitutionString];
 }
 
 #pragma mark - Actions

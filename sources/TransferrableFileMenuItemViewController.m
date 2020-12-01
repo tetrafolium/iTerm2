@@ -29,9 +29,9 @@ static const CGFloat kCollapsedHeight = 51;
 
 - (void)loadView {
     self.view = [[[TransferrableFileMenuItemView alloc] initWithFrame:NSMakeRect(0,
-                                                                                 0,
-                                                                                 kWidth,
-                                                                                 kHeight)] autorelease];
+                                                         0,
+                                                         kWidth,
+                                                         kHeight)] autorelease];
 }
 
 - (void)dealloc {
@@ -55,7 +55,7 @@ static const CGFloat kCollapsedHeight = 51;
     }
     if ([menuItem action] == @selector(showInFinder:)) {
         if (self.transferrableFile.localPath == nil ||
-            [NSURL fileURLWithPath:self.transferrableFile.localPath] == nil) {
+                [NSURL fileURLWithPath:self.transferrableFile.localPath] == nil) {
             return NO;
         }
         return (status == kTransferrableFileStatusFinishedSuccessfully);
@@ -99,43 +99,43 @@ static const CGFloat kCollapsedHeight = 51;
     }
     view.bytesTransferred = [_transferrableFile bytesTransferred];
     switch (_transferrableFile.status) {
-        case kTransferrableFileStatusUnstarted:
-        case kTransferrableFileStatusStarting:
-            view.statusMessage = @"Starting…";
-            [self collapse];
-            break;
+    case kTransferrableFileStatusUnstarted:
+    case kTransferrableFileStatusStarting:
+        view.statusMessage = @"Starting…";
+        [self collapse];
+        break;
 
-        case kTransferrableFileStatusTransferring:
-            [self expand];
-            [view.progressIndicator setHidden:[_transferrableFile fileSize] < 0];
-            if (self.transferrableFile.isDownloading) {
-                view.statusMessage = @"Downloading…";
-            } else {
-                view.statusMessage = @"Uploading…";
-            }
-            [self showMenu];
-            break;
+    case kTransferrableFileStatusTransferring:
+        [self expand];
+        [view.progressIndicator setHidden:[_transferrableFile fileSize] < 0];
+        if (self.transferrableFile.isDownloading) {
+            view.statusMessage = @"Downloading…";
+        } else {
+            view.statusMessage = @"Uploading…";
+        }
+        [self showMenu];
+        break;
 
-        case kTransferrableFileStatusFinishedSuccessfully:
-            [self collapse];
-            view.statusMessage = @"Finished";
-            break;
+    case kTransferrableFileStatusFinishedSuccessfully:
+        [self collapse];
+        view.statusMessage = @"Finished";
+        break;
 
-        case kTransferrableFileStatusFinishedWithError:
-            [self collapse];
-            view.statusMessage = @"Failed";
-            [self showMenu];
-            break;
+    case kTransferrableFileStatusFinishedWithError:
+        [self collapse];
+        view.statusMessage = @"Failed";
+        [self showMenu];
+        break;
 
-        case kTransferrableFileStatusCancelling:
-            [self expand];
-            view.statusMessage = @"Cancelling…";
-            break;
+    case kTransferrableFileStatusCancelling:
+        [self expand];
+        view.statusMessage = @"Cancelling…";
+        break;
 
-        case kTransferrableFileStatusCancelled:
-            [self collapse];
-            view.statusMessage = @"Cancelled";
-            break;
+    case kTransferrableFileStatusCancelled:
+        [self collapse];
+        view.statusMessage = @"Cancelled";
+        break;
     }
     [view setNeedsDisplay:YES];
 }
@@ -177,20 +177,20 @@ static const CGFloat kCollapsedHeight = 51;
 
 - (NSString *)stringForStatus:(TransferrableFileStatus)status {
     switch (_transferrableFile.status) {
-        case kTransferrableFileStatusUnstarted:
-            return @"Unstarted";
-        case kTransferrableFileStatusStarting:
-            return @"Starting";
-        case kTransferrableFileStatusTransferring:
-            return @"Transferring";
-        case kTransferrableFileStatusFinishedSuccessfully:
-            return @"Finished";
-        case kTransferrableFileStatusFinishedWithError:
-            return [NSString stringWithFormat:@"Failed with error “%@”", [_transferrableFile error]];
-        case kTransferrableFileStatusCancelling:
-            return @"Waiting to cancel";
-        case kTransferrableFileStatusCancelled:
-            return @"Canceled by user";
+    case kTransferrableFileStatusUnstarted:
+        return @"Unstarted";
+    case kTransferrableFileStatusStarting:
+        return @"Starting";
+    case kTransferrableFileStatusTransferring:
+        return @"Transferring";
+    case kTransferrableFileStatusFinishedSuccessfully:
+        return @"Finished";
+    case kTransferrableFileStatusFinishedWithError:
+        return [NSString stringWithFormat:@"Failed with error “%@”", [_transferrableFile error]];
+    case kTransferrableFileStatusCancelling:
+        return @"Waiting to cancel";
+    case kTransferrableFileStatusCancelled:
+        return @"Canceled by user";
     }
 }
 
@@ -198,15 +198,15 @@ static const CGFloat kCollapsedHeight = 51;
     NSString *extra = @"";
     if (_transferrableFile.destination) {
         extra = [NSString stringWithFormat:@"\nDestination: %@",
-                       _transferrableFile.destination];
+                          _transferrableFile.destination];
     } else if (_transferrableFile.localPath) {
         extra = [NSString stringWithFormat:@"\nLocal path: %@",
-                       _transferrableFile.localPath];
+                          _transferrableFile.localPath];
     }
     NSString *text = [NSString stringWithFormat:@"%@\n\nStatus: %@%@",
-                      [_transferrableFile displayName],
-                      [self stringForStatus:_transferrableFile.status],
-                      extra];
+                               [_transferrableFile displayName],
+                               [self stringForStatus:_transferrableFile.status],
+                               extra];
     NSAlert *alert = [[[NSAlert alloc] init] autorelease];
     alert.messageText = @"File Transfer Summary";
     alert.informativeText = text;

@@ -19,10 +19,10 @@
 
 - (instancetype)initWithPasteEvent:(PasteEvent *)pasteEvent {
     self = [self initWithBytesPerCallPrefKey:pasteEvent.chunkKey
-                                defaultValue:pasteEvent.defaultChunkSize
-                    delayBetweenCallsPrefKey:pasteEvent.delayKey
-                                defaultValue:pasteEvent.defaultDelay
-                                  pasteEvent:pasteEvent];
+                 defaultValue:pasteEvent.defaultChunkSize
+                 delayBetweenCallsPrefKey:pasteEvent.delayKey
+                 defaultValue:pasteEvent.defaultDelay
+                 pasteEvent:pasteEvent];
     if (self) {
         self.blockAtNewline = !!(pasteEvent.flags & kPasteFlagsCommands);
         self.isUpload = pasteEvent.isUpload;
@@ -32,10 +32,10 @@
 }
 
 - (instancetype)initWithBytesPerCallPrefKey:(NSString*)bytesPerCallKey
-                     defaultValue:(int)bytesPerCallDefault
-         delayBetweenCallsPrefKey:(NSString*)delayBetweenCallsKey
-                     defaultValue:(float)delayBetweenCallsDefault
-                                 pasteEvent:(PasteEvent *)pasteEvent {
+    defaultValue:(int)bytesPerCallDefault
+    delayBetweenCallsPrefKey:(NSString*)delayBetweenCallsKey
+    defaultValue:(float)delayBetweenCallsDefault
+    pasteEvent:(PasteEvent *)pasteEvent {
     self = [super init];
     if (self) {
         _bytesPerCallKey = [bytesPerCallKey copy];
@@ -73,7 +73,7 @@
     _delayBetweenCalls = newDelayBetweenCalls;
     if (_delayBetweenCallsKey) {
         [[NSUserDefaults standardUserDefaults] setFloat:newDelayBetweenCalls
-                                                 forKey:_delayBetweenCallsKey];
+                                               forKey:_delayBetweenCallsKey];
     }
 }
 

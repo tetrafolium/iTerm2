@@ -23,13 +23,13 @@ typedef NS_OPTIONS(NSUInteger, iTermVariablesSuggestionContext) {
 + (NSString *)stringForContext:(iTermVariablesSuggestionContext)context;
 + (void)recordBuiltInVariables;
 + (void)recordUseOfVariableNamed:(NSString *)name
-                       inContext:(iTermVariablesSuggestionContext)context;
+    inContext:(iTermVariablesSuggestionContext)context;
 + (NSSet<NSString *> *(^)(NSString *))pathSourceForContext:(iTermVariablesSuggestionContext)context;
 + (NSSet<NSString *> *(^)(NSString *))pathSourceForContext:(iTermVariablesSuggestionContext)context
-                                             augmentedWith:(NSSet<NSString *> *)augmentations;
+    augmentedWith:(NSSet<NSString *> *)augmentations;
 + (NSSet<NSString *> *(^)(NSString *))pathSourceForContext:(iTermVariablesSuggestionContext)context
-                                                 excluding:(NSSet<NSString *> *)exclusions
-                                             allowUserVars:(BOOL)allowUserVars;
+    excluding:(NSSet<NSString *> *)exclusions
+    allowUserVars:(BOOL)allowUserVars;
 
 
 @end

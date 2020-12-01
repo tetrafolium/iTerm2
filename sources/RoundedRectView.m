@@ -39,8 +39,8 @@
     rect.size.width -= 1;
     rect.size.height -= 1;
     NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:rect
-                                                         xRadius:radius
-                                                         yRadius:radius];
+                                       xRadius:radius
+                                       yRadius:radius];
     [color_ set];
     [path fill];
     [borderColor_ set];

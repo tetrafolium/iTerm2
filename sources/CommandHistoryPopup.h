@@ -24,8 +24,8 @@
 
 // Returns uses if expand is NO or entries if it is YES.
 - (NSArray *)commandsForHost:(VT100RemoteHost *)host
-              partialCommand:(NSString *)partialCommand
-                      expand:(BOOL)expand;
+    partialCommand:(NSString *)partialCommand
+    expand:(BOOL)expand;
 
 
 - (void)loadCommands:(NSArray *)commands partialCommand:(NSString *)partialCommand;

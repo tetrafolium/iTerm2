@@ -50,7 +50,7 @@ typedef NS_ENUM(NSInteger, iTermScriptFilterControlTag) {
 + (instancetype)sharedInstance {
     static id instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] initWithWindowNibName:@"iTermScriptConsole"];
     });
     return instance;
@@ -111,29 +111,29 @@ typedef NS_ENUM(NSInteger, iTermScriptFilterControlTag) {
     if (self) {
         _dateFormatter = [[NSDateFormatter alloc] init];
         _dateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"Ld jj:mm:ss"
-                                                                    options:0
-                                                                     locale:[NSLocale currentLocale]];
+                                                     options:0
+                                                     locale:[NSLocale currentLocale]];
 
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(numberOfScriptHistoryEntriesDidChange:)
-                                                     name:iTermScriptHistoryNumberOfEntriesDidChangeNotification
-                                                   object:nil];
+                                              selector:@selector(numberOfScriptHistoryEntriesDidChange:)
+                                              name:iTermScriptHistoryNumberOfEntriesDidChangeNotification
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(historyEntryDidChange:)
-                                                     name:iTermScriptHistoryEntryDidChangeNotification
-                                                   object:nil];
+                                              selector:@selector(historyEntryDidChange:)
+                                              name:iTermScriptHistoryEntryDidChangeNotification
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(connectionRejected:)
-                                                     name:iTermAPIServerConnectionRejected
-                                                   object:nil];
+                                              selector:@selector(connectionRejected:)
+                                              name:iTermAPIServerConnectionRejected
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(connectionAccepted:)
-                                                     name:iTermAPIServerConnectionAccepted
-                                                   object:nil];
+                                              selector:@selector(connectionAccepted:)
+                                              name:iTermAPIServerConnectionAccepted
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(connectionClosed:)
-                                                     name:iTermAPIServerConnectionClosed
-                                                   object:nil];
+                                              selector:@selector(connectionClosed:)
+                                              name:iTermAPIServerConnectionClosed
+                                              object:nil];
     }
     return self;
 }
@@ -301,11 +301,11 @@ typedef NS_ENUM(NSInteger, iTermScriptFilterControlTag) {
         _callsView.string = [entry.callEntries componentsJoinedByString:@"\n"];
         __weak __typeof(self) weakSelf = self;
         _token = [[NSNotificationCenter defaultCenter] addObserverForName:iTermScriptHistoryEntryDidChangeNotification
-                                                                   object:entry
-                                                                    queue:nil
-                                                               usingBlock:^(NSNotification * _Nonnull note) {
-            __typeof(self) strongSelf = weakSelf;
-            if (!strongSelf) {
+                                                       object:entry
+                                                       queue:nil
+                                             usingBlock:^(NSNotification * _Nonnull note) {
+                                                 __typeof(self) strongSelf = weakSelf;
+                                                 if (!strongSelf) {
                 return;
             }
             if (note.userInfo) {
@@ -320,7 +320,7 @@ typedef NS_ENUM(NSInteger, iTermScriptFilterControlTag) {
                 }
             } else {
                 [strongSelf->_tableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:row]
-                                                  columnIndexes:[NSIndexSet indexSetWithIndex:0]];
+                                        columnIndexes:[NSIndexSet indexSetWithIndex:0]];
             }
         }];
     }
@@ -433,9 +433,9 @@ typedef NS_ENUM(NSInteger, iTermScriptFilterControlTag) {
             name = @"Unknown";
         }
         entry = [[iTermScriptHistoryEntry alloc] initWithName:name
-                                                     fullPath:nil
-                                                   identifier:key
-                                                     relaunch:nil];
+                                                 fullPath:nil
+                                                 identifier:key
+                                                 relaunch:nil];
     }
     entry.pids = notification.userInfo[@"pids"];
     [[iTermScriptHistory sharedInstance] addHistoryEntry:entry];
@@ -461,9 +461,9 @@ typedef NS_ENUM(NSInteger, iTermScriptFilterControlTag) {
             name = @"Unknown";
         }
         entry = [[iTermScriptHistoryEntry alloc] initWithName:name
-                                                     fullPath:nil
-                                                   identifier:key
-                                                     relaunch:nil];
+                                                 fullPath:nil
+                                                 identifier:key
+                                                 relaunch:nil];
         entry.pids = notification.userInfo[@"pids"];
         [[iTermScriptHistory sharedInstance] addHistoryEntry:entry];
     }

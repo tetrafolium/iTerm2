@@ -60,32 +60,33 @@ enum {
 
 - (NSDictionary *)menuItemsForPoupupButton
 {
-    return @{ @(kBounceTriggerParamTagBounceUntilFocus): @"Bounce Until Activated",
-              @(kBounceTriggerParamTagBounceOnce): @"Bounce Once" };
+    return @ { @(kBounceTriggerParamTagBounceUntilFocus): @"Bounce Until Activated",
+               @(kBounceTriggerParamTagBounceOnce): @"Bounce Once"
+             };
 }
 
 - (NSRequestUserAttentionType)bounceType
 {
     switch ([self.param intValue]) {
-        case kBounceTriggerParamTagBounceUntilFocus:
-            return NSCriticalRequest;
+    case kBounceTriggerParamTagBounceUntilFocus:
+        return NSCriticalRequest;
 
-        case kBounceTriggerParamTagBounceOnce:
-            return NSInformationalRequest;
+    case kBounceTriggerParamTagBounceOnce:
+        return NSInformationalRequest;
 
-        default:
-            return NSCriticalRequest;
+    default:
+        return NSCriticalRequest;
     }
 }
 
 - (BOOL)performActionWithCapturedStrings:(NSString *const *)capturedStrings
-                          capturedRanges:(const NSRange *)capturedRanges
-                            captureCount:(NSInteger)captureCount
-                               inSession:(PTYSession *)aSession
-                                onString:(iTermStringLine *)stringLine
-                    atAbsoluteLineNumber:(long long)lineNumber
-                        useInterpolation:(BOOL)useInterpolation
-                                    stop:(BOOL *)stop {
+    capturedRanges:(const NSRange *)capturedRanges
+    captureCount:(NSInteger)captureCount
+    inSession:(PTYSession *)aSession
+    onString:(iTermStringLine *)stringLine
+    atAbsoluteLineNumber:(long long)lineNumber
+    useInterpolation:(BOOL)useInterpolation
+    stop:(BOOL *)stop {
     [NSApp requestUserAttention:[self bounceType]];
     return YES;
 }

@@ -26,12 +26,12 @@
 }
 
 - (instancetype)initWithGateway:(TmuxGateway *)gateway
-                          scope:(iTermVariableScope *)scope
-           fallbackVariableName:(NSString *)fallbackVariableName
-                         format:(NSString *)format
-                         target:(NSString *)target
-                   variableName:(NSString *)variableName
-                          block:(void (^)(NSString *))block {
+    scope:(iTermVariableScope *)scope
+    fallbackVariableName:(NSString *)fallbackVariableName
+    format:(NSString *)format
+    target:(NSString *)target
+    variableName:(NSString *)variableName
+    block:(void (^)(NSString *))block {
     self = [super init];
     if (self) {
         _gateway = gateway;
@@ -45,11 +45,11 @@
         if ([_gateway versionAtLeastDecimalNumberWithString:@"3.2"]) {
             __weak __typeof(self) weakSelf = self;
             _subscriptionHandle = [_gateway subscribeToFormat:self.escapedFormat
-                                                       target:target
-                                                        block:^(NSString *value,
-                                                                NSArray<NSString *> *args) {
-                [weakSelf didFetch:value];
-            }];
+                                            target:target
+                                            block:^(NSString *value,
+                     NSArray<NSString *> *args) {
+                         [weakSelf didFetch:value];
+                     }];
             [self updateOnce];
         }
     }
@@ -62,7 +62,7 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p format=%@ target=%@ sub=%@ scope=%@>",
-            NSStringFromClass(self.class), self, _format, _target, _subscriptionHandle, _scope];
+                     NSStringFromClass(self.class), self, _format, _target, _subscriptionHandle, _scope];
 }
 
 - (void)setInterval:(NSTimeInterval)interval {
@@ -79,10 +79,10 @@
     }
     [_timer invalidate];
     _timer = [NSTimer scheduledWeakTimerWithTimeInterval:_interval
-                                                  target:self
-                                                selector:@selector(update:)
-                                                userInfo:nil
-                                                 repeats:YES];
+                      target:self
+                      selector:@selector(update:)
+                      userInfo:nil
+                      repeats:YES];
 }
 
 - (void)invalidate {
@@ -124,10 +124,10 @@
     NSString *command = [self command];
     DLog(@"Request option with command %@", command);
     [self.gateway sendCommand:command
-               responseTarget:self
-             responseSelector:@selector(didFetch:)
-               responseObject:nil
-                        flags:kTmuxGatewayCommandShouldTolerateErrors];
+                  responseTarget:self
+                  responseSelector:@selector(didFetch:)
+                  responseObject:nil
+                  flags:kTmuxGatewayCommandShouldTolerateErrors];
 }
 
 - (void)didFetch:(NSString *)value {

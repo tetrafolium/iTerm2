@@ -43,14 +43,14 @@ extern NSString *const kDirectoriesDidChangeNotificationName;
 
 // Record the use of a command.
 - (void)addCommand:(NSString *)command
-            onHost:(VT100RemoteHost *)host
-       inDirectory:(NSString *)directory
-          withMark:(VT100ScreenMark *)mark;
+    onHost:(VT100RemoteHost *)host
+    inDirectory:(NSString *)directory
+    withMark:(VT100ScreenMark *)mark;
 
 // Change the status code of a command after it finishes running.
 - (void)setStatusOfCommandAtMark:(VT100ScreenMark *)mark
-                          onHost:(VT100RemoteHost *)remoteHost
-                              to:(int)status;
+    onHost:(VT100RemoteHost *)remoteHost
+    to:(int)status;
 
 #pragma mark Lookup
 
@@ -59,19 +59,19 @@ extern NSString *const kDirectoriesDidChangeNotificationName;
 
 // Returns unique commands that have a given prefix. Sorted by frecency.
 - (NSArray<iTermCommandHistoryEntryMO *> *)commandHistoryEntriesWithPrefix:(NSString *)partialCommand
-                                                                    onHost:(VT100RemoteHost *)host;
+    onHost:(VT100RemoteHost *)host;
 
 // Just like commandHistoryEntriesWithPrefix:onHost, but returns command uses rather than entries.
 // Only the most recent use is returned.
 - (NSArray<iTermCommandHistoryCommandUseMO *> *)autocompleteSuggestionsWithPartialCommand:(NSString *)partialCommand
-                                                                                   onHost:(VT100RemoteHost *)host;
+    onHost:(VT100RemoteHost *)host;
 
 // Is there any command history for this host?
 - (BOOL)haveCommandsForHost:(VT100RemoteHost *)host;
 
 // Returns a command use for a given mark.
 - (iTermCommandHistoryCommandUseMO *)commandUseWithMarkGuid:(NSString *)markGuid
-                                                     onHost:(VT100RemoteHost *)host;
+    onHost:(VT100RemoteHost *)host;
 
 // Returns all command uses on a given host.
 - (NSArray<iTermCommandHistoryCommandUseMO *> *)commandUsesForHost:(VT100RemoteHost *)host;
@@ -83,8 +83,8 @@ extern NSString *const kDirectoriesDidChangeNotificationName;
 // Record that a directory was entered. Set isChange to YES if the directory has just changed, or
 // NO if it's a repeat of the last path on this host.
 - (iTermRecentDirectoryMO *)recordUseOfPath:(NSString *)path
-                                     onHost:(VT100RemoteHost *)host
-                                   isChange:(BOOL)isChange;
+    onHost:(VT100RemoteHost *)host
+    isChange:(BOOL)isChange;
 
 // Change the "starred" setting of a directory.
 - (void)setDirectory:(iTermRecentDirectoryMO *)directory starred:(BOOL)starred;

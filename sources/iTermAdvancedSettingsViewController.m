@@ -39,22 +39,22 @@ static char iTermAdvancedSettingsTableKey;
             return;
         }
         switch (backgroundStyle) {
-            case NSBackgroundStyleNormal:
-                self.textColor = [NSColor labelColor];
-                if (self.regularAttributedString) {
-                    self.attributedStringValue = self.regularAttributedString;
-                }
-                break;
-            case NSBackgroundStyleEmphasized:
-                self.textColor = [NSColor selectedMenuItemTextColor];
-                if (self.selectedAttributedString) {
-                    self.attributedStringValue = self.selectedAttributedString;
-                }
-                break;
+        case NSBackgroundStyleNormal:
+            self.textColor = [NSColor labelColor];
+            if (self.regularAttributedString) {
+                self.attributedStringValue = self.regularAttributedString;
+            }
+            break;
+        case NSBackgroundStyleEmphasized:
+            self.textColor = [NSColor selectedMenuItemTextColor];
+            if (self.selectedAttributedString) {
+                self.attributedStringValue = self.selectedAttributedString;
+            }
+            break;
 
-            case NSBackgroundStyleRaised:
-            case NSBackgroundStyleLowered:
-                break;
+        case NSBackgroundStyleRaised:
+        case NSBackgroundStyleLowered:
+            break;
         }
         return;
     }
@@ -66,22 +66,22 @@ static char iTermAdvancedSettingsTableKey;
         return;
     }
     switch (backgroundStyle) {
-        case NSBackgroundStyleLight:
-            self.textColor = [NSColor blackColor];
-            if (self.regularAttributedString) {
-                self.attributedStringValue = self.regularAttributedString;
-            }
-            break;
-        case NSBackgroundStyleDark:
-            if (self.selectedAttributedString) {
-                self.attributedStringValue = self.selectedAttributedString;
-            }
-            self.textColor = [NSColor whiteColor];
-            break;
+    case NSBackgroundStyleLight:
+        self.textColor = [NSColor blackColor];
+        if (self.regularAttributedString) {
+            self.attributedStringValue = self.regularAttributedString;
+        }
+        break;
+    case NSBackgroundStyleDark:
+        if (self.selectedAttributedString) {
+            self.attributedStringValue = self.selectedAttributedString;
+        }
+        self.textColor = [NSColor whiteColor];
+        break;
 
-        case NSBackgroundStyleRaised:
-        case NSBackgroundStyleLowered:
-            break;
+    case NSBackgroundStyleRaised:
+    case NSBackgroundStyleLowered:
+        break;
     }
 }
 
@@ -125,7 +125,7 @@ static NSDictionary *gIntrospection;
 @interface iTermAdvancedSettingsViewController()<NSTextFieldDelegate>
 @end
 
-@interface iTermAdvancedSettingsTableView: NSTableView
+@interface iTermAdvancedSettingsTableView : NSTableView
 @end
 
 @implementation iTermAdvancedSettingsTableView
@@ -155,7 +155,7 @@ static NSDictionary *gIntrospection;
 + (NSDictionary *)settingsDictionary {
     static NSDictionary *settings;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         NSMutableDictionary *temp = [NSMutableDictionary dictionary];
         for (NSDictionary *setting in [self advancedSettings]) {
             temp[setting[kAdvancedSettingIdentifier]] = setting;
@@ -168,11 +168,11 @@ static NSDictionary *gIntrospection;
 + (NSArray<NSDictionary *> *)sortedAdvancedSettings {
     static NSArray *sortedAdvancedSettings;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         NSArray *advancedSettings = [self advancedSettings];
         sortedAdvancedSettings = [advancedSettings sortedArrayUsingSelector:@selector(compareAdvancedSettingDicts:)];
     });
-   return sortedAdvancedSettings;
+    return sortedAdvancedSettings;
 }
 
 + (NSArray *)groupedSettingsArrayFromSortedArray:(NSArray *)sorted {
@@ -197,11 +197,11 @@ static NSDictionary *gIntrospection;
 + (NSArray<NSDictionary *> *)advancedSettings {
     static NSMutableArray *settings;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         settings = [NSMutableArray array];
         [iTermAdvancedSettingsModel enumerateDictionaries:^(NSDictionary *dict) {
-            [settings addObject:dict];
-        }];
+                                       [settings addObject:dict];
+                                   }];
     });
 
     return settings;
@@ -226,19 +226,19 @@ static NSDictionary *gIntrospection;
     }
 
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(advancedSettingsDidChange:)
-                                                 name:iTermAdvancedSettingsDidChange
-                                               object:nil];
+                                          selector:@selector(advancedSettingsDidChange:)
+                                          name:iTermAdvancedSettingsDidChange
+                                          object:nil];
 }
 
 - (NSMutableAttributedString *)attributedStringForString:(NSString *)string
-                                                    size:(CGFloat)size
-                                               topMargin:(CGFloat)topMargin
-                                                selected:(BOOL)selected
-                                                    bold:(BOOL)bold {
-    NSDictionary *spacerAttributes = @{ NSFontAttributeName: [NSFont systemFontOfSize:topMargin] };
+    size:(CGFloat)size
+    topMargin:(CGFloat)topMargin
+    selected:(BOOL)selected
+    bold:(BOOL)bold {
+    NSDictionary *spacerAttributes = @ { NSFontAttributeName: [NSFont systemFontOfSize:topMargin] };
     NSAttributedString *topSpacer = [[NSAttributedString alloc] initWithString:@"\n"
-                                                                    attributes:spacerAttributes];
+                                                                attributes:spacerAttributes];
     NSColor *textColor;
     if (@available(macOS 10.14, *)) {
         if (selected) {
@@ -250,10 +250,12 @@ static NSDictionary *gIntrospection;
         textColor = (selected && self.view.window.isKeyWindow) ? [NSColor whiteColor] : [NSColor blackColor];
     }
     NSDictionary *attributes =
-        @{ NSFontAttributeName: bold ? [NSFont boldSystemFontOfSize:size] : [NSFont systemFontOfSize:size],
-           NSForegroundColorAttributeName: textColor };
+        @ { NSFontAttributeName:
+            bold ? [NSFont boldSystemFontOfSize:size] : [NSFont systemFontOfSize:size],
+            NSForegroundColorAttributeName: textColor
+          };
     NSAttributedString *title = [[NSAttributedString alloc] initWithString:string
-                                                                attributes:attributes];
+                                                            attributes:attributes];
     NSMutableAttributedString *result = [[NSMutableAttributedString alloc] init];
     [result appendAttributedString:topSpacer];
     [result appendAttributedString:title];
@@ -265,7 +267,7 @@ static NSDictionary *gIntrospection;
 }
 
 - (iTermTableViewTextField *)viewForImmutableAttributedString:(NSAttributedString *)attributedString
-                                                     selected:(NSAttributedString *)selectedAttributedString{
+    selected:(NSAttributedString *)selectedAttributedString {
     iTermTableViewTextField *textField = [_tableView makeViewWithIdentifier:@"attributedstring" owner:self] ?: [[iTermTableViewTextField alloc] init];
     textField.delegate = nil;
     textField.identifier = @"attributedstring";
@@ -300,7 +302,7 @@ static NSDictionary *gIntrospection;
     NSDictionary *dict = settings[row];
     NSString *identifier = dict[kAdvancedSettingIdentifier];
     [[NSUserDefaults standardUserDefaults] setBool:value
-                                            forKey:identifier];
+                                           forKey:identifier];
 }
 
 - (id)objectForRow:(int)row {
@@ -341,7 +343,7 @@ static NSDictionary *gIntrospection;
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:identifier];
     } else {
         [[NSUserDefaults standardUserDefaults] setBool:value == 2
-                                                forKey:identifier];
+                                               forKey:identifier];
     }
 }
 
@@ -402,8 +404,8 @@ static NSDictionary *gIntrospection;
         }
         if (_excludeDefaults.state == NSControlStateValueOn) {
             settings = [settings filteredArrayUsingBlock:^BOOL(id obj) {
-                NSDictionary *dict = [NSDictionary castFrom:obj];
-                if (!dict) {
+                         NSDictionary *dict = [NSDictionary castFrom:obj];
+                         if (!dict) {
                     return YES;
                 }
                 id defaultValue = dict[kAdvancedSettingDefaultValue];
@@ -454,14 +456,14 @@ static NSDictionary *gIntrospection;
 }
 
 - (NSAttributedString *)attributedStringForSettingWithName:(NSString *)description
-                                                  subtitle:(NSString *)subtitle
-                                                  selected:(BOOL)selected {
+    subtitle:(NSString *)subtitle
+    selected:(BOOL)selected {
     NSMutableAttributedString *attributedDescription =
-    [self attributedStringForString:description
-                               size:[NSFont systemFontSize]
-                          topMargin:2
-                           selected:selected
-                               bold:NO];
+        [self attributedStringForString:description
+              size:[NSFont systemFontSize]
+              topMargin:2
+              selected:selected
+              bold:NO];
     if (subtitle) {
         NSColor *color;
         if (@available(macOS 10.14, *)) {
@@ -473,10 +475,13 @@ static NSDictionary *gIntrospection;
         } else {
             color = (selected && self.view.window.isKeyWindow) ? [NSColor whiteColor] : [NSColor grayColor];
         }
-        NSDictionary *attributes = @{ NSForegroundColorAttributeName: color,
-                                      NSFontAttributeName: [NSFont systemFontOfSize:11] };
+        NSDictionary *attributes = @ { NSForegroundColorAttributeName:
+                                       color,
+                                       NSFontAttributeName:
+                                       [NSFont systemFontOfSize:11]
+                                     };
         NSAttributedString *attributedSubtitle =
-        [[NSAttributedString alloc] initWithString:subtitle
+            [[NSAttributedString alloc] initWithString:subtitle
                                         attributes:attributes];
         [attributedDescription appendAttributedString:attributedSubtitle];
     }
@@ -500,13 +505,13 @@ static NSDictionary *gIntrospection;
     id obj = settings[row];
     if ([obj isKindOfClass:[NSString class]]) {
         return [self viewForImmutableAttributedString:[self attributedStringForGroupNamed:obj]
-                                             selected:[self attributedStringForGroupNamed:obj]];
+                     selected:[self attributedStringForGroupNamed:obj]];
     }
 
     if (tableColumn == _settingColumn) {
 
         iTermTableViewTextField *textField = [self viewForImmutableAttributedString:[self attributedStringForSettingAtRow:row selected:NO]
-                                                                           selected:[self attributedStringForSettingAtRow:row selected:YES]];
+                                                   selected:[self attributedStringForSettingAtRow:row selected:YES]];
         NSTableRowView *rowView = [tableView rowViewAtRow:row makeIfNecessary:NO];
         if (rowView) {
             // An explicit call to rowViewAtRow:makeIfNecessary:YES as in
@@ -525,40 +530,40 @@ static NSDictionary *gIntrospection;
             value = dict[kAdvancedSettingDefaultValue];
         }
         switch ([dict advancedSettingType]) {
-            case kiTermAdvancedSettingTypeBoolean: {
-                NSNumber *n = (NSNumber *)value;
-                return [self onOffViewWithValue:n.boolValue row:row];
+        case kiTermAdvancedSettingTypeBoolean: {
+            NSNumber *n = (NSNumber *)value;
+            return [self onOffViewWithValue:n.boolValue row:row];
+        }
+        case kiTermAdvancedSettingTypeOptionalBoolean: {
+            int tristate;
+            if ([value isKindOfClass:[NSNull class]]) {
+                tristate = 0;
+            } else if (![(NSNumber *)value boolValue]) {
+                tristate = 1;
+            } else {
+                tristate = 2;
             }
-            case kiTermAdvancedSettingTypeOptionalBoolean: {
-                int tristate;
-                if ([value isKindOfClass:[NSNull class]]) {
-                    tristate = 0;
-                } else if (![(NSNumber *)value boolValue]) {
-                    tristate = 1;
-                } else {
-                    tristate = 2;
-                }
-                return [self tristateViewWithValue:tristate row:row];
-            }
+            return [self tristateViewWithValue:tristate row:row];
+        }
 
-            case kiTermAdvancedSettingTypeFloat:
-            case kiTermAdvancedSettingTypeInteger: {
-                iTermTableViewTextFieldWrapper *wrapper = [self viewForMutableString:[NSString stringWithFormat:@"%@", value] row:row];
-                NSTableRowView *rowView = [tableView rowViewAtRow:row makeIfNecessary:NO];
-                if (rowView) {
-                    wrapper.backgroundStyle = [rowView interiorBackgroundStyle];
-                }
-                return wrapper;
+        case kiTermAdvancedSettingTypeFloat:
+        case kiTermAdvancedSettingTypeInteger: {
+            iTermTableViewTextFieldWrapper *wrapper = [self viewForMutableString:[NSString stringWithFormat:@"%@", value] row:row];
+            NSTableRowView *rowView = [tableView rowViewAtRow:row makeIfNecessary:NO];
+            if (rowView) {
+                wrapper.backgroundStyle = [rowView interiorBackgroundStyle];
             }
+            return wrapper;
+        }
 
-            case kiTermAdvancedSettingTypeString: {
-                iTermTableViewTextFieldWrapper *wrapper = [self viewForMutableString:(NSString *)value row:row];
-                NSTableRowView *rowView = [tableView rowViewAtRow:row makeIfNecessary:NO];
-                if (rowView) {
-                    wrapper.backgroundStyle = [rowView interiorBackgroundStyle];
-                }
-                return wrapper;
+        case kiTermAdvancedSettingTypeString: {
+            iTermTableViewTextFieldWrapper *wrapper = [self viewForMutableString:(NSString *)value row:row];
+            NSTableRowView *rowView = [tableView rowViewAtRow:row makeIfNecessary:NO];
+            if (rowView) {
+                wrapper.backgroundStyle = [rowView interiorBackgroundStyle];
             }
+            return wrapper;
+        }
         }
     } else {
         return nil;
@@ -573,8 +578,8 @@ static NSDictionary *gIntrospection;
 
 
 - (BOOL)tableView:(NSTableView *)aTableView
-      shouldEditTableColumn:(NSTableColumn *)aTableColumn
-              row:(NSInteger)rowIndex {
+    shouldEditTableColumn:(NSTableColumn *)aTableColumn
+    row:(NSInteger)rowIndex {
     NSArray *settings = [self filteredAdvancedSettings];
     id obj = settings[rowIndex];
     if ([obj isKindOfClass:[NSString class]]) {
@@ -608,25 +613,25 @@ static NSDictionary *gIntrospection;
         NSDictionary *dict = settings[row];
         NSString *identifier = dict[kAdvancedSettingIdentifier];
         switch ([dict advancedSettingType]) {
-            case kiTermAdvancedSettingTypeBoolean:
-            case kiTermAdvancedSettingTypeOptionalBoolean:
-                assert(NO);
-                break;
+        case kiTermAdvancedSettingTypeBoolean:
+        case kiTermAdvancedSettingTypeOptionalBoolean:
+            assert(NO);
+            break;
 
-            case kiTermAdvancedSettingTypeFloat:
-                [[NSUserDefaults standardUserDefaults] setFloat:string.floatValue
-                                                         forKey:identifier];
-                break;
+        case kiTermAdvancedSettingTypeFloat:
+            [[NSUserDefaults standardUserDefaults] setFloat:string.floatValue
+                                                   forKey:identifier];
+            break;
 
-            case kiTermAdvancedSettingTypeInteger:
-                [[NSUserDefaults standardUserDefaults] setInteger:string.integerValue
-                                                           forKey:identifier];
-                break;
+        case kiTermAdvancedSettingTypeInteger:
+            [[NSUserDefaults standardUserDefaults] setInteger:string.integerValue
+                                                   forKey:identifier];
+            break;
 
-            case kiTermAdvancedSettingTypeString:
-                [[NSUserDefaults standardUserDefaults] setObject:string
-                                                          forKey:identifier];
-                break;
+        case kiTermAdvancedSettingTypeString:
+            [[NSUserDefaults standardUserDefaults] setObject:string
+                                                   forKey:identifier];
+            break;
         }
     }
 }
@@ -645,21 +650,21 @@ static NSDictionary *gIntrospection;
     NSArray *settings = [self filteredAdvancedSettings];
     NSDictionary *dict = settings[row];
     switch ([dict advancedSettingType]) {
-        case kiTermAdvancedSettingTypeBoolean:
-        case kiTermAdvancedSettingTypeOptionalBoolean:
-            assert(NO);
-            break;
+    case kiTermAdvancedSettingTypeBoolean:
+    case kiTermAdvancedSettingTypeOptionalBoolean:
+        assert(NO);
+        break;
 
-        case kiTermAdvancedSettingTypeFloat:
-            textField.stringValue = [NSString stringWithFormat:@"%@", @([string doubleValue])];
-            break;
+    case kiTermAdvancedSettingTypeFloat:
+        textField.stringValue = [NSString stringWithFormat:@"%@", @([string doubleValue])];
+        break;
 
-        case kiTermAdvancedSettingTypeInteger:
-            textField.integerValue = string.integerValue;
-            break;
+    case kiTermAdvancedSettingTypeInteger:
+        textField.integerValue = string.integerValue;
+        break;
 
-        case kiTermAdvancedSettingTypeString:
-            break;
+    case kiTermAdvancedSettingTypeString:
+        break;
     }
 
     NSTableRowView *rowView = [_tableView rowViewAtRow:row makeIfNecessary:NO];
@@ -681,29 +686,29 @@ static NSDictionary *gIntrospection;
 - (NSArray<iTermPreferencesSearchDocument *> *)searchableViewControllerDocuments {
     if (!_docs) {
         _docs = [[iTermAdvancedSettingsViewController sortedAdvancedSettings] mapWithBlock:^id(NSDictionary *dict) {
-            iTermPreferencesSearchDocument *doc = [iTermPreferencesSearchDocument documentWithDisplayName:@"Advanced Preferences…"  // dict[kAdvancedSettingDescription]
-                                                                                               identifier:@"Advanced Preferences"  // dict[kAdvancedSettingIdentifier]
-                                                                                           keywordPhrases:@[ dict[kAdvancedSettingDescription] ]];
-            doc.queryIndependentScore = -1;
-            doc.ownerIdentifier = self.documentOwnerIdentifier;
-            return doc;
-        }];
+                                                                         iTermPreferencesSearchDocument *doc = [iTermPreferencesSearchDocument documentWithDisplayName:@"Advanced Preferences…"  // dict[kAdvancedSettingDescription]
+                                                                                                                identifier:@"Advanced Preferences"  // dict[kAdvancedSettingIdentifier]
+                                                                                                                keywordPhrases:@[ dict[kAdvancedSettingDescription] ]];
+                                                                         doc.queryIndependentScore = -1;
+                                                                         doc.ownerIdentifier = self.documentOwnerIdentifier;
+                                                                         return doc;
+                                                                     }];
     }
     return _docs;
 }
 
 - (NSInteger)indexOfIdentifier:(NSString *)identifier {
     return [self.filteredAdvancedSettings indexOfObjectPassingTest:^BOOL(NSDictionary * _Nonnull dict, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (![dict isKindOfClass:[NSDictionary class]]) {
-            return NO;
-        }
+                                      if (![dict isKindOfClass:[NSDictionary class]]) {
+                                          return NO;
+                                      }
         return [dict[kAdvancedSettingIdentifier] isEqualToString:identifier];
     }];
 }
 
 - (NSView *)searchableViewControllerRevealItemForDocument:(iTermPreferencesSearchDocument *)document
-                                                 forQuery:(NSString *)query
-                                            willChangeTab:(BOOL *)willChangeTab {
+    forQuery:(NSString *)query
+    willChangeTab:(BOOL *)willChangeTab {
     *willChangeTab = NO;
     NSUInteger index = [self indexOfIdentifier:document.identifier];
     if (index == NSNotFound) {
@@ -712,7 +717,7 @@ static NSDictionary *gIntrospection;
         _excludeDefaults.state = NSControlStateValueOff;
         [_tableView reloadData];
         index = [self indexOfIdentifier:document.identifier];
-        
+
         if (index == NSNotFound) {
             // Pull the query from the prefs search engine and try again
             _searchField.stringValue = query;

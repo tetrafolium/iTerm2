@@ -75,13 +75,13 @@
     const BOOL shiftPressed = !!(event.it_modifierFlags & NSEventModifierFlagShift);
 
     return [iTermStandardKeyMapper codeForSpecialControlCharacter:character
-                                       characterIgnoringModifiers:characterIgnoringModifiers
-                                                     shiftPressed:shiftPressed];
+                                   characterIgnoringModifiers:characterIgnoringModifiers
+                                   shiftPressed:shiftPressed];
 }
 
 + (unichar)codeForSpecialControlCharacter:(unichar)character
-               characterIgnoringModifiers:(unichar)characterIgnoringModifiers
-                             shiftPressed:(BOOL)shiftPressed {
+    characterIgnoringModifiers:(unichar)characterIgnoringModifiers
+    shiftPressed:(BOOL)shiftPressed {
     if (character == '|') {
         // This is necessary to handle Japanese keyboards correctly. Pressing Control+backslash
         // generates characters=@"|" and charactersIgnoringModifiers=@"¥". This code path existed
@@ -96,29 +96,29 @@
 
     DLog(@"Checking characterIgnoringModifiers %@", @(characterIgnoringModifiers));
     switch (characterIgnoringModifiers) {
-        case ' ':
-        case '2':
-        case '@':
-            return 0;
+    case ' ':
+    case '2':
+    case '@':
+        return 0;
 
-        case '[':
-            return 27;
+    case '[':
+        return 27;
 
-        case '\\':
-        case '|':
-            return 28;
+    case '\\':
+    case '|':
+        return 28;
 
-        case ']':
-            return 29;
+    case ']':
+        return 29;
 
-        case '^':
-        case '6':
-            return 30;
+    case '^':
+    case '6':
+        return 30;
 
-        case '-':
-        case '_':
-        case '/':
-            return 31;
+    case '-':
+    case '_':
+    case '/':
+        return 31;
     }
 
     return 0xffff;
@@ -211,17 +211,17 @@
 
     NSData *data = [self dataWhenOptionPressed];
     switch ([self optionKeyBehavior]) {
-        case OPT_ESC:
-            return [self dataByPrependingEsc:data];
+    case OPT_ESC:
+        return [self dataByPrependingEsc:data];
 
-        case OPT_META:
-            if (data.length > 0) {
-                return [self dataBySettingMetaFlagOnFirstByte:data];
-            }
-            return data;
+    case OPT_META:
+        if (data.length > 0) {
+            return [self dataBySettingMetaFlagOnFirstByte:data];
+        }
+        return data;
 
-        case OPT_NORMAL:
-            return data;
+    case OPT_NORMAL:
+        return data;
     }
 
     assert(NO);
@@ -267,76 +267,76 @@
 
     // Handle all "special" keys (arrows, etc.)
     switch (unicode) {
-        case NSUpArrowFunctionKey:
-            return [_configuration.outputFactory keyArrowUp:modifiers];
-            break;
-        case NSDownArrowFunctionKey:
-            return [_configuration.outputFactory keyArrowDown:modifiers];
-            break;
-        case NSLeftArrowFunctionKey:
-            return [_configuration.outputFactory keyArrowLeft:modifiers];
-            break;
-        case NSRightArrowFunctionKey:
-            return [_configuration.outputFactory keyArrowRight:modifiers];
-            break;
-        case NSInsertFunctionKey:
-            return [_configuration.outputFactory keyInsert];
-            break;
-        case NSDeleteFunctionKey:
-            // This is forward delete, not backspace.
-            return [_configuration.outputFactory keyDelete];
-            break;
-        case NSHomeFunctionKey:
-            return [_configuration.outputFactory keyHome:modifiers screenlikeTerminal:_configuration.screenlike];
-            break;
-        case NSEndFunctionKey:
-            return [_configuration.outputFactory keyEnd:modifiers screenlikeTerminal:_configuration.screenlike];
-            break;
-        case NSPageUpFunctionKey:
-            return [_configuration.outputFactory keyPageUp:modifiers];
-            break;
-        case NSPageDownFunctionKey:
-            return [_configuration.outputFactory keyPageDown:modifiers];
-            break;
-        case NSClearLineFunctionKey:
-            return [@"\e" dataUsingEncoding:NSUTF8StringEncoding];
-            break;
-        case NSF1FunctionKey:
-        case NSF2FunctionKey:
-        case NSF3FunctionKey:
-        case NSF4FunctionKey:
-        case NSF5FunctionKey:
-        case NSF6FunctionKey:
-        case NSF7FunctionKey:
-        case NSF8FunctionKey:
-        case NSF9FunctionKey:
-        case NSF10FunctionKey:
-        case NSF11FunctionKey:
-        case NSF12FunctionKey:
-        case NSF13FunctionKey:
-        case NSF14FunctionKey:
-        case NSF15FunctionKey:
-        case NSF16FunctionKey:
-        case NSF17FunctionKey:
-        case NSF18FunctionKey:
-        case NSF19FunctionKey:
-        case NSF20FunctionKey:
-        case NSF21FunctionKey:
-        case NSF22FunctionKey:
-        case NSF23FunctionKey:
-        case NSF24FunctionKey:
-        case NSF25FunctionKey:
-        case NSF26FunctionKey:
-        case NSF27FunctionKey:
-        case NSF28FunctionKey:
-        case NSF29FunctionKey:
-        case NSF30FunctionKey:
-        case NSF31FunctionKey:
-        case NSF32FunctionKey:
-        case NSF33FunctionKey:
-        case NSF34FunctionKey:
-        case NSF35FunctionKey:
-            return [_configuration.outputFactory keyFunction:unicode - NSF1FunctionKey + 1];
+    case NSUpArrowFunctionKey:
+        return [_configuration.outputFactory keyArrowUp:modifiers];
+        break;
+    case NSDownArrowFunctionKey:
+        return [_configuration.outputFactory keyArrowDown:modifiers];
+        break;
+    case NSLeftArrowFunctionKey:
+        return [_configuration.outputFactory keyArrowLeft:modifiers];
+        break;
+    case NSRightArrowFunctionKey:
+        return [_configuration.outputFactory keyArrowRight:modifiers];
+        break;
+    case NSInsertFunctionKey:
+        return [_configuration.outputFactory keyInsert];
+        break;
+    case NSDeleteFunctionKey:
+        // This is forward delete, not backspace.
+        return [_configuration.outputFactory keyDelete];
+        break;
+    case NSHomeFunctionKey:
+        return [_configuration.outputFactory keyHome:modifiers screenlikeTerminal:_configuration.screenlike];
+        break;
+    case NSEndFunctionKey:
+        return [_configuration.outputFactory keyEnd:modifiers screenlikeTerminal:_configuration.screenlike];
+        break;
+    case NSPageUpFunctionKey:
+        return [_configuration.outputFactory keyPageUp:modifiers];
+        break;
+    case NSPageDownFunctionKey:
+        return [_configuration.outputFactory keyPageDown:modifiers];
+        break;
+    case NSClearLineFunctionKey:
+        return [@"\e" dataUsingEncoding:NSUTF8StringEncoding];
+        break;
+    case NSF1FunctionKey:
+    case NSF2FunctionKey:
+    case NSF3FunctionKey:
+    case NSF4FunctionKey:
+    case NSF5FunctionKey:
+    case NSF6FunctionKey:
+    case NSF7FunctionKey:
+    case NSF8FunctionKey:
+    case NSF9FunctionKey:
+    case NSF10FunctionKey:
+    case NSF11FunctionKey:
+    case NSF12FunctionKey:
+    case NSF13FunctionKey:
+    case NSF14FunctionKey:
+    case NSF15FunctionKey:
+    case NSF16FunctionKey:
+    case NSF17FunctionKey:
+    case NSF18FunctionKey:
+    case NSF19FunctionKey:
+    case NSF20FunctionKey:
+    case NSF21FunctionKey:
+    case NSF22FunctionKey:
+    case NSF23FunctionKey:
+    case NSF24FunctionKey:
+    case NSF25FunctionKey:
+    case NSF26FunctionKey:
+    case NSF27FunctionKey:
+    case NSF28FunctionKey:
+    case NSF29FunctionKey:
+    case NSF30FunctionKey:
+    case NSF31FunctionKey:
+    case NSF32FunctionKey:
+    case NSF33FunctionKey:
+    case NSF34FunctionKey:
+    case NSF35FunctionKey:
+        return [_configuration.outputFactory keyFunction:unicode - NSF1FunctionKey + 1];
     }
 
     return [characters dataUsingEncoding:_configuration.encoding];
@@ -345,34 +345,34 @@
 // In issue 4039 we see that in some cases the numeric keypad mask isn't set properly.
 - (BOOL)keycodeShouldHaveNumericKeypadFlag:(unsigned short)keycode {
     switch (keycode) {
-        case kVK_ANSI_KeypadDecimal:
-        case kVK_ANSI_KeypadMultiply:
-        case kVK_ANSI_KeypadPlus:
-        case kVK_ANSI_KeypadClear:
-        case kVK_ANSI_KeypadDivide:
-        case kVK_ANSI_KeypadEnter:
-        case kVK_ANSI_KeypadMinus:
-        case kVK_ANSI_KeypadEquals:
-        case kVK_ANSI_Keypad0:
-        case kVK_ANSI_Keypad1:
-        case kVK_ANSI_Keypad2:
-        case kVK_ANSI_Keypad3:
-        case kVK_ANSI_Keypad4:
-        case kVK_ANSI_Keypad5:
-        case kVK_ANSI_Keypad6:
-        case kVK_ANSI_Keypad7:
-        case kVK_ANSI_Keypad8:
-        case kVK_ANSI_Keypad9:
-            DLog(@"Key code 0x%x forced to have numeric keypad mask set", (int)keycode);
-            return YES;
+    case kVK_ANSI_KeypadDecimal:
+    case kVK_ANSI_KeypadMultiply:
+    case kVK_ANSI_KeypadPlus:
+    case kVK_ANSI_KeypadClear:
+    case kVK_ANSI_KeypadDivide:
+    case kVK_ANSI_KeypadEnter:
+    case kVK_ANSI_KeypadMinus:
+    case kVK_ANSI_KeypadEquals:
+    case kVK_ANSI_Keypad0:
+    case kVK_ANSI_Keypad1:
+    case kVK_ANSI_Keypad2:
+    case kVK_ANSI_Keypad3:
+    case kVK_ANSI_Keypad4:
+    case kVK_ANSI_Keypad5:
+    case kVK_ANSI_Keypad6:
+    case kVK_ANSI_Keypad7:
+    case kVK_ANSI_Keypad8:
+    case kVK_ANSI_Keypad9:
+        DLog(@"Key code 0x%x forced to have numeric keypad mask set", (int)keycode);
+        return YES;
 
-        default:
-            return NO;
+    default:
+        return NO;
     }
 }
 
 - (BOOL)shouldSquelchKeystrokeWithString:(NSString *)keystr
-                               modifiers:(NSEventModifierFlags)modflag {
+    modifiers:(NSEventModifierFlags)modflag {
     const NSEventModifierFlags deviceIndependentModifiers = modflag & NSEventModifierFlagDeviceIndependentFlagsMask;
     const BOOL pressingCommand = !!(deviceIndependentModifiers & NSEventModifierFlagCommand);
     if (!pressingCommand) {

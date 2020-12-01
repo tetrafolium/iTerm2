@@ -23,16 +23,16 @@ typedef NS_ENUM(NSUInteger, iTermStatusBarLayoutAlgorithmSetting) {
 @property (nonatomic) BOOL removeEmptyComponents;
 
 + (instancetype)layoutAlgorithmWithContainerViews:(NSArray<iTermStatusBarContainerView *> *)containerViews
-                                    mandatoryView:(nullable iTermStatusBarContainerView *)mandatoryView
-                                   statusBarWidth:(CGFloat)statusBarWidth
-                                          setting:(iTermStatusBarLayoutAlgorithmSetting)setting
-                            removeEmptyComponents:(BOOL)removeEmptyComponents;
+    mandatoryView:(nullable iTermStatusBarContainerView *)mandatoryView
+    statusBarWidth:(CGFloat)statusBarWidth
+    setting:(iTermStatusBarLayoutAlgorithmSetting)setting
+    removeEmptyComponents:(BOOL)removeEmptyComponents;
 
 // This is for subclasses, not clients.
 - (instancetype)initWithContainerViews:(NSArray<iTermStatusBarContainerView *> *)containerViews
-                         mandatoryView:(nonnull iTermStatusBarContainerView *)mandatoryView
-                        statusBarWidth:(CGFloat)statusBarWidth
-                 removeEmptyComponents:(BOOL)removeEmptyComponents NS_DESIGNATED_INITIALIZER;
+    mandatoryView:(nonnull iTermStatusBarContainerView *)mandatoryView
+    statusBarWidth:(CGFloat)statusBarWidth
+    removeEmptyComponents:(BOOL)removeEmptyComponents NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (NSArray<iTermStatusBarContainerView *> *)visibleContainerViews;

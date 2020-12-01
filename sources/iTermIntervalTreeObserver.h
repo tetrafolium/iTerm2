@@ -21,9 +21,9 @@ typedef NS_ENUM(NSUInteger, iTermIntervalTreeObjectType) {
 @protocol iTermIntervalTreeObserver<NSObject>
 - (void)intervalTreeDidReset;
 - (void)intervalTreeDidAddObjectOfType:(iTermIntervalTreeObjectType)type
-                                onLine:(NSInteger)line;
+    onLine:(NSInteger)line;
 - (void)intervalTreeDidRemoveObjectOfType:(iTermIntervalTreeObjectType)type
-                                   onLine:(NSInteger)line;
+    onLine:(NSInteger)line;
 - (void)intervalTreeVisibleRangeDidChange;
 @end
 

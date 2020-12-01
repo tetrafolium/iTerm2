@@ -9,11 +9,11 @@
 #include <vector>
 
 namespace iTerm2 {
-    struct Highlight {
-        // premultiplied
-        vector_float4 color;
-        int row;
-    };
+struct Highlight {
+    // premultiplied
+    vector_float4 color;
+    int row;
+};
 }
 
 @interface iTermHighlightRowRendererTransientState()
@@ -29,16 +29,16 @@ namespace iTerm2 {
     NSMutableString *s = [NSMutableString string];
     for (auto h : _highlights) {
         [s appendFormat:@"color=(%@, %@, %@, %@) row=%@\n",
-         @(h.color.x),
-         @(h.color.y),
-         @(h.color.z),
-         @(h.color.w),
-         @(h.row)];
+           @(h.color.x),
+           @(h.color.y),
+           @(h.color.z),
+           @(h.color.w),
+           @(h.row)];
     }
     [s writeToURL:[folder URLByAppendingPathComponent:@"state.txt"]
        atomically:NO
-         encoding:NSUTF8StringEncoding
-            error:NULL];
+       encoding:NSUTF8StringEncoding
+       error:NULL];
 }
 
 - (void)setOpacity:(CGFloat)opacity color:(vector_float3)color row:(int)row {
@@ -69,11 +69,11 @@ namespace iTerm2 {
     self = [super init];
     if (self) {
         _cellRenderer = [[iTermMetalCellRenderer alloc] initWithDevice:device
-                                                    vertexFunctionName:@"iTermHighlightRowVertexShader"
-                                                  fragmentFunctionName:@"iTermHighlightRowFragmentShader"
-                                                              blending:[iTermMetalBlending compositeSourceOver]
+                                                        vertexFunctionName:@"iTermHighlightRowVertexShader"
+                                                        fragmentFunctionName:@"iTermHighlightRowFragmentShader"
+                                                        blending:[iTermMetalBlending compositeSourceOver]
                                                         piuElementSize:0
-                                                   transientStateClass:[iTermHighlightRowRendererTransientState class]];
+                                                        transientStateClass:[iTermHighlightRowRendererTransientState class]];
         _colorPool = [[iTermMetalBufferPool alloc] initWithDevice:device bufferSize:sizeof(vector_float4)];
     }
     return self;
@@ -88,10 +88,10 @@ namespace iTerm2 {
 }
 
 - (nullable __kindof iTermMetalRendererTransientState *)createTransientStateForCellConfiguration:(iTermCellRenderConfiguration *)configuration
-                                                                                   commandBuffer:(id<MTLCommandBuffer>)commandBuffer {
+    commandBuffer:(id<MTLCommandBuffer>)commandBuffer {
     __kindof iTermMetalCellRendererTransientState * _Nonnull transientState =
         [_cellRenderer createTransientStateForCellConfiguration:configuration
-                                                  commandBuffer:commandBuffer];
+                       commandBuffer:commandBuffer];
     [self initializeTransientState:transientState];
     return transientState;
 }
@@ -100,7 +100,7 @@ namespace iTerm2 {
 }
 
 - (void)drawWithFrameData:(iTermMetalFrameData *)frameData
-           transientState:(__kindof iTermMetalCellRendererTransientState *)transientState {
+    transientState:(__kindof iTermMetalCellRendererTransientState *)transientState {
     iTermHighlightRowRendererTransientState *tState = transientState;
     const VT100GridSize gridSize = tState.cellConfiguration.gridSize;
     const CGSize cellSize = tState.cellConfiguration.cellSize;
@@ -109,22 +109,22 @@ namespace iTerm2 {
     const CGFloat right = tState.margins.right;
 
     [tState enumerateDraws:^(vector_float4 color, int row) {
-        id<MTLBuffer> vertexBuffer = [self->_cellRenderer newQuadWithFrame:CGRectMake(0,
-                                                                                      (gridSize.height - row - 1) * cellSize.height + top,
-                                                                                      cellSize.width * gridSize.width + left + right,
-                                                                                      cellSize.height)
-                                                              textureFrame:CGRectMake(0, 0, 0, 0)
-                                                               poolContext:tState.poolContext];
+               id<MTLBuffer> vertexBuffer = [self->_cellRenderer newQuadWithFrame:CGRectMake(0,
+                                      (gridSize.height - row - 1) * cellSize.height + top,
+                                      cellSize.width * gridSize.width + left + right,
+                                      cellSize.height)
+                                      textureFrame:CGRectMake(0, 0, 0, 0)
+                                      poolContext:tState.poolContext];
         id<MTLBuffer> colorBuffer = [self->_colorPool requestBufferFromContext:tState.poolContext
-                                                                     withBytes:&color
-                                                                checkIfChanged:YES];
+                                                      withBytes:&color
+                                                      checkIfChanged:YES];
         [self->_cellRenderer drawWithTransientState:tState
-                                      renderEncoder:frameData.renderEncoder
-                                   numberOfVertices:6
-                                       numberOfPIUs:0
-                                      vertexBuffers:@{ @(iTermVertexInputIndexVertices): vertexBuffer }
-                                    fragmentBuffers:@{ @(iTermFragmentBufferIndexMarginColor): colorBuffer }
-                                           textures:@{}];
+                             renderEncoder:frameData.renderEncoder
+                             numberOfVertices:6
+                             numberOfPIUs:0
+                             vertexBuffers:@ { @(iTermVertexInputIndexVertices): vertexBuffer }
+                             fragmentBuffers:@ { @(iTermFragmentBufferIndexMarginColor): colorBuffer }
+                             textures:@ {}];
     }];
 }
 

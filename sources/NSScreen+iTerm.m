@@ -12,8 +12,8 @@
 
 - (NSString *)it_description {
     return [NSString stringWithFormat:@"<%@: %p frame=%@ visibleFrame=%@ hasDock=%@>",
-            NSStringFromClass(self.class), self, NSStringFromRect(self.frame),
-            NSStringFromRect(self.visibleFrame), [self hasDock] ? @"YES" : @"NO"];
+                     NSStringFromClass(self.class), self, NSStringFromRect(self.frame),
+                     NSStringFromRect(self.visibleFrame), [self hasDock] ? @"YES" : @"NO"];
 }
 
 - (BOOL)containsCursor {
@@ -41,34 +41,34 @@
 }
 
 - (NSRect)visibleFrameIgnoringHiddenDock {
-  NSRect visibleFrame = [self visibleFrame];
-  NSRect actualFrame = [self frame];
+    NSRect visibleFrame = [self visibleFrame];
+    NSRect actualFrame = [self frame];
 
-  CGFloat visibleLeft = CGRectGetMinX(visibleFrame);
-  CGFloat visibleRight = CGRectGetMaxX(visibleFrame);
-  CGFloat visibleBottom = CGRectGetMinY(visibleFrame);
+    CGFloat visibleLeft = CGRectGetMinX(visibleFrame);
+    CGFloat visibleRight = CGRectGetMaxX(visibleFrame);
+    CGFloat visibleBottom = CGRectGetMinY(visibleFrame);
 
-  CGFloat actualLeft = CGRectGetMinX(actualFrame);
-  CGFloat actualRight = CGRectGetMaxX(actualFrame);
-  CGFloat actualBottom = CGRectGetMinY(actualFrame);
+    CGFloat actualLeft = CGRectGetMinX(actualFrame);
+    CGFloat actualRight = CGRectGetMaxX(actualFrame);
+    CGFloat actualBottom = CGRectGetMinY(actualFrame);
 
-  CGFloat leftInset = fabs(visibleLeft - actualLeft);
-  CGFloat rightInset = fabs(visibleRight - actualRight);
-  CGFloat bottomInset = fabs(visibleBottom - actualBottom);
+    CGFloat leftInset = fabs(visibleLeft - actualLeft);
+    CGFloat rightInset = fabs(visibleRight - actualRight);
+    CGFloat bottomInset = fabs(visibleBottom - actualBottom);
 
-  NSRect visibleFrameIgnoringHiddenDock = visibleFrame;
-  const CGFloat kHiddenDockSize = 4;
-  if (leftInset == kHiddenDockSize) {
-    visibleFrameIgnoringHiddenDock.origin.x -= kHiddenDockSize;
-    visibleFrameIgnoringHiddenDock.size.width += kHiddenDockSize;
-  } else if (rightInset == kHiddenDockSize) {
-    visibleFrameIgnoringHiddenDock.size.width += kHiddenDockSize;
-  } else if (bottomInset == kHiddenDockSize) {
-    visibleFrameIgnoringHiddenDock.origin.y -= kHiddenDockSize;
-    visibleFrameIgnoringHiddenDock.size.height += kHiddenDockSize;
-  }
+    NSRect visibleFrameIgnoringHiddenDock = visibleFrame;
+    const CGFloat kHiddenDockSize = 4;
+    if (leftInset == kHiddenDockSize) {
+        visibleFrameIgnoringHiddenDock.origin.x -= kHiddenDockSize;
+        visibleFrameIgnoringHiddenDock.size.width += kHiddenDockSize;
+    } else if (rightInset == kHiddenDockSize) {
+        visibleFrameIgnoringHiddenDock.size.width += kHiddenDockSize;
+    } else if (bottomInset == kHiddenDockSize) {
+        visibleFrameIgnoringHiddenDock.origin.y -= kHiddenDockSize;
+        visibleFrameIgnoringHiddenDock.size.height += kHiddenDockSize;
+    }
 
-  return visibleFrameIgnoringHiddenDock;
+    return visibleFrameIgnoringHiddenDock;
 }
 
 - (BOOL)hasDock {

@@ -104,13 +104,13 @@ static NSString *kToolNotesSetTextNotification = @"kToolNotesSetTextNotification
         [self addSubview:scrollview];
 
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(windowAppearanceDidChange:)
-                                                     name:iTermWindowAppearanceDidChange
-                                                   object:nil];
+                                              selector:@selector(windowAppearanceDidChange:)
+                                              name:iTermWindowAppearanceDidChange
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(setText:)
-                                                     name:kToolNotesSetTextNotification
-                                                   object:nil];
+                                              selector:@selector(setText:)
+                                              name:kToolNotesSetTextNotification
+                                              object:nil];
     }
     return self;
 }
@@ -134,7 +134,7 @@ static NSString *kToolNotesSetTextNotification = @"kToolNotesSetTextNotification
         [textView_ writeRTFDToFile:[self filename] atomically:NO];
         ignoreNotification_ = YES;
         [[NSNotificationCenter defaultCenter] postNotificationName:kToolNotesSetTextNotification
-                                                            object:nil];
+                                              object:nil];
         ignoreNotification_ = NO;
     }
     [textView_ breakUndoCoalescing];

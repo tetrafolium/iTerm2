@@ -21,7 +21,7 @@
 }
 
 - (instancetype)initWithSnippet:(iTermSnippet *)snippet
-                     completion:(void (^)(iTermSnippet * _Nullable snippet))completion {
+    completion:(void (^)(iTermSnippet * _Nullable snippet))completion {
     self = [super initWithWindowNibName:NSStringFromClass([self class])];
     if (self) {
         if (snippet) {

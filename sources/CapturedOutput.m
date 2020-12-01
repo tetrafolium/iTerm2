@@ -52,7 +52,7 @@ NSString *const kCapturedOutputMarkGuidKey = @"Mark Guid";
     if (!_trigger && _triggerDigest) {
         for (CaptureTrigger *trigger in knownTriggers) {
             if ([trigger isKindOfClass:[CaptureTrigger class]] &&
-                [trigger.digest isEqual:_triggerDigest]) {
+                    [trigger.digest isEqual:_triggerDigest]) {
                 self.trigger = trigger;
                 self.triggerDigest = nil;
                 return;
@@ -63,11 +63,13 @@ NSString *const kCapturedOutputMarkGuidKey = @"Mark Guid";
 
 - (NSDictionary *)dictionaryValue {
     NSDictionary *dict =
-        @{ kCapturedOutputLineKey: _line ?: [NSNull null],
-         kCapturedOutputValuesKey: _values ?: @[],
-    kCapturedOutputTriggerHashKey: _trigger.digest ?: [NSData data],
-          kCapturedOutputStateKey: @(_state),
-       kCapturedOutputMarkGuidKey: _mark.guid ?: @"Mark Missing" };
+        @ { kCapturedOutputLineKey:
+            _line ?: [NSNull null],
+            kCapturedOutputValuesKey: _values ?: @[],
+            kCapturedOutputTriggerHashKey: _trigger.digest ?: [NSData data],
+            kCapturedOutputStateKey: @(_state),
+            kCapturedOutputMarkGuidKey: _mark.guid ?: @"Mark Missing"
+          };
 
     return [dict dictionaryByRemovingNullValues];
 }

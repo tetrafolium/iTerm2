@@ -101,8 +101,8 @@ extern const NSInteger VT100ScreenBigFileDownloadThreshold;
 - (void)clearScrollbackBuffer;
 
 - (void)appendScreenChars:(screen_char_t *)line
-                   length:(int)length
-             continuation:(screen_char_t)continuation;
+    length:(int)length
+    continuation:(screen_char_t)continuation;
 - (void)appendLinesMatchingQuery:(NSString *)query from:(VT100Screen *)source mode:(iTermFindMode)mode;
 
 // Append a string to the screen at the current cursor position. The terminal's insert and wrap-
@@ -131,12 +131,12 @@ extern const NSInteger VT100ScreenBigFileDownloadThreshold;
 // Set the colors in the range relative to the start of the given line number.
 // See kHighlightXxxColor constants at the top of this file for dict keys, values are NSColor*s.
 - (void)highlightTextInRange:(NSRange)range
-   basedAtAbsoluteLineNumber:(long long)absoluteLineNumber
-                      colors:(NSDictionary *)colors;
+    basedAtAbsoluteLineNumber:(long long)absoluteLineNumber
+    colors:(NSDictionary *)colors;
 
 - (void)linkTextInRange:(NSRange)range
-   basedAtAbsoluteLineNumber:(long long)absoluteLineNumber
-                     URLCode:(unsigned short)code;
+    basedAtAbsoluteLineNumber:(long long)absoluteLineNumber
+    URLCode:(unsigned short)code;
 
 // Load a frame from a dvr decoder.
 - (void)setFromFrame:(screen_char_t*)s len:(int)len info:(DVRFrameInfo)info;
@@ -165,7 +165,7 @@ extern const NSInteger VT100ScreenBigFileDownloadThreshold;
 - (void)resetAnimatedLines;
 
 - (iTermStringLine *)stringLineAsStringAtAbsoluteLineNumber:(long long)absoluteLineNumber
-                                                   startPtr:(long long *)startAbsLineNumber;
+    startPtr:(long long *)startAbsLineNumber;
 
 - (void)toggleAlternateScreen;
 
@@ -177,12 +177,12 @@ extern const NSInteger VT100ScreenBigFileDownloadThreshold;
 - (VT100ScreenMark *)promptMarkWithGUID:(NSString *)guid;
 - (BOOL)markIsValid:(iTermMark *)mark;
 - (id<iTermMark>)addMarkStartingAtAbsoluteLine:(long long)line
-                                       oneLine:(BOOL)oneLine
-                                       ofClass:(Class)markClass;
+    oneLine:(BOOL)oneLine
+    ofClass:(Class)markClass;
 - (VT100GridRange)lineNumberRangeOfInterval:(Interval *)interval;
 - (void)enumeratePromptsFrom:(NSString *)maybeFirst
-                          to:(NSString *)maybeLast
-                       block:(void (^ NS_NOESCAPE)(VT100ScreenMark *mark))block;
+    to:(NSString *)maybeLast
+    block:(void (^ NS_NOESCAPE)(VT100ScreenMark *mark))block;
 // These methods normally only return one object, but if there is a tie, all of the equally-positioned marks/notes are returned.
 - (NSArray *)lastMarksOrNotes;
 - (NSArray *)firstMarksOrNotes;
@@ -209,15 +209,15 @@ extern const NSInteger VT100ScreenBigFileDownloadThreshold;
 - (VT100ScreenMark *)lastCommandMark;  // last mark representing a command
 
 - (BOOL)encodeContents:(id<iTermEncoderAdapter>)encoder
-          linesDropped:(int *)linesDroppedOut;
+    linesDropped:(int *)linesDroppedOut;
 
 // WARNING: This may change the screen size! Use -restoreInitialSize to restore it.
 // This is useful for restoring other stuff that depends on the screen having its original size
 // such as selections.
 - (void)restoreFromDictionary:(NSDictionary *)dictionary
-     includeRestorationBanner:(BOOL)includeRestorationBanner
-                knownTriggers:(NSArray *)triggers
-                   reattached:(BOOL)reattached;
+    includeRestorationBanner:(BOOL)includeRestorationBanner
+    knownTriggers:(NSArray *)triggers
+    reattached:(BOOL)reattached;
 - (void)restoreInitialSize;
 
 // Zero-based (as VT100GridCoord always is), unlike -cursorX and -cursorY.
@@ -235,8 +235,8 @@ extern const NSInteger VT100ScreenBigFileDownloadThreshold;
 - (VT100GridCoordRange)coordRangeForInterval:(Interval *)interval;
 
 - (BOOL)confirmBigDownloadWithBeforeSize:(NSInteger)sizeBefore
-                               afterSize:(NSInteger)afterSize
-                                    name:(NSString *)name;
+    afterSize:(NSInteger)afterSize
+    name:(NSString *)name;
 - (void)enumerateObservableMarks:(void (^ NS_NOESCAPE)(iTermIntervalTreeObjectType, NSInteger))block;
 
 @end

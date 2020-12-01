@@ -18,7 +18,7 @@ unichar iTermMinimumDefaultEmojiPresentationCodePoint = 0x2300;
 + (instancetype)idnCharacters {
     static dispatch_once_t onceToken;
     static NSCharacterSet *idnCharacters;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         NSMutableCharacterSet *set = [[[NSMutableCharacterSet alloc] init] autorelease];
         [set addCharactersInRange:NSMakeRange(0x61, 1)];
         [set addCharactersInRange:NSMakeRange(0x27, 1)];
@@ -465,7 +465,7 @@ unichar iTermMinimumDefaultEmojiPresentationCodePoint = 0x2300;
     static NSMutableCharacterSet *sFullWidth8;
     static NSMutableCharacterSet *sFullWidth9;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         sFullWidth8 = [[NSMutableCharacterSet alloc] init];
         [sFullWidth8 addCharactersInRange:NSMakeRange(0x1100, 0x115f - 0x1100 + 1)];
         [sFullWidth8 addCharactersInRange:NSMakeRange(0x11a3, 0x11a7 - 0x11a3 + 1)];
@@ -634,7 +634,7 @@ unichar iTermMinimumDefaultEmojiPresentationCodePoint = 0x2300;
     static NSMutableCharacterSet *sAmbiguousWidth8;
     static NSMutableCharacterSet *sAmbiguousWidth9;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         sAmbiguousWidth8 = [[NSMutableCharacterSet alloc] init];
         [sAmbiguousWidth8 addCharactersInRange:NSMakeRange(0x300, 0x36f - 0x300 + 1)];
         [sAmbiguousWidth8 addCharactersInRange:NSMakeRange(0x391, 0x3a1 - 0x391 + 1)];
@@ -1142,7 +1142,7 @@ unichar iTermMinimumDefaultEmojiPresentationCodePoint = 0x2300;
     assert(version == 12);
     static NSCharacterSet *characterSet;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         NSMutableCharacterSet *set = [[NSMutableCharacterSet alloc] init];
         [set addCharactersInRange:NSMakeRange(0x20, 95)];
         [set addCharactersInRange:NSMakeRange(0xa0, 13)];
@@ -1879,7 +1879,7 @@ unichar iTermMinimumDefaultEmojiPresentationCodePoint = 0x2300;
 + (instancetype)codePointsWithOwnCell {
     static dispatch_once_t onceToken;
     static NSCharacterSet *characterSet;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         NSMutableCharacterSet *set = [[NSMutableCharacterSet alloc] init];
         [set formUnionWithCharacterSet:[self baseCharactersForUnicodeVersion:12]];
         [set formUnionWithCharacterSet:[self spacingCombiningMarksForUnicodeVersion:12]];
@@ -1895,7 +1895,7 @@ unichar iTermMinimumDefaultEmojiPresentationCodePoint = 0x2300;
     assert(version == 12);
     static NSCharacterSet *characterSet;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         NSMutableCharacterSet *set = [[NSMutableCharacterSet alloc] init];
         [set addCharactersInRange:NSMakeRange(0x903, 1)];
         [set addCharactersInRange:NSMakeRange(0x93b, 1)];
@@ -2080,7 +2080,7 @@ unichar iTermMinimumDefaultEmojiPresentationCodePoint = 0x2300;
     assert(version == 12);
     static NSCharacterSet *characterSet;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         NSMutableCharacterSet *set = [[NSMutableCharacterSet alloc] init];
 
         [set addCharactersInRange:NSMakeRange(0x2b0, 18)];
@@ -2151,11 +2151,11 @@ unichar iTermMinimumDefaultEmojiPresentationCodePoint = 0x2300;
 + (instancetype)zeroWidthSpaceCharacterSetForUnicodeVersion:(NSInteger)version {
     static dispatch_once_t onceToken;
     static NSCharacterSet *characterSet;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         NSString *string =
-            @"\ufeff"  // zero width no-break space
-            @"\u200c"  // zero width non-joiner
-            @"\u200d";  // zero width joiner
+        @"\ufeff"  // zero width no-break space
+        @"\u200c"  // zero width non-joiner
+        @"\u200d";  // zero width joiner
         if (![iTermAdvancedSettingsModel zeroWidthSpaceAdvancesCursor]) {
             string = [string stringByAppendingString:@"\u200b"];  // zero width space
         }
@@ -2177,7 +2177,7 @@ unichar iTermMinimumDefaultEmojiPresentationCodePoint = 0x2300;
 + (NSCharacterSet *)urlCharacterSet {
     static NSMutableCharacterSet* urlChars;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         NSString *chars = [iTermAdvancedSettingsModel URLCharacterSet];
         urlChars = [[NSMutableCharacterSet characterSetWithCharactersInString:chars] retain];
         [urlChars formUnionWithCharacterSet:[NSCharacterSet idnCharacters]];
@@ -2191,7 +2191,7 @@ unichar iTermMinimumDefaultEmojiPresentationCodePoint = 0x2300;
 + (NSCharacterSet *)emojiWithDefaultTextPresentation {
     static dispatch_once_t onceToken;
     static NSMutableCharacterSet *textPresentation;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         textPresentation = [[NSMutableCharacterSet alloc] init];
         [textPresentation addCharactersInRange:NSMakeRange(0x23, 1)];
         [textPresentation addCharactersInRange:NSMakeRange(0x2a, 1)];
@@ -2323,7 +2323,7 @@ unichar iTermMinimumDefaultEmojiPresentationCodePoint = 0x2300;
 + (NSCharacterSet *)emojiWithDefaultEmojiPresentation {
     static dispatch_once_t onceToken;
     static NSMutableCharacterSet *emojiPresentation;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         // NOTE: The smallest member must be at least iTermMinimumDefaultEmojiPresentationCodePoint.
         // If Unicode adds a new one, then adjust the constant.
         emojiPresentation = [[NSMutableCharacterSet alloc] init];
@@ -2416,7 +2416,7 @@ unichar iTermMinimumDefaultEmojiPresentationCodePoint = 0x2300;
 + (instancetype)emojiAcceptingVS16 {
     static dispatch_once_t onceToken;
     static NSMutableCharacterSet *emoji;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         emoji = [[NSMutableCharacterSet alloc] init];
         [emoji addCharactersInRange:NSMakeRange(0xa9, 1)];
         [emoji addCharactersInRange:NSMakeRange(0xae, 1)];

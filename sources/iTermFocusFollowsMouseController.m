@@ -22,17 +22,17 @@
     self = [super init];
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(applicationDidBecomeActive:)
-                                                     name:NSApplicationDidBecomeActiveNotification
-                                                   object:nil];
+                                              selector:@selector(applicationDidBecomeActive:)
+                                              name:NSApplicationDidBecomeActiveNotification
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(applicationDidResignActive:)
-                                                     name:NSApplicationDidResignActiveNotification
-                                                   object:nil];
+                                              selector:@selector(applicationDidResignActive:)
+                                              name:NSApplicationDidResignActiveNotification
+                                              object:nil];
         [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
-                                                               selector:@selector(activeSpaceDidChange:)
-                                                                   name:NSWorkspaceActiveSpaceDidChangeNotification
-                                                                 object:nil];
+                                        selector:@selector(activeSpaceDidChange:)
+                                        name:NSWorkspaceActiveSpaceDidChangeNotification
+                                        object:nil];
     }
     return self;
 }
@@ -73,7 +73,7 @@
     // out of order. Looks like an OS bug to me. They fix themselves right away,
     // and a dispatch async seems to give it enough time to right itself before
     // we iterate front to back.
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         [self selectWindowAtScreenCoordinate:mouseLocation];
     });
 }

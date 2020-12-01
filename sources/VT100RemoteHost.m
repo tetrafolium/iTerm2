@@ -35,7 +35,7 @@ static NSString *const kRemoteHostUserNameKey = @"User name";
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p hostname=%@ username=%@>",
-            self.class, self, self.hostname, self.username];
+                     self.class, self, self.hostname, self.username];
 }
 
 - (BOOL)isEqualToRemoteHost:(VT100RemoteHost *)other {
@@ -59,8 +59,10 @@ static NSString *const kRemoteHostUserNameKey = @"User name";
 
 - (NSDictionary *)dictionaryValue {
     NSDictionary *dict =
-        @{ kRemoteHostHostNameKey: _hostname ?: [NSNull null],
-           kRemoteHostUserNameKey: _username ?: [NSNull null] };
+        @ { kRemoteHostHostNameKey:
+            _hostname ?: [NSNull null],
+            kRemoteHostUserNameKey: _username ?: [NSNull null]
+          };
     return [dict dictionaryByRemovingNullValues];
 }
 

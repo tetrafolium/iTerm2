@@ -25,9 +25,9 @@ const CGFloat progressIndicatorHeight = 6;
     self = [super initWithFrame:frameRect];
     if (self) {
         _progressIndicator = [[iTermProgressIndicator alloc] initWithFrame:NSMakeRect(leftMargin,
-                                                                                      17,
-                                                                                      frameRect.size.width - leftMargin - rightMargin,
-                                                                                      progressIndicatorHeight)];
+                                                             17,
+                                                             frameRect.size.width - leftMargin - rightMargin,
+                                                             progressIndicatorHeight)];
         [self addSubview:_progressIndicator];
     }
     return self;
@@ -53,8 +53,8 @@ const CGFloat progressIndicatorHeight = 6;
         if ([item.view isKindOfClass:[TransferrableFileMenuItemView class]]) {
             TransferrableFileMenuItemView *view = (TransferrableFileMenuItemView *)item.view;
             if (!view.drawPending &&
-                view.lastDrawnHighlighted &&
-                ![[view enclosingMenuItem] isHighlighted]) {
+                    view.lastDrawnHighlighted &&
+                    ![[view enclosingMenuItem] isHighlighted]) {
                 view.drawPending = YES;
                 [view setNeedsDisplay:YES];
             }
@@ -63,7 +63,7 @@ const CGFloat progressIndicatorHeight = 6;
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
-	[super drawRect:dirtyRect];
+    [super drawRect:dirtyRect];
     NSColor *textColor;
     NSColor *grayColor;
 
@@ -111,22 +111,34 @@ const CGFloat progressIndicatorHeight = 6;
 
     NSFont *theFont = [NSFont systemFontOfSize:14];
     NSFont *smallFont = [NSFont systemFontOfSize:10];
-    NSDictionary *filenameAttributes = @{ NSParagraphStyleAttributeName: leftAlignStyle,
-                                          NSFontAttributeName: theFont,
-                                          NSForegroundColorAttributeName: textColor };
-    NSDictionary *sizeAttributes = @{ NSParagraphStyleAttributeName: rightAlignStyle,
-                                      NSFontAttributeName: smallFont,
-                                      NSForegroundColorAttributeName: grayColor };
-    NSDictionary *smallGrayAttributes = @{ NSForegroundColorAttributeName: grayColor,
-                                           NSParagraphStyleAttributeName: leftAlignStyle,
-                                           NSFontAttributeName: smallFont};
+    NSDictionary *filenameAttributes = @ { NSParagraphStyleAttributeName:
+                                           leftAlignStyle,
+                                           NSFontAttributeName:
+                                           theFont,
+                                           NSForegroundColorAttributeName:
+                                           textColor
+                                         };
+    NSDictionary *sizeAttributes = @ { NSParagraphStyleAttributeName:
+                                       rightAlignStyle,
+                                       NSFontAttributeName:
+                                       smallFont,
+                                       NSForegroundColorAttributeName:
+                                       grayColor
+                                     };
+    NSDictionary *smallGrayAttributes = @ { NSForegroundColorAttributeName:
+                                            grayColor,
+                                            NSParagraphStyleAttributeName:
+                                            leftAlignStyle,
+                                            NSFontAttributeName:
+                                            smallFont
+                                          };
     const CGFloat textHeight = [_filename sizeWithAttributes:filenameAttributes].height;
     NSString *sizeString;
     if (_size >= 0) {
         sizeString =
             [NSString stringWithFormat:@"%@ of %@",
-                [NSString it_formatBytes:_bytesTransferred],
-                [NSString it_formatBytes:_size]];
+                      [NSString it_formatBytes:_bytesTransferred],
+                      [NSString it_formatBytes:_size]];
     } else {
         sizeString = @"";
     }
@@ -145,7 +157,7 @@ const CGFloat progressIndicatorHeight = 6;
                                      textHeight);
 
     [_filename drawInRect:filenameRect
-           withAttributes:filenameAttributes];
+               withAttributes:filenameAttributes];
 
     // Draw subheading
     NSRect subheadingRect = NSMakeRect(leftMargin,
@@ -160,7 +172,7 @@ const CGFloat progressIndicatorHeight = 6;
                                               bottomY,
                                               self.bounds.size.width - leftMargin - rightMargin,
                                               smallTextHeight)
-                    withAttributes:smallGrayAttributes];
+                        withAttributes:smallGrayAttributes];
     }
 
     // Draw size
@@ -168,7 +180,7 @@ const CGFloat progressIndicatorHeight = 6;
                                       bottomY,
                                       self.bounds.size.width - rightMargin - leftMargin,
                                       smallTextHeight)
-            withAttributes:sizeAttributes];
+                withAttributes:sizeAttributes];
 }
 
 @end

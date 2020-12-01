@@ -21,7 +21,7 @@ static BOOL gShowingWarning;
 @implementation iTermWarningAction
 
 + (instancetype)warningActionWithLabel:(NSString *)label
-                                 block:(iTermWarningActionBlock)block {
+    block:(iTermWarningActionBlock)block {
     iTermWarningAction *warningAction = [[[self alloc] init] autorelease];
     warningAction.label = label;
     warningAction.block = block;
@@ -37,7 +37,7 @@ static BOOL gShowingWarning;
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p label=%@>",
-            NSStringFromClass([self class]), self, _label];
+                     NSStringFromClass([self class]), self, _label];
 }
 
 @end
@@ -57,79 +57,79 @@ static BOOL gShowingWarning;
 }
 
 + (iTermWarningSelection)showWarningWithTitle:(NSString *)title
-                                      actions:(NSArray *)actions
-                                   identifier:(NSString *)identifier
-                                  silenceable:(iTermWarningType)warningType
-                                       window:(NSWindow *)window {
+    actions:(NSArray *)actions
+    identifier:(NSString *)identifier
+    silenceable:(iTermWarningType)warningType
+    window:(NSWindow *)window {
     return [self showWarningWithTitle:title
-                              actions:actions
-                            accessory:nil
-                           identifier:identifier
-                          silenceable:warningType
-                              heading:nil
-                               window:window];
+                 actions:actions
+                 accessory:nil
+                 identifier:identifier
+                 silenceable:warningType
+                 heading:nil
+                 window:window];
 }
 
 + (iTermWarningSelection)showWarningWithTitle:(NSString *)title
-                                  actions:(NSArray *)actions
-                                    accessory:(NSView *)accessory
-                               identifier:(NSString *)identifier
-                              silenceable:(iTermWarningType)warningType
-                                       window:(NSWindow *)window {
+    actions:(NSArray *)actions
+    accessory:(NSView *)accessory
+    identifier:(NSString *)identifier
+    silenceable:(iTermWarningType)warningType
+    window:(NSWindow *)window {
     return [self showWarningWithTitle:title
-                              actions:actions
-                            accessory:accessory
-                           identifier:identifier
-                          silenceable:warningType
-                              heading:nil
-                               window:window];
+                 actions:actions
+                 accessory:accessory
+                 identifier:identifier
+                 silenceable:warningType
+                 heading:nil
+                 window:window];
 }
 
 + (iTermWarningSelection)showWarningWithTitle:(NSString *)title
-                                      actions:(NSArray *)actions
-                                    accessory:(NSView *)accessory
-                                   identifier:(NSString *)identifier
-                                  silenceable:(iTermWarningType)warningType
-                                      heading:(NSString *)heading
-                                       window:(NSWindow *)window {
+    actions:(NSArray *)actions
+    accessory:(NSView *)accessory
+    identifier:(NSString *)identifier
+    silenceable:(iTermWarningType)warningType
+    heading:(NSString *)heading
+    window:(NSWindow *)window {
     return [self showWarningWithTitle:title
-                              actions:actions
-                        actionMapping:nil
-                            accessory:accessory
-                           identifier:identifier
-                          silenceable:warningType
-                              heading:heading
-                               window:window];
+                 actions:actions
+                 actionMapping:nil
+                 accessory:accessory
+                 identifier:identifier
+                 silenceable:warningType
+                 heading:heading
+                 window:window];
 }
 
 + (iTermWarningSelection)showWarningWithTitle:(NSString *)title
-                                      actions:(NSArray *)actions
-                                actionMapping:(NSArray<NSNumber *> *)actionToSelectionMap
-                                    accessory:(NSView *)accessory
-                                   identifier:(NSString *)identifier
-                                  silenceable:(iTermWarningType)warningType
-                                      heading:(NSString *)heading
-                                       window:(NSWindow *)window {
+    actions:(NSArray *)actions
+    actionMapping:(NSArray<NSNumber *> *)actionToSelectionMap
+    accessory:(NSView *)accessory
+    identifier:(NSString *)identifier
+    silenceable:(iTermWarningType)warningType
+    heading:(NSString *)heading
+    window:(NSWindow *)window {
     return [self showWarningWithTitle:title
-                              actions:actions
-                        actionMapping:actionToSelectionMap
-                            accessory:accessory
-                           identifier:identifier
-                          silenceable:warningType
-                              heading:heading
-                          cancelLabel:kCancel
-                               window:window];
+                 actions:actions
+                 actionMapping:actionToSelectionMap
+                 accessory:accessory
+                 identifier:identifier
+                 silenceable:warningType
+                 heading:heading
+                 cancelLabel:kCancel
+                 window:window];
 }
 
 + (iTermWarningSelection)showWarningWithTitle:(NSString *)title
-                                      actions:(NSArray *)actions
-                                actionMapping:(NSArray<NSNumber *> *)actionToSelectionMap
-                                    accessory:(NSView *)accessory
-                                   identifier:(NSString *)identifier
-                                  silenceable:(iTermWarningType)warningType
-                                      heading:(NSString *)heading
-                                  cancelLabel:(NSString *)cancelLabel
-                                       window:(NSWindow *)window {
+    actions:(NSArray *)actions
+    actionMapping:(NSArray<NSNumber *> *)actionToSelectionMap
+    accessory:(NSView *)accessory
+    identifier:(NSString *)identifier
+    silenceable:(iTermWarningType)warningType
+    heading:(NSString *)heading
+    cancelLabel:(NSString *)cancelLabel
+    window:(NSWindow *)window {
     iTermWarning *warning = [[[iTermWarning alloc] init] autorelease];
     warning.title = title;
     warning.actionLabels = actions;
@@ -163,7 +163,7 @@ static BOOL gShowingWarning;
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p title=%@ heading=%@ actions=%@ identifier=%@>",
-            NSStringFromClass([self class]), self, _title, _heading, _warningActions, _identifier];
+                     NSStringFromClass([self class]), self, _title, _heading, _warningActions, _identifier];
 }
 
 - (void)setActionLabels:(NSArray<NSString *> *)actionLabels {
@@ -174,8 +174,8 @@ static BOOL gShowingWarning;
 
 - (NSArray<NSString *> *)actionLabels {
     return [self.warningActions mapWithBlock:^id(iTermWarningAction *warningAction) {
-        return warningAction.label;
-    }];
+                            return warningAction.label;
+                        }];
 }
 
 - (iTermWarningSelection)runModal {
@@ -193,7 +193,7 @@ static BOOL gShowingWarning;
 
 + (void)unsilenceIdentifier:(NSString *)identifier ifSelectionEquals:(iTermWarningSelection)problemSelection {
     if ([self identifierIsSilenced:identifier] &&
-        [self savedSelectionForIdentifier:identifier] == problemSelection) {
+            [self savedSelectionForIdentifier:identifier] == problemSelection) {
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         NSString *theKey = [self permanentlySilenceKeyForIdentifier:identifier];
         [userDefaults removeObjectForKey:theKey];
@@ -236,9 +236,9 @@ static BOOL gShowingWarning;
     }
     for (iTermWarningAction *action in _warningActions) {
         [action.label enumerateComposedCharacters:^(NSRange range, unichar simple, NSString *complexString, BOOL *stop) {
-            if (complexString.length > 1) {
-                return;
-            }
+                         if (complexString.length > 1) {
+                             return;
+                         }
             const unichar c = complexString.length ? [complexString characterAtIndex:0] : simple;
             if (c <= ' ' || c >= 127) {
                 return;
@@ -262,8 +262,8 @@ static BOOL gShowingWarning;
 // Does not invoke the warning action's block
 - (iTermWarningSelection)runModalImpl {
     if (!gWarningHandler &&
-        _warningType != kiTermWarningTypePersistent &&
-        [self.class identifierIsSilenced:_identifier]) {
+            _warningType != kiTermWarningTypePersistent &&
+            [self.class identifierIsSilenced:_identifier]) {
         const iTermWarningSelection selection = [self.class savedSelectionForIdentifier:_identifier];
         DLog(@"%@ is silenced with saved selection %@", self, @(selection));
         return selection;
@@ -283,17 +283,17 @@ static BOOL gShowingWarning;
     }
     [self assignKeyEquivalents];
     [_warningActions enumerateObjectsUsingBlock:^(iTermWarningAction * _Nonnull action, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSButton *button = alert.buttons[idx];
-        if (!button.keyEquivalent.length) {
+                        NSButton *button = alert.buttons[idx];
+                        if (!button.keyEquivalent.length) {
             button.keyEquivalent = action.keyEquivalent;
             if ([iTermAdvancedSettingsModel alertsIndicateShortcuts] && action.shortcutRange.length == 1) {
                 dispatch_async(dispatch_get_main_queue(),
-                               ^{
-                                   NSMutableAttributedString *attributedString = [[[NSMutableAttributedString alloc] initWithString:button.title
-                                                                                                                         attributes:nil] autorelease];
-                                   [attributedString setAttributes:@{ NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle) } range:action.shortcutRange];
-                                   button.attributedTitle = attributedString;
-                               });
+                ^ {
+                    NSMutableAttributedString *attributedString = [[[NSMutableAttributedString alloc] initWithString:button.title
+                                                               attributes:nil] autorelease];
+[attributedString setAttributes:@{ NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle) } range:action.shortcutRange];
+                    button.attributedTitle = attributedString;
+                });
             }
         }
     }];
@@ -336,7 +336,7 @@ static BOOL gShowingWarning;
     if (_accessory) {
         iTermDisclosableView *disclosableView = [iTermDisclosableView castFrom:_accessory];
         if (disclosableView) {
-            disclosableView.requestLayout = ^{
+            disclosableView.requestLayout = ^ {
                 [alert layout];
             };
         }
@@ -368,24 +368,24 @@ static BOOL gShowingWarning;
     BOOL remember = NO;
     iTermWarningSelection selection;
     switch (result) {
-        case NSAlertFirstButtonReturn:
-            selection = [self.class remapSelection:kiTermWarningSelection0 withMapping:_actionToSelectionMap];
-            remember = ![_warningActions[0].label isEqualToString:_cancelLabel];
-            break;
-        case NSAlertSecondButtonReturn:
-            selection = [self.class remapSelection:kiTermWarningSelection1 withMapping:_actionToSelectionMap];
-            remember = ![_warningActions[1].label isEqualToString:_cancelLabel];
-            break;
-        case NSAlertThirdButtonReturn:
-            selection = [self.class remapSelection:kiTermWarningSelection2 withMapping:_actionToSelectionMap];
-            remember = ![_warningActions[2].label isEqualToString:_cancelLabel];
-            break;
-        case NSAlertThirdButtonReturn + 1:
-            selection = [self.class remapSelection:kiTermWarningSelection3 withMapping:_actionToSelectionMap];
-            remember = ![_warningActions[3].label isEqualToString:_cancelLabel];
-            break;
-        default:
-            selection = kItermWarningSelectionError;
+    case NSAlertFirstButtonReturn:
+        selection = [self.class remapSelection:kiTermWarningSelection0 withMapping:_actionToSelectionMap];
+        remember = ![_warningActions[0].label isEqualToString:_cancelLabel];
+        break;
+    case NSAlertSecondButtonReturn:
+        selection = [self.class remapSelection:kiTermWarningSelection1 withMapping:_actionToSelectionMap];
+        remember = ![_warningActions[1].label isEqualToString:_cancelLabel];
+        break;
+    case NSAlertThirdButtonReturn:
+        selection = [self.class remapSelection:kiTermWarningSelection2 withMapping:_actionToSelectionMap];
+        remember = ![_warningActions[2].label isEqualToString:_cancelLabel];
+        break;
+    case NSAlertThirdButtonReturn + 1:
+        selection = [self.class remapSelection:kiTermWarningSelection3 withMapping:_actionToSelectionMap];
+        remember = ![_warningActions[3].label isEqualToString:_cancelLabel];
+        break;
+    default:
+        selection = kItermWarningSelectionError;
     }
 
     // Save info if suppression was enabled.
@@ -395,24 +395,24 @@ static BOOL gShowingWarning;
         if (_warningType == kiTermWarningTypeTemporarilySilenceable) {
             NSString *theKey = [self.class temporarySilenceKeyForIdentifier:_identifier];
             [userDefaults setDouble:[NSDate timeIntervalSinceReferenceDate] + kTemporarySilenceTime
-                             forKey:theKey];
+                          forKey:theKey];
         } else if (_warningType == kiTermWarningTypeSilenceableForOneMonth) {
             NSString *theKey = [self.class temporarySilenceKeyForIdentifier:_identifier];
             [userDefaults setDouble:[NSDate timeIntervalSinceReferenceDate] + kOneMonthTime
-                             forKey:theKey];
+                          forKey:theKey];
         } else {
             NSString *theKey = [self.class permanentlySilenceKeyForIdentifier:_identifier];
             [userDefaults setBool:YES forKey:theKey];
         }
         [[NSUserDefaults standardUserDefaults] setObject:@(selection)
-                                                  forKey:[self.class selectionKeyForIdentifier:_identifier]];
+                                               forKey:[self.class selectionKeyForIdentifier:_identifier]];
     }
     DLog(@"Return selection %@ for %@", @(selection), self);
     return selection;
 }
 
 + (iTermWarningSelection)remapSelection:(iTermWarningSelection)pre
-                            withMapping:(NSArray<NSNumber *> *)mapping {
+    withMapping:(NSArray<NSNumber *> *)mapping {
     if (!mapping) {
         return pre;
     }

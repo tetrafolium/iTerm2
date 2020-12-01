@@ -42,9 +42,9 @@
     if (self) {
         if (@available(macOS 10.14, *)) {
             [[NSNotificationCenter defaultCenter] addObserver:self
-                                                     selector:@selector(scrollViewDidScroll:)
-                                                         name:NSViewBoundsDidChangeNotification
-                                                       object:nil];
+                                                  selector:@selector(scrollViewDidScroll:)
+                                                  name:NSViewBoundsDidChangeNotification
+                                                  object:nil];
         }
     }
     return self;
@@ -80,28 +80,28 @@
         }
     }
     [child_.delegate textViewDrawBackgroundImageInView:self
-                                              viewRect:rect
-                                blendDefaultBackground:YES];
+                     viewRect:rect
+                     blendDefaultBackground:YES];
 }
 
 - (void)addSubview:(NSView *)child
 {
     [super addSubview:child];
     if ([child isKindOfClass:[PTYTextView class]]) {
-      child_ = (PTYTextView *)child;
-      [self setFrame:NSMakeRect(0, 0, [child frame].size.width, [child frame].size.height)];
-      [child setFrameOrigin:NSMakePoint(0, 0)];
-      [self setPostsFrameChangedNotifications:YES];
-      [self setPostsBoundsChangedNotifications:YES];
+        child_ = (PTYTextView *)child;
+        [self setFrame:NSMakeRect(0, 0, [child frame].size.width, [child frame].size.height)];
+        [child setFrameOrigin:NSMakePoint(0, 0)];
+        [self setPostsFrameChangedNotifications:YES];
+        [self setPostsBoundsChangedNotifications:YES];
     }
 }
 
 - (void)willRemoveSubview:(NSView *)subview
 {
-  if (subview == child_) {
-    child_ = nil;
-  }
-  [super willRemoveSubview:subview];
+    if (subview == child_) {
+        child_ = nil;
+    }
+    [super willRemoveSubview:subview];
 }
 
 - (NSRect)adjustScroll:(NSRect)proposedVisibleRect

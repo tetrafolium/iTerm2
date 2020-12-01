@@ -28,7 +28,7 @@ typedef struct {
 @property (nonatomic, readonly) iTermSwipeStateMomentumStage momentumStage;
 
 - (BOOL)handleEvent:(NSEvent *)event
-         transition:(iTermScrollWheelStateMachineStateTransition)transition;
+    transition:(iTermScrollWheelStateMachineStateTransition)transition;
 
 - (void)update:(NSTimeInterval)elapsedTime;
 

@@ -53,7 +53,7 @@ typedef struct {
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     static id instance;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -71,9 +71,9 @@ typedef struct {
 
 - (void)addSubscriber:(id)subscriber block:(void (^)(double, double))block {
     [_publisher addSubscriber:subscriber block:^(iTermNetworkUtilizationSample *_Nonnull payload) {
-        block(payload.bytesPerSecondRead,
-              payload.bytesPerSecondWrite);
-    }];
+                   block(payload.bytesPerSecondRead,
+                         payload.bytesPerSecondWrite);
+               }];
     iTermNetworkUtilizationSample *last = _publisher.historicalValues.lastObject;
     if (last != nil) {
         block(last.bytesPerSecondRead, last.bytesPerSecondWrite);
@@ -143,10 +143,10 @@ typedef struct {
         _timer = nil;
     } else if (!_timer) {
         _timer = [NSTimer scheduledTimerWithTimeInterval:self.cadence
-                                                  target:self
-                                                selector:@selector(update)
-                                                userInfo:nil
-                                                 repeats:YES];
+                          target:self
+                          selector:@selector(update)
+                          userInfo:nil
+                          repeats:YES];
     }
 }
 

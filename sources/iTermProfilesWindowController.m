@@ -84,8 +84,8 @@ typedef enum {
 @implementation iTermProfilesWindowRestorer
 
 + (void)restoreWindowWithIdentifier:(NSString *)identifier
-                              state:(NSCoder *)state
-                  completionHandler:(void (^)(NSWindow *, NSError *))completionHandler {
+    state:(NSCoder *)state
+    completionHandler:(void (^)(NSWindow *, NSError *))completionHandler {
     iTermProfilesWindowController *windowController = [iTermProfilesWindowController sharedInstance];
     [windowController.window restoreStateWithCoder:state];
     completionHandler(windowController.window, NULL);
@@ -150,9 +150,9 @@ typedef enum {
         [closeAfterOpeningBookmark_ setState:[n boolValue] ? NSControlStateValueOn : NSControlStateValueOff];
 
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(updatePaneButtons:)
-                                                     name:@"iTermWindowBecameKey"
-                                                   object:nil];
+                                              selector:@selector(updatePaneButtons:)
+                                              name:@"iTermWindowBecameKey"
+                                              object:nil];
         [[self window] setRestorable:YES];
         [[self window] setRestorationClass:[iTermProfilesWindowRestorer class]];
     }
@@ -188,16 +188,16 @@ typedef enum {
         Profile* bookmark = [[ProfileModel sharedInstance] bookmarkWithGuid:guid];
         if (inPane != NO_PANE && terminal != nil) {
             [terminal asyncSplitVertically:(inPane == VERTICAL_PANE)
-                                    before:NO
-                                   profile:bookmark
-                             targetSession:[[terminal currentTab] activeSession]
-                                completion:nil
-                                     ready:nil];
+                      before:NO
+                      profile:bookmark
+                      targetSession:[[terminal currentTab] activeSession]
+                      completion:nil
+                      ready:nil];
         } else {
             [iTermSessionLauncher launchBookmark:bookmark
-                                      inTerminal:terminal
-                              respectTabbingMode:NO
-                                      completion:nil];
+                                  inTerminal:terminal
+                                  respectTabbingMode:NO
+                                  completion:nil];
         }
         isFirst = NO;
     }
@@ -221,7 +221,7 @@ typedef enum {
     }
 }
 
-- (IBAction)openBookmarkInTab:(id)sender{
+- (IBAction)openBookmarkInTab:(id)sender {
     [self _openBookmarkInTab:YES firstInWindow:NO inPane:NO_PANE];
     if ([closeAfterOpeningBookmark_ state] == NSControlStateValueOn) {
         [[self window] close];
@@ -311,9 +311,9 @@ typedef enum {
             [self _openBookmarkInTab:NO firstInWindow:NO inPane:NO_PANE];
         } else {
             [iTermSessionLauncher launchBookmark:profile
-                                      inTerminal:terminal
-                              respectTabbingMode:NO
-                                      completion:nil];
+                                  inTerminal:terminal
+                                  respectTabbingMode:NO
+                                  completion:nil];
         }
     }
     if ([closeAfterOpeningBookmark_ state] == NSControlStateValueOn) {
@@ -336,9 +336,9 @@ typedef enum {
     NSString* guid = [tableView_ selectedGuid];
     if (guid) {
         [[PreferencePanel sharedInstance] openToProfileWithGuid:guid
-                                               selectGeneralTab:YES
-                                                           tmux:NO
-                                                          scope:nil];
+                                          selectGeneralTab:YES
+                                          tmux:NO
+                                          scope:nil];
         [[[PreferencePanel sharedInstance] window] makeKeyAndOrderFront:nil];
     }
 }
@@ -349,29 +349,29 @@ typedef enum {
     int count = [[profileTable selectedGuids] count];
     if (count == 1) {
         [menu addItemWithTitle:@"Edit Profile..."
-                        action:@selector(editSelectedBookmark:)
-                 keyEquivalent:@""];
+              action:@selector(editSelectedBookmark:)
+              keyEquivalent:@""];
         [menu addItemWithTitle:@"Open in New Tab"
-                        action:@selector(openBookmarkInTab:)
-                 keyEquivalent:@""];
+              action:@selector(openBookmarkInTab:)
+              keyEquivalent:@""];
         [menu addItemWithTitle:@"Open in New Window"
-                        action:@selector(openBookmarkInWindow:)
-                 keyEquivalent:@""];
+              action:@selector(openBookmarkInWindow:)
+              keyEquivalent:@""];
     } else if (count > 1) {
         [menu addItemWithTitle:@"Open in New Tabs"
-                        action:@selector(openBookmarkInTab:)
-                 keyEquivalent:@""];
+              action:@selector(openBookmarkInTab:)
+              keyEquivalent:@""];
         [menu addItemWithTitle:@"Open in New Windows"
-                        action:@selector(openBookmarkInWindow:)
-                 keyEquivalent:@""];
+              action:@selector(openBookmarkInWindow:)
+              keyEquivalent:@""];
     }
     return menu;
 }
 
 - (void)windowDidBecomeKey:(NSNotification *)notification {
     [[NSNotificationCenter defaultCenter] postNotificationName:kNonTerminalWindowBecameKeyNotification
-                                                        object:nil
-                                                      userInfo:nil];
+                                          object:nil
+                                          userInfo:nil];
     [tableView_ focusSearchField];
 }
 
@@ -379,7 +379,7 @@ typedef enum {
 {
     NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
     [prefs setObject:[NSNumber numberWithBool:[closeAfterOpeningBookmark_ state] == NSControlStateValueOn]
-              forKey:kCloseBookmarksWindowAfterOpeningKey];
+           forKey:kCloseBookmarksWindowAfterOpeningKey];
 }
 
 - (IBAction)newTabsInNewWindow:(id)sender

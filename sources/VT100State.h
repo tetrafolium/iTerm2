@@ -15,11 +15,11 @@ typedef void (^VT100StateAction)(unsigned char character);
 + (instancetype)stateWithName:(NSString *)name identifier:(NSObject *)identifier;
 
 - (void)addStateTransitionForCharacter:(unsigned char)character
-                                    to:(VT100State *)state
-                            withAction:(VT100StateAction)action;
+    to:(VT100State *)state
+    withAction:(VT100StateAction)action;
 - (void)addStateTransitionForCharacterRange:(NSRange)characterRange
-                                         to:(VT100State *)state
-                                 withAction:(VT100StateAction)action;
+    to:(VT100State *)state
+    withAction:(VT100StateAction)action;
 - (VT100StateTransition *)stateTransitionForCharacter:(unsigned char)character;
 
 

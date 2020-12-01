@@ -48,7 +48,7 @@ void iTermClientServerProtocolMessageInitialize(iTermClientServerProtocolMessage
 }
 
 void iTermClientServerProtocolMessageEnsureSpace(iTermClientServerProtocolMessage *message,
-                                                 ssize_t spaceNeeded) {
+        ssize_t spaceNeeded) {
     message->ioVectors[0].iov_base = realloc(message->ioVectors[0].iov_base, MAX(1, spaceNeeded));
     assert(message->ioVectors[0].iov_base != NULL);
     message->ioVectors[0].iov_len = spaceNeeded;
@@ -71,16 +71,16 @@ static size_t iTermClientServerProtocolParserBytesLeft(iTermClientServerProtocol
 }
 
 static void iTermClientServerProtocolParserCopyAndAdvance(iTermClientServerProtocolMessageParser *parser,
-                                                          void *out,
-                                                          size_t size) {
+        void *out,
+        size_t size) {
     assert(iTermClientServerProtocolParserBytesLeft(parser) >= size);
     memmove(out, parser->message->ioVectors[0].iov_base + parser->offset, size);
     parser->offset += size;
 }
 
 static int iTermClientServerProtocolParseInt(iTermClientServerProtocolMessageParser *parser,
-                                             void *out,
-                                             size_t size) {
+        void *out,
+        size_t size) {
     if (iTermClientServerProtocolParserBytesLeft(parser) < size) {
         return iTermClientServerProtocolErrorValueTruncated;
     }
@@ -89,9 +89,9 @@ static int iTermClientServerProtocolParseInt(iTermClientServerProtocolMessagePar
 }
 
 int iTermClientServerProtocolParseTaggedInt(iTermClientServerProtocolMessageParser *parser,
-                                            void *out,
-                                            size_t size,
-                                            int tag) {
+        void *out,
+        size_t size,
+        int tag) {
     int actualTag;
     if (iTermClientServerProtocolParseInt(parser, &actualTag, sizeof(actualTag))) {
         return iTermClientServerProtocolErrorTagTruncated;
@@ -112,7 +112,7 @@ int iTermClientServerProtocolParseTaggedInt(iTermClientServerProtocolMessagePars
 }
 
 static int iTermClientServerProtocolParseString(iTermClientServerProtocolMessageParser *parser,
-                                                char **out) {
+        char **out) {
     size_t length;
     if (iTermClientServerProtocolParseInt(parser, &length, sizeof(length))) {
         return iTermClientServerProtocolErrorLengthTruncated;
@@ -127,8 +127,8 @@ static int iTermClientServerProtocolParseString(iTermClientServerProtocolMessage
 }
 
 int iTermClientServerProtocolParseTaggedString(iTermClientServerProtocolMessageParser *parser,
-                                               char **out,
-                                               int tag) {
+        char **out,
+        int tag) {
     int actualTag;
     if (iTermClientServerProtocolParseInt(parser, &actualTag, sizeof(actualTag))) {
         return iTermClientServerProtocolErrorTagTruncated;
@@ -137,9 +137,9 @@ int iTermClientServerProtocolParseTaggedString(iTermClientServerProtocolMessageP
 }
 
 static int iTermClientServerProtocolParseStringArray(iTermClientServerProtocolMessageParser *parser,
-                                                     int tag,
-                                                     char ***arrayOut,
-                                                     int *countOut) {
+        int tag,
+        char ***arrayOut,
+        int *countOut) {
     if (iTermClientServerProtocolParseInt(parser, countOut, sizeof(*countOut))) {
         return iTermClientServerProtocolErrorStringArrayCountTruncated;
     }
@@ -162,9 +162,9 @@ static int iTermClientServerProtocolParseStringArray(iTermClientServerProtocolMe
 }
 
 int iTermClientServerProtocolParseTaggedStringArray(iTermClientServerProtocolMessageParser *parser,
-                                                    char ***arrayOut,
-                                                    int *countOut,
-                                                    int tag) {
+        char ***arrayOut,
+        int *countOut,
+        int tag) {
     int actualTag;
     if (iTermClientServerProtocolParseInt(parser, &actualTag, sizeof(actualTag))) {
         return iTermClientServerProtocolErrorTagTruncated;
@@ -186,7 +186,7 @@ static size_t iTermClientServerProtocolEncoderBytesLeft(iTermClientServerProtoco
 }
 
 static void iTermClientServerProtocolEncoderEnsureSpace(iTermClientServerProtocolMessageEncoder *encoder,
-                                                        ssize_t additionalSpace) {
+        ssize_t additionalSpace) {
     const size_t freeSpace = iTermClientServerProtocolEncoderBytesLeft(encoder);
     if (freeSpace >= additionalSpace) {
         return;
@@ -195,23 +195,23 @@ static void iTermClientServerProtocolEncoderEnsureSpace(iTermClientServerProtoco
 }
 
 static void iTermClientServerProtocolEncoderCopyAndAdvance(iTermClientServerProtocolMessageEncoder *encoder,
-                                                           const void *ptr,
-                                                           size_t size) {
+        const void *ptr,
+        size_t size) {
     iTermClientServerProtocolEncoderEnsureSpace(encoder, size);
     memmove(encoder->message->ioVectors[0].iov_base + encoder->offset, ptr, size);
     encoder->offset += size;
 }
 
 static void iTermClientServerProtocolEncodeInt(iTermClientServerProtocolMessageEncoder *encoder,
-                                               void *valuePtr,
-                                               size_t size) {
+        void *valuePtr,
+        size_t size) {
     iTermClientServerProtocolEncoderCopyAndAdvance(encoder, valuePtr, size);
 }
 
 int iTermClientServerProtocolEncodeTaggedInt(iTermClientServerProtocolMessageEncoder *encoder,
-                                             void *valuePtr,
-                                             size_t size,
-                                             int tag) {
+        void *valuePtr,
+        size_t size,
+        int tag) {
     iTermClientServerProtocolEncodeInt(encoder, &tag, sizeof(tag));
     iTermClientServerProtocolEncodeInt(encoder, &size, sizeof(size));
     iTermClientServerProtocolEncodeInt(encoder, valuePtr, size);
@@ -220,7 +220,7 @@ int iTermClientServerProtocolEncodeTaggedInt(iTermClientServerProtocolMessageEnc
 }
 
 static int iTermClientServerProtocolEncodeString(iTermClientServerProtocolMessageEncoder *encoder,
-                                                 const char *string) {
+        const char *string) {
     size_t length = strlen(string);
     iTermClientServerProtocolEncodeInt(encoder, &length, sizeof(length));
     iTermClientServerProtocolEncoderCopyAndAdvance(encoder, string, length);
@@ -228,16 +228,16 @@ static int iTermClientServerProtocolEncodeString(iTermClientServerProtocolMessag
 }
 
 int iTermClientServerProtocolEncodeTaggedString(iTermClientServerProtocolMessageEncoder *encoder,
-                                                const char *string,
-                                                int tag) {
+        const char *string,
+        int tag) {
     iTermClientServerProtocolEncodeInt(encoder, &tag, sizeof(tag));
     return iTermClientServerProtocolEncodeString(encoder, string);
 }
 
 static int iTermClientServerProtocolEncodeStringArray(iTermClientServerProtocolMessageEncoder *encoder,
-                                                      int tag,
-                                                      char **array,
-                                                      int count) {
+        int tag,
+        char **array,
+        int count) {
     iTermClientServerProtocolEncodeInt(encoder, &count, sizeof(count));
     for (int i = 0; i < count; i++) {
         iTermClientServerProtocolEncodeTaggedString(encoder, array[i], tag);
@@ -246,9 +246,9 @@ static int iTermClientServerProtocolEncodeStringArray(iTermClientServerProtocolM
 }
 
 int iTermClientServerProtocolEncodeTaggedStringArray(iTermClientServerProtocolMessageEncoder *encoder,
-                                                     char **array,
-                                                     int count,
-                                                     int tag) {
+        char **array,
+        int count,
+        int tag) {
     iTermClientServerProtocolEncodeInt(encoder, &tag, sizeof(tag));
     return iTermClientServerProtocolEncodeStringArray(encoder, tag, array, count);
 }

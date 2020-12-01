@@ -88,7 +88,7 @@ NSString *const iTermSessionDidChangeTabNotification = @"iTermSessionDidChangeTa
 - (void)moveSessionToNewWindow:(PTYSession *)movingSession atPoint:(NSPoint)point {
     if ([movingSession isTmuxClient]) {
         [[movingSession tmuxController] breakOutWindowPane:[movingSession tmuxPane]
-                                                   toPoint:point];
+                                        toPoint:point];
         return;
     }
     PTYTab *theTab = [movingSession.delegate.realParentWindow tabForSession:movingSession];
@@ -143,9 +143,9 @@ NSString *const iTermSessionDidChangeTabNotification = @"iTermSessionDidChangeTa
 }
 
 - (BOOL)dropTab:(PTYTab *)tab
-      inSession:(PTYSession *)dest
-           half:(SplitSessionHalf)half
-        atPoint:(NSPoint)point {
+    inSession:(PTYSession *)dest
+    half:(SplitSessionHalf)half
+    atPoint:(NSPoint)point {
     _dropping = YES;
     const BOOL result = [self reallyDropTab:tab inSession:dest half:half atPoint:point];
     _dropping = NO;
@@ -153,9 +153,9 @@ NSString *const iTermSessionDidChangeTabNotification = @"iTermSessionDidChangeTa
 }
 
 - (BOOL)reallyDropTab:(PTYTab *)tab
-            inSession:(PTYSession *)dest
-                 half:(SplitSessionHalf)half
-              atPoint:(NSPoint)point
+    inSession:(PTYSession *)dest
+    half:(SplitSessionHalf)half
+    atPoint:(NSPoint)point
 {
     if ([[tab sessions] count] != 1) {
         // This sometimes can't be done at all, and it usually can't be done right if tabs' sizes
@@ -173,8 +173,8 @@ NSString *const iTermSessionDidChangeTabNotification = @"iTermSessionDidChangeTa
 // The second call will do nothing.
 // It isn't called at all if a session is dragged into an existing tab bar.
 - (BOOL)dropInSession:(PTYSession *)dest
-                 half:(SplitSessionHalf)half
-              atPoint:(NSPoint)point {
+    half:(SplitSessionHalf)half
+    atPoint:(NSPoint)point {
     _dropping = YES;
     const BOOL result = [self reallyDropInSession:dest half:half atPoint:point];
     _dropping = NO;
@@ -182,11 +182,11 @@ NSString *const iTermSessionDidChangeTabNotification = @"iTermSessionDidChangeTa
 }
 
 - (BOOL)reallyDropInSession:(PTYSession *)dest
-                       half:(SplitSessionHalf)half
-                    atPoint:(NSPoint)point {
+    half:(SplitSessionHalf)half
+    atPoint:(NSPoint)point {
     if ((dest && ![session_ isCompatibleWith:dest]) ||  // Would create hetero-tmuxual splits in tab
-        dest == session_ ||  // move to self
-        !session_) {         // no source (?)
+            dest == session_ ||  // move to self
+            !session_) {         // no source (?)
         didSplit_ = YES;
         return NO;
     }
@@ -209,8 +209,8 @@ NSString *const iTermSessionDidChangeTabNotification = @"iTermSessionDidChangeTa
         if (isMove_) {
             [[self.session tmuxController] movePane:[self.session tmuxPane]
                                            intoPane:[dest tmuxPane]
-                                         isVertical:(half == kEastHalf || half == kWestHalf)
-                                             before:(half == kNorthHalf || half == kWestHalf)];
+                                           isVertical:(half == kEastHalf || half == kWestHalf)
+                                           before:(half == kNorthHalf || half == kWestHalf)];
         } else {
             [[self.session tmuxController] swapPane:[self.session tmuxPane]
                                            withPane:[dest tmuxPane]];
@@ -225,7 +225,7 @@ NSString *const iTermSessionDidChangeTabNotification = @"iTermSessionDidChangeTa
         PTYSession *movingSession = session_;
         BOOL isVertical = (half == kWestHalf || half == kEastHalf);
         if (![[destinationTab realParentWindow] canSplitPaneVertically:isVertical
-                                                          withBookmark:[movingSession profile]]) {
+                                                  withBookmark:[movingSession profile]]) {
             return NO;
         }
 
@@ -239,10 +239,10 @@ NSString *const iTermSessionDidChangeTabNotification = @"iTermSessionDidChangeTa
         }
 
         [[destinationTab realParentWindow] splitVertically:isVertical
-                                                    before:(half == kNorthHalf || half == kWestHalf)
-                                             addingSession:movingSession
-                                             targetSession:dest
-                                              performSetup:NO];
+                                           before:(half == kNorthHalf || half == kWestHalf)
+                                           addingSession:movingSession
+                                           targetSession:dest
+                                           performSetup:NO];
         [destinationTab fitSessionToCurrentViewSize:movingSession];
         [destinationTab checkInvariants:@"After move"];
     } else {
@@ -282,11 +282,11 @@ NSString *const iTermSessionDidChangeTabNotification = @"iTermSessionDidChangeTa
     [[NSCursor closedHandCursor] set];
     _isDragInProgress = YES;
     [theWindow dragImage:[session dragImage]
-                      at:rect.origin
-                  offset:NSZeroSize
-                   event:[NSApp currentEvent]
-              pasteboard:pboard
-                  source:source
+               at:rect.origin
+               offset:NSZeroSize
+               event:[NSApp currentEvent]
+               pasteboard:pboard
+               source:source
                slideBack:NO];
     _isDragInProgress = NO;
     for (PseudoTerminal *term in [[iTermController sharedInstance] terminals]) {

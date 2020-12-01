@@ -45,7 +45,7 @@ typedef NS_ENUM(NSUInteger, iTermLaunchExperienceChoice) {
 + (instancetype)sharedInstance {
     static id instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -81,7 +81,7 @@ typedef NS_ENUM(NSUInteger, iTermLaunchExperienceChoice) {
 
 + (void)quellAnnoyancesForDays:(NSInteger)days {
     [[NSUserDefaults standardUserDefaults] setDouble:[NSDate timeIntervalSinceReferenceDate] + days * 24 * 60 * 60
-                                              forKey:iTermLaunchExperienceControllerNextAnnoyanceTime];
+                                           forKey:iTermLaunchExperienceControllerNextAnnoyanceTime];
 }
 
 + (BOOL)quelled {
@@ -99,7 +99,7 @@ typedef NS_ENUM(NSUInteger, iTermLaunchExperienceChoice) {
 + (NSInteger)incrementRunCount {
     const NSInteger runCount = [self runCount] + 1;
     [[NSUserDefaults standardUserDefaults] setInteger:runCount
-                                               forKey:iTermLaunchExperienceControllerRunCount];
+                                           forKey:iTermLaunchExperienceControllerRunCount];
     return runCount;
 }
 
@@ -124,9 +124,9 @@ typedef NS_ENUM(NSUInteger, iTermLaunchExperienceChoice) {
             // Normal code path.
             _choice = [iTermLaunchExperienceController preferredChoice];
             if (_choice == iTermLaunchExperienceChoiceTipOfTheDay &&
-                ![[NSUserDefaults standardUserDefaults] objectForKey:iTermLaunchExperienceControllerTipOfTheDayEligibilityBeganTime]) {
+                    ![[NSUserDefaults standardUserDefaults] objectForKey:iTermLaunchExperienceControllerTipOfTheDayEligibilityBeganTime]) {
                 [[NSUserDefaults standardUserDefaults] setDouble:[NSDate timeIntervalSinceReferenceDate]
-                                                          forKey:iTermLaunchExperienceControllerTipOfTheDayEligibilityBeganTime];
+                                                       forKey:iTermLaunchExperienceControllerTipOfTheDayEligibilityBeganTime];
                 // The first time we're able to show the tip of the day we'll quell for 2 days so
                 // you get a break.
                 [iTermLaunchExperienceController quellAnnoyancesForDays:2];
@@ -139,21 +139,21 @@ typedef NS_ENUM(NSUInteger, iTermLaunchExperienceChoice) {
 
 - (void)performStartupActivities {
     switch (_choice) {
-        case iTermLaunchExperienceChoiceTipOfTheDay:
-            // Will prompt for access.
-            [self.class quellAnnoyancesForDays:1];
-            [[iTermTipController sharedInstance] startWithPermissionPromptAllowed:YES notBefore:[NSDate date]];
-            return;
-        case iTermLaunchExperienceChoiceNone:
-            // This is the steady-state.
-            [[iTermTipController sharedInstance] startWithPermissionPromptAllowed:NO notBefore:[NSDate date]];
-            return;
-        case iTermLaunchExperienceChoiceWhatsNew:
-        case iTermLaunchExperienceChoiceDefaultPasteBehaviorChangeWarning:
-            // If permission was already granted then allow a tip after 24 hours.
-            [[iTermTipController sharedInstance] startWithPermissionPromptAllowed:NO
-                                                                        notBefore:[NSDate dateWithTimeIntervalSinceNow:24 * 60 * 60]];
-            return;
+    case iTermLaunchExperienceChoiceTipOfTheDay:
+        // Will prompt for access.
+        [self.class quellAnnoyancesForDays:1];
+        [[iTermTipController sharedInstance] startWithPermissionPromptAllowed:YES notBefore:[NSDate date]];
+        return;
+    case iTermLaunchExperienceChoiceNone:
+        // This is the steady-state.
+        [[iTermTipController sharedInstance] startWithPermissionPromptAllowed:NO notBefore:[NSDate date]];
+        return;
+    case iTermLaunchExperienceChoiceWhatsNew:
+    case iTermLaunchExperienceChoiceDefaultPasteBehaviorChangeWarning:
+        // If permission was already granted then allow a tip after 24 hours.
+        [[iTermTipController sharedInstance] startWithPermissionPromptAllowed:NO
+                                             notBefore:[NSDate dateWithTimeIntervalSinceNow:24 * 60 * 60]];
+        return;
     }
 }
 
@@ -167,19 +167,19 @@ typedef NS_ENUM(NSUInteger, iTermLaunchExperienceChoice) {
 - (void)applicationDidFinishLaunching {
     [self checkIfSystemPythonModuleNeedsUpgrade];
     switch (_choice) {
-        case iTermLaunchExperienceChoiceDefaultPasteBehaviorChangeWarning:
-            [self.class quellAnnoyancesForDays:1];
-            [self warnAboutChangeToDefaultPasteBehavior];
-            return;
+    case iTermLaunchExperienceChoiceDefaultPasteBehaviorChangeWarning:
+        [self.class quellAnnoyancesForDays:1];
+        [self warnAboutChangeToDefaultPasteBehavior];
+        return;
 
-        case iTermLaunchExperienceChoiceTipOfTheDay:
-        case iTermLaunchExperienceChoiceNone:
-            return;
+    case iTermLaunchExperienceChoiceTipOfTheDay:
+    case iTermLaunchExperienceChoiceNone:
+        return;
 
-        case iTermLaunchExperienceChoiceWhatsNew:
-            [self.class quellAnnoyancesForDays:1];
-            [self showWhatsNewInThisVersion];
-            return;
+    case iTermLaunchExperienceChoiceWhatsNew:
+        [self.class quellAnnoyancesForDays:1];
+        [self showWhatsNewInThisVersion];
+        return;
     }
 }
 
@@ -194,10 +194,10 @@ typedef NS_ENUM(NSUInteger, iTermLaunchExperienceChoice) {
         return;
     }
     [[iTermSlowOperationGateway sharedInstance] runCommandInUserShell:@"pip3 show iterm2" completion:^(NSString * _Nullable value) {
-        NSArray<NSString *> *lines = [value componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+                                                   NSArray<NSString *> *lines = [value componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
         NSArray<iTermTuple<NSString *, NSString *> *> *kvps = [lines mapWithBlock:^id(NSString *line) {
-            return [line it_stringBySplittingOnFirstSubstring:@":"];
-        }];
+                  return [line it_stringBySplittingOnFirstSubstring:@":"];
+              }];
         NSString *(^getHeader)(NSString *) = ^NSString *(NSString *desiredName) {
             return [[kvps objectPassingTest:^BOOL(iTermTuple<NSString *,NSString *> *tuple, NSUInteger index, BOOL *stop) {
                 NSString *key = tuple.firstObject;
@@ -219,31 +219,31 @@ typedef NS_ENUM(NSUInteger, iTermLaunchExperienceChoice) {
         } else {
             command = @"pip3 install --user --upgrade iterm2";
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^ {
             NSString *message = [NSString stringWithFormat:@"The system Python's iterm2 module is out of date and won't work with this version of iTerm2. Run `%@` to fix it.", command];
             const iTermWarningSelection selection =
             [iTermWarning showWarningWithTitle:message
-                                       actions:@[ @"Copy Command", @"Ignore", @"Remind me Later"]
-                                     accessory:nil
-                                    identifier:@"SystemPythonModuleOutdated"
-                                   silenceable:kiTermWarningTypePersistent
-                                       heading:@"Upgrade system Python iterm2 module?"
-                                        window:nil];
+                          actions:@[ @"Copy Command", @"Ignore", @"Remind me Later"]
+                          accessory:nil
+                          identifier:@"SystemPythonModuleOutdated"
+                          silenceable:kiTermWarningTypePersistent
+                          heading:@"Upgrade system Python iterm2 module?"
+                          window:nil];
             switch (selection) {
-                case kiTermWarningSelection0: {
-                    NSPasteboard *pboard = [NSPasteboard generalPasteboard];
-                    [pboard declareTypes:@[NSPasteboardTypeString] owner:NSApp];
-                    [pboard setString:command
-                              forType:NSPasteboardTypeString];
-                    return;
-                }
-                case kiTermWarningSelection1:
-                    [iTermUserDefaults setLastSystemPythonVersionRequirement:minimumModuleVersionString];
-                    return;
-                case kiTermWarningSelection2:
-                    return;
-                default:
-                    return;
+            case kiTermWarningSelection0: {
+                NSPasteboard *pboard = [NSPasteboard generalPasteboard];
+                [pboard declareTypes:@[NSPasteboardTypeString] owner:NSApp];
+                [pboard setString:command
+                        forType:NSPasteboardTypeString];
+                return;
+            }
+            case kiTermWarningSelection1:
+                [iTermUserDefaults setLastSystemPythonVersionRequirement:minimumModuleVersionString];
+                return;
+            case kiTermWarningSelection2:
+                return;
+            default:
+                return;
             }
         });
     }];
@@ -275,12 +275,12 @@ typedef NS_ENUM(NSUInteger, iTermLaunchExperienceChoice) {
 
 - (void)warnAboutChangeToDefaultPasteBehavior {
     [iTermWarning showWarningWithTitle:@"iTerm2 no longer warns before a multi-line paste, unless you are at the shell prompt."
-                               actions:@[ @"OK" ]
-                             accessory:nil
-                            identifier:nil
-                           silenceable:kiTermWarningTypePersistent
-                               heading:@"Important Change"
-                                window:nil];
+                  actions:@[ @"OK" ]
+                  accessory:nil
+                  identifier:nil
+                  silenceable:kiTermWarningTypePersistent
+                  heading:@"Important Change"
+                  window:nil];
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kHaveWarnedAboutPasteConfirmationChange];
 }
 

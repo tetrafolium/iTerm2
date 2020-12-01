@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)notificationWithProcessID:(pid_t)pid terminationStatus:(int)terminationStatus;
 + (void)subscribe:(NSObject *)owner
-            block:(void (^)(iTermMultiServerChildDidTerminateNotification * _Nonnull notification))block;
+    block:(void (^)(iTermMultiServerChildDidTerminateNotification * _Nonnull notification))block;
 @end
 
 NS_ASSUME_NONNULL_END

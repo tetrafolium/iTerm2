@@ -41,7 +41,7 @@
 + (instancetype)cachingFileManager {
     static id instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -64,9 +64,9 @@
 
     const BOOL exists = [super fileExistsAtPath:path];
     entry = [iTermCachingFileManagerEntry entryWithExists:exists];
-    
+
     [_cache setObject:entry forKey:path];
-    
+
     return exists;
 }
 

@@ -137,17 +137,17 @@
     if ([iTermPreferences boolForKey:kPreferenceKeySavePasteAndCommandHistory]) {
         NSError *error = nil;
         NSData *data =
-        [NSKeyedArchiver archivedDataWithRootObject:[self _entriesToDict]
-                              requiringSecureCoding:NO
-                                              error:&error];
+            [NSKeyedArchiver archivedDataWithRootObject:[self _entriesToDict]
+                             requiringSecureCoding:NO
+                             error:&error];
         if (error) {
             DLog(@"Failed to archive command history: %@", error);
             return;
         }
         [data writeToFile:path_ atomically:NO];
-        [[NSFileManager defaultManager] setAttributes:@{ NSFilePosixPermissions: @0600 }
-                                         ofItemAtPath:path_
-                                                error:nil];
+        [[NSFileManager defaultManager] setAttributes:@ { NSFilePosixPermissions: @0600 }
+                                        ofItemAtPath:path_
+                                        error:nil];
     }
 }
 
@@ -172,7 +172,7 @@
 - (void)save:(NSString*)value
 {
     if (IsSecureEventInputEnabled() &&
-        ![iTermAdvancedSettingsModel saveToPasteHistoryWhenSecureInputEnabled]) {
+            ![iTermAdvancedSettingsModel saveToPasteHistoryWhenSecureInputEnabled]) {
         DLog(@"Not saving paste history because secure keyboard entry is enabled");
         return;
     }
@@ -212,7 +212,7 @@
     [self _writeHistoryToDisk];
 
     [[NSNotificationCenter defaultCenter] postNotificationName:kPasteboardHistoryDidChange
-                                                        object:self];
+                                          object:self];
 }
 
 @end
@@ -231,9 +231,9 @@
     [self window];
     [self setTableView:table_];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(pasteboardHistoryDidChange:)
-                                                 name:kPasteboardHistoryDidChange
-                                               object:nil];
+                                          selector:@selector(pasteboardHistoryDidChange:)
+                                          name:kPasteboardHistoryDidChange
+                                          object:nil];
 
     return self;
 }
@@ -271,10 +271,10 @@
     [self copyFromHistory];
     if (!minuteRefreshTimer_) {
         minuteRefreshTimer_ = [NSTimer scheduledTimerWithTimeInterval:61
-                                                               target:self
-                                                             selector:@selector(pasteboardHistoryDidChange:)
-                                                             userInfo:nil
-                                                              repeats:YES];
+                                       target:self
+                                       selector:@selector(pasteboardHistoryDidChange:)
+                                       userInfo:nil
+                                       repeats:YES];
     }
 }
 

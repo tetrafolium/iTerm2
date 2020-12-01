@@ -33,66 +33,66 @@ typedef NS_ENUM(NSUInteger, iTermMouseReportingFrustrationDetectorState) {
 
 - (void)mouseDown:(NSEvent *)event reported:(BOOL)reported {
     switch (_state) {
-        case iTermMouseReportingFrustrationDetectorStateGround:
-        case iTermMouseReportingFrustrationDetectorStateMouseDown:
-        case iTermMouseReportingFrustrationDetectorStateMouseDownMultiple:
-        case iTermMouseReportingFrustrationDetectorStatePrimedMultiple:
-            if (event.clickCount > 0 && reported) {
-                if (event.clickCount == 1) {
-                    self.state = iTermMouseReportingFrustrationDetectorStateMouseDown;
-                } else {
-                    self.state = iTermMouseReportingFrustrationDetectorStateMouseDownMultiple;
-                }
-                return;
+    case iTermMouseReportingFrustrationDetectorStateGround:
+    case iTermMouseReportingFrustrationDetectorStateMouseDown:
+    case iTermMouseReportingFrustrationDetectorStateMouseDownMultiple:
+    case iTermMouseReportingFrustrationDetectorStatePrimedMultiple:
+        if (event.clickCount > 0 && reported) {
+            if (event.clickCount == 1) {
+                self.state = iTermMouseReportingFrustrationDetectorStateMouseDown;
+            } else {
+                self.state = iTermMouseReportingFrustrationDetectorStateMouseDownMultiple;
             }
-            // Fall through
-        case iTermMouseReportingFrustrationDetectorStateMouseDragged:
-        case iTermMouseReportingFrustrationDetectorStatePrimed:
-            self.state = iTermMouseReportingFrustrationDetectorStateGround;
-            break;
+            return;
+        }
+    // Fall through
+    case iTermMouseReportingFrustrationDetectorStateMouseDragged:
+    case iTermMouseReportingFrustrationDetectorStatePrimed:
+        self.state = iTermMouseReportingFrustrationDetectorStateGround;
+        break;
     }
 }
 
 - (void)mouseDragged:(NSEvent *)event reported:(BOOL)reported {
     switch (_state) {
-        case iTermMouseReportingFrustrationDetectorStateMouseDown:
-        case iTermMouseReportingFrustrationDetectorStateMouseDownMultiple:
-        case iTermMouseReportingFrustrationDetectorStateMouseDragged:
-        case iTermMouseReportingFrustrationDetectorStatePrimedMultiple:
-            if (reported) {
-                self.state = iTermMouseReportingFrustrationDetectorStateMouseDragged;
-                return;
-            }
-            // Fall through
-        case iTermMouseReportingFrustrationDetectorStateGround:
-        case iTermMouseReportingFrustrationDetectorStatePrimed:
-            self.state = iTermMouseReportingFrustrationDetectorStateGround;
-            break;
+    case iTermMouseReportingFrustrationDetectorStateMouseDown:
+    case iTermMouseReportingFrustrationDetectorStateMouseDownMultiple:
+    case iTermMouseReportingFrustrationDetectorStateMouseDragged:
+    case iTermMouseReportingFrustrationDetectorStatePrimedMultiple:
+        if (reported) {
+            self.state = iTermMouseReportingFrustrationDetectorStateMouseDragged;
+            return;
+        }
+    // Fall through
+    case iTermMouseReportingFrustrationDetectorStateGround:
+    case iTermMouseReportingFrustrationDetectorStatePrimed:
+        self.state = iTermMouseReportingFrustrationDetectorStateGround;
+        break;
     }
 }
 
 - (void)mouseUp:(NSEvent *)event reported:(BOOL)reported {
     switch (_state) {
-        case iTermMouseReportingFrustrationDetectorStateMouseDownMultiple:
-        case iTermMouseReportingFrustrationDetectorStatePrimedMultiple:
-            if (reported) {
-                self.state = iTermMouseReportingFrustrationDetectorStatePrimedMultiple;
-                return;
-            }
-            self.state = iTermMouseReportingFrustrationDetectorStateGround;
+    case iTermMouseReportingFrustrationDetectorStateMouseDownMultiple:
+    case iTermMouseReportingFrustrationDetectorStatePrimedMultiple:
+        if (reported) {
+            self.state = iTermMouseReportingFrustrationDetectorStatePrimedMultiple;
             return;
+        }
+        self.state = iTermMouseReportingFrustrationDetectorStateGround;
+        return;
 
-        case iTermMouseReportingFrustrationDetectorStateMouseDragged:
-            if (event.clickCount == 0 && reported) {
-                self.state = iTermMouseReportingFrustrationDetectorStatePrimed;
-                return;
-            }
-            // Fall through
-        case iTermMouseReportingFrustrationDetectorStateGround:
-        case iTermMouseReportingFrustrationDetectorStatePrimed:
-        case iTermMouseReportingFrustrationDetectorStateMouseDown:
-            self.state = iTermMouseReportingFrustrationDetectorStateGround;
-            break;
+    case iTermMouseReportingFrustrationDetectorStateMouseDragged:
+        if (event.clickCount == 0 && reported) {
+            self.state = iTermMouseReportingFrustrationDetectorStatePrimed;
+            return;
+        }
+    // Fall through
+    case iTermMouseReportingFrustrationDetectorStateGround:
+    case iTermMouseReportingFrustrationDetectorStatePrimed:
+    case iTermMouseReportingFrustrationDetectorStateMouseDown:
+        self.state = iTermMouseReportingFrustrationDetectorStateGround;
+        break;
     }
 }
 
@@ -102,7 +102,7 @@ typedef NS_ENUM(NSUInteger, iTermMouseReportingFrustrationDetectorState) {
                                        NSEventModifierFlagOption |
                                        NSEventModifierFlagControl);
     if ((event.modifierFlags & mask) == NSEventModifierFlagCommand &&
-        [event.charactersIgnoringModifiers isEqualToString:@"c"]) {
+            [event.charactersIgnoringModifiers isEqualToString:@"c"]) {
         [self cmdC];
         return;
     }
@@ -115,33 +115,33 @@ typedef NS_ENUM(NSUInteger, iTermMouseReportingFrustrationDetectorState) {
 
 - (void)cmdC {
     switch (_state) {
-        case iTermMouseReportingFrustrationDetectorStatePrimed:
-        case iTermMouseReportingFrustrationDetectorStatePrimedMultiple:
-        case iTermMouseReportingFrustrationDetectorStateMouseDownMultiple:
-        case iTermMouseReportingFrustrationDetectorStateMouseDragged:
-            [self.delegate mouseReportingFrustrationDetectorDidDetectFrustration:self];
-            self.state = iTermMouseReportingFrustrationDetectorStateGround;
-            return;
+    case iTermMouseReportingFrustrationDetectorStatePrimed:
+    case iTermMouseReportingFrustrationDetectorStatePrimedMultiple:
+    case iTermMouseReportingFrustrationDetectorStateMouseDownMultiple:
+    case iTermMouseReportingFrustrationDetectorStateMouseDragged:
+        [self.delegate mouseReportingFrustrationDetectorDidDetectFrustration:self];
+        self.state = iTermMouseReportingFrustrationDetectorStateGround;
+        return;
 
-        case iTermMouseReportingFrustrationDetectorStateGround:
-        case iTermMouseReportingFrustrationDetectorStateMouseDown:
-            self.state = iTermMouseReportingFrustrationDetectorStateGround;
-            break;
+    case iTermMouseReportingFrustrationDetectorStateGround:
+    case iTermMouseReportingFrustrationDetectorStateMouseDown:
+        self.state = iTermMouseReportingFrustrationDetectorStateGround;
+        break;
     }
 }
 
 - (void)didCopyToPasteboardWithControlSequence {
     switch (_state) {
-        case iTermMouseReportingFrustrationDetectorStatePrimed:
-        case iTermMouseReportingFrustrationDetectorStatePrimedMultiple:
-        case iTermMouseReportingFrustrationDetectorStateMouseDownMultiple:
-        case iTermMouseReportingFrustrationDetectorStateMouseDragged:
-            self.state = iTermMouseReportingFrustrationDetectorStateGround;
-            return;
+    case iTermMouseReportingFrustrationDetectorStatePrimed:
+    case iTermMouseReportingFrustrationDetectorStatePrimedMultiple:
+    case iTermMouseReportingFrustrationDetectorStateMouseDownMultiple:
+    case iTermMouseReportingFrustrationDetectorStateMouseDragged:
+        self.state = iTermMouseReportingFrustrationDetectorStateGround;
+        return;
 
-        case iTermMouseReportingFrustrationDetectorStateGround:
-        case iTermMouseReportingFrustrationDetectorStateMouseDown:
-            break;
+    case iTermMouseReportingFrustrationDetectorStateGround:
+    case iTermMouseReportingFrustrationDetectorStateMouseDown:
+        break;
     }
 }
 

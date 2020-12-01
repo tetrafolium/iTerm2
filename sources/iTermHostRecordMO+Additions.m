@@ -12,7 +12,7 @@
 
 + (instancetype)hostRecordInContext:(NSManagedObjectContext *)context {
     return [NSEntityDescription insertNewObjectForEntityForName:self.entityName
-                                         inManagedObjectContext:context];
+                                inManagedObjectContext:context];
 }
 
 + (NSString *)entityName {

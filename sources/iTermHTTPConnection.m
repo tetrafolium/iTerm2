@@ -21,8 +21,8 @@
 }
 
 - (instancetype)initWithFileDescriptor:(int)fd
-                         clientAddress:(iTermSocketAddress *)address
-                                  euid:(NSNumber *)euid {
+    clientAddress:(iTermSocketAddress *)address
+    euid:(NSNumber *)euid {
     self = [super init];
     if (self) {
         _fd = fd;
@@ -94,15 +94,15 @@
 }
 
 - (void)badRequest {
-    [self sendResponseWithCode:400 reason:@"Bad Request" headers:@{}];
+    [self sendResponseWithCode:400 reason:@"Bad Request" headers:@ {}];
 }
 
 - (void)unacceptable {
-    [self sendResponseWithCode:406 reason:@"Unacceptable (upgrade Python library)" headers:@{}];
+    [self sendResponseWithCode:406 reason:@"Unacceptable (upgrade Python library)" headers:@ {}];
 }
 
 - (void)unauthorized {
-    [self sendResponseWithCode:401 reason:@"Unauthorized" headers:@{}];
+    [self sendResponseWithCode:401 reason:@"Unauthorized" headers:@ {}];
 }
 
 // queue
@@ -194,7 +194,7 @@
             [bytes appendData:data];
             if (bytes.length >= 2 && [[bytes subdataWithRange:NSMakeRange(bytes.length - 2, 2)] isEqualToData:crlfData]) {
                 return [[NSString alloc] initWithData:[bytes subdataWithRange:NSMakeRange(0, bytes.length - 2)]
-                                             encoding:NSISOLatin1StringEncoding];
+                                         encoding:NSISOLatin1StringEncoding];
             }
         } else {
             return nil;

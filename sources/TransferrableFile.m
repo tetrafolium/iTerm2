@@ -22,7 +22,7 @@
 static NSMutableSet<NSString *> *iTermTransferrableFileLockedFileNames(void) {
     static NSMutableSet<NSString *> *locks;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         locks = [[NSMutableSet alloc] init];
     });
     return locks;
@@ -98,7 +98,7 @@ static NSMutableSet<NSString *> *iTermTransferrableFileLockedFileNames(void) {
 }
 
 - (NSString *)finalDestinationForPath:(NSString *)baseName
-                 destinationDirectory:(NSString *)destinationDirectory {
+    destinationDirectory:(NSString *)destinationDirectory {
     NSString *name = baseName;
     NSString *finalDestination = nil;
     int retries = 0;
@@ -142,23 +142,23 @@ static NSMutableSet<NSString *> *iTermTransferrableFileLockedFileNames(void) {
             _status = status;
             _timeOfLastStatusChange = [NSDate timeIntervalSinceReferenceDate];
             switch (status) {
-                case kTransferrableFileStatusUnstarted:
-                case kTransferrableFileStatusStarting:
-                case kTransferrableFileStatusTransferring:
-                case kTransferrableFileStatusCancelling:
-                case kTransferrableFileStatusCancelled:
-                    break;
+            case kTransferrableFileStatusUnstarted:
+            case kTransferrableFileStatusStarting:
+            case kTransferrableFileStatusTransferring:
+            case kTransferrableFileStatusCancelling:
+            case kTransferrableFileStatusCancelled:
+                break;
 
-                case kTransferrableFileStatusFinishedSuccessfully:
-                    [[iTermNotificationController sharedInstance] notify:
-                        [NSString stringWithFormat:@"%@ finished for “%@”.",
-                            self.isDownloading ? @"Download" : @"Upload", [self shortName]]];
-                    break;
+            case kTransferrableFileStatusFinishedSuccessfully:
+                [[iTermNotificationController sharedInstance] notify:
+                                                              [NSString stringWithFormat:@"%@ finished for “%@”.",
+                                                               self.isDownloading ? @"Download" : @"Upload", [self shortName]]];
+                break;
 
-                case kTransferrableFileStatusFinishedWithError:
-                    [[iTermNotificationController sharedInstance] notify:
-                     [NSString stringWithFormat:@"%@ failed for “%@”.",
-                      self.isDownloading ? @"Download" : @"Upload", [self shortName]]];
+            case kTransferrableFileStatusFinishedWithError:
+                [[iTermNotificationController sharedInstance] notify:
+                                                              [NSString stringWithFormat:@"%@ failed for “%@”.",
+                                                               self.isDownloading ? @"Download" : @"Upload", [self shortName]]];
             }
         }
     }
@@ -176,12 +176,12 @@ static NSMutableSet<NSString *> *iTermTransferrableFileLockedFileNames(void) {
 
 - (void)failedToRemoveUnquarantinedFileAt:(NSString *)path {
     [iTermWarning showWarningWithTitle:[NSString stringWithFormat:@"The file at “%@” could not be quarantined or deleted! It is dangerous and should be removed.", path]
-                               actions:@[ @"OK" ]
-                             accessory:nil
-                            identifier:nil
-                           silenceable:kiTermWarningTypePersistent
-                               heading:@"Danger!"
-                                window:nil];
+                  actions:@[ @"OK" ]
+                  accessory:nil
+                  identifier:nil
+                  silenceable:kiTermWarningTypePersistent
+                  heading:@"Danger!"
+                  window:nil];
 }
 
 - (BOOL)quarantine:(NSString *)path sourceURL:(NSURL *)sourceURL {
@@ -192,8 +192,8 @@ static NSMutableSet<NSString *> *iTermTransferrableFileLockedFileNames(void) {
         NSError *error = nil;
         NSDictionary *temp;
         const BOOL ok = [url getResourceValue:&temp
-                                       forKey:NSURLQuarantinePropertiesKey
-                                        error:&error];
+                             forKey:NSURLQuarantinePropertiesKey
+                             error:&error];
         if (!ok) {
             XLog(@"Get quarantine of %@ failed: %@", path, error);
             return NO;
@@ -202,7 +202,7 @@ static NSMutableSet<NSString *> *iTermTransferrableFileLockedFileNames(void) {
             XLog(@"Quarantine of wrong class: %@", NSStringFromClass([temp class]));
             return NO;
         }
-        properties = [[temp ?: @{} mutableCopy] autorelease];
+        properties = [[temp ?: @ {} mutableCopy] autorelease];
     }
 
     NSBundle *bundle = [NSBundle mainBundle];
@@ -218,8 +218,8 @@ static NSMutableSet<NSString *> *iTermTransferrableFileLockedFileNames(void) {
     {
         NSError *error = nil;
         const BOOL ok = [url setResourceValue:properties
-                                       forKey:NSURLQuarantinePropertiesKey
-                                        error:&error];
+                             forKey:NSURLQuarantinePropertiesKey
+                             error:&error];
         if (!ok) {
             XLog(@"Set quarantine of %@ failed: %@", path, error);
             return NO;

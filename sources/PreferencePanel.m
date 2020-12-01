@@ -173,9 +173,9 @@ static PreferencePanel *gSessionsPreferencePanel;
         savedPostNotifs = _enclosingClipView.postsBoundsChangedNotifications;
         _enclosingClipView.postsBoundsChangedNotifications = YES;
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(scrollViewDidScroll:)
-                                                     name:NSViewBoundsDidChangeNotification
-                                                   object:_enclosingClipView];
+                                              selector:@selector(scrollViewDidScroll:)
+                                              name:NSViewBoundsDidChangeNotification
+                                              object:_enclosingClipView];
     }
     [self setNeedsDisplay:YES];
 }
@@ -259,7 +259,7 @@ static PreferencePanel *gSessionsPreferencePanel;
 
 - (void)saveFrameUsingName:(NSWindowFrameAutosaveName)name {
     [[NSUserDefaults standardUserDefaults] setObject:[self dictForFrame:self.frame onScreen:self.screen]
-                                              forKey:[self userDefaultsKeyForFrameName:name]];
+                                           forKey:[self userDefaultsKeyForFrameName:name]];
 }
 
 - (BOOL)haveSavedFrameForFrameWithName:(NSString *)name {
@@ -288,8 +288,11 @@ static PreferencePanel *gSessionsPreferencePanel;
 - (NSDictionary *)dictForFrame:(NSRect)frame onScreen:(NSScreen *)screen {
     const NSPoint topLeft = NSMakePoint(frame.origin.x,
                                         frame.origin.y + frame.size.height);
-    return @{ @"topLeft": NSStringFromPoint(topLeft),
-              @"screenFrame": NSStringFromRect(screen.frame) };
+    return @ { @"topLeft":
+               NSStringFromPoint(topLeft),
+               @"screenFrame":
+               NSStringFromRect(screen.frame)
+             };
 }
 
 - (NSWindowPersistableFrameDescriptor)stringWithSavedFrame {
@@ -373,7 +376,7 @@ static iTermPreferencesSearchEngine *gSearchEngine;
 + (instancetype)sharedInstance {
     if (!gSharedPreferencePanel) {
         gSharedPreferencePanel = [[PreferencePanel alloc] initWithProfileModel:[ProfileModel sharedInstance]
-                                                        editCurrentSessionMode:NO];
+                                                          editCurrentSessionMode:NO];
     }
     return gSharedPreferencePanel;
 }
@@ -381,7 +384,7 @@ static iTermPreferencesSearchEngine *gSearchEngine;
 + (instancetype)sessionsInstance {
     if (!gSessionsPreferencePanel) {
         gSessionsPreferencePanel = [[PreferencePanel alloc] initWithProfileModel:[ProfileModel sessionsInstance]
-                                                          editCurrentSessionMode:YES];
+                                                            editCurrentSessionMode:YES];
     }
     return gSessionsPreferencePanel;
 }
@@ -391,7 +394,7 @@ static iTermPreferencesSearchEngine *gSearchEngine;
 }
 
 - (instancetype)initWithProfileModel:(ProfileModel*)model
-              editCurrentSessionMode:(BOOL)editCurrentSessionMode {
+    editCurrentSessionMode:(BOOL)editCurrentSessionMode {
     self = [super initWithWindowNibName:@"PreferencePanel"];
     if (self) {
         _profileModel = model;
@@ -452,9 +455,9 @@ static iTermPreferencesSearchEngine *gSearchEngine;
     panel.prefsPanelDelegate = self;
 
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(scrimMouseUp:)
-                                                 name:iTermPrefsScrimMouseUpNotification
-                                               object:nil];
+                                          selector:@selector(scrimMouseUp:)
+                                          name:iTermPrefsScrimMouseUpNotification
+                                          object:nil];
 }
 
 - (void)layoutSubviewsForEditCurrentSessionMode {
@@ -474,7 +477,7 @@ static iTermPreferencesSearchEngine *gSearchEngine;
     [self selectProfilesTab];
     [self run];
     [_profilesViewController openToProfileWithGuidAndEditHotKey:profile[KEY_GUID]
-                                                          scope:nil];
+                             scope:nil];
 }
 
 - (void)selectProfilesTab {
@@ -484,7 +487,7 @@ static iTermPreferencesSearchEngine *gSearchEngine;
     // profile tab (such as when coming from the Profiles window).
     const BOOL shouldDisableResize = [self isSessionsInstance];
     if (shouldDisableResize) {
-       _disableResize++;
+        _disableResize++;
     }
     [_tabView selectTabViewItem:_bookmarksTabViewItem];
     if (shouldDisableResize) {
@@ -495,9 +498,9 @@ static iTermPreferencesSearchEngine *gSearchEngine;
 
 // NOTE: Callers should invoke makeKeyAndOrderFront if they are so inclined.
 - (void)openToProfileWithGuid:(NSString*)guid
-             selectGeneralTab:(BOOL)selectGeneralTab
-                         tmux:(BOOL)tmux
-                        scope:(iTermVariableScope<iTermSessionScope> *)scope {
+    selectGeneralTab:(BOOL)selectGeneralTab
+    tmux:(BOOL)tmux
+    scope:(iTermVariableScope<iTermSessionScope> *)scope {
     _tmux = tmux;
     _profilesViewController.tmuxSession = tmux;
     _profilesViewController.scope = scope;
@@ -505,14 +508,14 @@ static iTermPreferencesSearchEngine *gSearchEngine;
     [self selectProfilesTab];
     [self run];
     [_profilesViewController openToProfileWithGuid:guid
-                                  selectGeneralTab:selectGeneralTab
-                                             scope:scope];
+                             selectGeneralTab:selectGeneralTab
+                             scope:scope];
 }
 
 - (void)openToProfileWithGuid:(NSString *)guid
-andEditComponentWithIdentifier:(NSString *)identifier
-                         tmux:(BOOL)tmux
-                        scope:(iTermVariableScope<iTermSessionScope> *)scope {
+    andEditComponentWithIdentifier:(NSString *)identifier
+    tmux:(BOOL)tmux
+    scope:(iTermVariableScope<iTermSessionScope> *)scope {
     _tmux = tmux;
     _profilesViewController.tmuxSession = tmux;
     _profilesViewController.scope = scope;
@@ -520,12 +523,12 @@ andEditComponentWithIdentifier:(NSString *)identifier
     [self selectProfilesTab];
     [self run];
     [_profilesViewController openToProfileWithGuid:guid
-                    andEditComponentWithIdentifier:identifier
-                                             scope:scope];
+                             andEditComponentWithIdentifier:identifier
+                             scope:scope];
 }
 
 - (void)openToProfileWithGuid:(NSString *)guid
-                          key:(NSString *)key {
+    key:(NSString *)key {
     _tmux = NO;
     _profilesViewController.tmuxSession = NO;
     _profilesViewController.scope = nil;
@@ -554,10 +557,10 @@ andEditComponentWithIdentifier:(NSString *)identifier
     BOOL switchingTabs = NO;
     BOOL switchingInnerTabs = NO;
     [self revealDocument:document
-           switchingTabs:&switchingTabs
-      switchingInnerTabs:&switchingInnerTabs];
+          switchingTabs:&switchingTabs
+          switchingInnerTabs:&switchingInnerTabs];
     [self fadeOutScrimAfterDelay:[self delayToWaitForTabToSwitch:switchingTabs
-                                         waitForInnerTabToSwitch:switchingInnerTabs]];
+                                  waitForInnerTabToSwitch:switchingInnerTabs]];
 }
 
 - (NSWindow *)window {
@@ -565,7 +568,7 @@ andEditComponentWithIdentifier:(NSString *)identifier
     NSWindow *window = [super window];
     if (shouldPostWindowLoadNotification) {
         [[NSNotificationCenter defaultCenter] postNotificationName:kPreferencePanelDidLoadNotification
-                                                            object:self];
+                                              object:self];
     }
     return window;
 }
@@ -649,18 +652,18 @@ andEditComponentWithIdentifier:(NSString *)identifier
 
 - (void)windowDidBecomeKey:(NSNotification *)aNotification {
     [[NSNotificationCenter defaultCenter] postNotificationName:kNonTerminalWindowBecameKeyNotification
-                                                        object:nil
-                                                      userInfo:nil];
+                                          object:nil
+                                          userInfo:nil];
 }
 
 - (void)postWillCloseNotification {
     [[NSNotificationCenter defaultCenter] postNotificationName:kPreferencePanelWillCloseNotification
-                                                        object:self];
+                                          object:self];
 }
 
 - (void)updateSERPOrigin {
     NSPoint point = [self.window convertPointToScreen:[self.searchField convertPoint:NSMakePoint(0, NSHeight(self.searchField.bounds))
-                                                                              toView:nil]];
+                                 toView:nil]];
     point.y -= 1;
     [_serpWindowController.window setFrameTopLeftPoint:point];
 }
@@ -735,7 +738,7 @@ andEditComponentWithIdentifier:(NSString *)identifier
 }
 
 #ifdef MAC_OS_X_VERSION_10_16
-- (NSSearchToolbarItem *)bigSurSearchFieldToolbarItem NS_AVAILABLE_MAC(10_16){
+- (NSSearchToolbarItem *)bigSurSearchFieldToolbarItem NS_AVAILABLE_MAC(10_16) {
     if (!_bigSurSearchFieldToolbarItem) {
         _bigSurSearchFieldToolbarItem = [[NSSearchToolbarItem alloc] initWithItemIdentifier:iTermPreferencePanelSearchFieldToolbarItemIdentifier];
         _bigSurSearchFieldToolbarItem.label = @"Search";
@@ -753,15 +756,15 @@ andEditComponentWithIdentifier:(NSString *)identifier
         [self createSearchField];
     }
     NSArray *result = @[ [_globalToolbarItem itemIdentifier],
-                         [_appearanceToolbarItem itemIdentifier],
-                         [_bookmarksToolbarItem itemIdentifier],
-                         [_keyboardToolbarItem itemIdentifier],
-                         [_arrangementsToolbarItem itemIdentifier],
-                         [_mouseToolbarItem itemIdentifier],
-                         [_shortcutsToolbarItem itemIdentifier],
-                         [_advancedToolbarItem itemIdentifier],
-                         [_flexibleSpaceToolbarItem itemIdentifier],
-                         _searchFieldToolbarItem.itemIdentifier];
+                                                            [_appearanceToolbarItem itemIdentifier],
+                                                            [_bookmarksToolbarItem itemIdentifier],
+                                                            [_keyboardToolbarItem itemIdentifier],
+                                                            [_arrangementsToolbarItem itemIdentifier],
+                                                            [_mouseToolbarItem itemIdentifier],
+                                                            [_shortcutsToolbarItem itemIdentifier],
+                                                            [_advancedToolbarItem itemIdentifier],
+                                                            [_flexibleSpaceToolbarItem itemIdentifier],
+                                                            _searchFieldToolbarItem.itemIdentifier];
     return result;
 }
 
@@ -783,27 +786,37 @@ andEditComponentWithIdentifier:(NSString *)identifier
 
 - (NSDictionary *)toolbarIdentifierToItemDictionary {
     if (!_globalToolbarItem) {
-        return @{};
+        return @ {};
     }
     if (!_searchFieldToolbarItem) {
         [self createSearchField];
     }
     NSDictionary *dict =
-    @{ [_globalToolbarItem itemIdentifier]: _globalToolbarItem,
-       [_appearanceToolbarItem itemIdentifier]: _appearanceToolbarItem,
-       [_bookmarksToolbarItem itemIdentifier]: _bookmarksToolbarItem,
-       [_keyboardToolbarItem itemIdentifier]: _keyboardToolbarItem,
-       [_arrangementsToolbarItem itemIdentifier]: _arrangementsToolbarItem,
-       [_mouseToolbarItem itemIdentifier]: _mouseToolbarItem,
-       [_shortcutsToolbarItem itemIdentifier]: _shortcutsToolbarItem,
-       [_advancedToolbarItem itemIdentifier]: _advancedToolbarItem,
-       _searchFieldToolbarItem.itemIdentifier: _searchFieldToolbarItem };
+        @ { [_globalToolbarItem itemIdentifier]:
+            _globalToolbarItem,
+            [_appearanceToolbarItem itemIdentifier]:
+            _appearanceToolbarItem,
+            [_bookmarksToolbarItem itemIdentifier]:
+            _bookmarksToolbarItem,
+            [_keyboardToolbarItem itemIdentifier]:
+            _keyboardToolbarItem,
+            [_arrangementsToolbarItem itemIdentifier]:
+            _arrangementsToolbarItem,
+            [_mouseToolbarItem itemIdentifier]:
+            _mouseToolbarItem,
+            [_shortcutsToolbarItem itemIdentifier]:
+            _shortcutsToolbarItem,
+            [_advancedToolbarItem itemIdentifier]:
+            _advancedToolbarItem,
+            _searchFieldToolbarItem.itemIdentifier:
+            _searchFieldToolbarItem
+          };
     return dict;
 }
 
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar
-     itemForItemIdentifier:(NSString *)itemIdentifier
- willBeInsertedIntoToolbar:(BOOL)flag {
+    itemForItemIdentifier:(NSString *)itemIdentifier
+    willBeInsertedIntoToolbar:(BOOL)flag {
     if (!flag) {
         return nil;
     }
@@ -887,7 +900,7 @@ andEditComponentWithIdentifier:(NSString *)identifier
         return _arrangementsTabViewItem;
     }
     if (viewController == _profilesViewController ||
-        [_profilesViewController hasViewController:viewController]) {
+            [_profilesViewController hasViewController:viewController]) {
         return _bookmarksTabViewItem;
     }
     if (viewController == _pointerViewController) {
@@ -1042,7 +1055,7 @@ andEditComponentWithIdentifier:(NSString *)identifier
     _serpWindowController.delegate = self;
     [self updateSERPOrigin];
     [self.window addChildWindow:_serpWindowController.window
-                        ordered:NSWindowAbove];
+                 ordered:NSWindowAbove];
     _serpWindowController.documents = [self searchResults];
 }
 
@@ -1085,8 +1098,8 @@ andEditComponentWithIdentifier:(NSString *)identifier
         [self selectTabViewItem:_bookmarksTabViewItem];
         if (_profilesViewController.selectedProfile == nil) {
             [_profilesViewController openToProfileWithGuid:[[ProfileModel sharedInstance] defaultBookmark][KEY_GUID]
-                                          selectGeneralTab:NO
-                                                     scope:nil];
+                                     selectGeneralTab:NO
+                                     scope:nil];
         }
     }
 }
@@ -1101,7 +1114,7 @@ andEditComponentWithIdentifier:(NSString *)identifier
 }
 
 - (BOOL)revealDocument:(iTermPreferencesSearchDocument *)document
-         switchingTabs:(out BOOL *)switchingTabsOut
+    switchingTabs:(out BOOL *)switchingTabsOut
     switchingInnerTabs:(out BOOL *)switchingInnerTabsOut {
     _scrim.cutoutView = nil;
     id<iTermSearchableViewController> viewController = [self viewControllerForDocumentOwnerIdentifier:document.ownerIdentifier];
@@ -1113,8 +1126,8 @@ andEditComponentWithIdentifier:(NSString *)identifier
     const BOOL waitForTabToSwitch = (tabViewItemBefore != _tabView.selectedTabViewItem);
     BOOL waitForInnerTabToSwitch = NO;
     _scrim.cutoutView = [viewController searchableViewControllerRevealItemForDocument:document
-                                                                             forQuery:self.searchField.stringValue
-                                                                        willChangeTab:&waitForInnerTabToSwitch];
+                                        forQuery:self.searchField.stringValue
+                                        willChangeTab:&waitForInnerTabToSwitch];
     if (switchingTabsOut) {
         *switchingTabsOut = waitForTabToSwitch;
     }
@@ -1125,7 +1138,7 @@ andEditComponentWithIdentifier:(NSString *)identifier
 }
 
 - (NSTimeInterval)delayToWaitForTabToSwitch:(BOOL)waitForTabToSwitch
-                    waitForInnerTabToSwitch:(BOOL)waitForInnerTabToSwitch {
+    waitForInnerTabToSwitch:(BOOL)waitForInnerTabToSwitch {
     if (waitForTabToSwitch || (!waitForTabToSwitch && waitForInnerTabToSwitch)) {
         return 2;
     }
@@ -1136,12 +1149,12 @@ andEditComponentWithIdentifier:(NSString *)identifier
     BOOL waitForTabToSwitch = NO;
     BOOL waitForInnerTabToSwitch = NO;
     if (![self revealDocument:document
-                switchingTabs:&waitForTabToSwitch
-           switchingInnerTabs:&waitForInnerTabToSwitch]) {
+                 switchingTabs:&waitForTabToSwitch
+                 switchingInnerTabs:&waitForInnerTabToSwitch]) {
         return;
     }
     _delay = [self delayToWaitForTabToSwitch:waitForTabToSwitch
-                     waitForInnerTabToSwitch:waitForInnerTabToSwitch];
+                   waitForInnerTabToSwitch:waitForInnerTabToSwitch];
 }
 
 - (NSTabViewItem *)innerTabViewItem {
@@ -1153,13 +1166,13 @@ andEditComponentWithIdentifier:(NSString *)identifier
     self->_scrim = nil;
     [self.window makeFirstResponder:nil];
     [NSView animateWithDuration:0.5
-                          delay:delay
-                     animations:^{
-                         scrim.animator.alphaValue = 0;
-                     }
-                     completion:^(BOOL finished) {
-                         [scrim removeFromSuperview];
-                     }];
+            delay:delay
+           animations:^ {
+               scrim.animator.alphaValue = 0;
+           }
+           completion:^(BOOL finished) {
+        [scrim removeFromSuperview];
+    }];
 }
 
 - (void)preferencesSearchEngineResultsDidActivateDocument:(iTermPreferencesSearchDocument *)document {

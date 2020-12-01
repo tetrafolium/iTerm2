@@ -27,9 +27,9 @@
         NSString *key = [[NSUUID UUID] UUIDString];
         NSString *identifier = [[iTermAPIConnectionIdentifierController sharedInstance] identifierForKey:key];
         iTermScriptHistoryEntry *entry = [[iTermScriptHistoryEntry alloc] initWithName:[@"≈" stringByAppendingString:name]
-                                                                              fullPath:nil
-                                                                            identifier:identifier
-                                                                              relaunch:nil];
+                                                                          fullPath:nil
+                                                                          identifier:identifier
+                                                                          relaunch:nil];
         [[iTermScriptHistory sharedInstance] addHistoryEntry:entry];
         [entry addOutput:@"API permission granted by Applescript.\n"];
         return [NSString stringWithFormat:@"%@ %@", cookie, key];

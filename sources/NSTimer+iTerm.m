@@ -41,10 +41,10 @@
     proxy.target = target;
     proxy.selector = selector;
     return [NSTimer timerWithTimeInterval:interval
-                                   target:proxy
-                                 selector:@selector(timerDidFire:)
-                                 userInfo:userInfo
-                                  repeats:repeats];
+                    target:proxy
+                    selector:@selector(timerDidFire:)
+                    userInfo:userInfo
+                    repeats:repeats];
 }
 
 + (instancetype)scheduledWeakTimerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo {
@@ -52,21 +52,21 @@
     proxy.target = aTarget;
     proxy.selector = aSelector;
     return [NSTimer scheduledTimerWithTimeInterval:ti
-                                            target:proxy
-                                          selector:@selector(timerDidFire:)
-                                          userInfo:userInfo
-                                           repeats:yesOrNo];
+                    target:proxy
+                    selector:@selector(timerDidFire:)
+                    userInfo:userInfo
+                    repeats:yesOrNo];
 }
 
 + (instancetype)it_scheduledTimerWithTimeInterval:(NSTimeInterval)timeInterval
-                                          repeats:(BOOL)repeats
-                                            block:(void (^_Nonnull)(NSTimer * _Nonnull timer))block {
+    repeats:(BOOL)repeats
+    block:(void (^_Nonnull)(NSTimer * _Nonnull timer))block {
     iTermTimerProxy *proxy = [[iTermTimerProxy alloc] init];
     return [NSTimer scheduledTimerWithTimeInterval:timeInterval
-                                            target:proxy
-                                          selector:@selector(performBlock:)
-                                          userInfo:[block copy]
-                                           repeats:repeats];
+                    target:proxy
+                    selector:@selector(performBlock:)
+                    userInfo:[block copy]
+                    repeats:repeats];
 }
 
 - (void)it_performSelector:(SEL)selector onTarget:(id)target {

@@ -53,9 +53,9 @@
 //   cleanLines: Lines that are known unchanged
 //   info: Metadata for the frame.
 - (void)appendFrame:(NSArray<NSData *> *)frameLines
-             length:(int)length
-         cleanLines:(NSIndexSet *)cleanLines
-               info:(DVRFrameInfo*)info;
+    length:(int)length
+    cleanLines:(NSIndexSet *)cleanLines
+    info:(DVRFrameInfo*)info;
 
 // allocate a new decoder. Use -[releaseDecoder:] when you're done with it.
 - (DVRDecoder*)getDecoder;

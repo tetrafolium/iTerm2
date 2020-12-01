@@ -99,7 +99,7 @@ NSString *kWindowPasteboardType = @"kWindowPasteboardType";
 
 - (void)reloadData
 {
-        [tableView_ reloadData];
+    [tableView_ reloadData];
 }
 
 #pragma mark Interface Builder actions
@@ -140,9 +140,9 @@ NSString *kWindowPasteboardType = @"kWindowPasteboardType";
 #pragma mark NSTableViewDelegate
 
 - (void)tableView:(NSTableView *)tableView
-  willDisplayCell:(id)cell
-   forTableColumn:(NSTableColumn *)tableColumn
-              row:(NSInteger)row
+    willDisplayCell:(id)cell
+    forTableColumn:(NSTableColumn *)tableColumn
+    row:(NSInteger)row
 {
     if ([delegate_ haveOpenWindowWithId:[[[[self filteredModel] objectAtIndex:row] objectAtIndex:1] intValue]]) {
         [cell setTextColor:[[cell textColor] colorWithAlphaComponent:1]];
@@ -160,7 +160,7 @@ NSString *kWindowPasteboardType = @"kWindowPasteboardType";
 
 - (id)tableView:(NSTableView *)aTableView
     objectValueForTableColumn:(NSTableColumn *)aTableColumn
-            row:(NSInteger)rowIndex
+    row:(NSInteger)rowIndex
 {
     NSString *name = [[[self filteredModel] objectAtIndex:rowIndex] objectAtIndex:0];
     if (rowIndex < [self filteredModel].count) {
@@ -171,17 +171,17 @@ NSString *kWindowPasteboardType = @"kWindowPasteboardType";
 }
 
 - (void)tableView:(NSTableView *)aTableView
-   setObjectValue:(id)anObject
-   forTableColumn:(NSTableColumn *)aTableColumn
-              row:(NSInteger)rowIndex {
+    setObjectValue:(id)anObject
+    forTableColumn:(NSTableColumn *)aTableColumn
+    row:(NSInteger)rowIndex {
     const int windowID = [[[[self filteredModel] objectAtIndex:rowIndex] objectAtIndex:1] intValue];
     [delegate_ renameWindowWithId:windowID
-                           toName:anObject];
+               toName:anObject];
 }
 
 - (BOOL)tableView:(NSTableView *)aTableView
     shouldEditTableColumn:(NSTableColumn *)aTableColumn
-              row:(NSInteger)rowIndex {
+    row:(NSInteger)rowIndex {
     return YES;
 }
 
@@ -215,7 +215,7 @@ NSString *kWindowPasteboardType = @"kWindowPasteboardType";
                              [delegate_ selectedSessionNumber],
                              selectedItems,
                              nil]
-                    forType:kWindowPasteboardType];
+            forType:kWindowPasteboardType];
     return YES;
 }
 
@@ -294,9 +294,9 @@ NSString *kWindowPasteboardType = @"kWindowPasteboardType";
 
     return (!needle.length ||
             [name rangeOfString:needle
-                        options:(NSCaseInsensitiveSearch |
-                                 NSDiacriticInsensitiveSearch |
-                                 NSWidthInsensitiveSearch)].location != NSNotFound);
+                  options:(NSCaseInsensitiveSearch |
+                      NSDiacriticInsensitiveSearch |
+                      NSWidthInsensitiveSearch)].location != NSNotFound);
 }
 
 - (NSArray *)filteredModel

@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSURL *indexURL;
 
 - (instancetype)initWithQueue:(dispatch_queue_t)queue
-                     indexURL:(NSURL *)indexURL NS_DESIGNATED_INITIALIZER;
+    indexURL:(NSURL *)indexURL NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 @end

@@ -64,15 +64,15 @@ static NSMutableArray<iTermURLActionFactory *> *sFactories;
 }
 
 + (void)urlActionAtCoord:(VT100GridCoord)coord
-     respectHardNewlines:(BOOL)respectHardNewlines
-        workingDirectory:(NSString *)workingDirectory
-              remoteHost:(VT100RemoteHost *)remoteHost
-               selectors:(NSDictionary<NSNumber *, NSString *> *)selectors
-                   rules:(NSArray *)rules
-               extractor:(iTermTextExtractor *)extractor
-semanticHistoryController:(iTermSemanticHistoryController *)semanticHistoryController
-             pathFactory:(SCPPath *(^)(NSString *, int))pathFactory
-              completion:(void (^)(URLAction *))completion {
+    respectHardNewlines:(BOOL)respectHardNewlines
+    workingDirectory:(NSString *)workingDirectory
+    remoteHost:(VT100RemoteHost *)remoteHost
+    selectors:(NSDictionary<NSNumber *, NSString *> *)selectors
+    rules:(NSArray *)rules
+    extractor:(iTermTextExtractor *)extractor
+    semanticHistoryController:(iTermSemanticHistoryController *)semanticHistoryController
+    pathFactory:(SCPPath *(^)(NSString *, int))pathFactory
+    completion:(void (^)(URLAction *))completion {
     iTermURLActionFactory *factory = [[iTermURLActionFactory alloc] init];
     factory.coord = coord;
     factory.respectHardNewlines = respectHardNewlines;
@@ -86,12 +86,12 @@ semanticHistoryController:(iTermSemanticHistoryController *)semanticHistoryContr
     factory.completion = completion;
     factory.phase = iTermURLActionFactoryPhaseHypertextLink;
     [[NSNotificationCenter defaultCenter] addObserver:factory
-                                             selector:@selector(cancelPathfinders:)
-                                                 name:iTermURLActionFactoryCancelPathfinders
-                                               object:nil];
+                                          selector:@selector(cancelPathfinders:)
+                                          name:iTermURLActionFactoryCancelPathfinders
+                                          object:nil];
 
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         sFactories = [NSMutableArray array];
     });
 
@@ -133,30 +133,30 @@ semanticHistoryController:(iTermSemanticHistoryController *)semanticHistoryContr
     }
     DLog(@"Try phase %@", @(self.phase));
     switch (self.phase) {
-        case iTermURLActionFactoryPhaseHypertextLink:
-            [self tryHypertextLink];
-            break;
-        case iTermURLActionFactoryPhaseExistingFile:
-            [self tryExistingFileForceRespectingHardNewlines:NO];
-            break;
-        case iTermURLActionFactoryPhaseExistingFileRespectingHardNewlines:
-            [self tryExistingFileForceRespectingHardNewlines:YES];
-            break;
-        case iTermURLActionFactoryPhaseSmartSelectionAction:
-            [self trySmartSelectionAction];
-            break;
-        case iTermURLActionFactoryPhaseAnyStringSemanticHistory:
-            [self tryAnyStringSemanticHistory];
-            break;
-        case iTermURLActionFactoryPhaseURLLike:
-            [self tryURLLike];
-            break;
-        case iTermURLActionFactoryPhaseSecureCopy:
-            [self trySecureCopy];
-            break;
-        case iTermURLActionFactoryPhaseFailed:
-            [self completeWithAction:nil];
-            break;
+    case iTermURLActionFactoryPhaseHypertextLink:
+        [self tryHypertextLink];
+        break;
+    case iTermURLActionFactoryPhaseExistingFile:
+        [self tryExistingFileForceRespectingHardNewlines:NO];
+        break;
+    case iTermURLActionFactoryPhaseExistingFileRespectingHardNewlines:
+        [self tryExistingFileForceRespectingHardNewlines:YES];
+        break;
+    case iTermURLActionFactoryPhaseSmartSelectionAction:
+        [self trySmartSelectionAction];
+        break;
+    case iTermURLActionFactoryPhaseAnyStringSemanticHistory:
+        [self tryAnyStringSemanticHistory];
+        break;
+    case iTermURLActionFactoryPhaseURLLike:
+        [self tryURLLike];
+        break;
+    case iTermURLActionFactoryPhaseSecureCopy:
+        [self trySecureCopy];
+        break;
+    case iTermURLActionFactoryPhaseFailed:
+        [self completeWithAction:nil];
+        break;
     }
 }
 
@@ -178,31 +178,31 @@ semanticHistoryController:(iTermSemanticHistoryController *)semanticHistoryContr
     }
     iTermLocatedString *locatedPrefix =
         [self.extractor wrappedLocatedStringAt:self.coord
-                                       forward:NO
-                           respectHardNewlines:forceRespect || self.respectHardNewlines
-                                      maxChars:[iTermAdvancedSettingsModel maxSemanticHistoryPrefixOrSuffix]
-                             continuationChars:nil
-                           convertNullsToSpace:NO];
+                        forward:NO
+                        respectHardNewlines:forceRespect || self.respectHardNewlines
+                        maxChars:[iTermAdvancedSettingsModel maxSemanticHistoryPrefixOrSuffix]
+                        continuationChars:nil
+                        convertNullsToSpace:NO];
     if (!self.locatedPrefix) {
         self.locatedPrefix = locatedPrefix;
     }
 
     iTermLocatedString *locatedSuffix =
         [self.extractor wrappedLocatedStringAt:self.coord
-                                       forward:YES
-                           respectHardNewlines:forceRespect || self.respectHardNewlines
-                                      maxChars:[iTermAdvancedSettingsModel maxSemanticHistoryPrefixOrSuffix]
-                             continuationChars:nil
-                           convertNullsToSpace:NO];
+                        forward:YES
+                        respectHardNewlines:forceRespect || self.respectHardNewlines
+                        maxChars:[iTermAdvancedSettingsModel maxSemanticHistoryPrefixOrSuffix]
+                        continuationChars:nil
+                        convertNullsToSpace:NO];
     if (!self.locatedSuffix) {
         self.locatedSuffix = locatedSuffix;
     }
 
     [self urlActionForExistingFileWithPrefix:locatedPrefix
-                                      suffix:locatedSuffix
-                                  completion:^(URLAction *action, BOOL workingDirectoryIsLocal) {
-        self.workingDirectoryIsLocal = workingDirectoryIsLocal;
-        if (action) {
+          suffix:locatedSuffix
+         completion:^(URLAction *action, BOOL workingDirectoryIsLocal) {
+             self.workingDirectoryIsLocal = workingDirectoryIsLocal;
+             if (action) {
             [self completeWithAction:action];
         } else {
             [self fail];
@@ -264,16 +264,16 @@ semanticHistoryController:(iTermSemanticHistoryController *)semanticHistoryContr
         // file: URLs with a fragment go through semantic history and therefore need a workingDirectory.
         action.workingDirectory = self.workingDirectory;
         action.range = [extractor rangeOfCoordinatesAround:self.coord
-                                           maximumDistance:1000
-                                               passingTest:^BOOL(screen_char_t *c, VT100GridCoord coord) {
-                                                   if (c->urlCode == oc.urlCode) {
-                                                       return YES;
-                                                   }
-                                                   NSString *thisId;
-                                                   NSURL *thisURL = [extractor urlOfHypertextLinkAt:coord urlId:&thisId];
-                                                   // Hover together only if URL and ID are equal.
-                                                   return ([thisURL isEqual:url] && (thisId == urlId || [thisId isEqualToString:urlId]));
-                                               }];
+                                  maximumDistance:1000
+                  passingTest:^BOOL(screen_char_t *c, VT100GridCoord coord) {
+                      if (c->urlCode == oc.urlCode) {
+                          return YES;
+                      }
+                      NSString *thisId;
+            NSURL *thisURL = [extractor urlOfHypertextLinkAt:coord urlId:&thisId];
+            // Hover together only if URL and ID are equal.
+            return ([thisURL isEqual:url] && (thisId == urlId || [thisId isEqualToString:urlId]));
+        }];
         return action;
     } else {
         return nil;
@@ -281,11 +281,11 @@ semanticHistoryController:(iTermSemanticHistoryController *)semanticHistoryContr
 }
 
 - (void)urlActionForExistingFileWithPrefix:(iTermLocatedString *)locatedPrefix
-                                  suffix:(iTermLocatedString *)locatedSuffix
-                                completion:(void (^)(URLAction *, BOOL workingDirectoryIsLocal))completion {
+    suffix:(iTermLocatedString *)locatedSuffix
+    completion:(void (^)(URLAction *, BOOL workingDirectoryIsLocal))completion {
     NSString *possibleFilePart1 =
-    [locatedPrefix.string substringIncludingOffset:[locatedPrefix.string length] - 1
-                                  fromCharacterSet:[NSCharacterSet filenameCharacterSet]
+        [locatedPrefix.string substringIncludingOffset:[locatedPrefix.string length] - 1
+                              fromCharacterSet:[NSCharacterSet filenameCharacterSet]
                               charsTakenFromPrefix:NULL];
 
     // Allow quotes and commas in the suffix to pick up Python line numbers like:
@@ -294,8 +294,8 @@ semanticHistoryController:(iTermSemanticHistoryController *)semanticHistoryContr
     [suffixCharacterSet formUnionWithCharacterSet:[NSCharacterSet characterSetWithCharactersInString:@"\","]];
 
     NSString *possibleFilePart2 =
-    [locatedSuffix.string substringIncludingOffset:0
-                                  fromCharacterSet:suffixCharacterSet
+        [locatedSuffix.string substringIncludingOffset:0
+                              fromCharacterSet:suffixCharacterSet
                               charsTakenFromPrefix:NULL];
     DLog(@"Prefix=%@", possibleFilePart1);
     DLog(@"Suffix=%@", possibleFilePart2);
@@ -303,38 +303,38 @@ semanticHistoryController:(iTermSemanticHistoryController *)semanticHistoryContr
     // Because path finders cache their results, this is not a disaster. Since the inputs tend to
     // be the same, whatever work was already done can be exploited this time around.
     [[NSNotificationCenter defaultCenter] postNotificationName:iTermURLActionFactoryCancelPathfinders
-                                                        object:nil];
+                                          object:nil];
 
     _pathfinder = [self.semanticHistoryController pathOfExistingFileFoundWithPrefix:possibleFilePart1
-                                                                             suffix:possibleFilePart2
-                                                                   workingDirectory:self.workingDirectory
-                                                                     trimWhitespace:NO
-                                                                         completion:^(NSString *filename,
-                                                                                      int prefixChars,
-                                                                                      int suffixChars,
-                                                                                      BOOL workingDirectoryIsLocal) {
-        DLog(@"Semantic history controller returned filename %@ with %@ prefix and %@ suffix chars", filename, @(prefixChars), @(suffixChars));
+                                                  suffix:possibleFilePart2
+                                                  workingDirectory:self.workingDirectory
+                                                  trimWhitespace:NO
+                                                  completion:^(NSString *filename,
+                                                               int prefixChars,
+                                                               int suffixChars,
+                                   BOOL workingDirectoryIsLocal) {
+                                       DLog(@"Semantic history controller returned filename %@ with %@ prefix and %@ suffix chars", filename, @(prefixChars), @(suffixChars));
         URLAction *action = [self urlActionForFilename:filename
-                                         locatedPrefix:locatedPrefix
-                                         locatedSuffix:locatedSuffix
-                                           prefixChars:prefixChars
-                                           suffixChars:suffixChars];
+                                  locatedPrefix:locatedPrefix
+                                  locatedSuffix:locatedSuffix
+                                  prefixChars:prefixChars
+                                  suffixChars:suffixChars];
         completion(action, workingDirectoryIsLocal);
     }];
 }
 
 - (URLAction *)urlActionForFilename:(NSString *)filename
-                      locatedPrefix:(iTermLocatedString *)locatedPrefix
-                      locatedSuffix:(iTermLocatedString *)locatedSuffix
-                        prefixChars:(int)prefixChars
-                        suffixChars:(int)suffixChars {
+    locatedPrefix:(iTermLocatedString *)locatedPrefix
+    locatedSuffix:(iTermLocatedString *)locatedSuffix
+    prefixChars:(int)prefixChars
+    suffixChars:(int)suffixChars {
     if (self.extractor.dataSource == nil) {
         return nil;
     }
     // Don't consider / to be a valid filename because it's useless and single/double slashes are
     // pretty common.
     if (filename.length == 0 ||
-        [[filename stringByReplacingOccurrencesOfString:@"//" withString:@"/"] isEqualToString:@"/"]) {
+            [[filename stringByReplacingOccurrencesOfString:@"//" withString:@"/"] isEqualToString:@"/"]) {
         DLog(@"filename is bogus, reject");
         return nil;
     }
@@ -369,10 +369,10 @@ semanticHistoryController:(iTermSemanticHistoryController *)semanticHistoryContr
     NSString *columnNumber = nil;
     action.rawFilename = filename;
     action.fullPath = [self.semanticHistoryController cleanedUpPathFromPath:filename
-                                                                     suffix:[locatedSuffix.string substringFromIndex:suffixChars]
-                                                           workingDirectory:self.workingDirectory
-                                                        extractedLineNumber:&lineNumber
-                                                               columnNumber:&columnNumber];
+                                                      suffix:[locatedSuffix.string substringFromIndex:suffixChars]
+                                                      workingDirectory:self.workingDirectory
+                                                      extractedLineNumber:&lineNumber
+                                                      columnNumber:&columnNumber];
     action.lineNumber = lineNumber;
     action.columnNumber = columnNumber;
     action.workingDirectory = self.workingDirectory;
@@ -383,9 +383,9 @@ semanticHistoryController:(iTermSemanticHistoryController *)semanticHistoryContr
     // Next, see if smart selection matches anything with an action.
     VT100GridWindowedRange smartRange;
     SmartMatch *smartMatch = [self.extractor smartSelectionAt:self.coord
-                                                    withRules:self.rules
-                                               actionRequired:YES
-                                                        range:&smartRange
+                                             withRules:self.rules
+                                             actionRequired:YES
+                                             range:&smartRange
                                              ignoringNewlines:!self.respectHardNewlines];
     NSArray *actions = [SmartSelectionController actionsInRule:smartMatch.rule];
     DLog(@"  Smart selection produces these actions: %@", actions);
@@ -396,14 +396,14 @@ semanticHistoryController:(iTermSemanticHistoryController *)semanticHistoryContr
         }
         DLog(@"  Actions match this content: %@", content);
         URLAction *action = [URLAction urlActionToPerformSmartSelectionRule:smartMatch.rule
-                                                                   onString:content];
+                                       onString:content];
         action.range = smartRange;
         ContextMenuActions value = [ContextMenuActionPrefsController actionForActionDict:actions[0]];
         action.selector = NSSelectorFromString(self.selectors[@(value)]);
         action.representedObject = [ContextMenuActionPrefsController parameterForActionDict:actions[0]
-                                                                      withCaptureComponents:smartMatch.components
-                                                                           workingDirectory:self.workingDirectory
-                                                                                 remoteHost:self.remoteHost];
+                                                                     withCaptureComponents:smartMatch.components
+                                                                     workingDirectory:self.workingDirectory
+                                                                     remoteHost:self.remoteHost];
         return action;
     }
     return nil;
@@ -415,9 +415,9 @@ semanticHistoryController:(iTermSemanticHistoryController *)semanticHistoryContr
         // Just do smart selection and let Semantic History take it.
         VT100GridWindowedRange smartRange;
         SmartMatch *smartMatch = [self.extractor smartSelectionAt:self.coord
-                                                        withRules:self.rules
-                                                   actionRequired:NO
-                                                            range:&smartRange
+                                                 withRules:self.rules
+                                                 actionRequired:NO
+                                                 range:&smartRange
                                                  ignoringNewlines:!self.respectHardNewlines];
         if (!VT100GridCoordEquals(smartRange.coordRange.start,
                                   smartRange.coordRange.end)) {
@@ -440,8 +440,8 @@ semanticHistoryController:(iTermSemanticHistoryController *)semanticHistoryContr
          joined, (int)[self.locatedPrefix.string length]);
     int prefixChars = 0;
     NSString *possibleUrl = [joined substringIncludingOffset:[self.locatedPrefix.string length]
-                                            fromCharacterSet:[NSCharacterSet urlCharacterSet]
-                                        charsTakenFromPrefix:&prefixChars];
+                                    fromCharacterSet:[NSCharacterSet urlCharacterSet]
+                                    charsTakenFromPrefix:&prefixChars];
     DLog(@"String of just permissible chars is <<%@>> with prefix length %d", possibleUrl, prefixChars);
 
     // Remove punctuation, parens, brackets, etc.
@@ -471,8 +471,8 @@ semanticHistoryController:(iTermSemanticHistoryController *)semanticHistoryContr
         if ([stringWithoutNearbyPunctuation rangeOfRegex:urlRegex].location != NSNotFound) {
             DLog(@"LGTM, using %@ with range %@ and prefix %d", stringWithoutNearbyPunctuation, NSStringFromRange(rangeWithoutNearbyPunctuation), prefixChars);
             return [self urlActionForString:stringWithoutNearbyPunctuation
-                                      range:rangeWithoutNearbyPunctuation
-                                prefixChars:prefixChars];
+                         range:rangeWithoutNearbyPunctuation
+                         prefixChars:prefixChars];
         }
 
         return nil;
@@ -517,8 +517,8 @@ semanticHistoryController:(iTermSemanticHistoryController *)semanticHistoryContr
         DLog(@"Looks like a URL. Return %@ with range %@ and prefix %d", stringWithoutNearbyPunctuation, NSStringFromRange(rangeWithoutNearbyPunctuation), prefixChars);
         // If the string contains non-ascii characters, percent escape them. URLs are limited to ASCII.
         return [self urlActionForString:stringWithoutNearbyPunctuation
-                                  range:rangeWithoutNearbyPunctuation
-                            prefixChars:prefixChars];
+                     range:rangeWithoutNearbyPunctuation
+                     prefixChars:prefixChars];
     }
 
     return nil;
@@ -535,7 +535,7 @@ semanticHistoryController:(iTermSemanticHistoryController *)semanticHistoryContr
 - (BOOL)stringIsSingleDomainWord:(NSString *)string {
     static NSCharacterSet *nonAlnum;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         NSCharacterSet *lowercase = [NSCharacterSet characterSetWithRange:NSMakeRange('a', 26)];
         NSCharacterSet *uppercase = [NSCharacterSet characterSetWithRange:NSMakeRange('A', 26)];
         NSCharacterSet *digits = [NSCharacterSet characterSetWithRange:NSMakeRange('0', 10)];
@@ -552,8 +552,8 @@ semanticHistoryController:(iTermSemanticHistoryController *)semanticHistoryContr
 }
 
 - (URLAction *)urlActionForString:(NSString *)string
-                            range:(NSRange)stringRange
-                      prefixChars:(int)prefixChars {
+    range:(NSRange)stringRange
+    prefixChars:(int)prefixChars {
     DLog(@"urlActionForString:%@ range:%@ prefixChars:%@", string, NSStringFromRange(stringRange), @(prefixChars));
     NSURL *url = [NSURL URLWithUserSuppliedString:string];
     DLog(@"See if I can open %@, aka %@", string, url);
@@ -613,10 +613,10 @@ semanticHistoryController:(iTermSemanticHistoryController *)semanticHistoryContr
     DLog(@"Let's see if I can secure copy it. Do a smart selection");
     VT100GridWindowedRange smartRange;
     SmartMatch *smartMatch = [self.extractor smartSelectionAt:self.coord
-                                                   withRules:self.rules
-                                              actionRequired:NO
-                                                       range:&smartRange
-                                            ignoringNewlines:!self.respectHardNewlines];
+                                             withRules:self.rules
+                                             actionRequired:NO
+                                             range:&smartRange
+                                             ignoringNewlines:!self.respectHardNewlines];
     if (smartMatch) {
         DLog(@"Found a smart match");
         SCPPath *scpPath = self.pathFactory([smartMatch.components firstObject], self.coord.y);

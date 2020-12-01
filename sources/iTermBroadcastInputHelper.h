@@ -24,9 +24,9 @@ typedef NS_ENUM(NSInteger, BroadcastMode) {
 @protocol iTermBroadcastInputHelperDelegate<NSObject>
 
 - (NSArray<NSString *> *)broadcastInputHelperSessionsInCurrentTab:(iTermBroadcastInputHelper *)helper
-                                                    includeExited:(BOOL)includeExited;
+    includeExited:(BOOL)includeExited;
 - (NSArray<NSString *> *)broadcastInputHelperSessionsInAllTabs:(iTermBroadcastInputHelper *)helper
-                                                 includeExited:(BOOL)includeExited;
+    includeExited:(BOOL)includeExited;
 - (NSString *)broadcastInputHelperCurrentSession:(iTermBroadcastInputHelper *)helper;
 - (void)broadcastInputHelperDidUpdate:(iTermBroadcastInputHelper *)helper;
 - (BOOL)broadcastInputHelperCurrentTabIsBroadcasting:(iTermBroadcastInputHelper *)helper;

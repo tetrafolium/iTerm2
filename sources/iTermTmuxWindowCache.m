@@ -14,7 +14,7 @@
 
 NSString *const iTermTmuxWindowCacheDidChange = @"iTermTmuxWindowCacheDidChange";
 
-@interface iTermTmuxCacheWindow: NSObject
+@interface iTermTmuxCacheWindow : NSObject
 @property (nonatomic) int number;
 @property (nonatomic, copy) NSString *name;
 @end
@@ -22,7 +22,7 @@ NSString *const iTermTmuxWindowCacheDidChange = @"iTermTmuxWindowCacheDidChange"
 @implementation iTermTmuxCacheWindow
 @end
 
-@interface iTermTmuxCacheSession: NSObject
+@interface iTermTmuxCacheSession : NSObject
 @property (nonatomic, strong) iTermTmuxSessionObject *sessionObject;
 @property (nonatomic, strong) NSMutableArray<iTermTmuxCacheWindow *> *mutableWindows;
 @end
@@ -33,7 +33,7 @@ NSString *const iTermTmuxWindowCacheDidChange = @"iTermTmuxWindowCacheDidChange"
 }
 @end
 
-@interface iTermTmuxCacheClient: NSObject
+@interface iTermTmuxCacheClient : NSObject
 @property (nonatomic, copy) NSString *identifier;
 @property (nonatomic, copy) NSArray<iTermTmuxCacheSession *> *sessions;
 @end
@@ -44,8 +44,8 @@ NSString *const iTermTmuxWindowCacheDidChange = @"iTermTmuxWindowCacheDidChange"
 @implementation iTermTmuxWindowCacheWindowInfo
 
 - (instancetype)initWitCacheWindow:(iTermTmuxCacheWindow *)window
-                           session:(iTermTmuxCacheSession *)session
-                        clientName:(NSString *)clientName {
+    session:(iTermTmuxCacheSession *)session
+    clientName:(NSString *)clientName {
     self = [super init];
     if (self) {
         _name = [window.name copy];
@@ -66,7 +66,7 @@ NSString *const iTermTmuxWindowCacheDidChange = @"iTermTmuxWindowCacheDidChange"
 + (instancetype)sharedInstance {
     static id instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -77,41 +77,41 @@ NSString *const iTermTmuxWindowCacheDidChange = @"iTermTmuxWindowCacheDidChange"
     if (self) {
         _clients = [NSMutableArray array];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(tmuxControllerDetached:)
-                                                     name:kTmuxControllerDetachedNotification
-                                                   object:nil];
+                                              selector:@selector(tmuxControllerDetached:)
+                                              name:kTmuxControllerDetachedNotification
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(tmuxControllerSessionsDidChange:)
-                                                     name:kTmuxControllerSessionsDidChange
-                                                   object:nil];
+                                              selector:@selector(tmuxControllerSessionsDidChange:)
+                                              name:kTmuxControllerSessionsDidChange
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(tmuxControllerWindowsDidChange:)
-                                                     name:kTmuxControllerWindowsChangeNotification
-                                                   object:nil];
+                                              selector:@selector(tmuxControllerWindowsDidChange:)
+                                              name:kTmuxControllerWindowsChangeNotification
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(tmuxControllerWindowWasRenamed:)
-                                                     name:kTmuxControllerWindowWasRenamed
-                                                   object:nil];
+                                              selector:@selector(tmuxControllerWindowWasRenamed:)
+                                              name:kTmuxControllerWindowWasRenamed
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(tmuxControllerWindowOpened:)
-                                                     name:kTmuxControllerWindowDidOpen
-                                                   object:nil];
+                                              selector:@selector(tmuxControllerWindowOpened:)
+                                              name:kTmuxControllerWindowDidOpen
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(tmuxControllerWindowClosed:)
-                                                     name:kTmuxControllerWindowDidClose
-                                                   object:nil];
+                                              selector:@selector(tmuxControllerWindowClosed:)
+                                              name:kTmuxControllerWindowDidClose
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(tmuxControllerSessionWasRenamed:)
-                                                     name:kTmuxControllerSessionWasRenamed
-                                                   object:nil];
+                                              selector:@selector(tmuxControllerSessionWasRenamed:)
+                                              name:kTmuxControllerSessionWasRenamed
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(tmuxControllerRegistryDidChange:)
-                                                     name:kTmuxControllerRegistryDidChange
-                                                   object:nil];
+                                              selector:@selector(tmuxControllerRegistryDidChange:)
+                                              name:kTmuxControllerRegistryDidChange
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(tmuxControllerDidChangeHiddenWindows:)
-                                                     name:kTmuxControllerDidChangeHiddenWindows
-                                                   object:nil];
+                                              selector:@selector(tmuxControllerDidChangeHiddenWindows:)
+                                              name:kTmuxControllerDidChangeHiddenWindows
+                                              object:nil];
     }
 
     return self;
@@ -120,21 +120,21 @@ NSString *const iTermTmuxWindowCacheDidChange = @"iTermTmuxWindowCacheDidChange"
 - (NSArray<iTermTmuxWindowCacheWindowInfo *> *)hiddenWindows {
     NSMutableArray<iTermTmuxWindowCacheWindowInfo *> *results = [NSMutableArray array];
     [_clients enumerateObjectsUsingBlock:^(iTermTmuxCacheClient * _Nonnull client, NSUInteger idx, BOOL * _Nonnull stop) {
-        TmuxController *controller = [[TmuxControllerRegistry sharedInstance] controllerForClient:client.identifier];
+                 TmuxController *controller = [[TmuxControllerRegistry sharedInstance] controllerForClient:client.identifier];
         [client.sessions enumerateObjectsUsingBlock:^(iTermTmuxCacheSession * _Nonnull session, NSUInteger idx, BOOL * _Nonnull stop) {
-            if (session.sessionObject.number != controller.sessionId) {
-                return;
-            }
+                            if (session.sessionObject.number != controller.sessionId) {
+                                return;
+                            }
             [session.mutableWindows enumerateObjectsUsingBlock:^(iTermTmuxCacheWindow * _Nonnull window, NSUInteger idx, BOOL * _Nonnull stop) {
-                // Windows that haven't been opened because there were too many at attach time will
-                // not be labeled as hidden. Instead, they simply won't have windows. Therefore we
-                // don't use windowIsHidden:.
-                if ([controller window:window.number] != nil) {
-                    return;
-                }
+                                       // Windows that haven't been opened because there were too many at attach time will
+                                       // not be labeled as hidden. Instead, they simply won't have windows. Therefore we
+                                       // don't use windowIsHidden:.
+                                       if ([controller window:window.number] != nil) {
+                                           return;
+                                       }
                 [results addObject:[[iTermTmuxWindowCacheWindowInfo alloc] initWitCacheWindow:window
-                                                                                      session:session
-                                                                                   clientName:client.identifier]];
+                                    session:session
+                                    clientName:client.identifier]];
             }];
         }];
     }];
@@ -166,9 +166,9 @@ NSString *const iTermTmuxWindowCacheDidChange = @"iTermTmuxWindowCacheDidChange"
         session.sessionObject = sessionObject;
         session.mutableWindows = [NSMutableArray array];
         [controller listWindowsInSessionNumber:sessionObject.number
-                                        target:self
-                                      selector:@selector(setWindows:forSession:)
-                                        object:session];
+                    target:self
+                    selector:@selector(setWindows:forSession:)
+                    object:session];
         return session;
     }] mutableCopy];
     [self invalidate];
@@ -177,11 +177,11 @@ NSString *const iTermTmuxWindowCacheDidChange = @"iTermTmuxWindowCacheDidChange"
 - (void)tmuxControllerWindowsDidChange:(NSNotification *)notification {
     TmuxController *controller = notification.object;
     iTermTmuxCacheSession *session = [self sessionInClient:[self clientNamed:controller.clientName]
-                                                    number:controller.sessionId];
+                                           number:controller.sessionId];
     [controller listWindowsInSessionNumber:controller.sessionId
-                                    target:self
-                                  selector:@selector(setWindows:forSession:)
-                                    object:session];
+                target:self
+                selector:@selector(setWindows:forSession:)
+                object:session];
 }
 
 - (void)tmuxControllerWindowOpened:(NSNotification *)notification {
@@ -189,7 +189,7 @@ NSString *const iTermTmuxWindowCacheDidChange = @"iTermTmuxWindowCacheDidChange"
     const int wid = [params[0] intValue];
     TmuxController *controller = params[1];
     iTermTmuxCacheWindow *window = [self windowInClient:[self clientNamed:controller.clientName]
-                                                 number:wid];
+                                         number:wid];
     if (!window) {
         return;
     }
@@ -201,9 +201,9 @@ NSString *const iTermTmuxWindowCacheDidChange = @"iTermTmuxWindowCacheDidChange"
     const int wid = [params[0] intValue];
     TmuxController *controller = params[1];
     iTermTmuxCacheWindow *window = [self windowInClient:[self clientNamed:controller.clientName]
-                                                 number:wid];
+                                         number:wid];
     iTermTmuxCacheSession *session = [self sessionInClient:[self clientNamed:controller.clientName]
-                                                withWindow:window];
+                                           withWindow:window];
     if (![controller windowIsHidden:wid]) {
         [session.mutableWindows removeObject:window];
     }
@@ -216,7 +216,7 @@ NSString *const iTermTmuxWindowCacheDidChange = @"iTermTmuxWindowCacheDidChange"
     NSString *newName = params[1];
     TmuxController *controller = params[2];
     iTermTmuxCacheWindow *window = [self windowInClient:[self clientNamed:controller.clientName]
-                                                 number:wid];
+                                         number:wid];
     window.name = newName;
     [self invalidate];
 }
@@ -227,7 +227,7 @@ NSString *const iTermTmuxWindowCacheDidChange = @"iTermTmuxWindowCacheDidChange"
     NSString *newName = params[1];
     TmuxController *controller = params[2];
     iTermTmuxCacheSession *session = [self sessionWithNumber:sessionID.intValue
-                                                    inClient:[self clientNamed:controller.clientName]];
+                                           inClient:[self clientNamed:controller.clientName]];
     session.sessionObject = [session.sessionObject copyWithName:newName];
     [self invalidate];
 }
@@ -250,9 +250,9 @@ NSString *const iTermTmuxWindowCacheDidChange = @"iTermTmuxWindowCacheDidChange"
             iTermTmuxCacheSession *session = [[iTermTmuxCacheSession alloc] init];
             session.sessionObject = sessionObject;
             [controller listWindowsInSessionNumber:sessionObject.number
-                                            target:self
-                                          selector:@selector(didListWindows:forSession:)
-                                            object:session];
+                        target:self
+                        selector:@selector(didListWindows:forSession:)
+                        object:session];
         }
         [updated addObject:novel];
     }
@@ -325,7 +325,7 @@ NSString *const iTermTmuxWindowCacheDidChange = @"iTermTmuxWindowCacheDidChange"
         return;
     }
     _needsInvalidate = YES;
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         [self reallyInvalidate];
     });
 }
@@ -333,7 +333,7 @@ NSString *const iTermTmuxWindowCacheDidChange = @"iTermTmuxWindowCacheDidChange"
 - (void)reallyInvalidate {
     _needsInvalidate = NO;
     [[NSNotificationCenter defaultCenter] postNotificationName:iTermTmuxWindowCacheDidChange
-                                                        object:nil];
+                                          object:nil];
 }
 
 #pragma mark - Callbacks

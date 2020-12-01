@@ -22,13 +22,13 @@ static const NSInteger iTermASCIITextureCapacity = iTermASCIITextureOffsetCount 
 
 + (instancetype)sharedInstance;
 - (iTermASCIITexture *)asciiTextureWithAttributes:(iTermASCIITextureAttributes)attributes
-                                       descriptor:(iTermCharacterSourceDescriptor *)descriptor
-                                           device:(id<MTLDevice>)device
-                                         creation:(iTermASCIITexture * (^)(void))creation;
+    descriptor:(iTermCharacterSourceDescriptor *)descriptor
+    device:(id<MTLDevice>)device
+    creation:(iTermASCIITexture * (^)(void))creation;
 - (void)addAsciiTexture:(iTermASCIITexture *)texture
-         withAttributes:(iTermASCIITextureAttributes)attributes
-             descriptor:(iTermCharacterSourceDescriptor *)descriptor
-                 device:(id<MTLDevice>)device;
+    withAttributes:(iTermASCIITextureAttributes)attributes
+    descriptor:(iTermCharacterSourceDescriptor *)descriptor
+    device:(id<MTLDevice>)device;
 
 @end
 
@@ -39,7 +39,7 @@ static const NSInteger iTermASCIITextureCapacity = iTermASCIITextureOffsetCount 
 + (instancetype)sharedInstance {
     static id instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[iTermASCIITextureCache alloc] init];
     });
     return instance;
@@ -54,9 +54,9 @@ static const NSInteger iTermASCIITextureCapacity = iTermASCIITextureOffsetCount 
 }
 
 - (iTermASCIITexture *)asciiTextureWithAttributes:(iTermASCIITextureAttributes)attributes
-                                       descriptor:(iTermCharacterSourceDescriptor *)descriptor
-                                           device:(id<MTLDevice>)device
-                                         creation:(iTermASCIITexture *(^)(void))creation {
+    descriptor:(iTermCharacterSourceDescriptor *)descriptor
+    device:(id<MTLDevice>)device
+    creation:(iTermASCIITexture *(^)(void))creation {
     id key = [self keyForAttributes:attributes descriptor:descriptor device:device];
     iTermASCIITexture *texture;
     @synchronized(_cache) {
@@ -72,20 +72,24 @@ static const NSInteger iTermASCIITextureCapacity = iTermASCIITextureOffsetCount 
 
 // NOTE: Only call this in @synchronized(_sharedCache)
 - (void)addAsciiTexture:(iTermASCIITexture *)texture
-         withAttributes:(iTermASCIITextureAttributes)attributes
-             descriptor:(iTermCharacterSourceDescriptor *)descriptor
-                 device:(id<MTLDevice>)device {
+    withAttributes:(iTermASCIITextureAttributes)attributes
+    descriptor:(iTermCharacterSourceDescriptor *)descriptor
+    device:(id<MTLDevice>)device {
     id key = [self keyForAttributes:attributes descriptor:descriptor device:device];
     DLog(@"Add texture %@ for key %@", texture, key);
     _cache[key] = texture;
 }
 
 - (id)keyForAttributes:(iTermASCIITextureAttributes)attributes
-            descriptor:(iTermCharacterSourceDescriptor *)descriptor
-                device:(id<MTLDevice>)device {
-    return @{ @"attributes": @(attributes),
-              @"descriptor": descriptor.dictionaryValue,
-              @"device": [NSValue valueWithPointer:(__bridge const void * _Nullable)(device)] };
+    descriptor:(iTermCharacterSourceDescriptor *)descriptor
+    device:(id<MTLDevice>)device {
+    return @ { @"attributes":
+               @(attributes),
+               @"descriptor":
+               descriptor.dictionaryValue,
+               @"device":
+               [NSValue valueWithPointer:(__bridge const void * _Nullable)(device)]
+             };
 }
 
 @end
@@ -93,22 +97,22 @@ static const NSInteger iTermASCIITextureCapacity = iTermASCIITextureOffsetCount 
 @implementation iTermASCIITexture
 
 - (instancetype)initWithAttributes:(iTermASCIITextureAttributes)attributes
-                        descriptor:(iTermCharacterSourceDescriptor *)descriptor
-                            device:(id<MTLDevice>)device
-                          creation:(NSDictionary<NSNumber *, iTermCharacterBitmap *> * _Nonnull (^)(char, iTermASCIITextureAttributes))creation {
+    descriptor:(iTermCharacterSourceDescriptor *)descriptor
+    device:(id<MTLDevice>)device
+    creation:(NSDictionary<NSNumber *, iTermCharacterBitmap *> * _Nonnull (^)(char, iTermASCIITextureAttributes))creation {
     self = [super init];
     if (self) {
         _parts = (iTermASCIITextureParts *)iTermCalloc(128, sizeof(iTermASCIITextureParts));
         _attributes = attributes;
         _textureArray = [[iTermTextureArray alloc] initWithTextureWidth:descriptor.glyphSize.width
-                                                          textureHeight:descriptor.glyphSize.height
-                                                            arrayLength:iTermASCIITextureCapacity
-                                                                   bgra:YES
-                                                                 device:device];
+                                                   textureHeight:descriptor.glyphSize.height
+                                                   arrayLength:iTermASCIITextureCapacity
+                                                   bgra:YES
+                                                   device:device];
         _textureArray.texture.label = [NSString stringWithFormat:@"ASCII texture %@%@%@",
-                                       (attributes & iTermASCIITextureAttributesBold) ? @"Bold" : @"",
-                                       (attributes & iTermASCIITextureAttributesItalic) ? @"Italic" : @"",
-                                       (attributes & iTermASCIITextureAttributesThinStrokes) ? @"ThinStrokes" : @""];
+                                                (attributes & iTermASCIITextureAttributesBold) ? @"Bold" : @"",
+                                                (attributes & iTermASCIITextureAttributesItalic) ? @"Italic" : @"",
+                                                (attributes & iTermASCIITextureAttributesThinStrokes) ? @"ThinStrokes" : @""];
 
         for (int i = iTermASCIITextureMinimumCharacter; i <= iTermASCIITextureMaximumCharacter; i++) {
             NSDictionary<NSNumber *, iTermCharacterBitmap *> *dict = creation(i, attributes);
@@ -118,16 +122,16 @@ static const NSInteger iTermASCIITextureCapacity = iTermASCIITextureOffsetCount 
             if (left) {
                 _parts[i] |= iTermASCIITexturePartsLeft;
                 [_textureArray setSlice:iTermASCIITextureIndexOfCode(i, iTermASCIITextureOffsetLeft)
-                              withBitmap:left];
+                               withBitmap:left];
             }
             if (right) {
                 _parts[i] |= iTermASCIITexturePartsRight;
                 [_textureArray setSlice:iTermASCIITextureIndexOfCode(i, iTermASCIITextureOffsetRight)
-                              withBitmap:right];
+                               withBitmap:right];
             }
             if (center) {
                 [_textureArray setSlice:iTermASCIITextureIndexOfCode(i, iTermASCIITextureOffsetCenter)
-                              withBitmap:center];
+                               withBitmap:center];
             } else {
                 ELog(@"Couldn't produce image for ascii %d", i);
             }
@@ -147,9 +151,9 @@ static const NSInteger iTermASCIITextureCapacity = iTermASCIITextureOffsetCount 
 }
 
 - (instancetype)initWithDevice:(id<MTLDevice>)device
-            creationIdentifier:(id)creationIdentifier
-                    descriptor:(iTermCharacterSourceDescriptor *)descriptor
-                      creation:(NSDictionary<NSNumber *, iTermCharacterBitmap *> *(^)(char, iTermASCIITextureAttributes))creation {
+    creationIdentifier:(id)creationIdentifier
+    descriptor:(iTermCharacterSourceDescriptor *)descriptor
+    creation:(NSDictionary<NSNumber *, iTermCharacterBitmap *> *(^)(char, iTermASCIITextureAttributes))creation {
     self = [super init];
     if (self) {
         _device = device;
@@ -157,8 +161,8 @@ static const NSInteger iTermASCIITextureCapacity = iTermASCIITextureOffsetCount 
         _creationIdentifier = creationIdentifier;
         _creation = [creation copy];
         CGSize temp = [iTermTextureArray atlasSizeForUnitSize:descriptor.glyphSize
-                                                  arrayLength:iTermASCIITextureCapacity
-                                                  cellsPerRow:NULL];
+                                         arrayLength:iTermASCIITextureCapacity
+                                         cellsPerRow:NULL];
         _atlasSize = simd_make_float2(temp.width, temp.height);
     }
     return self;
@@ -170,9 +174,9 @@ static const NSInteger iTermASCIITextureCapacity = iTermASCIITextureOffsetCount 
 
 - (iTermASCIITexture *)newASCIITextureForAttributes:(iTermASCIITextureAttributes)attributes {
     return [[iTermASCIITexture alloc] initWithAttributes:attributes
-                                              descriptor:_descriptor
-                                                  device:_device
-                                                creation:_creation];
+                                      descriptor:_descriptor
+                                      device:_device
+                                      creation:_creation];
 }
 
 - (iTermASCIITexture *)asciiTextureForAttributes:(iTermASCIITextureAttributes)attributes {
@@ -182,12 +186,12 @@ static const NSInteger iTermASCIITextureCapacity = iTermASCIITextureOffsetCount 
 
     __weak __typeof(self) weakSelf = self;
     iTermASCIITexture *texture = [[iTermASCIITextureCache sharedInstance] asciiTextureWithAttributes:attributes
-                                                                                          descriptor:_descriptor
-                                                                                              device:_device
-                                                                                            creation:^iTermASCIITexture *{
-                                                                                                DLog(@"Create texture with attributes %@", @(attributes));
-                                                                                                return [weakSelf newASCIITextureForAttributes:attributes];
-                                                                                            }];
+                                                                          descriptor:_descriptor
+                                                                          device:_device
+                                            creation:^iTermASCIITexture * {
+                                                DLog(@"Create texture with attributes %@", @(attributes));
+        return [weakSelf newASCIITextureForAttributes:attributes];
+    }];
     _textures[attributes] = texture;
     return texture;
 }

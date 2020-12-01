@@ -22,7 +22,7 @@ static NSString *const kCommandUses = @"use times";  // The name is a historical
 
 + (instancetype)commandHistoryEntryInContext:(NSManagedObjectContext *)context {
     return [NSEntityDescription insertNewObjectForEntityForName:self.entityName
-                                         inManagedObjectContext:context];
+                                inManagedObjectContext:context];
 }
 
 + (NSString *)entityName {
@@ -30,17 +30,17 @@ static NSString *const kCommandUses = @"use times";  // The name is a historical
 }
 
 + (instancetype)commandHistoryEntryFromDeprecatedDictionary:(NSDictionary *)dict
-                                                  inContext:(NSManagedObjectContext *)context {
+    inContext:(NSManagedObjectContext *)context {
     iTermCommandHistoryEntryMO *managedObject =
         [NSEntityDescription insertNewObjectForEntityForName:@"CommandHistoryEntry"
-                                      inManagedObjectContext:context];
+                             inManagedObjectContext:context];
     managedObject.command = dict[kCommand];
     managedObject.timeOfLastUse = dict[kLastUsed];
     managedObject.numberOfUses = dict[kUses];
     for (id serializedCommandUse in dict[kCommandUses]) {
         iTermCommandHistoryCommandUseMO *useManagedObject =
             [iTermCommandHistoryCommandUseMO commandHistoryCommandUseFromDeprecatedSerialization:serializedCommandUse
-                                                                                       inContext:context];
+                                             inContext:context];
         assert(useManagedObject);
 
         useManagedObject.entry = managedObject;

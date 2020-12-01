@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 const CGFloat iTermGetStatusBarHeight() {
     static CGFloat height;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         height = [iTermAdvancedSettingsModel statusBarHeight];
     });
     return height;
@@ -56,10 +56,10 @@ const CGFloat iTermGetStatusBarHeight() {
         [self addSubview:_view];
         _view.frame = NSMakeRect(self.minX, 0, self.preferredWidthForComponentView, self.frame.size.height);
         _timer = [NSTimer scheduledWeakTimerWithTimeInterval:_component.statusBarComponentUpdateCadence
-                                                      target:self
-                                                    selector:@selector(reevaluateTimer:)
-                                                    userInfo:nil
-                                                     repeats:YES];
+                          target:self
+                          selector:@selector(reevaluateTimer:)
+                          userInfo:nil
+                          repeats:YES];
         [component statusBarComponentUpdate];
 
         if ([component statusBarComponentHandlesClicks]) {
@@ -154,7 +154,7 @@ const CGFloat iTermGetStatusBarHeight() {
     }
     DLog(@"setNeedsUpdate:%@\n%@", self.component, [NSThread callStackSymbols]);
     _needsUpdate = YES;
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         [self updateIfNeeded];
     });
 }
@@ -215,11 +215,11 @@ const CGFloat iTermGetStatusBarHeight() {
     NSEvent *event = NSApp.currentEvent;
     if (NSPointInRect(point, self.frame)) {
         if (event.type == NSEventTypeRightMouseUp ||
-            event.type == NSEventTypeRightMouseDown) {
+                event.type == NSEventTypeRightMouseDown) {
             return self;
         }
         if (event.type == NSEventTypeLeftMouseUp ||
-            event.type == NSEventTypeLeftMouseDown) {
+                event.type == NSEventTypeLeftMouseDown) {
             if (event.it_modifierFlags & NSEventModifierFlagControl) {
                 return self;
             }
@@ -268,25 +268,25 @@ const CGFloat iTermGetStatusBarHeight() {
     if (![_component statusBarComponentIsInternal]) {
         if ([[_component statusBarComponentKnobs] count]) {
             [menu addItemWithTitle:[NSString stringWithFormat:@"Configure %@", [self.component statusBarComponentShortDescription]]
-                            action:@selector(configureComponent:)
-                     keyEquivalent:@""];
+                  action:@selector(configureComponent:)
+                  keyEquivalent:@""];
         }
         [menu addItemWithTitle:[NSString stringWithFormat:@"Hide %@", [self.component statusBarComponentShortDescription]]
-                        action:@selector(hideComponent:)
-                 keyEquivalent:@""];
+              action:@selector(hideComponent:)
+              keyEquivalent:@""];
     }
     [menu addItemWithTitle:@"Configure Status Bar"
-                    action:@selector(configureStatusBar:)
-             keyEquivalent:@""];
+          action:@selector(configureStatusBar:)
+          keyEquivalent:@""];
     [menu addItemWithTitle:@"Disable Status Bar"
-                    action:@selector(disableStatusBar:)
-             keyEquivalent:@""];
+          action:@selector(disableStatusBar:)
+          keyEquivalent:@""];
     NSDictionary<NSString *, id> *values = [self.component statusBarComponentKnobValues];
     __block BOOL haveAddedSeparator = NO;
     [[self.component statusBarComponentKnobs] enumerateObjectsUsingBlock:^(iTermStatusBarComponentKnob * _Nonnull knob, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (knob.type == iTermStatusBarComponentKnobTypeCheckbox) {
-            if (!haveAddedSeparator) {
-                haveAddedSeparator = YES;
+                                                 if (knob.type == iTermStatusBarComponentKnobTypeCheckbox) {
+                                                     if (!haveAddedSeparator) {
+                                                         haveAddedSeparator = YES;
                 [menu addItem:[NSMenuItem separatorItem]];
             }
             NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:knob.labelText action:@selector(toggleKnob:) keyEquivalent:@""];

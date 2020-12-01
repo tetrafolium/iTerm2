@@ -39,7 +39,7 @@ static NSString *const kSuppressCaptureOutputToolNotVisibleWarning =
 }
 
 - (NSString *)triggerOptionalParameterPlaceholderWithInterpolation:(BOOL)interpolation {
-  return @"Coprocess to run on activation";
+    return @"Coprocess to run on activation";
 }
 
 - (BOOL)capturedOutputToolVisibleInSession:(PTYSession *)aSession {
@@ -59,13 +59,13 @@ static NSString *const kSuppressCaptureOutputToolNotVisibleWarning =
 }
 
 - (BOOL)performActionWithCapturedStrings:(NSString *const *)capturedStrings
-                          capturedRanges:(const NSRange *)capturedRanges
-                            captureCount:(NSInteger)captureCount
-                               inSession:(PTYSession *)aSession
-                                onString:(iTermStringLine *)stringLine
-                    atAbsoluteLineNumber:(long long)lineNumber
-                        useInterpolation:(BOOL)useInterpolation
-                                    stop:(BOOL *)stop {
+    capturedRanges:(const NSRange *)capturedRanges
+    captureCount:(NSInteger)captureCount
+    inSession:(PTYSession *)aSession
+    onString:(iTermStringLine *)stringLine
+    atAbsoluteLineNumber:(long long)lineNumber
+    useInterpolation:(BOOL)useInterpolation
+    stop:(BOOL *)stop {
     if (!aSession.screen.shellIntegrationInstalled) {
         if (![[NSUserDefaults standardUserDefaults] boolForKey:kSuppressCaptureOutputRequiresShellIntegrationWarning]) {
             [self showShellIntegrationRequiredAnnouncementInSession:aSession];
@@ -93,28 +93,28 @@ static NSString *const kSuppressCaptureOutputToolNotVisibleWarning =
     [aSession retain];
     void (^completion)(int selection) = ^(int selection) {
         switch (selection) {
-            case -2:
-                [aSession release];
-                break;
+        case -2:
+            [aSession release];
+            break;
 
-            case 0:
-                [self showCaptureOutputToolInSession:aSession];
-                break;
+        case 0:
+            [self showCaptureOutputToolInSession:aSession];
+            break;
 
-            case 1:
-                [[NSUserDefaults standardUserDefaults] setBool:YES
-                                                        forKey:kSuppressCaptureOutputToolNotVisibleWarning];
-                break;
+        case 1:
+            [[NSUserDefaults standardUserDefaults] setBool:YES
+                                                   forKey:kSuppressCaptureOutputToolNotVisibleWarning];
+            break;
         }
     };
     iTermAnnouncementViewController *announcement =
         [iTermAnnouncementViewController announcementWithTitle:theTitle
-                                                         style:kiTermAnnouncementViewStyleWarning
-                                                   withActions:@[ @"Show It", @"Silence Warning" ]
-                                                    completion:completion];
+                                         style:kiTermAnnouncementViewStyleWarning
+                                         withActions:@[ @"Show It", @"Silence Warning" ]
+                                         completion:completion];
     announcement.dismissOnKeyDown = YES;
     [aSession queueAnnouncement:announcement
-                     identifier:kSuppressCaptureOutputToolNotVisibleWarning];
+              identifier:kSuppressCaptureOutputToolNotVisibleWarning];
 }
 
 - (void)showShellIntegrationRequiredAnnouncementInSession:(PTYSession *)aSession {
@@ -122,48 +122,48 @@ static NSString *const kSuppressCaptureOutputToolNotVisibleWarning =
     [aSession retain];
     void (^completion)(int selection) = ^(int selection) {
         switch (selection) {
-            case -2:
-                [aSession release];
-                break;
+        case -2:
+            [aSession release];
+            break;
 
-            case 0:
-                [aSession tryToRunShellIntegrationInstallerWithPromptCheck:NO];
-                break;
+        case 0:
+            [aSession tryToRunShellIntegrationInstallerWithPromptCheck:NO];
+            break;
 
-            case 1:
-                [[NSUserDefaults standardUserDefaults] setBool:YES
-                                                        forKey:kSuppressCaptureOutputRequiresShellIntegrationWarning];
-                break;
+        case 1:
+            [[NSUserDefaults standardUserDefaults] setBool:YES
+                                                   forKey:kSuppressCaptureOutputRequiresShellIntegrationWarning];
+            break;
         }
     };
     iTermAnnouncementViewController *announcement =
         [iTermAnnouncementViewController announcementWithTitle:theTitle
-                                                         style:kiTermAnnouncementViewStyleWarning
-                                                   withActions:@[ @"Install", @"Silence Warning" ]
-                                                    completion:completion];
+                                         style:kiTermAnnouncementViewStyleWarning
+                                         withActions:@[ @"Install", @"Silence Warning" ]
+                                         completion:completion];
     [aSession queueAnnouncement:announcement
-                     identifier:kTwoCoprocessesCanNotRunAtOnceAnnouncementIdentifier];
+              identifier:kTwoCoprocessesCanNotRunAtOnceAnnouncementIdentifier];
 }
 
 - (void)activateOnOutput:(CapturedOutput *)capturedOutput inSession:(PTYSession *)session {
     if (!session.hasCoprocess) {
         [self paramWithBackreferencesReplacedWithValues:capturedOutput.values
-                                                  scope:session.variablesScope
-                                       useInterpolation:session.triggerParametersUseInterpolatedStrings
-                                             completion:^(NSString *command) {
-                                                 if (command) {
-                                                     [session launchCoprocessWithCommand:command];
-                                                 }
-                                             }];
+              scope:session.variablesScope
+              useInterpolation:session.triggerParametersUseInterpolatedStrings
+             completion:^(NSString *command) {
+                 if (command) {
+                     [session launchCoprocessWithCommand:command];
+                 }
+             }];
     } else {
         iTermAnnouncementViewController *announcement =
             [iTermAnnouncementViewController announcementWithTitle:@"Can't run two coprocesses at once."
-                                                             style:kiTermAnnouncementViewStyleWarning
-                                                       withActions:@[ ]
-                                                        completion:^(int selection) { }];
+                                             style:kiTermAnnouncementViewStyleWarning
+                                             withActions:@[ ]
+                                        completion:^(int selection) { }];
         announcement.timeout = 2;
         [session queueAnnouncement:announcement
-                        identifier:kTwoCoprocessesCanNotRunAtOnceAnnouncementIdentifier];
+                 identifier:kTwoCoprocessesCanNotRunAtOnceAnnouncementIdentifier];
     }
     [session takeFocus];
 }

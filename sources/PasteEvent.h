@@ -70,15 +70,15 @@ typedef NS_OPTIONS(NSUInteger, iTermPasteFlags) {
 @property(nonatomic, assign) BOOL slow;
 
 + (instancetype)pasteEventWithString:(NSString *)string
-                               flags:(iTermPasteFlags)flags
-                    defaultChunkSize:(int)defaultChunkSize
-                            chunkKey:(NSString *)chunkKey
-                        defaultDelay:(NSTimeInterval)defaultDelay
-                            delayKey:(NSString *)delayKey
-                        tabTransform:(iTermTabTransformTags)tabTransform
-                        spacesPerTab:(int)spacePerTab
-                               regex:(NSString *)regex
-                        substitution:(NSString *)substitution;
+    flags:(iTermPasteFlags)flags
+    defaultChunkSize:(int)defaultChunkSize
+    chunkKey:(NSString *)chunkKey
+    defaultDelay:(NSTimeInterval)defaultDelay
+    delayKey:(NSString *)delayKey
+    tabTransform:(iTermTabTransformTags)tabTransform
+    spacesPerTab:(int)spacePerTab
+    regex:(NSString *)regex
+    substitution:(NSString *)substitution;
 
 - (void)setModifiedString:(NSString *)modifiedString;
 - (void)addPasteBracketing;

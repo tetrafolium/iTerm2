@@ -38,20 +38,20 @@
         [myRunLoop addPort:port
                    forMode:NSDefaultRunLoopMode];
         NSTimer *timer = [NSTimer timerWithTimeInterval:1/60.0
-                                                 target:self
-                                               selector:@selector(chooseSessionUnderCursor:)
-                                               userInfo:nil
-                                                repeats:YES];
+                                  target:self
+                                  selector:@selector(chooseSessionUnderCursor:)
+                                  userInfo:nil
+                                  repeats:YES];
         [myRunLoop addTimer:timer forMode:NSDefaultRunLoopMode];
 
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(didSelectSessionView:)
-                                                     name:SessionViewWasSelectedForInspectionNotification
-                                                   object:nil];
+                                              selector:@selector(didSelectSessionView:)
+                                              name:SessionViewWasSelectedForInspectionNotification
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(abort:)
-                                                     name:NSApplicationWillResignActiveNotification
-                                                   object:nil];
+                                              selector:@selector(abort:)
+                                              name:NSApplicationWillResignActiveNotification
+                                              object:nil];
 
         SessionView *sessionView = _sessionView;
         while (sessionView == _sessionView && !_done) {
@@ -59,7 +59,7 @@
                 break;
             }
             [myRunLoop runMode:NSDefaultRunLoopMode
-                    beforeDate:[NSDate distantFuture]];
+                       beforeDate:[NSDate distantFuture]];
         }
         [timer invalidate];
         [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -83,7 +83,7 @@
     item.button.action = @selector(abort:);
 
     iTermHelpMessageViewController *viewController = [[iTermHelpMessageViewController alloc] initWithNibName:@"iTermHelpMessageViewController"
-                                                                                                      bundle:[NSBundle bundleForClass:self.class]];
+                                                   bundle:[NSBundle bundleForClass:self.class]];
     [viewController setMessage:@"Click the stop icon exit picker mode without making a selection."];
 
     // Create popover
@@ -95,8 +95,8 @@
 
     // Show popover
     [popover showRelativeToRect:item.button.bounds
-                         ofView:item.button
-                  preferredEdge:NSMinYEdge];
+             ofView:item.button
+             preferredEdge:NSMinYEdge];
     _popover = popover;
 
     return item;

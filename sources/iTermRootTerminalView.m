@@ -136,7 +136,7 @@ NS_CLASS_AVAILABLE_MAC(10_14)
     iTermWindowSizeView *_windowSizeView NS_AVAILABLE_MAC(10_14);
 
     iTermLayerBackedSolidColorView *_titleBackgroundView NS_AVAILABLE_MAC(10_14);
-    
+
     NSImageView *_topLeftCornerHalfRoundImageView NS_AVAILABLE_MAC(10_14);
     NSImageView *_topRightCornerHalfRoundImageView NS_AVAILABLE_MAC(10_14);
     NSImageView *_bottomLeftCornerHalfRoundImageView NS_AVAILABLE_MAC(10_14);
@@ -151,15 +151,15 @@ NS_CLASS_AVAILABLE_MAC(10_14)
     NSView *_rightBorderView NS_AVAILABLE_MAC(10_14);
     NSView *_topBorderView NS_AVAILABLE_MAC(10_14);
     NSView *_bottomBorderView NS_AVAILABLE_MAC(10_14);
-    
+
     iTermImageView *_backgroundImage NS_AVAILABLE_MAC(10_14);
     NSView *_workaroundView;  // 10.14 only. See issue 8701.
 }
 
 - (instancetype)initWithFrame:(NSRect)frameRect
-                        color:(NSColor *)color
-               tabBarDelegate:(id<iTermTabBarControlViewDelegate,PSMTabBarControlDelegate>)tabBarDelegate
-                     delegate:(id<iTermRootTerminalViewDelegate, iTermToolbeltViewDelegate>)delegate {
+    color:(NSColor *)color
+    tabBarDelegate:(id<iTermTabBarControlViewDelegate,PSMTabBarControlDelegate>)tabBarDelegate
+    delegate:(id<iTermRootTerminalViewDelegate, iTermToolbeltViewDelegate>)delegate {
     self = [super initWithFrame:frameRect color:color];
     if (self) {
         _delegate = delegate;
@@ -175,7 +175,7 @@ NS_CLASS_AVAILABLE_MAC(10_14)
             _backgroundImage.hidden = YES;
             [self addSubview:_backgroundImage];
         }
-        
+
         // Create the tab view.
         self.tabView = [[PTYTabView alloc] initWithFrame:self.bounds];
         if (@available(macOS 10.14, *)) {
@@ -212,7 +212,7 @@ NS_CLASS_AVAILABLE_MAC(10_14)
         [self addSubview:_stoplightHotbox];
         _stoplightHotbox.hidden = YES;
         _stoplightHotbox.delegate = self;
-        
+
         NSUInteger theModifier =
             [iTermPreferences maskForModifierTag:[iTermPreferences intForKey:kPreferenceKeySwitchTabModifier]];
         if (theModifier == NSUIntegerMax) {
@@ -221,20 +221,20 @@ NS_CLASS_AVAILABLE_MAC(10_14)
         [_tabBarControl setModifier:theModifier];
         _tabBarControl.insets = [self.delegate tabBarInsets];
         switch ([iTermPreferences intForKey:kPreferenceKeyTabPosition]) {
-            case PSMTab_BottomTab:
-                _tabBarControl.orientation = PSMTabBarHorizontalOrientation;
-                [self setTabBarControlAutoresizingMask:(NSViewWidthSizable | NSViewMinYMargin)];
-                break;
+        case PSMTab_BottomTab:
+            _tabBarControl.orientation = PSMTabBarHorizontalOrientation;
+            [self setTabBarControlAutoresizingMask:(NSViewWidthSizable | NSViewMinYMargin)];
+            break;
 
-            case PSMTab_TopTab:
-                _tabBarControl.orientation = PSMTabBarHorizontalOrientation;
-                [self setTabBarControlAutoresizingMask:(NSViewWidthSizable | NSViewMaxYMargin)];
-                break;
+        case PSMTab_TopTab:
+            _tabBarControl.orientation = PSMTabBarHorizontalOrientation;
+            [self setTabBarControlAutoresizingMask:(NSViewWidthSizable | NSViewMaxYMargin)];
+            break;
 
-            case PSMTab_LeftTab:
-                _tabBarControl.orientation = PSMTabBarVerticalOrientation;
-                [self setTabBarControlAutoresizingMask:(NSViewHeightSizable | NSViewMaxXMargin)];
-                break;
+        case PSMTab_LeftTab:
+            _tabBarControl.orientation = PSMTabBarVerticalOrientation;
+            [self setTabBarControlAutoresizingMask:(NSViewHeightSizable | NSViewMaxXMargin)];
+            break;
         }
         if (@available(macOS 10.14, *)) {
             [self addSubview:_tabBarBacking];
@@ -251,7 +251,7 @@ NS_CLASS_AVAILABLE_MAC(10_14)
         _toolbeltWidth = [iTermPreferences floatForKey:kPreferenceKeyDefaultToolbeltWidth];
 
         self.toolbelt = [[iTermToolbeltView alloc] initWithFrame:[self toolbeltFrameInWindow:nil]
-                                                        delegate:(id)_delegate];
+                                                   delegate:(id)_delegate];
         // Wait until whoever is creating the window sets it to its proper size before laying out the toolbelt.
         // The hope is that the window controller will call updateToolbeltProportionsIfNeeded during this spin
         // of the runloop, but if not we'll get it next time 'round.
@@ -278,7 +278,7 @@ NS_CLASS_AVAILABLE_MAC(10_14)
         _windowTitleLabel.hidden = YES;
         _windowTitleLabel.autoresizingMask = (NSViewMinYMargin | NSViewWidthSizable);
         [self addSubview:_windowTitleLabel];
-        
+
         if (@available(macOS 10.14, *)) {
             NSColor *borderColor = [NSColor colorWithWhite:0.5 alpha:0.75];
             {
@@ -293,7 +293,7 @@ NS_CLASS_AVAILABLE_MAC(10_14)
                 static NSImage *gBottomRightCornerFullImage;
 
                 static dispatch_once_t onceToken;
-                dispatch_once(&onceToken, ^{
+                dispatch_once(&onceToken, ^ {
                     NSString *halfName = @"WindowCorner";
                     if (@available(macOS 10.16, *)) {
                         halfName = @"WindowCorner_BigSur";
@@ -403,7 +403,7 @@ NS_CLASS_AVAILABLE_MAC(10_14)
                 _bottomBorderView.wantsLayer = YES;
                 _bottomBorderView.layer.backgroundColor = borderColor.CGColor;
                 _bottomBorderView.autoresizingMask = NSViewMaxYMargin | NSViewWidthSizable;
-                
+
                 [self addSubview:_leftBorderView];
                 [self addSubview:_rightBorderView];
                 [self addSubview:_topBorderView];
@@ -489,19 +489,19 @@ NS_CLASS_AVAILABLE_MAC(10_14)
         const iTermPreferencesTabStyle preferredStyle = [iTermPreferences intForKey:kPreferenceKeyTabStyle];
         insets.bottom = -[self.delegate rootTerminalViewStoplightButtonsOffset:self];
         switch (preferredStyle) {
-            case TAB_STYLE_MINIMAL:
-                insets.left = insets.right = MAX(0, -insets.bottom);
-                break;
-            case TAB_STYLE_COMPACT:
-                insets.left = insets.right = 0;
-                break;
-            case TAB_STYLE_DARK:
-            case TAB_STYLE_LIGHT:
-            case TAB_STYLE_AUTOMATIC:
-            case TAB_STYLE_DARK_HIGH_CONTRAST:
-            case TAB_STYLE_LIGHT_HIGH_CONTRAST:
-                insets.left = insets.right = 0;
-                break;
+        case TAB_STYLE_MINIMAL:
+            insets.left = insets.right = MAX(0, -insets.bottom);
+            break;
+        case TAB_STYLE_COMPACT:
+            insets.left = insets.right = 0;
+            break;
+        case TAB_STYLE_DARK:
+        case TAB_STYLE_LIGHT:
+        case TAB_STYLE_AUTOMATIC:
+        case TAB_STYLE_DARK_HIGH_CONTRAST:
+        case TAB_STYLE_LIGHT_HIGH_CONTRAST:
+            insets.left = insets.right = 0;
+            break;
         }
 
         insets.left = [self retinaRound:insets.left];
@@ -554,11 +554,11 @@ NS_CLASS_AVAILABLE_MAC(10_14)
 
 - (NSRect)frameForWindowTitleLabel {
     return [self frameForWindowTitleLabel:_windowTitleLabel
-                           getLeftAligned:nil];
+                 getLeftAligned:nil];
 }
 
 - (NSRect)frameForWindowTitleLabel:(NSTextField *)textField
-                    getLeftAligned:(BOOL *)leftAlignedPtr {
+    getLeftAligned:(BOOL *)leftAlignedPtr {
     if (_tabBarControlOnLoan) {
         return NSZeroRect;
     }
@@ -639,7 +639,7 @@ NS_CLASS_AVAILABLE_MAC(10_14)
     if (_standardWindowButtonsView) {
         return;
     }
-    
+
     // This is a compact window that gets special handling for the stoplights buttons.
     CGFloat x = self.leftInsetForWindowButtons;
     const CGFloat stride = self.strideForWindowButtons;
@@ -651,7 +651,7 @@ NS_CLASS_AVAILABLE_MAC(10_14)
     _standardButtons = [[NSMutableDictionary alloc] init];
     for (int i = 0; i < self.numberOfWindowButtons; i++) {
         NSButton *button = [NSWindow standardWindowButton:self.windowButtonTypes[i]
-                                             forStyleMask:styleMask];
+                                     forStyleMask:styleMask];
         NSRect frame = button.frame;
         frame.origin.x = x;
         frame.origin.y = 4;
@@ -686,7 +686,7 @@ NS_CLASS_AVAILABLE_MAC(10_14)
             button.action = @selector(zoomButtonEvent);
         }
         x += stride;
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^ {
             [button setNeedsDisplay:YES];
         });
     }
@@ -697,7 +697,7 @@ NS_CLASS_AVAILABLE_MAC(10_14)
     if (_standardWindowButtonsView) {
         NSUInteger modifiers = ([NSEvent modifierFlags] & NSEventModifierFlagDeviceIndependentFlagsMask);
         BOOL optionKey = modifiers & NSEventModifierFlagOption ? YES : NO;
-        
+
         [_standardWindowButtonsView setOptionModifier:optionKey];
     }
     [super flagsChanged:event];
@@ -770,7 +770,7 @@ NS_CLASS_AVAILABLE_MAC(10_14)
         const CGFloat top = self.bounds.size.height - radius;
         const CGFloat right = self.bounds.size.width - radius;
         const CGFloat bottom = 0;
-        
+
         _topLeftCornerHalfRoundImageView.frame = NSMakeRect(0, top, radius, radius);
         _topRightCornerHalfRoundImageView.frame = NSMakeRect(right, top, radius, radius);
         _bottomLeftCornerHalfRoundImageView.frame = NSMakeRect(0, bottom, radius, radius);
@@ -781,7 +781,7 @@ NS_CLASS_AVAILABLE_MAC(10_14)
         _bottomLeftCornerFullRoundImageView.frame = NSMakeRect(0, bottom, radius, radius);
         _bottomRightCornerFullRoundImageView.frame = NSMakeRect(right, bottom, radius, radius);
     }
-    
+
     {
         _leftBorderView.hidden = !haveLeft;
         _rightBorderView.hidden = !haveRight;
@@ -795,23 +795,23 @@ NS_CLASS_AVAILABLE_MAC(10_14)
 
         const CGFloat thickness = fullThickness ? 1 : 0.5;
         _leftBorderView.frame = NSMakeRect(0,
-                                         bottomInset,
-                                         thickness,
-                                         self.bounds.size.height - topInset - bottomInset);
-        
+                                           bottomInset,
+                                           thickness,
+                                           self.bounds.size.height - topInset - bottomInset);
+
         _rightBorderView.frame = NSMakeRect(self.bounds.size.width - thickness,
-                                          bottomInset,
-                                          thickness,
-                                          self.bounds.size.height - topInset - bottomInset);
+                                            bottomInset,
+                                            thickness,
+                                            self.bounds.size.height - topInset - bottomInset);
         _bottomBorderView.frame = NSMakeRect(leftInset,
-                                            0,
-                                            self.bounds.size.width - leftInset - rightInset,
-                                            thickness);
-        
+                                             0,
+                                             self.bounds.size.width - leftInset - rightInset,
+                                             thickness);
+
         _topBorderView.frame = NSMakeRect(leftInset,
-                                         self.bounds.size.height - thickness,
-                                         self.bounds.size.width - leftInset - rightInset,
-                                         thickness);
+                                          self.bounds.size.height - thickness,
+                                          self.bounds.size.width - leftInset - rightInset,
+                                          thickness);
     }
 
     _bottomLeftCornerHalfRoundImageView.hidden = !(haveLeft && haveBottom && !fullThickness);
@@ -854,7 +854,7 @@ NS_CLASS_AVAILABLE_MAC(10_14)
 
 - (void)viewDidChangeEffectiveAppearance NS_AVAILABLE_MAC(10_14) {
     // This can be called from within -[NSWindow setStyleMask:]
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         [self.delegate rootTerminalViewDidChangeEffectiveAppearance];
     });
     [self updateBorderViews];
@@ -871,12 +871,12 @@ NS_CLASS_AVAILABLE_MAC(10_14)
 
 - (void)setWindowTitleLabelToString:(NSString *)title icon:(NSImage *)icon {
     [_windowTitleLabel setTitle:title icon:icon alignmentProvider:
-     ^NSTextAlignment(NSTextField * _Nonnull scratch) {
-         BOOL leftAligned = NO;
-         [self frameForWindowTitleLabel:scratch
-                         getLeftAligned:&leftAligned];
+                      ^NSTextAlignment(NSTextField * _Nonnull scratch) {
+                          BOOL leftAligned = NO;
+        [self frameForWindowTitleLabel:scratch
+              getLeftAligned:&leftAligned];
 
-         return leftAligned ? NSTextAlignmentLeft : NSTextAlignmentCenter;
+        return leftAligned ? NSTextAlignmentLeft : NSTextAlignmentCenter;
     }];
 }
 
@@ -934,7 +934,7 @@ NS_CLASS_AVAILABLE_MAC(10_14)
 
 - (void)setToolbeltProportions:(NSDictionary *)proportions {
     _desiredToolbeltProportions = [proportions copy];
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         [self updateToolbeltProportionsIfNeeded];
     });
 }
@@ -983,7 +983,7 @@ NS_CLASS_AVAILABLE_MAC(10_14)
                                               self.bounds.size.width,
                                               kDivisionViewHeight);
         if ([_delegate rootTerminalViewSharedStatusBarViewController] &&
-            [iTermPreferences boolForKey:kPreferenceKeyStatusBarPosition] == iTermStatusBarPositionTop) {
+                [iTermPreferences boolForKey:kPreferenceKeyStatusBarPosition] == iTermStatusBarPositionTop) {
             // Have a top status bar. Move the division view to sit above it.
             divisionViewFrame.origin.y += iTermGetStatusBarHeight();
         }
@@ -995,36 +995,36 @@ NS_CLASS_AVAILABLE_MAC(10_14)
         }
         iTermPreferencesTabStyle preferredStyle = [iTermPreferences intForKey:kPreferenceKeyTabStyle];
         switch ([self.effectiveAppearance it_tabStyle:preferredStyle]) {
-            case TAB_STYLE_AUTOMATIC:
-            case TAB_STYLE_COMPACT:
-            case TAB_STYLE_MINIMAL:
-                assert(NO);
-                
-            case TAB_STYLE_LIGHT:
-            case TAB_STYLE_LIGHT_HIGH_CONTRAST:
-                if (@available(macOS 10.14, *)) {
-                    _divisionView.color = (self.window.isKeyWindow
-                                           ? [NSColor colorWithCalibratedHue:1 saturation:0 brightness:0.70 alpha:1]
-                                           : [NSColor colorWithCalibratedHue:1 saturation:0 brightness:0.86 alpha:1]);
-                } else {
-                    _divisionView.color = (self.window.isKeyWindow
-                                           ? [NSColor colorWithCalibratedHue:1 saturation:0 brightness:0.49 alpha:1]
-                                           : [NSColor colorWithCalibratedHue:1 saturation:0 brightness:0.65 alpha:1]);
-                }
-                break;
+        case TAB_STYLE_AUTOMATIC:
+        case TAB_STYLE_COMPACT:
+        case TAB_STYLE_MINIMAL:
+            assert(NO);
 
-            case TAB_STYLE_DARK:
-            case TAB_STYLE_DARK_HIGH_CONTRAST:
-                if (@available(macOS 10.14, *)) {
-                    _divisionView.color = (self.window.isKeyWindow
-                                           ? [NSColor colorWithCalibratedHue:1 saturation:0 brightness:0.1 alpha:1]
-                                           : [NSColor colorWithCalibratedHue:1 saturation:0 brightness:0.07 alpha:1]);
-                } else {
-                    _divisionView.color = (self.window.isKeyWindow
-                                           ? [NSColor colorWithCalibratedHue:1 saturation:0 brightness:0.2 alpha:1]
-                                           : [NSColor colorWithCalibratedHue:1 saturation:0 brightness:0.15 alpha:1]);
-                }
-                break;
+        case TAB_STYLE_LIGHT:
+        case TAB_STYLE_LIGHT_HIGH_CONTRAST:
+            if (@available(macOS 10.14, *)) {
+                _divisionView.color = (self.window.isKeyWindow
+                                       ? [NSColor colorWithCalibratedHue:1 saturation:0 brightness:0.70 alpha:1]
+                                       : [NSColor colorWithCalibratedHue:1 saturation:0 brightness:0.86 alpha:1]);
+            } else {
+                _divisionView.color = (self.window.isKeyWindow
+                                       ? [NSColor colorWithCalibratedHue:1 saturation:0 brightness:0.49 alpha:1]
+                                       : [NSColor colorWithCalibratedHue:1 saturation:0 brightness:0.65 alpha:1]);
+            }
+            break;
+
+        case TAB_STYLE_DARK:
+        case TAB_STYLE_DARK_HIGH_CONTRAST:
+            if (@available(macOS 10.14, *)) {
+                _divisionView.color = (self.window.isKeyWindow
+                                       ? [NSColor colorWithCalibratedHue:1 saturation:0 brightness:0.1 alpha:1]
+                                       : [NSColor colorWithCalibratedHue:1 saturation:0 brightness:0.07 alpha:1]);
+            } else {
+                _divisionView.color = (self.window.isKeyWindow
+                                       ? [NSColor colorWithCalibratedHue:1 saturation:0 brightness:0.2 alpha:1]
+                                       : [NSColor colorWithCalibratedHue:1 saturation:0 brightness:0.15 alpha:1]);
+            }
+            break;
         }
 
         _divisionView.frame = divisionViewFrame;
@@ -1076,7 +1076,7 @@ NS_CLASS_AVAILABLE_MAC(10_14)
     }
 
     return [self tabViewFrameByShrinkingForFullScreenTabBar:toolbeltFrame
-                                                     window:thisWindow];
+                 window:thisWindow];
 }
 
 - (void)setShouldShowToolbelt:(BOOL)shouldShowToolbelt {
@@ -1127,7 +1127,7 @@ NS_CLASS_AVAILABLE_MAC(10_14)
 
 - (BOOL)tabBarShouldBeVisibleWithAdditionalTabs:(int)numberOfAdditionalTabs {
     if (([_delegate anyFullScreen] || [_delegate enteringLionFullscreen]) &&
-        ![iTermPreferences boolForKey:kPreferenceKeyShowFullscreenTabBar]) {
+            ![iTermPreferences boolForKey:kPreferenceKeyShowFullscreenTabBar]) {
         DLog(@"Tabbar should not be visible because in full screen");
         return NO;
     }
@@ -1183,21 +1183,21 @@ NS_CLASS_AVAILABLE_MAC(10_14)
     [self.tabBarControl setTabLocation:[iTermPreferences intForKey:kPreferenceKeyTabPosition]];
 
     switch ([iTermPreferences intForKey:kPreferenceKeyTabPosition]) {
-        case PSMTab_TopTab: {
-            // Place tabs at the top.
-            // Add 1px border
-            [self layoutSubviewsTopTabBarVisible:YES forWindow:thisWindow];
-            break;
-        }
+    case PSMTab_TopTab: {
+        // Place tabs at the top.
+        // Add 1px border
+        [self layoutSubviewsTopTabBarVisible:YES forWindow:thisWindow];
+        break;
+    }
 
-        case PSMTab_BottomTab: {
-            [self layoutSubviewsWithVisibleBottomTabBarForWindow:thisWindow];
-            break;
-        }
+    case PSMTab_BottomTab: {
+        [self layoutSubviewsWithVisibleBottomTabBarForWindow:thisWindow];
+        break;
+    }
 
-        case PSMTab_LeftTab: {
-            [self layoutSubviewsWithVisibleLeftTabBarAndInlineToolbelt:showToolbeltInline forWindow:thisWindow];
-        }
+    case PSMTab_LeftTab: {
+        [self layoutSubviewsWithVisibleLeftTabBarAndInlineToolbelt:showToolbeltInline forWindow:thisWindow];
+    }
     }
 }
 
@@ -1267,7 +1267,7 @@ NS_CLASS_AVAILABLE_MAC(10_14)
                    [[thisWindow contentView] frame].size.height - decorationHeights.top - decorationHeights.bottom);
     if ([self tabBarShouldBeVisibleEvenWhenOnLoan]) {
         tabViewFrame = [self tabViewFrameByShrinkingForFullScreenTabBar:tabViewFrame
-                                                                 window:thisWindow];
+                             window:thisWindow];
     }
     DLog(@"repositionWidgets - Set tab view frame to %@", NSStringFromRect(tabViewFrame));
     [self.tabView setFrame:tabViewFrame];
@@ -1312,7 +1312,7 @@ NS_CLASS_AVAILABLE_MAC(10_14)
                                      [self tabviewWidth],
                                      [[thisWindow contentView] frame].size.height - temp.bottom - temp.top);
     tabViewFrame = [self tabViewFrameByShrinkingForFullScreenTabBar:tabViewFrame
-                                                             window:thisWindow];
+                         window:thisWindow];
     DLog(@"repositionWidgets - Set tab view frame to %@", NSStringFromRect(tabViewFrame));
     [self.tabView setFrame:tabViewFrame];
 
@@ -1377,12 +1377,12 @@ NS_CLASS_AVAILABLE_MAC(10_14)
                                      [thisWindow.contentView frame].size.height - decorationHeights.top - decorationHeights.bottom);
     DLog(@"repositionWidgets - Set tab view frame to %@", NSStringFromRect(tabViewFrame));
     self.tabView.frame = [self tabViewFrameByShrinkingForFullScreenTabBar:tabViewFrame
-                                                                   window:thisWindow];
+                               window:thisWindow];
     [self updateDivisionViewAndWindowNumberLabel];
 }
 
 - (NSRect)tabViewFrameByShrinkingForFullScreenTabBar:(NSRect)frame
-                                              window:(NSWindow *)thisWindow {
+    window:(NSWindow *)thisWindow {
     if (@available(macOS 10.14, *)) {} else {
         return frame;
     }
@@ -1396,19 +1396,19 @@ NS_CLASS_AVAILABLE_MAC(10_14)
         return frame;
     }
     if (![self.delegate enteringLionFullscreen] &&
-        !(thisWindow.styleMask & NSWindowStyleMaskFullScreen)) {
+            !(thisWindow.styleMask & NSWindowStyleMaskFullScreen)) {
         return frame;
     }
     switch ([iTermPreferences intForKey:kPreferenceKeyTabPosition]) {
-        case PSMTab_TopTab:
-            if (self.tabBarControl.flashing) {
-                // Overlaps content
-                return frame;
-            }
-            break;
-        case PSMTab_LeftTab:
-        case PSMTab_BottomTab:
+    case PSMTab_TopTab:
+        if (self.tabBarControl.flashing) {
+            // Overlaps content
             return frame;
+        }
+        break;
+    case PSMTab_LeftTab:
+    case PSMTab_BottomTab:
+        return frame;
     }
     NSRect tabViewFrame = frame;
     const CGFloat offset = _tabBarControl.height;
@@ -1468,14 +1468,14 @@ NS_CLASS_AVAILABLE_MAC(10_14)
                                      [thisWindow.contentView frame].size.width - NSWidth(tabBarFrame) - widthAdjustment,
                                      [thisWindow.contentView frame].size.height - decorationHeights.bottom - decorationHeights.top);
     self.tabView.frame = [self tabViewFrameByShrinkingForFullScreenTabBar:tabViewFrame
-                                                                   window:thisWindow];
+                               window:thisWindow];
     [self updateDivisionViewAndWindowNumberLabel];
 
     const CGFloat dragHandleWidth = 3;
     NSRect leftTabBarDragHandleFrame = NSMakeRect(NSMaxX(self.tabBarControl.frame) - dragHandleWidth,
-                                                  0,
-                                                  dragHandleWidth,
-                                                  NSHeight(self.tabBarControl.frame));
+                                       0,
+                                       dragHandleWidth,
+                                       NSHeight(self.tabBarControl.frame));
     if (!self.leftTabBarDragHandle) {
         self.leftTabBarDragHandle = [[iTermDragHandleView alloc] initWithFrame:leftTabBarDragHandleFrame];
         self.leftTabBarDragHandle.delegate = self;
@@ -1585,15 +1585,15 @@ NS_CLASS_AVAILABLE_MAC(10_14)
 - (CGFloat)minimumTabBarWidth {
     const iTermPreferencesTabStyle preferredStyle = [iTermPreferences intForKey:kPreferenceKeyTabStyle];
     switch (preferredStyle) {
-        case TAB_STYLE_DARK:
-        case TAB_STYLE_LIGHT:
-        case TAB_STYLE_AUTOMATIC:
-        case TAB_STYLE_DARK_HIGH_CONTRAST:
-        case TAB_STYLE_LIGHT_HIGH_CONTRAST:
-            return 50;
-        case TAB_STYLE_MINIMAL:
-        case TAB_STYLE_COMPACT:
-            return 114;
+    case TAB_STYLE_DARK:
+    case TAB_STYLE_LIGHT:
+    case TAB_STYLE_AUTOMATIC:
+    case TAB_STYLE_DARK_HIGH_CONTRAST:
+    case TAB_STYLE_LIGHT_HIGH_CONTRAST:
+        return 50;
+    case TAB_STYLE_MINIMAL:
+    case TAB_STYLE_COMPACT:
+        return 114;
     }
     assert(NO);
 }
@@ -1614,35 +1614,35 @@ NS_CLASS_AVAILABLE_MAC(10_14)
 
 - (void)willShowTabBar {
     _leftTabBarWidth = [self leftTabBarWidthForPreferredWidth:_leftTabBarPreferredWidth
-                                                 contentWidth:self.bounds.size.width];
+                             contentWidth:self.bounds.size.width];
 }
 
 #pragma mark - Status Bar Layout
 
 - (NSRect)frameForStatusBarInContainingFrame:(NSRect)containingFrame {
     switch ([iTermPreferences boolForKey:kPreferenceKeyStatusBarPosition]) {
-        case iTermStatusBarPositionTop:
-            return NSMakeRect(NSMinX(containingFrame),
-                              NSMaxY(containingFrame) - iTermGetStatusBarHeight(),
-                              NSWidth(containingFrame),
-                              iTermGetStatusBarHeight());
+    case iTermStatusBarPositionTop:
+        return NSMakeRect(NSMinX(containingFrame),
+                          NSMaxY(containingFrame) - iTermGetStatusBarHeight(),
+                          NSWidth(containingFrame),
+                          iTermGetStatusBarHeight());
 
-        case iTermStatusBarPositionBottom:
-            return NSMakeRect(NSMinX(containingFrame),
-                              NSMinY(containingFrame),
-                              NSWidth(containingFrame),
-                              iTermGetStatusBarHeight());
+    case iTermStatusBarPositionBottom:
+        return NSMakeRect(NSMinX(containingFrame),
+                          NSMinY(containingFrame),
+                          NSWidth(containingFrame),
+                          iTermGetStatusBarHeight());
     }
     return NSZeroRect;
 }
 
 - (NSAutoresizingMaskOptions)statusBarContainerAutoresizingMask {
     switch ([iTermPreferences unsignedIntegerForKey:kPreferenceKeyStatusBarPosition]) {
-        case iTermStatusBarPositionTop:
-            return NSViewWidthSizable | NSViewMinYMargin;
+    case iTermStatusBarPositionTop:
+        return NSViewWidthSizable | NSViewMinYMargin;
 
-        case iTermStatusBarPositionBottom:
-            return NSViewWidthSizable | NSViewMaxYMargin;
+    case iTermStatusBarPositionBottom:
+        return NSViewWidthSizable | NSViewMaxYMargin;
     }
 
     return NSViewWidthSizable | NSViewMinYMargin;
@@ -1650,35 +1650,35 @@ NS_CLASS_AVAILABLE_MAC(10_14)
 
 - (void)updateDecorationHeightsForStatusBar:(iTermDecorationHeights *)decorationHeights {
     switch ([iTermPreferences unsignedIntegerForKey:kPreferenceKeyStatusBarPosition]) {
-        case iTermStatusBarPositionTop: {
-            decorationHeights->top += iTermGetStatusBarHeight();
-            break;
-        }
-        case iTermStatusBarPositionBottom:
-            decorationHeights->bottom += iTermGetStatusBarHeight();
-            break;
+    case iTermStatusBarPositionTop: {
+        decorationHeights->top += iTermGetStatusBarHeight();
+        break;
+    }
+    case iTermStatusBarPositionBottom:
+        decorationHeights->bottom += iTermGetStatusBarHeight();
+        break;
     }
 }
 
 - (void)layoutIfStatusBarChanged {
     iTermStatusBarViewController *statusBarViewController = [_delegate rootTerminalViewSharedStatusBarViewController];
     if (statusBarViewController != _statusBarViewController ||
-        _statusBarViewController.view != statusBarViewController.view ||
-        statusBarViewController.view.superview != _statusBarContainer) {
+            _statusBarViewController.view != statusBarViewController.view ||
+            statusBarViewController.view.superview != _statusBarContainer) {
         [self layoutSubviews];
     }
 }
 
 - (void)layoutStatusBar:(iTermDecorationHeights *)decorationHeights
-                 window:(NSWindow *)thisWindow
-                  frame:(NSRect)containingFrame {
+    window:(NSWindow *)thisWindow
+    frame:(NSRect)containingFrame {
     iTermStatusBarViewController *statusBarViewController = [_delegate rootTerminalViewSharedStatusBarViewController];
     NSRect statusBarFrame = [self frameForStatusBarInContainingFrame:containingFrame];
     if (statusBarViewController) {
         [self updateDecorationHeightsForStatusBar:decorationHeights];
     }
     if (_statusBarViewController.view != statusBarViewController.view ||
-        _statusBarViewController.view.superview != _statusBarContainer) {
+            _statusBarViewController.view.superview != _statusBarContainer) {
         if (!_statusBarContainer) {
             _statusBarContainer = [[iTermGenericStatusBarContainer alloc] initWithFrame:statusBarFrame];
             _statusBarContainer.autoresizesSubviews = YES;
@@ -1740,13 +1740,13 @@ NS_CLASS_AVAILABLE_MAC(10_14)
     }
     BOOL isTop = NO;
     switch ([iTermPreferences intForKey:kPreferenceKeyTabPosition]) {
-        case PSMTab_BottomTab:
-        case PSMTab_LeftTab:
-            return YES;
+    case PSMTab_BottomTab:
+    case PSMTab_LeftTab:
+        return YES;
 
-        case PSMTab_TopTab:
-            isTop = YES;
-            break;
+    case PSMTab_TopTab:
+        isTop = YES;
+        break;
     }
     if ([_delegate lionFullScreen] || [_delegate enteringLionFullscreen]) {
         if (isTop) {
@@ -1767,7 +1767,7 @@ NS_CLASS_AVAILABLE_MAC(10_14)
     _leftTabBarPreferredWidth = round([self leftTabBarWidthForPreferredWidth:_leftTabBarPreferredWidth + delta]);
     [self layoutSubviews];  // This may modify _leftTabBarWidth if it's too big or too small.
     [[NSUserDefaults standardUserDefaults] setDouble:_leftTabBarPreferredWidth
-                                              forKey:kPreferenceKeyLeftTabBarWidth];
+                                           forKey:kPreferenceKeyLeftTabBarWidth];
     return _leftTabBarPreferredWidth - originalValue;
 }
 
@@ -1779,15 +1779,15 @@ NS_CLASS_AVAILABLE_MAC(10_14)
 
 - (void)stoplightHotboxMouseExit {
     [NSView animateWithDuration:0.25
-                     animations:^{
-                         self->_stoplightHotbox.animator.alphaValue = 0;
-                         self->_standardWindowButtonsView.animator.alphaValue = 0;
-                     }
-                     completion:^(BOOL finished) {
-                         if (!finished) {
-                             return;
-                         }
-                     }];
+           animations:^ {
+               self->_stoplightHotbox.animator.alphaValue = 0;
+               self->_standardWindowButtonsView.animator.alphaValue = 0;
+           }
+           completion:^(BOOL finished) {
+        if (!finished) {
+            return;
+        }
+    }];
 }
 
 - (BOOL)shouldRevealHotbox {
@@ -1829,11 +1829,11 @@ NS_CLASS_AVAILABLE_MAC(10_14)
     _stoplightHotbox.alphaValue = 0;
     _standardWindowButtonsView.alphaValue = 0;
     [NSView animateWithDuration:0.25
-                     animations:^{
-                         self->_stoplightHotbox.animator.alphaValue = 1;
-                         self->_standardWindowButtonsView.animator.alphaValue = 1;
-                     }
-                     completion:nil];
+           animations:^ {
+               self->_stoplightHotbox.animator.alphaValue = 1;
+               self->_standardWindowButtonsView.animator.alphaValue = 1;
+           }
+           completion:nil];
     return YES;
 }
 

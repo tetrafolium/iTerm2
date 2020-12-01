@@ -15,10 +15,10 @@
 - (nullable id)valueForVariableName:(NSString *)name;
 - (NSString *)stringValueForVariableName:(NSString *)name;
 - (BOOL)hasLinkToReference:(id<iTermVariableReference>)reference
-                      path:(NSString *)path;
+    path:(NSString *)path;
 - (BOOL)setValuesFromDictionary:(NSDictionary<NSString *, id> *)dict;
 - (BOOL)setValue:(nullable id)value forVariableNamed:(NSString *)name weak:(BOOL)weak;
 - (void)addLinkToReference:(id<iTermVariableReference>)reference
-                      path:(NSString *)path;
+    path:(NSString *)path;
 
 @end

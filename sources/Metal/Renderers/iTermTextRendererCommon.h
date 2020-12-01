@@ -32,12 +32,12 @@ typedef struct {
 
 NS_INLINE NSString *iTermMetalUnderlineDescriptorDescription(iTermMetalUnderlineDescriptor *d) {
     return [NSString stringWithFormat:@"offset=%@, thickness=%@, color=(%@, %@, %@, %@)",
-            @(d->offset),
-            @(d->thickness),
-            @(d->color.x),
-            @(d->color.y),
-            @(d->color.z),
-            @(d->color.w)];
+                     @(d->offset),
+                     @(d->thickness),
+                     @(d->color.x),
+                     @(d->color.y),
+                     @(d->color.z),
+                     @(d->color.w)];
 }
 
 struct iTermMetalBackgroundColorRLE {
@@ -63,10 +63,10 @@ typedef struct iTermMetalBackgroundColorRLE iTermMetalBackgroundColorRLE;
 
 NS_INLINE NSString *iTermMetalBackgroundColorRLEDescription(const iTermMetalBackgroundColorRLE *c) {
     return [NSString stringWithFormat:@"color=(%0.2f, %0.2f, %0.2f, %0.2f) origin=%d count=%d",
-            c->color.x,
-            c->color.y,
-            c->color.z,
-            c->color.w,
-            c->origin,
-            c->count];
+                     c->color.x,
+                     c->color.y,
+                     c->color.z,
+                     c->color.w,
+                     c->origin,
+                     c->count];
 }

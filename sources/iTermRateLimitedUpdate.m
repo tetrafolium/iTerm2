@@ -59,10 +59,10 @@
     }
     [_timer invalidate];
     _timer = [NSTimer scheduledWeakTimerWithTimeInterval:delay
-                                                  target:self
-                                                selector:@selector(performBlockIfNeeded:)
-                                                userInfo:nil
-                                                 repeats:NO];
+                      target:self
+                      selector:@selector(performBlockIfNeeded:)
+                      userInfo:nil
+                      repeats:NO];
 }
 
 - (void)setMinimumInterval:(NSTimeInterval)minimumInterval {
@@ -96,12 +96,12 @@
 }
 
 - (void)performRateLimitedSelector:(SEL)selector
-                          onTarget:(id)target
-                        withObject:(id)object {
+    onTarget:(id)target
+    withObject:(id)object {
     __weak id weakTarget = target;
-    [self performRateLimitedBlock:^{
-        id strongTarget = weakTarget;
-        if (strongTarget) {
+    [self performRateLimitedBlock:^ {
+             id strongTarget = weakTarget;
+             if (strongTarget) {
             void (*func)(id, SEL, NSTimer *) = (void *)[weakTarget methodForSelector:selector];
             func(weakTarget, selector, object);
         }
@@ -153,7 +153,7 @@ static NSString *const iTermPersistentRateLimitedUpdateUserDefaultsKey = @"NoSyn
 }
 
 + (void)setNextDate:(NSTimeInterval)nextDate forName:(NSString *)name {
-    NSMutableDictionary<NSString *, NSNumber *> *dict = [[[NSUserDefaults standardUserDefaults] dictionaryForKey:iTermPersistentRateLimitedUpdateUserDefaultsKey] ?: @{} mutableCopy];
+    NSMutableDictionary<NSString *, NSNumber *> *dict = [[[NSUserDefaults standardUserDefaults] dictionaryForKey:iTermPersistentRateLimitedUpdateUserDefaultsKey] ?: @ {} mutableCopy];
     dict[name] = @(nextDate);
     [[NSUserDefaults standardUserDefaults] setObject:dict forKey:iTermPersistentRateLimitedUpdateUserDefaultsKey];
 }
@@ -178,7 +178,7 @@ static NSString *const iTermPersistentRateLimitedUpdateUserDefaultsKey = @"NoSyn
     const NSTimeInterval delay = self.minimumInterval;
     [super scheduleTimer];
     [self.class setNextDate:[NSDate timeIntervalSinceReferenceDate] + delay
-                    forName:_name];
+                forName:_name];
 }
 
 @end

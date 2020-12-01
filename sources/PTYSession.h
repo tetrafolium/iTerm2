@@ -143,7 +143,7 @@ typedef enum {
 
 // Session-initiated font size. May cause window size to adjust.
 - (void)sessionDidChangeFontSize:(PTYSession *)session
-                    adjustWindow:(BOOL)adjustWindow;
+    adjustWindow:(BOOL)adjustWindow;
 
 // Session-initiated resize.
 - (BOOL)sessionInitiatedResize:(PTYSession*)session width:(int)width height:(int)height;
@@ -174,9 +174,9 @@ typedef enum {
 
 // Tmux window number (a tmux window is like a tab).
 - (void)setTmuxFont:(NSFont *)font
-       nonAsciiFont:(NSFont *)nonAsciiFont
-           hSpacing:(double)horizontalSpacing
-           vSpacing:(double)verticalSpacing;
+    nonAsciiFont:(NSFont *)nonAsciiFont
+    hSpacing:(double)horizontalSpacing
+    vSpacing:(double)verticalSpacing;
 
 // The tmux window title changed.
 - (void)sessionDidChangeTmuxWindowNameTo:(NSString *)newName;
@@ -232,8 +232,8 @@ typedef enum {
 
 - (BOOL)sessionShouldAutoClose:(PTYSession *)session;
 - (void)sessionDidChangeGraphic:(PTYSession *)session
-                     shouldShow:(BOOL)shouldShow
-                          image:(NSImage *)image;
+    shouldShow:(BOOL)shouldShow
+    image:(NSImage *)image;
 - (NSView *)sessionContainerView:(PTYSession *)session;
 
 
@@ -252,9 +252,9 @@ typedef enum {
 - (void)sessionEditActions;
 - (void)sessionEditSnippets;
 - (void)session:(PTYSession *)session
-setBackgroundImage:(NSImage *)image
-           mode:(iTermBackgroundImageMode)imageMode
-backgroundColor:(NSColor *)backgroundColor;
+    setBackgroundImage:(NSImage *)image
+    mode:(iTermBackgroundImageMode)imageMode
+    backgroundColor:(NSColor *)backgroundColor;
 - (NSImage *)sessionBackgroundImage;
 - (iTermBackgroundImageMode)sessionBackgroundImageMode;
 - (CGFloat)sessionBlend;
@@ -553,11 +553,11 @@ backgroundColor:(NSColor *)backgroundColor;
 #pragma mark - methods
 
 + (NSDictionary *)repairedArrangement:(NSDictionary *)arrangement
-             replacingProfileWithGUID:(NSString *)badGuid
-                          withProfile:(Profile *)goodProfile;
+    replacingProfileWithGUID:(NSString *)badGuid
+    withProfile:(Profile *)goodProfile;
 + (NSDictionary *)repairedArrangement:(NSDictionary *)arrangement
-     replacingOldCWDOfSessionWithGUID:(NSString *)guid
-                           withOldCWD:(NSString *)replacementOldCWD;
+    replacingOldCWDOfSessionWithGUID:(NSString *)guid
+    withOldCWD:(NSString *)replacementOldCWD;
 
 + (BOOL)handleShortcutWithoutTerminal:(NSEvent*)event;
 + (void)selectMenuItem:(NSString*)theName;
@@ -602,16 +602,16 @@ backgroundColor:(NSColor *)backgroundColor;
 + (void)drawArrangementPreview:(NSDictionary *)arrangement frame:(NSRect)frame;
 - (void)setSizeFromArrangement:(NSDictionary*)arrangement;
 + (PTYSession*)sessionFromArrangement:(NSDictionary *)arrangement
-                                named:(NSString *)arrangementName
-                               inView:(SessionView *)sessionView
-                         withDelegate:(id<PTYSessionDelegate>)delegate
-                        forObjectType:(iTermObjectType)objectType
-                   partialAttachments:(NSDictionary *)partialAttachments;
+    named:(NSString *)arrangementName
+    inView:(SessionView *)sessionView
+    withDelegate:(id<PTYSessionDelegate>)delegate
+    forObjectType:(iTermObjectType)objectType
+    partialAttachments:(NSDictionary *)partialAttachments;
 
 + (NSDictionary *)arrangementFromTmuxParsedLayout:(NSDictionary *)parseNode
-                                         bookmark:(Profile *)bookmark
-                                   tmuxController:(TmuxController *)tmuxController
-                                           window:(int)window;
+    bookmark:(Profile *)bookmark
+    tmuxController:(TmuxController *)tmuxController
+    window:(int)window;
 + (NSString *)guidInArrangement:(NSDictionary *)arrangement;
 + (NSString *)initialWorkingDirectoryFromArrangement:(NSDictionary *)arrangement;
 
@@ -621,18 +621,18 @@ backgroundColor:(NSColor *)backgroundColor;
 - (void)resizeFromArrangement:(NSDictionary *)arrangement;
 
 - (void)startProgram:(NSString *)program
-         environment:(NSDictionary *)prog_env
-         customShell:(NSString *)customShell
-              isUTF8:(BOOL)isUTF8
-       substitutions:(NSDictionary *)substitutions
-         arrangement:(NSString *)arrangement
-          completion:(void (^)(BOOL))completion;
+    environment:(NSDictionary *)prog_env
+    customShell:(NSString *)customShell
+    isUTF8:(BOOL)isUTF8
+    substitutions:(NSDictionary *)substitutions
+    arrangement:(NSString *)arrangement
+    completion:(void (^)(BOOL))completion;
 
 // This is an alternative to runCommandWithOldCwd and startProgram. It attaches
 // to an existing server. Use only if [iTermAdvancedSettingsModel runJobsInServers]
 // is YES.
 - (void)attachToServer:(iTermGeneralServerConnection)serverConnection
-            completion:(void (^)(void))completion;
+    completion:(void (^)(void))completion;
 
 - (void)softTerminate;
 - (void)terminate;
@@ -664,8 +664,8 @@ backgroundColor:(NSColor *)backgroundColor;
 // Write with a particular encoding. If the encoding is just session.terminal.encoding then pass
 // NO for `forceEncoding` and the terminal's encoding will be used instead of `optionalEncoding`.
 - (void)writeTaskNoBroadcast:(NSString *)string
-                    encoding:(NSStringEncoding)optionalEncoding
-               forceEncoding:(BOOL)forceEncoding;
+    encoding:(NSStringEncoding)optionalEncoding
+    forceEncoding:(BOOL)forceEncoding;
 
 - (void)writeLatin1EncodedData:(NSData *)data broadcastAllowed:(BOOL)broadcast;
 
@@ -785,8 +785,8 @@ backgroundColor:(NSColor *)backgroundColor;
 - (BOOL)isCompatibleWith:(PTYSession *)otherSession;
 - (void)setTmuxPane:(int)windowPane;
 - (void)setTmuxHistory:(NSArray<NSData *> *)history
-            altHistory:(NSArray<NSData *> *)altHistory
-                 state:(NSDictionary *)state;
+    altHistory:(NSArray<NSData *> *)altHistory
+    state:(NSDictionary *)state;
 - (void)toggleTmuxPausePane;
 
 - (void)addNoteAtCursor;
@@ -810,12 +810,12 @@ backgroundColor:(NSColor *)backgroundColor;
 - (void)addCapturedOutput:(CapturedOutput *)capturedOutput;
 
 - (void)queueAnnouncement:(iTermAnnouncementViewController *)announcement
-               identifier:(NSString *)identifier;
+    identifier:(NSString *)identifier;
 
 - (void)tryToRunShellIntegrationInstallerWithPromptCheck:(BOOL)promptCheck;
 
 - (BOOL)encodeArrangementWithContents:(BOOL)includeContents
-                              encoder:(id<iTermEncoderAdapter>)encoder;
+    encoder:(id<iTermEncoderAdapter>)encoder;
 
 - (void)toggleTmuxZoom;
 - (void)forceTmuxDetach;
@@ -892,22 +892,22 @@ backgroundColor:(NSColor *)backgroundColor;
 
 - (ITMGetBufferResponse *)handleGetBufferRequest:(ITMGetBufferRequest *)request;
 - (void)handleGetPromptRequest:(ITMGetPromptRequest *)request
-                    completion:(void (^)(ITMGetPromptResponse *response))completion;
+    completion:(void (^)(ITMGetPromptResponse *response))completion;
 - (void)handleListPromptsRequest:(ITMListPromptsRequest *)request
-                      completion:(void (^)(ITMListPromptsResponse *response))completion;
+    completion:(void (^)(ITMListPromptsResponse *response))completion;
 - (ITMNotificationResponse *)handleAPINotificationRequest:(ITMNotificationRequest *)request
-                                            connectionKey:(NSString *)connectionKey;
+    connectionKey:(NSString *)connectionKey;
 
 - (ITMSetProfilePropertyResponse_Status)handleSetProfilePropertyForAssignments:(NSArray<iTermTuple<NSString *, id> *> *)tuples
-                                                            scriptHistoryEntry:(iTermScriptHistoryEntry *)scriptHistoryEntry;
+    scriptHistoryEntry:(iTermScriptHistoryEntry *)scriptHistoryEntry;
 
 - (ITMGetProfilePropertyResponse *)handleGetProfilePropertyForKeys:(NSArray<NSString *> *)keys;
 
 // Run a script-side function. Can include composition, references to variables.
 // origin is used to show why the function was called and goes in the error's title. e.g., "Trigger".
 - (void)invokeFunctionCall:(NSString *)invocation
-                     scope:(iTermVariableScope *)scope
-                    origin:(NSString *)origin;
+    scope:(iTermVariableScope *)scope
+    origin:(NSString *)origin;
 - (void)setParentScope:(iTermVariableScope *)parentScope;
 
 #pragma mark - Testing utilities

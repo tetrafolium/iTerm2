@@ -37,45 +37,45 @@
 }
 
 - (BOOL)encodeDictionaryWithKey:(NSString *)key
-                     generation:(NSInteger)generation
-                          block:(BOOL (^ NS_NOESCAPE)(id<iTermEncoderAdapter> encoder))block {
+    generation:(NSInteger)generation
+    block:(BOOL (^ NS_NOESCAPE)(id<iTermEncoderAdapter> encoder))block {
     return [_encoder encodeChildWithKey:key identifier:@"" generation:generation block:^BOOL (iTermGraphEncoder * _Nonnull subencoder) {
-        return block([[iTermGraphEncoderAdapter alloc] initWithGraphEncoder:subencoder]);
-    }];
+                 return block([[iTermGraphEncoderAdapter alloc] initWithGraphEncoder:subencoder]);
+             }];
 }
 
 - (void)encodeArrayWithKey:(NSString *)key
-               identifiers:(NSArray<NSString *> *)identifiers
-                generation:(NSInteger)generation
-                     block:(BOOL (^ NS_NOESCAPE)(id<iTermEncoderAdapter> encoder,
-                                                 NSInteger index,
-                                                 NSString *identifier,
-                                                 BOOL *stop))block {
+    identifiers:(NSArray<NSString *> *)identifiers
+    generation:(NSInteger)generation
+    block:(BOOL (^ NS_NOESCAPE)(id<iTermEncoderAdapter> encoder,
+    NSInteger index,
+    NSString *identifier,
+    BOOL *stop))block {
     [self encodeArrayWithKey:key
-                 identifiers:identifiers
-                  generation:generation
-                     options:0
-                       block:block];
+          identifiers:identifiers
+          generation:generation
+          options:0
+          block:block];
 }
 
 - (void)encodeArrayWithKey:(NSString *)key
-               identifiers:(NSArray<NSString *> *)identifiers
-                generation:(NSInteger)generation
-                   options:(iTermGraphEncoderArrayOptions)options
-                     block:(BOOL (^ NS_NOESCAPE)(id<iTermEncoderAdapter> encoder,
-                                                 NSInteger i,
-                                                 NSString *identifier,
-                                                 BOOL *stop))block {
+    identifiers:(NSArray<NSString *> *)identifiers
+    generation:(NSInteger)generation
+    options:(iTermGraphEncoderArrayOptions)options
+    block:(BOOL (^ NS_NOESCAPE)(id<iTermEncoderAdapter> encoder,
+    NSInteger i,
+    NSString *identifier,
+    BOOL *stop))block {
     [_encoder encodeArrayWithKey:key
-                      generation:generation
-                     identifiers:identifiers
-                         options:options
-                           block:^BOOL(NSString * _Nonnull identifier,
-                                       NSInteger index,
-                                       iTermGraphEncoder * _Nonnull subencoder,
-                                       BOOL *stop) {
-        return block([[iTermGraphEncoderAdapter alloc] initWithGraphEncoder:subencoder], index, identifier, stop);
-    }];
+              generation:generation
+              identifiers:identifiers
+              options:options
+              block:^BOOL(NSString * _Nonnull identifier,
+                 NSInteger index,
+                 iTermGraphEncoder * _Nonnull subencoder,
+             BOOL *stop) {
+                 return block([[iTermGraphEncoderAdapter alloc] initWithGraphEncoder:subencoder], index, identifier, stop);
+             }];
 }
 
 - (void)mergeDictionary:(NSDictionary *)dictionary {
@@ -84,7 +84,8 @@
 
 @end
 
-@implementation iTermMutableDictionaryEncoderAdapter: NSObject
+@implementation iTermMutableDictionaryEncoderAdapter:
+NSObject
 
 + (instancetype)encoder {
     return [[self alloc] initWithMutableDictionary:[NSMutableDictionary dictionary]];
@@ -122,8 +123,8 @@
 }
 
 - (BOOL)encodeDictionaryWithKey:(NSString *)key
-                           generation:(NSInteger)generation
-                                block:(BOOL (^ NS_NOESCAPE)(id<iTermEncoderAdapter> encoder))block {
+    generation:(NSInteger)generation
+    block:(BOOL (^ NS_NOESCAPE)(id<iTermEncoderAdapter> encoder))block {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     if (!block([[iTermMutableDictionaryEncoderAdapter alloc] initWithMutableDictionary:dict])) {
         return NO;
@@ -133,31 +134,31 @@
 }
 
 - (void)encodeArrayWithKey:(NSString *)key
-               identifiers:(NSArray<NSString *> *)identifiers
-                generation:(NSInteger)generation
-                     block:(BOOL (^ NS_NOESCAPE)(id<iTermEncoderAdapter> _Nonnull,
-                                                 NSInteger index,
-                                                 NSString * _Nonnull,
-                                                 BOOL *stop))block {
+    identifiers:(NSArray<NSString *> *)identifiers
+    generation:(NSInteger)generation
+    block:(BOOL (^ NS_NOESCAPE)(id<iTermEncoderAdapter> _Nonnull,
+    NSInteger index,
+    NSString * _Nonnull,
+    BOOL *stop))block {
     [self encodeArrayWithKey:key
-                 identifiers:identifiers
-                  generation:generation
-                     options:0
-                       block:block];
+          identifiers:identifiers
+          generation:generation
+          options:0
+          block:block];
 }
 
 - (void)encodeArrayWithKey:(NSString *)key
-               identifiers:(NSArray<NSString *> *)identifiers
-                generation:(NSInteger)generation
-                   options:(iTermGraphEncoderArrayOptions)options
-                     block:(BOOL (^ NS_NOESCAPE)(id<iTermEncoderAdapter> encoder,
-                                                 NSInteger i,
-                                                 NSString *identifier,
-                                                 BOOL *stop))block {
+    identifiers:(NSArray<NSString *> *)identifiers
+    generation:(NSInteger)generation
+    options:(iTermGraphEncoderArrayOptions)options
+    block:(BOOL (^ NS_NOESCAPE)(id<iTermEncoderAdapter> encoder,
+    NSInteger i,
+    NSString *identifier,
+    BOOL *stop))block {
     NSArray *array = [identifiers mapEnumeratedWithBlock:^id(NSUInteger index,
-                                                             NSString *identifier,
-                                                             BOOL *stop) {
-        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+                                  NSString *identifier,
+                BOOL *stop) {
+                    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
         if (!block([[iTermMutableDictionaryEncoderAdapter alloc] initWithMutableDictionary:dict],
                    index,
                    identifier,
@@ -175,8 +176,8 @@
 
 - (void)mergeDictionary:(NSDictionary *)dictionary {
     [dictionary enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        self[key] = obj;
-    }];
+                   self[key] = obj;
+               }];
 }
 
 @end

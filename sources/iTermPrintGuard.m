@@ -25,7 +25,7 @@
 }
 
 - (BOOL)shouldPrintWithProfile:(Profile *)profile
-                      inWindow:(NSWindow *)window {
+    inWindow:(NSWindow *)window {
     if (_printingDisabled) {
         return NO;
     }
@@ -35,33 +35,33 @@
     }
     if ([self haveTriedToPrintRecently]) {
         iTermWarningSelection selection =
-        [iTermWarning showWarningWithTitle:@"There's a lot of printing going on. Want to keep allowing it?"
-                                   actions:@[ @"Allow", @"Disable Temporarily", @"Disable Permanently" ]
-                                 accessory:nil
-                                identifier:@"NoSyncAllowPrinting"
-                               silenceable:kiTermWarningTypePersistent
-                                   heading:@"Allow Printing?"
-                                    window:window];
+            [iTermWarning showWarningWithTitle:@"There's a lot of printing going on. Want to keep allowing it?"
+                          actions:@[ @"Allow", @"Disable Temporarily", @"Disable Permanently" ]
+                          accessory:nil
+                          identifier:@"NoSyncAllowPrinting"
+                          silenceable:kiTermWarningTypePersistent
+                          heading:@"Allow Printing?"
+                          window:window];
         switch (selection) {
-            case kiTermWarningSelection0:
-                break;
-            case kiTermWarningSelection1: {
-                _printingDisabled = YES;
-                __weak __typeof(self) weakSelf = self;
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * 60 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [weakSelf reenable];
-                });
-                return NO;
-            }
-            case kiTermWarningSelection2: {
-                _printingDisabled = YES;
-                NSString *guid = profile[KEY_ORIGINAL_GUID] ?: profile[KEY_GUID];
-                Profile *profile = [[ProfileModel sharedInstance] bookmarkWithGuid:guid];
-                [iTermProfilePreferences setBool:YES forKey:KEY_DISABLE_PRINTING inProfile:profile model:[ProfileModel sharedInstance]];
-                return NO;
-            }
-            default:
-                break;
+        case kiTermWarningSelection0:
+            break;
+        case kiTermWarningSelection1: {
+            _printingDisabled = YES;
+            __weak __typeof(self) weakSelf = self;
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * 60 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^ {
+                [weakSelf reenable];
+            });
+            return NO;
+        }
+        case kiTermWarningSelection2: {
+            _printingDisabled = YES;
+            NSString *guid = profile[KEY_ORIGINAL_GUID] ?: profile[KEY_GUID];
+            Profile *profile = [[ProfileModel sharedInstance] bookmarkWithGuid:guid];
+            [iTermProfilePreferences setBool:YES forKey:KEY_DISABLE_PRINTING inProfile:profile model:[ProfileModel sharedInstance]];
+            return NO;
+        }
+        default:
+            break;
         }
     }
     return YES;

@@ -124,15 +124,15 @@
     NSImage *image = [[[NSImage alloc] initWithSize:sizeWithFont] autorelease];
     [image lockFocus];
     [_stringValue it_drawInRect:NSMakeRect(0, 0, sizeWithFont.width, sizeWithFont.height)
-                     attributes:temp];
+                  attributes:temp];
     [image unlockFocus];
 
     NSImage *reducedAlphaImage = [[[NSImage alloc] initWithSize:sizeWithFont] autorelease];
     [reducedAlphaImage lockFocus];
     [image drawInRect:NSMakeRect(0, 0, image.size.width, image.size.height)
-             fromRect:NSZeroRect
-            operation:NSCompositingOperationSourceOver
-             fraction:_fillColor.alphaComponent];
+           fromRect:NSZeroRect
+           operation:NSCompositingOperationSourceOver
+           fraction:_fillColor.alphaComponent];
     [reducedAlphaImage unlockFocus];
 
     return reducedAlphaImage;
@@ -140,10 +140,15 @@
 
 // Attributed string attributes for a given font point size.
 - (NSDictionary *)attributesWithPointSize:(CGFloat)pointSize {
-    NSDictionary *attributes = @{ NSFontAttributeName: [self.delegate badgeLabelFontOfSize:pointSize],
-                                  NSForegroundColorAttributeName: _fillColor,
-                                  NSParagraphStyleAttributeName: _paragraphStyle,
-                                  NSStrokeWidthAttributeName: @-2 };
+    NSDictionary *attributes = @ { NSFontAttributeName:
+                                   [self.delegate badgeLabelFontOfSize:pointSize],
+                                   NSForegroundColorAttributeName:
+                                   _fillColor,
+                                   NSParagraphStyleAttributeName:
+                                   _paragraphStyle,
+                                   NSStrokeWidthAttributeName:
+                                   @-2
+                                 };
     return attributes;
 }
 
@@ -152,8 +157,8 @@
     NSSize size = self.maxSize;
     size.height = CGFLOAT_MAX;
     NSRect bounds = [_stringValue it_boundingRectWithSize:self.maxSize
-                                               attributes:attributes
-                                                truncated:truncated];
+                                  attributes:attributes
+                                  truncated:truncated];
     return bounds.size;
 }
 
@@ -183,8 +188,8 @@
         sizeWithFont = [self sizeWithAttributes:[self attributesWithPointSize:points] truncated:&truncated];
         DLog(@"Point size of %@ gives label size of %@", @(points), NSStringFromSize(sizeWithFont));
         if (truncated ||
-            sizeWithFont.width > maxSize.width ||
-            sizeWithFont.height > maxSize.height) {
+                sizeWithFont.width > maxSize.width ||
+                sizeWithFont.height > maxSize.height) {
             max = points;
         } else if (sizeWithFont.width < maxSize.width &&
                    sizeWithFont.height < maxSize.height) {

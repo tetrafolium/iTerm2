@@ -25,7 +25,7 @@
 - (NSUserDefaults *)appleDockUserDefaults {
     static NSUserDefaults *userDefaults;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         userDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"com.apple.dock"];
     });
     return userDefaults;
@@ -43,7 +43,7 @@
     __weak PseudoTerminal *term = thePseudoTerminal;
     DLog(@"Defer making terminal current generation=%@", @(generation));
     __weak __typeof(self) weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         if (term) {
             [weakSelf setCurrentTerminal:term generation:generation isRetry:YES];
         }

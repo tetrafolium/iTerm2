@@ -18,12 +18,12 @@ static NSString *const iTermImageRendererTextureMetadataKeyImageMissing = @"iTer
 
 - (NSString *)debugDescription {
     NSString *info = [NSString stringWithFormat:@"startCoordInImage=%@ startCoordOnScreen=%@ length=%@ code=%@ size=%@ uniqueIdentifier=%@",
-                      VT100GridCoordDescription(self.startingCoordInImage),
-                      VT100GridCoordDescription(self.startingCoordOnScreen),
-                      @(self.length),
-                      @(self.code),
-                      NSStringFromSize(_imageInfo.size),
-                      _imageInfo.uniqueIdentifier];
+                               VT100GridCoordDescription(self.startingCoordInImage),
+                               VT100GridCoordDescription(self.startingCoordOnScreen),
+                               @(self.length),
+                               @(self.code),
+                               NSStringFromSize(_imageInfo.size),
+                               _imageInfo.uniqueIdentifier];
     return [NSString stringWithFormat:@"<%@: %p %@>", NSStringFromClass([self class]), self, info];
 }
 
@@ -72,8 +72,8 @@ static NSString *const iTermImageRendererTextureMetadataKeyImageMissing = @"iTer
 
     [s writeToURL:[folder URLByAppendingPathComponent:@"state.txt"]
        atomically:NO
-         encoding:NSUTF8StringEncoding
-            error:NULL];
+       encoding:NSUTF8StringEncoding
+       error:NULL];
 }
 
 
@@ -87,7 +87,7 @@ static NSString *const iTermImageRendererTextureMetadataKeyImageMissing = @"iTer
 
     // Check if the image got loaded asynchronously. This happens when decoding an image takes a while.
     if ([iTermTexture metadataForTexture:texture][iTermImageRendererTextureMetadataKeyImageMissing] &&
-        imageRun.imageInfo.ready) {
+            imageRun.imageInfo.ready) {
         [_textures removeObjectForKey:key];
     }
 
@@ -144,7 +144,7 @@ static NSString *const iTermImageRendererTextureMetadataKeyImageMissing = @"iTer
     const CGFloat scale = self.configuration.scale;
 
     [_runs enumerateObjectsUsingBlock:^(iTermMetalImageRun * _Nonnull run, NSUInteger idx, BOOL * _Nonnull stop) {
-        id key = [self keyForRun:run];
+              id key = [self keyForRun:run];
         id<MTLTexture> texture = self->_textures[key];
         const CGSize textureSize = CGSizeMake(texture.width, texture.height);
         NSSize chunkSize = NSMakeSize(textureSize.width / run.imageInfo.size.width,
@@ -157,13 +157,13 @@ static NSString *const iTermImageRendererTextureMetadataKeyImageMissing = @"iTer
         // This is done to match the point-based calculation in the legacy renderer.
         const CGFloat spacing = round((self.cellConfiguration.cellSizeWithoutSpacing.height - cellSize.height) / (2.0 * scale)) * scale;
         const CGRect destinationFrame = CGRectMake(run.startingCoordOnScreen.x * cellSize.width + offset.x,
-                                                   height - (run.startingCoordOnScreen.y + 1) * cellSize.height - offset.y - spacing,
-                                                   run.length * cellSize.width,
-                                                   cellSize.height);
+                                        height - (run.startingCoordOnScreen.y + 1) * cellSize.height - offset.y - spacing,
+                                        run.length * cellSize.width,
+                                        cellSize.height);
 
         id<MTLBuffer> vertexBuffer = [self->_cellRenderer newQuadWithFrame:destinationFrame
-                                                              textureFrame:textureFrame
-                                                               poolContext:self.poolContext];
+                                                          textureFrame:textureFrame
+                                                          poolContext:self.poolContext];
 
         block(key, vertexBuffer, texture);
     }];
@@ -190,11 +190,11 @@ static NSString *const iTermImageRendererTextureMetadataKeyImageMissing = @"iTer
     self = [super init];
     if (self) {
         _cellRenderer = [[iTermMetalCellRenderer alloc] initWithDevice:device
-                                                    vertexFunctionName:@"iTermImageVertexShader"
-                                                  fragmentFunctionName:@"iTermImageFragmentShader"
-                                                              blending:[iTermMetalBlending compositeSourceOver]
+                                                        vertexFunctionName:@"iTermImageVertexShader"
+                                                        fragmentFunctionName:@"iTermImageFragmentShader"
+                                                        blending:[iTermMetalBlending compositeSourceOver]
                                                         piuElementSize:0
-                                                   transientStateClass:[iTermImageRendererTransientState class]];
+                                                        transientStateClass:[iTermImageRendererTransientState class]];
         _textures = [NSMutableDictionary dictionary];
         _counts = [[NSCountedSet alloc] init];
         _onNotice = [NSMutableSet set];
@@ -211,10 +211,10 @@ static NSString *const iTermImageRendererTextureMetadataKeyImageMissing = @"iTer
 }
 
 - (nullable __kindof iTermMetalRendererTransientState *)createTransientStateForCellConfiguration:(iTermCellRenderConfiguration *)configuration
-                                                                                   commandBuffer:(id<MTLCommandBuffer>)commandBuffer {
+    commandBuffer:(id<MTLCommandBuffer>)commandBuffer {
     __kindof iTermMetalCellRendererTransientState * _Nonnull transientState =
-    [_cellRenderer createTransientStateForCellConfiguration:configuration
-                                              commandBuffer:commandBuffer];
+        [_cellRenderer createTransientStateForCellConfiguration:configuration
+                       commandBuffer:commandBuffer];
     [self initializeTransientState:transientState];
     return transientState;
 }
@@ -226,26 +226,26 @@ static NSString *const iTermImageRendererTextureMetadataKeyImageMissing = @"iTer
 }
 
 - (void)drawWithFrameData:(iTermMetalFrameData *)frameData
-           transientState:(__kindof iTermMetalCellRendererTransientState *)transientState {
+    transientState:(__kindof iTermMetalCellRendererTransientState *)transientState {
     iTermImageRendererTransientState *tState = transientState;
 
     NSMutableSet<NSNumber *> *texturesToRemove = [_onNotice mutableCopy];
     [tState enumerateDraws:^(id key, id<MTLBuffer> vertexBuffer, id<MTLTexture> texture) {
-        [texturesToRemove removeObject:key];
+               [texturesToRemove removeObject:key];
         [self->_cellRenderer drawWithTransientState:tState
-                                      renderEncoder:frameData.renderEncoder
-                                   numberOfVertices:6
-                                       numberOfPIUs:0
-                                      vertexBuffers:@{ @(iTermVertexInputIndexVertices): vertexBuffer }
-                                    fragmentBuffers:@{}
-                                           textures:@{ @(iTermTextureIndexPrimary): texture } ];
+                             renderEncoder:frameData.renderEncoder
+                             numberOfVertices:6
+                             numberOfPIUs:0
+                             vertexBuffers:@ { @(iTermVertexInputIndexVertices): vertexBuffer }
+                             fragmentBuffers:@ {}
+                             textures:@ { @(iTermTextureIndexPrimary): texture } ];
         [self->_counts removeObject:key];
         if ([self->_counts countForObject:key] == 0) {
             [self->_onNotice addObject:key];
         }
     }];
     [texturesToRemove enumerateObjectsUsingBlock:^(NSNumber * _Nonnull key, BOOL * _Nonnull stop) {
-        [self->_textures removeObjectForKey:key];
+                         [self->_textures removeObjectForKey:key];
         [self->_onNotice removeObject:key];
     }];
 }

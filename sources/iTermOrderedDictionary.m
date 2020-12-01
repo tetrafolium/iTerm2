@@ -16,13 +16,13 @@
 }
 
 + (instancetype)byMapping:(NSArray<id> *)array
-                    block:(nullable id (^NS_NOESCAPE)(NSUInteger, id))block {
+    block:(nullable id (^NS_NOESCAPE)(NSUInteger, id))block {
     return [self byMappingEnumerator:array.objectEnumerator block:block];
 }
 
 + (instancetype)byMappingEnumerator:(NSEnumerator *)enumerator
-                              block:(nullable id (^NS_NOESCAPE)(NSUInteger index,
-                                                                id object))block {
+    block:(nullable id (^NS_NOESCAPE)(NSUInteger index,
+    id object))block {
     NSMutableArray *keys = [NSMutableArray array];
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
 
@@ -45,13 +45,13 @@
 
 + (instancetype)withTuples:(NSArray<iTermTuple *> *)tuples {
     NSArray *orderedKeys = [tuples mapWithBlock:^id(iTermTuple *tuple) {
-        return tuple.firstObject;
-    }];
+               return tuple.firstObject;
+           }];
     NSDictionary *dictionary = [tuples keyValuePairsWithBlock:^iTermTuple *(iTermTuple *object) {
-        return object;
-    }];
+               return object;
+           }];
     return [[self alloc] initWithArray:orderedKeys
-                            dictionary:dictionary];
+                         dictionary:dictionary];
 }
 
 - (instancetype)initWithArray:(NSArray *)array dictionary:(NSDictionary *)dictionary {
@@ -86,8 +86,8 @@
 
 - (NSArray *)values {
     return [_orderedKeys mapWithBlock:^id(id anObject) {
-        return _dictionary[anObject];
-    }];
+                     return _dictionary[anObject];
+                 }];
 }
 
 - (nullable id)objectForKeyedSubscript:(id)key {

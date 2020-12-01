@@ -71,8 +71,8 @@ extern NSString *const SessionViewWasSelectedForInspectionNotification;
 
 // Requests to draw part of the background image/color.
 - (void)sessionViewDrawBackgroundImageInView:(NSView *)view
-                                    viewRect:(NSRect)rect
-                      blendDefaultBackground:(BOOL)blendDefaultBackground;
+    viewRect:(NSRect)rect
+    blendDefaultBackground:(BOOL)blendDefaultBackground;
 
 // Drag entered this view.
 - (NSDragOperation)sessionViewDraggingEntered:(id<NSDraggingInfo>)sender;
@@ -199,7 +199,7 @@ typedef NS_ENUM(NSUInteger, iTermSessionViewFindDriver) {
 - (void)setUseMetal:(BOOL)useMetal dataSource:(id<iTermMetalDriverDataSource>)dataSource NS_AVAILABLE_MAC(10_11);;
 - (void)didChangeMetalViewAlpha;
 - (void)setTransparencyAlpha:(CGFloat)transparencyAlpha
-                       blend:(CGFloat)blend;
+    blend:(CGFloat)blend;
 
 + (double)titleHeight;
 + (NSDate*)lastResizeDate;

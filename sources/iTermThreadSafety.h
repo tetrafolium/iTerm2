@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 // @interface MyState: iTermSynchronizedState<MyState *>
 // @property (nonatomic, strong) id myValue;
 /// @end
-@interface iTermSynchronizedState<T>: NSObject
+@interface iTermSynchronizedState<T> : NSObject
 @property (atomic, readonly) T state;
 @property (atomic, weak, readonly) dispatch_queue_t queue;
 
@@ -81,14 +81,14 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @class iTermMainThreadState;
-@interface iTermMainThreadState: iTermSynchronizedState<iTermMainThreadState *>
+@interface iTermMainThreadState : iTermSynchronizedState<iTermMainThreadState *>
 + (instancetype)sharedInstance;
 @end
 
 @class iTermThread;
 
 // Combines a block and an iTermThread to run it on.
-@interface iTermCallback<__contravariant CallerState, __covariant ObjectType>: NSObject
+@interface iTermCallback<__contravariant CallerState, __covariant ObjectType> : NSObject
 @property (nonatomic, readonly) iTermThread *thread;
 
 + (instancetype)onThread:(iTermThread *)thread block:(void (^)(CallerState state, ObjectType _Nullable result))block;
@@ -101,7 +101,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // 1:1 with a dispatch queue and an instance of (typically a subclass of)
 // iTermSynchronizedState.
-@interface iTermThread<T>: NSObject
+@interface iTermThread<T> : NSObject
 @property (nonatomic, readonly) dispatch_queue_t queue;
 
 // I had to add this typedef because otherwise the compiler gives me a bogus warning about the
@@ -115,13 +115,13 @@ typedef iTermSynchronizedState<T> * _Nonnull (^iTermThreadStateFactoryBlockType)
 
 + (iTermThread<iTermMainThreadState *> *)main;
 + (instancetype)withLabel:(NSString *)label
-             stateFactory:(iTermThreadStateFactoryBlockType)stateFactory;
+    stateFactory:(iTermThreadStateFactoryBlockType)stateFactory;
 
 - (instancetype)initWithLabel:(NSString *)label
-                 stateFactory:(iTermThreadStateFactoryBlockType)stateFactory;
+    stateFactory:(iTermThreadStateFactoryBlockType)stateFactory;
 
 - (instancetype)initWithQueue:(dispatch_queue_t)queue
-                 stateFactory:(iTermThreadStateFactoryBlockType)stateFactory NS_DESIGNATED_INITIALIZER;
+    stateFactory:(iTermThreadStateFactoryBlockType)stateFactory NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -140,7 +140,7 @@ typedef iTermSynchronizedState<T> * _Nonnull (^iTermThreadStateFactoryBlockType)
 @end
 
 // Asserts that it's on the expected thread.
-@interface iTermThreadChecker: NSObject
+@interface iTermThreadChecker : NSObject
 
 - (instancetype)initWithThread:(iTermThread *)thread NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;

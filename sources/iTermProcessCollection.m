@@ -39,8 +39,8 @@
 }
 
 - (instancetype)initWithPid:(pid_t)processID
-                       ppid:(pid_t)parentProcessID
-                 collection:(iTermProcessCollection *)collection {
+    ppid:(pid_t)parentProcessID
+    collection:(iTermProcessCollection *)collection {
     self = [super init];
     if (self) {
         _processID = processID;
@@ -53,7 +53,7 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p pid=%@ name=%@ children.count=%@ haveDeepest=%@ isFg=%@>",
-            self.class, self, @(self.processID), _name, @(_childProcessIDs.count), @(_haveDeepestForegroundJob), _isForegroundJob];
+                     self.class, self, @(self.processID), _name, @(_childProcessIDs.count), @(_haveDeepestForegroundJob), _isForegroundJob];
 }
 
 - (BOOL)isEqual:(id)object {
@@ -83,8 +83,8 @@
 - (NSArray<iTermProcessInfo *> *)children {
     NSMutableArray<iTermProcessInfo *> *result = [NSMutableArray array];
     [_childProcessIDs enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
-        iTermProcessInfo *child = [_collection infoForProcessID:idx];
-        if (child) {
+                         iTermProcessInfo *child = [_collection infoForProcessID:idx];
+                         if (child) {
             [result addObject:child];
         }
     }];
@@ -93,8 +93,8 @@
 
 - (NSArray<iTermProcessInfo *> *)sortedChildren {
     return [self.children sortedArrayUsingComparator:^NSComparisonResult(iTermProcessInfo *  _Nonnull obj1, iTermProcessInfo *  _Nonnull obj2) {
-        return [@(obj1.processID) compare:@(obj2.processID)];
-    }];
+                      return [@(obj1.processID) compare:@(obj2.processID)];
+                  }];
 }
 
 - (void)addChildWithProcessID:(pid_t)pid {
@@ -162,8 +162,8 @@
 
 - (NSArray<iTermProcessInfo *> *)flattenedTree {
     NSArray *flat = [self.children flatMapWithBlock:^id(iTermProcessInfo *child) {
-        return child.flattenedTree;
-    }];
+                      return child.flattenedTree;
+                  }];
     if (flat.count) {
         return [@[ self ] arrayByAddingObjectsFromArray:flat];
     } else {
@@ -176,8 +176,8 @@
         return [self flattenedTree];
     }
     return [self.children flatMapWithBlock:^id(iTermProcessInfo *child) {
-        return [child descendantsSkippingLevels:levels - 1];
-    }];
+                      return [child descendantsSkippingLevels:levels - 1];
+                  }];
 }
 
 - (BOOL)enumerateTree:(void (^)(iTermProcessInfo *info, BOOL *stop))block {
@@ -250,10 +250,10 @@
 - (void)resolveAsynchronously {
     static dispatch_queue_t queue;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         queue = dispatch_queue_create("com.iterm2.pid-lookup", DISPATCH_QUEUE_SERIAL);
     });
-    dispatch_async(queue, ^{
+    dispatch_async(queue, ^ {
         [self doSlowLookup];
     });
 }
@@ -284,17 +284,17 @@
 }
 
 - (iTermProcessInfo *)addProcessWithProcessID:(pid_t)processID
-                              parentProcessID:(pid_t)parentProcessID {
+    parentProcessID:(pid_t)parentProcessID {
     iTermProcessInfo *info = [[iTermProcessInfo alloc] initWithPid:processID
-                                                              ppid:parentProcessID
-                                                        collection:self];
+                                                       ppid:parentProcessID
+                                                       collection:self];
     _processes[@(processID)] = info;
     return info;
 }
 
 - (void)commit {
     [_processes enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull processID, iTermProcessInfo * _Nonnull info, BOOL * _Nonnull stop) {
-        info.parent = self->_processes[@(info.parentProcessID)];
+                   info.parent = self->_processes[@(info.parentProcessID)];
         [info.parent addChildWithProcessID:info.processID];
     }];
 }

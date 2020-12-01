@@ -28,7 +28,7 @@ NSString *const iTermMultiServerRestorationKeyChildPID = @"Child PID";
 static NSString *const iTermMultiServerRestorationType = @"multiserver";
 static const int iTermMultiServerMaximumSupportedRestorationIdentifierVersion = 1;
 
-@interface iTermMultiServerJobManagerPartialAttachment: NSObject<iTermJobManagerPartialResult>
+@interface iTermMultiServerJobManagerPartialAttachment : NSObject<iTermJobManagerPartialResult>
 @property (nonatomic) BOOL shouldRegister;
 @property (nonatomic) BOOL attached;
 @property (nonatomic) pid_t pid;
@@ -39,7 +39,7 @@ static const int iTermMultiServerMaximumSupportedRestorationIdentifierVersion = 
 @end
 
 @class iTermMultiServerJobManagerState;
-@interface iTermMultiServerJobManagerState: iTermSynchronizedState<iTermMultiServerJobManagerState *>
+@interface iTermMultiServerJobManagerState : iTermSynchronizedState<iTermMultiServerJobManagerState *>
 @property (nonatomic, strong) iTermMultiServerConnection *conn;
 @property (nonatomic, strong) iTermFileDescriptorMultiClientChild *child;
 @end
@@ -62,7 +62,7 @@ static const int iTermMultiServerMaximumSupportedRestorationIdentifierVersion = 
 }
 
 + (BOOL)getGeneralConnection:(iTermGeneralServerConnection *)generalConnection
-   fromRestorationIdentifier:(NSDictionary *)dict {
+    fromRestorationIdentifier:(NSDictionary *)dict {
     NSString *type = dict[iTermMultiServerRestorationKeyType];
     if (![type isEqual:iTermMultiServerRestorationType]) {
         return NO;
@@ -96,20 +96,20 @@ static const int iTermMultiServerMaximumSupportedRestorationIdentifierVersion = 
     self = [super init];
     if (self) {
         _thread = [[iTermThread alloc] initWithQueue:queue
-                                        stateFactory:^iTermSynchronizedState * _Nullable(dispatch_queue_t  _Nonnull queue) {
-            return [[iTermMultiServerJobManagerState alloc] initWithQueue:queue];
-        }];
+                            stateFactory:^iTermSynchronizedState * _Nullable(dispatch_queue_t  _Nonnull queue) {
+                                return [[iTermMultiServerJobManagerState alloc] initWithQueue:queue];
+                            }];
 
         static dispatch_once_t onceToken;
         static id subscriber;
-        dispatch_once(&onceToken, ^{
+        dispatch_once(&onceToken, ^ {
             subscriber = [[NSObject alloc] init];
             [iTermMultiServerChildDidTerminateNotification subscribe:subscriber
-                                                               block:
-             ^(iTermMultiServerChildDidTerminateNotification * _Nonnull notification) {
-                [[TaskNotifier sharedInstance] pipeDidBreakForExternalProcessID:notification.pid
-                                                                         status:notification.terminationStatus];
-            }];
+                                                           block:
+                                                          ^(iTermMultiServerChildDidTerminateNotification * _Nonnull notification) {
+                                                              [[TaskNotifier sharedInstance] pipeDidBreakForExternalProcessID:notification.pid
+                                                               status:notification.terminationStatus];
+                                                          }];
         });
     }
     return self;
@@ -118,9 +118,9 @@ static const int iTermMultiServerMaximumSupportedRestorationIdentifierVersion = 
 - (NSString *)description {
     __block NSString *result = nil;
     [_thread dispatchRecursiveSync:^(iTermMultiServerJobManagerState * _Nullable state) {
-        result = [NSString stringWithFormat:@"<%@: %p child=%@ connection=%@>",
+                result = [NSString stringWithFormat:@"<%@: %p child=%@ connection=%@>",
                   NSStringFromClass([self class]), self, state.child, state.conn];
-    }];
+            }];
     return result;
 }
 
@@ -133,12 +133,12 @@ typedef struct {
 } iTermMultiServerJobManagerForkRequest;
 
 - (void)forkAndExecWithTtyState:(iTermTTYState)ttyState
-                        argpath:(NSString *)argpath
-                           argv:(NSArray<NSString *> *)argv
-                     initialPwd:(NSString *)initialPwd
-                     newEnviron:(NSArray<NSString *> *)newEnviron
-                           task:(id<iTermTask>)task
-                     completion:(void (^)(iTermJobManagerForkAndExecStatus))completion  {
+    argpath:(NSString *)argpath
+    argv:(NSArray<NSString *> *)argv
+    initialPwd:(NSString *)initialPwd
+    newEnviron:(NSArray<NSString *> *)newEnviron
+    task:(id<iTermTask>)task
+    completion:(void (^)(iTermJobManagerForkAndExecStatus))completion  {
     iTermMultiServerJobManagerForkRequest forkRequest = {
         .ttyState = ttyState,
         .argpath = [NSData dataWithBytes:argpath.UTF8String length:strlen(argpath.UTF8String) + 1],
@@ -147,19 +147,19 @@ typedef struct {
         .environ = [newEnviron nullTerminatedCStringArray]
     };
     iTermCallback *callback = [self.thread newCallbackWithBlock:^(iTermMultiServerJobManagerState *state,
-                                                                  iTermMultiServerConnection *conn) {
-        if (!conn) {
-            completion(iTermJobManagerForkAndExecStatusServerLaunchFailed);
-            return;
-        }
-        state.conn = conn;
+                iTermMultiServerConnection *conn) {
+                    if (!conn) {
+                        completion(iTermJobManagerForkAndExecStatusServerLaunchFailed);
+                        return;
+                    }
+                    state.conn = conn;
         [self queueForkAndExecWithForkRequest:forkRequest
-                                   connection:conn
-                                         task:task
-                                        state:state
-                                   completion:^(iTermJobManagerForkAndExecStatus status) {
-            iTermFreeeNullTerminatedCStringArray(forkRequest.argv);
-            iTermFreeeNullTerminatedCStringArray(forkRequest.environ);
+              connection:conn
+              task:task
+              state:state
+             completion:^(iTermJobManagerForkAndExecStatus status) {
+                 iTermFreeeNullTerminatedCStringArray(forkRequest.argv);
+                 iTermFreeeNullTerminatedCStringArray(forkRequest.environ);
             if (completion) {
                 completion(status);
             }
@@ -169,74 +169,75 @@ typedef struct {
 }
 
 - (void)queueForkAndExecWithForkRequest:(iTermMultiServerJobManagerForkRequest)forkRequest
-                             connection:(iTermMultiServerConnection *)conn
-                                   task:(id<iTermTask>)task
-                                  state:(iTermMultiServerJobManagerState *)state
-                             completion:(void (^)(iTermJobManagerForkAndExecStatus))completion {
+    connection:(iTermMultiServerConnection *)conn
+    task:(id<iTermTask>)task
+    state:(iTermMultiServerJobManagerState *)state
+    completion:(void (^)(iTermJobManagerForkAndExecStatus))completion {
     [state check];
 
     iTermCallback *callback = [self.thread newCallbackWithBlock:^(iTermMultiServerJobManagerState *state,
-                                                                  iTermResult<iTermFileDescriptorMultiClientChild *> *result) {
-        [result handleObject:
-         ^(iTermFileDescriptorMultiClientChild * _Nonnull child) {
-            state.child = child;
-            // Happy path
-            dispatch_async(dispatch_get_main_queue(), ^{
+                iTermResult<iTermFileDescriptorMultiClientChild *> *result) {
+                    [result handleObject:
+                    ^(iTermFileDescriptorMultiClientChild * _Nonnull child) {
+                        state.child = child;
+                        // Happy path
+                        dispatch_async(dispatch_get_main_queue(), ^ {
                 [[iTermProcessCache sharedInstance] registerTrackedPID:child.pid];
                 DLog(@"Register %@ after server successfully execs job", @(child.pid));
                 [[TaskNotifier sharedInstance] registerTask:task];
                 [[iTermProcessCache sharedInstance] setNeedsUpdate:YES];
                 completion(iTermJobManagerForkAndExecStatusSuccess);
             });
-        } error:
-         ^(NSError * _Nonnull error) {
+        }
+        error:
+        ^(NSError * _Nonnull error) {
             state.child = nil;
             assert([error.domain isEqualToString:iTermFileDescriptorMultiClientErrorDomain]);
             const iTermFileDescriptorMultiClientErrorCode code = (iTermFileDescriptorMultiClientErrorCode)error.code;
             switch (code) {
-                case iTermFileDescriptorMultiClientErrorCodePreemptiveWaitResponse:
-                case iTermFileDescriptorMultiClientErrorCodeConnectionLost:
-                case iTermFileDescriptorMultiClientErrorCodeNoSuchChild:
-                case iTermFileDescriptorMultiClientErrorCodeCanNotWait:
-                case iTermFileDescriptorMultiClientErrorCodeUnknown:
-                case iTermFileDescriptorMultiClientErrorIO:
-                case iTermFileDescriptorMultiClientErrorCannotConnect:
-                case iTermFileDescriptorMultiClientErrorProtocolError:
-                case iTermFileDescriptorMultiClientErrorAlreadyWaited:
-                    completion(iTermJobManagerForkAndExecStatusServerError);
-                    return;
-                    
-                case iTermFileDescriptorMultiClientErrorCodeForkFailed:
-                    completion(iTermJobManagerForkAndExecStatusFailedToFork);
-                    return;
+            case iTermFileDescriptorMultiClientErrorCodePreemptiveWaitResponse:
+            case iTermFileDescriptorMultiClientErrorCodeConnectionLost:
+            case iTermFileDescriptorMultiClientErrorCodeNoSuchChild:
+            case iTermFileDescriptorMultiClientErrorCodeCanNotWait:
+            case iTermFileDescriptorMultiClientErrorCodeUnknown:
+            case iTermFileDescriptorMultiClientErrorIO:
+            case iTermFileDescriptorMultiClientErrorCannotConnect:
+            case iTermFileDescriptorMultiClientErrorProtocolError:
+            case iTermFileDescriptorMultiClientErrorAlreadyWaited:
+                completion(iTermJobManagerForkAndExecStatusServerError);
+                return;
+
+            case iTermFileDescriptorMultiClientErrorCodeForkFailed:
+                completion(iTermJobManagerForkAndExecStatusFailedToFork);
+                return;
             }
             assert(NO);
         }];
     }];
     [conn launchWithTTYState:forkRequest.ttyState
-                     argpath:forkRequest.argpath.bytes
-                        argv:forkRequest.argv
-                  initialPwd:forkRequest.initialPwd.bytes
-                  newEnviron:forkRequest.environ
-                    callback:callback];
+          argpath:forkRequest.argpath.bytes
+          argv:forkRequest.argv
+          initialPwd:forkRequest.initialPwd.bytes
+          newEnviron:forkRequest.environ
+          callback:callback];
 }
 
 - (int)fd {
     __block int result = -1;
     [self.thread dispatchRecursiveSync:^(iTermMultiServerJobManagerState * _Nullable state) {
-        result = state.child ? state.child.fd : -1;
-    }];
+                    result = state.child ? state.child.fd : -1;
+                }];
     return result;
 }
 
 - (BOOL)closeFileDescriptor {
     __block BOOL result = NO;
     [self.thread dispatchRecursiveSync:^(iTermMultiServerJobManagerState * _Nullable state) {
-        if (state.child == nil) {
-            result = NO;
-            return;
-        }
-        close(state.child.fd);
+                    if (state.child == nil) {
+                        result = NO;
+                        return;
+                    }
+                    close(state.child.fd);
         state.child = nil;
         result = YES;
     }];
@@ -247,8 +248,8 @@ typedef struct {
 - (BOOL)ioAllowed {
     __block BOOL result = NO;
     [self.thread dispatchRecursiveSync:^(iTermMultiServerJobManagerState * _Nullable state) {
-        result = (state.child != nil && state.child.fd >= 0);
-    }];
+                    result = (state.child != nil && state.child.fd >= 0);
+                }];
     return result;
 }
 
@@ -259,46 +260,51 @@ typedef struct {
 - (NSString *)tty {
     __block NSString *result = nil;
     [self.thread dispatchRecursiveSync:^(iTermMultiServerJobManagerState * _Nullable state) {
-        result = [state.child.tty copy];
-    }];
+                    result = [state.child.tty copy];
+                }];
     return result;
 }
 
 - (void)setTty:(NSString *)tty {
     [self.thread dispatchRecursiveSync:^(iTermMultiServerJobManagerState * _Nullable state) {
-        ITAssertWithMessage([NSObject object:tty isEqualToObject:state.child.tty],
+                    ITAssertWithMessage([NSObject object:tty isEqualToObject:state.child.tty],
                             @"setTty:%@ when _child.tty=%@", tty, state.child.tty);
-    }];
+                }];
 }
 
 - (pid_t)externallyVisiblePid {
     __block pid_t result = 0;
     [self.thread dispatchRecursiveSync:^(iTermMultiServerJobManagerState * _Nullable state) {
-        result = state.child.pid;
-    }];
+                    result = state.child.pid;
+                }];
     return result;
 }
 
 - (BOOL)hasJob {
     __block BOOL result = NO;
     [self.thread dispatchRecursiveSync:^(iTermMultiServerJobManagerState * _Nullable state) {
-        result = (state.child != nil);
-    }];
+                    result = (state.child != nil);
+                }];
     return result;
 }
 
 - (id)sessionRestorationIdentifier {
     __block id result = nil;
     [self.thread dispatchRecursiveSync:^(iTermMultiServerJobManagerState * _Nullable state) {
-        if (!state.conn) {
-            // This can happen while the connection is being set up.
-            result = nil;
-            return;
-        }
-        result = @{ iTermMultiServerRestorationKeyType: iTermMultiServerRestorationType,
-                    iTermMultiServerRestorationKeyVersion: @(iTermMultiServerMaximumSupportedRestorationIdentifierVersion),
-                    iTermMultiServerRestorationKeySocket: @(state.conn.socketNumber),
-                    iTermMultiServerRestorationKeyChildPID: @(state.child.pid) };
+                    if (!state.conn) {
+                        // This can happen while the connection is being set up.
+                        result = nil;
+                        return;
+                    }
+                    result = @ { iTermMultiServerRestorationKeyType:
+                     iTermMultiServerRestorationType,
+                     iTermMultiServerRestorationKeyVersion:
+                     @(iTermMultiServerMaximumSupportedRestorationIdentifierVersion),
+                     iTermMultiServerRestorationKeySocket:
+                     @(state.conn.socketNumber),
+                     iTermMultiServerRestorationKeyChildPID:
+                     @(state.child.pid)
+                   };
     }];
     return result;
 }
@@ -310,25 +316,25 @@ typedef struct {
 - (BOOL)isSessionRestorationPossible {
     __block BOOL result = NO;
     [self.thread dispatchRecursiveSync:^(iTermMultiServerJobManagerState * _Nullable state) {
-        result = (state.child != nil);
-    }];
+                    result = (state.child != nil);
+                }];
     return result;
 }
 
 - (void)attachToServer:(iTermGeneralServerConnection)serverConnection
-         withProcessID:(NSNumber *)thePid
-                  task:(id<iTermTask>)task
-            completion:(void (^)(iTermJobManagerAttachResults))completion {
+    withProcessID:(NSNumber *)thePid
+    task:(id<iTermTask>)task
+    completion:(void (^)(iTermJobManagerAttachResults))completion {
     assert(serverConnection.type == iTermGeneralServerConnectionTypeMulti);
     DLog(@"(async) Attach to server on socket number %@ for pid %@\n%@", @(serverConnection.multi.number),
          @(serverConnection.multi.pid), [NSThread callStackSymbols]);
     void (^finish)(iTermFileDescriptorMultiClientChild *) = ^(iTermFileDescriptorMultiClientChild *child) {
         [[iTermThread main] dispatchAsync:^(id  _Nullable state) {
-            if (child != nil && !child.hasTerminated) {
-                [self didAttachToProcess:child.pid task:task state:state];
-            }
-            iTermJobManagerAttachResults results = 0;
-            if (child != nil) {
+                               if (child != nil && !child.hasTerminated) {
+                                   [self didAttachToProcess:child.pid task:task state:state];
+                               }
+                               iTermJobManagerAttachResults results = 0;
+                               if (child != nil) {
                 results |= iTermJobManagerAttachResultsAttached;
                 if (!child.hasTerminated) {
                     results |= iTermJobManagerAttachResultsRegistered;
@@ -338,41 +344,41 @@ typedef struct {
         }];
     };
     [self beginAttachToServer:serverConnection
-                withProcessID:thePid
-                   brokenPipe:^{ [task brokenPipe]; }
-                   completion:finish];
+          withProcessID:thePid
+          brokenPipe:^ { [task brokenPipe]; }
+          completion:finish];
 }
 
 - (void)asyncPartialAttachToServer:(iTermGeneralServerConnection)serverConnection
-                     withProcessID:(NSNumber *)thePid
-                        completion:(void (^)(id<iTermJobManagerPartialResult>))completion {
+    withProcessID:(NSNumber *)thePid
+    completion:(void (^)(id<iTermJobManagerPartialResult>))completion {
     assert(serverConnection.type == iTermGeneralServerConnectionTypeMulti);
     DLog(@"(sync) Attach to server on socket number %@ for pid %@\n%@", @(serverConnection.multi.number),
          @(serverConnection.multi.pid), [NSThread callStackSymbols]);
 
     iTermMultiServerJobManagerPartialAttachment *result = [[iTermMultiServerJobManagerPartialAttachment alloc] init];
     [self beginAttachToServer:serverConnection
-                withProcessID:thePid
-                   brokenPipe:^{ result.brokenPipe = YES; }
-                   completion:^(iTermFileDescriptorMultiClientChild *child) {
-        result.shouldRegister = (child != nil && !child.hasTerminated);
-        result.attached = (child != nil);
+          withProcessID:thePid
+          brokenPipe:^ { result.brokenPipe = YES; }
+         completion:^(iTermFileDescriptorMultiClientChild *child) {
+             result.shouldRegister = (child != nil && !child.hasTerminated);
+             result.attached = (child != nil);
         result.pid = child.pid;
         completion(result);
     }];
 }
 
 - (iTermJobManagerAttachResults)attachToServer:(iTermGeneralServerConnection)serverConnection
-                                 withProcessID:(NSNumber *)thePid
-                                          task:(id<iTermTask>)task {
+    withProcessID:(NSNumber *)thePid
+    task:(id<iTermTask>)task {
     __block iTermMultiServerJobManagerPartialAttachment *result;
     dispatch_group_t group = dispatch_group_create();
     dispatch_group_enter(group);
     [self asyncPartialAttachToServer:serverConnection
-                       withProcessID:thePid
-                          completion:^(iTermMultiServerJobManagerPartialAttachment *value) {
-        result = value;
-        dispatch_group_leave(group);
+          withProcessID:thePid
+         completion:^(iTermMultiServerJobManagerPartialAttachment *value) {
+             result = value;
+             dispatch_group_leave(group);
     }];
     dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
     if (result.brokenPipe) {
@@ -382,12 +388,12 @@ typedef struct {
 }
 
 - (iTermJobManagerAttachResults)finishAttaching:(iTermMultiServerJobManagerPartialAttachment *)result
-                                           task:(id<iTermTask>)task {
+    task:(id<iTermTask>)task {
     if (result.shouldRegister) {
         assert(result.pid > 0);
         [self didAttachToProcess:result.pid
-                            task:task
-                           state:[iTermMainThreadState sharedInstance]];
+              task:task
+              state:[iTermMainThreadState sharedInstance]];
     }
     iTermJobManagerAttachResults results = 0;
     if (result.attached) {
@@ -400,21 +406,21 @@ typedef struct {
 }
 
 - (void)beginAttachToServer:(iTermGeneralServerConnection)serverConnection
-              withProcessID:(NSNumber *)thePid
-                 brokenPipe:(void (^)(void))brokenPipe
-                 completion:(void (^)(iTermFileDescriptorMultiClientChild *))completion {
+    withProcessID:(NSNumber *)thePid
+    brokenPipe:(void (^)(void))brokenPipe
+    completion:(void (^)(iTermFileDescriptorMultiClientChild *))completion {
     assert(serverConnection.type == iTermGeneralServerConnectionTypeMulti);
     DLog(@"begin attaching to server on socket %@ with pid %@", @(serverConnection.multi.number), @(serverConnection.multi.pid));
     [self.thread dispatchAsync:^(iTermMultiServerJobManagerState * _Nullable state) {
-        assert(state.child == nil);
+                    assert(state.child == nil);
         [self reallyAttachToServer:serverConnection
-                    withProcessID:thePid
-                        brokenPipe:brokenPipe
-                            state:state
-                         callback:[self.thread newCallbackWithBlock:^(iTermMultiServerJobManagerState *state,
-                                                                      iTermFileDescriptorMultiClientChild *child) {
-            completion(child);
-        }]];
+              withProcessID:thePid
+              brokenPipe:brokenPipe
+              state:state
+              callback:[self.thread newCallbackWithBlock:^(iTermMultiServerJobManagerState *state,
+             iTermFileDescriptorMultiClientChild *child) {
+                 completion(child);
+             }]];
     }];
 }
 
@@ -429,29 +435,29 @@ typedef struct {
 }
 
 - (void)reallyAttachToServer:(iTermGeneralServerConnection)serverConnection
-               withProcessID:(NSNumber *)thePid
-                  brokenPipe:(void (^)(void))brokenPipe
-                       state:(iTermMultiServerJobManagerState *)state
-                    callback:(iTermCallback<id, iTermFileDescriptorMultiClientChild *> *)completionCallback {
+    withProcessID:(NSNumber *)thePid
+    brokenPipe:(void (^)(void))brokenPipe
+    state:(iTermMultiServerJobManagerState *)state
+    callback:(iTermCallback<id, iTermFileDescriptorMultiClientChild *> *)completionCallback {
     assert(serverConnection.type == iTermGeneralServerConnectionTypeMulti);
     assert(!state.conn);
     assert(!state.child);
     DLog(@"Want to attach to socket %@, child %@", @(serverConnection.multi.number), @(serverConnection.multi.pid));
     iTermCallback *callback = [self.thread newCallbackWithBlock:^(iTermMultiServerJobManagerState *state,
-                                                                  iTermResult<iTermMultiServerConnection *> *result) {
-        [result handleObject:^(iTermMultiServerConnection * _Nonnull conn) {
-            DLog(@"Have a connection to %@. Try to attach to child with pid %@.",
-                  @(serverConnection.multi.number),
-                  @(serverConnection.multi.pid));
-            state.conn = conn;
-            if (thePid != nil) {
+                iTermResult<iTermMultiServerConnection *> *result) {
+                    [result handleObject:^(iTermMultiServerConnection * _Nonnull conn) {
+                        DLog(@"Have a connection to %@. Try to attach to child with pid %@.",
+                             @(serverConnection.multi.number),
+                             @(serverConnection.multi.pid));
+                        state.conn = conn;
+                        if (thePid != nil) {
                 assert(thePid.integerValue == serverConnection.multi.pid);
             }
             [state.conn attachToProcessID:serverConnection.multi.pid
-                                 callback:[self.thread newCallbackWithBlock:^(iTermMultiServerJobManagerState *state,
-                                                                              iTermFileDescriptorMultiClientChild *child) {
-                state.child = child;
-                if (!state.child) {
+                        callback:[self.thread newCallbackWithBlock:^(iTermMultiServerJobManagerState *state,
+                       iTermFileDescriptorMultiClientChild *child) {
+                           state.child = child;
+                           if (!state.child) {
                     [completionCallback invokeWithObject:nil];
                     return;
                 }
@@ -459,14 +465,15 @@ typedef struct {
                     DLog(@"Found child with pid %@, but it already terminated.", @(serverConnection.multi.pid));
                     const pid_t pid = state.child.pid;
                     [state.conn waitForChild:state.child
-                          removePreemptively:NO
-                                    callback:[self.thread newCallbackWithBlock:^(iTermMultiServerJobManagerState *state,
-                                                                                 iTermResult<NSNumber *> *waitResult) {
-                        [waitResult handleObject:
-                         ^(NSNumber * _Nonnull statusNumber) {
-                            DLog(@"Child with pid %d terminated with status %d", pid, statusNumber.intValue);
-                        } error:
-                         ^(NSError * _Nonnull error) {
+                                removePreemptively:NO
+                                callback:[self.thread newCallbackWithBlock:^(iTermMultiServerJobManagerState *state,
+                               iTermResult<NSNumber *> *waitResult) {
+                                   [waitResult handleObject:
+                                   ^(NSNumber * _Nonnull statusNumber) {
+                                       DLog(@"Child with pid %d terminated with status %d", pid, statusNumber.intValue);
+                                   }
+                                   error:
+                                   ^(NSError * _Nonnull error) {
                             DLog(@"Failed to wait on child with pid %d: %@", pid, error);
                         }];
                         brokenPipe();
@@ -476,20 +483,21 @@ typedef struct {
                     return;
                 }
                 DLog(@"Found child with pid %@ and it looks to still be alive.",
-                      @(serverConnection.multi.pid));
+                     @(serverConnection.multi.pid));
                 [completionCallback invokeWithObject:child];
             }]];
-        } error:^(NSError * _Nonnull error) {
+        }
+        error:^(NSError * _Nonnull error) {
             DLog(@"FAILED to connect to daemon %@, while aiming to attach to child with pid %@.",
-                  @(serverConnection.multi.number),
-                  @(serverConnection.multi.pid));
+                 @(serverConnection.multi.number),
+                 @(serverConnection.multi.pid));
             state.conn = nil;
             [completionCallback invokeWithObject:nil];
         }];
     }];
     [iTermMultiServerConnection getConnectionForSocketNumber:serverConnection.multi.number
-                                            createIfPossible:NO
-                                                    callback:callback];
+                                createIfPossible:NO
+                                callback:callback];
 }
 
 - (void)sendSignal:(int)signo toServer:(BOOL)toServer state:(iTermMultiServerJobManagerState *)state {
@@ -513,50 +521,50 @@ typedef struct {
 - (void)killWithMode:(iTermJobManagerKillingMode)mode {
     DLog(@"%@ killWithMode:%@", self, @(mode));
     [self.thread dispatchRecursiveSync:^(iTermMultiServerJobManagerState * _Nullable state) {
-        [self killWithMode:mode state:state];
-    }];
+                    [self killWithMode:mode state:state];
+                }];
 }
 
 // Called on self.queue
 - (void)killWithMode:(iTermJobManagerKillingMode)mode
-               state:(iTermMultiServerJobManagerState *)state {
+    state:(iTermMultiServerJobManagerState *)state {
     switch (mode) {
-        case iTermJobManagerKillingModeRegular:
-            [self sendSignal:SIGHUP toServer:NO state:state];
-            break;
+    case iTermJobManagerKillingModeRegular:
+        [self sendSignal:SIGHUP toServer:NO state:state];
+        break;
 
-        case iTermJobManagerKillingModeForce:
-            [self sendSignal:SIGKILL toServer:NO state:state];
-            break;
+    case iTermJobManagerKillingModeForce:
+        [self sendSignal:SIGKILL toServer:NO state:state];
+        break;
 
-        case iTermJobManagerKillingModeForceUnrestorable:
-            [self sendSignal:SIGKILL toServer:YES state:state];
-            [self sendSignal:SIGHUP toServer:NO state:state];
-            break;
+    case iTermJobManagerKillingModeForceUnrestorable:
+        [self sendSignal:SIGKILL toServer:YES state:state];
+        [self sendSignal:SIGHUP toServer:NO state:state];
+        break;
 
-        case iTermJobManagerKillingModeProcessGroup:
-            if (state.child.pid > 0) {
-                [[iTermProcessCache sharedInstance] unregisterTrackedPID:state.child.pid];
-                // Kill a server-owned child.
-                // TODO: Don't want to do this when Sparkle is upgrading.
-                killpg(state.child.pid, SIGHUP);
-            }
-            break;
+    case iTermJobManagerKillingModeProcessGroup:
+        if (state.child.pid > 0) {
+            [[iTermProcessCache sharedInstance] unregisterTrackedPID:state.child.pid];
+            // Kill a server-owned child.
+            // TODO: Don't want to do this when Sparkle is upgrading.
+            killpg(state.child.pid, SIGHUP);
+        }
+        break;
 
-        case iTermJobManagerKillingModeBrokenPipe:
-            // This is irrelevant for the multiserver. Monoserver needs to ensure the server
-            // dies even when the child is persistent, but multiserver can survive
-            // its children.
-            break;
+    case iTermJobManagerKillingModeBrokenPipe:
+        // This is irrelevant for the multiserver. Monoserver needs to ensure the server
+        // dies even when the child is persistent, but multiserver can survive
+        // its children.
+        break;
     }
     const pid_t pid = state.child.pid;
     if (pid) {
         [state.conn waitForChild:state.child
-              removePreemptively:YES
-                        callback:[self.thread newCallbackWithBlock:^(iTermMultiServerJobManagerState *state,
-                                                                     iTermResult<NSNumber *> *result) {
-            DLog(@"Preemptive wait for %d finished with result %@", pid, result);
-        }]];
+                    removePreemptively:YES
+                    callback:[self.thread newCallbackWithBlock:^(iTermMultiServerJobManagerState *state,
+                   iTermResult<NSNumber *> *result) {
+                       DLog(@"Preemptive wait for %d finished with result %@", pid, result);
+                   }]];
     }
 }
 

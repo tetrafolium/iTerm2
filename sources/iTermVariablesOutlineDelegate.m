@@ -131,7 +131,7 @@ static id iTermVariablesNewProxy(NSString *name, id value, BOOL isAlias, NSStrin
         return _children;
     }
     _children = [_variables.allNames mapWithBlock:^id(NSString *name) {
-        id value = [self->_variables rawValueForVariableName:name];
+                            id value = [self->_variables rawValueForVariableName:name];
         const BOOL isAlias = [[iTermWeakVariables castFrom:value] variables] == self->_variables;
         return iTermVariablesNewProxy(name, value, isAlias, self->_variables.debugInfo);
     }];
@@ -166,8 +166,8 @@ static id iTermVariablesNewProxy(NSString *name, id value, BOOL isAlias, NSStrin
         _name = [name copy];
         _variables = variables;
         _children = [variables.allNames mapWithBlock:^id(NSString *name) {
-            id value = [variables rawValueForVariableName:name];
-            return iTermVariablesNewProxy(name, value, NO, variables.debugInfo);
+                               id value = [variables rawValueForVariableName:name];
+                               return iTermVariablesNewProxy(name, value, NO, variables.debugInfo);
         }];
     }
     return self;
@@ -194,10 +194,10 @@ static id iTermVariablesNewProxy(NSString *name, id value, BOOL isAlias, NSStrin
     if (self) {
         _scope = scope;
         NSArray<iTermTuple<NSString *, iTermVariables *> *> *sortedFrames = [scope.frames sortedArrayUsingComparator:^NSComparisonResult(iTermTuple<NSString *, iTermVariables *> * _Nonnull obj1, iTermTuple<NSString *, iTermVariables *> * _Nonnull obj2) {
-            if (obj1.firstObject == nil && obj2.firstObject == nil) {
-                return NSOrderedSame;
-            }
-            if (obj1.firstObject == nil) {
+                         if (obj1.firstObject == nil && obj2.firstObject == nil) {
+                             return NSOrderedSame;
+                         }
+                         if (obj1.firstObject == nil) {
                 return NSOrderedAscending;
             }
             if (obj2.secondObject) {
@@ -206,12 +206,12 @@ static id iTermVariablesNewProxy(NSString *name, id value, BOOL isAlias, NSStrin
             return [obj1.firstObject compare:obj2.firstObject];
         }];
         _children = [sortedFrames flatMapWithBlock:^id(iTermTuple<NSString *,iTermVariables *> *tuple) {
-            if (tuple.firstObject) {
-                return @[ [[iTermVariablesNonterminalProxy alloc] initWithName:tuple.firstObject
-                                                                     variables:tuple.secondObject] ];
-            } else {
+                         if (tuple.firstObject) {
+                             return @[ [[iTermVariablesNonterminalProxy alloc] initWithName:tuple.firstObject
+                                        variables:tuple.secondObject] ];
+                         } else {
                 return [[tuple.secondObject.allNames sortedArrayUsingSelector:@selector(compare:)] mapWithBlock:^id(NSString *name) {
-                    id value = [tuple.secondObject rawValueForVariableName:name];
+                                                                                               id value = [tuple.secondObject rawValueForVariableName:name];
                     iTermWeakVariables *weakVariables = [iTermWeakVariables castFrom:value];
                     const BOOL isAlias = (tuple.firstObject == nil &&
                                           tuple.secondObject == weakVariables.variables);
@@ -252,7 +252,7 @@ static id iTermVariablesNewProxy(NSString *name, id value, BOOL isAlias, NSStrin
 
 - (NSString *)selectedPathForOutlineView:(NSOutlineView *)outlineView {
     return [self pathForRow:outlineView.selectedRow
-                outlineView:outlineView];
+                 outlineView:outlineView];
 }
 
 - (NSString *)pathForRow:(NSInteger)row outlineView:(NSOutlineView *)outlineView {
@@ -300,7 +300,7 @@ static id iTermVariablesNewProxy(NSString *name, id value, BOOL isAlias, NSStrin
     NSPasteboard *pboard = [NSPasteboard generalPasteboard];
     [pboard declareTypes:@[NSPasteboardTypeString] owner:NSApp];
     [pboard setString:[self pathForRow:outlineView.clickedRow outlineView:outlineView]
-              forType:NSPasteboardTypeString];
+            forType:NSPasteboardTypeString];
 }
 
 - (void)copyValue:(id)sender {
@@ -309,7 +309,7 @@ static id iTermVariablesNewProxy(NSString *name, id value, BOOL isAlias, NSStrin
     NSPasteboard *pboard = [NSPasteboard generalPasteboard];
     [pboard declareTypes:@[NSPasteboardTypeString] owner:NSApp];
     [pboard setString:proxy.value
-              forType:NSPasteboardTypeString];
+            forType:NSPasteboardTypeString];
 }
 
 #pragma mark - NSOutlineViewDataSource

@@ -28,10 +28,10 @@ static NSDictionary *sGraphicIconMap;
 - (NSDictionary *)it_invertedGraphicDictionary {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [self enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull graphicName, NSArray * _Nonnull obj, BOOL * _Nonnull stop) {
-        for (NSString *appName in obj) {
-            [dict it_addObject:graphicName toMutableArrayForKey:appName];
-        }
-    }];
+             for (NSString *appName in obj) {
+                 [dict it_addObject:graphicName toMutableArrayForKey:appName];
+             }
+         }];
     return dict;
 }
 
@@ -43,9 +43,9 @@ static NSDictionary *sGraphicIconMap;
     self = [super init];
     if (self) {
         static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
+        dispatch_once(&onceToken, ^ {
             NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:@"graphic_colors"
-                                                                              ofType:@"json"];
+                                                                   ofType:@"json"];
             NSData *data = [NSData dataWithContentsOfFile:path options:0 error:nil];
             if (data) {
                 sGraphicColorMap = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -60,7 +60,7 @@ static NSDictionary *sGraphicIconMap;
             }
 
             path = [[NSBundle bundleForClass:[self class]] pathForResource:@"graphic_icons"
-                                                                    ofType:@"json"];
+                                                         ofType:@"json"];
             data = [NSData dataWithContentsOfFile:path options:0 error:nil];
             if (data) {
                 sGraphicIconMap = [[NSJSONSerialization JSONObjectWithData:data options:0 error:nil] it_invertedGraphicDictionary];
@@ -96,17 +96,17 @@ static NSDictionary *sGraphicIconMap;
     if (!job) {
         return nil;
     }
-    
+
     NSArray *parts = [job componentsInShellCommand];
     NSString *command = parts.firstObject;
     NSString *logicalName = [sGraphicIconMap[command] firstObject];
     if (!logicalName) {
         return nil;
     }
-    
+
     static NSMutableDictionary *images;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         images = [NSMutableDictionary dictionary];
     });
     NSString *iconName = [@"graphic_" stringByAppendingString:logicalName];
@@ -132,7 +132,7 @@ static NSDictionary *sGraphicIconMap;
     if (!colorCode) {
         colorCode = @"#888";
     }
-    
+
     NSColor *color = [NSColor colorFromHexString:colorCode];
     image = [image it_imageWithTintColor:color];
     images[command] = image;

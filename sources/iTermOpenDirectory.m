@@ -24,20 +24,20 @@
     DLog(@"Trying to figure out the user's shell.");
     NSError *error = nil;
     ODNode *node = [ODNode nodeWithSession:[ODSession defaultSession]
-                                      type:kODNodeTypeLocalNodes
-                                     error:&error];
+                           type:kODNodeTypeLocalNodes
+                           error:&error];
     if (!node) {
         DLog(@"Failed to get node for default session: %@", error);
         return nil;
     }
     ODQuery *query = [ODQuery queryWithNode:node
-                             forRecordTypes:kODRecordTypeUsers
-                                  attribute:kODAttributeTypeRecordName
-                                  matchType:kODMatchEqualTo
-                                queryValues:NSUserName()
-                           returnAttributes:kODAttributeTypeStandardOnly
-                             maximumResults:0
-                                      error:&error];
+                              forRecordTypes:kODRecordTypeUsers
+                              attribute:kODAttributeTypeRecordName
+                              matchType:kODMatchEqualTo
+                              queryValues:NSUserName()
+                              returnAttributes:kODAttributeTypeStandardOnly
+                              maximumResults:0
+                              error:&error];
     if (!query) {
         DLog(@"Failed to query for record matching user name: %@", error);
         return nil;

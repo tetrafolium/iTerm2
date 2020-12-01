@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface iTermShellIntegrationSecondPageViewController: NSViewController<iTermShellIntegrationInstallerViewController>
+@interface iTermShellIntegrationSecondPageViewController : NSViewController<iTermShellIntegrationInstallerViewController>
 @property (nonatomic, weak) IBOutlet id<iTermShellIntegrationInstallerDelegate> shellInstallerDelegate;
 @end
 

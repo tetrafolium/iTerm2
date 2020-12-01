@@ -47,7 +47,7 @@ const double iTermStatusBarBaseComponentDefaultPriority = 5;
     self = [super init];
     if (self) {
         NSString *className = [aDecoder decodeObjectOfClass:[NSString class]
-                                                     forKey:@"class"] ?: @"";
+                                        forKey:@"class"] ?: @"";
         _class = NSClassFromString(className);
         if (!_class) {
             return nil;
@@ -57,13 +57,14 @@ const double iTermStatusBarBaseComponentDefaultPriority = 5;
 }
 
 - (id<iTermStatusBarComponent>)newComponentWithKnobs:(NSDictionary *)knobs
-                                     layoutAlgorithm:(iTermStatusBarLayoutAlgorithmSetting)layoutAlgorithm
-                                               scope:(iTermVariableScope *)scope {
+    layoutAlgorithm:(iTermStatusBarLayoutAlgorithmSetting)layoutAlgorithm
+    scope:(iTermVariableScope *)scope {
     iTermStatusBarAdvancedConfiguration *advancedConfiguration = [[iTermStatusBarAdvancedConfiguration alloc] init];
     advancedConfiguration.layoutAlgorithm = layoutAlgorithm;
-    return [[_class alloc] initWithConfiguration:@{iTermStatusBarComponentConfigurationKeyKnobValues: knobs,
-                                                   iTermStatusBarComponentConfigurationKeyLayoutAdvancedConfigurationDictionaryValue: advancedConfiguration.dictionaryValue }
-                                           scope:scope];
+    return [[_class alloc] initWithConfiguration:@ {iTermStatusBarComponentConfigurationKeyKnobValues: knobs,
+                           iTermStatusBarComponentConfigurationKeyLayoutAdvancedConfigurationDictionaryValue: advancedConfiguration.dictionaryValue
+                                                   }
+                           scope:scope];
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
@@ -93,7 +94,7 @@ const double iTermStatusBarBaseComponentDefaultPriority = 5;
 @synthesize delegate = _delegate;
 
 - (instancetype)initWithConfiguration:(NSDictionary<iTermStatusBarComponentConfigurationKey, id> *)configuration
-                                scope:(nullable iTermVariableScope *)scope {
+    scope:(nullable iTermVariableScope *)scope {
     self = [super init];
     if (self) {
         _scope = scope;
@@ -106,17 +107,17 @@ const double iTermStatusBarBaseComponentDefaultPriority = 5;
 
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
     NSDictionary<iTermStatusBarComponentConfigurationKey,id> *configuration = [aDecoder decodeObjectOfClass:[NSDictionary class]
-                                                                                                     forKey:@"configuration"];
+                     forKey:@"configuration"];
     if (!configuration) {
         return nil;
     }
     return [self initWithConfiguration:configuration
-                                 scope:nil];
+                 scope:nil];
 }
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p priority=%@>",
-            NSStringFromClass([self class]), self, @(self.statusBarComponentPriority)];
+                     NSStringFromClass([self class]), self, @(self.statusBarComponentPriority)];
 }
 
 - (BOOL)statusBarComponentIsInternal {
@@ -177,17 +178,17 @@ const double iTermStatusBarBaseComponentDefaultPriority = 5;
 
 - (NSArray<iTermStatusBarComponentKnob *> *)minMaxWidthKnobs {
     iTermStatusBarComponentKnob *maxWidthKnob =
-    [[iTermStatusBarComponentKnob alloc] initWithLabelText:@"Maximum Width:"
-                                                      type:iTermStatusBarComponentKnobTypeDouble
-                                               placeholder:@""
-                                              defaultValue:@(INFINITY)
-                                                       key:iTermStatusBarMaximumWidthKey];
+        [[iTermStatusBarComponentKnob alloc] initWithLabelText:@"Maximum Width:"
+                                             type:iTermStatusBarComponentKnobTypeDouble
+                                             placeholder:@""
+                                             defaultValue:@(INFINITY)
+                                             key:iTermStatusBarMaximumWidthKey];
     iTermStatusBarComponentKnob *minWidthKnob =
-    [[iTermStatusBarComponentKnob alloc] initWithLabelText:@"Minimum Width:"
-                                                      type:iTermStatusBarComponentKnobTypeDouble
-                                               placeholder:@""
-                                              defaultValue:[@(self.defaultMinimumWidth) stringValue]
-                                                       key:iTermStatusBarMinimumWidthKey];
+        [[iTermStatusBarComponentKnob alloc] initWithLabelText:@"Minimum Width:"
+                                             type:iTermStatusBarComponentKnobTypeDouble
+                                             placeholder:@""
+                                             defaultValue:[@(self.defaultMinimumWidth) stringValue]
+                                             key:iTermStatusBarMinimumWidthKey];
     return @[minWidthKnob, maxWidthKnob];
 }
 
@@ -201,8 +202,11 @@ const double iTermStatusBarBaseComponentDefaultPriority = 5;
 }
 
 + (NSDictionary *)defaultMinMaxWidthKnobValues {
-    return @{ iTermStatusBarMaximumWidthKey: @(INFINITY),
-              iTermStatusBarMinimumWidthKey: @0 };
+    return @ { iTermStatusBarMaximumWidthKey:
+               @(INFINITY),
+               iTermStatusBarMinimumWidthKey:
+               @0
+             };
 }
 
 #pragma mark - iTermStatusBarComponent
@@ -219,10 +223,10 @@ const double iTermStatusBarBaseComponentDefaultPriority = 5;
 
 - (iTermStatusBarComponentKnob *)newPriorityKnob {
     return [[iTermStatusBarComponentKnob alloc] initWithLabelText:@"Priority:"
-                                                             type:iTermStatusBarComponentKnobTypeDouble
-                                                      placeholder:@""
-                                                     defaultValue:self.class.statusBarComponentDefaultKnobs[iTermStatusBarPriorityKey]
-                                                              key:iTermStatusBarPriorityKey];
+                                                type:iTermStatusBarComponentKnobTypeDouble
+                                                placeholder:@""
+                                                defaultValue:self.class.statusBarComponentDefaultKnobs[iTermStatusBarPriorityKey]
+                                                key:iTermStatusBarPriorityKey];
 }
 
 - (NSArray<iTermStatusBarComponentKnob *> *)statusBarComponentKnobs {
@@ -230,19 +234,19 @@ const double iTermStatusBarBaseComponentDefaultPriority = 5;
     if ([self statusBarComponentCanStretch]) {
         NSString *title;
         switch (self.advancedConfiguration.layoutAlgorithm) {
-            case iTermStatusBarLayoutAlgorithmSettingTightlyPacked:
-                title = @"Compression Resistance:";
-                break;
-            case iTermStatusBarLayoutAlgorithmSettingStable:
-                title = @"Size Multiple:";
-                break;
+        case iTermStatusBarLayoutAlgorithmSettingTightlyPacked:
+            title = @"Compression Resistance:";
+            break;
+        case iTermStatusBarLayoutAlgorithmSettingStable:
+            title = @"Size Multiple:";
+            break;
         }
         compressionResistanceKnob =
-        [[iTermStatusBarComponentKnob alloc] initWithLabelText:title
-                                                          type:iTermStatusBarComponentKnobTypeDouble
-                                                   placeholder:@""
-                                                  defaultValue:self.class.statusBarComponentDefaultKnobs[iTermStatusBarCompressionResistanceKey]
-                                                           key:iTermStatusBarCompressionResistanceKey];
+            [[iTermStatusBarComponentKnob alloc] initWithLabelText:title
+                                                 type:iTermStatusBarComponentKnobTypeDouble
+                                                 placeholder:@""
+                                                 defaultValue:self.class.statusBarComponentDefaultKnobs[iTermStatusBarCompressionResistanceKey]
+                                                 key:iTermStatusBarCompressionResistanceKey];
     }
     iTermStatusBarComponentKnob *priorityKnob = [self newPriorityKnob];
     if (compressionResistanceKnob) {
@@ -253,12 +257,15 @@ const double iTermStatusBarBaseComponentDefaultPriority = 5;
 }
 
 + (NSDictionary *)statusBarComponentDefaultKnobs {
-    return @{ iTermStatusBarCompressionResistanceKey: @1,
-              iTermStatusBarPriorityKey: @(iTermStatusBarBaseComponentDefaultPriority) };
+    return @ { iTermStatusBarCompressionResistanceKey:
+               @1,
+               iTermStatusBarPriorityKey:
+               @(iTermStatusBarBaseComponentDefaultPriority)
+             };
 }
 
 - (id)statusBarComponentExemplarWithBackgroundColor:(NSColor *)backgroundColor
-                                          textColor:(NSColor *)textColor {
+    textColor:(NSColor *)textColor {
     [self doesNotRecognizeSelector:_cmd];
     return @"BUG";
 }
@@ -269,7 +276,7 @@ const double iTermStatusBarBaseComponentDefaultPriority = 5;
         [keys addObject:key];
     }
     NSDictionary *replacement = [_configuration dictionaryBySettingObject:knobValues
-                                                                   forKey:iTermStatusBarComponentConfigurationKeyKnobValues];
+                                                forKey:iTermStatusBarComponentConfigurationKeyKnobValues];
     NSMutableSet<NSString *> *updatedKeys = [NSMutableSet set];
     NSDictionary *replacementKnobs = replacement[iTermStatusBarComponentConfigurationKeyKnobValues];
     NSDictionary *originalKnobs = _configuration[iTermStatusBarComponentConfigurationKeyKnobValues];
@@ -287,7 +294,7 @@ const double iTermStatusBarBaseComponentDefaultPriority = 5;
     _configuration = replacement;
     [self statusBarComponentUpdate];
     [self.delegate statusBarComponentKnobsDidChange:self
-                                        updatedKeys:updatedKeys];
+                   updatedKeys:updatedKeys];
 }
 
 - (NSDictionary *)statusBarComponentKnobValues {
@@ -353,7 +360,7 @@ const double iTermStatusBarBaseComponentDefaultPriority = 5;
     [webView loadHTMLString:html baseURL:nil];
     NSPopover *popover = [[NSPopover alloc] init];
     NSViewController *viewController = [[iTermWebViewWrapperViewController alloc] initWithWebView:webView
-                                                                                        backupURL:nil];
+                                                                                  backupURL:nil];
     popover.contentViewController = viewController;
     popover.contentSize = size;
     NSView *view = self.statusBarComponentView;
@@ -361,16 +368,16 @@ const double iTermStatusBarBaseComponentDefaultPriority = 5;
     popover.delegate = self;
     NSRectEdge preferredEdge = NSRectEdgeMinY;
     switch ([iTermPreferences unsignedIntegerForKey:kPreferenceKeyStatusBarPosition]) {
-        case iTermStatusBarPositionTop:
-            preferredEdge = NSRectEdgeMaxY;
-            break;
-        case iTermStatusBarPositionBottom:
-            preferredEdge = NSRectEdgeMinY;
-            break;
+    case iTermStatusBarPositionTop:
+        preferredEdge = NSRectEdgeMaxY;
+        break;
+    case iTermStatusBarPositionBottom:
+        preferredEdge = NSRectEdgeMinY;
+        break;
     }
     [popover showRelativeToRect:view.bounds
-                         ofView:view
-                  preferredEdge:preferredEdge];
+             ofView:view
+             preferredEdge:preferredEdge];
 }
 
 - (BOOL)statusBarComponentHandlesClicks {
@@ -417,7 +424,7 @@ const double iTermStatusBarBaseComponentDefaultPriority = 5;
 
 - (void)itermWebViewScriptInvocation:(NSString *)invocation didFailWithError:(NSError *)error {
     [[iTermAPIHelper sharedInstance] logToConnectionHostingFunctionWithSignature:invocation
-                                                                          string:error.localizedDescription];
+                                     string:error.localizedDescription];
 }
 
 - (iTermVariableScope *)itermWebViewScriptScopeForUserContentController:(WKUserContentController *)userContentController {

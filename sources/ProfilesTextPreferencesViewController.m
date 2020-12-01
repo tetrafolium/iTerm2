@@ -75,67 +75,69 @@
     _heightWithoutNonAsciiControls = _heightWithNonAsciiControls - _nonAsciiFontView.frame.size.height - _nonAsciiFontView.frame.origin.y;
 
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(reloadProfiles)
-                                                 name:kReloadAllProfiles
-                                               object:nil];
+                                          selector:@selector(reloadProfiles)
+                                          name:kReloadAllProfiles
+                                          object:nil];
     __weak __typeof(self) weakSelf = self;
     [self defineControl:_cursorType
-                    key:KEY_CURSOR_TYPE
-            displayName:@"Cursor style"
-                   type:kPreferenceInfoTypeMatrix
-         settingChanged:^(id sender) { [self setInt:[[sender selectedCell] tag] forKey:KEY_CURSOR_TYPE]; }
-                 update:^BOOL{
-                     __strong __typeof(weakSelf) strongSelf = weakSelf;
-                     if (!strongSelf) {
-                         return NO;
-                     }
-                     [strongSelf->_cursorType selectCellWithTag:[self intForKey:KEY_CURSOR_TYPE]];
-                     return YES;
-                 }];
+          key:KEY_CURSOR_TYPE
+          displayName:@"Cursor style"
+          type:kPreferenceInfoTypeMatrix
+         settingChanged:^(id sender) {
+             [self setInt:[[sender selectedCell] tag] forKey:KEY_CURSOR_TYPE];
+         }
+         update:^BOOL{
+             __strong __typeof(weakSelf) strongSelf = weakSelf;
+        if (!strongSelf) {
+            return NO;
+        }
+        [strongSelf->_cursorType selectCellWithTag:[self intForKey:KEY_CURSOR_TYPE]];
+        return YES;
+    }];
 
     [self defineControl:_blinkingCursor
-                    key:KEY_BLINKING_CURSOR
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_BLINKING_CURSOR
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_useBoldFont
-                    key:KEY_USE_BOLD_FONT
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_USE_BOLD_FONT
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_thinStrokes
-                    key:KEY_THIN_STROKES
-            relatedView:_thinStrokesLabel
-                   type:kPreferenceInfoTypePopup];
+          key:KEY_THIN_STROKES
+          relatedView:_thinStrokesLabel
+          type:kPreferenceInfoTypePopup];
 
     [self defineControl:_blinkAllowed
-                    key:KEY_BLINK_ALLOWED
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_BLINK_ALLOWED
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_useItalicFont
-                    key:KEY_USE_ITALIC_FONT
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_USE_ITALIC_FONT
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     PreferenceInfo *info =
-    [self defineControl:_asciiLigatures
-                    key:KEY_ASCII_LIGATURES
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
-    info.observer = ^{
+        [self defineControl:_asciiLigatures
+              key:KEY_ASCII_LIGATURES
+              relatedView:nil
+              type:kPreferenceInfoTypeCheckbox];
+    info.observer = ^ {
         [weakSelf updateLigatureWarning];
     };
     info = [self defineUnsearchableControl:_nonAsciiLigatures
-                                       key:KEY_NON_ASCII_LIGATURES
-                                      type:kPreferenceInfoTypeCheckbox];
-    info.observer = ^{
+                 key:KEY_NON_ASCII_LIGATURES
+                 type:kPreferenceInfoTypeCheckbox];
+    info.observer = ^ {
         [weakSelf updateLigatureWarning];
     };
     info = [self defineControl:_ambiguousIsDoubleWidth
-                           key:KEY_AMBIGUOUS_DOUBLE_WIDTH
-                   relatedView:nil
-                          type:kPreferenceInfoTypeCheckbox];
+                 key:KEY_AMBIGUOUS_DOUBLE_WIDTH
+                 relatedView:nil
+                 type:kPreferenceInfoTypeCheckbox];
     info.customSettingChangedHandler = ^(id sender) {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
         if (!strongSelf) {
@@ -149,15 +151,15 @@
             // unless they really know what they're doing.
             iTermWarningSelection selection =
                 [iTermWarning showWarningWithTitle:@"You probably don't want to turn this on. "
-                                                   @"It will confuse interactive programs. "
-                                                   @"You might want it if you work mostly with "
-                                                   @"East Asian text combined with legacy or "
-                                                   @"mathematical character sets. "
-                                                   @"Are you sure you want this?"
-                                           actions:@[ @"Enable", @"Cancel" ]
-                                        identifier:kWarnAboutAmbiguousWidth
-                                       silenceable:kiTermWarningTypePermanentlySilenceable
-                                            window:weakSelf.view.window];
+                              @"It will confuse interactive programs. "
+                              @"You might want it if you work mostly with "
+                              @"East Asian text combined with legacy or "
+                              @"mathematical character sets. "
+                              @"Are you sure you want this?"
+                              actions:@[ @"Enable", @"Cancel" ]
+                              identifier:kWarnAboutAmbiguousWidth
+                              silenceable:kiTermWarningTypePermanentlySilenceable
+                              window:weakSelf.view.window];
             if (selection == kiTermWarningSelection0) {
                 [strongSelf setBool:YES forKey:KEY_AMBIGUOUS_DOUBLE_WIDTH];
             }
@@ -167,34 +169,34 @@
     };
 
     [self defineControl:_normalization
-                    key:KEY_UNICODE_NORMALIZATION
-            relatedView:_normalizationLabel
-                   type:kPreferenceInfoTypePopup];
+          key:KEY_UNICODE_NORMALIZATION
+          relatedView:_normalizationLabel
+          type:kPreferenceInfoTypePopup];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(unicodeVersionDidChange)
-                                                 name:iTermUnicodeVersionDidChangeNotification
-                                               object:nil];
+                                          selector:@selector(unicodeVersionDidChange)
+                                          name:iTermUnicodeVersionDidChangeNotification
+                                          object:nil];
     [self defineControl:_unicodeVersion9
-                    key:KEY_UNICODE_VERSION
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox
+          key:KEY_UNICODE_VERSION
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox
          settingChanged:^(id sender) {
              __strong __typeof(weakSelf) strongSelf = weakSelf;
              if (!strongSelf) {
-                 return;
-             }
-             const NSInteger version = (strongSelf->_unicodeVersion9.state == NSControlStateValueOn) ? 9 : 8;
-             [strongSelf setInteger:version forKey:KEY_UNICODE_VERSION];
-         }
-                 update:^BOOL{
-                     __strong __typeof(weakSelf) strongSelf = weakSelf;
-                     if (!strongSelf) {
-                         return NO;
-                     }
-                     strongSelf->_unicodeVersion9.state = [strongSelf integerForKey:KEY_UNICODE_VERSION] == 9 ? NSControlStateValueOn : NSControlStateValueOff;
-                     return YES;
-                 }];
+            return;
+        }
+        const NSInteger version = (strongSelf->_unicodeVersion9.state == NSControlStateValueOn) ? 9 : 8;
+        [strongSelf setInteger:version forKey:KEY_UNICODE_VERSION];
+    }
+    update:^BOOL{
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
+        if (!strongSelf) {
+            return NO;
+        }
+        strongSelf->_unicodeVersion9.state = [strongSelf integerForKey:KEY_UNICODE_VERSION] == 9 ? NSControlStateValueOn : NSControlStateValueOff;
+        return YES;
+    }];
 
     if (@available(macOS 10.16, *)) {
         // 😢 See issue 9209
@@ -212,58 +214,62 @@
     _verticalSpacingView.delegate = self;
     [_verticalSpacingView clampWithMin:50 max:200];
     [self defineControl:_asciiFontPicker.horizontalSpacing.textField
-                    key:KEY_HORIZONTAL_SPACING
-            relatedView:nil
-            displayName:@"Horizontal spacing"
-                   type:kPreferenceInfoTypeIntegerTextField
-         settingChanged:^(id sender) { assert(false); }
-                 update:^BOOL{
-                     __strong __typeof(weakSelf) strongSelf = weakSelf;
-                     if (!strongSelf) {
-                         return NO;
-                     }
-                     strongSelf->_asciiFontPicker.horizontalSpacing.size = [self doubleForKey:KEY_HORIZONTAL_SPACING] * 100;
-                     return YES;
-                 }
-             searchable:YES];
+          key:KEY_HORIZONTAL_SPACING
+          relatedView:nil
+          displayName:@"Horizontal spacing"
+          type:kPreferenceInfoTypeIntegerTextField
+         settingChanged:^(id sender) {
+             assert(false);
+         }
+         update:^BOOL{
+             __strong __typeof(weakSelf) strongSelf = weakSelf;
+        if (!strongSelf) {
+            return NO;
+        }
+        strongSelf->_asciiFontPicker.horizontalSpacing.size = [self doubleForKey:KEY_HORIZONTAL_SPACING] * 100;
+        return YES;
+    }
+    searchable:YES];
 
     [self defineControl:_asciiFontPicker.verticalSpacing.textField
-                    key:KEY_VERTICAL_SPACING
-            relatedView:nil
-            displayName:@"Vertical spacing"
-                   type:kPreferenceInfoTypeIntegerTextField
-         settingChanged:^(id sender) { assert(false); }
-                 update:^BOOL{
-                     __strong __typeof(weakSelf) strongSelf = weakSelf;
-                     if (!strongSelf) {
-                         return NO;
-                     }
-                     strongSelf->_asciiFontPicker.verticalSpacing.size = [self doubleForKey:KEY_VERTICAL_SPACING] * 100;
-                     return YES;
-                 }
-             searchable:YES];
+          key:KEY_VERTICAL_SPACING
+          relatedView:nil
+          displayName:@"Vertical spacing"
+          type:kPreferenceInfoTypeIntegerTextField
+         settingChanged:^(id sender) {
+             assert(false);
+         }
+         update:^BOOL{
+             __strong __typeof(weakSelf) strongSelf = weakSelf;
+        if (!strongSelf) {
+            return NO;
+        }
+        strongSelf->_asciiFontPicker.verticalSpacing.size = [self doubleForKey:KEY_VERTICAL_SPACING] * 100;
+        return YES;
+    }
+    searchable:YES];
 
     info = [self defineControl:_useNonAsciiFont
-                           key:KEY_USE_NONASCII_FONT
-                   relatedView:nil
-                          type:kPreferenceInfoTypeCheckbox];
-    info.observer = ^{ [weakSelf updateNonAsciiFontViewVisibility]; };
+                 key:KEY_USE_NONASCII_FONT
+                 relatedView:nil
+                 type:kPreferenceInfoTypeCheckbox];
+    info.observer = ^ { [weakSelf updateNonAsciiFontViewVisibility]; };
 
     info = [self defineControl:_asciiAntiAliased
-                           key:KEY_ASCII_ANTI_ALIASED
-                   relatedView:nil
-                          type:kPreferenceInfoTypeCheckbox];
-    info.observer = ^{ [weakSelf updateWarnings]; };
+                 key:KEY_ASCII_ANTI_ALIASED
+                 relatedView:nil
+                 type:kPreferenceInfoTypeCheckbox];
+    info.observer = ^ { [weakSelf updateWarnings]; };
 
     info = [self defineUnsearchableControl:_nonasciiAntiAliased
-                                       key:KEY_NONASCII_ANTI_ALIASED
-                                      type:kPreferenceInfoTypeCheckbox];
-    info.observer = ^{ [weakSelf updateWarnings]; };
+                 key:KEY_NONASCII_ANTI_ALIASED
+                 type:kPreferenceInfoTypeCheckbox];
+    info.observer = ^ { [weakSelf updateWarnings]; };
 
     [self defineControl:_powerline
-                    key:KEY_POWERLINE
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:KEY_POWERLINE
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self updateFontsDescriptionsIncludingSpacing:YES];
     [self updateNonAsciiFontViewVisibility];
@@ -409,7 +415,7 @@
         key = KEY_NON_ASCII_FONT;
     }
     [self setString:view.font.stringValue
-             forKey:key];
+          forKey:key];
     [self updateFontsDescriptionsIncludingSpacing:YES];
 }
 
@@ -435,10 +441,15 @@
     id nonAsciiFont = _nonASCIIFontPicker.font.stringValue ?: [NSNull null];
     DLog(@"Save changes from font picker. asciiFontPicker=%@ asciiFontPicker.font=%@ asciiFontPicker.font.stringValue=%@", _asciiFontPicker, _asciiFontPicker.font, _asciiFontPicker.font.stringValue);
     DLog(@"Save changes from font picker. nonASCIIFontPicker=%@ asciiFontPicker.font=%@ asciiFontPicker.font.stringValue=%@", _nonASCIIFontPicker, _nonASCIIFontPicker.font, _nonASCIIFontPicker.font.stringValue);
-    NSDictionary *dictionaryWithNulls = @{ KEY_HORIZONTAL_SPACING: @(clamp(_asciiFontPicker.horizontalSpacing.size) / 100.0),
-                                           KEY_VERTICAL_SPACING: @(clamp(_asciiFontPicker.verticalSpacing.size) / 100.0),
-                                           KEY_NORMAL_FONT: normalFont,
-                                           KEY_NON_ASCII_FONT: nonAsciiFont };
+    NSDictionary *dictionaryWithNulls = @ { KEY_HORIZONTAL_SPACING:
+                                            @(clamp(_asciiFontPicker.horizontalSpacing.size) / 100.0),
+                                            KEY_VERTICAL_SPACING:
+                                            @(clamp(_asciiFontPicker.verticalSpacing.size) / 100.0),
+                                            KEY_NORMAL_FONT:
+                                            normalFont,
+                                            KEY_NON_ASCII_FONT:
+                                            nonAsciiFont
+                                          };
     NSDictionary *dict = [dictionaryWithNulls dictionaryByRemovingNullValues];
     [self setObjectsFromDictionary:dict];
 }

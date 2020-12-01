@@ -26,7 +26,7 @@
 @interface iTermInstantReplayPanel : NSPanel
 @end
 
-@interface iTermInstantReplayView :NSView
+@interface iTermInstantReplayView : NSView
 @end
 
 @interface iTermInstantReplayWindowController : NSWindowController <NSWindowDelegate>

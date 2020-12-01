@@ -49,23 +49,23 @@
 }
 
 - (BOOL)handleInput:(iTermParserContext *)context
-support8BitControlCharacters:(BOOL)support8BitControlCharacters
-              token:(VT100Token *)result {
+    support8BitControlCharacters:(BOOL)support8BitControlCharacters
+    token:(VT100Token *)result {
     int bytesTilNewline = iTermParserNumberOfBytesUntilCharacter(context, '\n');
     if (bytesTilNewline == -1) {
         DLog(@"No newline found.");
         // No newline to be found. Append everything that is available to |_line|.
         int length = iTermParserLength(context);
         [_line appendBytes:iTermParserPeekRawBytes(context, length)
-                    length:length
-            excludingCharacter:'\r'];
+               length:length
+               excludingCharacter:'\r'];
         iTermParserAdvanceMultiple(context, length);
         result->type = VT100_WAIT;
     } else {
         // Append bytes up to the newline, stripping out linefeeds. Consume the newline.
         [_line appendBytes:iTermParserPeekRawBytes(context, bytesTilNewline)
-                    length:bytesTilNewline
-            excludingCharacter:'\r'];
+               length:bytesTilNewline
+               excludingCharacter:'\r'];
         iTermParserAdvanceMultiple(context, bytesTilNewline + 1);
 
         // Tokenize the line, returning if it is a terminator like %exit.
@@ -123,8 +123,8 @@ support8BitControlCharacters:(BOOL)support8BitControlCharacters
                    [command hasPrefix:@"%error "]) {
             NSArray *parts = [command componentsSeparatedByString:@" "];
             if (parts.count >= 3 &&
-                [_currentCommandId isEqual:parts[1]] &&
-                [_currentCommandNumber isEqual:parts[2]]) {
+                    [_currentCommandId isEqual:parts[1]] &&
+                    [_currentCommandNumber isEqual:parts[2]]) {
                 _inResponseBlock = NO;
             }
         }

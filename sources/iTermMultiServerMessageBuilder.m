@@ -32,7 +32,7 @@
 
 - (void)appendBytes:(void *)bytes length:(NSInteger)length {
     [_accumulator appendBytes:bytes
-                       length:length];
+                  length:length];
 }
 
 - (void)setFileDescriptor:(int)fileDescriptor {
@@ -48,7 +48,7 @@
         return _message;
     }
     _message = [[iTermMultiServerMessage alloc] initWithData:_accumulator
-                                              fileDescriptor:_fileDescriptor];
+                                                fileDescriptor:_fileDescriptor];
     return _message;
 }
 

@@ -41,7 +41,7 @@ typedef void (^iTermServerOriginatedRPCCompletionBlock)(id, NSError *);
 - (NSString *)subscribableIdentifier;
 
 - (ITMNotificationResponse *)handleAPINotificationRequest:(ITMNotificationRequest *)request
-                                            connectionKey:(NSString *)connectionKey;
+    connectionKey:(NSString *)connectionKey;
 
 @end
 
@@ -60,10 +60,10 @@ typedef void (^iTermServerOriginatedRPCCompletionBlock)(id, NSError *);
 
 + (BOOL)requireApplescriptAuth;
 + (void)setRequireApplescriptAuth:(BOOL)requireApplescriptAuth
-                           window:(NSWindow *)window;
+    window:(NSWindow *)window;
 
 + (NSString *)invocationWithFullyQualifiedName:(NSString *)fqname
-                                      defaults:(NSArray<ITMRPCRegistrationRequest_RPCArgument*> *)defaultsArray;
+    defaults:(NSArray<ITMRPCRegistrationRequest_RPCArgument*> *)defaultsArray;
 + (ITMRPCRegistrationRequest *)registrationRequestForStatusBarComponentWithUniqueIdentifier:(NSString *)uniqueIdentifier;
 
 - (instancetype)init NS_UNAVAILABLE;
@@ -74,8 +74,8 @@ typedef void (^iTermServerOriginatedRPCCompletionBlock)(id, NSError *);
 - (void)postAPINotification:(ITMNotification *)notification toConnectionKey:(NSString *)connectionKey;
 
 - (void)dispatchRPCWithName:(NSString *)name
-                  arguments:(NSDictionary *)arguments
-                 completion:(iTermServerOriginatedRPCCompletionBlock)completion;
+    arguments:(NSDictionary *)arguments
+    completion:(iTermServerOriginatedRPCCompletionBlock)completion;
 
 // function name -> [ arg1, arg2, ... ]
 + (NSDictionary<NSString *, NSArray<NSString *> *> *)registeredFunctionSignatureDictionary;
@@ -91,14 +91,14 @@ typedef void (^iTermServerOriginatedRPCCompletionBlock)(id, NSError *);
 - (BOOL)haveRegisteredFunctionWithSignature:(NSString *)stringSignature;
 - (NSString *)connectionKeyForRPCWithSignature:(NSString *)signature;
 - (NSString *)connectionKeyForRPCWithName:(NSString *)name
-                       explicitParameters:(NSDictionary<NSString *, id> *)explicitParameters
-                                    scope:(iTermVariableScope *)scope
-                           fullParameters:(out NSDictionary<NSString *, id> **)fullParameters;
+    explicitParameters:(NSDictionary<NSString *, id> *)explicitParameters
+    scope:(iTermVariableScope *)scope
+    fullParameters:(out NSDictionary<NSString *, id> **)fullParameters;
 
 - (void)logToConnectionHostingFunctionWithSignature:(NSString *)signatureString
-                                             format:(NSString *)format, ...;
+    format:(NSString *)format, ...;
 - (void)logToConnectionHostingFunctionWithSignature:(NSString *)signatureString
-                                             string:(NSString *)string;
+    string:(NSString *)string;
 - (iTermScriptHistoryEntry *)scriptHistoryEntryForConnectionKey:(NSString *)connectionKey;
 - (NSDictionary<NSString *, iTermTuple<id, ITMNotificationRequest *> *> *)serverOriginatedRPCSubscriptions;
 

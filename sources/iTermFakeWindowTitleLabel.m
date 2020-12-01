@@ -22,22 +22,26 @@
 }
 
 + (NSDictionary *)attributesWithParagraphStyle:(NSParagraphStyle *)paragraphStyle
-                                          font:(NSFont *)font
-                                     textColor:(NSColor *)textColor {
-    return @{ NSFontAttributeName: font,
-              NSForegroundColorAttributeName: textColor,
-              NSParagraphStyleAttributeName: paragraphStyle };
+    font:(NSFont *)font
+    textColor:(NSColor *)textColor {
+    return @ { NSFontAttributeName:
+               font,
+               NSForegroundColorAttributeName:
+               textColor,
+               NSParagraphStyleAttributeName:
+               paragraphStyle
+             };
 }
 
 + (NSAttributedString *)attributedStringForWindowTitleLabelWithString:(NSString *)title
-                                                           attributes:(NSDictionary *)attributes {
+    attributes:(NSDictionary *)attributes {
     NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:title ?: @""
-                                                                           attributes:attributes];
+                                                                       attributes:attributes];
     return attributedString;
 }
 
 + (NSTextAttachment *)iconTextAttachmentForWindowTitleLabelWithImage:(NSImage *)icon
-                                                                font:(NSFont *)font {
+    font:(NSFont *)font {
     NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
     textAttachment.image = icon;
     const CGFloat lineHeight = ceilf(font.capHeight);
@@ -49,18 +53,18 @@
 }
 
 + (NSAttributedString *)attributedStringForWindowTitleLabelWithString:(NSString *)title
-                                                                 icon:(NSImage *)icon
-                                                                 font:(NSFont *)font
-                                                            textColor:(NSColor *)textColor
-                                                            alignment:(NSTextAlignment)textAlignment {
+    icon:(NSImage *)icon
+    font:(NSFont *)font
+    textColor:(NSColor *)textColor
+    alignment:(NSTextAlignment)textAlignment {
     NSParagraphStyle *paragraphStyle = [self paragraphStyleWithAlignment:textAlignment];
     NSDictionary *attributes = [self attributesWithParagraphStyle:paragraphStyle
-                                                             font:font
-                                                        textColor:textColor];
+                                     font:font
+                                     textColor:textColor];
     NSAttributedString *attributedString = [self attributedStringForWindowTitleLabelWithString:title
-                                                                                    attributes:attributes];
+                                                 attributes:attributes];
     NSTextAttachment *textAttachment = [self iconTextAttachmentForWindowTitleLabelWithImage:icon
-                                                                                       font:font];
+                                             font:font];
     NSMutableAttributedString *result = [[NSAttributedString attributedStringWithAttachment:textAttachment] mutableCopy];
     [result addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, result.length)];
     [result appendAttributedString:[[NSAttributedString alloc] initWithString:@" " attributes:attributes]];
@@ -69,17 +73,17 @@
 }
 
 + (void)setTextField:(NSTextField *)label
-            toString:(NSString *)title
-                icon:(NSImage *)icon
-                font:(NSFont *)font
-           textColor:(NSColor *)textColor
-           alignment:(NSTextAlignment)textAlignment {
+    toString:(NSString *)title
+    icon:(NSImage *)icon
+    font:(NSFont *)font
+    textColor:(NSColor *)textColor
+    alignment:(NSTextAlignment)textAlignment {
     if (icon) {
         label.attributedStringValue = [self attributedStringForWindowTitleLabelWithString:title
-                                                                                     icon:icon
-                                                                                     font:font
-                                                                                textColor:textColor
-                                                                                alignment:textAlignment];
+                                            icon:icon
+                                            font:font
+                                            textColor:textColor
+                                            alignment:textAlignment];
     } else {
         label.stringValue = title ?: @"";
         label.lineBreakMode = NSLineBreakByTruncatingTail;
@@ -116,8 +120,8 @@
 #pragma mark - API
 
 - (void)setTitle:(NSString *)title
-            icon:(NSImage *)icon
-alignmentProvider:(NSTextAlignment (^NS_NOESCAPE)(NSTextField *scratch))alignmentProvider {
+    icon:(NSImage *)icon
+    alignmentProvider:(NSTextAlignment (^NS_NOESCAPE)(NSTextField *scratch))alignmentProvider {
     [self setWorkingTitle:title icon:icon];
     [self setTitleWithAlignment:alignmentProvider(_scratch)];
 }
@@ -128,21 +132,21 @@ alignmentProvider:(NSTextAlignment (^NS_NOESCAPE)(NSTextField *scratch))alignmen
     _windowTitle = [title copy];
     _windowIcon = icon;
     [iTermFakeWindowTitleLabel setTextField:_scratch
-                                   toString:title
-                                       icon:icon
-                                       font:self.font
-                                  textColor:self.textColor
-                                  alignment:NSTextAlignmentLeft];
+                               toString:title
+                               icon:icon
+                               font:self.font
+                               textColor:self.textColor
+                               alignment:NSTextAlignmentLeft];
 }
 
 - (void)setTitleWithAlignment:(NSTextAlignment)textAlignment {
     DLog(@"Set title to %@ with alignment=%@", self.windowTitle, @(textAlignment));
     [iTermFakeWindowTitleLabel setTextField:self
-                                   toString:self.windowTitle
-                                       icon:self.windowIcon
-                                       font:self.font
-                                  textColor:self.textColor
-                                  alignment:textAlignment];
+                               toString:self.windowTitle
+                               icon:self.windowIcon
+                               font:self.font
+                               textColor:self.textColor
+                               alignment:textAlignment];
 }
 
 @end

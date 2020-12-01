@@ -54,7 +54,7 @@ NSString *iTermStatusBarSearchComponentIsTemporaryKey = @"search: temporary";
 }
 
 - (id)statusBarComponentExemplarWithBackgroundColor:(NSColor *)backgroundColor
-                                          textColor:(NSColor *)textColor {
+    textColor:(NSColor *)textColor {
     return @"🔎 Search";
 }
 
@@ -86,7 +86,7 @@ NSString *iTermStatusBarSearchComponentIsTemporaryKey = @"search: temporary";
 - (nullable NSViewController<iTermFindViewController> *)statusBarComponentSearchViewController {
     if (!_viewController) {
         _viewController = [[iTermMiniSearchFieldViewController alloc] initWithNibName:@"iTermMiniSearchFieldViewController"
-                                                                               bundle:[NSBundle bundleForClass:self.class]];
+                                                                      bundle:[NSBundle bundleForClass:self.class]];
         const BOOL canClose = [self.configuration[iTermStatusBarComponentConfigurationKeyKnobValues][iTermStatusBarSearchComponentIsTemporaryKey] boolValue];
         _viewController.canClose = canClose;
     }

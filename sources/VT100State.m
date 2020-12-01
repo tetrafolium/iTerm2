@@ -38,18 +38,18 @@
 }
 
 - (void)addStateTransitionForCharacter:(unsigned char)character
-                                    to:(VT100State *)state
-                            withAction:(VT100StateAction)action {
+    to:(VT100State *)state
+    withAction:(VT100StateAction)action {
     _transitions[@(character)] = [VT100StateTransition transitionToState:state withAction:action];
 }
 
 - (void)addStateTransitionForCharacterRange:(NSRange)characterRange
-                                         to:(VT100State *)state
-                                 withAction:(VT100StateAction)action {
+    to:(VT100State *)state
+    withAction:(VT100StateAction)action {
     for (int j = 0; j < characterRange.length; j++) {
         [self addStateTransitionForCharacter:j + characterRange.location
-                                          to:state
-                                  withAction:action];
+              to:state
+              withAction:action];
     }
 }
 

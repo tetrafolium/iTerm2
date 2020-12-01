@@ -128,7 +128,7 @@ NS_INLINE BOOL iTermParserConsumeInteger(iTermParserContext *context, int *n, BO
     *n = 0;
     unsigned char c;
     while (iTermParserCanAdvance(context) &&
-           isdigit((c = iTermParserPeek(context)))) {
+            isdigit((c = iTermParserPeek(context)))) {
         ++numDigits;
         if (*n > (INT_MAX - 10) / 10) {
             *overflowPtr = YES;

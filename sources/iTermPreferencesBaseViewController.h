@@ -33,52 +33,52 @@ extern NSString *const kPreferenceDidChangeFromOtherPanelKeyUserInfoKey;
 
 // Bind a preference control to a key defined in iTermPreferences.
 - (PreferenceInfo *)defineControl:(NSControl *)control
-                              key:(NSString *)key
-                      relatedView:(NSView *)relatedView
-                             type:(PreferenceInfoType)type;
+    key:(NSString *)key
+    relatedView:(NSView *)relatedView
+    type:(PreferenceInfoType)type;
 
 - (PreferenceInfo *)defineControl:(NSControl *)control
-                              key:(NSString *)key
-                      displayName:(NSString *)displayName // for search
-                             type:(PreferenceInfoType)type;
+    key:(NSString *)key
+    displayName:(NSString *)displayName // for search
+    type:(PreferenceInfoType)type;
 
 - (PreferenceInfo *)defineUnsearchableControl:(NSControl *)control
-                                          key:(NSString *)key
-                                         type:(PreferenceInfoType)type;
+    key:(NSString *)key
+    type:(PreferenceInfoType)type;
 
 - (void)associateStepper:(NSStepper *)stepper withPreference:(PreferenceInfo *)info;
 
 // Define a control with a custom settingChanged and update handler. If they're both not null then
 // the default value is not type checked.
 - (PreferenceInfo *)defineControl:(NSControl *)control
-                              key:(NSString *)key
-                      relatedView:(NSView *)relatedView
-                             type:(PreferenceInfoType)type
-                   settingChanged:(void (^)(id))settingChanged
-                           update:(BOOL (^)(void))update;
+    key:(NSString *)key
+    relatedView:(NSView *)relatedView
+    type:(PreferenceInfoType)type
+    settingChanged:(void (^)(id))settingChanged
+    update:(BOOL (^)(void))update;
 
 - (PreferenceInfo *)defineControl:(NSControl *)control
-                              key:(NSString *)key
-                      displayName:(NSString *)displayName // for search
-                             type:(PreferenceInfoType)type
-                   settingChanged:(void (^)(id))settingChanged
-                           update:(BOOL (^)(void))update;
+    key:(NSString *)key
+    displayName:(NSString *)displayName // for search
+    type:(PreferenceInfoType)type
+    settingChanged:(void (^)(id))settingChanged
+    update:(BOOL (^)(void))update;
 
 - (PreferenceInfo *)defineControl:(NSControl *)control
-                              key:(NSString *)key
-                      relatedView:(NSView *)relatedView
-                      displayName:(NSString *)forceDisplayName
-                             type:(PreferenceInfoType)type
-                   settingChanged:(void (^)(id))settingChanged
-                           update:(BOOL (^)(void))update
-                       searchable:(BOOL)searchable;
+    key:(NSString *)key
+    relatedView:(NSView *)relatedView
+    displayName:(NSString *)forceDisplayName
+    type:(PreferenceInfoType)type
+    settingChanged:(void (^)(id))settingChanged
+    update:(BOOL (^)(void))update
+    searchable:(BOOL)searchable;
 
 - (void)setControl:(NSControl *)control inPreference:(PreferenceInfo *)info;
 
 - (void)addViewToSearchIndex:(NSView *)control
-                 displayName:(NSString *)displayName
-                     phrases:(NSArray<NSString *> *)phrases
-                         key:(NSString *)key;
+    displayName:(NSString *)displayName
+    phrases:(NSArray<NSString *> *)phrases
+    key:(NSString *)key;
 
 // Call this after defining controls.
 - (void)commitControls;

@@ -88,9 +88,9 @@ static const CGFloat kHelpMargin = 5;
         [self addSubview:clear_];
 
         scrollView_ = [[NSScrollView alloc] initWithFrame:NSMakeRect(0,
-                                                                     searchField_.frame.size.height + kMargin,
-                                                                     frame.size.width,
-                                                                     frame.size.height - kButtonHeight - 2 * kMargin - searchField_.frame.size.height)];
+                                            searchField_.frame.size.height + kMargin,
+                                            frame.size.width,
+                                            frame.size.height - kButtonHeight - 2 * kMargin - searchField_.frame.size.height)];
         [scrollView_ setHasVerticalScroller:YES];
         [scrollView_ setHasHorizontalScroller:NO];
         if (@available(macOS 10.16, *)) {
@@ -137,9 +137,9 @@ static const CGFloat kHelpMargin = 5;
 
         [self relayout];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(commandHistoryDidChange:)
-                                                     name:kCommandHistoryDidChangeNotificationName
-                                                   object:nil];
+                                              selector:@selector(commandHistoryDidChange:)
+                                              name:kCommandHistoryDidChangeNotificationName
+                                              object:nil];
         // It doesn't seem to scroll far enough unless you use a delayed perform.
         [tableView_ performSelector:@selector(scrollToEndOfDocument:) withObject:nil afterDelay:0];
     }
@@ -202,11 +202,11 @@ static const CGFloat kHelpMargin = 5;
             fudgeFactor = 0;
         }
         clear_.frame = NSMakeRect(help_.frame.origin.x - clear_.frame.size.width - kMargin,
-                                        fudgeFactor,
+                                  fudgeFactor,
                                   clear_.frame.size.width,
                                   clear_.frame.size.height);
     }
-    
+
     // Scroll view
     [scrollView_ setFrame:NSMakeRect(0,
                                      searchFieldFrame.size.height + kMargin,
@@ -264,8 +264,8 @@ static const CGFloat kHelpMargin = 5;
 }
 
 - (NSView *)tableView:(NSTableView *)tableView
-   viewForTableColumn:(NSTableColumn *)tableColumn
-                  row:(NSInteger)row {
+    viewForTableColumn:(NSTableColumn *)tableColumn
+    row:(NSInteger)row {
     static NSString *const identifier = @"ToolCommandHistoryViewEntry";
     NSTextField *result = [tableView makeViewWithIdentifier:identifier owner:self];
     if (result == nil) {
@@ -285,16 +285,16 @@ static const CGFloat kHelpMargin = 5;
 }
 
 - (id)stringOrAttributedStringForColumn:(NSTableColumn *)aTableColumn
-                                    row:(NSInteger)rowIndex {
+    row:(NSInteger)rowIndex {
     iTermCommandHistoryCommandUseMO *commandUse = filteredEntries_[rowIndex];
     if ([[aTableColumn identifier] isEqualToString:@"date"]) {
         // Date
         return [NSDateFormatter compactDateDifferenceStringFromDate:
-                   [NSDate dateWithTimeIntervalSinceReferenceDate:commandUse.time.doubleValue]];
+                                [NSDate dateWithTimeIntervalSinceReferenceDate:commandUse.time.doubleValue]];
     } else {
         // Contents
         NSString *value = [commandUse.command stringByReplacingOccurrencesOfString:@"\n"
-                                                                        withString:@" "];
+                                              withString:@" "];
 
         if (commandUse.code.integerValue) {
             if ([NSDate isAprilFools]) {
@@ -306,14 +306,16 @@ static const CGFloat kHelpMargin = 5;
 
         iTermToolWrapper *wrapper = self.toolWrapper;
         if (commandUse.mark &&
-            [wrapper.delegate.delegate toolbeltCurrentSessionHasGuid:commandUse.mark.sessionGuid]) {
+                [wrapper.delegate.delegate toolbeltCurrentSessionHasGuid:commandUse.mark.sessionGuid]) {
             return [[NSAttributedString alloc] initWithString:value
-                                                   attributes:@{ NSFontAttributeName: boldFont_,
-                                                                 NSParagraphStyleAttributeName: _paragraphStyle }];
+                                               attributes:@ { NSFontAttributeName: boldFont_,
+                                                              NSParagraphStyleAttributeName: _paragraphStyle
+                                                            }];
         } else {
             return [[NSAttributedString alloc] initWithString:value
-                                                   attributes:@{NSFontAttributeName: [NSFont fontWithName:@"Menlo" size:11],
-                                                                NSParagraphStyleAttributeName: _paragraphStyle }];
+                                               attributes:@ {NSFontAttributeName: [NSFont fontWithName:@"Menlo" size:11],
+                                                             NSParagraphStyleAttributeName: _paragraphStyle
+                                                            }];
         }
     }
 }
@@ -334,7 +336,7 @@ static const CGFloat kHelpMargin = 5;
         iTermToolWrapper *wrapper = self.toolWrapper;
         // Post a notification in case the captured output tool is observing us.
         [[NSNotificationCenter defaultCenter] postNotificationName:kPTYSessionCapturedOutputDidChange
-                                                            object:nil];
+                                              object:nil];
         [wrapper.delegate.delegate toolbeltDidSelectMark:commandUse.mark];
     }
 }
@@ -429,10 +431,10 @@ static const CGFloat kHelpMargin = 5;
 }
 
 - (NSArray *)control:(NSControl *)control
-            textView:(NSTextView *)textView
-         completions:(NSArray *)words
- forPartialWordRange:(NSRange)charRange
- indexOfSelectedItem:(NSInteger *)index {
+    textView:(NSTextView *)textView
+    completions:(NSArray *)words
+    forPartialWordRange:(NSRange)charRange
+    indexOfSelectedItem:(NSInteger *)index {
     return @[];
 }
 

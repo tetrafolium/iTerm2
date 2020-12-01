@@ -46,11 +46,11 @@
         [component makeFirstResponder];
         return;
     }
-    NSDictionary *knobs = @{ iTermStatusBarPriorityKey: @(INFINITY) };
-    NSDictionary *configuration = @{ iTermStatusBarComponentConfigurationKeyKnobValues: knobs};
+    NSDictionary *knobs = @ { iTermStatusBarPriorityKey: @(INFINITY) };
+    NSDictionary *configuration = @ { iTermStatusBarComponentConfigurationKeyKnobValues: knobs};
     iTermVariableScope *scope = [self.delegate composerManagerScope:self];
     component = [[iTermStatusBarComposerComponent alloc] initWithConfiguration:configuration
-                                                                         scope:scope];
+                                                         scope:scope];
     _statusBarViewController = statusBarViewController;
     _statusBarViewController.temporaryRightComponent = component;
     _component = component;
@@ -68,9 +68,9 @@
     _minimalViewController = [[iTermMinimalComposerViewController alloc] init];
     _minimalViewController.delegate = self;
     _minimalViewController.view.frame = NSMakeRect(20,
-                                                    superview.frame.size.height - _minimalViewController.view.frame.size.height,
-                                                    _minimalViewController.view.frame.size.width,
-                                                    _minimalViewController.view.frame.size.height);
+                                        superview.frame.size.height - _minimalViewController.view.frame.size.height,
+                                        _minimalViewController.view.frame.size.width,
+                                        _minimalViewController.view.frame.size.height);
     _minimalViewController.view.appearance = [self.delegate composerManagerAppearance:self];
     [superview addSubview:_minimalViewController.view];
     if (_saved.length) {
@@ -114,7 +114,7 @@
 
 - (void)statusBarComposerComponentDidEndEditing:(iTermStatusBarComposerComponent *)component {
     if (_statusBarViewController.temporaryRightComponent == _component &&
-        component == _component) {
+            component == _component) {
         _saved = _component.stringValue;
         _statusBarViewController.temporaryRightComponent = nil;
         _component = nil;
@@ -125,7 +125,7 @@
 #pragma mark - iTermMinimalComposerViewControllerDelegate
 
 - (void)minimalComposer:(nonnull iTermMinimalComposerViewController *)composer
-            sendCommand:(nonnull NSString *)command {
+    sendCommand:(nonnull NSString *)command {
     NSString *string = composer.stringValue;
     [self dismissMinimalView];
     if (command.length == 0) {
@@ -139,16 +139,16 @@
 - (void)dismissMinimalView {
     NSViewController *vc = _minimalViewController;
     [NSView animateWithDuration:0.125
-                     animations:^{
-        vc.view.animator.alphaValue = 0;
-    }
-                     completion:^(BOOL finished) {
+           animations:^ {
+               vc.view.animator.alphaValue = 0;
+           }
+           completion:^(BOOL finished) {
         [vc.view removeFromSuperview];
     }];
     _minimalViewController = nil;
     _dropDownComposerViewIsVisible = NO;
     // You get into infinite recursion if you do ths inside resignFirstResponder.
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         [self.delegate composerManagerDidDismissMinimalView:self];
     });
 }

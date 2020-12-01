@@ -30,10 +30,10 @@ CGFloat kShortcutPreferredHeight = 22;
 // The numeric keypad mask is here so we can disambiguate between keys that
 // exist in both the numeric keypad and outside of it.
 const NSEventModifierFlags kHotKeyModifierMask = (NSEventModifierFlagCommand |
-                                                  NSEventModifierFlagOption |
-                                                  NSEventModifierFlagShift |
-                                                  NSEventModifierFlagControl |
-                                                  NSEventModifierFlagNumericPad);
+        NSEventModifierFlagOption |
+        NSEventModifierFlagShift |
+        NSEventModifierFlagControl |
+        NSEventModifierFlagNumericPad);
 
 @implementation iTermShortcut {
     NSEventModifierFlags _modifiers;
@@ -44,7 +44,7 @@ const NSEventModifierFlags kHotKeyModifierMask = (NSEventModifierFlagCommand |
     for (NSUInteger i = 0; i < sCharsToEscape.length; i++) {
         NSString *replacement = [NSString stringWithFormat:@"\\%d", (int)i];
         escaped = [escaped stringByReplacingOccurrencesOfString:[sCharsToEscape substringWithRange:NSMakeRange(i, 1)]
-                                                     withString:replacement];
+                           withString:replacement];
     }
     return escaped;
 }
@@ -78,10 +78,15 @@ const NSEventModifierFlags kHotKeyModifierMask = (NSEventModifierFlagCommand |
     if (parts.count < 4) {
         return nil;
     }
-    return @{ kKeyCode: @([parts[0] iterm_unsignedIntegerValue]),
-              kModifiers: @([parts[1] iterm_unsignedIntegerValue]),
-              kCharacters: parts[2],
-              kCharactersIgnoringModifiers: parts[3] };
+    return @ { kKeyCode:
+               @([parts[0] iterm_unsignedIntegerValue]),
+               kModifiers:
+               @([parts[1] iterm_unsignedIntegerValue]),
+               kCharacters:
+               parts[2],
+               kCharactersIgnoringModifiers:
+               parts[3]
+             };
 }
 
 + (NSArray<iTermShortcut *> *)shortcutsForProfile:(Profile *)profile {
@@ -95,11 +100,11 @@ const NSEventModifierFlags kHotKeyModifierMask = (NSEventModifierFlagCommand |
     [result addObject:main];
     NSArray<NSDictionary *> *additional = (NSArray *)[profile objectForKey:KEY_HOTKEY_ALTERNATE_SHORTCUTS];
     [result addObjectsFromArray:[additional mapWithBlock:^id(NSDictionary *anObject) {
-        return [self shortcutWithDictionary:anObject];
-    }]];
+               return [self shortcutWithDictionary:anObject];
+           }]];
     return [result filteredArrayUsingBlock:^BOOL(iTermShortcut *anObject) {
-        return anObject.isAssigned;
-    }];
+               return anObject.isAssigned;
+           }];
 }
 
 + (instancetype)shortcutWithDictionary:(NSDictionary *)dictionary {
@@ -117,9 +122,9 @@ const NSEventModifierFlags kHotKeyModifierMask = (NSEventModifierFlagCommand |
 
 + (instancetype)shortcutWithEvent:(NSEvent *)event {
     return [[self alloc] initWithKeyCode:event.keyCode
-                               modifiers:event.it_modifierFlags
-                              characters:event.characters
-             charactersIgnoringModifiers:event.charactersIgnoringModifiers];
+                         modifiers:event.it_modifierFlags
+                         characters:event.characters
+                         charactersIgnoringModifiers:event.charactersIgnoringModifiers];
 }
 
 - (instancetype)init {
@@ -127,8 +132,8 @@ const NSEventModifierFlags kHotKeyModifierMask = (NSEventModifierFlagCommand |
 }
 
 - (instancetype)initWithKeyCode:(NSUInteger)code
-                      modifiers:(NSEventModifierFlags)modifiers
-                     characters:(NSString *)characters
+    modifiers:(NSEventModifierFlags)modifiers
+    characters:(NSString *)characters
     charactersIgnoringModifiers:(NSString *)charactersIgnoringModifiers {
     self = [super init];
     if (self) {
@@ -142,9 +147,9 @@ const NSEventModifierFlags kHotKeyModifierMask = (NSEventModifierFlagCommand |
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p keyCode=%@ modifiers=%@ (%@) characters=“%@” (0x%@) charactersIgnoringModifiers=“%@” (0x%@)>",
-            NSStringFromClass([self class]), self, @(self.keyCode), @(self.modifiers),
-            [NSString stringForModifiersWithMask:self.modifiers], self.characters, [self.characters hexEncodedString],
-            self.charactersIgnoringModifiers, [self.charactersIgnoringModifiers hexEncodedString]];
+                     NSStringFromClass([self class]), self, @(self.keyCode), @(self.modifiers),
+                     [NSString stringForModifiersWithMask:self.modifiers], self.characters, [self.characters hexEncodedString],
+                     self.charactersIgnoringModifiers, [self.charactersIgnoringModifiers hexEncodedString]];
 }
 - (BOOL)isEqual:(id)object {
     if ([object isKindOfClass:[iTermShortcut class]]) {
@@ -172,16 +177,20 @@ const NSEventModifierFlags kHotKeyModifierMask = (NSEventModifierFlagCommand |
 #pragma mark - Accessors
 
 - (NSDictionary *)dictionaryValue {
-    return @{ kKeyCode: @(self.keyCode),
-              kModifiers: @(self.modifiers),
-              kCharacters: self.characters ?: @"",
-              kCharactersIgnoringModifiers: self.charactersIgnoringModifiers ?: @"" };
+    return @ { kKeyCode:
+               @(self.keyCode),
+               kModifiers:
+               @(self.modifiers),
+               kCharacters:
+               self.characters ?: @"",
+               kCharactersIgnoringModifiers: self.charactersIgnoringModifiers ?: @""
+             };
 }
 
 - (iTermKeystroke *)keystroke {
     return [[iTermKeystroke alloc] initWithVirtualKeyCode:self.keyCode
-                                            modifierFlags:self.modifiers
-                                                character:[self.charactersIgnoringModifiers firstCharacter]];
+                                   modifierFlags:self.modifiers
+                                   character:[self.charactersIgnoringModifiers firstCharacter]];
 }
 
 - (NSString *)stringValue {

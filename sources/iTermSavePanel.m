@@ -32,20 +32,20 @@ static NSString *const kInitialDirectoryKey = @"Initial Directory";
 }
 
 + (iTermSavePanel *)showWithOptions:(NSInteger)options
-                         identifier:(NSString *)identifier
-                   initialDirectory:(NSString *)initialDirectory
-                    defaultFilename:(NSString *)defaultFilename {
+    identifier:(NSString *)identifier
+    initialDirectory:(NSString *)initialDirectory
+    defaultFilename:(NSString *)defaultFilename {
     return [self showWithOptions:options
-                      identifier:identifier
-                initialDirectory:initialDirectory
+                 identifier:identifier
+                 initialDirectory:initialDirectory
                  defaultFilename:defaultFilename
-                allowedFileTypes:nil];
+                 allowedFileTypes:nil];
 }
 
 + (NSString *)nameForFileType:(NSString *)extension {
     CFStringRef fileUTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension,
-                                                                (__bridge CFStringRef)extension,
-                                                                NULL);
+                          (__bridge CFStringRef)extension,
+                          NULL);
     NSString *lowercaseDescription = (__bridge_transfer NSString *)UTTypeCopyDescription(fileUTI);
 
     CFRelease(fileUTI);
@@ -72,10 +72,10 @@ static NSString *const kInitialDirectoryKey = @"Initial Directory";
 }
 
 + (iTermSavePanel *)showWithOptions:(NSInteger)options
-                         identifier:(NSString *)identifier
-                   initialDirectory:(NSString *)initialDirectory
-                    defaultFilename:(NSString *)defaultFilename
-                   allowedFileTypes:(NSArray<NSString *> *)allowedFileTypes {
+    identifier:(NSString *)identifier
+    initialDirectory:(NSString *)initialDirectory
+    defaultFilename:(NSString *)defaultFilename
+    allowedFileTypes:(NSArray<NSString *> *)allowedFileTypes {
     NSString *key = [self keyForIdentifier:identifier];
     NSDictionary *savedSettings = [[NSUserDefaults standardUserDefaults] objectForKey:key];
     if (savedSettings) {
@@ -114,7 +114,7 @@ static NSString *const kInitialDirectoryKey = @"Initial Directory";
         savePanel.accessoryView = container;
     }
     iTermSavePanel *delegate = [[iTermSavePanel alloc] initWithOptions:options];
-    accessoryViewController.onChange = ^(NSInteger i){
+    accessoryViewController.onChange = ^(NSInteger i) {
         [delegate setRequiredExtension:allowedFileTypes[i]];
     };
     if (options & kSavePanelOptionFileFormatAccessory) {
@@ -161,13 +161,13 @@ static NSString *const kInitialDirectoryKey = @"Initial Directory";
 
     if (delegate.path) {
         NSDictionary *settings =
-            @{ kInitialDirectoryKey: [delegate.path stringByDeletingLastPathComponent] };
+            @ { kInitialDirectoryKey: [delegate.path stringByDeletingLastPathComponent] };
         [[NSUserDefaults standardUserDefaults] setObject:settings forKey:key];
     }
     if (delegate) {
         delegate->_shoudLogPlainText = (button.state == NSControlStateValueOn);
     }
-    
+
     return delegate.path ? delegate : nil;
 }
 
@@ -196,33 +196,33 @@ static NSString *const kInitialDirectoryKey = @"Initial Directory";
 
         NSString *heading =
             [NSString stringWithFormat:@"“%@” already exists. Do you want to replace it or append to it?",
-         [self.path lastPathComponent]];
+                      [self.path lastPathComponent]];
         NSString *body = [NSString stringWithFormat:@"A file or folder with the same name already exists%@. "
-                                                    @"Replacing it will overwrite its current contents.",
-                          location];
+                                   @"Replacing it will overwrite its current contents.",
+                                   location];
         iTermWarningSelection selection = [iTermWarning showWarningWithTitle:body
-                                                                     actions:@[ @"Cancel", @"Replace", @"Append" ]
-                                                                   accessory:nil
-                                                                  identifier:nil
-                                                                 silenceable:kiTermWarningTypePersistent
-                                                                     heading:heading
-                                                                      window:nil];
+                                                        actions:@[ @"Cancel", @"Replace", @"Append" ]
+                                                        accessory:nil
+                                                        identifier:nil
+                                                        silenceable:kiTermWarningTypePersistent
+                                                        heading:heading
+                                                        window:nil];
         switch (selection) {
-            case kiTermWarningSelection0:
-                self.replaceOrAppend = kSavePanelReplaceOrAppendSelectionNotApplicable;
-                retry = YES;
-                break;
+        case kiTermWarningSelection0:
+            self.replaceOrAppend = kSavePanelReplaceOrAppendSelectionNotApplicable;
+            retry = YES;
+            break;
 
-            case kiTermWarningSelection1:
-                self.replaceOrAppend = kSavePanelReplaceOrAppendSelectionReplace;
-                break;
+        case kiTermWarningSelection1:
+            self.replaceOrAppend = kSavePanelReplaceOrAppendSelectionReplace;
+            break;
 
-            case kiTermWarningSelection2:
-                self.replaceOrAppend = kSavePanelReplaceOrAppendSelectionAppend;
-                break;
+        case kiTermWarningSelection2:
+            self.replaceOrAppend = kSavePanelReplaceOrAppendSelectionAppend;
+            break;
 
-            default:
-                assert(false);
+        default:
+            assert(false);
         }
     }
     return retry;
@@ -263,29 +263,29 @@ static NSString *const kInitialDirectoryKey = @"Initial Directory";
         return YES;
     }
     iTermWarningSelection selection = [iTermWarning showWarningWithTitle:[NSString stringWithFormat:@"You can choose to use both, so that your file name ends in “.%@.%@”.", proposedExtension, _requiredExtension]
-                                                                 actions:@[ [NSString stringWithFormat:@"Use .%@", _requiredExtension],
-                                                                            @"Cancel",
-                                                                            @"Use both" ]
-                                                               accessory:nil
-                                                              identifier:nil
-                                                             silenceable:kiTermWarningTypePersistent
-                                                                 heading:[NSString stringWithFormat:@"You cannot save this document with extension “.%@” at the end of the name. The required extension is “.%@”.",
-                                                                          proposedExtension, _requiredExtension]
-                                                                  window:nil];
+                                                    actions:@[ [NSString stringWithFormat:@"Use .%@", _requiredExtension],
+                                                            @"Cancel",
+                                                            @"Use both" ]
+                                                    accessory:nil
+                                                    identifier:nil
+                                                    silenceable:kiTermWarningTypePersistent
+                                                    heading:[NSString stringWithFormat:@"You cannot save this document with extension “.%@” at the end of the name. The required extension is “.%@”.",
+                                                            proposedExtension, _requiredExtension]
+                                                    window:nil];
     switch (selection) {
-        case kiTermWarningSelection0:
-            self.forcedExtension = self.requiredExtension;
-            return YES;
+    case kiTermWarningSelection0:
+        self.forcedExtension = self.requiredExtension;
+        return YES;
 
-        case kiTermWarningSelection1:
-            return NO;
+    case kiTermWarningSelection1:
+        return NO;
 
-        case kiTermWarningSelection2:
-            self.forcedExtension = [NSString stringWithFormat:@"%@.%@", proposedExtension, _requiredExtension];
-            break;
+    case kiTermWarningSelection2:
+        self.forcedExtension = [NSString stringWithFormat:@"%@.%@", proposedExtension, _requiredExtension];
+        break;
 
-        default:
-            break;
+    default:
+        break;
     }
     return NO;
 }

@@ -59,7 +59,7 @@ extern NSString *const iTermMultiServerRestorationKeyChildPID;
 @interface iTermMultiServerJobManager : NSObject<iTermJobManager>
 
 + (BOOL)getGeneralConnection:(iTermGeneralServerConnection *)generalConnection
-   fromRestorationIdentifier:(NSDictionary *)dict;
+    fromRestorationIdentifier:(NSDictionary *)dict;
 @end
 
 NS_ASSUME_NONNULL_END

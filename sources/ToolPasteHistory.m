@@ -110,18 +110,18 @@ static const CGFloat kMargin = 4;
         pasteHistory_ = [PasteboardHistory sharedInstance];
 
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(pasteboardHistoryDidChange:)
-                                                     name:kPasteboardHistoryDidChange
-                                                   object:nil];
+                                              selector:@selector(pasteboardHistoryDidChange:)
+                                              name:kPasteboardHistoryDidChange
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(secureKeyboardEntryDidChange:)
-                                                     name:iTermDidToggleSecureInputNotification
-                                                   object:nil];
+                                              selector:@selector(secureKeyboardEntryDidChange:)
+                                              name:iTermDidToggleSecureInputNotification
+                                              object:nil];
         minuteRefreshTimer_ = [NSTimer scheduledTimerWithTimeInterval:61
-                                                               target:self
-                                                             selector:@selector(pasteboardHistoryDidChange:)
-                                                             userInfo:nil
-                                                              repeats:YES];
+                                       target:self
+                                       selector:@selector(pasteboardHistoryDidChange:)
+                                       userInfo:nil
+                                       repeats:YES];
         [tableView_ performSelector:@selector(scrollToEndOfDocument:) withObject:nil afterDelay:0];
         [tableView_ reloadData];
     }
@@ -153,7 +153,7 @@ static const CGFloat kMargin = 4;
 
 - (void)relayout {
     NSRect frame = self.frame;
-    if (@available(macOS 10.16, *)){
+    if (@available(macOS 10.16, *)) {
         clear_.frame = NSMakeRect(frame.size.width - clear_.frame.size.width,
                                   frame.size.height - clear_.frame.size.height,
                                   clear_.frame.size.width,
@@ -189,8 +189,8 @@ static const CGFloat kMargin = 4;
 }
 
 - (NSView *)tableView:(NSTableView *)tableView
-   viewForTableColumn:(NSTableColumn *)tableColumn
-                  row:(NSInteger)row {
+    viewForTableColumn:(NSTableColumn *)tableColumn
+    row:(NSInteger)row {
     static NSString *const identifier = @"ToolPasteHistoryEntry";
     NSTextField *result = [tableView makeViewWithIdentifier:identifier owner:self];
     if (result == nil) {
@@ -212,8 +212,9 @@ static const CGFloat kMargin = 4;
 
 - (NSAttributedString *)attributedStringForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
     return [[NSAttributedString alloc] initWithString:[self stringForTableColumn:aTableColumn row:rowIndex]
-                                           attributes:@{NSFontAttributeName: [NSFont fontWithName:@"Menlo" size:11],
-                                                        NSParagraphStyleAttributeName: _paragraphStyle }];
+                                       attributes:@ {NSFontAttributeName: [NSFont fontWithName:@"Menlo" size:11],
+                                                     NSParagraphStyleAttributeName: _paragraphStyle
+                                                    }];
 }
 
 - (NSString *)stringForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
@@ -224,7 +225,7 @@ static const CGFloat kMargin = 4;
     } else {
         // Contents
         NSString* value = [[entry mainValue] stringByReplacingOccurrencesOfString:@"\n"
-                                                                       withString:@" "];
+                                             withString:@" "];
         // Don't return an insanely long value to avoid performance issues.
         const NSUInteger kMaxLength = 256;
         if (value.length > kMaxLength) {

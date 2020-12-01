@@ -47,14 +47,25 @@
 }
 
 - (NSDictionary *)dictionaryValue {
-    return @{ @"info": @{ @"width": @(info.width),
-                          @"height": @(info.height),
-                          @"cursorX": @(info.cursorX),
-                          @"cursorY": @(info.cursorY),
-                          @"timestamp": @(info.timestamp),
-                          @"frameType": @(info.frameType) },
-              @"position": @(position),
-              @"frameLength": @(frameLength) };
+    return @ { @"info":
+               @{ @"width":
+                  @(info.width),
+                  @"height":
+                  @(info.height),
+                  @"cursorX":
+                  @(info.cursorX),
+                  @"cursorY":
+                  @(info.cursorY),
+                  @"timestamp":
+                  @(info.timestamp),
+                  @"frameType":
+                  @(info.frameType)
+                },
+               @"position":
+               @(position),
+               @"frameLength":
+               @(frameLength)
+             };
 }
 
 @end

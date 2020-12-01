@@ -16,7 +16,7 @@
 @implementation iTermSnippet
 
 - (instancetype)initWithTitle:(NSString *)title
-                        value:(NSString *)value {
+    value:(NSString *)value {
     if (self) {
         _title = [title copy];
         _value = [value copy];
@@ -28,12 +28,14 @@
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     return [self initWithTitle:dictionary[@"title"] ?: @""
-                         value:dictionary[@"value"] ?: @""];
+                 value:dictionary[@"value"] ?: @""];
 }
 
 - (NSDictionary *)dictionaryValue {
-    return @{ @"title": _title ?: @"",
-              @"value": _value ?: @"" };
+    return @ { @"title":
+               _title ?: @"",
+               @"value": _value ?: @""
+             };
 }
 
 - (BOOL)isEqual:(id)object {
@@ -68,7 +70,7 @@
 + (instancetype)sharedInstance {
     static id instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -78,8 +80,8 @@
     self = [super init];
     if (self) {
         _snippets = [[[NSArray castFrom:[[NSUserDefaults standardUserDefaults] objectForKey:kPreferenceKeySnippets]] mapWithBlock:^id(id anObject) {
-            NSDictionary *dict = [NSDictionary castFrom:anObject];
-            if (!dict) {
+                                                                      NSDictionary *dict = [NSDictionary castFrom:anObject];
+                                                                      if (!dict) {
                 return nil;
             }
             return [[iTermSnippet alloc] initWithDictionary:dict];
@@ -113,8 +115,8 @@
 
 - (NSInteger)indexOfSnippetWithIdentifier:(NSInteger)identifier {
     return [_snippets indexOfObjectPassingTest:^BOOL(iTermSnippet * _Nonnull snippet, NSUInteger idx, BOOL * _Nonnull stop) {
-        return snippet.identifier == identifier;
-    }];
+                  return snippet.identifier == identifier;
+              }];
 }
 
 - (iTermSnippet *)snippetWithIdentifier:(NSInteger)identifier {
@@ -126,10 +128,10 @@
 }
 
 - (void)moveSnippetsWithIdentifiers:(NSArray<NSNumber *> *)identifiers
-                            toIndex:(NSInteger)row {
+    toIndex:(NSInteger)row {
     NSArray<iTermSnippet *> *snippets = [_snippets filteredArrayUsingBlock:^BOOL(iTermSnippet *snippet) {
-        return [identifiers containsObject:@(snippet.identifier)];
-    }];
+                  return [identifiers containsObject:@(snippet.identifier)];
+              }];
     NSInteger countBeforeRow = [[snippets filteredArrayUsingBlock:^BOOL(iTermSnippet *snippet) {
         return [self indexOfSnippetWithIdentifier:snippet.identifier] < row;
     }] count];
@@ -148,7 +150,7 @@
     _snippets = updatedSnippets;
     [self save];
     [[iTermSnippetsDidChangeNotification moveNotificationWithRemovals:removals
-                                                     destinationIndex:row - countBeforeRow] post];
+      destinationIndex:row - countBeforeRow] post];
 }
 
 - (void)setSnippets:(NSArray<iTermSnippet *> *)snippets {
@@ -161,13 +163,13 @@
 
 - (void)save {
     [[NSUserDefaults standardUserDefaults] setObject:[self arrayOfDictionaries]
-                                              forKey:kPreferenceKeySnippets];
+                                           forKey:kPreferenceKeySnippets];
 }
 
 - (NSArray<NSDictionary *> *)arrayOfDictionaries {
     return [_snippets mapWithBlock:^id(iTermSnippet *snippet) {
-        return snippet.dictionaryValue;
-    }];
+                  return snippet.dictionaryValue;
+              }];
 }
 
 @end
@@ -182,7 +184,7 @@
 }
 
 + (instancetype)moveNotificationWithRemovals:(NSIndexSet *)removals
-                            destinationIndex:(NSInteger)destinationIndex {
+    destinationIndex:(NSInteger)destinationIndex {
     iTermSnippetsDidChangeNotification *notif = [[self alloc] initPrivate];
     notif->_mutationType = iTermSnippetsDidChangeMutationTypeMove;
     notif->_indexSet = removals;
@@ -204,7 +206,7 @@
 }
 
 + (void)subscribe:(NSObject *)owner
-            block:(void (^)(iTermSnippetsDidChangeNotification * _Nonnull notification))block {
+    block:(void (^)(iTermSnippetsDidChangeNotification * _Nonnull notification))block {
     [self internalSubscribe:owner withBlock:block];
 }
 

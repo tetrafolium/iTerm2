@@ -24,7 +24,7 @@ typedef struct {
 
 // NOTE: This does not compare the ranges.
 NS_INLINE BOOL iTermBackgroundColorRunsEqual(iTermBackgroundColorRun *a,
-                                             iTermBackgroundColorRun *b) {
+        iTermBackgroundColorRun *b) {
     return (a->bgColor == b->bgColor &&
             a->bgGreen == b->bgGreen &&
             a->bgBlue == b->bgBlue &&
@@ -48,15 +48,15 @@ NS_INLINE BOOL iTermBackgroundColorRunsEqual(iTermBackgroundColorRun *a,
 // Creates a new autoreleased iTermBackgroundColorRunsInLine object that's ready to use.
 // Fills in *anyBlinkPtr with YES if some character in the range is blinking.
 + (instancetype)backgroundRunsInLine:(screen_char_t *)theLine
-                          lineLength:(int)width
-                                 row:(int)row  // Row number in datasource
-                     selectedIndexes:(NSIndexSet *)selectedIndexes
-                         withinRange:(NSRange)charRange
-                             matches:(NSData *)matches
-                            anyBlink:(BOOL *)anyBlinkPtr
-                       textExtractor:(iTermTextExtractor *)extractor
-                                   y:(CGFloat)y  // Value for self.y
-                                line:(int)line;  // Value for self.line
+    lineLength:(int)width
+    row:(int)row  // Row number in datasource
+    selectedIndexes:(NSIndexSet *)selectedIndexes
+    withinRange:(NSRange)charRange
+    matches:(NSData *)matches
+    anyBlink:(BOOL *)anyBlinkPtr
+    textExtractor:(iTermTextExtractor *)extractor
+    y:(CGFloat)y  // Value for self.y
+    line:(int)line;  // Value for self.line
 
 @end
 

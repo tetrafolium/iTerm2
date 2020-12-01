@@ -24,43 +24,43 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Creates a new tab style for the current global prefs.
 - (id<PSMTabStyle>)tabStyleWithDelegate:(id<PSMMinimalTabStyleDelegate>)delegate
-                    effectiveAppearance:(NSAppearance *)effectiveAppearance;
+    effectiveAppearance:(NSAppearance *)effectiveAppearance;
 
 // Returns the color for decorative text (e.g., per-pane title bar, default
 // status bar text color in minimal theme)
 - (NSColor *)terminalWindowDecorationTextColorForBackgroundColor:(nullable NSColor *)backgroundColor
-                                             effectiveAppearance:(NSAppearance *)effectiveAppearance
-                                                        tabStyle:(id<PSMTabStyle>)tabStyle
-                                                   mainAndActive:(BOOL)mainAndActive;
+    effectiveAppearance:(NSAppearance *)effectiveAppearance
+    tabStyle:(id<PSMTabStyle>)tabStyle
+    mainAndActive:(BOOL)mainAndActive;
 
 // Returns the background color for decorative views (e.g., per-pane title bar,
 // default status bar background)
 - (NSColor *)backgroundColorForDecorativeSubviewsInSessionWithTabColor:(NSColor *)tabColor
-                                                   effectiveAppearance:(NSAppearance *)effectiveAppearance
-                                                sessionBackgroundColor:(NSColor *)sessionBackgroundColor
-                                                      isFirstResponder:(BOOL)isFirstResponder
-                                                           dimOnlyText:(BOOL)dimOnlyText
-                                                 adjustedDimmingAmount:(CGFloat)adjustedDimmingAmount;
+    effectiveAppearance:(NSAppearance *)effectiveAppearance
+    sessionBackgroundColor:(NSColor *)sessionBackgroundColor
+    isFirstResponder:(BOOL)isFirstResponder
+    dimOnlyText:(BOOL)dimOnlyText
+    adjustedDimmingAmount:(CGFloat)adjustedDimmingAmount;
 
 // Background color for fake title bar in minimal, shared status bar.
 - (NSColor *)tabBarBackgroundColorForTabColor:(nullable NSColor *)tabColor
-                                        style:(id<PSMTabStyle>)tabStyle;
+    style:(id<PSMTabStyle>)tabStyle;
 
 // Default background color for status bar. Accounts for shared vs non-shared.
 - (nullable NSColor *)statusBarContainerBackgroundColorForTabColor:(NSColor *)tabColor
-                                               effectiveAppearance:(NSAppearance *)effectiveAppearance
-                                                          tabStyle:(id<PSMTabStyle>)tabStyle
-                                            sessionBackgroundColor:(NSColor *)sessionBackgroundColor
-                                                  isFirstResponder:(BOOL)isFirstResponder
-                                                       dimOnlyText:(BOOL)dimOnlyText
-                                             adjustedDimmingAmount:(CGFloat)adjustedDimmingAmount;
+    effectiveAppearance:(NSAppearance *)effectiveAppearance
+    tabStyle:(id<PSMTabStyle>)tabStyle
+    sessionBackgroundColor:(NSColor *)sessionBackgroundColor
+    isFirstResponder:(BOOL)isFirstResponder
+    dimOnlyText:(BOOL)dimOnlyText
+    adjustedDimmingAmount:(CGFloat)adjustedDimmingAmount;
 
 
 // Default text color for status bar.
 - (nullable NSColor *)statusBarTextColorForEffectiveAppearance:(NSAppearance *)effectiveAppearance
-                                                      colorMap:(iTermColorMap *)colorMap
-                                                      tabStyle:(id<PSMTabStyle>)tabStyle
-                                                 mainAndActive:(BOOL)mainAndActive;
+    colorMap:(iTermColorMap *)colorMap
+    tabStyle:(id<PSMTabStyle>)tabStyle
+    mainAndActive:(BOOL)mainAndActive;
 
 @end
 

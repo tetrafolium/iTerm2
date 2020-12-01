@@ -84,10 +84,10 @@ enum {
 - (NSImage *)catalinaIBeamWithCircleImage {
     NSImage *ibeam = [[NSCursor IBeamCursor] image];
     NSImage *overlay = [NSImage it_imageNamed:@"MouseReportingCursorOverlay"
-                                     forClass:self.class];
+                                forClass:self.class];
     const NSSize size = ibeam.size;
-    return [NSImage imageOfSize:size drawBlock:^{
-        const NSRect rect = NSMakeRect(0, 0, size.width, size.height);
+    return [NSImage imageOfSize:size drawBlock:^ {
+                const NSRect rect = NSMakeRect(0, 0, size.width, size.height);
         [ibeam drawInRect:rect];
         [overlay drawInRect:rect];
     }];
@@ -107,42 +107,42 @@ enum {
 
 - (instancetype)initWithType:(iTermMouseCursorType)cursorType {
     switch (cursorType) {
-        case iTermMouseCursorTypeIBeamWithCircle: {
-            self = [super initWithImage:[self ibeamWithCircleImage]
-                                hotSpot:NSMakePoint(4, 8)];
+    case iTermMouseCursorTypeIBeamWithCircle: {
+        self = [super initWithImage:[self ibeamWithCircleImage]
+                      hotSpot:NSMakePoint(4, 8)];
+        if (self) {
+            _hasImage = YES;
+        }
+        break;
+    }
+    case iTermMouseCursorTypeIBeam:
+        if ([iTermAdvancedSettingsModel useSystemCursorWhenPossible]) {
+            self = [super init];
+            if (self) {
+                _type = kIBeamCursor;
+            }
+        } else {
+            self = [super initWithImage:[NSImage it_imageNamed:@"IBarCursor" forClass:self.class]
+                          hotSpot:NSMakePoint(4, 8)];
             if (self) {
                 _hasImage = YES;
             }
-            break;
         }
-        case iTermMouseCursorTypeIBeam:
-            if ([iTermAdvancedSettingsModel useSystemCursorWhenPossible]) {
-                self = [super init];
-                if (self) {
-                    _type = kIBeamCursor;
-                }
-            } else {
-                self = [super initWithImage:[NSImage it_imageNamed:@"IBarCursor" forClass:self.class]
-                                    hotSpot:NSMakePoint(4, 8)];
-                if (self) {
-                    _hasImage = YES;
-                }
-            }
-            break;
+        break;
 
-        case iTermMouseCursorTypeNorthwestSoutheastArrow:
-            self = [super init];
-            if (self) {
-                _type = kResizeNorthwestSoutheastCursor;
-            }
-            break;
+    case iTermMouseCursorTypeNorthwestSoutheastArrow:
+        self = [super init];
+        if (self) {
+            _type = kResizeNorthwestSoutheastCursor;
+        }
+        break;
 
-        case iTermMouseCursorTypeArrow:
-            self = [super init];
-            if (self) {
-                _type = kArrowCursor;
-            }
-            break;
+    case iTermMouseCursorTypeArrow:
+        self = [super init];
+        if (self) {
+            _type = kArrowCursor;
+        }
+        break;
 
     }
     return self;

@@ -15,9 +15,9 @@ NSString *const kRebuildColorPresetsMenuNotification = @"kRebuildColorPresetsMen
 }
 
 + (iTermColorPresetDictionary *)builtInColorPresets {
-  NSString *plistFile = [[NSBundle bundleForClass:[self class]] pathForResource:@"ColorPresets"
-                                                                         ofType:@"plist"];
-  return [NSDictionary dictionaryWithContentsOfFile:plistFile];
+    NSString *plistFile = [[NSBundle bundleForClass:[self class]] pathForResource:@"ColorPresets"
+                                                                ofType:@"plist"];
+    return [NSDictionary dictionaryWithContentsOfFile:plistFile];
 }
 
 + (iTermColorPresetDictionary *)allColorPresets {
@@ -52,7 +52,7 @@ NSString *const kRebuildColorPresetsMenuNotification = @"kRebuildColorPresetsMen
         }
 
         [self addColorPreset:[self presetNameFromFilename:filename]
-                  withColors:aDict];
+              withColors:aDict];
         return YES;
     }
 }
@@ -62,20 +62,20 @@ NSString *const kRebuildColorPresetsMenuNotification = @"kRebuildColorPresetsMen
     NSMutableDictionary* newCustom = [NSMutableDictionary dictionaryWithDictionary:customPresets];
     [newCustom removeObjectForKey:name];
     [[NSUserDefaults standardUserDefaults] setObject:newCustom
-                                              forKey:kCustomColorPresetsKey];
+                                           forKey:kCustomColorPresetsKey];
     [[NSNotificationCenter defaultCenter] postNotificationName:kRebuildColorPresetsMenuNotification
-                                                        object:nil];
+                                          object:nil];
 }
 
 // Checks built-ins for the name and, failing that, looks in custom presets.
 + (iTermColorPreset *)presetWithName:(NSString *)presetName {
-  NSDictionary *presetsDict = [self builtInColorPresets];
-  NSDictionary *settings = [presetsDict objectForKey:presetName];
-  if (!settings) {
-    presetsDict = [self customColorPresets];
-    settings = [presetsDict objectForKey:presetName];
-  }
-  return settings;
+    NSDictionary *presetsDict = [self builtInColorPresets];
+    NSDictionary *settings = [presetsDict objectForKey:presetName];
+    if (!settings) {
+        presetsDict = [self customColorPresets];
+        settings = [presetsDict objectForKey:presetName];
+    }
+    return settings;
 }
 
 #pragma mark - Private
@@ -111,7 +111,7 @@ NSString *const kRebuildColorPresetsMenuNotification = @"kRebuildColorPresetsMen
     [[NSUserDefaults standardUserDefaults] setObject:customPresets forKey:kCustomColorPresetsKey];
 
     [[NSNotificationCenter defaultCenter] postNotificationName:kRebuildColorPresetsMenuNotification
-                                                        object:nil];
+                                          object:nil];
 }
 
 @end
@@ -121,9 +121,9 @@ NSString *const kRebuildColorPresetsMenuNotification = @"kRebuildColorPresetsMen
 // This is an abuse of objectForKey:inProfile:, which expects the second arg to be a profile.
 // The preset dictionary looks just enough like a profile for this to work.
 - (iTermColorDictionary *)iterm_presetColorWithName:(NSString *)colorName {
-  // If the preset is missing an entry, the default color will be used for that entry.
-  return [iTermProfilePreferences objectForKey:colorName
-                                     inProfile:self];
+    // If the preset is missing an entry, the default color will be used for that entry.
+    return [iTermProfilePreferences objectForKey:colorName
+                                    inProfile:self];
 }
 
 

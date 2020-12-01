@@ -69,7 +69,7 @@ static void Check(iTermSynchronizedState *self) {
 + (instancetype)uncheckedSharedInstance {
     static iTermMainThreadState *instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[iTermMainThreadState alloc] initWithQueue:dispatch_get_main_queue()];
     });
     return instance;
@@ -98,18 +98,18 @@ NSPointerArray *gThreads;
 + (instancetype)main {
     static iTermThread *instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] initWithQueue:dispatch_get_main_queue()
-                              stateFactory:
-                ^iTermSynchronizedState * _Nullable(dispatch_queue_t  _Nonnull queue) {
-            return [iTermMainThreadState uncheckedSharedInstance];
-        }];
+                                 stateFactory:
+                     ^iTermSynchronizedState * _Nullable(dispatch_queue_t  _Nonnull queue) {
+                         return [iTermMainThreadState uncheckedSharedInstance];
+                     }];
     });
     return instance;
 }
 
 + (instancetype)withLabel:(NSString *)label
-             stateFactory:(iTermThreadStateFactoryBlockType)stateFactory {
+    stateFactory:(iTermThreadStateFactoryBlockType)stateFactory {
     return [[self alloc] initWithLabel:label stateFactory:stateFactory];
 }
 
@@ -131,7 +131,7 @@ NSPointerArray *gThreads;
 #endif
 
 - (instancetype)initWithQueue:(dispatch_queue_t)queue
-                 stateFactory:(iTermThreadStateFactoryBlockType)stateFactory {
+    stateFactory:(iTermThreadStateFactoryBlockType)stateFactory {
     self = [super init];
     if (self) {
         _queue = queue;
@@ -141,7 +141,7 @@ NSPointerArray *gThreads;
 #if CHECK_DOUBLE_INVOKES
         _stacks = [@[] retain];
         static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
+        dispatch_once(&onceToken, ^ {
             gThreads = [[NSPointerArray weakObjectsPointerArray] retain];
         });
         @synchronized (gThreads) {
@@ -159,10 +159,10 @@ NSPointerArray *gThreads;
 }
 
 - (instancetype)initWithLabel:(NSString *)label
-                 stateFactory:(iTermThreadStateFactoryBlockType)stateFactory {
+    stateFactory:(iTermThreadStateFactoryBlockType)stateFactory {
     const char *cstr = [iTermThread uniqueQueueLabelWithName:label].UTF8String;
     return [self initWithQueue:dispatch_queue_create(cstr, DISPATCH_QUEUE_SERIAL)
-                  stateFactory:stateFactory];
+                 stateFactory:stateFactory];
 }
 
 - (void)dealloc {
@@ -177,7 +177,7 @@ NSPointerArray *gThreads;
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p queue=%@>",
-            NSStringFromClass(self.class), self, _queue];
+                     NSStringFromClass(self.class), self, _queue];
 }
 
 - (NSString *)label {
@@ -219,8 +219,8 @@ NSPointerArray *gThreads;
         }
         for (void (^block)(id) in blocks) {
             [self dispatchSync:^(id  _Nullable state) {
-                block(state);
-            }];
+                     block(state);
+                 }];
         }
     }
 }
@@ -237,7 +237,7 @@ NSPointerArray *gThreads;
     NSArray *stacks = [[iTermThread currentThread] currentStacks] ?: @[ [[NSThread callStackSymbols]  componentsJoinedByString:@"\n"] ];
     [stacks retain];
 #endif
-    dispatch_async(_queue, ^{
+    dispatch_async(_queue, ^ {
 #if CHECK_DOUBLE_INVOKES
         NSArray *saved = [_stacks retain];
         _stacks = stacks;
@@ -255,7 +255,7 @@ NSPointerArray *gThreads;
 - (void)dispatchSync:(void (^ NS_NOESCAPE)(id))block {
     [self retain];
     assert(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL) != dispatch_queue_get_label(_queue));
-    dispatch_sync(_queue, ^{
+    dispatch_sync(_queue, ^ {
         block(self->_state);
         [self release];
     });
@@ -276,11 +276,11 @@ NSPointerArray *gThreads;
 - (iTermCallback *)newCallbackWithWeakTarget:(id)target selector:(SEL)selector userInfo:(id)userInfo {
     __weak id weakTarget = target;
     return [self newCallbackWithBlock:^(id  _Nonnull state, id  _Nullable value) {
-        [weakTarget it_performNonObjectReturningSelector:selector
-                                              withObject:state
-                                                  object:value
-                                                  object:userInfo];
-    }];
+             [weakTarget it_performNonObjectReturningSelector:selector
+              withObject:state
+              object:value
+              object:userInfo];
+         }];
 }
 
 - (void)check {
@@ -344,8 +344,8 @@ NSPointerArray *gThreads;
 #endif
     [_thread dispatchAsync:^(iTermSynchronizedState *state) {
 #if CHECK_DOUBLE_INVOKES
-        ITAssertWithMessage(!self->_invokeStack, @"Previously invoked from:\n%@\n\nNow invoked from:\n%@\n\nCreated from:\n%@\n%@",
-                     _invokeStack, stack, _creationStack, _debugInfo);
+                ITAssertWithMessage(!self->_invokeStack, @"Previously invoked from:\n%@\n\nNow invoked from:\n%@\n\nCreated from:\n%@\n%@",
+                            _invokeStack, stack, _creationStack, _debugInfo);
         _invokeStack = [stack copy];
         [stack release];
 #endif
@@ -364,8 +364,8 @@ NSPointerArray *gThreads;
 #endif
     [_thread dispatchRecursiveSync:^(iTermSynchronizedState *state) {
 #if CHECK_DOUBLE_INVOKES
-        ITAssertWithMessage(!self->_invokeStack, @"Previously invoked from:\n%@\n\nNow invoked from:\n%@\n\nCreated from:\n%@\n%@",
-                     _invokeStack, stack, _creationStack, _debugInfo);
+                ITAssertWithMessage(!self->_invokeStack, @"Previously invoked from:\n%@\n\nNow invoked from:\n%@\n\nCreated from:\n%@\n%@",
+                            _invokeStack, stack, _creationStack, _debugInfo);
 
         _invokeStack = [stack copy];
         [stack release];

@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface PseudoTerminalState: NSObject
+@interface PseudoTerminalState : NSObject
 @property (nonatomic, readonly) NSDictionary *arrangement;
 - (instancetype)initWithCoder:(NSCoder *)coder;
 - (instancetype)initWithDictionary:(NSDictionary *)arrangement;
@@ -19,8 +19,8 @@
 @property(class, nonatomic) void (^postRestorationCompletionBlock)(void);
 
 + (void)restoreWindowWithIdentifier:(NSString *)identifier
-                              state:(NSCoder *)state
-                  completionHandler:(void (^)(NSWindow *, NSError *))completionHandler;
+    state:(NSCoder *)state
+    completionHandler:(void (^)(NSWindow *, NSError *))completionHandler;
 
 + (BOOL)willOpenWindows;
 
@@ -30,9 +30,9 @@
 + (void)runQueuedBlocks;
 
 + (void)restoreWindowWithIdentifier:(NSString *)identifier
-                pseudoTerminalState:(PseudoTerminalState *)state
-                             system:(BOOL)system
-                  completionHandler:(void (^)(NSWindow *, NSError *))completionHandler;
+    pseudoTerminalState:(PseudoTerminalState *)state
+    system:(BOOL)system
+    completionHandler:(void (^)(NSWindow *, NSError *))completionHandler;
 + (BOOL)shouldIgnoreOpenUntitledFile;
 
 // The db-backed restoration mechansim has completed and the post-restoration callback is now safe to run.

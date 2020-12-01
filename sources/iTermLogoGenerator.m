@@ -10,11 +10,11 @@ static NSMutableDictionary *gLogoCache;
 @implementation iTermLogoGenerator
 
 - (void)dealloc {
-  [_textColor release];
-  [_backgroundColor release];
-  [_tabColor release];
-  [_cursorColor release];
-  [super dealloc];
+    [_textColor release];
+    [_backgroundColor release];
+    [_tabColor release];
+    [_cursorColor release];
+    [super dealloc];
 }
 
 - (NSString *)keyForColor:(NSColor *)color {
@@ -28,14 +28,14 @@ static NSMutableDictionary *gLogoCache;
 
 - (NSString *)cacheKey {
     return [NSString stringWithFormat:@"%@ %@ %@ %@",
-            [self keyForColor:self.textColor],
-            [self keyForColor:self.cursorColor],
-            [self keyForColor:self.backgroundColor],
-            [self keyForColor:self.tabColor]];
+                     [self keyForColor:self.textColor],
+                     [self keyForColor:self.cursorColor],
+                     [self keyForColor:self.backgroundColor],
+                     [self keyForColor:self.tabColor]];
 }
 
 - (NSImage *)generatedImage {
-    
+
     NSString *key = [self cacheKey];
     NSImage *cachedImage = gLogoCache[key];
     if (cachedImage) {
@@ -64,8 +64,9 @@ static NSMutableDictionary *gLogoCache;
 
     [shadow drawInRect:NSMakeRect(0, 0, width, height)];
     NSString *prompt = @"$";
-    [prompt drawAtPoint:NSMakePoint(7, 25) withAttributes:@{ NSFontAttributeName: [NSFont fontWithName:@"Helvetica Neue" size:12],
-                                                             NSForegroundColorAttributeName: self.textColor }];
+    [prompt drawAtPoint:NSMakePoint(7, 25) withAttributes:@ { NSFontAttributeName: [NSFont fontWithName:@"Helvetica Neue" size:12],
+            NSForegroundColorAttributeName: self.textColor
+                                                            }];
 
     [self.cursorColor set];
     NSRectFill(NSMakeRect(15.5, 27, 5.5, 11));

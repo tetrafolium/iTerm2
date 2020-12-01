@@ -22,10 +22,10 @@ static const char CPShiftReduceParserAssociatedObjectCacheKey;
     NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
     NSString *version = info[@"CFBundleShortVersionString"];
     NSString *key = [NSString stringWithFormat:@"%@ %@ %@%@",
-                     version,
-                     NSStringFromClass(self),
-                     bnf.it_contentHash,
-                     start].it_contentHash;
+                              version,
+                              NSStringFromClass(self),
+                              bnf.it_contentHash,
+                              start].it_contentHash;
     return key;
 }
 
@@ -80,7 +80,7 @@ static const char CPShiftReduceParserAssociatedObjectCacheKey;
 + (NSMutableDictionary<NSString *, NSMutableArray *> *)it_cache {
     static NSMutableDictionary<NSString *, NSMutableArray *> *cache;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         cache = [NSMutableDictionary dictionary];
     });
     return cache;
@@ -107,8 +107,8 @@ static const char CPShiftReduceParserAssociatedObjectCacheKey;
 + (instancetype)it_parserWithGrammarStart:(NSString *)start bnf:(NSString *)bnf {
     NSError *error = nil;
     CPGrammar *grammar = [CPGrammar grammarWithStart:start
-                                      backusNaurForm:bnf
-                                               error:&error];
+                                    backusNaurForm:bnf
+                                    error:&error];
 
     if (!grammar) {
         XLog(@"Failed to create grammar: %@", error);

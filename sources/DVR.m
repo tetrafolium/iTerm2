@@ -64,9 +64,9 @@
 }
 
 - (void)appendFrame:(NSArray<NSData *> *)frameLines
-             length:(int)length
-         cleanLines:(NSIndexSet *)cleanLines
-               info:(DVRFrameInfo*)info
+    length:(int)length
+    cleanLines:(NSIndexSet *)cleanLines
+    info:(DVRFrameInfo*)info
 {
     if (readOnly_) {
         return;
@@ -87,9 +87,9 @@
         }
     }
     [encoder_ appendFrame:frameLines
-                   length:length
-               cleanLines:cleanLines
-                     info:info];
+              length:length
+              cleanLines:cleanLines
+              info:info];
 }
 
 - (DVRDecoder*)getDecoder
@@ -142,9 +142,13 @@
     } else {
         dvr = [[self copyWithFramesFrom:from to:to] autorelease];
     }
-    return @{ @"version": @1,
-              @"capacity": @(dvr->capacity_),
-              @"buffer": dvr->buffer_.dictionaryValue };
+    return @ { @"version":
+               @1,
+               @"capacity":
+               @(dvr->capacity_),
+               @"buffer":
+               dvr->buffer_.dictionaryValue
+             };
 }
 
 - (BOOL)loadDictionary:(NSDictionary *)dict {
@@ -198,9 +202,9 @@
                 offset += lineLength;
             }
             [theCopy appendFrame:lines
-                          length:[decoder length]
-                      cleanLines:nil
-                            info:&info];
+                     length:[decoder length]
+                     cleanLines:nil
+                     info:&info];
             if (![decoder next]) {
                 break;
             }

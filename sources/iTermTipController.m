@@ -47,7 +47,7 @@ static NSString *const kPermissionToShowTip = @"NoSyncPermissionToShowTip";
     }
     static id instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -83,19 +83,19 @@ static NSString *const kPermissionToShowTip = @"NoSyncPermissionToShowTip";
     NSTimeInterval delay = MAX(0, [notBeforeDate timeIntervalSinceNow]) + 1;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)),
                    dispatch_get_main_queue(),
-                   ^{
-                       [self tryToShowTip];
+    ^ {
+        [self tryToShowTip];
 
-                       [[NSNotificationCenter defaultCenter] addObserver:self
-                                                                selector:@selector(applicationDidBecomeActive:)
-                                                                    name:NSApplicationDidBecomeActiveNotification
-                                                                  object:nil];
-                   });
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                              selector:@selector(applicationDidBecomeActive:)
+                                              name:NSApplicationDidBecomeActiveNotification
+                                              object:nil];
+    });
 }
 
 - (BOOL)willAskPermission {
     if (![self haveAskedForPermission] &&
-        ![[NSUserDefaults standardUserDefaults] boolForKey:kTipsDisabledKey]) {
+            ![[NSUserDefaults standardUserDefaults] boolForKey:kTipsDisabledKey]) {
         return YES;
     }
     return NO;
@@ -216,7 +216,7 @@ static NSString *const kPermissionToShowTip = @"NoSyncPermissionToShowTip";
     NSDictionary *tipDictionary = _tips[tipKey];
     [self willShowTipWithIdentifier:tipKey];
     iTermTip *tip = [[[iTermTip alloc] initWithDictionary:tipDictionary
-                                               identifier:tipKey] autorelease];
+                                        identifier:tipKey] autorelease];
     iTermTipWindowController *controller = [[[iTermTipWindowController alloc] initWithTip:tip] autorelease];
     controller.delegate = self;
     // Cause it to load and become visible.
@@ -226,7 +226,7 @@ static NSString *const kPermissionToShowTip = @"NoSyncPermissionToShowTip";
 - (void)willShowTipWithIdentifier:(NSString *)tipKey {
     _showingTip = YES;
     [[NSUserDefaults standardUserDefaults] setDouble:[NSDate timeIntervalSinceReferenceDate]
-                                              forKey:kLastTipTimeKey];
+                                           forKey:kLastTipTimeKey];
     self.currentTipName = tipKey;
 }
 
@@ -272,7 +272,7 @@ static NSString *const kPermissionToShowTip = @"NoSyncPermissionToShowTip";
         return nil;
     } else {
         return [[[iTermTip alloc] initWithDictionary:_tips[identifier]
-                                          identifier:identifier] autorelease];
+                                   identifier:identifier] autorelease];
     }
 }
 
@@ -282,7 +282,7 @@ static NSString *const kPermissionToShowTip = @"NoSyncPermissionToShowTip";
         return nil;
     } else {
         return [[[iTermTip alloc] initWithDictionary:_tips[identifier]
-                                          identifier:identifier] autorelease];
+                                   identifier:identifier] autorelease];
     }
 }
 

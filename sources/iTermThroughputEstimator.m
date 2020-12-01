@@ -27,7 +27,7 @@
 }
 
 - (instancetype)initWithHistoryOfDuration:(NSTimeInterval)historyDuration
-                         secondsPerBucket:(NSTimeInterval)secondsPerBucket {
+    secondsPerBucket:(NSTimeInterval)secondsPerBucket {
     self = [super init];
     if (self) {
         _buckets = [[NSMutableArray alloc] init];
@@ -59,8 +59,8 @@
     __block double weightedSum = 0;
     __block double weight = 1;
     [_buckets enumerateObjectsUsingBlock:^(NSNumber *_Nonnull number, NSUInteger index, BOOL *_Nonnull stop) {
-        double value = [number doubleValue];
-        if (index == numberOfBuckets - 1) {
+                 double value = [number doubleValue];
+                 if (index == numberOfBuckets - 1) {
 //            NSLog(@"Time left in current bucket is %0.2f so increase value %0.0f by %0.0f to %0.0f",
 //                  1.0 - timeSpentInCurrentBucket, value, 1.0 / weightForCurrentBucket, value / weightForCurrentBucket);
             value *= weightForCurrentBucket;

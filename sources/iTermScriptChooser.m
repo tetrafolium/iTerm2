@@ -30,8 +30,8 @@
     self = [super init];
     if (self) {
         _identities = [[SIGIdentity allSigningIdentities] sortedArrayUsingComparator:^NSComparisonResult(SIGIdentity * _Nonnull obj1, SIGIdentity * _Nonnull obj2) {
-            return [obj1.signingCertificate.longDescription compare:obj2.signingCertificate.longDescription];
-        }];
+                                               return [obj1.signingCertificate.longDescription compare:obj2.signingCertificate.longDescription];
+                                           }];
         if (_identities.count == 0) {
             return nil;
         }
@@ -49,30 +49,30 @@
         _identityButton.enabled = NO;
         [self addSubview:_identityButton];
         [_identities enumerateObjectsUsingBlock:^(SIGIdentity * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:obj.signingCertificate.longDescription
-                                                              action:nil
-                                                       keyEquivalent:@""];
-            menuItem.tag = idx;
+                        NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:obj.signingCertificate.longDescription
+                                    action:nil
+                                    keyEquivalent:@""];
+                        menuItem.tag = idx;
             [self->_identityButton.menu addItem:menuItem];
         }];
 
         [_signButton setContentHuggingPriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
         NSDictionary *views = NSDictionaryOfVariableBindings(_signButton, _identityButton);
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[_signButton]-10-[_identityButton]-10-|"
-                                                                     options:0
-                                                                     metrics:@{}
-                                                                       views:views]];
+                              options:0
+                              metrics:@ {}
+                              views:views]];
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[_identityButton]-8-|"
-                                                                     options:0
-                                                                     metrics:@{}
-                                                                       views:views]];
+                              options:0
+                              metrics:@ {}
+                              views:views]];
         [self addConstraint:[NSLayoutConstraint constraintWithItem:_signButton
-                                                         attribute:NSLayoutAttributeCenterY
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:_identityButton
-                                                         attribute:NSLayoutAttributeCenterY
-                                                        multiplier:1
-                                                          constant:0]];
+                             attribute:NSLayoutAttributeCenterY
+                             relatedBy:NSLayoutRelationEqual
+                             toItem:_identityButton
+                             attribute:NSLayoutAttributeCenterY
+                             multiplier:1
+                             constant:0]];
     }
     return self;
 }
@@ -96,7 +96,7 @@
 }
 
 + (void)chooseWithValidator:(BOOL (^)(NSURL *))validator
-                 completion:(void (^)(NSURL *, SIGIdentity *))completion {
+    completion:(void (^)(NSURL *, SIGIdentity *))completion {
     iTermScriptChooser *chooser = [[self alloc] init];
     chooser.validator = validator;
     chooser.completion = completion;
@@ -117,8 +117,8 @@
     _signingAccessoryView  = [self newSigningAccessoryView];
     self.panel.accessoryView = _signingAccessoryView;
     [self.panel beginWithCompletionHandler:^(NSModalResponse result) {
-        [self didChooseWithResult:result];
-    }];
+                   [self didChooseWithResult:result];
+               }];
     self.panel.accessoryViewDisclosed = YES;
 }
 

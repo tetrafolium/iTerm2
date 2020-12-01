@@ -21,7 +21,7 @@
 }
 
 - (instancetype)initWithQueue:(dispatch_queue_t)queue
-                     callback:(void (^)(iTermProcessMonitor *, dispatch_source_proc_flags_t))callback {
+    callback:(void (^)(iTermProcessMonitor *, dispatch_source_proc_flags_t))callback {
     self = [super init];
     if (self) {
         _callback = [callback copy];
@@ -61,7 +61,7 @@
             return NO;
         }
         __weak __typeof(self) weakSelf = self;
-        dispatch_source_set_event_handler(_source, ^{
+        dispatch_source_set_event_handler(_source, ^ {
             [weakSelf handleEvent];
         });
         dispatch_resume(_source);
@@ -71,10 +71,10 @@
     NSMutableArray<iTermProcessMonitor *> *childrenToRemove = [_children mutableCopy];
 
     [processInfo.children enumerateObjectsUsingBlock:
-     ^(iTermProcessInfo * _Nonnull childInfo, NSUInteger idx, BOOL * _Nonnull stop) {
-        // See if we already have this child.
-        iTermProcessMonitor *child = [self childForProcessInfo:childInfo];
-        if (child != nil) {
+                         ^(iTermProcessInfo * _Nonnull childInfo, NSUInteger idx, BOOL * _Nonnull stop) {
+                             // See if we already have this child.
+                             iTermProcessMonitor *child = [self childForProcessInfo:childInfo];
+                             if (child != nil) {
             // It is. Keep it.
             [childrenToRemove removeObject:child];
             if ([child setProcessInfo:childInfo]) {
@@ -89,11 +89,11 @@
         [childrenToAdd addObject:child];
     }];
     [childrenToAdd enumerateObjectsUsingBlock:^(iTermProcessMonitor * _Nonnull child, NSUInteger idx, BOOL * _Nonnull stop) {
-        [self addChild:child];
-    }];
+                      [self addChild:child];
+                  }];
     [childrenToRemove enumerateObjectsUsingBlock:^(iTermProcessMonitor * _Nonnull child, NSUInteger idx, BOOL * _Nonnull stop) {
-        [self removeChild:child];
-    }];
+                         [self removeChild:child];
+                     }];
     if (childrenToAdd.count || childrenToRemove.count) {
         changed = YES;
     }
@@ -104,8 +104,8 @@
 - (iTermProcessMonitor *)childForProcessInfo:(iTermProcessInfo *)info {
     const pid_t pid = info.processID;
     return [_children objectPassingTest:^BOOL(iTermProcessMonitor *element, NSUInteger index, BOOL *stop) {
-        return element.processInfo.processID == pid;
-    }];
+                  return element.processInfo.processID == pid;
+              }];
 }
 
 // Called on _queue
@@ -129,8 +129,8 @@
 
     NSArray<iTermProcessMonitor *> *children = [_children copy];
     [children enumerateObjectsUsingBlock:^(iTermProcessMonitor * _Nonnull child, NSUInteger idx, BOOL * _Nonnull stop) {
-        [child invalidate];
-    }];
+                 [child invalidate];
+             }];
     _processInfo = nil;
 }
 

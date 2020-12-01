@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p dir=%@ last=%@>",
-            self.class, self, _currentDirectory, _lastPollTime];
+                     self.class, self, _currentDirectory, _lastPollTime];
 }
 
 #pragma mark - Private
@@ -59,10 +59,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startTimer {
     [_timer invalidate];
     _timer = [NSTimer scheduledWeakTimerWithTimeInterval:_cadence
-                                                  target:self
-                                                selector:@selector(poll)
-                                                userInfo:nil
-                                                 repeats:YES];
+                      target:self
+                      selector:@selector(poll)
+                      userInfo:nil
+                      repeats:YES];
 }
 
 - (void)bump {
@@ -98,8 +98,8 @@ NS_ASSUME_NONNULL_BEGIN
     iTermGitPollWorker *worker = [iTermGitPollWorker instanceForPath:self.currentDirectory];
     DLog(@"%@: Using worker %@", self, worker);
     [worker requestPath:self.currentDirectory completion:^(iTermGitState *state) {
-        [weakSelf didPollWithUpdatedState:state];
-    }];
+               [weakSelf didPollWithUpdatedState:state];
+           }];
 }
 
 - (void)didPollWithUpdatedState:(iTermGitState *)state {
@@ -115,14 +115,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setCurrentDirectory:(NSString *)currentDirectory {
     DLog(@"%@: Set current directory to %@", self, currentDirectory);
     if (currentDirectory == _currentDirectory ||
-        [currentDirectory isEqualToString:_currentDirectory]) {
+            [currentDirectory isEqualToString:_currentDirectory]) {
         DLog(@"%@: Not changing", self);
         return;
     }
     if (currentDirectory) {
         DLog(@"%@: Attempt to invalidate cache", self);
-        [_rateLimit performRateLimitedBlock:^{
-            DLog(@"%@: Invalidate cache", self);
+        [_rateLimit performRateLimitedBlock:^ {
+                       DLog(@"%@: Invalidate cache", self);
             iTermGitPollWorker *worker = [iTermGitPollWorker instanceForPath:currentDirectory];
             DLog(@"%@: Worker for %@ is %@", self, currentDirectory, worker);
             [worker invalidateCacheForPath:currentDirectory];

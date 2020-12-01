@@ -25,14 +25,14 @@ typedef NS_ENUM(NSUInteger, iTermAnimationDirection) {
 
 static iTermAnimationDirection iTermAnimationDirectionOpposite(iTermAnimationDirection direction) {
     switch (direction) {
-        case kAnimationDirectionRight:
-            return kAnimationDirectionLeft;
-        case kAnimationDirectionLeft:
-            return kAnimationDirectionRight;
-        case kAnimationDirectionDown:
-            return kAnimationDirectionUp;
-        case kAnimationDirectionUp:
-            return kAnimationDirectionDown;
+    case kAnimationDirectionRight:
+        return kAnimationDirectionLeft;
+    case kAnimationDirectionLeft:
+        return kAnimationDirectionRight;
+    case kAnimationDirectionDown:
+        return kAnimationDirectionUp;
+    case kAnimationDirectionUp:
+        return kAnimationDirectionDown;
     }
     assert(false);
 }
@@ -52,56 +52,56 @@ static NSString *const kArrangement = @"Arrangement";
 }
 
 - (instancetype)initWithShortcuts:(NSArray<iTermShortcut *> *)shortcuts
-          hasModifierActivation:(BOOL)hasModifierActivation
-             modifierActivation:(iTermHotKeyModifierActivation)modifierActivation
-                        profile:(Profile *)profile {
+    hasModifierActivation:(BOOL)hasModifierActivation
+    modifierActivation:(iTermHotKeyModifierActivation)modifierActivation
+    profile:(Profile *)profile {
     self = [super initWithShortcuts:shortcuts
-              hasModifierActivation:hasModifierActivation
-                 modifierActivation:modifierActivation];
+                  hasModifierActivation:hasModifierActivation
+                  modifierActivation:modifierActivation];
 
     if (self) {
         _allowsStateRestoration = YES;
         _profileGuid = [profile[KEY_GUID] copy];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(terminalWindowControllerCreated:)
-                                                     name:kTerminalWindowControllerWasCreatedNotification
-                                                   object:nil];
+                                              selector:@selector(terminalWindowControllerCreated:)
+                                              name:kTerminalWindowControllerWasCreatedNotification
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(applicationDidBecomeActive:)
-                                                     name:NSApplicationDidBecomeActiveNotification
-                                                   object:nil];
+                                              selector:@selector(applicationDidBecomeActive:)
+                                              name:NSApplicationDidBecomeActiveNotification
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(characterPanelWillOpen:)
-                                                     name:iTermApplicationCharacterPaletteWillOpen
-                                                   object:nil];
+                                              selector:@selector(characterPanelWillOpen:)
+                                              name:iTermApplicationCharacterPaletteWillOpen
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(characterPanelDidClose:)
-                                                     name:iTermApplicationCharacterPaletteDidClose
-                                                   object:nil];
+                                              selector:@selector(characterPanelDidClose:)
+                                              name:iTermApplicationCharacterPaletteDidClose
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(inputMethodEditorDidOpen:)
-                                                     name:iTermApplicationInputMethodEditorDidOpen
-                                                   object:nil];
+                                              selector:@selector(inputMethodEditorDidOpen:)
+                                              name:iTermApplicationInputMethodEditorDidOpen
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(inputMethodEditorDidClose:)
-                                                     name:iTermApplicationInputMethodEditorDidClose
-                                                   object:nil];
+                                              selector:@selector(inputMethodEditorDidClose:)
+                                              name:iTermApplicationInputMethodEditorDidClose
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(updateWindowLevel)
-                                                     name:iTermApplicationWillShowModalWindow
-                                                   object:nil];
+                                              selector:@selector(updateWindowLevel)
+                                              name:iTermApplicationWillShowModalWindow
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(updateWindowLevel)
-                                                     name:iTermApplicationDidCloseModalWindow
-                                                   object:nil];
+                                              selector:@selector(updateWindowLevel)
+                                              name:iTermApplicationDidCloseModalWindow
+                                              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(windowDidBecomeKey:)
-                                                     name:NSWindowDidBecomeKeyNotification
-                                                   object:nil];
+                                              selector:@selector(windowDidBecomeKey:)
+                                              name:NSWindowDidBecomeKeyNotification
+                                              object:nil];
         [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
-                                                               selector:@selector(activeSpaceDidChange:)
-                                                                   name:NSWorkspaceActiveSpaceDidChangeNotification
-                                                                 object:nil];
+                                        selector:@selector(activeSpaceDidChange:)
+                                        name:NSWorkspaceActiveSpaceDidChangeNotification
+                                        object:nil];
     }
     return self;
 }
@@ -117,9 +117,9 @@ static NSString *const kArrangement = @"Arrangement";
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p shortcuts=%@ hasModAct=%@ modAct=%@ profile.name=%@ profile.guid=%@ open=%@>",
-            [self class], self, self.shortcuts,
-            @(self.hasModifierActivation), @(self.modifierActivation),
-            self.profile[KEY_NAME], self.profile[KEY_GUID], @(self.isHotKeyWindowOpen)];
+                     [self class], self, self.shortcuts,
+                     @(self.hasModifierActivation), @(self.modifierActivation),
+                     self.profile[KEY_NAME], self.profile[KEY_GUID], @(self.isHotKeyWindowOpen)];
 }
 
 #pragma mark - APIs
@@ -130,7 +130,7 @@ static NSString *const kArrangement = @"Arrangement";
 
 - (void)createWindowWithCompletion:(void (^)(void))completion {
     [self createWindowWithURL:nil
-                   completion:completion];
+          completion:completion];
 }
 
 - (void)createWindowWithURL:(NSURL *)url completion:(void (^)(void))completion {
@@ -148,24 +148,24 @@ static NSString *const kArrangement = @"Arrangement";
     if (windowController) {
         if (url) {
             [iTermSessionLauncher launchBookmark:self.profile
-                                      inTerminal:windowController
-                                         withURL:url.absoluteString
-                                hotkeyWindowType:[self hotkeyWindowType]
-                                         makeKey:YES
-                                     canActivate:YES
-                              respectTabbingMode:NO
-                                         command:nil
-                                     makeSession:nil
+                                  inTerminal:windowController
+                                  withURL:url.absoluteString
+                                  hotkeyWindowType:[self hotkeyWindowType]
+                                  makeKey:YES
+                                  canActivate:YES
+                                  respectTabbingMode:NO
+                                  command:nil
+                                  makeSession:nil
                                   didMakeSession:nil
-                                      completion:nil];
+                                  completion:nil];
         }
         self.windowController = [windowController weakSelf];
         completion();
         return;
     }
     [self getWindowControllerFromProfile:[self profile] url:url completion:^(PseudoTerminal *windowController) {
-        self.windowController = [windowController weakSelf];
-        if (completion) {
+             self.windowController = [windowController weakSelf];
+             if (completion) {
             completion();
         }
     }];
@@ -225,7 +225,7 @@ static NSString *const kArrangement = @"Arrangement";
     // I'm not proud. One spin is enough when switching desktops when both have
     // apps. When switching from a desktop with nothing to a desktop with
     // another app, you resign key and get deactivated over two spins. Sigh.
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         dispatch_async(dispatch_get_main_queue(), ^{
             DLog(@"Two spins after activeSpaceDidChange %@", self.windowController);
             if (self.windowController.window.isKeyWindow) {
@@ -299,17 +299,17 @@ static NSString *const kArrangement = @"Arrangement";
 }
 
 - (NSPoint)destinationPointForInitialPoint:(NSPoint)point
-              forAnimationInDirection:(iTermAnimationDirection)direction
-                                 size:(NSSize)size {
+    forAnimationInDirection:(iTermAnimationDirection)direction
+    size:(NSSize)size {
     switch (direction) {
-        case kAnimationDirectionUp:
-            return NSMakePoint(point.x, point.y + size.height);
-        case kAnimationDirectionDown:
-            return NSMakePoint(point.x, point.y - size.height);
-        case kAnimationDirectionLeft:
-            return NSMakePoint(point.x - size.width, point.y);
-        case kAnimationDirectionRight:
-            return NSMakePoint(point.x + size.width, point.y);
+    case kAnimationDirectionUp:
+        return NSMakePoint(point.x, point.y + size.height);
+    case kAnimationDirectionDown:
+        return NSMakePoint(point.x, point.y - size.height);
+    case kAnimationDirectionLeft:
+        return NSMakePoint(point.x - size.width, point.y);
+    case kAnimationDirectionRight:
+        return NSMakePoint(point.x + size.width, point.y);
     }
     assert(false);
 }
@@ -321,27 +321,27 @@ static NSString *const kArrangement = @"Arrangement";
     NSScreen *screen = windowController.screen;
 
     switch (windowController.windowType) {
-        case WINDOW_TYPE_TOP:
-        case WINDOW_TYPE_TOP_PARTIAL:
-        case WINDOW_TYPE_LEFT:
-        case WINDOW_TYPE_LEFT_PARTIAL:
-        case WINDOW_TYPE_RIGHT:
-        case WINDOW_TYPE_RIGHT_PARTIAL:
-        case WINDOW_TYPE_BOTTOM:
-        case WINDOW_TYPE_BOTTOM_PARTIAL:
-        case WINDOW_TYPE_TRADITIONAL_FULL_SCREEN:  // Framerate drops too much to roll this (2014 5k iMac)
-        case WINDOW_TYPE_LION_FULL_SCREEN:
-        case WINDOW_TYPE_MAXIMIZED:
-        case WINDOW_TYPE_COMPACT_MAXIMIZED:
-            return [windowController canonicalFrameForScreen:screen];
+    case WINDOW_TYPE_TOP:
+    case WINDOW_TYPE_TOP_PARTIAL:
+    case WINDOW_TYPE_LEFT:
+    case WINDOW_TYPE_LEFT_PARTIAL:
+    case WINDOW_TYPE_RIGHT:
+    case WINDOW_TYPE_RIGHT_PARTIAL:
+    case WINDOW_TYPE_BOTTOM:
+    case WINDOW_TYPE_BOTTOM_PARTIAL:
+    case WINDOW_TYPE_TRADITIONAL_FULL_SCREEN:  // Framerate drops too much to roll this (2014 5k iMac)
+    case WINDOW_TYPE_LION_FULL_SCREEN:
+    case WINDOW_TYPE_MAXIMIZED:
+    case WINDOW_TYPE_COMPACT_MAXIMIZED:
+        return [windowController canonicalFrameForScreen:screen];
 
-        case WINDOW_TYPE_NORMAL:
-        case WINDOW_TYPE_NO_TITLE_BAR:
-        case WINDOW_TYPE_COMPACT:
-        case WINDOW_TYPE_ACCESSORY:
-            return [self frameByMovingFrame:windowController.window.frame
-                                 fromScreen:windowController.window.screen
-                                   toScreen:screen];
+    case WINDOW_TYPE_NORMAL:
+    case WINDOW_TYPE_NO_TITLE_BAR:
+    case WINDOW_TYPE_COMPACT:
+    case WINDOW_TYPE_ACCESSORY:
+        return [self frameByMovingFrame:windowController.window.frame
+                     fromScreen:windowController.window.screen
+                     toScreen:screen];
     }
     assert(false);
 }
@@ -361,48 +361,48 @@ static NSString *const kArrangement = @"Arrangement";
     NSRect rect = self.windowController.window.frame;
     DLog(@"Basing hidden origin on screen frame (IHD) %@", NSStringFromRect(screen.visibleFrameIgnoringHiddenDock));
     switch (self.windowController.windowType) {
-        case WINDOW_TYPE_TOP:
-        case WINDOW_TYPE_TOP_PARTIAL:
-            return NSMakePoint(rect.origin.x, NSMaxY(screen.visibleFrame));
+    case WINDOW_TYPE_TOP:
+    case WINDOW_TYPE_TOP_PARTIAL:
+        return NSMakePoint(rect.origin.x, NSMaxY(screen.visibleFrame));
 
-        case WINDOW_TYPE_LEFT:
-        case WINDOW_TYPE_LEFT_PARTIAL:
-            return NSMakePoint(NSMinX(screen.visibleFrameIgnoringHiddenDock), rect.origin.y);
+    case WINDOW_TYPE_LEFT:
+    case WINDOW_TYPE_LEFT_PARTIAL:
+        return NSMakePoint(NSMinX(screen.visibleFrameIgnoringHiddenDock), rect.origin.y);
 
-        case WINDOW_TYPE_RIGHT:
-        case WINDOW_TYPE_RIGHT_PARTIAL:
-            return NSMakePoint(NSMaxX(screen.visibleFrameIgnoringHiddenDock), rect.origin.y);
+    case WINDOW_TYPE_RIGHT:
+    case WINDOW_TYPE_RIGHT_PARTIAL:
+        return NSMakePoint(NSMaxX(screen.visibleFrameIgnoringHiddenDock), rect.origin.y);
 
-        case WINDOW_TYPE_BOTTOM:
-        case WINDOW_TYPE_BOTTOM_PARTIAL:
-            return NSMakePoint(rect.origin.x, NSMinY(screen.visibleFrameIgnoringHiddenDock) - NSHeight(rect));
+    case WINDOW_TYPE_BOTTOM:
+    case WINDOW_TYPE_BOTTOM_PARTIAL:
+        return NSMakePoint(rect.origin.x, NSMinY(screen.visibleFrameIgnoringHiddenDock) - NSHeight(rect));
 
-        case WINDOW_TYPE_NORMAL:
-        case WINDOW_TYPE_NO_TITLE_BAR:
-        case WINDOW_TYPE_COMPACT:
-        case WINDOW_TYPE_ACCESSORY:
-            return [self frameByMovingFrame:rect fromScreen:self.windowController.window.screen toScreen:screen].origin;
+    case WINDOW_TYPE_NORMAL:
+    case WINDOW_TYPE_NO_TITLE_BAR:
+    case WINDOW_TYPE_COMPACT:
+    case WINDOW_TYPE_ACCESSORY:
+        return [self frameByMovingFrame:rect fromScreen:self.windowController.window.screen toScreen:screen].origin;
 
-        case WINDOW_TYPE_MAXIMIZED:
-        case WINDOW_TYPE_COMPACT_MAXIMIZED:
-            return screen.visibleFrameIgnoringHiddenDock.origin;
+    case WINDOW_TYPE_MAXIMIZED:
+    case WINDOW_TYPE_COMPACT_MAXIMIZED:
+        return screen.visibleFrameIgnoringHiddenDock.origin;
 
-        case WINDOW_TYPE_TRADITIONAL_FULL_SCREEN:  // Framerate drops too much to roll this (2014 5k iMac)
-            return screen.frame.origin;
+    case WINDOW_TYPE_TRADITIONAL_FULL_SCREEN:  // Framerate drops too much to roll this (2014 5k iMac)
+        return screen.frame.origin;
 
-        case WINDOW_TYPE_LION_FULL_SCREEN:
-            return rect.origin;
+    case WINDOW_TYPE_LION_FULL_SCREEN:
+        return rect.origin;
     }
     return rect.origin;
 }
 
 - (BOOL)rect:(NSRect)rect intersectsAnyScreenExcept:(NSScreen *)allowedScreen {
     return [[NSScreen screens] anyWithBlock:^BOOL(NSScreen *screen) {
-        if (screen == allowedScreen) {
-            return NO;
-        }
-        NSRect screenFrame = screen.frame;
-        return NSIntersectsRect(rect, screenFrame);
+                           if (screen == allowedScreen) {
+                               return NO;
+                           }
+                           NSRect screenFrame = screen.frame;
+                           return NSIntersectsRect(rect, screenFrame);
     }];
 }
 
@@ -420,14 +420,14 @@ static NSString *const kArrangement = @"Arrangement";
     }
 
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
-        [context setDuration:[iTermAdvancedSettingsModel hotkeyTermAnimationDuration]];
+                           [context setDuration:[iTermAdvancedSettingsModel hotkeyTermAnimationDuration]];
         [context setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
         [self.windowController.window.animator setFrame:destination display:NO];
         [self.windowController.window.animator setAlphaValue:1];
     }
-                        completionHandler:^{
-                            [self rollInFinished];
-                        }];
+    completionHandler:^ {
+        [self rollInFinished];
+    }];
 }
 
 - (void)rollOutAnimatingInDirection:(iTermAnimationDirection)direction {
@@ -441,14 +441,14 @@ static NSString *const kArrangement = @"Arrangement";
     }
 
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
-        [context setDuration:[iTermAdvancedSettingsModel hotkeyTermAnimationDuration]];
+                           [context setDuration:[iTermAdvancedSettingsModel hotkeyTermAnimationDuration]];
         [context setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
         [self.windowController.window.animator setFrame:destination display:NO];
         [self.windowController.window.animator setAlphaValue:0];
     }
-                        completionHandler:^{
-                            [self didFinishRollingOut];
-                        }];
+    completionHandler:^ {
+        [self didFinishRollingOut];
+    }];
 
 }
 
@@ -467,9 +467,9 @@ static NSString *const kArrangement = @"Arrangement";
 - (void)fadeIn {
     [NSAnimationContext beginGrouping];
     [[NSAnimationContext currentContext] setDuration:[iTermAdvancedSettingsModel hotkeyTermAnimationDuration]];
-    [[NSAnimationContext currentContext] setCompletionHandler:^{
-        [self rollInFinished];
-    }];
+    [[NSAnimationContext currentContext] setCompletionHandler:^ {
+                                            [self rollInFinished];
+                                        }];
     [[self.windowController.window animator] setAlphaValue:1];
     [NSAnimationContext endGrouping];
 }
@@ -477,9 +477,9 @@ static NSString *const kArrangement = @"Arrangement";
 - (void)fadeOut {
     [NSAnimationContext beginGrouping];
     [[NSAnimationContext currentContext] setDuration:[iTermAdvancedSettingsModel hotkeyTermAnimationDuration]];
-    [[NSAnimationContext currentContext] setCompletionHandler:^{
-        [self didFinishRollingOut];
-    }];
+    [[NSAnimationContext currentContext] setCompletionHandler:^ {
+                                            [self didFinishRollingOut];
+                                        }];
     self.windowController.window.animator.alphaValue = 0;
 #if BETA
     SetPinnedDebugLogMessage([NSString stringWithFormat:@"Fade out hotkey window %p", self],
@@ -490,35 +490,35 @@ static NSString *const kArrangement = @"Arrangement";
 
 - (iTermAnimationDirection)animateInDirectionForWindowType:(iTermWindowType)windowType {
     switch (iTermThemedWindowType(windowType)) {
-        case WINDOW_TYPE_TOP:
-        case WINDOW_TYPE_TOP_PARTIAL:
-            return kAnimationDirectionDown;
-            break;
+    case WINDOW_TYPE_TOP:
+    case WINDOW_TYPE_TOP_PARTIAL:
+        return kAnimationDirectionDown;
+        break;
 
-        case WINDOW_TYPE_LEFT:
-        case WINDOW_TYPE_LEFT_PARTIAL:
-            return kAnimationDirectionRight;
-            break;
+    case WINDOW_TYPE_LEFT:
+    case WINDOW_TYPE_LEFT_PARTIAL:
+        return kAnimationDirectionRight;
+        break;
 
-        case WINDOW_TYPE_RIGHT:
-        case WINDOW_TYPE_RIGHT_PARTIAL:
-            return kAnimationDirectionLeft;
-            break;
+    case WINDOW_TYPE_RIGHT:
+    case WINDOW_TYPE_RIGHT_PARTIAL:
+        return kAnimationDirectionLeft;
+        break;
 
-        case WINDOW_TYPE_BOTTOM:
-        case WINDOW_TYPE_BOTTOM_PARTIAL:
-            return kAnimationDirectionUp;
-            break;
+    case WINDOW_TYPE_BOTTOM:
+    case WINDOW_TYPE_BOTTOM_PARTIAL:
+        return kAnimationDirectionUp;
+        break;
 
-        case WINDOW_TYPE_NORMAL:
-        case WINDOW_TYPE_NO_TITLE_BAR:
-        case WINDOW_TYPE_COMPACT:
-        case WINDOW_TYPE_MAXIMIZED:
-        case WINDOW_TYPE_COMPACT_MAXIMIZED:
-        case WINDOW_TYPE_TRADITIONAL_FULL_SCREEN:  // Framerate drops too much to roll this (2014 5k iMac)
-        case WINDOW_TYPE_LION_FULL_SCREEN:
-        case WINDOW_TYPE_ACCESSORY:
-            assert(false);
+    case WINDOW_TYPE_NORMAL:
+    case WINDOW_TYPE_NO_TITLE_BAR:
+    case WINDOW_TYPE_COMPACT:
+    case WINDOW_TYPE_MAXIMIZED:
+    case WINDOW_TYPE_COMPACT_MAXIMIZED:
+    case WINDOW_TYPE_TRADITIONAL_FULL_SCREEN:  // Framerate drops too much to roll this (2014 5k iMac)
+    case WINDOW_TYPE_LION_FULL_SCREEN:
+    case WINDOW_TYPE_ACCESSORY:
+        assert(false);
     }
 }
 
@@ -547,9 +547,9 @@ static NSString *const kArrangement = @"Arrangement";
         DLog(@"Activate iTerm2 prior to animating hotkey window in");
         _activationPending = YES;
         [self.windowController.window makeKeyAndOrderFront:nil];
-        [[iTermApplication sharedApplication] activateAppWithCompletion:^{
-            [self reallyRollInAnimated:animated];
-        }];
+        [[iTermApplication sharedApplication] activateAppWithCompletion:^ {
+                                                 [self reallyRollInAnimated:animated];
+                                             }];
     } else {
         [self reallyRollInAnimated:animated];
     }
@@ -560,30 +560,30 @@ static NSString *const kArrangement = @"Arrangement";
     [self.windowController.window makeKeyAndOrderFront:nil];
     if (animated) {
         switch (self.windowController.windowType) {
-            case WINDOW_TYPE_TOP:
-            case WINDOW_TYPE_TOP_PARTIAL:
-            case WINDOW_TYPE_LEFT:
-            case WINDOW_TYPE_LEFT_PARTIAL:
-            case WINDOW_TYPE_RIGHT:
-            case WINDOW_TYPE_RIGHT_PARTIAL:
-            case WINDOW_TYPE_BOTTOM:
-            case WINDOW_TYPE_BOTTOM_PARTIAL:
-                [self rollInAnimatingInDirection:[self animateInDirectionForWindowType:self.windowController.windowType]];
-                break;
+        case WINDOW_TYPE_TOP:
+        case WINDOW_TYPE_TOP_PARTIAL:
+        case WINDOW_TYPE_LEFT:
+        case WINDOW_TYPE_LEFT_PARTIAL:
+        case WINDOW_TYPE_RIGHT:
+        case WINDOW_TYPE_RIGHT_PARTIAL:
+        case WINDOW_TYPE_BOTTOM:
+        case WINDOW_TYPE_BOTTOM_PARTIAL:
+            [self rollInAnimatingInDirection:[self animateInDirectionForWindowType:self.windowController.windowType]];
+            break;
 
-            case WINDOW_TYPE_NORMAL:
-            case WINDOW_TYPE_NO_TITLE_BAR:
-            case WINDOW_TYPE_COMPACT:
-            case WINDOW_TYPE_MAXIMIZED:
-            case WINDOW_TYPE_COMPACT_MAXIMIZED:
-            case WINDOW_TYPE_TRADITIONAL_FULL_SCREEN:  // Framerate drops too much to roll this (2014 5k iMac)
-            case WINDOW_TYPE_ACCESSORY:
-                [self moveToPreferredScreen];
-                [self fadeIn];
-                break;
+        case WINDOW_TYPE_NORMAL:
+        case WINDOW_TYPE_NO_TITLE_BAR:
+        case WINDOW_TYPE_COMPACT:
+        case WINDOW_TYPE_MAXIMIZED:
+        case WINDOW_TYPE_COMPACT_MAXIMIZED:
+        case WINDOW_TYPE_TRADITIONAL_FULL_SCREEN:  // Framerate drops too much to roll this (2014 5k iMac)
+        case WINDOW_TYPE_ACCESSORY:
+            [self moveToPreferredScreen];
+            [self fadeIn];
+            break;
 
-            case WINDOW_TYPE_LION_FULL_SCREEN:
-                assert(false);
+        case WINDOW_TYPE_LION_FULL_SCREEN:
+            assert(false);
         }
     } else {
         [self moveToPreferredScreen];
@@ -610,32 +610,32 @@ static NSString *const kArrangement = @"Arrangement";
 
     if ([iTermProfilePreferences boolForKey:KEY_HOTKEY_ANIMATE inProfile:self.profile]) {
         switch (self.windowController.windowType) {
-            case WINDOW_TYPE_TOP:
-            case WINDOW_TYPE_TOP_PARTIAL:
-            case WINDOW_TYPE_LEFT:
-            case WINDOW_TYPE_LEFT_PARTIAL:
-            case WINDOW_TYPE_RIGHT:
-            case WINDOW_TYPE_RIGHT_PARTIAL:
-            case WINDOW_TYPE_BOTTOM:
-            case WINDOW_TYPE_BOTTOM_PARTIAL: {
-                iTermAnimationDirection inDirection = [self animateInDirectionForWindowType:self.windowController.windowType];
-                iTermAnimationDirection outDirection = iTermAnimationDirectionOpposite(inDirection);
-                [self rollOutAnimatingInDirection:outDirection];
-                break;
-            }
+        case WINDOW_TYPE_TOP:
+        case WINDOW_TYPE_TOP_PARTIAL:
+        case WINDOW_TYPE_LEFT:
+        case WINDOW_TYPE_LEFT_PARTIAL:
+        case WINDOW_TYPE_RIGHT:
+        case WINDOW_TYPE_RIGHT_PARTIAL:
+        case WINDOW_TYPE_BOTTOM:
+        case WINDOW_TYPE_BOTTOM_PARTIAL: {
+            iTermAnimationDirection inDirection = [self animateInDirectionForWindowType:self.windowController.windowType];
+            iTermAnimationDirection outDirection = iTermAnimationDirectionOpposite(inDirection);
+            [self rollOutAnimatingInDirection:outDirection];
+            break;
+        }
 
-            case WINDOW_TYPE_NORMAL:
-            case WINDOW_TYPE_NO_TITLE_BAR:
-            case WINDOW_TYPE_COMPACT:
-            case WINDOW_TYPE_MAXIMIZED:
-            case WINDOW_TYPE_COMPACT_MAXIMIZED:
-            case WINDOW_TYPE_TRADITIONAL_FULL_SCREEN:  // Framerate drops too much to roll this (2014 5k iMac)
-            case WINDOW_TYPE_ACCESSORY:
-                [self fadeOut];
-                break;
+        case WINDOW_TYPE_NORMAL:
+        case WINDOW_TYPE_NO_TITLE_BAR:
+        case WINDOW_TYPE_COMPACT:
+        case WINDOW_TYPE_MAXIMIZED:
+        case WINDOW_TYPE_COMPACT_MAXIMIZED:
+        case WINDOW_TYPE_TRADITIONAL_FULL_SCREEN:  // Framerate drops too much to roll this (2014 5k iMac)
+        case WINDOW_TYPE_ACCESSORY:
+            [self fadeOut];
+            break;
 
-            case WINDOW_TYPE_LION_FULL_SCREEN:
-                assert(false);
+        case WINDOW_TYPE_LION_FULL_SCREEN:
+            assert(false);
         }
     } else {
         self.windowController.window.alphaValue = 0;
@@ -649,10 +649,13 @@ static NSString *const kArrangement = @"Arrangement";
         DLog(@"Saving hotkey window state for %@", self);
         const BOOL includeContents = [iTermAdvancedSettingsModel restoreWindowContents];
         NSDictionary *arrangement = [self.windowController arrangementExcludingTmuxTabs:YES
-                                                                      includingContents:includeContents];
+                                                           includingContents:includeContents];
         if (arrangement) {
-            self.restorableState = @{ kGUID: self.profileGuid,
-                                      kArrangement: arrangement };
+            self.restorableState = @ { kGUID:
+                                       self.profileGuid,
+                                       kArrangement:
+                                       arrangement
+                                     };
         } else {
             self.restorableState = nil;
         }
@@ -675,11 +678,11 @@ static NSString *const kArrangement = @"Arrangement";
 
     [encoder encodeString:self.profileGuid forKey:kGUID];
     [encoder encodeChildWithKey:kArrangement
-                     identifier:@""
-                     generation:iTermGenerationAlwaysEncode
-                          block:^BOOL(iTermGraphEncoder * _Nonnull subencoder) {
-        return [codable encodeGraphWithEncoder:subencoder];
-    }];
+             identifier:@""
+             generation:iTermGenerationAlwaysEncode
+            block:^BOOL(iTermGraphEncoder * _Nonnull subencoder) {
+                return [codable encodeGraphWithEncoder:subencoder];
+            }];
     return YES;
 }
 
@@ -725,7 +728,7 @@ static NSString *const kArrangement = @"Arrangement";
         _rollingOut = NO;
         _rollOutCancelable = NO;
         [self orderOut];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^ {
             if (_activationPending && ![NSApp isActive]) {
                 [NSApp activateIgnoringOtherApps:YES];
             }
@@ -743,12 +746,12 @@ static NSString *const kArrangement = @"Arrangement";
     genericSiblings = [genericSiblings arrayByAddingObject:self];
 
     NSArray<iTermProfileHotKey *> *siblings = [genericSiblings mapWithBlock:^id(iTermBaseHotKey *anObject) {
-        if ([anObject isKindOfClass:[iTermProfileHotKey class]]) {
-            return anObject;
-        } else {
-            return nil;
-        }
-    }];
+                        if ([anObject isKindOfClass:[iTermProfileHotKey class]]) {
+                            return anObject;
+                        } else {
+                            return nil;
+                        }
+                    }];
     // If any sibling is rolling out but we can cancel the rollout, do so. This is after the window
     // has finished animating out but we're in the delay period before activating the app the user
     // was in before pressing the hotkey to reveal the hotkey window.
@@ -760,8 +763,8 @@ static NSString *const kArrangement = @"Arrangement";
     // If any sibling is rolling in or rolling out, do nothing. This keeps us from ending up in
     // a broken state where some siblings are in and others are out.
     BOOL anyTransitioning = [siblings anyWithBlock:^BOOL(iTermProfileHotKey *other) {
-        BOOL result = other.rollingIn || other.rollingOut;
-        if (result) {
+                 BOOL result = other.rollingIn || other.rollingOut;
+                 if (result) {
             DLog(@"Found a transitioning sibling: %@ rollingIn=%@ rollingOut=%@", other, @(other.rollingIn), @(other.rollingOut));
         }
         return result;
@@ -772,13 +775,13 @@ static NSString *const kArrangement = @"Arrangement";
     }
     DLog(@"toggle window %@. siblings=%@", self, siblings);
     BOOL allSiblingsOpen = [siblings allWithBlock:^BOOL(iTermProfileHotKey *sibling) {
-        iTermProfileHotKey *other = (iTermProfileHotKey *)sibling;
-        return other.isHotKeyWindowOpen;
-    }];
+                 iTermProfileHotKey *other = (iTermProfileHotKey *)sibling;
+                 return other.isHotKeyWindowOpen;
+             }];
 
     BOOL anyIsKey = [siblings anyWithBlock:^BOOL(iTermProfileHotKey *anObject) {
-        return anObject.windowController.window.isKeyWindow;
-    }];
+                 return anObject.windowController.window.isKeyWindow;
+             }];
 
     DLog(@"Hotkey pressed. All open=%@  any is key=%@  siblings=%@",
          @(allSiblingsOpen), @(anyIsKey), siblings);
@@ -794,7 +797,7 @@ static NSString *const kArrangement = @"Arrangement";
         DLog(@"already have a hotkey window created");
         if (self.windowController.window.alphaValue == 1) {
             if (self.windowController.spaceSetting == iTermProfileOpenInCurrentSpace &&
-                !self.windowController.window.isOnActiveSpace) {
+                    !self.windowController.window.isOnActiveSpace) {
                 DLog(@"Move already-open hotkey window to current space");
                 NSWindow *window = self.windowController.window;
                 // I tested this on 10.12 and it's sufficient to move the window. Maybe not in older OS versions?
@@ -833,8 +836,8 @@ static NSString *const kArrangement = @"Arrangement";
     }
 
     PseudoTerminal *term = [PseudoTerminal terminalWithArrangement:arrangement
-                                                             named:nil
-                                          forceOpeningHotKeyWindow:NO];
+                                           named:nil
+                                           forceOpeningHotKeyWindow:NO];
     if (term) {
         [[iTermController sharedInstance] addTerminalWindow:term];
     }
@@ -855,8 +858,8 @@ static NSString *const kArrangement = @"Arrangement";
 }
 
 - (void)getWindowControllerFromProfile:(Profile *)hotkeyProfile
-                                   url:(NSURL *)url
-                            completion:(void (^)(PseudoTerminal *))completion {
+    url:(NSURL *)url
+    completion:(void (^)(PseudoTerminal *))completion {
     if (!hotkeyProfile) {
         completion(nil);
         return;
@@ -871,16 +874,16 @@ static NSString *const kArrangement = @"Arrangement";
     [self.delegate hotKeyWillCreateWindow:self];
     self.birthingWindow = YES;
     [iTermSessionLauncher launchBookmark:hotkeyProfile
-                              inTerminal:nil
-                                 withURL:url.absoluteString
-                        hotkeyWindowType:[self hotkeyWindowType]
-                                 makeKey:YES
-                             canActivate:YES
-                      respectTabbingMode:NO
-                                 command:nil
-                             makeSession:nil
-                          didMakeSession:^(PTYSession * _Nonnull session) {
-        self.birthingWindow = NO;
+                          inTerminal:nil
+                          withURL:url.absoluteString
+                          hotkeyWindowType:[self hotkeyWindowType]
+                          makeKey:YES
+                          canActivate:YES
+                          respectTabbingMode:NO
+                          command:nil
+                          makeSession:nil
+                         didMakeSession:^(PTYSession * _Nonnull session) {
+                             self.birthingWindow = NO;
 
         [self.delegate hotKeyDidCreateWindow:self];
         PseudoTerminal *result = nil;
@@ -890,7 +893,7 @@ static NSString *const kArrangement = @"Arrangement";
         self.windowControllerBeingBorn = nil;
         completion(result);
     }
-                              completion:nil];
+    completion:nil];
 }
 
 - (void)rollInFinished {
@@ -912,7 +915,7 @@ static NSString *const kArrangement = @"Arrangement";
     BOOL activatingOtherApp = [self.delegate willFinishRollingOutProfileHotKey:self];
     if (activatingOtherApp) {
         _rollOutCancelable = YES;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^ {
             if (_rollingOut) {
                 _rollOutCancelable = NO;
                 [self orderOut];
@@ -940,9 +943,9 @@ static NSString *const kArrangement = @"Arrangement";
 
 - (void)setAutoHides:(BOOL)autoHides {
     [iTermProfilePreferences setBool:autoHides
-                              forKey:KEY_HOTKEY_AUTOHIDE
-                           inProfile:self.profile
-                               model:[ProfileModel sharedInstance]];
+                             forKey:KEY_HOTKEY_AUTOHIDE
+                             inProfile:self.profile
+                             model:[ProfileModel sharedInstance]];
 }
 
 // If there's a visible hotkey window that is either not key or is on another space, switch to it.
@@ -951,7 +954,7 @@ static NSString *const kArrangement = @"Arrangement";
 - (BOOL)switchToVisibleHotKeyWindowIfPossible {
     DLog(@"switchToVisibleHotKeyWindowIfPossible");
     const BOOL activateStickyHotkeyWindow = (!self.autoHides &&
-                                             !self.windowController.window.isKeyWindow);
+                                            !self.windowController.window.isKeyWindow);
     if (activateStickyHotkeyWindow && ![NSApp isActive]) {
         DLog(@"Storing previously active app");
         [self.delegate storePreviouslyActiveApp:self];
@@ -995,9 +998,9 @@ static NSString *const kArrangement = @"Arrangement";
     BOOL result = NO;
     if (!self.windowController.weaklyReferencedObject) {
         DLog(@"Create new hotkey window");
-        [self createWindowWithURL:url completion:^{
-            [self rollInAnimated:[iTermProfilePreferences boolForKey:KEY_HOTKEY_ANIMATE inProfile:self.profile]];
-        }];
+        [self createWindowWithURL:url completion:^ {
+                 [self rollInAnimated:[iTermProfilePreferences boolForKey:KEY_HOTKEY_ANIMATE inProfile:self.profile]];
+             }];
         result = YES;
     } else {
         [self rollInAnimated:[iTermProfilePreferences boolForKey:KEY_HOTKEY_ANIMATE inProfile:self.profile]];
@@ -1006,8 +1009,8 @@ static NSString *const kArrangement = @"Arrangement";
 }
 
 - (void)hideHotKeyWindowAnimated:(BOOL)animated
-                 suppressHideApp:(BOOL)suppressHideApp
-                otherIsRollingIn:(BOOL)otherIsRollingIn {
+    suppressHideApp:(BOOL)suppressHideApp
+    otherIsRollingIn:(BOOL)otherIsRollingIn {
     DLog(@"Hide hotkey window. animated=%@ suppressHideApp=%@", @(animated), @(suppressHideApp));
 
     if (suppressHideApp) {

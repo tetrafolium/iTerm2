@@ -39,43 +39,43 @@ NSString *const kPointerPrefsSemanticHistoryEnabledChangedNotification = @"kPoin
 
     __weak __typeof(self) weakSelf = self;
     info = [self defineControl:_cmdSelection
-                           key:kPreferenceKeyCmdClickOpensURLs
-                   relatedView:nil
-                          type:kPreferenceInfoTypeCheckbox];
+                 key:kPreferenceKeyCmdClickOpensURLs
+                 relatedView:nil
+                 type:kPreferenceInfoTypeCheckbox];
     info.onChange = ^() {
         [[NSNotificationCenter defaultCenter] postNotificationName:kPointerPrefsSemanticHistoryEnabledChangedNotification
-                                                            object:nil];
+                                              object:nil];
     };
 
     [self defineControl:_controlLeftClickActsLikeRightClick
-                    key:kPreferenceKeyControlLeftClickBypassesContextMenu
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:kPreferenceKeyControlLeftClickBypassesContextMenu
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     [self defineControl:_optionClickMovesCursor
-                    key:kPreferenceKeyOptionClickMovesCursor
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:kPreferenceKeyOptionClickMovesCursor
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 
     info = [self defineControl:_threeFingerEmulatesMiddle
-                           key:kPreferenceKeyThreeFingerEmulatesMiddle
-                   relatedView:nil
-                          type:kPreferenceInfoTypeCheckbox];
+                 key:kPreferenceKeyThreeFingerEmulatesMiddle
+                 relatedView:nil
+                 type:kPreferenceInfoTypeCheckbox];
     info.onChange = ^() {
         [weakSelf postRefreshNotification];
         [[NSNotificationCenter defaultCenter] postNotificationName:kPointerPrefsChangedNotification
-                                                            object:nil
-                                                          userInfo:nil];
+                                              object:nil
+                                              userInfo:nil];
     };
 
     [self defineControl:_focusFollowsMouse
-                    key:kPreferenceKeyFocusFollowsMouse
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:kPreferenceKeyFocusFollowsMouse
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
     [self defineControl:_focusOnRightOrMiddleClick
-                    key:kPreferenceKeyFocusOnRightOrMiddleClick
-            relatedView:nil
-                   type:kPreferenceInfoTypeCheckbox];
+          key:kPreferenceKeyFocusOnRightOrMiddleClick
+          relatedView:nil
+          type:kPreferenceInfoTypeCheckbox];
 }
 
 - (NSTabView *)tabView {

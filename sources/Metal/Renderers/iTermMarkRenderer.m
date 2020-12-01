@@ -21,8 +21,8 @@
     [super writeDebugInfoToFolder:folder];
     [[NSString stringWithFormat:@"marks=%@", _marks] writeToURL:[folder URLByAppendingPathComponent:@"state.txt"]
                                                      atomically:NO
-                                                       encoding:NSUTF8StringEncoding
-                                                          error:NULL];
+                                                     encoding:NSUTF8StringEncoding
+                                                     error:NULL];
 }
 
 - (nonnull NSData *)newMarkPerInstanceUniforms {
@@ -30,7 +30,7 @@
     iTermMarkPIU *pius = (iTermMarkPIU *)data.mutableBytes;
     __block size_t i = 0;
     [_marks enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull rowNumber, NSNumber * _Nonnull styleNumber, BOOL * _Nonnull stop) {
-        MTLOrigin origin = [self->_marksArrayTexture offsetForIndex:styleNumber.integerValue];
+               MTLOrigin origin = [self->_marksArrayTexture offsetForIndex:styleNumber.integerValue];
         pius[i] = (iTermMarkPIU) {
             .offset = {
                 0,
@@ -67,14 +67,14 @@
     self = [super init];
     if (self) {
         _cellRenderer = [[iTermMetalCellRenderer alloc] initWithDevice:device
-                                                    vertexFunctionName:@"iTermMarkVertexShader"
-                                                  fragmentFunctionName:@"iTermMarkFragmentShader"
-                                                              blending:[iTermMetalBlending compositeSourceOver]
+                                                        vertexFunctionName:@"iTermMarkVertexShader"
+                                                        fragmentFunctionName:@"iTermMarkFragmentShader"
+                                                        blending:[iTermMetalBlending compositeSourceOver]
                                                         piuElementSize:sizeof(iTermMarkPIU)
-                                                   transientStateClass:[iTermMarkRendererTransientState class]];
+                                                        transientStateClass:[iTermMarkRendererTransientState class]];
         _piuPool = [[iTermMetalMixedSizeBufferPool alloc] initWithDevice:device
-                                                                capacity:iTermMetalDriverMaximumNumberOfFramesInFlight + 1
-                                                                    name:@"mark PIU"];
+                                                          capacity:iTermMetalDriverMaximumNumberOfFramesInFlight + 1
+                                                          name:@"mark PIU"];
     }
     return self;
 }
@@ -88,10 +88,10 @@
 }
 
 - (nullable  __kindof iTermMetalRendererTransientState *)createTransientStateForCellConfiguration:(iTermCellRenderConfiguration *)configuration
-                                                                                    commandBuffer:(id<MTLCommandBuffer>)commandBuffer {
+    commandBuffer:(id<MTLCommandBuffer>)commandBuffer {
     __kindof iTermMetalCellRendererTransientState * _Nonnull transientState =
         [_cellRenderer createTransientStateForCellConfiguration:configuration
-                                              commandBuffer:commandBuffer];
+                       commandBuffer:commandBuffer];
     [self initializeTransientState:transientState];
     return transientState;
 }
@@ -104,18 +104,18 @@
                                        ([iTermPreferences intForKey:kPreferenceKeySideMargins] - 1) * scale,
                                        tState.cellConfiguration.cellSize.height);
     CGRect markRect = [iTermTextDrawingHelper frameForMarkContainedInRect:leftMarginRect
-                                                                 cellSize:tState.cellConfiguration.cellSize
-                                                   cellSizeWithoutSpacing:tState.cellConfiguration.cellSizeWithoutSpacing
-                                                                    scale:scale];
+                                              cellSize:tState.cellConfiguration.cellSize
+                                              cellSizeWithoutSpacing:tState.cellConfiguration.cellSizeWithoutSpacing
+                                              scale:scale];
     if (!CGSizeEqualToSize(markRect.size, _markSize)) {
         // Mark size has changed
         _markSize = markRect.size;
         if (_markSize.width > 0 && _markSize.height > 0) {
             _marksArrayTexture = [[iTermTextureArray alloc] initWithTextureWidth:_markSize.width
-                                                                   textureHeight:_markSize.height
-                                                                     arrayLength:3
-                                                                            bgra:NO
-                                                                          device:_cellRenderer.device];
+                                                            textureHeight:_markSize.height
+                                                            arrayLength:3
+                                                            bgra:NO
+                                                            device:_cellRenderer.device];
 
             NSColor *successColor = [iTermTextDrawingHelper successMarkColor];
             NSColor *otherColor = [iTermTextDrawingHelper otherMarkColor];
@@ -134,7 +134,7 @@
 }
 
 - (void)drawWithFrameData:(iTermMetalFrameData *)frameData
-           transientState:(__kindof iTermMetalCellRendererTransientState *)transientState {
+    transientState:(__kindof iTermMetalCellRendererTransientState *)transientState {
     iTermMarkRendererTransientState *tState = transientState;
     if (tState.marks.count == 0) {
         return;
@@ -163,23 +163,24 @@
         { { CGRectGetMaxX(quad), CGRectGetMaxY(quad) }, { CGRectGetMaxX(textureFrame), CGRectGetMaxY(textureFrame) } },
     };
     tState.vertexBuffer = [_cellRenderer.verticesPool requestBufferFromContext:tState.poolContext
-                                                                      withBytes:vertices
-                                                                 checkIfChanged:YES];
+                                                      withBytes:vertices
+                                                      checkIfChanged:YES];
 
     NSData *data = [tState newMarkPerInstanceUniforms];
     tState.pius = [_piuPool requestBufferFromContext:tState.poolContext
-                                                size:data.length];
+                            size:data.length];
     memcpy(tState.pius.contents, data.bytes, data.length);
 
     [_cellRenderer drawWithTransientState:tState
-                            renderEncoder:frameData.renderEncoder
-                         numberOfVertices:6
-                             numberOfPIUs:tState.marks.count
-                            vertexBuffers:@{ @(iTermVertexInputIndexVertices): tState.vertexBuffer,
-                                             @(iTermVertexInputIndexPerInstanceUniforms): tState.pius,
-                                             @(iTermVertexInputIndexOffset): tState.offsetBuffer }
-                          fragmentBuffers:@{}
-                                 textures:@{ @(iTermTextureIndexPrimary): tState.marksArrayTexture.texture } ];
+                   renderEncoder:frameData.renderEncoder
+                   numberOfVertices:6
+                   numberOfPIUs:tState.marks.count
+                   vertexBuffers:@ { @(iTermVertexInputIndexVertices): tState.vertexBuffer,
+                       @(iTermVertexInputIndexPerInstanceUniforms): tState.pius,
+                       @(iTermVertexInputIndexOffset): tState.offsetBuffer
+                     }
+                   fragmentBuffers:@ {}
+                   textures:@ { @(iTermTextureIndexPrimary): tState.marksArrayTexture.texture } ];
 }
 
 #pragma mark - Private
@@ -189,16 +190,16 @@
     // pixel-perfect. If you lock an NSImage it'll create a rep that's larger by
     // the scale factor (of, uh, something).
     NSBitmapImageRep *offscreenRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
-                                                                              pixelsWide:size.width
-                                                                              pixelsHigh:size.height
-                                                                           bitsPerSample:8
-                                                                         samplesPerPixel:4
-                                                                                hasAlpha:YES
-                                                                                isPlanar:NO
-                                                                          colorSpaceName:NSDeviceRGBColorSpace
-                                                                            bitmapFormat:NSBitmapFormatAlphaFirst
-                                                                             bytesPerRow:0
-                                                                            bitsPerPixel:0];
+                                                               pixelsWide:size.width
+                                                               pixelsHigh:size.height
+                                                               bitsPerSample:8
+                                                               samplesPerPixel:4
+                                                               hasAlpha:YES
+                                                               isPlanar:NO
+                                                               colorSpaceName:NSDeviceRGBColorSpace
+                                                               bitmapFormat:NSBitmapFormatAlphaFirst
+                                                               bytesPerRow:0
+                                                               bitsPerPixel:0];
     offscreenRep = [offscreenRep bitmapImageRepByRetaggingWithColorSpace:[NSColorSpace sRGBColorSpace]];
 
     NSGraphicsContext *g = [NSGraphicsContext graphicsContextWithBitmapImageRep:offscreenRep];

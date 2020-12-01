@@ -92,9 +92,9 @@ float ComputeWeightOfUnderlineRegular(int underlineStyle,  // iTermMetalGlyphAtt
 // This simply implements bilinear interpolation using the sampler. See
 // iTermTextRenderer.mm for details on how the texture is structured.
 static inline float4 RemapColor(float4 scaledTextColor,  // scaledTextColor is the text color multiplied by float4(17).
-                               float4 backgroundColor_in,
-                               float4 bwColor_in,
-                               texture2d<float> models) {
+                                float4 backgroundColor_in,
+                                float4 bwColor_in,
+                                texture2d<float> models) {
     float4 bwColor = round(bwColor_in * 255) * 18 + 0.5;
     float4 backgroundColor = backgroundColor_in * 17 + 0.5;
 

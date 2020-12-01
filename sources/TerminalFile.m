@@ -58,7 +58,7 @@ NSString *const kTerminalFileShouldStopNotification = @"kTerminalFileShouldStopN
         } else {
             _filename = [[name lastPathComponent] copy];
             _localPath = [[self finalDestinationForPath:_filename
-                                   destinationDirectory:[self downloadsDirectory]] copy];
+                           destinationDirectory:[self downloadsDirectory]] copy];
         }
         self.fileSize = size;
     }
@@ -92,7 +92,7 @@ NSString *const kTerminalFileShouldStopNotification = @"kTerminalFileShouldStopN
         error = [self errorWithDescription:@"Canceled."];
         self.error = [error localizedDescription];
         [[FileTransferManager sharedInstance] transferrableFile:self
-                                 didFinishTransmissionWithError:error];
+                                              didFinishTransmissionWithError:error];
     }
     self.data = [NSMutableString string];
 }
@@ -107,7 +107,7 @@ NSString *const kTerminalFileShouldStopNotification = @"kTerminalFileShouldStopN
     [[FileTransferManager sharedInstance] transferrableFileWillStop:self];
     self.data = nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:kTerminalFileShouldStopNotification
-                                                        object:self];
+                                          object:self];
     [TransferrableFile unlockFileName:_localPath];
 }
 
@@ -165,7 +165,7 @@ NSString *const kTerminalFileShouldStopNotification = @"kTerminalFileShouldStopN
     int destLength = apr_base64_decode_len(buffer);
     if (destLength < 1) {
         [[FileTransferManager sharedInstance] transferrableFile:self
-                                 didFinishTransmissionWithError:[self errorWithDescription:@"No data received."]];
+                                              didFinishTransmissionWithError:[self errorWithDescription:@"No data received."]];
         return;
     }
     NSMutableData *data = [NSMutableData dataWithLength:destLength];
@@ -173,18 +173,18 @@ NSString *const kTerminalFileShouldStopNotification = @"kTerminalFileShouldStopN
     int resultLength = apr_base64_decode(decodedBuffer, buffer);
     if (resultLength < 0) {
         [[FileTransferManager sharedInstance] transferrableFile:self
-                                 didFinishTransmissionWithError:[self errorWithDescription:@"File corrupted (not valid base64)."]];
+                                              didFinishTransmissionWithError:[self errorWithDescription:@"File corrupted (not valid base64)."]];
         return;
     }
     [data setLength:resultLength];
     if (![data writeToFile:self.localPath atomically:NO]) {
         [[FileTransferManager sharedInstance] transferrableFile:self
-                                 didFinishTransmissionWithError:[self errorWithDescription:@"Failed to write file to disk."]];
+                                              didFinishTransmissionWithError:[self errorWithDescription:@"Failed to write file to disk."]];
         return;
     }
     if (![self quarantine:self.localPath sourceURL:nil]) {
         [[FileTransferManager sharedInstance] transferrableFile:self
-                                 didFinishTransmissionWithError:[self errorWithDescription:@"Failed to set quarantine."]];
+                                              didFinishTransmissionWithError:[self errorWithDescription:@"Failed to set quarantine."]];
         NSError *error = nil;
         const BOOL ok = [[NSFileManager defaultManager] removeItemAtPath:self.localPath error:&error];
         if (!ok || error) {
@@ -200,8 +200,8 @@ NSString *const kTerminalFileShouldStopNotification = @"kTerminalFileShouldStopN
 
 - (NSError *)errorWithDescription:(NSString *)description {
     return [NSError errorWithDomain:@"com.googlecode.iterm2.TerminalFile"
-                               code:1
-                           userInfo:@{ NSLocalizedDescriptionKey:description }];
+                    code:1
+                    userInfo:@ { NSLocalizedDescriptionKey:description }];
 }
 
 

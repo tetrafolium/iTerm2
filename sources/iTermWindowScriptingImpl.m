@@ -8,15 +8,15 @@
 
     NSArray<iTermScriptingWindow *> *windows = [[iTermApplication sharedApplication] orderedScriptingWindows];
     anIndex = [windows indexOfObjectPassingTest:^BOOL(iTermScriptingWindow * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        return obj.underlyingWindow == self;
-    }];
+                return obj.underlyingWindow == self;
+            }];
     if (anIndex != NSNotFound) {
         containerRef = [NSApp objectSpecifier];
         classDescription = [NSClassDescription classDescriptionForClass:[NSApp class]];
         return [[[NSUniqueIDSpecifier alloc] initWithContainerClassDescription:classDescription
-                                                            containerSpecifier:containerRef
-                                                                           key:@"orderedScriptingWindows"
-                                                                      uniqueID:@([self windowNumber])] autorelease];
+                                              containerSpecifier:containerRef
+                                              key:@"orderedScriptingWindows"
+                                              uniqueID:@([self windowNumber])] autorelease];
     } else {
         return nil;
     }
@@ -40,19 +40,19 @@
     Profile *profile = [[ProfileModel sharedInstance] defaultBookmark];
     [scriptCommand suspendExecution];
     [iTermSessionLauncher launchBookmark:profile
-                              inTerminal:(PseudoTerminal *)self.ptyDelegate
-                                 withURL:nil
-                        hotkeyWindowType:iTermHotkeyWindowTypeNone
-                                 makeKey:YES
-                             canActivate:NO
-                      respectTabbingMode:NO
-                                 command:command
-                             makeSession:nil
+                          inTerminal:(PseudoTerminal *)self.ptyDelegate
+                          withURL:nil
+                          hotkeyWindowType:iTermHotkeyWindowTypeNone
+                          makeKey:YES
+                          canActivate:NO
+                          respectTabbingMode:NO
+                          command:command
+                          makeSession:nil
                           didMakeSession:nil
-                              completion:^(PTYSession *session, BOOL ok) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [scriptCommand resumeExecutionWithResult:[self.ptyDelegate tabForSession:session]];
-        });
+                         completion:^(PTYSession *session, BOOL ok) {
+                             dispatch_async(dispatch_get_main_queue(), ^ {
+                                 [scriptCommand resumeExecutionWithResult:[self.ptyDelegate tabForSession:session]];
+                             });
     }];
     return nil;
 }
@@ -70,19 +70,19 @@
     }
     [scriptCommand suspendExecution];
     [iTermSessionLauncher launchBookmark:profile
-                              inTerminal:(PseudoTerminal *)self.ptyDelegate
-                                 withURL:nil
-                        hotkeyWindowType:iTermHotkeyWindowTypeNone
-                                 makeKey:YES
-                             canActivate:NO
-                      respectTabbingMode:NO
-                                 command:command
-                             makeSession:nil
+                          inTerminal:(PseudoTerminal *)self.ptyDelegate
+                          withURL:nil
+                          hotkeyWindowType:iTermHotkeyWindowTypeNone
+                          makeKey:YES
+                          canActivate:NO
+                          respectTabbingMode:NO
+                          command:command
+                          makeSession:nil
                           didMakeSession:nil
-                              completion:^(PTYSession *session, BOOL ok) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [scriptCommand resumeExecutionWithResult:[self.ptyDelegate tabForSession:session]];
-        });
+                         completion:^(PTYSession *session, BOOL ok) {
+                             dispatch_async(dispatch_get_main_queue(), ^ {
+                                 [scriptCommand resumeExecutionWithResult:[self.ptyDelegate tabForSession:session]];
+                             });
     }];
     return nil;
 }

@@ -64,9 +64,9 @@ int iTermFileDescriptorServerAccept(int socketFd) {
 }
 
 static ssize_t iTermFileDescriptorWriteImpl(int fd,
-                                            void *buffer,
-                                            size_t bufferSize,
-                                            int *errorOut) {
+        void *buffer,
+        size_t bufferSize,
+        int *errorOut) {
     const ssize_t rc = iTermFileDescriptorServerWrite(fd, buffer, bufferSize);
     if (rc == -1) {
         if (*errorOut) {
@@ -84,9 +84,9 @@ static ssize_t iTermFileDescriptorWriteImpl(int fd,
 
 // Returns number of bytes sent, or -1 for error.
 ssize_t iTermFileDescriptorServerWriteLengthAndBuffer(int fd,
-                                                      void *buffer,
-                                                      size_t bufferSize,
-                                                      int *errorOut) {
+        void *buffer,
+        size_t bufferSize,
+        int *errorOut) {
     unsigned char temp[sizeof(bufferSize)];
     memmove(temp, &bufferSize, sizeof(bufferSize));
     const ssize_t rc = iTermFileDescriptorWriteImpl(fd, temp, sizeof(temp), errorOut);
@@ -99,10 +99,10 @@ ssize_t iTermFileDescriptorServerWriteLengthAndBuffer(int fd,
 
 // Returns -1 on error
 ssize_t iTermFileDescriptorServerWriteLengthAndBufferAndFileDescriptor(int connectionFd,
-                                                                       void *buffer,
-                                                                       size_t bufferSize,
-                                                                       int fdToSend,
-                                                                       int *errorOut) {
+        void *buffer,
+        size_t bufferSize,
+        int fdToSend,
+        int *errorOut) {
     // Write length
     unsigned char temp[sizeof(bufferSize)];
     memmove(temp, &bufferSize, sizeof(bufferSize));
@@ -113,9 +113,9 @@ ssize_t iTermFileDescriptorServerWriteLengthAndBufferAndFileDescriptor(int conne
 
     // Write message with file descriptor
     rc = iTermFileDescriptorServerSendMessageAndFileDescriptor(connectionFd,
-                                                               buffer,
-                                                               bufferSize,
-                                                               fdToSend);
+            buffer,
+            bufferSize,
+            fdToSend);
     if (rc == -1) {
         if (errorOut) {
             *errorOut = errno;
@@ -178,9 +178,9 @@ ssize_t iTermFileDescriptorClientWrite(int fd, const void *buffer, size_t buffer
 }
 
 ssize_t iTermFileDescriptorServerSendMessageAndFileDescriptor(int connectionFd,
-                                                              void *buffer,
-                                                              size_t bufferSize,
-                                                              int fdToSend) {
+        void *buffer,
+        size_t bufferSize,
+        int fdToSend) {
     // sendmsg wants to send the whole buffer atomically so it has a small upper bound on message
     // size. The client-server protocol allows a message to be fragmented as long as the first
     // one has the file descriptor.
@@ -195,9 +195,9 @@ ssize_t iTermFileDescriptorServerSendMessageAndFileDescriptor(int connectionFd,
 
     if (bufferSize > maxBufferSize) {
         const ssize_t firstResult = iTermFileDescriptorServerSendMessageAndFileDescriptor(connectionFd,
-                                                                                          buffer,
-                                                                                          maxBufferSize,
-                                                                                          fdToSend);
+                                    buffer,
+                                    maxBufferSize,
+                                    fdToSend);
         if (firstResult <= 0) {
             return firstResult;
         }
@@ -208,9 +208,9 @@ ssize_t iTermFileDescriptorServerSendMessageAndFileDescriptor(int connectionFd,
         // Now write the remainder. Because this doesn't use sendmsg there's no size limit problem.
         int error = 0;
         const ssize_t secondResult = iTermFileDescriptorWriteImpl(connectionFd,
-                                                                  buffer + maxBufferSize,
-                                                                  remainingSize,
-                                                                  &error);
+                                     buffer + maxBufferSize,
+                                     remainingSize,
+                                     &error);
         if (secondResult <= 0) {
             return secondResult;
         }

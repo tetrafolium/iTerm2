@@ -41,7 +41,7 @@
         map_ = [[NSMutableDictionary dictionary] retain];
         for (int i = 0; i < self.columns.count; i++) {
             [map_ setObject:[NSNumber numberWithInt:i]
-                     forKey:[self.columns objectAtIndex:i]];
+                  forKey:[self.columns objectAtIndex:i]];
         }
     }
 

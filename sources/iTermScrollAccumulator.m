@@ -26,16 +26,16 @@
 - (CGFloat)deltaYForEvent:(NSEvent *)event lineHeight:(CGFloat)lineHeight {
     _lineHeight = lineHeight;
     switch (event.type) {
-        case NSEventTypeScrollWheel: {
-            CGFloat result;
-            result = [self accumulatedDeltaYForScrollEvent:event];
-            DLog(@"deltaYForEvent:%@ lineHeight:%@ -> %@. deltaY=%@ scrollingDeltaY=%@ Accumulator <- %@",
-                 event, @(lineHeight), @(result), @(event.deltaY), @(event.scrollingDeltaY), @(_accumulatedDeltaY));
-            return result;
-        }
-            
-        default:
-            return 0;
+    case NSEventTypeScrollWheel: {
+        CGFloat result;
+        result = [self accumulatedDeltaYForScrollEvent:event];
+        DLog(@"deltaYForEvent:%@ lineHeight:%@ -> %@. deltaY=%@ scrollingDeltaY=%@ Accumulator <- %@",
+             event, @(lineHeight), @(result), @(event.deltaY), @(event.scrollingDeltaY), @(_accumulatedDeltaY));
+        return result;
+    }
+
+    default:
+        return 0;
     }
 }
 
@@ -76,7 +76,7 @@
     _accumulatedDeltaY += delta;
     const CGFloat absAccumulatedDelta = fabs(_accumulatedDeltaY);
     int roundDelta;
-    
+
     // Deltas will be accumulated into _accumulatedDeltaY.
     // If it is large (>1), return its integer part. This enables quick scroll, which feels like natural trackpad.
     // If `delta * _accumulatedDeltaY < 0`, it means turnaround. Round delta to turn around quickly (fabs 0.5 is enough to move).

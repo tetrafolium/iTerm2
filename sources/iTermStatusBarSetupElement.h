@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol iTermStatusBarSetupElementDelegate<NSObject>
 
 - (void)itermStatusBarSetupElementDidChange:(iTermStatusBarSetupElement *)element
-                                updatedKeys:(NSSet<NSString *> *)updatedKeys;
+    updatedKeys:(NSSet<NSString *> *)updatedKeys;
 
 @end
 
@@ -31,14 +31,14 @@ extern NSString *const iTermStatusBarElementPasteboardType;
 @property (nonatomic, weak) id<iTermStatusBarSetupElementDelegate> delegate;
 
 - (instancetype)initWithComponentFactory:(id<iTermStatusBarComponentFactory>)factory
-                         layoutAlgorithm:(iTermStatusBarLayoutAlgorithmSetting)layoutAlgorithm
-                                   knobs:(NSDictionary *)knobs;
+    layoutAlgorithm:(iTermStatusBarLayoutAlgorithmSetting)layoutAlgorithm
+    knobs:(NSDictionary *)knobs;
 - (instancetype)initWithComponent:(id<iTermStatusBarComponent>)component NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (NSAttributedString *)exemplarWithBackgroundColor:(NSColor *)backgroundColor
-                                          textColor:(NSColor *)textColor
-                                        defaultFont:(NSFont *)font;
+    textColor:(NSColor *)textColor
+    defaultFont:(NSFont *)font;
 
 @end
 

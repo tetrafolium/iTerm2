@@ -35,14 +35,14 @@
         _interval = 1;
         _acceleratedInterval = 0.01;
         [_gateway sendCommand:@"display-message -p \"#{status-interval}\""
-               responseTarget:self
-             responseSelector:@selector(handleStatusIntervalResponse:)];
+                  responseTarget:self
+                  responseSelector:@selector(handleStatusIntervalResponse:)];
         NSString *path = [NSString stringWithFormat:@"%@.%@",
-                          iTermVariableKeySessionTab, iTermVariableKeyTabTmuxWindow];
+                                   iTermVariableKeySessionTab, iTermVariableKeyTabTmuxWindow];
         _paneReference = [[iTermVariableReference alloc] initWithPath:path
-                                                               vendor:_scope];
+                                                         vendor:_scope];
         __weak __typeof(self) weakSelf = self;
-        _paneReference.onChangeBlock = ^{
+        _paneReference.onChangeBlock = ^ {
             [weakSelf windowPaneDidChange];
         };
     }
@@ -57,23 +57,23 @@
     if (active) {
         __weak __typeof(self) weakSelf = self;
         _leftMonitor = [[iTermTmuxOptionMonitor alloc] initWithGateway:_gateway
-                                                                 scope:_scope
-                                                  fallbackVariableName:nil
-                                                                format:@"#{T:status-left}"
-                                                                target:[NSString stringWithFormat:@"@%@", _scope.tab.tmuxWindow]
-                                                          variableName:nil
-                                                                 block:^(NSString * _Nonnull left) {
-            [weakSelf handleStatusLeftValueExpansionResponse:left];
-        }];
+                                                       scope:_scope
+                                                       fallbackVariableName:nil
+                                                       format:@"#{T:status-left}"
+                                                       target:[NSString stringWithFormat:@"@%@", _scope.tab.tmuxWindow]
+                                                       variableName:nil
+                                       block:^(NSString * _Nonnull left) {
+                                           [weakSelf handleStatusLeftValueExpansionResponse:left];
+                                       }];
         _rightMonitor = [[iTermTmuxOptionMonitor alloc] initWithGateway:_gateway
-                                                                  scope:_scope
-                                                   fallbackVariableName:nil
-                                                                 format:@"#{T:status-right}"
-                                                                 target:[NSString stringWithFormat:@"@%@", _scope.tab.tmuxWindow]
-                                                           variableName:nil
-                                                                  block:^(NSString * _Nonnull right) {
-            [weakSelf handleStatusRightValueExpansionResponse:right];
-        }];
+                                                        scope:_scope
+                                                        fallbackVariableName:nil
+                                                        format:@"#{T:status-right}"
+                                                        target:[NSString stringWithFormat:@"@%@", _scope.tab.tmuxWindow]
+                                                        variableName:nil
+                                       block:^(NSString * _Nonnull right) {
+                                           [weakSelf handleStatusRightValueExpansionResponse:right];
+                                       }];
         _leftMonitor.interval = _interval;
         _rightMonitor.interval = _interval;
     } else {
@@ -124,7 +124,7 @@
         if (_leftMonitor.interval > _acceleratedInterval) {
             _accelerated = YES;
             DLog(@"%@: Schedule accelerated upate with interval %@", self, @(_acceleratedInterval));
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_acceleratedInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_acceleratedInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^ {
                 if (self->_accelerated) {
                     DLog(@"%@: Sending accelerated requestUpdates", self);
                     [self->_leftMonitor updateOnce];
@@ -138,7 +138,7 @@
 }
 - (NSString *)sanitizedString:(NSString *)string {
     NSArray<NSString *> *regexes = @[ @"<'.*?' not ready>",
-                                      @"#\\[.*?\\]" ];
+                                               @"#\\[.*?\\]" ];
     NSString *result = string;
     for (NSString *regex in regexes) {
         result = [result stringByReplacingOccurrencesOfRegex:regex withString:@""];

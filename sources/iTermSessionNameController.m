@@ -49,9 +49,9 @@ NSString *const iTermSessionNameControllerSystemTitleUniqueIdentifier = @"com.it
     self = [super init];
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(didRegisterSessionTitleFunc:)
-                                                     name:iTermAPIDidRegisterSessionTitleFunctionNotification
-                                                   object:nil];
+                                              selector:@selector(didRegisterSessionTitleFunc:)
+                                              name:iTermAPIDidRegisterSessionTitleFunctionNotification
+                                              object:nil];
     }
     return self;
 }
@@ -69,8 +69,10 @@ NSString *const iTermSessionNameControllerSystemTitleUniqueIdentifier = @"com.it
 }
 
 - (NSDictionary *)stateDictionary {
-    return @{ iTermSessionNameControllerStateKeyWindowTitleStack: [_windowTitleStack it_arrayByReplacingOccurrencesOf:[NSNull null] with:@0] ?: @[],
-              iTermSessionNameControllerStateKeyIconTitleStack: [_iconTitleStack it_arrayByReplacingOccurrencesOf:[NSNull null] with:@0] ?: @[] };
+    return @ { iTermSessionNameControllerStateKeyWindowTitleStack:
+               [_windowTitleStack it_arrayByReplacingOccurrencesOf:[NSNull null] with:@0] ?: @[],
+               iTermSessionNameControllerStateKeyIconTitleStack: [_iconTitleStack it_arrayByReplacingOccurrencesOf:[NSNull null] with:@0] ?: @[]
+             };
 }
 
 - (void)restoreNameFromStateDictionary:(NSDictionary *)state {
@@ -84,8 +86,8 @@ NSString *const iTermSessionNameControllerSystemTitleUniqueIdentifier = @"com.it
         return @"iterm2.private.session_title(session: session.id)";
     }
     return [[iTermAPIHelper sessionTitleFunctions] objectPassingTest:^BOOL(iTermSessionTitleProvider *provider, NSUInteger index, BOOL *stop) {
-        return [provider.uniqueIdentifier isEqualToString:uniqueIdentifier];
-    }].invocation;
+                                               return [provider.uniqueIdentifier isEqualToString:uniqueIdentifier];
+                                           }].invocation;
 }
 
 - (BOOL)usingBuiltInTitleProvider {
@@ -95,7 +97,7 @@ NSString *const iTermSessionNameControllerSystemTitleUniqueIdentifier = @"com.it
 
 // Synchronous evaluation updates _dependencies with all paths occurring in the title format.
 - (void)evaluateInvocationSynchronously:(BOOL)sync
-                             completion:(void (^)(NSString *presentationName))completion {
+    completion:(void (^)(NSString *presentationName))completion {
     __weak __typeof(self) weakSelf = self;
     iTermVariableScope *scope;
     iTermVariableRecordingScope *recordingScope;  // either nil or equal to scope
@@ -119,35 +121,35 @@ NSString *const iTermSessionNameControllerSystemTitleUniqueIdentifier = @"com.it
         return;
     }
     [iTermScriptFunctionCall callFunction:invocation
-                                  timeout:sync ? 0 : 30
-                                    scope:scope
-                               retainSelf:YES
-                               completion:
-     ^(NSString *possiblyEmptyResult, NSError *error, NSSet<NSString *> *missing) {
-         NSString *result = [weakSelf valueForInvocation:invocation
-                                              withResult:possiblyEmptyResult
-                                                   error:error];
-         if (error) {
-             [weakSelf logError:error forInvocation:invocation];
-         }
-         if (!sync) {
-             [weakSelf didEvaluateInvocationWithResult:result];
-         }
-         completion(result);
-     }];
+                             timeout:sync ? 0 : 30
+                             scope:scope
+                             retainSelf:YES
+                             completion:
+                            ^(NSString *possiblyEmptyResult, NSError *error, NSSet<NSString *> *missing) {
+                                NSString *result = [weakSelf valueForInvocation:invocation
+                                                    withResult:possiblyEmptyResult
+                                                    error:error];
+                                if (error) {
+            [weakSelf logError:error forInvocation:invocation];
+        }
+        if (!sync) {
+            [weakSelf didEvaluateInvocationWithResult:result];
+        }
+        completion(result);
+    }];
     if ([uniqueIdentifier isEqualToString:iTermSessionNameControllerSystemTitleUniqueIdentifier]) {
         // Do it again to get the window title. We know this completes synchronously.
         __block NSString *windowTitle = nil;
         [iTermScriptFunctionCall callFunction:@"iterm2.private.window_title(session: session.id)"
-                                      timeout:0
-                                        scope:scope
-                                   retainSelf:YES
-                                   completion:
-         ^(NSString *possiblyEmptyResult, NSError *error, NSSet<NSString *> *missing) {
-             windowTitle = [weakSelf valueForInvocation:invocation
-                                             withResult:possiblyEmptyResult
-                                                  error:error];
-         }];
+                                 timeout:0
+                                 scope:scope
+                                 retainSelf:YES
+                                 completion:
+                                ^(NSString *possiblyEmptyResult, NSError *error, NSSet<NSString *> *missing) {
+                                    windowTitle = [weakSelf valueForInvocation:invocation
+                                                   withResult:possiblyEmptyResult
+                                                   error:error];
+                                }];
         _cachedBuiltInWindowTitleEvaluation = windowTitle;
     } else {
         _cachedBuiltInWindowTitleEvaluation = nil;
@@ -164,7 +166,7 @@ NSString *const iTermSessionNameControllerSystemTitleUniqueIdentifier = @"com.it
         }
         _refs = recordingScope.recordedReferences;
         for (iTermVariableReference *ref in _refs) {
-            ref.onChangeBlock = ^{
+            ref.onChangeBlock = ^ {
                 [weakSelf setNeedsReevaluation];
             };
         }
@@ -178,8 +180,8 @@ NSString *const iTermSessionNameControllerSystemTitleUniqueIdentifier = @"com.it
 
 - (void)logError:(NSError *)error forInvocation:(NSString *)invocation {
     NSString *message = [NSString stringWithFormat:@"Invoked “%@” to compute name for session. Failed with error:\n%@\n",
-                         invocation,
-                         [error localizedDescription]];
+                                  invocation,
+                                  [error localizedDescription]];
     NSString *detail = error.localizedFailureReason;
     if (detail) {
         message = [message stringByAppendingFormat:@"%@\n", detail];
@@ -200,8 +202,8 @@ NSString *const iTermSessionNameControllerSystemTitleUniqueIdentifier = @"com.it
 }
 
 - (NSString *)valueForInvocation:(NSString *)invocation
-                      withResult:(NSString *)possiblyEmptyResult
-                           error:(NSError *)error {
+    withResult:(NSString *)possiblyEmptyResult
+    error:(NSError *)error {
     if (!error) {
         NSString *result = [possiblyEmptyResult stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         if (result.length == 0) {
@@ -219,12 +221,12 @@ NSString *const iTermSessionNameControllerSystemTitleUniqueIdentifier = @"com.it
     NSString *signature = [iTermExpressionParser signatureForFunctionCallInvocation:invocation error:&invocationError];
     if (signature) {
         [[iTermAPIHelper sharedInstance] logToConnectionHostingFunctionWithSignature:signature
-                                                                              string:message];
+                                         string:message];
     } else {
         [[iTermAPIHelper sharedInstance] logToConnectionHostingFunctionWithSignature:nil
-                                                                              format:@"Malformed invocation in session name controller. The invocation is:\n%@\nIt doesn't look like a function call! The parser said:\n",
-         invocation,
-         invocationError.localizedDescription];
+                                         format:@"Malformed invocation in session name controller. The invocation is:\n%@\nIt doesn't look like a function call! The parser said:\n",
+                                         invocation,
+                                         invocationError.localizedDescription];
     }
 }
 
@@ -357,7 +359,7 @@ NSString *const iTermSessionNameControllerSystemTitleUniqueIdentifier = @"com.it
 // Forces only an async eval. Use this when inputs to the invocation change.
 - (void)setNeedsReevaluation {
     _needsUpdate = YES;
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         if (self->_needsUpdate) {
             [self updateIfNeeded];
         }
@@ -382,8 +384,8 @@ NSString *const iTermSessionNameControllerSystemTitleUniqueIdentifier = @"com.it
     __weak __typeof(self) weakSelf = self;
     NSInteger count = ++_count;
     [self evaluateInvocationSynchronously:synchronous completion:^(NSString *presentationName) {
-        __strong __typeof(self) strongSelf = weakSelf;
-        if (strongSelf) {
+             __strong __typeof(self) strongSelf = weakSelf;
+             if (strongSelf) {
             if (strongSelf->_appliedCount > count) {
                 // A later async evaluation has already completed. Don't overwrite it.
                 return;

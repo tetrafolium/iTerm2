@@ -64,7 +64,7 @@ typedef NS_ENUM(NSInteger, URLActionType) {
 + (instancetype)urlActionToSecureCopyFile:(SCPPath *)scpPath;
 + (instancetype)urlActionToOpenURL:(NSString *)filename;
 + (instancetype)urlActionToPerformSmartSelectionRule:(NSDictionary *)rule
-                                            onString:(NSString *)content;
+    onString:(NSString *)content;
 + (instancetype)urlActionToOpenExistingFile:(NSString *)filename;
 + (instancetype)urlActionToOpenImage:(iTermImageInfo *)imageInfo;
 

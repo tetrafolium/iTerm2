@@ -26,11 +26,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSArray<iTermTouchbarItem *> *)sortedTouchbarItemsInDictionary:(NSDictionary<NSString *, NSDictionary *> *)dict;
 
 + (NSDictionary *)dictionaryByRemovingTouchbarItem:(iTermTouchbarItem *)item
-                                    fromDictionary:(NSDictionary *)dictionary;
+    fromDictionary:(NSDictionary *)dictionary;
 
 + (void)updateDictionary:(NSMutableDictionary *)dict
-         forTouchbarItem:(iTermTouchbarItem *)touchbarItem
-                  action:(iTermKeyBindingAction *)action;
+    forTouchbarItem:(iTermTouchbarItem *)touchbarItem
+    action:(iTermKeyBindingAction *)action;
 
 @end
 

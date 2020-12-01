@@ -74,13 +74,13 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
 }
 
 - (NSString *)cleanedUpPathFromPath:(NSString *)path
-                             suffix:(NSString *)suffix
-                   workingDirectory:(NSString *)workingDirectory
-                extractedLineNumber:(NSString **)lineNumber
-                       columnNumber:(NSString **)columnNumber {
+    suffix:(NSString *)suffix
+    workingDirectory:(NSString *)workingDirectory
+    extractedLineNumber:(NSString **)lineNumber
+    columnNumber:(NSString **)columnNumber {
     iTermPathCleaner *cleaner = [[iTermPathCleaner alloc] initWithPath:path
-                                                                suffix:suffix
-                                                      workingDirectory:workingDirectory];
+                                                          suffix:suffix
+                                                          workingDirectory:workingDirectory];
     cleaner.fileManager = self.fileManager;
     [cleaner cleanSynchronously];
     if (lineNumber) {
@@ -97,7 +97,7 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
         return [iTermSemanticHistoryPrefsController bestEditor];
     } else if ([prefs_[kSemanticHistoryActionKey] isEqualToString:kSemanticHistoryEditorAction]) {
         return [iTermSemanticHistoryPrefsController schemeForEditor:prefs_[kSemanticHistoryEditorKey]] ?
-            prefs_[kSemanticHistoryEditorKey] : nil;
+               prefs_[kSemanticHistoryEditorKey] : nil;
     } else {
         return nil;
     }
@@ -124,7 +124,7 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
 - (NSString *)executableInApplicationBundle:(NSBundle *)bundle {
     NSString *executable = [bundle.bundlePath stringByAppendingPathComponent:@"Contents/MacOS"];
     executable = [executable stringByAppendingPathComponent:
-                            [bundle objectForInfoDictionaryKey:(id)kCFBundleExecutableKey]];
+                             [bundle objectForInfoDictionaryKey:(id)kCFBundleExecutableKey]];
     return executable;
 }
 
@@ -137,14 +137,14 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
         return nil;
     }
     NSString *arch = [NSString stringWithUTF8String:uts.machine];
-    
+
     NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
     NSMutableArray<NSString *> *bindirs = [NSMutableArray array];
     NSURL *folder = [NSURL fileURLWithPath:[bundle.bundlePath stringByAppendingPathComponent:@"Contents/MacOS"]];
     for (NSURL *url in [[iTermCachingFileManager cachingFileManager] enumeratorAtURL:folder
-                                                          includingPropertiesForKeys:nil
-                                                                             options:NSDirectoryEnumerationSkipsSubdirectoryDescendants
-                                                                        errorHandler:nil]) {
+                                                                     includingPropertiesForKeys:nil
+                                                                     options:NSDirectoryEnumerationSkipsSubdirectoryDescendants
+                                                                     errorHandler:nil]) {
         NSString *file = url.path.lastPathComponent;
         DLog(@"Consider: %@", file);
         if (![file hasPrefix:@"bin-"]) {
@@ -159,12 +159,12 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
         }
         [bindirs addObject:file];
     }
-    
+
     // bin-i386-10_5
     NSString *regex = @"^bin-([^-]+)-([0-9]+)_([0-9]+)$";
     NSArray<NSString *> *contenders = [bindirs filteredArrayUsingBlock:^BOOL(NSString *dir) {
-        NSArray<NSString *> *captures = [[dir arrayOfCaptureComponentsMatchedByRegex:regex] firstObject];
-        DLog(@"Captures for %@ are %@", dir, captures);
+                NSArray<NSString *> *captures = [[dir arrayOfCaptureComponentsMatchedByRegex:regex] firstObject];
+                DLog(@"Captures for %@ are %@", dir, captures);
         if (captures.count != 4) {
             return NO;
         }
@@ -180,11 +180,11 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
         DLog(@"It's a keeper");
         return YES;
     }];
-    
+
     NSString *best = [contenders maxWithBlock:^NSComparisonResult(NSString *obj1, NSString *obj2) {
-        NSArray<NSString *> *cap1 = [obj1 arrayOfCaptureComponentsMatchedByRegex:regex].firstObject;
+                   NSArray<NSString *> *cap1 = [obj1 arrayOfCaptureComponentsMatchedByRegex:regex].firstObject;
         NSArray<NSString *> *cap2 = [obj2 arrayOfCaptureComponentsMatchedByRegex:regex].firstObject;
-        
+
         NSInteger minor1 = [cap1[3] integerValue];
         NSInteger minor2 = [cap2[3] integerValue];
         return [@(minor1) compare:@(minor2)];
@@ -230,7 +230,7 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
     NSString *bundlePath = [self absolutePathForAppBundleWithIdentifier:identifier];
     if (bundlePath) {
         NSString *codeExecutable =
-        [bundlePath stringByAppendingPathComponent:@"Contents/Resources/app/bin/code"];
+            [bundlePath stringByAppendingPathComponent:@"Contents/Resources/app/bin/code"];
         if ([self.fileManager fileExistsAtPath:codeExecutable]) {
             DLog(@"Launch VSCode %@ %@", codeExecutable, path);
             [self launchTaskWithPath:codeExecutable arguments:@[ path, @"-g" ] completion:nil];
@@ -255,7 +255,7 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
         DLog(@"No emacsClient in %@", bundle);
         DLog(@"Launching emacs the old-fashioned way");
         [self launchAppWithBundleIdentifier:kEmacsAppIdentifier
-                                       args:[@[ @"emacs" ] arrayByAddingObjectsFromArray:args]];
+              args:[@[ @"emacs" ] arrayByAddingObjectsFromArray:args]];
         return;
     }
 
@@ -269,13 +269,13 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
     NSString *fallback = [[fallbackParts mapWithBlock:^id(NSString *anObject) {
         return [anObject stringWithBackslashEscapedShellCharactersIncludingNewlines:YES];
     }] componentsJoinedByString:@" "];
-    
+
     // Run emacsclient -a "emacs <args>" <args>
     // That'll use emacsclient if possible and fall back to real emacs if it fails.
     // Normally it will fail unless you've enabled the daemon.
     [self launchTaskWithPath:emacsClient
-                   arguments:[@[ @"-n", @"-a", fallback, args] flattenedArray]
-                  completion:nil];
+          arguments:[@[ @"-n", @"-a", fallback, args] flattenedArray]
+          completion:nil];
 
 }
 
@@ -291,13 +291,13 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
         if (path) {
             DLog(@"Launch idea with path %@", path);
             [self launchAppWithBundleIdentifier:kIntelliJIDEAIdentifier
-                                           path:path];
+                  path:path];
         }
         return;
     }
     [self launchTaskWithPath:launcher
-                   arguments:args
-                  completion:nil];
+          arguments:args
+          completion:nil];
 }
 
 - (NSString *)absolutePathForAppBundleWithIdentifier:(NSString *)bundleId {
@@ -343,8 +343,8 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
 
 - (void)openFile:(NSString *)path
     inEditorWithBundleId:(NSString *)identifier
-          lineNumber:(NSString *)lineNumber
-        columnNumber:(NSString *)columnNumber {
+    lineNumber:(NSString *)lineNumber
+    columnNumber:(NSString *)columnNumber {
     if (!identifier) {
         return;
     }
@@ -360,7 +360,7 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
         return;
     }
     if ([identifier isEqualToString:kVSCodeIdentifier] ||
-        [identifier isEqualToString:kVSCodiumIdentifier]) {
+            [identifier isEqualToString:kVSCodiumIdentifier]) {
         if (lineNumber != nil) {
             path = [NSString stringWithFormat:@"%@:%@", path, lineNumber];
         }
@@ -368,12 +368,12 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
             path = [path stringByAppendingFormat:@":%@", columnNumber];
         }
         [self launchVSCodeWithPath:path
-                            codium:[identifier isEqualToString:kVSCodiumIdentifier]];
+              codium:[identifier isEqualToString:kVSCodiumIdentifier]];
         return;
     }
     if ([identifier isEqualToString:kSublimeText2Identifier] ||
-        [identifier isEqualToString:kSublimeText3Identifier] ||
-        [identifier isEqualToString:kSublimeText4Identifier]) {
+            [identifier isEqualToString:kSublimeText3Identifier] ||
+            [identifier isEqualToString:kSublimeText4Identifier]) {
         if (lineNumber != nil) {
             path = [NSString stringWithFormat:@"%@:%@", path, lineNumber];
         }
@@ -431,10 +431,10 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
     urlComponents.scheme = [iTermSemanticHistoryPrefsController schemeForEditor:identifier];
     NSURL *fileURL = [NSURL fileURLWithPath:path];
     urlComponents.percentEncodedQueryItems = @[ [NSURLQueryItem queryItemWithName:@"url"
-                                                                            value:percentEncoded(fileURL.absoluteString)] ];
+            value:percentEncoded(fileURL.absoluteString)] ];
     if (lineNumber) {
         NSURLQueryItem *lineItem = [NSURLQueryItem queryItemWithName:@"line"
-                                                               value:percentEncoded(lineNumber)];
+                                                   value:percentEncoded(lineNumber)];
         urlComponents.percentEncodedQueryItems = [urlComponents.queryItems arrayByAddingObject:lineItem];
     }
     NSURL *url = urlComponents.URL;
@@ -452,16 +452,16 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
 }
 
 - (void)launchTaskWithPath:(NSString *)path
-                 arguments:(NSArray *)arguments
-                completion:(void (^)(void))completion {
+    arguments:(NSArray *)arguments
+    completion:(void (^)(void))completion {
     dispatch_group_t group = dispatch_group_create();
     dispatch_group_enter(group);
     __weak __typeof(self) weakSelf = self;
     [self _launchTaskWithPath:path arguments:arguments completion:^(iTermBufferedCommandRunner *runner, int status) {
-        [weakSelf didFinishCommand:[@[path ?: @""] arrayByAddingObjectsFromArray:arguments]
-                        withStatus:status
-                            runner:runner];
-        dispatch_group_leave(group);
+             [weakSelf didFinishCommand:[@[path ?: @""] arrayByAddingObjectsFromArray:arguments]
+              withStatus:status
+              runner:runner];
+             dispatch_group_leave(group);
     }];
     if (completion) {
         dispatch_group_notify(group, dispatch_get_main_queue(), completion);
@@ -469,8 +469,8 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
 }
 
 - (void)didFinishCommand:(NSArray *)parts
-              withStatus:(int)status
-                  runner:(iTermBufferedCommandRunner *)runner {
+    withStatus:(int)status
+    runner:(iTermBufferedCommandRunner *)runner {
     [_commandRunners removeObject:runner];
     DLog(@"Runner %@ finished with status %@. There are now %@ runners.", runner, @(status), @(_commandRunners.count));
     if (!status) {
@@ -478,7 +478,7 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
     }
     iTermWarning *warning = [[iTermWarning alloc] init];
     warning.title = [NSString stringWithFormat:@"The following command returned a non-zero exit code:\n\n“%@”",
-                     [parts componentsJoinedByString:@" "]];
+                              [parts componentsJoinedByString:@" "]];
     warning.heading = @"Semantic History Command Failed";
     static const iTermSingleUseWindowOptions options = iTermSingleUseWindowOptionsShortLived;
     NSMutableData *inject = [runner.output mutableCopy];
@@ -487,18 +487,18 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
         [inject appendData:[truncationWarning dataUsingEncoding:NSUTF8StringEncoding]];
     }
     [inject it_replaceOccurrencesOfData:[NSData dataWithBytes:"\n" length:1]
-                               withData:[NSData dataWithBytes:"\r\n" length:2]];
+            withData:[NSData dataWithBytes:"\r\n" length:2]];
     warning.warningActions = @[ [iTermWarningAction warningActionWithLabel:@"OK" block:nil],
-                                [iTermWarningAction warningActionWithLabel:@"View" block:^(iTermWarningSelection selection) {
-                                    [[iTermController sharedInstance] openSingleUseWindowWithCommand:@"/usr/bin/true"
-                                                                                           arguments:nil
-                                                                                              inject:inject
-                                                                                         environment:nil
-                                                                                                 pwd:@"/"
-                                                                                             options:options
-                                                                                      didMakeSession:nil
-                                                                                          completion:nil];
-                                }] ];
+                                                               [iTermWarningAction warningActionWithLabel:@"View" block:^(iTermWarningSelection selection) {
+                                                                   [[iTermController sharedInstance] openSingleUseWindowWithCommand:@"/usr/bin/true"
+                                                                    arguments:nil
+                                                                    inject:inject
+                                                                    environment:nil
+                                                                    pwd:@"/"
+                                                                    options:options
+                                                                    didMakeSession:nil
+                                                                    completion:nil];
+                                                               }] ];
     warning.warningType = kiTermWarningTypePermanentlySilenceable;
     NSString *name;
     if ([parts[0] isEqualToString:@"/bin/sh"] && [parts[1] isEqualToString:@"-c"] && parts.count > 2) {
@@ -511,12 +511,12 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
 }
 
 - (void)_launchTaskWithPath:(NSString *)path
-                  arguments:(NSArray *)arguments
-                 completion:(void (^)(iTermBufferedCommandRunner *runner, int status))completion {
+    arguments:(NSArray *)arguments
+    completion:(void (^)(iTermBufferedCommandRunner *runner, int status))completion {
     iTermBufferedCommandRunner *runner =
-    [[iTermBufferedCommandRunner alloc] initWithCommand:path
-                                          withArguments:arguments
-                                                   path:[[NSFileManager defaultManager] currentDirectoryPath]];
+        [[iTermBufferedCommandRunner alloc] initWithCommand:path
+                                            withArguments:arguments
+                                            path:[[NSFileManager defaultManager] currentDirectoryPath]];
     DLog(@"Launch %@ %@ in runner %@", path, arguments, runner);
     runner.maximumOutputSize = @(1024 * 10);
     __weak __typeof(runner) weakRunner = runner;
@@ -544,10 +544,10 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
     DLog(@"Open URL %@", url);
     if (editorIdentifier) {
         return [[NSWorkspace sharedWorkspace] openURLs:@[ url ]
-                               withAppBundleIdentifier:editorIdentifier
-                                               options:NSWorkspaceLaunchDefault
-                        additionalEventParamDescriptor:nil
-                                     launchIdentifiers:NULL];
+                                              withAppBundleIdentifier:editorIdentifier
+                                              options:NSWorkspaceLaunchDefault
+                                              additionalEventParamDescriptor:nil
+                                              launchIdentifiers:NULL];
     } else {
         return [[NSWorkspace sharedWorkspace] openURL:url];
     }
@@ -558,11 +558,17 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
 }
 
 - (NSDictionary *)numericSubstitutions {
-    return @{ @"\\1": @"\\(semanticHistory.path)",
-              @"\\2": @"\\(semanticHistory.lineNumber)",
-              @"\\3": @"\\(semanticHistory.prefix)",
-              @"\\4": @"\\(semanticHistory.suffix)",
-              @"\\5": @"\\(semanticHistory.workingDirectory)" };
+    return @ { @"\\1":
+               @"\\(semanticHistory.path)",
+               @"\\2":
+               @"\\(semanticHistory.lineNumber)",
+               @"\\3":
+               @"\\(semanticHistory.prefix)",
+               @"\\4":
+               @"\\(semanticHistory.suffix)",
+               @"\\5":
+               @"\\(semanticHistory.workingDirectory)"
+             };
 }
 
 - (NSTimeInterval)evaluationTimeout {
@@ -570,13 +576,13 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
 }
 
 - (void)openPath:(NSString *)cleanedUpPath
-   orRawFilename:(NSString *)rawFileName
-        fragment:(NSString *)fragment
-   substitutions:(NSDictionary *)substitutions
-           scope:(iTermVariableScope *)originalScope
-      lineNumber:(NSString *)lineNumber
+    orRawFilename:(NSString *)rawFileName
+    fragment:(NSString *)fragment
+    substitutions:(NSDictionary *)substitutions
+    scope:(iTermVariableScope *)originalScope
+    lineNumber:(NSString *)lineNumber
     columnNumber:(NSString *)columnNumber
-      completion:(void (^)(BOOL))completion {
+    completion:(void (^)(BOOL))completion {
     DLog(@"openPath:%@ rawFileName:%@ substitutions:%@ lineNumber:%@ columnNumber:%@",
          cleanedUpPath, rawFileName, substitutions, lineNumber, columnNumber);
 
@@ -610,16 +616,16 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
     if (isRawAction) {
         __weak __typeof(self) weakSelf = self;
         [_expressionEvaluator evaluateWithTimeout:self.evaluationTimeout completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-            DLog(@"Launch raw action: /bin/sh -c %@", evaluator.value);
-            if (evaluator.error) {
+                                 DLog(@"Launch raw action: /bin/sh -c %@", evaluator.value);
+                                 if (evaluator.error) {
                 completion(YES);
                 return;
             }
             [weakSelf launchTaskWithPath:@"/bin/sh"
-                               arguments:@[ @"-c", evaluator.value ?: @"" ]
-                               completion:^{
-                                   completion(YES);
-                               }];
+                      arguments:@[ @"-c", evaluator.value ?: @"" ]
+                     completion:^ {
+                         completion(YES);
+                     }];
         }];
         return;
     }
@@ -634,16 +640,16 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
     if ([prefs_[kSemanticHistoryActionKey] isEqualToString:kSemanticHistoryCommandAction]) {
         __weak __typeof(self) weakSelf = self;
         [_expressionEvaluator evaluateWithTimeout:self.evaluationTimeout completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-            DLog(@"Running /bin/sh -c %@", evaluator.value);
-            if (evaluator.error) {
+                                 DLog(@"Running /bin/sh -c %@", evaluator.value);
+                                 if (evaluator.error) {
                 completion(YES);
                 return;
             }
             [weakSelf launchTaskWithPath:@"/bin/sh"
-                               arguments:@[ @"-c", evaluator.value ?: @"" ]
-                              completion:^{
-                                  completion(YES);
-                              }];
+                      arguments:@[ @"-c", evaluator.value ?: @"" ]
+                     completion:^ {
+                         completion(YES);
+                     }];
         }];
         return;
     }
@@ -651,8 +657,8 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
     if ([prefs_[kSemanticHistoryActionKey] isEqualToString:kSemanticHistoryCoprocessAction]) {
         __weak __typeof(self) weakSelf = self;
         [_expressionEvaluator evaluateWithTimeout:self.evaluationTimeout completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-            DLog(@"Launch coprocess with script %@", evaluator.value);
-            if (evaluator.error) {
+                                 DLog(@"Launch coprocess with script %@", evaluator.value);
+                                 if (evaluator.error) {
                 completion(YES);
             }
             [weakSelf.delegate semanticHistoryLaunchCoprocessWithCommand:evaluator.value];
@@ -678,18 +684,18 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
             return [string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];
         };
         iTermParsedExpression *parsedExpression = [iTermExpressionParser parsedExpressionWithInterpolatedString:url
-                                                                                               escapingFunction:urlEscapeFunction
-                                                                                                          scope:scope
-                                                                                                         strict:NO];
+                                      escapingFunction:urlEscapeFunction
+                                      scope:scope
+                                      strict:NO];
         _expressionEvaluator = [[iTermExpressionEvaluator alloc] initWithParsedExpression:parsedExpression
-                                                                               invocation:url
-                                                                                    scope:scope];
+                                                                 invocation:url
+                                                                 scope:scope];
         // Add percent escapes substitutions
         _expressionEvaluator.escapingFunction = urlEscapeFunction;
         __weak __typeof(self) weakSelf = self;
         [_expressionEvaluator evaluateWithTimeout:self.evaluationTimeout completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-            DLog(@"URL format is %@. Error is %@. Evaluated value is %@.", url, evaluator.error, evaluator.value);
-            if (!evaluator.error) {
+                                 DLog(@"URL format is %@. Error is %@. Evaluated value is %@.", url, evaluator.error, evaluator.value);
+                                 if (!evaluator.error) {
                 [weakSelf openURL:[NSURL URLWithUserSuppliedString:evaluator.value]];
             } else {
                 [weakSelf openURL:[NSURL URLWithUserSuppliedString:url]];
@@ -700,7 +706,7 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
     }
 
     if ([prefs_[kSemanticHistoryActionKey] isEqualToString:kSemanticHistoryEditorAction] &&
-        [self preferredEditorIdentifier]) {
+            [self preferredEditorIdentifier]) {
         // Action is to open in a specific editor, so open it in the editor.
         [self openFileInEditor:path lineNumber:lineNumber columnNumber:columnNumber];
         completion(YES);
@@ -749,14 +755,14 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
 }
 
 - (NSString *)pathOfExistingFileFoundWithPrefix:(NSString *)beforeStringIn
-                                         suffix:(NSString *)afterStringIn
-                               workingDirectory:(NSString *)workingDirectory
-                           charsTakenFromPrefix:(int *)charsTakenFromPrefixPtr
-                           charsTakenFromSuffix:(int *)charsTakenFromSuffixPtr
-                                 trimWhitespace:(BOOL)trimWhitespace {
+    suffix:(NSString *)afterStringIn
+    workingDirectory:(NSString *)workingDirectory
+    charsTakenFromPrefix:(int *)charsTakenFromPrefixPtr
+    charsTakenFromSuffix:(int *)charsTakenFromSuffixPtr
+    trimWhitespace:(BOOL)trimWhitespace {
     iTermPathFinder *pathfinder = [[iTermPathFinder alloc] initWithPrefix:beforeStringIn
-                                                                   suffix:afterStringIn
-                                                         workingDirectory:workingDirectory
+                                                           suffix:afterStringIn
+                                                           workingDirectory:workingDirectory
                                                            trimWhitespace:trimWhitespace];
     pathfinder.fileManager = self.fileManager;
     [pathfinder searchSynchronously];
@@ -770,22 +776,22 @@ NSString *const kSemanticHistoryColumnNumberKey = @"semanticHistory.columnNumber
 }
 
 - (iTermPathFinder *)pathOfExistingFileFoundWithPrefix:(NSString *)beforeStringIn
-                                                suffix:(NSString *)afterStringIn
-                                      workingDirectory:(NSString *)workingDirectory
-                                        trimWhitespace:(BOOL)trimWhitespace
-                                            completion:(void (^)(NSString *path,
-                                                                 int prefixChars,
-                                                                 int suffixChars,
-                                                                 BOOL workingDirectoryIsLocal))completion {
+    suffix:(NSString *)afterStringIn
+    workingDirectory:(NSString *)workingDirectory
+    trimWhitespace:(BOOL)trimWhitespace
+    completion:(void (^)(NSString *path,
+    int prefixChars,
+    int suffixChars,
+    BOOL workingDirectoryIsLocal))completion {
     iTermPathFinder *pathfinder = [[iTermPathFinder alloc] initWithPrefix:beforeStringIn
-                                                                   suffix:afterStringIn
-                                                         workingDirectory:workingDirectory
+                                                           suffix:afterStringIn
+                                                           workingDirectory:workingDirectory
                                                            trimWhitespace:trimWhitespace];
     pathfinder.fileManager = self.fileManager;
     __weak __typeof(pathfinder) weakPathfinder = pathfinder;
-    [pathfinder searchWithCompletion:^{
-        __strong __typeof(pathfinder) strongPathfinder = weakPathfinder;
-        if (!strongPathfinder) {
+    [pathfinder searchWithCompletion:^ {
+                   __strong __typeof(pathfinder) strongPathfinder = weakPathfinder;
+                   if (!strongPathfinder) {
             return;
         }
         completion(strongPathfinder.path,

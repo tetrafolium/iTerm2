@@ -24,7 +24,7 @@
 }
 
 + (void)subscribe:(NSObject *)owner
-            block:(void (^)(iTermPreferenceDidChangeNotification * _Nonnull))block {
+    block:(void (^)(iTermPreferenceDidChangeNotification * _Nonnull))block {
     [self internalSubscribe:owner withBlock:block];
 }
 

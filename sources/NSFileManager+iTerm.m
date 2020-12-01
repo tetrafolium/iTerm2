@@ -1,4 +1,4 @@
- //
+//
 //  NSFileManager+DirectoryLocations.m
 //
 //  Created by Matt Gallagher on 06 May 2010
@@ -55,21 +55,25 @@ NSString * const DirectoryLocationDomain = @"DirectoryLocationDomain";
  * @return Path or nil
  */
 - (NSString *)findOrCreateDirectory:(NSSearchPathDirectory)searchPathDirectory
-                           inDomain:(NSSearchPathDomainMask)domainMask
-                appendPathComponent:(NSString *)appendComponent
-                              error:(NSError **)errorOut {
+    inDomain:(NSSearchPathDomainMask)domainMask
+    appendPathComponent:(NSString *)appendComponent
+    error:(NSError **)errorOut {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(searchPathDirectory,
-                                                         domainMask,
-                                                         YES);
+                     domainMask,
+                     YES);
     DLog(@"Search paths are %@", paths);
     if (!paths.count) {
         if (errorOut) {
-            NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: @"No path found for directory in domain.",
-                                        @"NSSearchPathDirectory": @(searchPathDirectory),
-                                        @"NSSearchPathDomainMask": @(domainMask) };
+            NSDictionary *userInfo = @ { NSLocalizedDescriptionKey:
+                                         @"No path found for directory in domain.",
+                                         @"NSSearchPathDirectory":
+                                         @(searchPathDirectory),
+                                         @"NSSearchPathDomainMask":
+                                         @(domainMask)
+                                       };
             *errorOut = [NSError errorWithDomain:DirectoryLocationDomain
-                                            code:DirectoryLocationErrorNoPathFound
-                                        userInfo:userInfo];
+                                 code:DirectoryLocationErrorNoPathFound
+                                 userInfo:userInfo];
         }
         DLog(@"Fail, no paths");
         return nil;
@@ -85,9 +89,9 @@ NSString * const DirectoryLocationDomain = @"DirectoryLocationDomain";
     // Create if needed.
     NSError *error = nil;
     BOOL success = [self createDirectoryAtPath:resolvedPath
-                   withIntermediateDirectories:YES
-                                    attributes:nil
-                                         error:&error];
+                         withIntermediateDirectories:YES
+                         attributes:nil
+                         error:&error];
     if (!success)  {
         if (errorOut) {
             *errorOut = error;
@@ -115,19 +119,19 @@ NSString * const DirectoryLocationDomain = @"DirectoryLocationDomain";
     NSError *error;
     DLog(@"Want app support directory");
     NSString *result = [self findOrCreateDirectory:NSApplicationSupportDirectory
-                                          inDomain:NSUserDomainMask
-                               appendPathComponent:executableName
-                                             error:&error];
+                             inDomain:NSUserDomainMask
+                             appendPathComponent:executableName
+                             error:&error];
     if (result == nil) {
         static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
+        dispatch_once(&onceToken, ^ {
             [iTermWarning showWarningWithTitle:[NSString stringWithFormat:@"There was a problem finding or creating your application support directory. iTerm2 won't work very well until this problem is fixed.\n\nIt should be at ~/Library/Application Support/iTerm2.\n\nThe error was:\n%@", error.localizedDescription]
-                                       actions:@[ @"OK" ]
-                                     accessory:nil
-                                    identifier:@"NoSyncAppSupportFail"
-                                   silenceable:kiTermWarningTypePersistent
-                                       heading:@"Problem with Application Support Directory"
-                                        window:nil];
+                          actions:@[ @"OK" ]
+                          accessory:nil
+                          identifier:@"NoSyncAppSupportFail"
+                          silenceable:kiTermWarningTypePersistent
+                          heading:@"Problem with Application Support Directory"
+                          window:nil];
         });
     }
 
@@ -137,9 +141,9 @@ NSString * const DirectoryLocationDomain = @"DirectoryLocationDomain";
 - (NSString *)libraryDirectoryFor:(NSString *)app {
     NSError *error;
     NSString *result = [self findOrCreateDirectory:NSLibraryDirectory
-                                          inDomain:NSUserDomainMask
-                               appendPathComponent:app
-                                             error:&error];
+                             inDomain:NSUserDomainMask
+                             appendPathComponent:app
+                             error:&error];
     if (!result) {
         ELog(@"Unable to find or create application support directory:\n%@", error);
     }
@@ -149,9 +153,9 @@ NSString * const DirectoryLocationDomain = @"DirectoryLocationDomain";
 - (NSString *)legacyApplicationSupportDirectory {
     NSError *error;
     NSString *result = [self findOrCreateDirectory:NSApplicationSupportDirectory
-                                          inDomain:NSUserDomainMask
-                               appendPathComponent:@"iTerm"
-                                             error:&error];
+                             inDomain:NSUserDomainMask
+                             appendPathComponent:@"iTerm"
+                             error:&error];
     if (!result) {
         ELog(@"Unable to find or create application support directory:\n%@", error);
     }
@@ -195,8 +199,8 @@ NSString * const DirectoryLocationDomain = @"DirectoryLocationDomain";
     }
 
     NSArray<NSString *> *paths = NSSearchPathForDirectoriesInDomains(NSDownloadsDirectory,
-                                                                     NSUserDomainMask,
-                                                                     YES);
+                                 NSUserDomainMask,
+                                 YES);
     for (NSString *path in paths) {
         if ([self isWritableFileAtPath:path]) {
             return path;
@@ -241,9 +245,9 @@ NSString * const DirectoryLocationDomain = @"DirectoryLocationDomain";
     NSString *filename = [NSString stringWithFormat:@"%@/.testwritable.%d", dir, (int)getpid()];
     NSError *error = nil;
     [@"test" writeToFile:filename
-              atomically:YES
-                encoding:NSUTF8StringEncoding
-                   error:&error];
+             atomically:YES
+             encoding:NSUTF8StringEncoding
+             error:&error];
     if (error) {
         return NO;
     }
@@ -252,7 +256,7 @@ NSString * const DirectoryLocationDomain = @"DirectoryLocationDomain";
 }
 
 - (BOOL)fileHasForbiddenPrefix:(NSString *)filename
-        additionalNetworkPaths:(NSArray<NSString *> *)additionalNetworkPaths {
+    additionalNetworkPaths:(NSArray<NSString *> *)additionalNetworkPaths {
     DLog(@"Additional network paths are: %@", additionalNetworkPaths);
     // Augment list of additional paths with nfs automounter mount points.
     NSMutableArray *networkPaths = [additionalNetworkPaths mutableCopy];
@@ -278,7 +282,7 @@ NSString * const DirectoryLocationDomain = @"DirectoryLocationDomain";
 }
 
 - (BOOL)fileIsLocal:(NSString *)filename
-additionalNetworkPaths:(NSArray<NSString *> *)additionalNetworkPaths {
+    additionalNetworkPaths:(NSArray<NSString *> *)additionalNetworkPaths {
     if ([iTermAdvancedSettingsModel enableSemanticHistoryOnNetworkMounts]) {
         DLog(@"** Skipping network-mount check because the advanced pref is on!!! **");
         return YES;
@@ -299,7 +303,7 @@ additionalNetworkPaths:(NSArray<NSString *> *)additionalNetworkPaths {
 }
 
 - (BOOL)fileExistsAtPathLocally:(NSString *)filename
-         additionalNetworkPaths:(NSArray<NSString *> *)additionalNetworkPaths {
+    additionalNetworkPaths:(NSArray<NSString *> *)additionalNetworkPaths {
     if (![self fileIsLocal:filename additionalNetworkPaths:additionalNetworkPaths]) {
         return NO;
     }
@@ -360,8 +364,8 @@ additionalNetworkPaths:(NSArray<NSString *> *)additionalNetworkPaths {
                                 DISPATCH_VNODE_ATTRIB | DISPATCH_VNODE_LINK | DISPATCH_VNODE_RENAME |
                                 DISPATCH_VNODE_REVOKE);
     __block dispatch_source_t source =
-    dispatch_source_create(DISPATCH_SOURCE_TYPE_VNODE, fileDescriptor, mask, queue);
-    dispatch_source_set_event_handler(source, ^{
+        dispatch_source_create(DISPATCH_SOURCE_TYPE_VNODE, fileDescriptor, mask, queue);
+    dispatch_source_set_event_handler(source, ^ {
         unsigned long flags = dispatch_source_get_data(source);
         dispatch_async(dispatch_get_main_queue(), ^{
             block(flags);

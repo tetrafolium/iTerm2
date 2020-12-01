@@ -22,8 +22,8 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p windowRestorationComplete=%@ disableInitialWindow=%@ initializationComplete=%@ wantsWindow=%@>",
-            self.class, self, @(_windowRestorationComplete), @(_disableInitialWindow),
-            @(_initializationComplete), @(_wantsWindow)];
+                     self.class, self, @(_windowRestorationComplete), @(_disableInitialWindow),
+                     @(_initializationComplete), @(_wantsWindow)];
 }
 
 - (void)maybeOpenUntitledFile {

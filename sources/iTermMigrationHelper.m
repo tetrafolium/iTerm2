@@ -79,8 +79,8 @@
         NSAlert *alert = [[NSAlert alloc] init];
         alert.messageText = @"Manual Update Needed";
         alert.informativeText = @"iTerm2's Application Support directory has changed.\n\n"
-        @"Previously, both these directories were supported:\n~/Library/Application Support/iTerm\n~/Library/Application Support/iTerm2.\n\n"
-            @"Now, only the iTerm2 version is supported. But you have files in both so please move everything from iTerm to iTerm2.";
+                                @"Previously, both these directories were supported:\n~/Library/Application Support/iTerm\n~/Library/Application Support/iTerm2.\n\n"
+                                @"Now, only the iTerm2 version is supported. But you have files in both so please move everything from iTerm to iTerm2.";
 
         NSMutableArray<NSString *> *files = [NSMutableArray array];
         int over = 0;
@@ -100,11 +100,11 @@
         }
 
         iTermDisclosableView *accessory = [[iTermDisclosableView alloc] initWithFrame:NSZeroRect
-                                                                               prompt:@"Directory Listing"
-                                                                              message:message];
+                                                                        prompt:@"Directory Listing"
+                                                                        message:message];
         accessory.frame = NSMakeRect(0, 0, accessory.intrinsicContentSize.width, accessory.intrinsicContentSize.height);
         accessory.textView.selectable = YES;
-        accessory.requestLayout = ^{
+        accessory.requestLayout = ^ {
             [alert layout];
             if (@available(macOS 10.16, *)) {
                 // FB8897296:
@@ -122,18 +122,18 @@
         [alert addButtonWithTitle:@"I Fixed It"];
         [alert addButtonWithTitle:@"Not Now"];
         switch ([alert runModal]) {
-            case NSAlertFirstButtonReturn:
-                [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[ [NSURL fileURLWithPath:legacy],
-                                                                              [NSURL fileURLWithPath:modern] ]];
-                [self migrateApplicationSupportDirectoryIfNeeded];
-                break;
+        case NSAlertFirstButtonReturn:
+            [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[ [NSURL fileURLWithPath:legacy],
+                                                  [NSURL fileURLWithPath:modern] ]];
+            [self migrateApplicationSupportDirectoryIfNeeded];
+            break;
 
-            case NSAlertThirdButtonReturn:
-                return;
+        case NSAlertThirdButtonReturn:
+            return;
 
-            default:
-                [self migrateApplicationSupportDirectoryIfNeeded];
-                break;
+        default:
+            [self migrateApplicationSupportDirectoryIfNeeded];
+            break;
         }
     }
 }
@@ -141,7 +141,7 @@
 + (void)copyProfileToBookmark:(NSMutableDictionary *)dict
 {
     NSString* plistFile = [[NSBundle bundleForClass:[self class]] pathForResource:@"MigrationMap"
-                                                                           ofType:@"plist"];
+                                                                ofType:@"plist"];
     NSDictionary* fileDict = [NSDictionary dictionaryWithContentsOfFile: plistFile];
     NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
     NSDictionary* keybindingProfiles = [prefs objectForKey: @"KeyBindings"];
@@ -192,13 +192,13 @@
         NSString* dir = [data objectForKey:KEY_WORKING_DIRECTORY];
         if (dir && [dir length] > 0) {
             [temp setObject:kProfilePreferenceInitialDirectoryCustomValue
-                     forKey:KEY_CUSTOM_DIRECTORY];
+                  forKey:KEY_CUSTOM_DIRECTORY];
         } else if (dir && [dir length] == 0) {
             [temp setObject:kProfilePreferenceInitialDirectoryRecycleValue
-                     forKey:KEY_CUSTOM_DIRECTORY];
+                  forKey:KEY_CUSTOM_DIRECTORY];
         } else {
             [temp setObject:kProfilePreferenceInitialDirectoryHomeValue
-                     forKey:KEY_CUSTOM_DIRECTORY];
+                  forKey:KEY_CUSTOM_DIRECTORY];
         }
         [[ProfileModel sharedInstance] addBookmark:temp];
     }

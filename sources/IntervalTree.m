@@ -182,7 +182,7 @@ static NSString *const kIntervalLengthKey = @"Length";
         return nil;
     }
     return [self intervalWithLocation:[dict[kIntervalLocationKey] longLongValue]
-                               length:[dict[kIntervalLengthKey] longLongValue]];
+                 length:[dict[kIntervalLengthKey] longLongValue]];
 }
 
 + (Interval *)intervalWithLocation:(long long)location length:(long long)length {
@@ -210,7 +210,7 @@ static NSString *const kIntervalLengthKey = @"Length";
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p [%lld, %lld)>",
-            self.class, self, self.location, self.limit];
+                     self.class, self, self.location, self.limit];
 }
 
 - (void)boundsCheck {
@@ -228,8 +228,11 @@ static NSString *const kIntervalLengthKey = @"Length";
 }
 
 - (NSDictionary *)dictionaryValue {
-    return @{ kIntervalLocationKey: @(_location),
-              kIntervalLengthKey: @(_length) };
+    return @ { kIntervalLocationKey:
+               @(_location),
+               kIntervalLengthKey:
+               @(_length)
+             };
 }
 
 #pragma mark - NSCopying
@@ -243,7 +246,7 @@ static NSString *const kIntervalLengthKey = @"Length";
 @implementation IntervalTreeEntry
 
 + (IntervalTreeEntry *)entryWithInterval:(Interval *)interval
-                                  object:(id<IntervalTreeObject>)object {
+    object:(id<IntervalTreeObject>)object {
     IntervalTreeEntry *entry = [[[IntervalTreeEntry alloc] init] autorelease];
     entry.interval = interval;
     entry.object = object;
@@ -258,7 +261,7 @@ static NSString *const kIntervalLengthKey = @"Length";
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p interval=%@ object=%@>",
-            self.class, self, self.interval, self.object];
+                     self.class, self, self.interval, self.object];
 }
 @end
 
@@ -270,10 +273,10 @@ static NSString *const kIntervalLengthKey = @"Length";
         [entriesString appendFormat:@"%@, ", entry];
     }
     return [NSString stringWithFormat:@"<%@: %p maxLimitAtSubtree=%lld entries=[%@]>",
-            self.class,
-            self,
-            self.maxLimitAtSubtree,
-            entriesString];
+                     self.class,
+                     self,
+                     self.maxLimitAtSubtree,
+                     entriesString];
 }
 
 - (instancetype)init {
@@ -341,8 +344,8 @@ static NSString *const kIntervalLengthKey = @"Length";
     self = [super init];
     if (self) {
         _tree = [[AATree alloc] initWithKeyComparator:^(NSNumber *key1, NSNumber *key2) {
-            return [key1 compare:key2];
-        }];
+                           return [key1 compare:key2];
+                       }];
         assert(_tree);
         _tree.delegate = self;
     }
@@ -363,7 +366,7 @@ static NSString *const kIntervalLengthKey = @"Length";
     [interval boundsCheck];
     assert(object.entry == nil);  // Object must not belong to another tree
     IntervalTreeEntry *entry = [IntervalTreeEntry entryWithInterval:interval
-                                                             object:object];
+                                                  object:object];
     IntervalTreeValue *value = [_tree objectForKey:@(interval.location)];
     if (!value) {
         IntervalTreeValue *newValue = [[[IntervalTreeValue alloc] init] autorelease];
@@ -407,7 +410,7 @@ static NSString *const kIntervalLengthKey = @"Length";
 #pragma mark - Private
 
 - (void)recalculateMaxLimitInSubtreeAtNode:(AATreeNode *)node
-                     removeFromToVisitList:(NSMutableSet *)toVisit {
+    removeFromToVisitList:(NSMutableSet *)toVisit {
     IntervalTreeValue *value = (IntervalTreeValue *)node.data;
     if (![toVisit containsObject:node]) {
         return;
@@ -418,7 +421,7 @@ static NSString *const kIntervalLengthKey = @"Length";
     if (node.left) {
         if ([toVisit containsObject:node.left]) {
             [self recalculateMaxLimitInSubtreeAtNode:node.left
-                               removeFromToVisitList:toVisit];
+                  removeFromToVisitList:toVisit];
         }
         IntervalTreeValue *leftValue = (IntervalTreeValue *)node.left.data;
         max = MAX(max, leftValue.maxLimitAtSubtree);
@@ -426,7 +429,7 @@ static NSString *const kIntervalLengthKey = @"Length";
     if (node.right) {
         if ([toVisit containsObject:node.right]) {
             [self recalculateMaxLimitInSubtreeAtNode:node.right
-                               removeFromToVisitList:toVisit];
+                  removeFromToVisitList:toVisit];
         }
         IntervalTreeValue *rightValue = (IntervalTreeValue *)node.right.data;
         max = MAX(max, rightValue.maxLimitAtSubtree);
@@ -441,7 +444,7 @@ static NSString *const kIntervalLengthKey = @"Length";
     for (AATreeNode *node in changedNodes) {
         if ([toVisit containsObject:node]) {
             [self recalculateMaxLimitInSubtreeAtNode:node
-                               removeFromToVisitList:toVisit];
+                  removeFromToVisitList:toVisit];
         }
     }
 }
@@ -451,13 +454,13 @@ static NSString *const kIntervalLengthKey = @"Length";
     NSMutableSet *parentSet = [NSMutableSet setWithArray:parents];
     for (AATreeNode *theNode in parents) {
         [self recalculateMaxLimitInSubtreeAtNode:theNode
-                           removeFromToVisitList:parentSet];
+              removeFromToVisitList:parentSet];
     }
 }
 
 - (void)addObjectsInInterval:(Interval *)interval
-                     toArray:(NSMutableArray *)result
-                    fromNode:(AATreeNode *)node {
+    toArray:(NSMutableArray *)result
+    fromNode:(AATreeNode *)node {
     IntervalTreeValue *nodeValue = (IntervalTreeValue *)node.data;
     if (nodeValue.maxLimitAtSubtree <= interval.location) {
         // The whole subtree has intervals that end before the requested |interval|.
@@ -477,13 +480,13 @@ static NSString *const kIntervalLengthKey = @"Length";
         // The requested interval includes points before this node's interval so we must search
         // intervals that start before this node.
         [self addObjectsInInterval:interval
-                           toArray:result
-                          fromNode:node.left];
+              toArray:result
+              fromNode:node.left];
     }
     if (interval.limit > nodeInterval.location && node.right) {
         [self addObjectsInInterval:interval
-                           toArray:result
-                          fromNode:node.right];
+              toArray:result
+              fromNode:node.right];
     }
 }
 
@@ -579,7 +582,7 @@ static NSString *const kIntervalLengthKey = @"Length";
     NSArray *objectsFromRight = nil;
     id<IntervalTreeObject> leftValue = objectsFromLeft[0];
     if (node.right &&
-        (!objectsFromLeft.count || nodeInterval.location < leftValue.entry.interval.limit)) {
+            (!objectsFromLeft.count || nodeInterval.location < leftValue.entry.interval.limit)) {
         objectsFromRight = [self objectsWithSmallestLimitFromNode:node.right];
     }
 
@@ -711,8 +714,8 @@ static NSString *const kIntervalLengthKey = @"Length";
          thisLocation > bestLeft.entry.interval.limit &&
          bestLeft.entry.interval.limit > bound);
     if (node.right &&
-        rightValue.maxLimitAtSubtree > bound &&
-        !thisNodesLocationIsAfterLeftSubtreesSmallestLimitAfterBound) {
+            rightValue.maxLimitAtSubtree > bound &&
+            !thisNodesLocationIsAfterLeftSubtreesSmallestLimitAfterBound) {
         rightObjects = [self objectsWithSmallestLimitAfter:bound fromNode:node.right];
     }
 
@@ -777,10 +780,10 @@ static NSString *const kIntervalLengthKey = @"Length";
         // Try to eliminate the left subtree from consideration if this node or the right subtree
         // is superior to it.
         const BOOL thisNodeBeatsWholeLeftSubtree = (nodeInterval &&
-                                                    nodeInterval.limit < bound &&
-                                                    nodeInterval.limit > leftValue.maxLimitAtSubtree);
+                nodeInterval.limit < bound &&
+                nodeInterval.limit > leftValue.maxLimitAtSubtree);
         const BOOL rightSubtreeBeatsWholeLeftSubtree = (rightValue.maxLimitAtSubtree < bound &&
-                                                        rightValue.maxLimitAtSubtree > leftValue.maxLimitAtSubtree);
+                rightValue.maxLimitAtSubtree > leftValue.maxLimitAtSubtree);
         if (!thisNodeBeatsWholeLeftSubtree && !rightSubtreeBeatsWholeLeftSubtree) {
             leftObjects = [self objectsWithLargestLimitBelow:bound fromNode:node.left];
         }
@@ -790,11 +793,11 @@ static NSString *const kIntervalLengthKey = @"Length";
         // Try to eliminate the right subtree from consideration if this node or the left subtree
         // is superior to it.
         const BOOL thisNodeBeatsWholeRightSubtree = (nodeInterval &&
-                                                     nodeInterval.limit < bound &&
-                                                     nodeInterval.limit > rightValue.maxLimitAtSubtree);
+                nodeInterval.limit < bound &&
+                nodeInterval.limit > rightValue.maxLimitAtSubtree);
         const BOOL leftSubtreeBeatsWholeRightSubtree = (leftValue &&
-                                                        leftValue.maxLimitAtSubtree < bound &&
-                                                        leftValue.maxLimitAtSubtree > rightValue.maxLimitAtSubtree);
+                leftValue.maxLimitAtSubtree < bound &&
+                leftValue.maxLimitAtSubtree > rightValue.maxLimitAtSubtree);
         if (!thisNodeBeatsWholeRightSubtree && !leftSubtreeBeatsWholeRightSubtree) {
             rightObjects = [self objectsWithLargestLimitBelow:bound fromNode:node.right];
         }
@@ -920,12 +923,13 @@ static NSString *const kIntervalLengthKey = @"Length";
     for (id<IntervalTreeObject> object in self.allObjects) {
         Interval *interval = object.entry.interval;
         interval.location = interval.location + offset;
-        [objectDicts addObject:@{ kIntervalTreeIntervalKey: object.entry.interval.dictionaryValue,
-                                  kIntervalTreeObjectKey: object.dictionaryValue,
-                                  kIntervalTreeClassNameKey: NSStringFromClass(object.class) }];
+        [objectDicts addObject:@ { kIntervalTreeIntervalKey: object.entry.interval.dictionaryValue,
+                                   kIntervalTreeObjectKey: object.dictionaryValue,
+                                   kIntervalTreeClassNameKey: NSStringFromClass(object.class)
+                                 }];
         interval.location = interval.location - offset;
     }
-    return @{ kIntervalTreeEntriesKey: objectDicts };
+    return @ { kIntervalTreeEntriesKey: objectDicts };
 }
 
 @end

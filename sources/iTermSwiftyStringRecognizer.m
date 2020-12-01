@@ -24,16 +24,16 @@
 @implementation iTermSwiftyStringRecognizer
 
 - (id)initWithStartQuote:(NSString *)startQuote
-                endQuote:(NSString *)endQuote
-          escapeSequence:(NSString *)escapeSequence
-           maximumLength:(NSUInteger)maximumLength
-                    name:(NSString *)name
-      tolerateTruncation:(BOOL)tolerateTruncation {
+    endQuote:(NSString *)endQuote
+    escapeSequence:(NSString *)escapeSequence
+    maximumLength:(NSUInteger)maximumLength
+    name:(NSString *)name
+    tolerateTruncation:(BOOL)tolerateTruncation {
     self = [super initWithStartQuote:startQuote
-                            endQuote:endQuote
-                      escapeSequence:escapeSequence
-                       maximumLength:maximumLength
-                                name:name];
+                  endQuote:endQuote
+                  escapeSequence:escapeSequence
+                  maximumLength:maximumLength
+                  name:name];
     if (self) {
         _tolerateTruncation = tolerateTruncation;
     }
@@ -64,8 +64,8 @@
     }
     *tokenPosition += end + self.startQuote.length + self.endQuote.length;
     iTermSwiftyStringToken *token = [[iTermSwiftyStringToken alloc] initWithContent:[substring substringToIndex:end]
-                                                                          quoteType:self.startQuote
-                                                                               name:[self name]];
+                                                                    quoteType:self.startQuote
+                                                                    name:[self name]];
     if (parser.wasTruncated) {
         token.endsWithLiteral = parser.wasTruncatedInLiteral;
         token.truncatedPart = [substring substringFromIndex:index];

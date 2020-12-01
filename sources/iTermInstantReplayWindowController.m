@@ -52,11 +52,11 @@ typedef NS_ENUM(NSUInteger, iTermInstantReplayState) {
 
     if (@available(macOS 10.14, *)) {
         NSAppearanceName bestMatch = [self.effectiveAppearance bestMatchFromAppearancesWithNames:@[ NSAppearanceNameDarkAqua,
-                                                                                                    NSAppearanceNameVibrantDark,
-                                                                                                    NSAppearanceNameAqua,
-                                                                                                    NSAppearanceNameVibrantLight ]];
+                                                               NSAppearanceNameVibrantDark,
+                                                               NSAppearanceNameAqua,
+                                                               NSAppearanceNameVibrantLight ]];
         if ([bestMatch isEqualToString:NSAppearanceNameDarkAqua] ||
-            [bestMatch isEqualToString:NSAppearanceNameVibrantDark]) {
+                [bestMatch isEqualToString:NSAppearanceNameVibrantDark]) {
             [[[NSColor whiteColor] colorWithAlphaComponent:0.5] set];
         } else {
             [[[NSColor blackColor] colorWithAlphaComponent:0.5] set];
@@ -65,7 +65,7 @@ typedef NS_ENUM(NSUInteger, iTermInstantReplayState) {
         [[[NSColor blackColor] colorWithAlphaComponent:0.5] set];
     }
     [_fractions enumerateObjectsUsingBlock:^(NSNumber * _Nonnull fractionNumber, NSUInteger idx, BOOL * _Nonnull stop) {
-        const double fraction = fractionNumber.doubleValue;
+                   const double fraction = fractionNumber.doubleValue;
         const CGFloat x = [self xFromFraction:fraction width:width];
         if (x < NSMinX(dirtyRect) || x > NSMaxX(dirtyRect)) {
             return;
@@ -99,9 +99,9 @@ typedef NS_ENUM(NSUInteger, iTermInstantReplayState) {
             [self removeTrackingArea:_trackingArea];
         }
         _trackingArea = [[NSTrackingArea alloc] initWithRect:[self visibleRect]
-                                                     options:NSTrackingMouseMoved |NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways
-                                                       owner:self
-                                                    userInfo:nil];
+                                                options:NSTrackingMouseMoved |NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways
+                                                owner:self
+                                                userInfo:nil];
         [self addTrackingArea:_trackingArea];
     }
 }
@@ -186,31 +186,31 @@ typedef NS_ENUM(NSUInteger, iTermInstantReplayState) {
     if ([characters length]) {
         unichar code = [characters characterAtIndex:0];
         switch (code) {
-            case NSLeftArrowFunctionKey:
-                [_delegate instantReplayStep:-1];
-                [me updateInstantReplayView];
-                break;
-            case NSRightArrowFunctionKey:
-                [_delegate instantReplayStep:1];
-                [me updateInstantReplayView];
-                break;
-            case 27:
-                [_delegate replaceSyntheticActiveSessionWithLiveSessionIfNeeded];
-                break;
+        case NSLeftArrowFunctionKey:
+            [_delegate instantReplayStep:-1];
+            [me updateInstantReplayView];
+            break;
+        case NSRightArrowFunctionKey:
+            [_delegate instantReplayStep:1];
+            [me updateInstantReplayView];
+            break;
+        case 27:
+            [_delegate replaceSyntheticActiveSessionWithLiveSessionIfNeeded];
+            break;
         }
     }
 }
 
 - (IBAction)exportButton:(id)sender {
     switch (_state) {
-        case iTermInstantReplayStateNormal:
-            [self setState:iTermInstantReplayStateSetStart byCancelling:NO];
-            break;
-        case iTermInstantReplayStateSetStart:
-            [self setState:iTermInstantReplayStateSetEnd byCancelling:NO];
-            break;
-        case iTermInstantReplayStateSetEnd:
-            [self setState:iTermInstantReplayStateNormal byCancelling:NO];
+    case iTermInstantReplayStateNormal:
+        [self setState:iTermInstantReplayStateSetStart byCancelling:NO];
+        break;
+    case iTermInstantReplayStateSetStart:
+        [self setState:iTermInstantReplayStateSetEnd byCancelling:NO];
+        break;
+    case iTermInstantReplayStateSetEnd:
+        [self setState:iTermInstantReplayStateNormal byCancelling:NO];
     }
 }
 
@@ -220,7 +220,7 @@ typedef NS_ENUM(NSUInteger, iTermInstantReplayState) {
 
 - (void)setState:(iTermInstantReplayState)destinationState byCancelling:(BOOL)cancel {
     if (_state == iTermInstantReplayStateSetStart &&
-               destinationState == iTermInstantReplayStateSetEnd) {
+            destinationState == iTermInstantReplayStateSetEnd) {
         _start = [_delegate instantReplayCurrentTimestamp];
         _eventsView.startFraction = (_start - _firstTimestamp) / _span;
         _eventsView.endFraction = _eventsView.startFraction;
@@ -237,22 +237,22 @@ typedef NS_ENUM(NSUInteger, iTermInstantReplayState) {
     }
     _state = destinationState;
     switch (_state) {
-        case iTermInstantReplayStateNormal:
-            _firstButton.title = @"Export…";
-            _eventsView.startFraction = 0;
-            _eventsView.endFraction = 0;
-            [_eventsView setNeedsDisplay:YES];
-            _secondButton.hidden = YES;
-            break;
-        case iTermInstantReplayStateSetStart:
-            _firstButton.title = @"Set Start";
-            _secondButton.title = @"Cancel";
-            _secondButton.hidden = NO;
-            break;
-        case iTermInstantReplayStateSetEnd:
-            _firstButton.title = @"Set End";
-            _secondButton.title = @"Cancel";
-            _secondButton.hidden = NO;
+    case iTermInstantReplayStateNormal:
+        _firstButton.title = @"Export…";
+        _eventsView.startFraction = 0;
+        _eventsView.endFraction = 0;
+        [_eventsView setNeedsDisplay:YES];
+        _secondButton.hidden = YES;
+        break;
+    case iTermInstantReplayStateSetStart:
+        _firstButton.title = @"Set Start";
+        _secondButton.title = @"Cancel";
+        _secondButton.hidden = NO;
+        break;
+    case iTermInstantReplayStateSetEnd:
+        _firstButton.title = @"Set End";
+        _secondButton.title = @"Cancel";
+        _secondButton.hidden = NO;
     }
 }
 
@@ -284,7 +284,7 @@ typedef NS_ENUM(NSUInteger, iTermInstantReplayState) {
     NSDateFormatter* fmt = [[NSDateFormatter alloc] init];
     [fmt setDateStyle:NSDateFormatterShortStyle];
     if (startTimeParts.tm_year != nowParts.tm_year ||
-        startTimeParts.tm_yday != nowParts.tm_yday) {
+            startTimeParts.tm_yday != nowParts.tm_yday) {
         [fmt setDateStyle:NSDateFormatterShortStyle];
     } else {
         [fmt setDateStyle:NSDateFormatterNoStyle];

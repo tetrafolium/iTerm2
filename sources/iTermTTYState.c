@@ -93,10 +93,10 @@ static void iTermForceSetTerminalSize(int fd, PTYTaskSize taskSize) {
     };
 
     FDLog(LOG_DEBUG, "Set window size to cells=(%d x %d) pixels=(%d x %d)",
-         winsize.ws_col,
-         winsize.ws_row,
-         winsize.ws_xpixel,
-         winsize.ws_ypixel);
+          winsize.ws_col,
+          winsize.ws_row,
+          winsize.ws_xpixel,
+          winsize.ws_ypixel);
 
     ioctl(fd, TIOCSWINSZ, &winsize);
 }

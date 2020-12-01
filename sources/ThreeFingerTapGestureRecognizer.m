@@ -37,7 +37,7 @@
     fired_ = NO;
     DLog(@"fired->NO");
     const int touches = [[ev touchesMatchingPhase:NSTouchPhaseBegan | NSTouchPhaseStationary
-                                           inView:target_] count];
+                          inView:target_] count];
     DLog(@"touches=%@, numTouches_=%@", @(touches), @(numTouches_));
     if (numTouches_ == 0 && touches > 0) {
         DLog(@"Set first touch time");
@@ -58,7 +58,7 @@
         // Number of touches went down and then up: can't be a three finger tap.
         [self cancel];
     }
-   numTouches_ = touches;
+    numTouches_ = touches;
 }
 
 - (void)touchesMovedWithEvent:(NSEvent *)event {
@@ -67,13 +67,13 @@
 
 - (void)touchesEndedWithEvent:(NSEvent *)ev {
     numTouches_ = [[ev touchesMatchingPhase:NSTouchPhaseStationary
-                                           inView:target_] count];
+                    inView:target_] count];
     const NSTimeInterval maxTimeForSimulatedThreeFingerTap = 1;
     if (numTouches_ == 0 &&
-        firstTouchTime_ &&
-        threeTouchTime_ &&
-        !_moved &&
-        [NSDate timeIntervalSinceReferenceDate] - firstTouchTime_ < maxTimeForSimulatedThreeFingerTap) {
+            firstTouchTime_ &&
+            threeTouchTime_ &&
+            !_moved &&
+            [NSDate timeIntervalSinceReferenceDate] - firstTouchTime_ < maxTimeForSimulatedThreeFingerTap) {
         DLog(@"Fake a three finger click");
         [target_ performSelector:selector_ withObject:ev];
         DLog(@"fired->YES");

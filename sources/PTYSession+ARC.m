@@ -23,7 +23,7 @@
 extern NSString *const SESSION_ARRANGEMENT_TMUX_PANE;
 extern NSString *const SESSION_ARRANGEMENT_SERVER_DICT;
 
-@interface iTermPartialAttachment: NSObject<iTermPartialAttachment>
+@interface iTermPartialAttachment : NSObject<iTermPartialAttachment>
 @end
 
 @implementation iTermPartialAttachment
@@ -42,26 +42,26 @@ extern NSString *const SESSION_ARRANGEMENT_SERVER_DICT;
 #pragma mark - Arrangements
 
 + (void)openPartialAttachmentsForArrangement:(NSDictionary *)arrangement
-                                  completion:(void (^)(NSDictionary *))completion {
+    completion:(void (^)(NSDictionary *))completion {
     DLog(@"PTYSession.openPartialAttachmentsForArrangement: start");
     if (arrangement[SESSION_ARRANGEMENT_TMUX_PANE] ||
-        ![iTermAdvancedSettingsModel runJobsInServers] ||
-        ![iTermMultiServerJobManager available]) {
+            ![iTermAdvancedSettingsModel runJobsInServers] ||
+            ![iTermMultiServerJobManager available]) {
         DLog(@"PTYSession.openPartialAttachmentsForArrangement: NO, is tmux");
-        completion(@{});
+        completion(@ {});
         return;
     }
     NSDictionary *restorationIdentifier = [NSDictionary castFrom:arrangement[SESSION_ARRANGEMENT_SERVER_DICT]];
     if (!restorationIdentifier) {
         DLog(@"PTYSession.openPartialAttachmentsForArrangement: NO, lacks server dict\n%@", arrangement[SESSION_ARRANGEMENT_SERVER_DICT]);
-        completion(@{});
+        completion(@ {});
         return;
     }
     iTermGeneralServerConnection generalConnection;
     if (![iTermMultiServerJobManager getGeneralConnection:&generalConnection
-                                fromRestorationIdentifier:restorationIdentifier]) {
+                                       fromRestorationIdentifier:restorationIdentifier]) {
         DLog(@"PTYSession.openPartialAttachmentsForArrangement: NO, not multiserver");
-        completion(@{});
+        completion(@ {});
         return;
     }
     if (generalConnection.type != iTermGeneralServerConnectionTypeMulti) {
@@ -73,10 +73,10 @@ extern NSString *const SESSION_ARRANGEMENT_SERVER_DICT;
         [[iTermMultiServerJobManager alloc] initWithQueue:jobManagerQueue];
     DLog(@"PTYSession.openPartialAttachmentsForArrangement: request partial attach");
     [jobManager asyncPartialAttachToServer:generalConnection
-                             withProcessID:@(generalConnection.multi.pid)
-                                completion:^(id<iTermJobManagerPartialResult> partialResult) {
-        DLog(@"PTYSession.openPartialAttachmentsForArrangement: finished");
-        if (!partialResult) {
+                withProcessID:@(generalConnection.multi.pid)
+               completion:^(id<iTermJobManagerPartialResult> partialResult) {
+                   DLog(@"PTYSession.openPartialAttachmentsForArrangement: finished");
+                   if (!partialResult) {
             assert(NO);
             return;
         }
@@ -85,7 +85,7 @@ extern NSString *const SESSION_ARRANGEMENT_SERVER_DICT;
         attachment.jobManager = jobManager;
         attachment.partialResult = partialResult;
         attachment.queue = jobManagerQueue;
-        completion(@{ restorationIdentifier: attachment });
+        completion(@ { restorationIdentifier: attachment });
     }];
 }
 
@@ -96,8 +96,8 @@ extern NSString *const SESSION_ARRANGEMENT_SERVER_DICT;
         return NO;
     }
     return [self.shell finishAttachingToMultiserver:partialAttachment.partialResult
-                                         jobManager:partialAttachment.jobManager
-                                              queue:partialAttachment.queue];
+                       jobManager:partialAttachment.jobManager
+                       queue:partialAttachment.queue];
 }
 
 #pragma mark - Launching
@@ -114,18 +114,18 @@ extern NSString *const SESSION_ARRANGEMENT_SERVER_DICT;
     NSString *format = [iTermAdvancedSettingsModel autoLogFormat];
     iTermExpressionEvaluator *evaluator = [[iTermExpressionEvaluator alloc] initWithInterpolatedString:format scope:self.variablesScope];
     [evaluator evaluateWithTimeout:5
-                        completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
-        if (evaluator.error) {
-            NSString *message = [NSString stringWithFormat:@"Cannot start logging to session with profile “%@”: %@",
+              completion:^(iTermExpressionEvaluator * _Nonnull evaluator) {
+                  if (evaluator.error) {
+                      NSString *message = [NSString stringWithFormat:@"Cannot start logging to session with profile “%@”: %@",
                                  self.profile[KEY_NAME],
                                  evaluator.error.localizedDescription];
             [iTermWarning showWarningWithTitle:message
-                                       actions:@[ @"OK" ]
-                                     accessory:nil
-                                    identifier:@"NoSyncCannotStartLogging"
-                                   silenceable:kiTermWarningTypePersistent
-                                       heading:@"Session Logging Problem"
-                                        window:nil];
+                          actions:@[ @"OK" ]
+                          accessory:nil
+                          identifier:@"NoSyncCannotStartLogging"
+                          silenceable:kiTermWarningTypePersistent
+                          heading:@"Session Logging Problem"
+                          window:nil];
             completion(nil);
             return;
         }
@@ -140,7 +140,7 @@ extern NSString *const SESSION_ARRANGEMENT_SERVER_DICT;
 - (void)setTermIDIfPossible {
     if (self.delegate.tabNumberForItermSessionId >= 0) {
         [self.variablesScope setValue:[self.sessionId stringByReplacingOccurrencesOfString:@":" withString:@"."]
-                     forVariableNamed:iTermVariableKeySessionTermID];
+                             forVariableNamed:iTermVariableKeySessionTermID];
     }
 }
 
@@ -152,18 +152,18 @@ extern NSString *const SESSION_ARRANGEMENT_SERVER_DICT;
     }
     __weak __typeof(self) weakSelf = self;
     self.pasteBracketingOopsieExpectation =
-    [self.expect expectRegularExpression:[NSString stringWithFormat:@"(%@)?%@", redflag, prefix.it_escapedForRegex]
-                              completion:^(NSArray<NSString *> * _Nonnull captureGroups) {
-        if ([captureGroups[1] isEqualToString:redflag]) {
-            [weakSelf didFindPasteBracketingOopsie];
-        }
-    }];
+        [self.expect expectRegularExpression:[NSString stringWithFormat:@"(%@)?%@", redflag, prefix.it_escapedForRegex]
+                completion:^(NSArray<NSString *> * _Nonnull captureGroups) {
+                    if ([captureGroups[1] isEqualToString:redflag]) {
+                        [weakSelf didFindPasteBracketingOopsie];
+                    }
+                }];
     [self.expect setTimeout:0.5 forExpectation:self.pasteBracketingOopsieExpectation];
 }
 
 - (void)didFindPasteBracketingOopsie {
     [self.expect cancelExpectation:self.pasteBracketingOopsieExpectation];
     [self offerToTurnOffBracketedPasteOnHostChange];
- }
+}
 
 @end

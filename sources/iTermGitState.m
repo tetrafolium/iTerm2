@@ -84,8 +84,8 @@ static NSArray<NSString *> *iTermGitStatePaths(void) {
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p dir=%@ xcode=%@ push=%@ pull=%@ branch=%@ dirty=%@ adds=%@ deletes=%@>",
-            self.class, self,
-            _directory, _xcode, _pushArrow, _pullArrow, _branch, @(_dirty), @(_adds), @(_deletes)];
+                     self.class, self,
+                     _directory, _xcode, _pushArrow, _pullArrow, _branch, @(_dirty), @(_adds), @(_deletes)];
 }
 
 - (NSTimeInterval)age {
@@ -99,15 +99,15 @@ static NSArray<NSString *> *iTermGitStatePaths(void) {
 }
 
 - (instancetype)initWithScope:(iTermVariableScope *)scope
-                        block:(void (^)(void))block {
+    block:(void (^)(void))block {
     self = [super init];
     if (self) {
         NSArray<NSString *> *paths = iTermGitStatePaths();
         _refs = [paths mapWithBlock:^id(NSString *path) {
-            iTermVariableReference *ref = [[iTermVariableReference alloc] initWithPath:path vendor:scope];
-            ref.onChangeBlock = block;
-            return ref;
-        }];
+                  iTermVariableReference *ref = [[iTermVariableReference alloc] initWithPath:path vendor:scope];
+                  ref.onChangeBlock = block;
+                  return ref;
+              }];
     }
     return self;
 }

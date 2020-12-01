@@ -22,10 +22,10 @@
 @property (nonatomic, readonly) BOOL tolerateTruncation;
 
 - (id)initWithStartQuote:(NSString *)startQuote
-                endQuote:(NSString *)endQuote
-          escapeSequence:(NSString *)escapeSequence
-           maximumLength:(NSUInteger)maximumLength
-                    name:(NSString *)name
-      tolerateTruncation:(BOOL)tolerateTruncation;
+    endQuote:(NSString *)endQuote
+    escapeSequence:(NSString *)escapeSequence
+    maximumLength:(NSUInteger)maximumLength
+    name:(NSString *)name
+    tolerateTruncation:(BOOL)tolerateTruncation;
 
 @end

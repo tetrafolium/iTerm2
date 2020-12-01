@@ -87,14 +87,14 @@ static NSString *const kTestBundleId = @"com.googlecode.iterm2.applescript";
 - (NSString *)scriptWithCommands:(NSArray *)commands outputs:(NSArray *)outputs {
     NSURL *appURL = [self appUrl];
     return [NSString stringWithFormat:
-            @"tell application \"%@\"\n"
-            @"  activate\n"
-            @"  %@\n"
-            @"end tell\n"
-            @"{%@}\n",
-            [appURL path],
-            [commands componentsJoinedByString:@"\n"],
-            outputs ? [outputs componentsJoinedByString:@", "] : 0];
+                     @"tell application \"%@\"\n"
+                     @"  activate\n"
+                     @"  %@\n"
+                     @"end tell\n"
+                     @"{%@}\n",
+                     [appURL path],
+                     [commands componentsJoinedByString:@"\n"],
+                     outputs ? [outputs componentsJoinedByString:@", "] : 0];
 }
 
 - (NSAppleEventDescriptor *)runScript:(NSString *)script {
@@ -127,11 +127,11 @@ static NSString *const kTestBundleId = @"com.googlecode.iterm2.applescript";
 
 - (void)testCreateWindowWithDefaultProfile {
     NSArray *commands = @[ @"set oldWindowCount to (count of windows)",
-                           @"create window with default profile",
-                           @"set newWindowCount to (count of windows)" ];
+                                 @"create window with default profile",
+                                 @"set newWindowCount to (count of windows)" ];
     NSArray *outputs = @[ @"oldWindowCount", @"newWindowCount" ];
     NSString *script = [self scriptWithCommands:commands
-                                        outputs:outputs];
+                             outputs:outputs];
     NSAppleEventDescriptor *eventDescriptor = [self runScript:script];
     assert(eventDescriptor);
 
@@ -140,11 +140,11 @@ static NSString *const kTestBundleId = @"com.googlecode.iterm2.applescript";
 
 - (void)testCreateWindowWithNamedProfile {
     NSArray *commands = @[ @"set oldWindowCount to (count of windows)",
-                           @"create window with profile \"Default\"",
-                           @"set newWindowCount to (count of windows)" ];
+                                 @"create window with profile \"Default\"",
+                                 @"set newWindowCount to (count of windows)" ];
     NSArray *outputs = @[ @"oldWindowCount", @"newWindowCount" ];
     NSString *script = [self scriptWithCommands:commands
-                                        outputs:outputs];
+                             outputs:outputs];
     NSAppleEventDescriptor *eventDescriptor = [self runScript:script];
     assert(eventDescriptor);
 
@@ -156,7 +156,7 @@ static NSString *const kTestBundleId = @"com.googlecode.iterm2.applescript";
     NSArray *commands = @[ @"create window with default profile command \"touch /tmp/rancommand\"" ];
     unlink("/tmp/rancommand");
     NSString *script = [self scriptWithCommands:commands
-                                        outputs:nil];
+                             outputs:nil];
     [self runScript:script];
 
     // Wait for the command to finish running. It gets half a second.
@@ -175,20 +175,20 @@ static NSString *const kTestBundleId = @"com.googlecode.iterm2.applescript";
     // the most recently created one. In the past, there was a "terminal
     // windows" property that was ordered by creation time.
     NSArray *commands = @[ @"create window with default profile",
-                           @"tell current session of current window",
-                           @"  write text \"echo NUMBER ONE\"",
-                           @"end tell",
-                           @"create window with default profile",
-                           @"tell current session of current window",
-                           @"  write text \"echo NUMBER TWO\"",
-                           @"end tell",
-                           @"delay 0.2",  // Give write text time to echo result back
-                           @"set secondWindowContents to (text of current session of current window)",
-                           @"select second window",
-                           @"set firstWindowContents to (text of current session of current window)" ];
+                                    @"tell current session of current window",
+                                    @"  write text \"echo NUMBER ONE\"",
+                                    @"end tell",
+                                    @"create window with default profile",
+                                    @"tell current session of current window",
+                                    @"  write text \"echo NUMBER TWO\"",
+                                    @"end tell",
+                                    @"delay 0.2",  // Give write text time to echo result back
+                                    @"set secondWindowContents to (text of current session of current window)",
+                                    @"select second window",
+                                    @"set firstWindowContents to (text of current session of current window)" ];
     NSArray *outputs = @[ @"firstWindowContents", @"secondWindowContents" ];
     NSString *script = [self scriptWithCommands:commands
-                                        outputs:outputs];
+                             outputs:outputs];
     NSAppleEventDescriptor *eventDescriptor = [self runScript:script];
     NSString *firstWindowContents = [[eventDescriptor descriptorAtIndex:1] stringValue];
     NSString *secondWindowContents = [[eventDescriptor descriptorAtIndex:2] stringValue];
@@ -199,24 +199,24 @@ static NSString *const kTestBundleId = @"com.googlecode.iterm2.applescript";
 
 - (void)testSelectTab {
     NSArray *commands = @[ @"create window with default profile",
-                           @"tell current session of current window",
-                           @"  write text \"echo NUMBER ONE\"",
-                           @"end tell",
-                           @"tell current window",
-                           @"  create tab with default profile",
-                           @"end tell",
-                           @"tell current session of current window",
-                           @"  write text \"echo NUMBER TWO\"",
-                           @"end tell",
-                           @"delay 0.2",  // Give write text time to echo result back
-                           @"set secondTabContents to (text of current session of current window)",
-                           @"tell first tab of current window",
-                           @"  select",
-                           @"end tell",
-                           @"set firstTabContents to (text of current session of current window)" ];
+                                    @"tell current session of current window",
+                                    @"  write text \"echo NUMBER ONE\"",
+                                    @"end tell",
+                                    @"tell current window",
+                                    @"  create tab with default profile",
+                                    @"end tell",
+                                    @"tell current session of current window",
+                                    @"  write text \"echo NUMBER TWO\"",
+                                    @"end tell",
+                                    @"delay 0.2",  // Give write text time to echo result back
+                                    @"set secondTabContents to (text of current session of current window)",
+                                    @"tell first tab of current window",
+                                    @"  select",
+                                    @"end tell",
+                                    @"set firstTabContents to (text of current session of current window)" ];
     NSArray *outputs = @[ @"firstTabContents", @"secondTabContents" ];
     NSString *script = [self scriptWithCommands:commands
-                                        outputs:outputs];
+                             outputs:outputs];
     NSAppleEventDescriptor *eventDescriptor = [self runScript:script];
     NSString *firstTabContents = [[eventDescriptor descriptorAtIndex:1] stringValue];
     NSString *secondTabContents = [[eventDescriptor descriptorAtIndex:2] stringValue];
@@ -227,24 +227,24 @@ static NSString *const kTestBundleId = @"com.googlecode.iterm2.applescript";
 
 - (void)testSelectSession {
     NSArray *commands = @[ @"create window with default profile",
-                           @"tell current session of current window",
-                           @"  write text \"echo NUMBER ONE\"",
-                           @"end tell",
-                           @"tell current session of current tab of current window",
-                           @"  split horizontally with default profile",
-                           @"end tell",
-                           @"tell current session of current window",
-                           @"  write text \"echo NUMBER TWO\"",
-                           @"end tell",
-                           @"delay 0.2",  // Give write text time to echo result back
-                           @"set secondSessionContents to (text of current session of current window)",
-                           @"tell first session of current tab of current window",
-                           @"  select",
-                           @"end tell",
-                           @"set firstSessionContents to (text of current session of current window)" ];
+                                    @"tell current session of current window",
+                                    @"  write text \"echo NUMBER ONE\"",
+                                    @"end tell",
+                                    @"tell current session of current tab of current window",
+                                    @"  split horizontally with default profile",
+                                    @"end tell",
+                                    @"tell current session of current window",
+                                    @"  write text \"echo NUMBER TWO\"",
+                                    @"end tell",
+                                    @"delay 0.2",  // Give write text time to echo result back
+                                    @"set secondSessionContents to (text of current session of current window)",
+                                    @"tell first session of current tab of current window",
+                                    @"  select",
+                                    @"end tell",
+                                    @"set firstSessionContents to (text of current session of current window)" ];
     NSArray *outputs = @[ @"firstSessionContents", @"secondSessionContents" ];
     NSString *script = [self scriptWithCommands:commands
-                                        outputs:outputs];
+                             outputs:outputs];
     NSAppleEventDescriptor *eventDescriptor = [self runScript:script];
     NSString *firstSessionContents = [[eventDescriptor descriptorAtIndex:1] stringValue];
     NSString *secondSessionContents = [[eventDescriptor descriptorAtIndex:2] stringValue];
@@ -255,14 +255,14 @@ static NSString *const kTestBundleId = @"com.googlecode.iterm2.applescript";
 
 - (void)testSplitHorizontallyWithDefaultProfile {
     NSArray *commands = @[ @"create window with profile \"Default\"",
-                           @"set oldSessionCount to (count of sessions in first tab in first window)",
-                           @"tell current session of current window",
-                           @"  split horizontally with default profile",
-                           @"end tell",
-                           @"set newSessionCount to (count of sessions in first tab in first window)" ];
+                                    @"set oldSessionCount to (count of sessions in first tab in first window)",
+                                    @"tell current session of current window",
+                                    @"  split horizontally with default profile",
+                                    @"end tell",
+                                    @"set newSessionCount to (count of sessions in first tab in first window)" ];
     NSArray *outputs = @[ @"oldSessionCount", @"newSessionCount" ];
     NSString *script = [self scriptWithCommands:commands
-                                        outputs:outputs];
+                             outputs:outputs];
     NSAppleEventDescriptor *eventDescriptor = [self runScript:script];
     assert(eventDescriptor);
 
@@ -272,14 +272,14 @@ static NSString *const kTestBundleId = @"com.googlecode.iterm2.applescript";
 
 - (void)testSplitVerticallyWithDefaultProfile {
     NSArray *commands = @[ @"create window with profile \"Default\"",
-                           @"set oldSessionCount to (count of sessions in first tab in first window)",
-                           @"tell current session of current window",
-                           @"  split vertically with default profile",
-                           @"end tell",
-                           @"set newSessionCount to (count of sessions in first tab in first window)" ];
+                                    @"set oldSessionCount to (count of sessions in first tab in first window)",
+                                    @"tell current session of current window",
+                                    @"  split vertically with default profile",
+                                    @"end tell",
+                                    @"set newSessionCount to (count of sessions in first tab in first window)" ];
     NSArray *outputs = @[ @"oldSessionCount", @"newSessionCount" ];
     NSString *script = [self scriptWithCommands:commands
-                                        outputs:outputs];
+                             outputs:outputs];
     NSAppleEventDescriptor *eventDescriptor = [self runScript:script];
     assert(eventDescriptor);
 
@@ -289,14 +289,14 @@ static NSString *const kTestBundleId = @"com.googlecode.iterm2.applescript";
 
 - (void)testCreateTabWithDefaultProfile {
     NSArray *commands = @[ @"create window with default profile",
-                           @"set oldTabCount to (count of tabs in first window)",
-                           @"tell current window",
-                           @"  create tab with default profile",
-                           @"end tell",
-                           @"set newTabCount to (count of tabs in first window)" ];
+                                    @"set oldTabCount to (count of tabs in first window)",
+                                    @"tell current window",
+                                    @"  create tab with default profile",
+                                    @"end tell",
+                                    @"set newTabCount to (count of tabs in first window)" ];
     NSArray *outputs = @[ @"oldTabCount", @"newTabCount" ];
     NSString *script = [self scriptWithCommands:commands
-                                        outputs:outputs];
+                             outputs:outputs];
     NSAppleEventDescriptor *eventDescriptor = [self runScript:script];
     assert(eventDescriptor);
 
@@ -306,14 +306,14 @@ static NSString *const kTestBundleId = @"com.googlecode.iterm2.applescript";
 
 - (void)testCreateTabWithNamedProfile {
     NSArray *commands = @[ @"create window with default profile",
-                           @"set oldTabCount to (count of tabs in first window)",
-                           @"tell current window",
-                           @"  create tab with profile \"Default\"",
-                           @"end tell",
-                           @"set newTabCount to (count of tabs in first window)" ];
+                                    @"set oldTabCount to (count of tabs in first window)",
+                                    @"tell current window",
+                                    @"  create tab with profile \"Default\"",
+                                    @"end tell",
+                                    @"set newTabCount to (count of tabs in first window)" ];
     NSArray *outputs = @[ @"oldTabCount", @"newTabCount" ];
     NSString *script = [self scriptWithCommands:commands
-                                        outputs:outputs];
+                             outputs:outputs];
     NSAppleEventDescriptor *eventDescriptor = [self runScript:script];
     assert(eventDescriptor);
 
@@ -323,18 +323,18 @@ static NSString *const kTestBundleId = @"com.googlecode.iterm2.applescript";
 
 - (void)testResizeSession {
     NSArray *commands = @[ @"create window with default profile",
-                           @"set oldRows to (rows in current session of current window)",
-                           @"set oldColumns to (columns in current session of current window)",
-                           @"tell current session of current window",
-                           @"  set rows to 20",
-                           @"  set columns to 30",
-                           @"end tell",
-                           @"set newRows to (rows in current session of current window)",
-                           @"set newColumns to (columns in current session of current window)" ];
+                                    @"set oldRows to (rows in current session of current window)",
+                                    @"set oldColumns to (columns in current session of current window)",
+                                    @"tell current session of current window",
+                                    @"  set rows to 20",
+                                    @"  set columns to 30",
+                                    @"end tell",
+                                    @"set newRows to (rows in current session of current window)",
+                                    @"set newColumns to (columns in current session of current window)" ];
 
     NSArray *outputs = @[ @"oldRows", @"oldColumns", @"newRows", @"newColumns" ];
     NSString *script = [self scriptWithCommands:commands
-                                        outputs:outputs];
+                             outputs:outputs];
     NSAppleEventDescriptor *eventDescriptor = [self runScript:script];
     assert(eventDescriptor);
 
@@ -347,21 +347,21 @@ static NSString *const kTestBundleId = @"com.googlecode.iterm2.applescript";
 - (void)testWriteContentsOfFile {
     NSString *helloWorld = @"Hello world";
     [helloWorld writeToFile:@"/tmp/testFile"
-                 atomically:NO
-                   encoding:NSUTF8StringEncoding
-                      error:NULL];
+                atomically:NO
+                encoding:NSUTF8StringEncoding
+                error:NULL];
 
     NSArray *commands = @[ @"create window with default profile",
-                           @"tell current session of current window",
-                           @"delay 0.2",  // Wait for prompt to finish being written
-                           @"  write text \"cat > /dev/null\"",
-                           @"  write contents of file \"/tmp/testFile\"",
-                           @"end tell",
-                           @"delay 0.2",  // Give write text time to echo result back
-                           @"set sessionContents to (text of current session of current window)" ];
+                                    @"tell current session of current window",
+                                    @"delay 0.2",  // Wait for prompt to finish being written
+                                    @"  write text \"cat > /dev/null\"",
+                                    @"  write contents of file \"/tmp/testFile\"",
+                                    @"end tell",
+                                    @"delay 0.2",  // Give write text time to echo result back
+                                    @"set sessionContents to (text of current session of current window)" ];
     NSArray *outputs = @[ @"sessionContents" ];
     NSString *script = [self scriptWithCommands:commands
-                                        outputs:outputs];
+                             outputs:outputs];
     NSAppleEventDescriptor *eventDescriptor = [self runScript:script];
     NSString *contents = [[eventDescriptor descriptorAtIndex:1] stringValue];
 
@@ -370,10 +370,10 @@ static NSString *const kTestBundleId = @"com.googlecode.iterm2.applescript";
 
 - (void)testTty {
     NSArray *commands = @[ @"create window with default profile",
-                           @"set ttyName to (tty of current session of current window)" ];
+                                    @"set ttyName to (tty of current session of current window)" ];
     NSArray *outputs = @[ @"ttyName" ];
     NSString *script = [self scriptWithCommands:commands
-                                        outputs:outputs];
+                             outputs:outputs];
     NSAppleEventDescriptor *eventDescriptor = [self runScript:script];
     NSString *contents = [[eventDescriptor descriptorAtIndex:1] stringValue];
 
@@ -382,12 +382,12 @@ static NSString *const kTestBundleId = @"com.googlecode.iterm2.applescript";
 
 - (void)testUniqueId {
     NSArray *commands = @[ @"create window with default profile",
-                           @"create window with default profile",
-                           @"set firstUniqueId to (unique ID of current session of first window)",
-                           @"set secondUniqueId to (unique ID of current session of second window)" ];
+                                    @"create window with default profile",
+                                    @"set firstUniqueId to (unique ID of current session of first window)",
+                                    @"set secondUniqueId to (unique ID of current session of second window)" ];
     NSArray *outputs = @[ @"firstUniqueId", @"secondUniqueId" ];
     NSString *script = [self scriptWithCommands:commands
-                                        outputs:outputs];
+                             outputs:outputs];
     NSAppleEventDescriptor *eventDescriptor = [self runScript:script];
     NSString *uid1 = [[eventDescriptor descriptorAtIndex:1] stringValue];
     NSString *uid2 = [[eventDescriptor descriptorAtIndex:2] stringValue];
@@ -398,30 +398,30 @@ static NSString *const kTestBundleId = @"com.googlecode.iterm2.applescript";
 
 - (void)testSetGetColors {
     NSArray *colors = @[ @"foreground color",
-                         @"background color",
-                         @"bold color",
-                         @"cursor color",
-                         @"cursor text color",
-                         @"selected text color",
-                         @"selection color",
-                         @"ANSI black color",
-                         @"ANSI red color",
-                         @"ANSI green color",
-                         @"ANSI yellow color",
-                         @"ANSI blue color",
-                         @"ANSI magenta color",
-                         @"ANSI cyan color",
-                         @"ANSI white color",
-                         @"ANSI bright black color",
-                         @"ANSI bright red color",
-                         @"ANSI bright green color",
-                         @"ANSI bright yellow color",
-                         @"ANSI bright blue color",
-                         @"ANSI bright magenta color",
-                         @"ANSI bright cyan color",
-                         @"ANSI bright white color" ];
+                                      @"background color",
+                                      @"bold color",
+                                      @"cursor color",
+                                      @"cursor text color",
+                                      @"selected text color",
+                                      @"selection color",
+                                      @"ANSI black color",
+                                      @"ANSI red color",
+                                      @"ANSI green color",
+                                      @"ANSI yellow color",
+                                      @"ANSI blue color",
+                                      @"ANSI magenta color",
+                                      @"ANSI cyan color",
+                                      @"ANSI white color",
+                                      @"ANSI bright black color",
+                                      @"ANSI bright red color",
+                                      @"ANSI bright green color",
+                                      @"ANSI bright yellow color",
+                                      @"ANSI bright blue color",
+                                      @"ANSI bright magenta color",
+                                      @"ANSI bright cyan color",
+                                      @"ANSI bright white color" ];
     NSMutableArray *commands = [NSMutableArray arrayWithArray:@[ @"create window with default profile",
-                                                                 @"tell current session of current window" ]];
+                                               @"tell current session of current window" ]];
     NSMutableArray *outputs = [NSMutableArray array];
     for (NSString *color in colors) {
         NSString *name = [color stringByReplacingOccurrencesOfString:@" " withString:@""];
@@ -434,16 +434,16 @@ static NSString *const kTestBundleId = @"com.googlecode.iterm2.applescript";
 
     [commands addObject:@"end tell"];
     NSString *script = [self scriptWithCommands:commands
-                                        outputs:outputs];
+                             outputs:outputs];
     NSAppleEventDescriptor *eventDescriptor = [self runScript:script];
 
     int i = 1;
     for (NSString *name in outputs) {
         NSString *value = [NSString stringWithFormat:@"{%d, %d, %d, %d}",
-                           [[[eventDescriptor descriptorAtIndex:i] descriptorAtIndex:1] int32Value],
-                           [[[eventDescriptor descriptorAtIndex:i] descriptorAtIndex:2] int32Value],
-                           [[[eventDescriptor descriptorAtIndex:i] descriptorAtIndex:3] int32Value],
-                           [[[eventDescriptor descriptorAtIndex:i] descriptorAtIndex:4] int32Value]];
+                                    [[[eventDescriptor descriptorAtIndex:i] descriptorAtIndex:1] int32Value],
+                                    [[[eventDescriptor descriptorAtIndex:i] descriptorAtIndex:2] int32Value],
+                                    [[[eventDescriptor descriptorAtIndex:i] descriptorAtIndex:3] int32Value],
+                                    [[[eventDescriptor descriptorAtIndex:i] descriptorAtIndex:4] int32Value]];
 
         if ([name hasPrefix:@"old"]) {
             assert(![value isEqualToString:@"{65535, 0, 0, 0}"]);
@@ -456,14 +456,14 @@ static NSString *const kTestBundleId = @"com.googlecode.iterm2.applescript";
 
 - (void)testSetGetName {
     NSArray *commands = @[ @"create window with default profile",
-                           @"set oldName to name of current session of current window",
-                           @"tell current session of current window",
-                           @"  set name to \"Testing\"",
-                           @"end tell",
-                           @"set newName to name of current session of current window" ];
+                                    @"set oldName to name of current session of current window",
+                                    @"tell current session of current window",
+                                    @"  set name to \"Testing\"",
+                                    @"end tell",
+                                    @"set newName to name of current session of current window" ];
     NSArray *outputs = @[ @"oldName", @"newName" ];
     NSString *script = [self scriptWithCommands:commands
-                                        outputs:outputs];
+                             outputs:outputs];
     NSAppleEventDescriptor *eventDescriptor = [self runScript:script];
     NSString *oldName = [[eventDescriptor descriptorAtIndex:1] stringValue];
     NSString *newName = [[eventDescriptor descriptorAtIndex:2] stringValue];
@@ -473,16 +473,16 @@ static NSString *const kTestBundleId = @"com.googlecode.iterm2.applescript";
 
 - (void)testIsAtShellPrompt {
     NSArray *commands = @[ @"create window with default profile",
-                           @"delay 0.5",
-                           @"tell current session of current window",
-                           @"  set beforeSleep to (is at shell prompt)",
-                           @"  write text \"cat\"",
-                           @"  delay 0.2",
-                           @"  set afterSleep to (is at shell prompt)",
-                           @"end tell" ];
+                                    @"delay 0.5",
+                                    @"tell current session of current window",
+                                    @"  set beforeSleep to (is at shell prompt)",
+                                    @"  write text \"cat\"",
+                                    @"  delay 0.2",
+                                    @"  set afterSleep to (is at shell prompt)",
+                                    @"end tell" ];
     NSArray *outputs = @[ @"beforeSleep", @"afterSleep" ];
     NSString *script = [self scriptWithCommands:commands
-                                        outputs:outputs];
+                             outputs:outputs];
     NSAppleEventDescriptor *eventDescriptor = [self runScript:script];
     BOOL beforeSleep = [[eventDescriptor descriptorAtIndex:1] booleanValue];
     BOOL afterSleep = [[eventDescriptor descriptorAtIndex:2] booleanValue];

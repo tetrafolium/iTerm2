@@ -20,8 +20,8 @@
 // a top-level function call will be made. It may, of course, have expressions
 // for argument values.
 - (instancetype)initWithPathSource:(NSSet<NSString *> *(^)(NSString *prefix))pathSource
-                       passthrough:(id)passthrough
-                     functionsOnly:(BOOL)functionsOnly NS_DESIGNATED_INITIALIZER;
+    passthrough:(id)passthrough
+    functionsOnly:(BOOL)functionsOnly NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 @end

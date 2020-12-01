@@ -18,8 +18,8 @@
 }
 
 - (instancetype)initWithRegularExpression:(NSString *)regex
-                               willExpect:(void (^)(iTermExpectation *))willExpect
-                               completion:(void (^)(iTermExpectation *, NSArray<NSString *> * _Nonnull))completion {
+    willExpect:(void (^)(iTermExpectation *))willExpect
+    completion:(void (^)(iTermExpectation *, NSArray<NSString *> * _Nonnull))completion {
     self = [super init];
     if (self) {
         _completion = [completion copy];
@@ -31,7 +31,7 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p regex=%@ hasCompleted=%@ successors=%@>",
-            NSStringFromClass(self.class), self, _regex, @(self.hasCompleted), _successor];
+                     NSStringFromClass(self.class), self, _regex, @(self.hasCompleted), _successor];
 }
 
 - (iTermExpectation *)lastExpectation {
@@ -86,34 +86,34 @@
 }
 
 - (iTermExpectation *)expectRegularExpression:(NSString *)regex
-                                   completion:(void (^)(NSArray<NSString *> *captureGroups))completion {
+    completion:(void (^)(NSArray<NSString *> *captureGroups))completion {
     return [self expectRegularExpression:regex
-                                   after:nil
-                              willExpect:nil
-                              completion:completion];
+                 after:nil
+                 willExpect:nil
+                 completion:completion];
 }
 
 - (iTermExpectation *)expectRegularExpression:(NSString *)regex
-                                        after:(nullable iTermExpectation *)predecessor
-                                   willExpect:(void (^ _Nullable)(void))willExpect
-                                   completion:(void (^ _Nullable)(NSArray<NSString *> * _Nonnull))completion {
+    after:(nullable iTermExpectation *)predecessor
+    willExpect:(void (^ _Nullable)(void))willExpect
+    completion:(void (^ _Nullable)(NSArray<NSString *> * _Nonnull))completion {
     __weak __typeof(self) weakSelf = self;
-    void (^internalWillExpect)(iTermExpectation *) = ^(iTermExpectation *expectation){
+    void (^internalWillExpect)(iTermExpectation *) = ^(iTermExpectation *expectation) {
         if (willExpect) {
             willExpect();
         }
         [weakSelf addExpectation:expectation];
     };
     void (^internalCompletion)(iTermExpectation *, NSArray<NSString *> *) = ^(iTermExpectation *expectation,
-                                                                              NSArray<NSString *> *captureGroups) {
+    NSArray<NSString *> *captureGroups) {
         [weakSelf removeExpectation:expectation];
         if (completion) {
             completion(captureGroups);
         }
     };
     iTermExpectation *expectation = [[iTermExpectation alloc] initWithRegularExpression:regex
-                                                                             willExpect:internalWillExpect
-                                                                             completion:internalCompletion];
+                                                              willExpect:internalWillExpect
+                                                              completion:internalCompletion];
     if (predecessor && !predecessor.hasCompleted) {
         [predecessor addSuccessor:expectation];
         return expectation;
@@ -137,7 +137,7 @@
 
 - (void)setTimeout:(NSTimeInterval)timeout forExpectation:(iTermExpectation *)expectation {
     __weak __typeof(self) weakSelf = self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timeout * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timeout * NSEC_PER_SEC)), dispatch_get_main_queue(), ^ {
         if (!expectation.hasCompleted) {
             [weakSelf cancelExpectation:expectation];
         }

@@ -33,10 +33,10 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p %@=%@>",
-            NSStringFromClass(self.class),
-            self,
-            _object ? @"object" : @"error",
-            _object ?: _error];
+                     NSStringFromClass(self.class),
+                     self,
+                     _object ? @"object" : @"error",
+                     _object ?: _error];
 }
 
 - (void)handleObject:(void (^)(id _Nonnull))object error:(void (^)(NSError * _Nonnull))error {

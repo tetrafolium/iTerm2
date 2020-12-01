@@ -27,19 +27,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 // NOTE: the completion block won't be called if it times out.
 - (void)checkIfDirectoryExists:(NSString *)directory
-                    completion:(void (^)(BOOL))completion;
+    completion:(void (^)(BOOL))completion;
 
 - (void)asyncGetInfoForProcess:(int)pid
-                        flavor:(int)flavor
-                           arg:(uint64_t)arg
-                    buffersize:(int)buffersize
-                         reqid:(int)reqid
-                    completion:(void (^)(int rc, NSData *buffer))completion;
+    flavor:(int)flavor
+    arg:(uint64_t)arg
+    buffersize:(int)buffersize
+    reqid:(int)reqid
+    completion:(void (^)(int rc, NSData *buffer))completion;
 
 // Get the value of an environment variable from the user's shell.
 - (void)exfiltrateEnvironmentVariableNamed:(NSString *)name
-                                     shell:(NSString *)shell
-                                completion:(void (^)(NSString *value))completion;
+    shell:(NSString *)shell
+    completion:(void (^)(NSString *value))completion;
 
 - (void)runCommandInUserShell:(NSString *)command completion:(void (^)(NSString * _Nullable value))completion;
 

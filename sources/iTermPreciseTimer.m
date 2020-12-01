@@ -279,19 +279,19 @@ void iTermPreciseTimerLog(NSString *identifier,
             maxlevel = MAX(maxlevel, stats[i].level);
         }
         [log appendFormat:@"%-20s%@    %@µ      N  %@p50  %@p75  %@p95 [min  distribution  max]\n",
-         "Statistic",
-         [@"    " stringRepeatedTimes:maxlevel],  // corresponds to dead space for indentation
-         [@" " stringRepeatedTimes:millisWidth - 1],  // average
-         [@" " stringRepeatedTimes:millisWidth - 3],  // p50
-         [@" " stringRepeatedTimes:millisWidth - 3],  // p75
-         [@" " stringRepeatedTimes:millisWidth - 3]]; // p95
+             "Statistic",
+             [@"    " stringRepeatedTimes:maxlevel],  // corresponds to dead space for indentation
+             [@" " stringRepeatedTimes:millisWidth - 1],  // average
+             [@" " stringRepeatedTimes:millisWidth - 3],  // p50
+             [@" " stringRepeatedTimes:millisWidth - 3],  // p75
+             [@" " stringRepeatedTimes:millisWidth - 3]]; // p95
         [log appendFormat:@"%@%@    %@-  -----  %@---  %@---  %@--- ------------------------\n",
-         [@"-" stringRepeatedTimes:20],
-         [@"----" stringRepeatedTimes:maxlevel],  // corresponds to dead space for indentation
-         [@"-" stringRepeatedTimes:millisWidth - 1],  // average
-         [@"-" stringRepeatedTimes:millisWidth - 3],  // p50
-         [@"-" stringRepeatedTimes:millisWidth - 3],  // p75
-         [@"-" stringRepeatedTimes:millisWidth - 3]]; // p95
+             [@"-" stringRepeatedTimes:20],
+             [@"----" stringRepeatedTimes:maxlevel],  // corresponds to dead space for indentation
+             [@"-" stringRepeatedTimes:millisWidth - 1],  // average
+             [@"-" stringRepeatedTimes:millisWidth - 3],  // p50
+             [@"-" stringRepeatedTimes:millisWidth - 3],  // p75
+             [@"-" stringRepeatedTimes:millisWidth - 3]]; // p95
         for (size_t i = 0; i < count; i++) {
             if (histograms && [histograms[i] count] == 0) {
                 continue;
@@ -300,28 +300,28 @@ void iTermPreciseTimerLog(NSString *identifier,
             if (histograms) {
                 double p75 = [histograms[i] valueAtNTile:0.75];
                 [log appendFormat:@"%@%@ %-20s%@ %@  %5d  %@  %@  %@ [%@]\n",
-                 [@"|   " stringRepeatedTimes:stats[i].level],
-                 iTermEmojiForDuration(p75),
-                 stats[i].name,
-                 [@"    " stringRepeatedTimes:maxlevel - stats[i].level],
-                 formatMillis(mean),
-                 (int)[histograms[i] count],
-                 formatMillis([histograms[i] valueAtNTile:0.5]),
-                 formatMillis(p75),
-                 formatMillis([histograms[i] valueAtNTile:0.95]),
-                 [histograms[i] sparklineGraphWithPrecision:2 multiplier:1 units:@"ms"]];
+                     [@"|   " stringRepeatedTimes:stats[i].level],
+                     iTermEmojiForDuration(p75),
+                     stats[i].name,
+                     [@"    " stringRepeatedTimes:maxlevel - stats[i].level],
+                     formatMillis(mean),
+                     (int)[histograms[i] count],
+                     formatMillis([histograms[i] valueAtNTile:0.5]),
+                     formatMillis(p75),
+                     formatMillis([histograms[i] valueAtNTile:0.95]),
+                     [histograms[i] sparklineGraphWithPrecision:2 multiplier:1 units:@"ms"]];
             } else {
                 NSTimeInterval stddev = iTermPreciseTimerStatsGetStddev(&stats[i]) * 1000.0;
                 [log appendFormat:@"%@ %20s: µ=%0.3fms σ=%.03fms (95%% CI ≅ %0.3fms–%0.3fms) 𝚺=%.2fms N=%@ avg. events=%01.f\n",
-                 iTermEmojiForDuration(mean),
-                 stats[i].name,
-                 mean,
-                 stddev,
-                 MAX(0, mean - stddev),
-                 mean + stddev,
-                 stats[i].n * mean,
-                 @(stats[i].n),
-                 (double)stats[i].totalEventCount / (double)stats[i].n];
+                     iTermEmojiForDuration(mean),
+                     stats[i].name,
+                     mean,
+                     stddev,
+                     MAX(0, mean - stddev),
+                     mean + stddev,
+                     stats[i].n * mean,
+                     @(stats[i].n),
+                     (double)stats[i].totalEventCount / (double)stats[i].n];
             }
 
             iTermPreciseTimerStatsInit(&stats[i], NULL);
@@ -361,8 +361,8 @@ void iTermPreciseTimerLogOneEvent(NSString *identifier,
                 double mean = iTermPreciseTimerStatsGetMean(&stats[i]);
                 if (histograms) {
                     other = [NSString stringWithFormat:@"N=%@ µ=%0.1fms p50=%@ p95=%@ | %@",
-                             @(count), mean * 1000, @([histograms[i] valueAtNTile:0.5]),
-                             @([histograms[i] valueAtNTile:0.95]), [histograms[i] sparklines]];
+                                      @(count), mean * 1000, @([histograms[i] valueAtNTile:0.5]),
+                                      @([histograms[i] valueAtNTile:0.95]), [histograms[i] sparklines]];
                 } else {
                     other = [NSString stringWithFormat:@"N=%@ µ=%0.1fms [%0.1fms…%0.1fms]", @(count), mean * 1000, stats[i].min * 1000, stats[i].max * 1000];
                 }
@@ -391,7 +391,7 @@ NSString *iTermPreciseTimerGetSavedLogs(void) {
     @synchronized([iTermPreciseTimersLock class]) {
         NSMutableString *result = [NSMutableString string];
         [sLogs enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-            NSInteger numLines = [[obj componentsSeparatedByString:@"\n"] count];
+                  NSInteger numLines = [[obj componentsSeparatedByString:@"\n"] count];
             [result appendFormat:@"Precise timers %@:%@%@\n", key, numLines > 1 ? @"\n" : @"", obj];
         }];
         return result;

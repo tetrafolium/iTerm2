@@ -52,7 +52,7 @@ NS_INLINE BOOL iTermTextIsMonochromeOnMojave(void) NS_AVAILABLE_MAC(10_14) {
     }
     static dispatch_once_t onceToken;
     static BOOL subpixelAAEnabled;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         NSNumber *number = [[NSUserDefaults standardUserDefaults] objectForKey:@"CGFontRenderingFontSmoothingDisabled"];
         if (!number) {
             subpixelAAEnabled = NO;

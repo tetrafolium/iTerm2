@@ -101,10 +101,10 @@ typedef struct {
 
 
     _trackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds
-                                                 options:(NSTrackingMouseEnteredAndExited |
-                                                          NSTrackingMouseMoved |
-                                                          NSTrackingCursorUpdate |
-                                                          NSTrackingActiveAlways) owner:self userInfo:nil];
+                                            options:(NSTrackingMouseEnteredAndExited |
+                                                     NSTrackingMouseMoved |
+                                                     NSTrackingCursorUpdate |
+                                                     NSTrackingActiveAlways) owner:self userInfo:nil];
     [self addTrackingArea:_trackingArea];
 }
 
@@ -188,9 +188,9 @@ typedef struct {
     for (int i = 0; i < 4; i++) {
         iTermBadgeViewEdge edge = [self edge:i];
         if (point.x >= edge.minX &&
-            point.x < edge.maxX &&
-            point.y >= edge.minY &&
-            point.y < edge.maxY) {
+                point.x < edge.maxX &&
+                point.y >= edge.minY &&
+                point.y < edge.maxY) {
             return edge;
         }
     }
@@ -445,11 +445,17 @@ typedef struct {
 }
 
 - (Profile *)profileMutations {
-    return @{ KEY_BADGE_MAX_WIDTH: @(MIN(0.95, _maxWidthTextField.doubleValue / 100.0)),
-              KEY_BADGE_MAX_HEIGHT: @(MIN(0.95, _maxHeightTextField.doubleValue / 100.0)),
-              KEY_BADGE_RIGHT_MARGIN: @(_rightMarginTextField.doubleValue),
-              KEY_BADGE_TOP_MARGIN: @(_topMarginTextField.doubleValue),
-              KEY_BADGE_FONT: _fontName ?: @"" };
+    return @ { KEY_BADGE_MAX_WIDTH:
+               @(MIN(0.95, _maxWidthTextField.doubleValue / 100.0)),
+               KEY_BADGE_MAX_HEIGHT:
+               @(MIN(0.95, _maxHeightTextField.doubleValue / 100.0)),
+               KEY_BADGE_RIGHT_MARGIN:
+               @(_rightMarginTextField.doubleValue),
+               KEY_BADGE_TOP_MARGIN:
+               @(_topMarginTextField.doubleValue),
+               KEY_BADGE_FONT:
+               _fontName ?: @""
+             };
 }
 
 - (void)setBadgeFrameFromTextFields {

@@ -97,14 +97,14 @@ static const char* siTermPublisherAttachment = "siTermPublisherAttachment";
     iTermSubscriberAttachment *attachment = [[iTermSubscriberAttachment alloc] init];
     __weak __typeof(self) weakSelf = self;
     iTermSubscriber *subscriber = [[iTermSubscriber alloc] initWithWeakReferenceToObject:object
-                                                                                   block:block];
-    attachment.willDealloc = ^{
+                                                           block:block];
+    attachment.willDealloc = ^ {
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf didDeallocObjectForSubscriber:subscriber];
         });
     };
     [object it_setAssociatedObject:attachment
-                            forKey:(void *)siTermPublisherAttachment];
+            forKey:(void *)siTermPublisherAttachment];
     [_subscribers addObject:subscriber];
     [self countDidChange];
 }
@@ -123,8 +123,8 @@ static const char* siTermPublisherAttachment = "siTermPublisherAttachment";
     if (hasAnySubscribers != _hasAnySubscribers) {
         _hasAnySubscribers = hasAnySubscribers;
         [self.delegate publisherDidChangeNumberOfSubscribers:self];
-        
-        
+
+
         if (!_historicalValues && hasAnySubscribers) {
             _historicalValues = [NSMutableArray array];
         } else if (_historicalValues && !hasAnySubscribers) {
@@ -135,8 +135,8 @@ static const char* siTermPublisherAttachment = "siTermPublisherAttachment";
 
 - (void)removeSubscriber:(id)object {
     iTermSubscriber *subscriber = [_subscribers objectPassingTest:^BOOL(iTermSubscriber *element, NSUInteger index, BOOL *stop) {
-        return element.object == object;
-    }];
+                     return element.object == object;
+                 }];
     [_subscribers removeObject:subscriber];
     [self countDidChange];
 }

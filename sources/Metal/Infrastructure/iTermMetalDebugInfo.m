@@ -44,29 +44,29 @@
 }
 
 - (void)drawWithVertexCount:(NSUInteger)vertexCount
-              instanceCount:(NSUInteger)instanceCount {
+    instanceCount:(NSUInteger)instanceCount {
     _vertexCount = vertexCount;
     _instanceCount = instanceCount;
 }
 
 - (void)writeToFolder:(NSURL *)folder {
     [_vertexBuffers enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull key, id<MTLBuffer> _Nonnull obj, BOOL * _Nonnull stop) {
-        [self->_formatter writeVertexBuffer:obj index:key.integerValue toFolder:folder];
-    }];
+                       [self->_formatter writeVertexBuffer:obj index:key.integerValue toFolder:folder];
+                   }];
     [_fragmentBuffers enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull key, id<MTLBuffer>  _Nonnull obj, BOOL * _Nonnull stop) {
-        [self->_formatter writeFragmentBuffer:obj index:key.integerValue toFolder:folder];
-    }];
+                         [self->_formatter writeFragmentBuffer:obj index:key.integerValue toFolder:folder];
+                     }];
     [_fragmentTextures enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull key, id<MTLTexture>  _Nonnull obj, BOOL * _Nonnull stop) {
-        [self->_formatter writeFragmentTexture:obj index:key.integerValue toFolder:folder];
+                          [self->_formatter writeFragmentTexture:obj index:key.integerValue toFolder:folder];
         NSString *description = [obj debugDescription];
         NSString *file = [NSString stringWithFormat:@"texture-description.%@.txt", key];
         [description writeToURL:[folder URLByAppendingPathComponent:file] atomically:NO encoding:NSUTF8StringEncoding error:nil];
     }];
     NSString *description = [NSString stringWithFormat:@"vertex count: %@\ninstance count: %@\nFragment function: %@\nVertex function: %@\n",
-                             @(_vertexCount),
-                             @(_instanceCount),
-                             self.fragmentFunctionName,
-                             self.vertexFunctionName];
+                                      @(_vertexCount),
+                                      @(_instanceCount),
+                                      self.fragmentFunctionName,
+                                      self.vertexFunctionName];
     [description writeToURL:[folder URLByAppendingPathComponent:@"description.txt"] atomically:NO encoding:NSUTF8StringEncoding error:nil];
 }
 
@@ -125,14 +125,14 @@
 }
 
 - (void)addRenderOutputData:(NSData *)data
-                       size:(CGSize)size
-             transientState:(iTermMetalRendererTransientState *)tState {
+    size:(CGSize)size
+    transientState:(iTermMetalRendererTransientState *)tState {
     tState.renderedOutputForDebugging = [NSImage imageWithRawData:data
-                                                             size:size
-                                                    bitsPerSample:8
-                                                  samplesPerPixel:4
-                                                         hasAlpha:YES
-                                                   colorSpaceName:NSDeviceRGBColorSpace];
+                                                 size:size
+                                                 bitsPerSample:8
+                                                 samplesPerPixel:4
+                                                 hasAlpha:YES
+                                                 colorSpaceName:NSDeviceRGBColorSpace];
 }
 
 - (NSUInteger)numberOfRecordedDraws {
@@ -168,35 +168,35 @@
     }
 
     [self writeRenderPassDescriptor:_renderPassDescriptor
-                                 to:[self newFolderNamed:@"RenderPassDescriptor"
-                                                    root:root]];
+          to:[self newFolderNamed:@"RenderPassDescriptor"
+         root:root]];
     if (_postmultipliedRenderPassDescriptor) {
         [self writeRenderPassDescriptor:_postmultipliedRenderPassDescriptor
-                                     to:[self newFolderNamed:@"postmultipliedRenderPassDescriptor"
-                                                        root:root]];
+              to:[self newFolderNamed:@"postmultipliedRenderPassDescriptor"
+             root:root]];
     }
     if (_intermediateRenderPassDescriptor) {
         [self writeRenderPassDescriptor:_intermediateRenderPassDescriptor
-                                     to:[self newFolderNamed:@"IntermediateRenderPassDescriptor"
-                                                        root:root]];
+              to:[self newFolderNamed:@"IntermediateRenderPassDescriptor"
+             root:root]];
     }
     if (_temporaryRenderPassDescriptor) {
         [self writeRenderPassDescriptor:_temporaryRenderPassDescriptor
-                                     to:[self newFolderNamed:@"TemporaryRenderPassDescriptor"
-                                                        root:root]];
+              to:[self newFolderNamed:@"TemporaryRenderPassDescriptor"
+             root:root]];
     }
     NSURL *rowDataFolder = [self newFolderNamed:@"RowData" root:root];
     [_rowData enumerateObjectsUsingBlock:^(iTermMetalRowData * _Nonnull rowData, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSString *name = [NSString stringWithFormat:@"rowdata.%04d", (int)idx];
+                 NSString *name = [NSString stringWithFormat:@"rowdata.%04d", (int)idx];
         NSURL *folder = [rowDataFolder URLByAppendingPathComponent:name];
         [[NSFileManager defaultManager] createDirectoryAtURL:folder withIntermediateDirectories:YES attributes:nil error:NULL];
         [rowData writeDebugInfoToFolder:folder];
     }];
 
     [_transientStates enumerateObjectsUsingBlock:^(iTermMetalRendererTransientState * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        Class theClass = [obj class];
+                         Class theClass = [obj class];
         NSURL *folder = [self newFolderNamed:[NSString stringWithFormat:@"state-%04d-%@", (int)obj.sequenceNumber, NSStringFromClass(theClass)]
-                                        root:root];
+                              root:root];
         [obj writeDebugInfoToFolder:folder];
 
         if (obj.renderedOutputForDebugging) {
@@ -206,17 +206,17 @@
     }];
 
     [_cellRenderers enumerateObjectsUsingBlock:^(id<iTermMetalCellRenderer> _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (![obj respondsToSelector:@selector(writeDebugInfoToFolder:)]) {
-            return;
-        }
+                       if (![obj respondsToSelector:@selector(writeDebugInfoToFolder:)]) {
+                           return;
+                       }
         Class theClass = [obj class];
         NSURL *folder = [self newFolderNamed:[NSString stringWithFormat:@"renderer-%04d-%@", (int)idx, NSStringFromClass(theClass)]
-                                        root:root];
+                              root:root];
         [obj writeDebugInfoToFolder:folder];
     }];
 
     [_draws enumerateObjectsUsingBlock:^(iTermMetalDebugDrawInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSString *name = [NSString stringWithFormat:@"draw-%04d-%@", (int)idx, obj.name];
+               NSString *name = [NSString stringWithFormat:@"draw-%04d-%@", (int)idx, obj.name];
         [obj writeToFolder:[self newFolderNamed:name root:root]];
     }];
 
@@ -228,13 +228,13 @@
 - (void)writeRenderPassDescriptor:(MTLRenderPassDescriptor *)rpd to:(NSURL *)folder {
     [[rpd debugDescription] writeToURL:[folder URLByAppendingPathComponent:@"DebugDescription.txt"]
                             atomically:NO
-                              encoding:NSUTF8StringEncoding
-                                 error:nil];
+                            encoding:NSUTF8StringEncoding
+                            error:nil];
     MTLRenderPassColorAttachmentDescriptor *attachment = rpd.colorAttachments[0];
     [[attachment debugDescription] writeToURL:[folder URLByAppendingPathComponent:@"ColorAttachment0.txt"]
                                    atomically:NO
-                                     encoding:NSUTF8StringEncoding
-                                        error:nil];
+                                   encoding:NSUTF8StringEncoding
+                                   error:nil];
 }
 
 @end

@@ -70,7 +70,7 @@ static iTermKeyboardHandler *sCurrentKeyboardHandler;
 
     iTermKeyboardHandlerContext context;
     [self.delegate keyboardHandler:self loadContext:&context forEvent:event];
-    
+
     _keyIsARepeat = [event isARepeat];
     DLog(@"PTYTextView keyDown modflag=%d keycode=%d", modflag, (int)keyCode);
     DLog(@"_hadMarkedTextBeforeHandlingKeypressEvent=%d", (int)_hadMarkedTextBeforeHandlingKeypressEvent);
@@ -148,7 +148,7 @@ static iTermKeyboardHandler *sCurrentKeyboardHandler;
 
 // TODO: Respect replacementRange
 - (void)insertText:(id)aString replacementRange:(NSRange)replacementRange {
-    DLog(@"insertText:%@ replacementRange:%@", aString ,NSStringFromRange(replacementRange));
+    DLog(@"insertText:%@ replacementRange:%@", aString,NSStringFromRange(replacementRange));
     if ([aString isKindOfClass:[NSAttributedString class]]) {
         aString = [aString string];
     }
@@ -156,7 +156,7 @@ static iTermKeyboardHandler *sCurrentKeyboardHandler;
         // See comment in -keyDown:
         DLog(@"Rerouting insertText from %@ to %@", self, sCurrentKeyboardHandler);
         [sCurrentKeyboardHandler insertText:aString
-                           replacementRange:replacementRange];
+                                 replacementRange:replacementRange];
         return;
     }
 
@@ -177,7 +177,7 @@ static iTermKeyboardHandler *sCurrentKeyboardHandler;
 #pragma mark - Private
 
 - (BOOL)shouldSendEventToController:(NSEvent *)event
-                            context:(iTermKeyboardHandlerContext)context {
+    context:(iTermKeyboardHandlerContext)context {
     if (_hadMarkedTextBeforeHandlingKeypressEvent) {
         DLog(@"_hadMarkedTextBeforeHandlingKeypressEvent=YES");
         return NO;
@@ -243,9 +243,9 @@ static iTermKeyboardHandler *sCurrentKeyboardHandler;
 }
 
 - (void)handleKeyDownEvent:(NSEvent *)event
-   eschewCocoaTextHandling:(BOOL)eschewCocoaTextHandling
-                   context:(iTermKeyboardHandlerContext)context
-              inputContext:(NSTextInputContext *)inputContext {
+    eschewCocoaTextHandling:(BOOL)eschewCocoaTextHandling
+    context:(iTermKeyboardHandlerContext)context
+    inputContext:(NSTextInputContext *)inputContext {
     const unsigned int modflag = [event it_modifierFlags];
     [_keyMapper keyMapperSetEvent:event];
 
@@ -284,17 +284,17 @@ static iTermKeyboardHandler *sCurrentKeyboardHandler;
         // Go directly to the controller because cocoa will use a key binding action that isn't
         // insertText:.
         [self.delegate keyboardHandler:self
-                 sendEventToController:event];
+                       sendEventToController:event];
     } else {
         // Normal code path.
         [self handleEventWithCocoa:event
-                      inputContext:inputContext];
+              inputContext:inputContext];
     }
     DLog(@"PTYTextView keyDown END");
 }
 
 - (void)handleEventWithCocoa:(NSEvent *)event
-                    inputContext:(NSTextInputContext *)inputContext {
+    inputContext:(NSTextInputContext *)inputContext {
     sCurrentKeyboardHandler = self;
     [self sendEventToCocoa:event inputContext:inputContext];
     sCurrentKeyboardHandler = nil;

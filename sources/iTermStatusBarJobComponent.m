@@ -28,17 +28,17 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithConfiguration:(NSDictionary<iTermStatusBarComponentConfigurationKey,id> *)configuration
-                                scope:(nullable iTermVariableScope *)scope {
+    scope:(nullable iTermVariableScope *)scope {
     self = [super initWithConfiguration:configuration scope:scope];
     if (self) {
         __weak __typeof(self) weakSelf = self;
         _jobPidRef = [[iTermVariableReference alloc] initWithPath:iTermVariableKeySessionJobPid vendor:scope];
-        _jobPidRef.onChangeBlock = ^{
+        _jobPidRef.onChangeBlock = ^ {
             [weakSelf updateTextFieldIfNeeded];
         };
 
         _childPidRef = [[iTermVariableReference alloc] initWithPath:iTermVariableKeySessionChildPid vendor:scope];
-        _childPidRef.onChangeBlock = ^{
+        _childPidRef.onChangeBlock = ^ {
             [weakSelf updateTextFieldIfNeeded];
         };
     }
@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (id)statusBarComponentExemplarWithBackgroundColor:(NSColor *)backgroundColor
-                                          textColor:(NSColor *)textColor {
+    textColor:(NSColor *)textColor {
     return @"vim ◂ bash";
 }
 
@@ -143,19 +143,19 @@ NS_ASSUME_NONNULL_BEGIN
     popover.behavior = NSPopoverBehaviorSemitransient;
     NSRectEdge preferredEdge = NSRectEdgeMinY;
     switch ([iTermPreferences unsignedIntegerForKey:kPreferenceKeyStatusBarPosition]) {
-        case iTermStatusBarPositionTop:
-            preferredEdge = NSRectEdgeMaxY;
-            break;
-        case iTermStatusBarPositionBottom:
-            preferredEdge = NSRectEdgeMinY;
-            break;
+    case iTermStatusBarPositionTop:
+        preferredEdge = NSRectEdgeMaxY;
+        break;
+    case iTermStatusBarPositionBottom:
+        preferredEdge = NSRectEdgeMinY;
+        break;
     }
     NSView *relativeView = view.subviews.firstObject ?: view;
     NSRect rect = relativeView.bounds;
     rect.size.width = [self statusBarComponentMinimumWidth];
     [popover showRelativeToRect:rect
-                         ofView:relativeView
-                  preferredEdge:preferredEdge];
+             ofView:relativeView
+             preferredEdge:preferredEdge];
 }
 
 @end

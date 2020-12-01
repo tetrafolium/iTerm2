@@ -29,15 +29,15 @@
 // Remember to retain self until completion finishes if your animations or completions block
 // use self.
 + (iTermDelayedPerform *)animateWithDuration:(NSTimeInterval)duration
-                                       delay:(NSTimeInterval)delay
-                                  animations:(void (^)(void))animations
-                                  completion:(void (^)(BOOL finished))completion;
+    delay:(NSTimeInterval)delay
+    animations:(void (^)(void))animations
+    completion:(void (^)(BOOL finished))completion;
 
 // A non-cancelable version of animateWithDuration:delay:animations:completion:.
 // Remember to retain self until completion runs if you use it.
 + (void)animateWithDuration:(NSTimeInterval)duration
-                 animations:(void (NS_NOESCAPE ^)(void))animations
-                 completion:(void (^)(BOOL finished))completion;
+    animations:(void (NS_NOESCAPE ^)(void))animations
+    completion:(void (^)(BOOL finished))completion;
 
 - (void)enumerateHierarchy:(void (NS_NOESCAPE ^)(NSView *))block;
 - (CGFloat)retinaRound:(CGFloat)value;

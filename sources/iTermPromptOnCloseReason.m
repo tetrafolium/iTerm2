@@ -41,20 +41,20 @@
 
 - (NSString *)message {
     NSArray<iTermPromptOnCloseReason *> *sortedReasons = [_children sortedArrayUsingComparator:^NSComparisonResult(iTermPromptOnCloseReason *_Nonnull obj1,
-                                                                                                                   iTermPromptOnCloseReason *_Nonnull obj2) {
-        return [obj1.priority compare:obj2.priority];
-    }];
+              iTermPromptOnCloseReason *_Nonnull obj2) {
+                  return [obj1.priority compare:obj2.priority];
+              }];
 
     __block NSString *previousMessage = nil;
     NSArray *uniqueReasons = [sortedReasons filteredArrayUsingBlock:^BOOL(iTermPromptOnCloseReason *reason) {
-        BOOL ok = ![reason.message isEqualToString:previousMessage];
-        previousMessage = reason.message;
-        return ok;
-    }];
+                      BOOL ok = ![reason.message isEqualToString:previousMessage];
+                      previousMessage = reason.message;
+                      return ok;
+                  }];
 
     __block Class previousClass = [uniqueReasons.firstObject class];
     NSArray *prettyReasons = [uniqueReasons flatMapWithBlock:^id(iTermPromptOnCloseReason *reason) {
-        NSString *formattedMessage = [@"• " stringByAppendingString:reason.message];
+                      NSString *formattedMessage = [@"• " stringByAppendingString:reason.message];
         NSString *groupFooter = [previousClass groupFooter];
         NSArray *result;
         if (reason.class != previousClass && groupFooter) {
@@ -151,14 +151,14 @@
     const NSInteger maxJobsToList = 3;
     if (_jobs.count <= maxJobsToList) {
         return [NSString stringWithFormat:@"A session with profile “%@” is running %@.",
-                _name,
-                [_jobs componentsJoinedWithOxfordComma]];
+                         _name,
+                         [_jobs componentsJoinedWithOxfordComma]];
     } else {
         return [NSString stringWithFormat:@"A session with profile “%@” is running %@, and %@ other %@.",
-                _name,
-                [[_jobs subarrayWithRange:NSMakeRange(0, maxJobsToList)] componentsJoinedByString:@", "],
-                @(_jobs.count - maxJobsToList),
-                _jobs.count == (maxJobsToList + 1) ? @"job" : @"jobs"];
+                         _name,
+                         [[_jobs subarrayWithRange:NSMakeRange(0, maxJobsToList)] componentsJoinedByString:@", "],
+                         @(_jobs.count - maxJobsToList),
+                         _jobs.count == (maxJobsToList + 1) ? @"job" : @"jobs"];
     }
 }
 

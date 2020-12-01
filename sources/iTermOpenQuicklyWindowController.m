@@ -48,7 +48,7 @@
 + (instancetype)sharedInstance {
     static id instance;
     static dispatch_once_t once;
-    dispatch_once(&once, ^{
+    dispatch_once(&once, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -138,12 +138,12 @@
     if (self.model.items.count) {
         [_table selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
         [self tableViewSelectionDidChange:[NSNotification notificationWithName:NSTableViewSelectionDidChangeNotification
-                                                                        object:nil]];
+                                           object:nil]];
     }
 
     [self performSelector:@selector(resizeWindowAnimatedToFrame:)
-               withObject:[NSValue valueWithRect:frame]
-               afterDelay:0];
+          withObject:[NSValue valueWithRect:frame]
+          afterDelay:0];
 }
 
 - (void)resizeWindowAnimatedToFrame:(NSValue *)frame {
@@ -173,7 +173,7 @@
         // Use the bottom of the last visible cell's frame for the height of the table view portion
         // of the window. This is the most reliable way of getting its max-Y position.
         NSRect frameOfLastVisibleCell = [_table frameOfCellAtColumn:0
-                                                                row:numberOfVisibleRowsDesired - 1];
+                                                row:numberOfVisibleRowsDesired - 1];
         contentSize.height += NSMaxY(frameOfLastVisibleCell);
         if (@available(macOS 10.16, *)) {
             contentSize.height += 10;
@@ -212,16 +212,16 @@
             if (!profileHotkey || profileHotkey.windowController.weaklyReferencedObject) {
                 // Create a new non-hotkey window
                 [iTermSessionLauncher launchBookmark:profile
-                                          inTerminal:[[iTermController sharedInstance] currentTerminal]
-                                             withURL:nil
-                                    hotkeyWindowType:iTermHotkeyWindowTypeNone
-                                             makeKey:YES
-                                         canActivate:YES
-                                  respectTabbingMode:NO
-                                             command:nil
-                                         makeSession:nil
+                                      inTerminal:[[iTermController sharedInstance] currentTerminal]
+                                      withURL:nil
+                                      hotkeyWindowType:iTermHotkeyWindowTypeNone
+                                      makeKey:YES
+                                      canActivate:YES
+                                      respectTabbingMode:NO
+                                      command:nil
+                                      makeSession:nil
                                       didMakeSession:nil
-                                          completion:nil];
+                                      completion:nil];
             } else {
                 // Create the hotkey window for this profile
                 [[iTermHotKeyController sharedInstance] showWindowForProfileHotKey:profileHotkey url:nil];
@@ -250,8 +250,8 @@
         } else if ([object isKindOfClass:[iTermOpenQuicklyScriptItem class]]) {
             iTermOpenQuicklyScriptItem *item = [iTermOpenQuicklyScriptItem castFrom:object];
             [[[[iTermApplication sharedApplication] delegate] scriptsMenuController] launchScriptWithRelativePath:item.identifier
-                                                                                                        arguments:@[]
-                                                                                               explicitUserAction:YES];
+                                                    arguments:@[]
+                                                    explicitUserAction:YES];
         } else if ([object isKindOfClass:[iTermOpenQuicklyColorPresetItem class]]) {
             iTermOpenQuicklyColorPresetItem *item = [iTermOpenQuicklyColorPresetItem castFrom:object];
             PseudoTerminal *term = [[iTermController sharedInstance] currentTerminal];
@@ -293,7 +293,7 @@
     result.imageView.image = item.icon;
 
     result.textField.attributedStringValue =
-        item.title ?: [[[NSAttributedString alloc] initWithString:@"Untitled" attributes:@{}] autorelease];
+        item.title ?: [[[NSAttributedString alloc] initWithString:@"Untitled" attributes:@ {}] autorelease];
     [result.textField.cell setLineBreakMode:NSLineBreakByTruncatingTail];
     if (item.detail) {
         result.detailTextField.attributedStringValue = item.detail;
@@ -384,11 +384,11 @@
     int move = [[[notification userInfo] objectForKey:@"NSTextMovement"] intValue];
 
     switch (move) {
-        case NSReturnTextMovement:  // Enter key
-            [self openSelectedRow];
-            break;
-        default:
-            break;
+    case NSReturnTextMovement:  // Enter key
+        [self openSelectedRow];
+        break;
+    default:
+        break;
     }
 }
 
@@ -426,8 +426,8 @@
 #pragma mark - iTermOpenQuicklyModelDelegate
 
 - (id)openQuicklyModelDisplayStringForFeatureNamed:(NSString *)name
-                                             value:(NSString *)value
-                                highlightedIndexes:(NSIndexSet *)highlight {
+    value:(NSString *)value
+    highlightedIndexes:(NSIndexSet *)highlight {
     NSString *prefix;
     if (name) {
         prefix = [NSString stringWithFormat:@"%@: ", name];
@@ -436,15 +436,15 @@
     }
     NSMutableAttributedString *theString =
         [[[NSMutableAttributedString alloc] initWithString:prefix
-                                                attributes:[self attributes]] autorelease];
+                                             attributes:[self attributes]] autorelease];
     [theString appendAttributedString:[self attributedStringFromString:value
-                                                 byHighlightingIndices:highlight]];
+                                       byHighlightingIndices:highlight]];
     return theString;
 }
 
 - (NSAttributedString *)openQuicklyModelAttributedStringForDetail:(NSString *)detail {
     return [self attributedStringFromString:detail
-                      byHighlightingIndices:nil];
+                 byHighlightingIndices:nil];
 }
 
 #pragma mark - String Formatting
@@ -453,23 +453,28 @@
 // This isn't really appropriate for the model to do but it's much simpler and
 // more efficient this way.
 - (NSAttributedString *)attributedStringFromString:(NSString *)source
-                             byHighlightingIndices:(NSIndexSet *)indexSet {
+    byHighlightingIndices:(NSIndexSet *)indexSet {
     NSMutableAttributedString *attributedString =
         [[[NSMutableAttributedString alloc] initWithString:source attributes:[self attributes]] autorelease];
-    NSDictionary *highlight = @{ NSBackgroundColorAttributeName: [[NSColor yellowColor] colorWithAlphaComponent:0.4],
-                                 NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle),
-                                 NSUnderlineColorAttributeName: [NSColor yellowColor],
-                                 NSParagraphStyleAttributeName: [[self attributes] objectForKey:NSParagraphStyleAttributeName] };
+    NSDictionary *highlight = @ { NSBackgroundColorAttributeName:
+                                  [[NSColor yellowColor] colorWithAlphaComponent:0.4],
+                                  NSUnderlineStyleAttributeName:
+                                  @(NSUnderlineStyleSingle),
+                                  NSUnderlineColorAttributeName:
+                                  [NSColor yellowColor],
+                                  NSParagraphStyleAttributeName:
+                                  [[self attributes] objectForKey:NSParagraphStyleAttributeName]
+                                };
     [indexSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-        [attributedString setAttributes:highlight range:NSMakeRange(idx, 1)];
-    }];
+                 [attributedString setAttributes:highlight range:NSMakeRange(idx, 1)];
+             }];
     return attributedString;
 }
 
 - (NSDictionary *)attributes {
     NSMutableParagraphStyle *style = [[[NSMutableParagraphStyle alloc] init] autorelease];
     style.lineBreakMode = NSLineBreakByTruncatingTail;
-    return @{ NSParagraphStyleAttributeName: style };
+    return @ { NSParagraphStyleAttributeName: style };
 }
 
 @end

@@ -75,10 +75,15 @@ static void ExecImageDecoder(char *executable, char *type, char *sandbox, int js
     if (!sandboxFileName || !sandboxContents || !executable) {
         return nil;
     }
-    NSDictionary *subs = @{ @"@PATH_TO_EXECUTABLE@": [[executable stringByDeletingLastPathComponent] stringByEscapingForSandboxLiteral],
-                            @"@APP_ROOT@": [[NSBundle bundleForClass:self.class] bundlePath],
-                            @"@EXECUTABLE@": [[executable lastPathComponent] stringByEscapingForSandboxLiteral],
-                            @"@HOME_DIRECTORY@": NSHomeDirectory() ?: @"//bogus//" };
+    NSDictionary *subs = @ { @"@PATH_TO_EXECUTABLE@":
+                             [[executable stringByDeletingLastPathComponent] stringByEscapingForSandboxLiteral],
+                             @"@APP_ROOT@":
+                             [[NSBundle bundleForClass:self.class] bundlePath],
+                             @"@EXECUTABLE@":
+                             [[executable lastPathComponent] stringByEscapingForSandboxLiteral],
+                             @"@HOME_DIRECTORY@":
+                             NSHomeDirectory() ?: @"//bogus//"
+                           };
     for (NSString *key in subs) {
         sandboxContents = [sandboxContents stringByReplacingOccurrencesOfString:key withString:subs[key]];
     }
@@ -87,9 +92,9 @@ static void ExecImageDecoder(char *executable, char *type, char *sandbox, int js
 }
 
 - (NSData *)decompressImageData:(NSData *)compressedData
-         fromChildWithProcessID:(pid_t)pid
-                        writeFD:(int)writeFD
-                         readFD:(int)readFD {
+    fromChildWithProcessID:(pid_t)pid
+    writeFD:(int)writeFD
+    readFD:(int)readFD {
     DLog(@"Write compressed data to sandbox");
     BOOL ok = [self writeCompressedImage:compressedData toFileDescriptor:writeFD];
     if (ok) {
@@ -178,38 +183,38 @@ static void ExecImageDecoder(char *executable, char *type, char *sandbox, int js
     DLog(@"sandbox-exec -p '%@' '%@' '%@'", sandboxString, executable, type);
     pid_t pid = fork();
     switch (pid) {
-        case -1:
-            // error
-            NSLog(@"Fork failed: %s", strerror(errno));
-            free(sandbox);
-            free(typeCString);
-            free(utf8Executable);
-            return nil;
+    case -1:
+        // error
+        NSLog(@"Fork failed: %s", strerror(errno));
+        free(sandbox);
+        free(typeCString);
+        free(utf8Executable);
+        return nil;
 
-        case 0:
-            // child
-            close(jsonFDs[0]);
-            close(compressedImageFDs[1]);
-            ExecImageDecoder(utf8Executable, typeCString, sandbox, jsonFDs[1], compressedImageFDs[0], dtablesize);
-            exit(1);
-            return nil;
+    case 0:
+        // child
+        close(jsonFDs[0]);
+        close(compressedImageFDs[1]);
+        ExecImageDecoder(utf8Executable, typeCString, sandbox, jsonFDs[1], compressedImageFDs[0], dtablesize);
+        exit(1);
+        return nil;
 
-        default: {
-            // parent
+    default: {
+        // parent
 
-            // Get rid of resources only needed by the child.
-            free(utf8Executable);
-            free(sandbox);
-            free(typeCString);
-            close(jsonFDs[1]);
-            close(compressedImageFDs[0]);
+        // Get rid of resources only needed by the child.
+        free(utf8Executable);
+        free(sandbox);
+        free(typeCString);
+        close(jsonFDs[1]);
+        close(compressedImageFDs[0]);
 
-            // Write a compressed image and read back a blob of JSON.
-            return [self decompressImageData:compressedData
-                      fromChildWithProcessID:pid
-                                     writeFD:compressedImageFDs[1]
-                                      readFD:jsonFDs[0]];
-        }
+        // Write a compressed image and read back a blob of JSON.
+        return [self decompressImageData:compressedData
+                     fromChildWithProcessID:pid
+                     writeFD:compressedImageFDs[1]
+                     readFD:jsonFDs[0]];
+    }
     }
 }
 

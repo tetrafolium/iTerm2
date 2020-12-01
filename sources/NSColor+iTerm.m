@@ -186,7 +186,7 @@ CGFloat iTermLABDistance(iTermLABColor lhs, iTermLABColor rhs) {
 
 - (NSString *)shortDescription {
     return [NSString stringWithFormat:@"(%.2f, %.2f, %.2f)",
-            self.redComponent, self.greenComponent, self.blueComponent];
+                     self.redComponent, self.greenComponent, self.blueComponent];
 }
 + (NSColor *)colorWithString:(NSString *)s {
     if ([s hasPrefix:@"#"] && s.length == 7) {
@@ -216,37 +216,37 @@ CGFloat iTermLABDistance(iTermLABColor lhs, iTermLABColor rhs) {
 }
 
 + (NSColor *)colorWith8BitRed:(int)red
-                        green:(int)green
-                         blue:(int)blue {
+    green:(int)green
+    blue:(int)blue {
     return [NSColor colorWithSRGBRed:red / 255.0
-                               green:green / 255.0
-                                blue:blue / 255.0
-                               alpha:1];
+                    green:green / 255.0
+                    blue:blue / 255.0
+                    alpha:1];
 }
 
 + (NSColor *)colorWith8BitRed:(int)red
-                        green:(int)green
-                         blue:(int)blue
-                       muting:(double)muting
-                backgroundRed:(CGFloat)bgRed
-              backgroundGreen:(CGFloat)bgGreen
-               backgroundBlue:(CGFloat)bgBlue {
+    green:(int)green
+    blue:(int)blue
+    muting:(double)muting
+    backgroundRed:(CGFloat)bgRed
+    backgroundGreen:(CGFloat)bgGreen
+    backgroundBlue:(CGFloat)bgBlue {
     CGFloat r = (red / 255.0) * (1 - muting) + bgRed * muting;
     CGFloat g = (green / 255.0) * (1 - muting) + bgGreen * muting;
     CGFloat b = (blue / 255.0) * (1 - muting) + bgBlue * muting;
 
     return [NSColor colorWithSRGBRed:r
-                               green:g
-                                blue:b
-                               alpha:1];
+                    green:g
+                    blue:b
+                    alpha:1];
 }
 
 + (void)getComponents:(CGFloat *)result
-      forColorWithRed:(CGFloat)r
-                green:(CGFloat)g
-                 blue:(CGFloat)b
-                alpha:(CGFloat)a
-  perceivedBrightness:(CGFloat)t {
+    forColorWithRed:(CGFloat)r
+    green:(CGFloat)g
+    blue:(CGFloat)b
+    alpha:(CGFloat)a
+    perceivedBrightness:(CGFloat)t {
     /*
      Given:
      a vector c [c1, c2, c3] (the starting color)
@@ -326,16 +326,16 @@ CGFloat iTermLABDistance(iTermLABColor lhs, iTermLABColor rhs) {
         return nil;
     }
     NSColor* srgb = [NSColor colorWithSRGBRed:r
-                                        green:g
-                                         blue:b
-                                        alpha:1];
+                             green:g
+                             blue:b
+                             alpha:1];
     return [srgb colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]];
 }
 
 + (void)getComponents:(CGFloat *)result
-        forComponents:(CGFloat *)mainComponents
-  withContrastAgainstComponents:(CGFloat *)otherComponents
-                minimumContrast:(CGFloat)minimumContrast {
+    forComponents:(CGFloat *)mainComponents
+    withContrastAgainstComponents:(CGFloat *)otherComponents
+    minimumContrast:(CGFloat)minimumContrast {
     const double r = mainComponents[0];
     const double g = mainComponents[1];
     const double b = mainComponents[2];
@@ -378,11 +378,11 @@ CGFloat iTermLABDistance(iTermLABColor lhs, iTermLABColor rhs) {
         targetBrightness = MIN(MAX(0, targetBrightness), 1);
 
         [self getComponents:result
-            forColorWithRed:r
-                      green:g
-                       blue:b
-                      alpha:a
-        perceivedBrightness:targetBrightness];
+              forColorWithRed:r
+              green:g
+              blue:b
+              alpha:a
+              perceivedBrightness:targetBrightness];
     } else {
         memmove(result, mainComponents, sizeof(CGFloat) * 4);
     }
@@ -428,11 +428,17 @@ CGFloat iTermLABDistance(iTermLABColor lhs, iTermLABColor rhs) {
     NSColor *color = [self colorUsingColorSpace:[NSColorSpace sRGBColorSpace]];
     CGFloat red, green, blue, alpha;
     [color getRed:&red green:&green blue:&blue alpha:&alpha];
-    return @{ kEncodedColorDictionaryColorSpace: kEncodedColorDictionarySRGBColorSpace,
-              kEncodedColorDictionaryRedComponent: @(red),
-              kEncodedColorDictionaryGreenComponent: @(green),
-              kEncodedColorDictionaryBlueComponent: @(blue),
-              kEncodedColorDictionaryAlphaComponent: @(alpha) };
+    return @ { kEncodedColorDictionaryColorSpace:
+               kEncodedColorDictionarySRGBColorSpace,
+               kEncodedColorDictionaryRedComponent:
+               @(red),
+               kEncodedColorDictionaryGreenComponent:
+               @(green),
+               kEncodedColorDictionaryBlueComponent:
+               @(blue),
+               kEncodedColorDictionaryAlphaComponent:
+               @(alpha)
+             };
 }
 
 - (NSColor *)colorByPremultiplyingAlphaWithColor:(NSColor *)background {
@@ -488,14 +494,14 @@ CGFloat iTermLABDistance(iTermLABColor lhs, iTermLABColor rhs) {
     double g = [color greenComponent];
     double b = [color blueComponent];
     double alpha = 1 - dimmingAmount;
-    
+
     // Biases the input color by 1-alpha toward gray of (basis, basis, basis).
     double basis = 0.15;
-    
+
     r = alpha * r + (1 - alpha) * basis;
     g = alpha * g + (1 - alpha) * basis;
     b = alpha * b + (1 - alpha) * basis;
-    
+
     return [NSColor colorWithSRGBRed:r green:g blue:b alpha:1];
 }
 
@@ -507,7 +513,7 @@ CGFloat iTermLABDistance(iTermLABColor lhs, iTermLABColor rhs) {
 
         static NSMutableDictionary *darkDict, *lightDict;
         static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
+        dispatch_once(&onceToken, ^ {
             darkDict = [[NSMutableDictionary alloc] init];
             lightDict = [[NSMutableDictionary alloc] init];
         });
@@ -538,16 +544,17 @@ CGFloat iTermLABDistance(iTermLABColor lhs, iTermLABColor rhs) {
 
     if ([self isEqual:[NSColor labelColor]]) {
         switch ((iTermPreferencesTabStyle)[iTermPreferences intForKey:kPreferenceKeyTabStyle]) {
-            case TAB_STYLE_DARK:
-            case TAB_STYLE_DARK_HIGH_CONTRAST:
-                return [NSColor whiteColor];
+        case TAB_STYLE_DARK:
+        case TAB_STYLE_DARK_HIGH_CONTRAST:
+            return [NSColor whiteColor];
 
-            case TAB_STYLE_LIGHT:
-            case TAB_STYLE_LIGHT_HIGH_CONTRAST:
-            case TAB_STYLE_MINIMAL:
-            case TAB_STYLE_AUTOMATIC:
-            case TAB_STYLE_COMPACT:;
-                return self;
+        case TAB_STYLE_LIGHT:
+        case TAB_STYLE_LIGHT_HIGH_CONTRAST:
+        case TAB_STYLE_MINIMAL:
+        case TAB_STYLE_AUTOMATIC:
+        case TAB_STYLE_COMPACT:
+            ;
+            return self;
         }
     }
 

@@ -42,7 +42,7 @@
     __weak __typeof(self) weakSelf = self;
 
     _scheduledTime = CACurrentMediaTime();
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_interval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_interval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^ {
         [weakSelf didFire];
     });
 }

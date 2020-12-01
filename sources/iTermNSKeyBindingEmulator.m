@@ -58,8 +58,8 @@ static struct {
 
 + (void)loadKeyBindingsDictionary {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory,
-                                                         NSUserDomainMask,
-                                                         YES);
+                     NSUserDomainMask,
+                     YES);
 
     if (![paths count]) {
         AppendPinnedDebugLogMessage(@"NSKeyBindingEmulator", @"Failed to find library directory.");
@@ -74,12 +74,12 @@ static struct {
     NSDictionary *keyBindingDictionary = [self keyBindingDictionaryByNormalizingModifiersInKeys:theDict];
     NSMutableSet<NSString *> *temp = [NSMutableSet set];
     gRootKeyBindingsDictionary = [[self keyBindingDictionaryByPruningUselessBranches:keyBindingDictionary
-                                                                 pointlessKeystrokes:temp] retain];
+                                   pointlessKeystrokes:temp] retain];
     gPointlessFirstKeystrokes = [temp retain];
 }
 
 + (NSDictionary *)keyBindingDictionaryByPruningUselessBranches:(NSDictionary *)node
-                                           pointlessKeystrokes:(NSMutableSet<NSString *> *)pointless {
+    pointlessKeystrokes:(NSMutableSet<NSString *> *)pointless {
     // Remove leafs that do not have an insertText: action.
     // Recursively rune dictionary values, removing them if empty.
     // Returns nil if the result would be an empty dictionary.
@@ -159,18 +159,18 @@ static struct {
 
 // Unescapes characters. \x becomes x for any character x.
 + (NSString *)unescapedCharacters:(NSString *)input {
-  NSMutableString *output = [NSMutableString string];
-  BOOL esc = NO;
-  for (int i = 0; i < input.length; i++) {
-    unichar c = [input characterAtIndex:i];
-    if (!esc && c == '\\') {
-      esc = YES;
-      continue;
+    NSMutableString *output = [NSMutableString string];
+    BOOL esc = NO;
+    for (int i = 0; i < input.length; i++) {
+        unichar c = [input characterAtIndex:i];
+        if (!esc && c == '\\') {
+            esc = YES;
+            continue;
+        }
+        [output appendFormat:@"%C", c];
+        esc = NO;
     }
-    [output appendFormat:@"%C", c];
-    esc = NO;
-  }
-  return output;
+    return output;
 }
 
 // Returns the characters in a dictionary key such as "^A" (that is, the stuff following the
@@ -209,7 +209,7 @@ static struct {
         }
         NSObject *value = input[key];
         NSString *normalizedKey = [self dictionaryKeyForCharacters:characters
-                                                          andFlags:flags];
+                                        andFlags:flags];
         if (!normalizedKey) {
             NSLog(@"Bogus key in key bindings dictionary: %@",
                   [key dataUsingEncoding:NSUTF16BigEndianStringEncoding]);
@@ -264,7 +264,7 @@ static struct {
 
 // Returns a normalized key for characters and a modifier mask.
 + (NSString *)dictionaryKeyForCharacters:(NSString *)nonNormalChars
-                                andFlags:(NSUInteger)flags {
+    andFlags:(NSUInteger)flags {
     NSString *characters = [self normalizedCharacters:nonNormalChars];
     if (!characters) {
         return nil;
@@ -367,7 +367,7 @@ static struct {
     CGKeyCode keyCode = [event keyCode];
     TISInputSourceRef keyboard = TISCopyCurrentKeyboardInputSource();
     CFDataRef layoutData = TISGetInputSourceProperty(keyboard,
-                                                     kTISPropertyUnicodeKeyLayoutData);
+                           kTISPropertyUnicodeKeyLayoutData);
     if (!layoutData) {
         return nil;
     }
@@ -389,8 +389,8 @@ static struct {
     CFRelease(keyboard);
 
     NSString *theString = (NSString *)CFStringCreateWithCharacters(kCFAllocatorDefault,
-                                                                   unicodeString,
-                                                                   1);
+                          unicodeString,
+                          1);
     return [theString autorelease];
 }
 
@@ -405,20 +405,20 @@ static struct {
 
     NSString *theKey =
         [self.class dictionaryKeyForCharacters:charactersIgnoringModifiersExceptShift
-                                      andFlags:flags];
+                    andFlags:flags];
     if (theKey) {
         [result addObject:theKey];
     }
 
     NSString *charactersIgnoringAllModifiers = [self charactersIgnoringAllModifiersInEvent:event];
     if (charactersIgnoringAllModifiers &&
-        (flags & NSEventModifierFlagShift) &&
-        [charactersIgnoringAllModifiers isEqualToString:charactersIgnoringAllModifiers]) {
+            (flags & NSEventModifierFlagShift) &&
+            [charactersIgnoringAllModifiers isEqualToString:charactersIgnoringAllModifiers]) {
         // The shifted version differs from the unshifted version (e.g., A vs a) so add
         // "A" since we already have "$A" ("A" is a lower priority than "$A").
         theKey =
             [self.class dictionaryKeyForCharacters:charactersIgnoringModifiersExceptShift
-                                          andFlags:(flags & ~NSEventModifierFlagShift)];
+                        andFlags:(flags & ~NSEventModifierFlagShift)];
         if (theKey) {
             [result addObject:theKey];
         }

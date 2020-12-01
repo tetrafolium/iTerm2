@@ -13,6 +13,6 @@
 @interface iTermImageDecoderDriver : NSObject
 
 - (NSData *)jsonForCompressedImageData:(NSData *)compressedImageData
-                                  type:(NSString *)type;
+    type:(NSString *)type;
 
 @end

@@ -65,7 +65,7 @@ NSString *const iTermImageDidLoad = @"iTermImageDidLoad";
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p code=%@ size=%@ uniqueIdentifier=%@ filename=%@ broken=%@>",
-            self.class, self, @(self.code), NSStringFromSize(self.size), self.uniqueIdentifier, self.filename, @(self.broken)];
+                     self.class, self, @(self.code), NSStringFromSize(self.size), self.uniqueIdentifier, self.filename, @(self.broken)];
 }
 
 - (NSString *)uniqueIdentifier {
@@ -79,7 +79,7 @@ NSString *const iTermImageDidLoad = @"iTermImageDidLoad";
     static dispatch_once_t onceToken;
     static dispatch_queue_t queue;
     static NSMutableArray *blocks;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         blocks = [[NSMutableArray alloc] init];
         queue = dispatch_queue_create("com.iterm2.LazyImageDecoding", DISPATCH_QUEUE_SERIAL);
     });
@@ -102,7 +102,7 @@ NSString *const iTermImageDidLoad = @"iTermImageDidLoad";
     _dictionary = nil;
 
     DLog(@"Queueing load of %@", self.uniqueIdentifier);
-    void (^block)(void) = ^{
+    void (^block)(void) = ^ {
         // This is a slow operation that blocks for a long time.
         iTermImage *image = [[iTermImage imageWithCompressedData:_data] retain];
         dispatch_sync(dispatch_get_main_queue(), ^{
@@ -124,7 +124,7 @@ NSString *const iTermImageDidLoad = @"iTermImageDidLoad";
     @synchronized(self) {
         [blocks insertObject:_queuedBlock atIndex:0];
     }
-    dispatch_async(queue, ^{
+    dispatch_async(queue, ^ {
         void (^blockToRun)(void) = nil;
         @synchronized(self) {
             blockToRun = [blocks firstObject];
@@ -164,12 +164,19 @@ NSString *const iTermImageDidLoad = @"iTermImageDidLoad";
     }
 
     NSData *data = nil;
-    NSDictionary *universalTypeToCocoaMap = @{ (NSString *)kUTTypeBMP: @(NSBitmapImageFileTypeBMP),
-                                               (NSString *)kUTTypeGIF: @(NSBitmapImageFileTypeGIF),
-                                               (NSString *)kUTTypeJPEG2000: @(NSBitmapImageFileTypeJPEG2000),
-                                               (NSString *)kUTTypeJPEG: @(NSBitmapImageFileTypeJPEG),
-                                               (NSString *)kUTTypePNG: @(NSBitmapImageFileTypePNG),
-                                               (NSString *)kUTTypeTIFF: @(NSBitmapImageFileTypeTIFF) };
+    NSDictionary *universalTypeToCocoaMap = @ { (NSString *)kUTTypeBMP:
+                                            @(NSBitmapImageFileTypeBMP),
+                                            (NSString *)kUTTypeGIF:
+                                            @(NSBitmapImageFileTypeGIF),
+                                            (NSString *)kUTTypeJPEG2000:
+                                            @(NSBitmapImageFileTypeJPEG2000),
+                                            (NSString *)kUTTypeJPEG:
+                                            @(NSBitmapImageFileTypeJPEG),
+                                            (NSString *)kUTTypePNG:
+                                            @(NSBitmapImageFileTypePNG),
+                                            (NSString *)kUTTypeTIFF:
+                                            @(NSBitmapImageFileTypeTIFF)
+                                              };
     NSString *imageType = self.imageType;
     if (self.broken) {
         data = self.data;
@@ -181,7 +188,7 @@ NSString *const iTermImageDidLoad = @"iTermImageDidLoad";
     }
     if (!data) {
         NSBitmapImageRep *rep = [self.image.images.firstObject bitmapImageRep];
-        data = [rep representationUsingType:fileType properties:@{}];
+        data = [rep representationUsingType:fileType properties:@ {}];
     }
     [data writeToFile:filename atomically:NO];
 }
@@ -210,13 +217,17 @@ NSString *const iTermImageDidLoad = @"iTermImageDidLoad";
 }
 
 - (NSDictionary *)dictionary {
-    return @{ kImageInfoSizeKey: [NSValue valueWithSize:_size],
-              kImageInfoInsetKey: [NSValue futureValueWithEdgeInsets:_inset],
-              kImageInfoImageKey: _data ?: [NSData data],
-              kImageInfoPreserveAspectRatioKey: @(_preserveAspectRatio),
-              kImageInfoFilenameKey: _filename ?: @"",
-              kImageInfoCodeKey: @(_code),
-              kImageInfoBrokenKey: @(_broken) };
+    return @ { kImageInfoSizeKey:
+               [NSValue valueWithSize:_size],
+               kImageInfoInsetKey:
+               [NSValue futureValueWithEdgeInsets:_inset],
+               kImageInfoImageKey:
+               _data ?: [NSData data],
+               kImageInfoPreserveAspectRatioKey: @(_preserveAspectRatio),
+               kImageInfoFilenameKey: _filename ?: @"",
+               kImageInfoCodeKey: @(_code),
+               kImageInfoBrokenKey: @(_broken)
+             };
 }
 
 
@@ -252,7 +263,7 @@ NSString *const iTermImageDidLoad = @"iTermImageDidLoad";
 
 }
 static NSSize iTermImageInfoGetSizeForRegionPreservingAspectRatio(const NSSize region,
-                                                                  NSSize imageSize) {
+        NSSize imageSize) {
     double imageAR = imageSize.width / imageSize.height;
     double canvasAR = region.width / region.height;
     if (imageAR > canvasAR) {
@@ -299,9 +310,9 @@ static NSSize iTermImageInfoGetSizeForRegionPreservingAspectRatio(const NSSize r
         inset.left *= cellSize.width;
         inset.right *= cellSize.width;
         const NSRect destinationRect = NSMakeRect((region.width - size.width) / 2 + inset.left,
-                                                  (region.height - size.height) / 2 + inset.bottom,
-                                                  MAX(0, size.width - inset.left - inset.right),
-                                                  MAX(0, size.height - inset.top - inset.bottom));
+                                       (region.height - size.height) / 2 + inset.bottom,
+                                       MAX(0, size.width - inset.left - inset.right),
+                                       MAX(0, size.height - inset.top - inset.bottom));
         [theImage drawInRect:destinationRect];
         [canvas unlockFocus];
 
@@ -311,9 +322,9 @@ static NSSize iTermImageInfoGetSizeForRegionPreservingAspectRatio(const NSSize r
 }
 
 + (NSEdgeInsets)fractionalInsetsForPreservedAspectRatioWithDesiredSize:(NSSize)desiredSize
-                                                          forImageSize:(NSSize)imageSize
-                                                              cellSize:(NSSize)cellSize
-                                                         numberOfCells:(NSSize)numberOfCells {
+    forImageSize:(NSSize)imageSize
+    cellSize:(NSSize)cellSize
+    numberOfCells:(NSSize)numberOfCells {
     const NSSize region = NSMakeSize(cellSize.width * numberOfCells.width,
                                      cellSize.height * numberOfCells.height);
     const NSSize size = iTermImageInfoGetSizeForRegionPreservingAspectRatio(region, imageSize);
@@ -347,7 +358,7 @@ static NSSize iTermImageInfoGetSizeForRegionPreservingAspectRatio(const NSSize r
         // and especially importantly, preserve its extension.
         NSString *suffix = [@"." stringByAppendingString:_filename.lastPathComponent];
         name = [[NSWorkspace sharedWorkspace] temporaryFileNameWithPrefix:@"iTerm2."
-                                                                   suffix:suffix];
+                                              suffix:suffix];
     } else {
         // Empty extension case. Try to guess the extension.
         NSString *extension = [NSImage extensionForUniformType:self.imageType];
@@ -355,7 +366,7 @@ static NSSize iTermImageInfoGetSizeForRegionPreservingAspectRatio(const NSSize r
             extension = [@"." stringByAppendingString:extension];
         }
         name = [[NSWorkspace sharedWorkspace] temporaryFileNameWithPrefix:@"iTerm2."
-                                                                   suffix:extension];
+                                              suffix:extension];
     }
     [self.data writeToFile:name atomically:NO];
     return name;
@@ -381,7 +392,7 @@ static NSSize iTermImageInfoGetSizeForRegionPreservingAspectRatio(const NSSize r
     if ([type isEqualToString:(NSString *)kUTTypeFileURL]) {
         // Write image to a temp file and provide its location.
         [item setString:[[NSURL fileURLWithPath:self.nameForNewSavedTempFile] absoluteString]
-                forType:(NSString *)kUTTypeFileURL];
+              forType:(NSString *)kUTTypeFileURL];
     } else {
         if ([type isEqualToString:(NSString *)kUTTypeImage] && ![_data uniformTypeIdentifierForImageData]) {
             [item setData:_data forType:type];

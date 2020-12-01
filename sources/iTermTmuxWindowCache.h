@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 extern NSString *const iTermTmuxWindowCacheDidChange;
 
-@interface iTermTmuxWindowCacheWindowInfo: NSObject
+@interface iTermTmuxWindowCacheWindowInfo : NSObject
 
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) int windowNumber;

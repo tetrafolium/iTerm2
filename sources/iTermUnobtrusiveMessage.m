@@ -60,15 +60,15 @@ NS_CLASS_AVAILABLE_MAC(10_14)
     NSRect destination = frame;
     destination.origin.x -= frame.size.width + margin;
     [NSView animateWithDuration:0.2
-                     animations:^{
-        self.animator.frame = destination;
-    } completion:^(BOOL finished) {
+           animations:^ {
+               self.animator.frame = destination;
+           } completion:^(BOOL finished) {
         [NSView animateWithDuration:0.2
-                              delay:1
-                         animations:^{
-            self.animator.frame = outsideFrame;
-            self.animator.alphaValue = 0;
-        } completion:^(BOOL finished) {
+                delay:1
+               animations:^ {
+                   self.animator.frame = outsideFrame;
+                   self.animator.alphaValue = 0;
+               } completion:^(BOOL finished) {
             self->_animating = NO;
             completion();
         }];

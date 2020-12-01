@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSInteger identifier;
 
 - (instancetype)initWithTitle:(NSString *)title
-                        value:(NSString *)value NS_DESIGNATED_INITIALIZER;
+    value:(NSString *)value NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
@@ -39,9 +39,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addSnippet:(iTermSnippet *)snippet;
 - (void)removeSnippets:(NSArray<iTermSnippet *> *)snippets;
 - (void)replaceSnippet:(iTermSnippet *)snippetToReplace
-           withSnippet:(iTermSnippet *)replacement;
+    withSnippet:(iTermSnippet *)replacement;
 - (void)moveSnippetsWithIdentifiers:(NSArray<NSNumber *> *)identifiersToMove
-                            toIndex:(NSInteger)row;
+    toIndex:(NSInteger)row;
 - (void)setSnippets:(NSArray<iTermSnippet *> *)snippets;
 - (nullable iTermSnippet *)snippetWithIdentifier:(NSInteger)identifier;
 
@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermSnippetsDidChangeNotification : iTermBaseNotification
 
-typedef NS_ENUM(NSUInteger, iTermSnippetsDidChangeMutationType) {
+    typedef NS_ENUM(NSUInteger, iTermSnippetsDidChangeMutationType) {
     iTermSnippetsDidChangeMutationTypeInsertion,
     iTermSnippetsDidChangeMutationTypeDeletion,
     iTermSnippetsDidChangeMutationTypeEdit,
@@ -62,14 +62,14 @@ typedef NS_ENUM(NSUInteger, iTermSnippetsDidChangeMutationType) {
 @property (nonatomic, readonly) NSIndexSet *indexSet;  // for move only
 
 + (instancetype)notificationWithMutationType:(iTermSnippetsDidChangeMutationType)mutationType
-                                       index:(NSInteger)index;
+    index:(NSInteger)index;
 + (instancetype)moveNotificationWithRemovals:(NSIndexSet *)removals
-                            destinationIndex:(NSInteger)destinationIndex;
+    destinationIndex:(NSInteger)destinationIndex;
 + (instancetype)fullReplacementNotification;
 + (instancetype)removalNotificationWithIndexes:(NSIndexSet *)indexes;
 
 + (void)subscribe:(NSObject *)owner
-            block:(void (^)(iTermSnippetsDidChangeNotification * _Nonnull notification))block;
+    block:(void (^)(iTermSnippetsDidChangeNotification * _Nonnull notification))block;
 @end
 
 

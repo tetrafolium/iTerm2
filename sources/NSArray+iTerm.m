@@ -77,8 +77,8 @@
 - (NSArray *)mapEnumeratedWithBlock:(id (^NS_NOESCAPE)(NSUInteger, id anObject, BOOL *stop))block {
     NSMutableArray *temp = [NSMutableArray array];
     [self enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        id mappedObject = block(idx, obj, stop);
-        if (mappedObject) {
+             id mappedObject = block(idx, obj, stop);
+             if (mappedObject) {
             [temp addObject:mappedObject];
         }
     }];
@@ -121,10 +121,10 @@
 
 - (NSArray *)filteredArrayUsingBlock:(BOOL (^NS_NOESCAPE)(id))block {
     NSIndexSet *indexes = [self indexesOfObjectsPassingTest:^BOOL(id  _Nonnull obj,
-                                                                  NSUInteger idx,
-                                                                  BOOL * _Nonnull stop) {
-        return block(obj);
-    }];
+                                NSUInteger idx,
+         BOOL * _Nonnull stop) {
+             return block(obj);
+         }];
     return [self objectsAtIndexes:indexes];
 }
 
@@ -138,14 +138,14 @@
 }
 
 - (id)objectOfClass:(Class)theClass
-        passingTest:(BOOL (^)(id element, NSUInteger index, BOOL *stop))block {
+    passingTest:(BOOL (^)(id element, NSUInteger index, BOOL *stop))block {
     NSUInteger index = [self indexOfObjectPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([obj isKindOfClass:theClass]) {
-            return block(obj, idx, stop);
-        } else {
-            return NO;
-        }
-    }];
+             if ([obj isKindOfClass:theClass]) {
+                 return block(obj, idx, stop);
+             } else {
+                 return NO;
+             }
+         }];
     if (index == NSNotFound) {
         return nil;
     } else {
@@ -183,8 +183,8 @@
 
 - (NSArray *)maximumsWithComparator:(NSComparisonResult (^ NS_NOESCAPE)(id, id))comparator {
     return [self minimumsWithComparator:^NSComparisonResult(id lhs, id rhs) {
-        return comparator(rhs, lhs);
-    }];
+             return comparator(rhs, lhs);
+         }];
 }
 - (BOOL)anyWithBlock:(BOOL (^)(id anObject))block {
     for (id object in self) {
@@ -320,9 +320,9 @@
     NSMutableSet *members = [NSMutableSet set];
     NSMutableArray *result = [NSMutableArray array];
     [self enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([members containsObject:obj]) {
-            return;
-        }
+             if ([members containsObject:obj]) {
+                 return;
+             }
         [members addObject:obj];
         [result addObject:obj];
     }];
@@ -331,15 +331,15 @@
 
 - (NSArray *)uniq {
     return [self uniqWithComparator:^BOOL(id obj1, id obj2) {
-        return [obj1 isEqual:obj2];
-    }];
+             return [obj1 isEqual:obj2];
+         }];
 }
 
 - (NSArray *)uniqWithComparator:(BOOL (^)(id, id))block {
     __block id last = nil;
     return [self filteredArrayUsingBlock:^BOOL(id anObject) {
-        BOOL result;
-        if (!last) {
+             BOOL result;
+             if (!last) {
             result = YES;
         } else if (block(anObject, last)) {
             result = NO;
@@ -398,11 +398,11 @@
         return self[0];
     }
     NSArray<NSArray<NSString *> *> *componentsArrays = [self mapWithBlock:^id(NSURL *url) {
-        return [url.path pathComponents];
-    }];
+             return [url.path pathComponents];
+         }];
     NSArray<NSNumber *> *counts = [componentsArrays mapWithBlock:^id(NSArray<NSString *> *anObject) {
-        return @(anObject.count);
-    }];
+                         return @(anObject.count);
+                     }];
     NSInteger shortestCount = [[counts reduceWithBlock:^NSNumber *(NSNumber *first, NSNumber *second) {
         if (second) {
             return @(MIN(first.integerValue, second.integerValue));
@@ -414,8 +414,8 @@
     for (i = 0; i < shortestCount; i++) {
         NSString *value = componentsArrays.firstObject[i];
         const BOOL allShareAncestor = [componentsArrays allWithBlock:^BOOL(NSArray<NSString *> *anObject) {
-            return [anObject[i] isEqualToString:value];
-        }];
+                             return [anObject[i] isEqualToString:value];
+                         }];
         if (!allShareAncestor) {
             break;
         }
@@ -425,7 +425,7 @@
 }
 
 - (void)enumerateCoalescedObjectsWithComparator:(BOOL (^)(id obj1, id obj2))comparator
-                                          block:(void (^)(id object, NSUInteger count))block {
+    block:(void (^)(id object, NSUInteger count))block {
     id previous = self.firstObject;
     NSUInteger count = 1;
     const NSUInteger n = self.count;
@@ -447,15 +447,15 @@
 
 - (NSArray<iTermTuple *> *)tuplesWithFirstObjectEqualTo:(id)firstObject {
     return [self filteredArrayUsingBlock:^BOOL(id anObject) {
-        return [anObject isEqual:firstObject];
-    }];
+             return [anObject isEqual:firstObject];
+         }];
 }
 
 - (NSDictionary<id, NSArray *> *)classifyWithBlock:(id (^)(id))block {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [self enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        id theClass = block(obj);
-        if (theClass) {
+             id theClass = block(obj);
+             if (theClass) {
             NSMutableArray *array = dict[theClass];
             if (!array) {
                 array = [NSMutableArray array];
@@ -470,8 +470,8 @@
 - (NSDictionary<id, NSArray *> *)classifyUniquelyWithBlock:(id (^)(id))block {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [self enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        id theClass = block(obj);
-        if (theClass) {
+             id theClass = block(obj);
+             if (theClass) {
             assert(!dict[theClass]);
             dict[theClass] = obj;
         }
@@ -491,9 +491,9 @@
     __block NSUInteger maxIndex = NSNotFound;
     __block id max = nil;
     [self enumerateObjectsUsingBlock:^(id  _Nonnull object, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (max) {
-            NSComparisonResult result = block(max, object);
-            if (result == NSOrderedAscending) {
+             if (max) {
+                 NSComparisonResult result = block(max, object);
+                 if (result == NSOrderedAscending) {
                 max = object;
                 maxIndex = idx;
             }
@@ -560,13 +560,13 @@
 // ["a", "2 instances of \"b\"", "c"].
 - (NSArray *)countedInstancesStrings {
     NSDictionary *classified = [self classifyWithBlock:^id(id object) {
-        return object;
-    }];
+             return object;
+         }];
     NSArray *sortedKeys = [classified.allKeys sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
     return [sortedKeys mapWithBlock:^id(NSString *key) {
-        NSArray *values = classified[key];
-        const NSInteger count = values.count;
-        if (count > 1) {
+                   NSArray *values = classified[key];
+                   const NSInteger count = values.count;
+                   if (count > 1) {
             return [NSString stringWithFormat:@"%@ instances of \"%@\"", @(count), key];
         } else {
             return values.firstObject;
@@ -587,12 +587,12 @@
 
 - (id)it_jsonSafeValue {
     return [self mapWithBlock:^id(id anObject) {
-        if ([anObject respondsToSelector:_cmd]) {
-            return [anObject it_jsonSafeValue];
-        } else {
-            return nil;
-        }
-    }];
+             if ([anObject respondsToSelector:_cmd]) {
+                 return [anObject it_jsonSafeValue];
+             } else {
+                 return nil;
+             }
+         }];
 }
 
 - (instancetype)it_arrayByRemovingObjectsPassingTest:(BOOL (^)(id anObject))block {
@@ -619,19 +619,19 @@
 
 - (NSArray *)it_arrayByReplacingOccurrencesOf:(id)pattern with:(id)replacement {
     return [self mapWithBlock:^id(id obj) {
-        if ([obj isEqual:pattern]) {
-            return replacement;
-        } else {
-            return obj;
-        }
-    }];
+             if ([obj isEqual:pattern]) {
+                 return replacement;
+             } else {
+                 return obj;
+             }
+         }];
 }
 
 - (const char **)nullTerminatedCStringArray {
     const char **array = iTermMalloc(sizeof(char *) * (self.count + 1));
     [self enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        array[idx] = strdup(obj.UTF8String);
-    }];
+             array[idx] = strdup(obj.UTF8String);
+         }];
     array[self.count] = NULL;
     return array;
 }
@@ -649,8 +649,8 @@ void iTermFreeeNullTerminatedCStringArray(const char **array) {
         return self;
     }
     return [self mapEnumeratedWithBlock:^id(NSUInteger i, id object, BOOL *stop) {
-        return self[count - i - 1];
-    }];
+             return self[count - i - 1];
+         }];
 }
 @end
 
@@ -672,10 +672,10 @@ void iTermFreeeNullTerminatedCStringArray(const char **array) {
 - (void)removeObjectsPassingTest:(BOOL (^)(id anObject))block {
     NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
     [self enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (block(obj)) {
-            [indexes addIndex:idx];
-        }
-    }];
+             if (block(obj)) {
+                 [indexes addIndex:idx];
+             }
+         }];
     [self removeObjectsAtIndexes:indexes];
 }
 

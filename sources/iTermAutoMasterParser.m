@@ -38,18 +38,18 @@
     NSString *map = nil;
     NSString *options = nil;
     if (![scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet]
-                                 intoString:&mountpoint]) {
+                    intoString:&mountpoint]) {
         return nil;
     }
     [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:nil];
     if (![scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet]
-                                 intoString:&map]) {
+                    intoString:&map]) {
         return nil;
     }
     [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:nil];
     // options are optional.
     [scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet]
-                            intoString:&options];
+             intoString:&options];
 
     iTermAutoMasterEntry *entry = [[[iTermAutoMasterEntry alloc] init] autorelease];
     entry.mountpoint = mountpoint;
@@ -74,7 +74,7 @@
 + (instancetype)sharedInstance {
     static id object;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         object = [[self alloc] init];
     });
     return object;
@@ -102,8 +102,8 @@
 
 - (NSArray<NSString *> *)mountpoints {
     return [_entries mapWithBlock:^id(iTermAutoMasterEntry *anObject) {
-        return anObject.mountpoint;
-    }];
+                 return anObject.mountpoint;
+             }];
 }
 
 @end

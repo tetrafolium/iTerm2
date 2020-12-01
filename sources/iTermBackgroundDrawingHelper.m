@@ -10,7 +10,7 @@
 
 typedef struct {
     NSRect solidBackgroundColorRect;
-    
+
     NSImage *image;
     NSRect imageDestinationRect;
     NSRect imageSourceRect;
@@ -23,18 +23,18 @@ typedef struct {
 }
 
 - (void)drawBackgroundImageInView:(NSView *)view
-                        container:(NSView *)container
-                        dirtyRect:(NSRect)dirtyRect
-           visibleRectInContainer:(NSRect)visibleRectInContainer
-           blendDefaultBackground:(BOOL)blendDefaultBackground
-                             flip:(BOOL)shouldFlip {
+    container:(NSView *)container
+    dirtyRect:(NSRect)dirtyRect
+    visibleRectInContainer:(NSRect)visibleRectInContainer
+    blendDefaultBackground:(BOOL)blendDefaultBackground
+    flip:(BOOL)shouldFlip {
     const BOOL debug = NO;
     const iTermBackgroundDraws draws = [self drawsForBackgroundImageInView:view
-                                                                 dirtyRect:dirtyRect
-                                                             containerView:container
-                                                    visibleRectInContainer:visibleRectInContainer
-                                                    blendDefaultBackground:blendDefaultBackground];
-    
+                                             dirtyRect:dirtyRect
+                                             containerView:container
+                                             visibleRectInContainer:visibleRectInContainer
+                                             blendDefaultBackground:blendDefaultBackground];
+
     const float alpha = [self.delegate backgroundDrawingHelperUseTransparency] ? (1.0 - [self.delegate backgroundDrawingHelperTransparency]) : 1.0;
     if (!draws.image) {
         [[[self.delegate backgroundDrawingHelperDefaultBackgroundColor] colorWithAlphaComponent:alpha] set];
@@ -56,25 +56,25 @@ typedef struct {
         return r;
     };
     NSRect (^transform)(NSRect) = shouldFlip ? flip : identity;
-    
+
     [draws.image drawInRect:draws.imageDestinationRect
-                   fromRect:transform(draws.imageSourceRect)
-                  operation:operation
-                   fraction:alpha
-             respectFlipped:YES
-                      hints:nil];
+                 fromRect:transform(draws.imageSourceRect)
+                 operation:operation
+                 fraction:alpha
+                 respectFlipped:YES
+                 hints:nil];
     // Draw letterboxes/pillarboxes
     NSColor *defaultBackgroundColor = [self.delegate backgroundDrawingHelperDefaultBackgroundColor];
     [defaultBackgroundColor set];
     NSRectFillUsingOperation(draws.boxes[0], NSCompositingOperationSourceOver);
     NSRectFillUsingOperation(draws.boxes[1], NSCompositingOperationSourceOver);
-    
+
     if (blendDefaultBackground) {
         // Blend default background color over background image.
         [[defaultBackgroundColor colorWithAlphaComponent:1 - [self.delegate backgroundDrawingHelperBlending]] set];
         NSRectFillUsingOperation(draws.imageRect, NSCompositingOperationSourceOver);
     }
-    
+
     if (debug) {
         NSBezierPath *path = [NSBezierPath bezierPath];
         [path moveToPoint:dirtyRect.origin];
@@ -85,23 +85,23 @@ typedef struct {
         NSFrameRect(dirtyRect);
         NSRect localRect = [container convertRect:dirtyRect fromView:view];
         NSString *s = [NSString stringWithFormat:@"rect=%@ local=%@ src=%@ dst=%@",
-                       NSStringFromRect(dirtyRect),
-                       NSStringFromRect(localRect),
-                       NSStringFromRect(NSIntegralRect(draws.imageSourceRect)),
-                       NSStringFromRect(NSIntegralRect(draws.imageDestinationRect))];
+                                NSStringFromRect(dirtyRect),
+                                NSStringFromRect(localRect),
+                                NSStringFromRect(NSIntegralRect(draws.imageSourceRect)),
+                                NSStringFromRect(NSIntegralRect(draws.imageDestinationRect))];
 
         [[NSColor whiteColor] set];
         NSRectFill(NSMakeRect(100, dirtyRect.origin.y+20, 600, 24));
 
-        [s drawAtPoint:NSMakePoint(100, dirtyRect.origin.y+20) withAttributes:@{ NSForegroundColorAttributeName: [NSColor blackColor] }];
+        [s drawAtPoint:NSMakePoint(100, dirtyRect.origin.y+20) withAttributes:@ { NSForegroundColorAttributeName: [NSColor blackColor] }];
     }
 }
 
 - (iTermBackgroundDraws)drawsForBackgroundImageInView:(NSView *)view
-                                            dirtyRect:(NSRect)dirtyRect
-                                        containerView:(NSView *)containerView
-                               visibleRectInContainer:(NSRect)windowVisibleAreaRect
-                               blendDefaultBackground:(BOOL)blendDefaultBackground {
+    dirtyRect:(NSRect)dirtyRect
+    containerView:(NSView *)containerView
+    visibleRectInContainer:(NSRect)windowVisibleAreaRect
+    blendDefaultBackground:(BOOL)blendDefaultBackground {
     iTermBackgroundDraws result;
     NSImage *backgroundImage = [self.delegate backgroundDrawingHelperImage];
     result.image = backgroundImage;
@@ -111,7 +111,7 @@ typedef struct {
         return result;
     }
     result.solidBackgroundColorRect = NSZeroRect;
-    
+
     if (backgroundImage) {
         const NSRect dirtyRectInContainerCoords = [containerView convertRect:dirtyRect fromView:view];
         NSRect dirtyRectInAdjustedContainerCoords = dirtyRectInContainerCoords;
@@ -125,43 +125,43 @@ typedef struct {
         NSRect imageRect = dirtyRect;
 
         switch ([self.delegate backgroundDrawingHelperBackgroundImageMode]) {
-            case iTermBackgroundImageModeStretch:
-                image = backgroundImage;
-                sourceRect = [self sourceRectForImageSize:image.size
-                                                 viewSize:windowVisibleAreaRect.size
-                                          destinationRect:dirtyRectInAdjustedContainerCoords];
-                break;
-                
-            case iTermBackgroundImageModeTile:
-                image = [self patternedImageForViewOfSize:windowVisibleAreaRect.size];
-                sourceRect = [self sourceRectForImageSize:image.size
-                                                 viewSize:windowVisibleAreaRect.size
-                                          destinationRect:dirtyRectInAdjustedContainerCoords];
-                break;
-                
-            case iTermBackgroundImageModeScaleAspectFill:
-                image = backgroundImage;
-                sourceRect = [self scaleAspectFillSourceRectForImageSize:image.size
-                                                             contentRect:windowVisibleAreaRect
-                                                         destinationRect:dirtyRectInAdjustedContainerCoords];
-                break;
-                
-            case iTermBackgroundImageModeScaleAspectFit:
-                image = backgroundImage;
-                // TODO: The analyze complained about this dead store, which suggests I'm assing the wrong argument for dirtyRect below.
-                // dirtyRectInAdjustedContainerCoords = NSIntersectionRect(dirtyRectInAdjustedContainerCoords, containerView.bounds);
-                sourceRect = [iTermBackgroundDrawingHelper scaleAspectFitSourceRectForForImageSize:image.size
-                                                                                   destinationRect:windowVisibleAreaRect
-                                                                                         dirtyRect:dirtyRectInContainerCoords
-                                                                                          drawRect:&drawRect
-                                                                                          boxRect1:&result.boxes[0]
-                                                                                          boxRect2:&result.boxes[1]];
-                drawRect = [view convertRect:drawRect fromView:containerView];
-                imageRect = drawRect;
-                for (int i = 0; i < sizeof(result.boxes) / sizeof(*result.boxes); i++) {
-                    result.boxes[i] = [view convertRect:result.boxes[i] fromView:containerView];
-                }
-                break;
+        case iTermBackgroundImageModeStretch:
+            image = backgroundImage;
+            sourceRect = [self sourceRectForImageSize:image.size
+                               viewSize:windowVisibleAreaRect.size
+                               destinationRect:dirtyRectInAdjustedContainerCoords];
+            break;
+
+        case iTermBackgroundImageModeTile:
+            image = [self patternedImageForViewOfSize:windowVisibleAreaRect.size];
+            sourceRect = [self sourceRectForImageSize:image.size
+                               viewSize:windowVisibleAreaRect.size
+                               destinationRect:dirtyRectInAdjustedContainerCoords];
+            break;
+
+        case iTermBackgroundImageModeScaleAspectFill:
+            image = backgroundImage;
+            sourceRect = [self scaleAspectFillSourceRectForImageSize:image.size
+                               contentRect:windowVisibleAreaRect
+                               destinationRect:dirtyRectInAdjustedContainerCoords];
+            break;
+
+        case iTermBackgroundImageModeScaleAspectFit:
+            image = backgroundImage;
+            // TODO: The analyze complained about this dead store, which suggests I'm assing the wrong argument for dirtyRect below.
+            // dirtyRectInAdjustedContainerCoords = NSIntersectionRect(dirtyRectInAdjustedContainerCoords, containerView.bounds);
+            sourceRect = [iTermBackgroundDrawingHelper scaleAspectFitSourceRectForForImageSize:image.size
+                                                       destinationRect:windowVisibleAreaRect
+                                                       dirtyRect:dirtyRectInContainerCoords
+                                                       drawRect:&drawRect
+                                                       boxRect1:&result.boxes[0]
+                                                       boxRect2:&result.boxes[1]];
+            drawRect = [view convertRect:drawRect fromView:containerView];
+            imageRect = drawRect;
+            for (int i = 0; i < sizeof(result.boxes) / sizeof(*result.boxes); i++) {
+                result.boxes[i] = [view convertRect:result.boxes[i] fromView:containerView];
+            }
+            break;
         }
         result.image = image;
         result.imageDestinationRect = drawRect;
@@ -195,11 +195,11 @@ typedef struct {
 }
 
 - (NSRect)sourceRectForImageSize:(NSSize)imageSize
-                        viewSize:(NSSize)viewSize
-                 destinationRect:(NSRect)destinationRect {
+    viewSize:(NSSize)viewSize
+    destinationRect:(NSRect)destinationRect {
     double dx = imageSize.width / viewSize.width;
     double dy = imageSize.height / viewSize.height;
-    
+
     NSRect sourceRect = NSMakeRect(destinationRect.origin.x * dx,
                                    destinationRect.origin.y * dy,
                                    destinationRect.size.width * dx,
@@ -208,8 +208,8 @@ typedef struct {
 }
 
 - (NSRect)scaleAspectFillSourceRectForImageSize:(NSSize)imageSize
-                                    contentRect:(NSRect)contentRect
-                                destinationRect:(NSRect)destinationRect {
+    contentRect:(NSRect)contentRect
+    destinationRect:(NSRect)destinationRect {
     const NSSize viewSize = contentRect.size;
     CGFloat imageAspectRatio = imageSize.width / imageSize.height;
     CGFloat viewAspectRatio = viewSize.width / viewSize.height;
@@ -219,7 +219,7 @@ typedef struct {
         // Image is wider in AR than view
         imageSpaceRect.origin.y = 0;
         imageSpaceRect.size.height = imageSize.height;
-        
+
         const CGFloat scale = viewSize.height / imageSize.height;
         const CGFloat scaledWidth = imageSize.width * scale;
         const CGFloat crop = (scaledWidth - viewSize.width) / scale;
@@ -229,14 +229,14 @@ typedef struct {
         // Image is taller in AR than view
         imageSpaceRect.origin.x = 0;
         imageSpaceRect.size.width = imageSize.width;
-        
+
         const CGFloat scale = viewSize.width / imageSize.width;
         const CGFloat scaledHeight = imageSize.height * scale;
         const CGFloat crop = (scaledHeight - viewSize.height) / scale;
         imageSpaceRect.origin.y = crop / 2.0;
         imageSpaceRect.size.height = imageSize.height - crop;
     }
-    
+
     // Compute the normalized offsets/sizes of the destination rect relative to the view.
     // The map directly onto the imageSpaceRect. In other words, if the destination rect's
     // origin is 25% of the way across the view, then it's also 25% of the way across the
@@ -252,8 +252,8 @@ typedef struct {
 }
 
 + (NSRect)scaleAspectFitRectWithImageOfSize:(NSSize)imageSize
-                          inDestinationRect:(NSRect)destinationRect
-                                      scale:(out CGFloat *)scale {
+    inDestinationRect:(NSRect)destinationRect
+    scale:(out CGFloat *)scale {
     const CGFloat imageAspectRatio = imageSize.width / imageSize.height;
     const CGFloat viewAspectRatio = destinationRect.size.width / destinationRect.size.height;
     if (imageAspectRatio > viewAspectRatio) {
@@ -280,81 +280,81 @@ typedef struct {
 }
 
 + (void)getPillarBoxesForImageRect:(NSRect)rectWithImage
-                   destinationRect:(NSRect)destinationRect
-                         dirtyRect:(NSRect)dirtyRect
-                          boxRect1:(out NSRect *)boxRect1
-                          boxRect2:(out NSRect *)boxRect2 {
+    destinationRect:(NSRect)destinationRect
+    dirtyRect:(NSRect)dirtyRect
+    boxRect1:(out NSRect *)boxRect1
+    boxRect2:(out NSRect *)boxRect2 {
     // Left pillarbox
     const CGFloat pillarboxWidth = (destinationRect.size.width - rectWithImage.size.width) / 2;
     NSRect leftPillarboxInViewCoords = NSMakeRect(destinationRect.origin.x,
-                                                  destinationRect.origin.y,
-                                                  pillarboxWidth,
-                                                  destinationRect.size.height);
+                                       destinationRect.origin.y,
+                                       pillarboxWidth,
+                                       destinationRect.size.height);
     if (boxRect1) {
         *boxRect1 = NSIntersectionRect(NSIntersectionRect(leftPillarboxInViewCoords,
-                                                          destinationRect),
+                                       destinationRect),
                                        dirtyRect);
     }
-    
+
     // Right pillarbox
     NSRect rightPillarboxInViewCoords = NSMakeRect(destinationRect.origin.x + destinationRect.size.width - pillarboxWidth,
-                                                   destinationRect.origin.y,
-                                                   pillarboxWidth,
-                                                   destinationRect.size.height);
+                                        destinationRect.origin.y,
+                                        pillarboxWidth,
+                                        destinationRect.size.height);
     if (boxRect2) {
         *boxRect2 = NSIntersectionRect(NSIntersectionRect(rightPillarboxInViewCoords,
-                                                          destinationRect),
+                                       destinationRect),
                                        dirtyRect);
     }
 }
 
 + (void)getLetterBoxesForImageRect:(NSRect)rectWithImage
-                   destinationRect:(NSRect)destinationRect
-                         dirtyRect:(NSRect)dirtyRect
-                          boxRect1:(out NSRect *)boxRect1
-                          boxRect2:(out NSRect *)boxRect2 {
+    destinationRect:(NSRect)destinationRect
+    dirtyRect:(NSRect)dirtyRect
+    boxRect1:(out NSRect *)boxRect1
+    boxRect2:(out NSRect *)boxRect2 {
     // Top letterbox
     CGFloat letterboxHeight = (destinationRect.size.height - rectWithImage.size.height) / 2;
     NSRect topLetterboxInViewCoords = NSMakeRect(destinationRect.origin.x,
-                                                 destinationRect.origin.y,
-                                                 destinationRect.size.width,
-                                                 letterboxHeight);
+                                      destinationRect.origin.y,
+                                      destinationRect.size.width,
+                                      letterboxHeight);
     if (boxRect1) {
         *boxRect1 = NSIntersectionRect(NSIntersectionRect(topLetterboxInViewCoords,
-                                                          destinationRect),
+                                       destinationRect),
                                        dirtyRect);
     }
-    
+
     // Bottom letterbox
     NSRect bottomLetterboxInViewCoords = NSMakeRect(destinationRect.origin.x,
-                                                    destinationRect.origin.y + destinationRect.size.height - letterboxHeight,
-                                                    destinationRect.size.width,
-                                                    letterboxHeight);
+                                         destinationRect.origin.y + destinationRect.size.height - letterboxHeight,
+                                         destinationRect.size.width,
+                                         letterboxHeight);
     if (boxRect2) {
         *boxRect2 = NSIntersectionRect(NSIntersectionRect(bottomLetterboxInViewCoords,
-                                                          destinationRect),
+                                       destinationRect),
                                        dirtyRect);
     }
 }
 
 + (void)getClippedScaleAspectFitSourceRect:(inout NSRect *)sourceRectInOut
-                           destinationRect:(inout NSRect *)destinationRectInOut
-                                    inRect:(NSRect)clipRect {
+    destinationRect:(inout NSRect *)destinationRectInOut
+    inRect:(NSRect)clipRect {
     const NSRect originalSourceRect = *sourceRectInOut;
     const NSRect originalDestinationRect = *destinationRectInOut;
-    
+
     const NSRect clippedDestinationRect = NSIntersectionRect(clipRect, originalDestinationRect);
     if (NSEqualRects(originalDestinationRect, clippedDestinationRect)) {
         // Nothing to do: destination rect is entirely within clip rect.
         return;
     }
     *destinationRectInOut = clippedDestinationRect;
-    
+
     const CGFloat leftLost = (NSMinX(clippedDestinationRect) - NSMinX(originalDestinationRect)) / NSWidth(originalDestinationRect);
     const CGFloat topLost = (NSMinY(clippedDestinationRect) - NSMinY(originalDestinationRect)) / NSHeight(originalDestinationRect);
     const CGFloat rightLost = (NSMaxX(originalDestinationRect) - NSMaxX(clippedDestinationRect)) / NSWidth(originalDestinationRect);
     const CGFloat bottomLost = (NSMaxY(originalDestinationRect) - NSMaxY(clippedDestinationRect)) / NSHeight(originalDestinationRect);
-    
+
     const NSRect sourceRect = NSMakeRect(NSMinX(originalSourceRect) + leftLost * NSWidth(originalSourceRect),
                                          NSMinY(originalSourceRect) + topLost * NSHeight(originalSourceRect),
                                          NSWidth(originalSourceRect) - (leftLost + rightLost) * NSWidth(originalSourceRect),
@@ -363,50 +363,50 @@ typedef struct {
 }
 
 + (NSRect)scaleAspectFitSourceRectForForImageSize:(NSSize)imageSize
-                                  destinationRect:(NSRect)destinationRect
-                                        dirtyRect:(NSRect)dirtyRect
-                                         drawRect:(out NSRect *)drawRect
-                                         boxRect1:(out NSRect *)boxRect1
-                                         boxRect2:(out NSRect *)boxRect2 {
+    destinationRect:(NSRect)destinationRect
+    dirtyRect:(NSRect)dirtyRect
+    drawRect:(out NSRect *)drawRect
+    boxRect1:(out NSRect *)boxRect1
+    boxRect2:(out NSRect *)boxRect2 {
     CGFloat imageAspectRatio = imageSize.width / imageSize.height;
     CGFloat viewAspectRatio = destinationRect.size.width / destinationRect.size.height;
-    
+
     // Compute the viewRect which is the part of the view that has an image (and not a letterbox/pillarbox)
     CGFloat scale = 0;
     const NSRect rectWithImage = [self scaleAspectFitRectWithImageOfSize:imageSize
-                                                       inDestinationRect:destinationRect
-                                                                   scale:&scale];
+                                       inDestinationRect:destinationRect
+                                       scale:&scale];
     *drawRect = rectWithImage;
 
     NSRect destinationRectRelativeToViewRect = NSMakeRect(destinationRect.origin.x - rectWithImage.origin.x,
-                                                          destinationRect.origin.y - rectWithImage.origin.y,
-                                                          destinationRect.size.width,
-                                                          destinationRect.size.height);
+            destinationRect.origin.y - rectWithImage.origin.y,
+            destinationRect.size.width,
+            destinationRect.size.height);
     NSRect sourceRect = NSMakeRect(destinationRectRelativeToViewRect.origin.x * scale,
                                    destinationRectRelativeToViewRect.origin.y * scale,
                                    destinationRectRelativeToViewRect.size.width * scale,
                                    destinationRectRelativeToViewRect.size.height * scale);
-    
+
     if (imageAspectRatio <= viewAspectRatio) {
         [self getPillarBoxesForImageRect:rectWithImage
-                         destinationRect:destinationRect
-                               dirtyRect:dirtyRect
-                                boxRect1:boxRect1
-                                boxRect2:boxRect2];
+              destinationRect:destinationRect
+              dirtyRect:dirtyRect
+              boxRect1:boxRect1
+              boxRect2:boxRect2];
     } else {
         [self getLetterBoxesForImageRect:rectWithImage
-                         destinationRect:destinationRect
-                               dirtyRect:dirtyRect
-                                boxRect1:boxRect1
-                                boxRect2:boxRect2];
+              destinationRect:destinationRect
+              dirtyRect:dirtyRect
+              boxRect1:boxRect1
+              boxRect2:boxRect2];
     }
 
     // Ensure the bounds of the source rect are legit. The out-of-bounds parts are covered by letter/pillar boxes.
     NSRect safeSourceRect = NSIntersectionRect(sourceRect, NSMakeRect(0, 0, imageSize.width, imageSize.height));
-    
+
     [self getClippedScaleAspectFitSourceRect:&safeSourceRect
-                             destinationRect:drawRect
-                                      inRect:dirtyRect];
+          destinationRect:drawRect
+          inRect:dirtyRect];
     return safeSourceRect;
 }
 

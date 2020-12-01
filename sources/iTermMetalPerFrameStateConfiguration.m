@@ -14,14 +14,16 @@
 #import "iTermTextDrawingHelper.h"
 
 static vector_float4 VectorForColor(NSColor *color) {
-    return (vector_float4) { color.redComponent, color.greenComponent, color.blueComponent, color.alphaComponent };
+    return (vector_float4) {
+        color.redComponent, color.greenComponent, color.blueComponent, color.alphaComponent
+    };
 }
 
 @implementation iTermMetalPerFrameStateConfiguration
 
 - (void)loadSettingsWithDrawingHelper:(iTermTextDrawingHelper *)drawingHelper
-                             textView:(PTYTextView *)textView
-                                 glue:(id<iTermMetalPerFrameStateDelegate>)glue {
+    textView:(PTYTextView *)textView
+    glue:(id<iTermMetalPerFrameStateDelegate>)glue {
     _cellSize = drawingHelper.cellSize;
     _cellSizeWithoutSpacing = drawingHelper.cellSizeWithoutSpacing;
     _scale = textView.window.backingScaleFactor;
@@ -54,7 +56,7 @@ static vector_float4 VectorForColor(NSColor *color) {
     _timestampsEnabled = drawingHelper.showTimestamps;
     _isFrontTextView = (textView == [[iTermController sharedInstance] frontTextView]);
     _unfocusedSelectionColor = VectorForColor([[_colorMap colorForKey:kColorMapSelection] colorDimmedBy:2.0/3.0
-                                                                                       towardsGrayLevel:0.5]);
+                                                                          towardsGrayLevel:0.5]);
     _transparencyAlpha = textView.transparencyAlpha;
     _transparencyAffectsOnlyDefaultBackgroundColor = drawingHelper.transparencyAffectsOnlyDefaultBackgroundColor;
 
@@ -65,7 +67,7 @@ static vector_float4 VectorForColor(NSColor *color) {
     // Background image
     _backgroundImageBlend = [glue backgroundImageBlend];
     _backgroundImageMode = [glue backroundImageMode];
-    
+
     _edgeInsets = textView.delegate.textViewEdgeInsets;
     _edgeInsets.left++;
     _edgeInsets.right++;
@@ -76,15 +78,15 @@ static vector_float4 VectorForColor(NSColor *color) {
 
     _asciiUnderlineDescriptor.color = VectorForColor([_colorMap colorForKey:kColorMapUnderline]);
     _asciiUnderlineDescriptor.offset = [drawingHelper yOriginForUnderlineForFont:_asciiFont.font
-                                                                         yOffset:0
-                                                                      cellHeight:_cellSize.height];
+                                                      yOffset:0
+                                                      cellHeight:_cellSize.height];
     _asciiUnderlineDescriptor.thickness = [drawingHelper underlineThicknessForFont:_asciiFont.font];
 
     if (_useNonAsciiFont) {
         _nonAsciiUnderlineDescriptor.color = _asciiUnderlineDescriptor.color;
         _nonAsciiUnderlineDescriptor.offset = [drawingHelper yOriginForUnderlineForFont:_nonAsciiFont.font
-                                                                                yOffset:0
-                                                                             cellHeight:_cellSize.height];
+                                                             yOffset:0
+                                                             cellHeight:_cellSize.height];
         _nonAsciiUnderlineDescriptor.thickness = [drawingHelper underlineThicknessForFont:_nonAsciiFont.font];
     } else {
         _nonAsciiUnderlineDescriptor = _asciiUnderlineDescriptor;
@@ -92,16 +94,16 @@ static vector_float4 VectorForColor(NSColor *color) {
     // We use the ASCII font's color and underline thickness for strikethrough.
     _strikethroughUnderlineDescriptor.color = _asciiUnderlineDescriptor.color;
     _strikethroughUnderlineDescriptor.offset = [drawingHelper yOriginForStrikethroughForFont:_asciiFont.font
-                                                                                     yOffset:0
-                                                                                  cellHeight:_cellSize.height];
+                          yOffset:0
+                          cellHeight:_cellSize.height];
     _strikethroughUnderlineDescriptor.thickness = [drawingHelper strikethroughThicknessForFont:_asciiFont.font];
 
     // Indicators
     NSColor *color = [[textView indicatorFullScreenFlashColor] colorUsingColorSpace:[NSColorSpace sRGBColorSpace]];
     _fullScreenFlashColor = simd_make_float4(color.redComponent,
-                                             color.greenComponent,
-                                             color.blueComponent,
-                                             textView.indicatorsHelper.fullScreenAlpha);
+                            color.greenComponent,
+                            color.blueComponent,
+                            textView.indicatorsHelper.fullScreenAlpha);
 }
 
 @end

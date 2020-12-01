@@ -76,8 +76,8 @@
     NSRect bounds = NSInsetRect(self.bounds, 8.5, 8.5);
     const CGFloat radius = 6;
     NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:bounds
-                                                         xRadius:radius
-                                                         yRadius:radius];
+                                       xRadius:radius
+                                       yRadius:radius];
     [[NSColor controlColor] set];
     [path fill];
 
@@ -87,8 +87,8 @@
 
     bounds = NSInsetRect(bounds, 0.25, 0.25);
     path = [NSBezierPath bezierPathWithRoundedRect:bounds
-                                           xRadius:radius
-                                           yRadius:radius];
+                         xRadius:radius
+                         yRadius:radius];
     [path setLineWidth:0.25];
     [[NSColor colorWithCalibratedWhite:0.5 alpha:1] set];
     [path stroke];

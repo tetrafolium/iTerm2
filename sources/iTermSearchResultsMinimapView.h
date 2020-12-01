@@ -18,7 +18,7 @@ NS_CLASS_AVAILABLE_MAC(10_14)
 - (NSRange)searchResultsMinimapViewRangeOfVisibleLines:(iTermSearchResultsMinimapView *)view;
 @end
 
-@interface iTermBaseMinimapView: NSView
+@interface iTermBaseMinimapView : NSView
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;
 - (instancetype)initWithFrame:(NSRect)frameRect NS_UNAVAILABLE;
@@ -31,7 +31,7 @@ NS_CLASS_AVAILABLE_MAC(10_14)
 @property (nonatomic, weak) id<iTermSearchResultsMinimapViewDelegate> delegate;
 @end
 
-@interface iTermIncrementalMinimapView: iTermBaseMinimapView
+@interface iTermIncrementalMinimapView : iTermBaseMinimapView
 
 // (outline color, fill color)
 - (instancetype)initWithColors:(NSArray<iTermTuple<NSColor *, NSColor *> *> *)colors NS_DESIGNATED_INITIALIZER;
@@ -40,7 +40,7 @@ NS_CLASS_AVAILABLE_MAC(10_14)
 - (void)addObjectOfType:(NSInteger)objectType onLine:(NSInteger)line;
 - (void)removeObjectOfType:(NSInteger)objectType fromLine:(NSInteger)line;
 - (void)setFirstVisibleLine:(NSInteger)firstVisibleLine
-       numberOfVisibleLines:(NSInteger)numberOfVisibleLines;
+    numberOfVisibleLines:(NSInteger)numberOfVisibleLines;
 - (void)removeAllObjects;
 - (void)setLines:(NSMutableIndexSet *)lines forType:(NSInteger)type;
 

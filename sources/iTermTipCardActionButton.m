@@ -141,13 +141,13 @@ static const CGFloat kStandardButtonHeight = 34;
     // For inscrutable reasons, putting the tab stop all the way at the right edge of the field
     // doesn't work--the tab seems to be ignored.
     NSTextTab *tab = [[[NSTextTab alloc] initWithTextAlignment:NSTextAlignmentRight
-                                                      location:width - 8
-                                                       options:@{ }] autorelease];
+                                          location:width - 8
+                                          options:@ { }] autorelease];
     paragraphStyle.tabStops = @[ tab ];
     NSString *string = [NSString stringWithFormat:@"%@\t%@",
-                                                  self.titleValue ?: @"",
-                                                  self.shortcutValue ?: @""];
-    NSDictionary *attributes = @{ NSParagraphStyleAttributeName: paragraphStyle };
+                                 self.titleValue ?: @"",
+                                 self.shortcutValue ?: @""];
+    NSDictionary *attributes = @ { NSParagraphStyleAttributeName: paragraphStyle };
     NSAttributedString *attributedString =
         [[[NSAttributedString alloc] initWithString:string attributes:attributes] autorelease];
     _textField.attributedStringValue = attributedString;
@@ -188,8 +188,8 @@ static const CGFloat kStandardButtonHeight = 34;
     _icon = [image retain];
     _iconLayer.bounds = CGRectMake(0, 0, image.size.width, image.size.height);
     _iconLayer.contents = (id)[image CGImageForProposedRect:NULL
-                                                    context:nil
-                                                      hints:nil];
+                                     context:nil
+                                     hints:nil];
     [self setNeedsDisplay:YES];
 }
 
@@ -249,7 +249,7 @@ static const CGFloat kStandardButtonHeight = 34;
 
     CGFloat scale = [self desiredHighlightScale];
     CATransform3D transform = CATransform3DConcat(CATransform3DMakeTranslation(-0.5, -0.5, 0),
-                                                  CATransform3DMakeScale(scale, scale, 1));
+                              CATransform3DMakeScale(scale, scale, 1));
 
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform"];
     animation.fromValue = (id)[NSValue valueWithCATransform3D:CATransform3DIdentity];
@@ -277,7 +277,7 @@ static const CGFloat kStandardButtonHeight = 34;
     _highlightLayer.opacity = 0;
     CGFloat scale = [self desiredHighlightScale];
     CATransform3D transform = CATransform3DConcat(CATransform3DMakeTranslation(-0.5, -0.5, 0),
-                                                  CATransform3DMakeScale(scale, scale, 1));
+                              CATransform3DMakeScale(scale, scale, 1));
     _highlightLayer.transform = transform;
     [CATransaction commit];
 
@@ -285,7 +285,7 @@ static const CGFloat kStandardButtonHeight = 34;
 
     // Report a click if appropriate.
     if (self.enabled &&
-        NSPointInRect([self convertPoint:theEvent.locationInWindow fromView:nil], self.bounds)) {
+            NSPointInRect([self convertPoint:theEvent.locationInWindow fromView:nil], self.bounds)) {
         if (self.target && self.action) {
             [self.target performSelector:self.action withObject:self];
         }

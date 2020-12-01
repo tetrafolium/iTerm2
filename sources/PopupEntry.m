@@ -31,7 +31,7 @@
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<%@: %p s=%@ prefix=%@ score=%f hitMult=%f>",
-            [self class], self, _mainValue, _prefix, _score, _hitMultiplier];
+                     [self class], self, _mainValue, _prefix, _score, _hitMultiplier];
 }
 
 - (void)_setDefaultValues

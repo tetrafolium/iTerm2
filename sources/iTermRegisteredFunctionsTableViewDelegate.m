@@ -19,8 +19,8 @@
 
 @implementation iTermRegisteredFunctionProxy
 - (instancetype)initWithSignature:(NSString *)signature
-                             role:(NSString *)role
-                           script:(NSString *)script {
+    role:(NSString *)role
+    script:(NSString *)script {
     self = [super init];
     if (self) {
         _signature = [signature copy];
@@ -55,20 +55,20 @@
 - (void)loadRows {
     NSDictionary<NSString *, iTermTuple<id, ITMNotificationRequest *> *> *subs = [[iTermAPIHelper sharedInstance] serverOriginatedRPCSubscriptions];
     _rows = [subs.allKeys mapWithBlock:^id(NSString *signature) {
-        NSString *role = @"RPC";
+                     NSString *role = @"RPC";
         switch (subs[signature].secondObject.rpcRegistrationRequest.role) {
-            case ITMRPCRegistrationRequest_Role_Generic:
-                role = @"RPC";
-                break;
-            case ITMRPCRegistrationRequest_Role_SessionTitle:
-                role = @"Title Provider";
-                break;
-            case ITMRPCRegistrationRequest_Role_StatusBarComponent:
-                role = @"Status Bar Component";
-                break;
-            case ITMRPCRegistrationRequest_Role_ContextMenu:
-                role = @"Context Menu Provider";
-                break;
+        case ITMRPCRegistrationRequest_Role_Generic:
+            role = @"RPC";
+            break;
+        case ITMRPCRegistrationRequest_Role_SessionTitle:
+            role = @"Title Provider";
+            break;
+        case ITMRPCRegistrationRequest_Role_StatusBarComponent:
+            role = @"Status Bar Component";
+            break;
+        case ITMRPCRegistrationRequest_Role_ContextMenu:
+            role = @"Context Menu Provider";
+            break;
         }
         id connectionKey = subs[signature].firstObject;
         iTermScriptHistoryEntry *entry =  [[iTermAPIHelper sharedInstance] scriptHistoryEntryForConnectionKey:connectionKey];
@@ -83,7 +83,7 @@
 }
 
 - (NSString *)stringForProxy:(iTermRegisteredFunctionProxy *)proxy
-            columnIdentifier:(NSString *)identifier {
+    columnIdentifier:(NSString *)identifier {
     if ([identifier isEqualToString:@"signature"]) {
         return proxy.signature;
     }
