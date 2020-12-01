@@ -16,37 +16,42 @@
 
 @protocol iTermKeyMappingViewControllerDelegate <NSObject>
 
-- (NSDictionary *)keyMappingDictionary:(iTermKeyMappingViewController *)viewController;
+- (NSDictionary *)keyMappingDictionary:
+    (iTermKeyMappingViewController *)viewController;
 
-- (NSArray<iTermKeystroke *> *)keyMappingSortedKeystrokes:(iTermKeyMappingViewController *)viewController;
-- (NSArray<iTermTouchbarItem *> *)keyMappingSortedTouchbarItems:(iTermKeyMappingViewController *)viewController;
+- (NSArray<iTermKeystroke *> *)keyMappingSortedKeystrokes:
+    (iTermKeyMappingViewController *)viewController;
+- (NSArray<iTermTouchbarItem *> *)keyMappingSortedTouchbarItems:
+    (iTermKeyMappingViewController *)viewController;
 
 - (NSDictionary *)keyMappingTouchBarItems;
 
 - (void)keyMapping:(iTermKeyMappingViewController *)viewController
-    didChangeItem:(iTermKeystrokeOrTouchbarItem *)item
-    atIndex:(NSInteger)index
-    toAction:(iTermKeyBindingAction *)action
-    isAddition:(BOOL)addition;
+     didChangeItem:(iTermKeystrokeOrTouchbarItem *)item
+           atIndex:(NSInteger)index
+          toAction:(iTermKeyBindingAction *)action
+        isAddition:(BOOL)addition;
 
 - (void)keyMapping:(iTermKeyMappingViewController *)viewController
     removeKeystrokes:(NSSet<iTermKeystroke *> *)keyCombos
-    touchbarItems:(NSSet<iTermTouchbarItem *> *)touchBarItems;
+       touchbarItems:(NSSet<iTermTouchbarItem *> *)touchBarItems;
 
-- (NSArray *)keyMappingPresetNames:(iTermKeyMappingViewController *)viewController;
+- (NSArray *)keyMappingPresetNames:
+    (iTermKeyMappingViewController *)viewController;
 
 - (void)keyMapping:(iTermKeyMappingViewController *)viewController
     loadPresetsNamed:(NSString *)presetName;
 
-- (BOOL)keyMapping:(iTermKeyMappingViewController *)viewController shouldImportKeystrokes:(NSSet<iTermKeystroke *> *)keys;
+- (BOOL)keyMapping:(iTermKeyMappingViewController *)viewController
+    shouldImportKeystrokes:(NSSet<iTermKeystroke *> *)keys;
 
 @end
 
-@interface iTermKeyMappingViewController : NSViewController <
-    NSTableViewDelegate,
-    NSTableViewDataSource>
+@interface iTermKeyMappingViewController
+    : NSViewController <NSTableViewDelegate, NSTableViewDataSource>
 
-@property(nonatomic, weak) IBOutlet id<iTermKeyMappingViewControllerDelegate> delegate;
+@property(nonatomic, weak) IBOutlet id<iTermKeyMappingViewControllerDelegate>
+    delegate;
 @property(nonatomic, strong) IBOutlet NSView *placeholderView;
 @property(nonatomic) BOOL hapticFeedbackForEscEnabled;
 @property(nonatomic) BOOL soundForEscEnabled;

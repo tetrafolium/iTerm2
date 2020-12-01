@@ -6,8 +6,8 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
 #import "iTermProgressIndicator.h"
+#import <Cocoa/Cocoa.h>
 
 @interface TransferrableFileMenuItemView : NSView
 

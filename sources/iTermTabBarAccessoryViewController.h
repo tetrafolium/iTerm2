@@ -10,11 +10,14 @@
 NS_ASSUME_NONNULL_BEGIN
 
 NS_CLASS_AVAILABLE_MAC(10_14)
-@interface iTermTabBarAccessoryViewController : NSTitlebarAccessoryViewController
-@property (nonatomic, readonly) __kindof NSView *realView;
+@interface iTermTabBarAccessoryViewController
+    : NSTitlebarAccessoryViewController
+@property(nonatomic, readonly) __kindof NSView *realView;
 
 - (instancetype)initWithView:(NSView *)view NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithNibName:(nullable NSNibName)nibNameOrNil bundle:(nullable NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
+- (instancetype)initWithNibName:(nullable NSNibName)nibNameOrNil
+                         bundle:(nullable NSBundle *)nibBundleOrNil
+    NS_UNAVAILABLE;
 - (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;
 
 @end

@@ -12,8 +12,9 @@
 @interface iTermScriptExporter : NSObject
 
 + (void)exportScriptAtURL:(NSURL *)url
-    signingIdentity:(SIGIdentity *)sigIdentity
-    completion:(void (^)(NSString *errorMessage, NSURL *zipURL))completion;
+          signingIdentity:(SIGIdentity *)sigIdentity
+               completion:
+                   (void (^)(NSString *errorMessage, NSURL *zipURL))completion;
 + (BOOL)urlIsScript:(NSURL *)url;
 
 @end

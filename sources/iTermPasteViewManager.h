@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class PasteContext;
 @class iTermVariableScope;
 
-@protocol iTermPasteViewManagerDelegate<NSObject>
+@protocol iTermPasteViewManagerDelegate <NSObject>
 
 - (void)pasteViewManagerDropDownPasteViewVisibilityDidChange;
 - (void)pasteViewManagerUserDidCancel;
@@ -23,14 +23,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermPasteViewManager : NSObject
 
-@property (nonatomic, strong) PasteContext *pasteContext;
-@property (nonatomic) NSUInteger bufferLength;
-@property (nonatomic, readonly) BOOL dropDownPasteViewIsVisible;
-@property (nonatomic, weak) id<iTermPasteViewManagerDelegate> delegate;
-@property (nonatomic, assign) int remainingLength;
+@property(nonatomic, strong) PasteContext *pasteContext;
+@property(nonatomic) NSUInteger bufferLength;
+@property(nonatomic, readonly) BOOL dropDownPasteViewIsVisible;
+@property(nonatomic, weak) id<iTermPasteViewManagerDelegate> delegate;
+@property(nonatomic, assign) int remainingLength;
 
 - (void)startWithViewForDropdown:(NSView *)dropdownSuperview
-    statusBarViewController:(iTermStatusBarViewController *)statusBarController;
+         statusBarViewController:
+             (iTermStatusBarViewController *)statusBarController;
 
 - (void)didStop;
 

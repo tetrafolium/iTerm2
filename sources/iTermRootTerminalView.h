@@ -6,9 +6,9 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
 #import "SolidColorView.h"
 #import "VT100GridTypes.h"
+#import <Cocoa/Cocoa.h>
 
 @class iTermImageView;
 @class iTermRootTerminalView;
@@ -20,7 +20,7 @@
 @protocol PSMTabBarControlDelegate;
 @class PTYTabView;
 
-@protocol iTermRootTerminalViewDelegate<iTermTabBarControlViewDelegate>
+@protocol iTermRootTerminalViewDelegate <iTermTabBarControlViewDelegate>
 - (void)repositionWidgets;
 - (void)rootTerminalViewDidResizeContentArea;
 - (BOOL)haveTopBorder;
@@ -39,10 +39,12 @@
 - (BOOL)enableStoplightHotbox;
 - (void)rootTerminalViewDidChangeEffectiveAppearance;
 - (CGFloat)rootTerminalViewHeightOfTabBar:(iTermRootTerminalView *)sender;
-- (CGFloat)rootTerminalViewStoplightButtonsOffset:(iTermRootTerminalView *)sender;
+- (CGFloat)rootTerminalViewStoplightButtonsOffset:
+    (iTermRootTerminalView *)sender;
 - (NSColor *)rootTerminalViewTabBarTextColorForTitle;
 - (NSColor *)rootTerminalViewTabBarTextColorForWindowNumber;
-- (NSColor *)rootTerminalViewTabBarBackgroundColorIgnoringTabColor:(BOOL)ignoreTabColor;
+- (NSColor *)rootTerminalViewTabBarBackgroundColorIgnoringTabColor:
+    (BOOL)ignoreTabColor;
 - (BOOL)rootTerminalViewWindowNumberLabelShouldBeVisible;
 - (BOOL)rootTerminalViewShouldDrawWindowTitleInPlaceOfTabBar;
 - (NSImage *)rootTerminalViewCurrentTabIcon;
@@ -99,15 +101,23 @@ extern const NSInteger iTermRootTerminalViewWindowNumberLabelWidth;
 
 @property(nonatomic) BOOL useMetal;
 @property(nonatomic, readonly) BOOL tabBarControlOnLoan NS_AVAILABLE_MAC(10_14);
-@property(nonatomic, strong, readonly) iTermStatusBarViewController *statusBarViewController;
-@property(nonatomic, readonly) iTermImageView *backgroundImage NS_AVAILABLE_MAC(10_14);
+@property(nonatomic, strong, readonly)
+    iTermStatusBarViewController *statusBarViewController;
+@property(nonatomic, readonly)
+    iTermImageView *backgroundImage NS_AVAILABLE_MAC(10_14);
 
-- (instancetype)initWithFrame:(NSRect)frame
-    color:(NSColor *)color
-    tabBarDelegate:(id<iTermTabBarControlViewDelegate, PSMTabBarControlDelegate>)tabBarDelegate
-    delegate:(id<iTermRootTerminalViewDelegate, iTermToolbeltViewDelegate>)delegate;  // TODO: This should hopefully go away
+- (instancetype)
+     initWithFrame:(NSRect)frame
+             color:(NSColor *)color
+    tabBarDelegate:
+        (id<iTermTabBarControlViewDelegate, PSMTabBarControlDelegate>)
+            tabBarDelegate
+          delegate:
+              (id<iTermRootTerminalViewDelegate, iTermToolbeltViewDelegate>)
+                  delegate; // TODO: This should hopefully go away
 
-// Update the division view's frame and set it visible/hidden per |shouldBeVisible|.
+// Update the division view's frame and set it visible/hidden per
+// |shouldBeVisible|.
 - (void)updateDivisionViewAndWindowNumberLabel;
 
 // Perform a layout pass on the toolbelt, and hide/show it as needed.
@@ -132,14 +142,16 @@ extern const NSInteger iTermRootTerminalViewWindowNumberLabelWidth;
 - (void)windowNumberDidChangeTo:(NSNumber *)number;
 - (void)setWindowTitleIcon:(NSImage *)icon;
 - (iTermTabBarControlView *)borrowTabBarControl NS_AVAILABLE_MAC(10_14);
-- (void)returnTabBarControlView:(iTermTabBarControlView *)tabBarControl NS_AVAILABLE_MAC(10_14);
+- (void)returnTabBarControlView:(iTermTabBarControlView *)tabBarControl
+    NS_AVAILABLE_MAC(10_14);
 - (CGFloat)maximumToolbeltWidthForViewWidth:(CGFloat)viewWidth;
 - (void)updateToolbeltProportionsIfNeeded;
 - (void)setToolbeltProportions:(NSDictionary *)proportions;
 - (void)invalidateAutomaticTabBarBackingHiding;
 - (void)setShowsWindowSize:(BOOL)showsWindowSize NS_AVAILABLE_MAC(10_14);
 - (void)windowDidResize;
-- (CGFloat)leftTabBarWidthForPreferredWidth:(CGFloat)preferredWidth contentWidth:(CGFloat)contentWidth;
+- (CGFloat)leftTabBarWidthForPreferredWidth:(CGFloat)preferredWidth
+                               contentWidth:(CGFloat)contentWidth;
 - (void)updateTitleAndBorderViews NS_AVAILABLE_MAC(10_14);
 
 @end

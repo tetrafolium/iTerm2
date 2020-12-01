@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)withObject:(T)object;
 + (instancetype)withError:(NSError *)error;
 - (void)handleObject:(void (^)(T object))object
-    error:(void (^)(NSError *error))error;
+               error:(void (^)(NSError *error))error;
 @end
 
 NS_ASSUME_NONNULL_END

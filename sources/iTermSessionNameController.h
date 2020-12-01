@@ -13,13 +13,13 @@
 extern NSString *const iTermSessionNameControllerSystemTitleUniqueIdentifier;
 
 @interface iTermSessionFormattingDescriptor : NSObject
-@property (nonatomic) BOOL isTmuxGateway;
-@property (nonatomic, copy) NSString *tmuxClientName;
-@property (nonatomic) BOOL haveTmuxController;
-@property (nonatomic, copy) NSString *tmuxWindowName;
+@property(nonatomic) BOOL isTmuxGateway;
+@property(nonatomic, copy) NSString *tmuxClientName;
+@property(nonatomic) BOOL haveTmuxController;
+@property(nonatomic, copy) NSString *tmuxWindowName;
 @end
 
-@protocol iTermSessionNameControllerDelegate<NSObject>
+@protocol iTermSessionNameControllerDelegate <NSObject>
 
 - (void)sessionNameControllerNameWillChangeTo:(NSString *)newName;
 - (void)sessionNameControllerPresentationNameDidChangeTo:(NSString *)newName;
@@ -32,12 +32,12 @@ extern NSString *const iTermSessionNameControllerSystemTitleUniqueIdentifier;
 
 @interface iTermSessionNameController : NSObject
 
-@property (nonatomic, weak) id<iTermSessionNameControllerDelegate> delegate;
+@property(nonatomic, weak) id<iTermSessionNameControllerDelegate> delegate;
 // Window title with extra formatting, ready to be shown in a title bar.
-@property (nonatomic, readonly) NSString *presentationWindowTitle;
+@property(nonatomic, readonly) NSString *presentationWindowTitle;
 
 // Name with extra formatting, ready to be shown in a title bar.
-@property (nonatomic, readonly) NSString *presentationSessionTitle;
+@property(nonatomic, readonly) NSString *presentationSessionTitle;
 
 - (void)restoreNameFromStateDictionary:(NSDictionary *)state;
 - (NSDictionary *)stateDictionary;
@@ -53,4 +53,3 @@ extern NSString *const iTermSessionNameControllerSystemTitleUniqueIdentifier;
 - (void)updateIfNeeded;
 
 @end
-

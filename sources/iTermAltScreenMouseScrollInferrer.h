@@ -14,11 +14,12 @@
 
 @end
 
-// Tries to guess when the user is frustratingly scrolling with the mouse wheel in alternate
-// screen mode.
+// Tries to guess when the user is frustratingly scrolling with the mouse wheel
+// in alternate screen mode.
 @interface iTermAltScreenMouseScrollInferrer : NSObject
 
-@property(nonatomic, assign) id<iTermAltScreenMouseScrollInferrerDelegate> delegate;
+@property(nonatomic, assign) id<iTermAltScreenMouseScrollInferrerDelegate>
+    delegate;
 
 - (void)firstResponderDidChange;
 - (void)keyDown:(NSEvent *)event;

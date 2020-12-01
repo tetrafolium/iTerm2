@@ -29,7 +29,8 @@
 @interface iTermInstantReplayView : NSView
 @end
 
-@interface iTermInstantReplayWindowController : NSWindowController <NSWindowDelegate>
+@interface iTermInstantReplayWindowController
+    : NSWindowController <NSWindowDelegate>
 
 @property(nonatomic, assign) id<iTermInstantReplayDelegate> delegate;
 

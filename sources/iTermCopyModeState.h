@@ -8,19 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
-#import "iTermSelection.h"
 #import "VT100GridTypes.h"
+#import "iTermSelection.h"
 
 @class PTYTextView;
 
 @interface iTermCopyModeState : NSObject
 
-@property (nonatomic) VT100GridCoord coord;
-@property (nonatomic) VT100GridCoord start;
-@property (nonatomic) int numberOfLines;
-@property (nonatomic, strong) PTYTextView *textView;
-@property (nonatomic) BOOL selecting;
-@property (nonatomic) iTermSelectionMode mode;
+@property(nonatomic) VT100GridCoord coord;
+@property(nonatomic) VT100GridCoord start;
+@property(nonatomic) int numberOfLines;
+@property(nonatomic, strong) PTYTextView *textView;
+@property(nonatomic) BOOL selecting;
+@property(nonatomic) iTermSelectionMode mode;
 
 - (BOOL)moveBackwardWord;
 - (BOOL)moveForwardWord;

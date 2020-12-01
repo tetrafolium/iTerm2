@@ -9,14 +9,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol iTermMetaFrustrationDetector<NSObject>
+@protocol iTermMetaFrustrationDetector <NSObject>
 - (void)metaFrustrationDetectorDidDetectFrustrationForLeftOption;
 - (void)metaFrustrationDetectorDidDetectFrustrationForRightOption;
 @end
 
 @interface iTermMetaFrustrationDetector : NSObject
 
-@property (nonatomic, weak) id<iTermMetaFrustrationDetector> delegate;
+@property(nonatomic, weak) id<iTermMetaFrustrationDetector> delegate;
 
 - (void)didSendKeyEvent:(NSEvent *)event;
 

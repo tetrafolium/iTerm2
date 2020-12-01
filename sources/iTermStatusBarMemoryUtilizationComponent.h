@@ -7,6 +7,7 @@
 
 #import "iTermStatusBarSparklinesComponent.h"
 
-@interface iTermStatusBarMemoryUtilizationComponent : iTermStatusBarSparklinesComponent
+@interface iTermStatusBarMemoryUtilizationComponent
+    : iTermStatusBarSparklinesComponent
 
 @end

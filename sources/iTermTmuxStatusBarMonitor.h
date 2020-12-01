@@ -17,13 +17,14 @@ NS_ASSUME_NONNULL_BEGIN
 // NOTE: Requires tmux 2.9
 @interface iTermTmuxStatusBarMonitor : NSObject
 
-@property (nonatomic) BOOL active;
-@property (nonatomic, weak) TmuxGateway *gateway;
-@property (nonatomic, strong) iTermVariableScope *scope;
+@property(nonatomic) BOOL active;
+@property(nonatomic, weak) TmuxGateway *gateway;
+@property(nonatomic, strong) iTermVariableScope *scope;
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithGateway:(TmuxGateway *)gateway
-    scope:(iTermVariableScope *)scope NS_DESIGNATED_INITIALIZER;
+                          scope:(iTermVariableScope *)scope
+    NS_DESIGNATED_INITIALIZER;
 
 @end
 

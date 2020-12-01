@@ -5,4 +5,3 @@
 + (instancetype)sharedInstance;
 - (void)refresh;
 @end
-

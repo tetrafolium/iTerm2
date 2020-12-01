@@ -11,11 +11,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermSetFindStringNotification : iTermBaseNotification
 
-@property (nonatomic, readonly) NSString *string;
+@property(nonatomic, readonly) NSString *string;
 
 + (instancetype)notificationWithString:(NSString *)string;
-+ (void)subscribe:(NSObject *)owner
-    block:(void (^)(iTermSetFindStringNotification * _Nonnull notification))block;
++ (void)
+    subscribe:(NSObject *)owner
+        block:(void (^)(iTermSetFindStringNotification *_Nonnull notification))
+                  block;
 
 @end
 

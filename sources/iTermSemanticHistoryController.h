@@ -43,21 +43,24 @@ extern NSString *const kSemanticHistoryColumnNumberKey;
 
 @interface iTermSemanticHistoryController : NSObject
 
-@property (nonatomic, copy) NSDictionary *prefs;
-@property (nonatomic, assign) id<iTermSemanticHistoryControllerDelegate> delegate;
-@property (nonatomic, readonly) BOOL activatesOnAnyString;  // Doesn't have to be a real file?
+@property(nonatomic, copy) NSDictionary *prefs;
+@property(nonatomic, assign) id<iTermSemanticHistoryControllerDelegate>
+    delegate;
+@property(nonatomic, readonly)
+    BOOL activatesOnAnyString; // Doesn't have to be a real file?
 
-// Given a possibly relative |path| and |workingDirectory|, returns the absolute path. If |path|
-// includes a line number then *lineNumber will be filled in with it. Files on network shares are
-// rejected.
+// Given a possibly relative |path| and |workingDirectory|, returns the absolute
+// path. If |path| includes a line number then *lineNumber will be filled in
+// with it. Files on network shares are rejected.
 - (NSString *)cleanedUpPathFromPath:(NSString *)path
-    suffix:(NSString *)suffix
-    workingDirectory:(NSString *)workingDirectory
-    extractedLineNumber:(NSString **)lineNumber
-    columnNumber:(NSString **)columnNumber;
+                             suffix:(NSString *)suffix
+                   workingDirectory:(NSString *)workingDirectory
+                extractedLineNumber:(NSString **)lineNumber
+                       columnNumber:(NSString **)columnNumber;
 
-// Opens the file at the relative |path| (which may include :lineNumber) in |workingDirectory|.
-// The |substitutions| dictionary is used to expand \references in the command to run (gotten from
+// Opens the file at the relative |path| (which may include :lineNumber) in
+// |workingDirectory|. The |substitutions| dictionary is used to expand
+// \references in the command to run (gotten from
 // self.prefs[kSemanticHistoryTextKey]) as follows:
 //
 // \1 -> path
@@ -70,20 +73,22 @@ extern NSString *const kSemanticHistoryColumnNumberKey;
 // Returns YES if the file was opened, NO if it could not be opened.
 - (void)openPath:(NSString *)path
     orRawFilename:(NSString *)rawFileName
-    fragment:(NSString *)fragment
+         fragment:(NSString *)fragment
     substitutions:(NSDictionary *)substitutions
-    scope:(iTermVariableScope *)scope
-    lineNumber:(NSString *)lineNumber
-    columnNumber:(NSString *)columnNumber
-    completion:(void (^)(BOOL))completion;
+            scope:(iTermVariableScope *)scope
+       lineNumber:(NSString *)lineNumber
+     columnNumber:(NSString *)columnNumber
+       completion:(void (^)(BOOL))completion;
 
-// Do a brute force search by putting together suffixes of beforeString with prefixes of afterString
-// to find an existing file in |workingDirectory|. |charsSTakenFromPrefixPtr| will be filled in with
-// the number of characters from beforeString used.
+// Do a brute force search by putting together suffixes of beforeString with
+// prefixes of afterString to find an existing file in |workingDirectory|.
+// |charsSTakenFromPrefixPtr| will be filled in with the number of characters
+// from beforeString used.
 //
 // For example:
 //   [semanticHistoryController pathOfExistingFileFoundWithPrefix:@"cat et"
-//                                                         suffix:@"c/passwd > /dev/null"
+//                                                         suffix:@"c/passwd >
+//                                                         /dev/null"
 //                                               workingDirectory:@"/"
 //                                           charsTakenFromPrefix:&n
 //                                                 trimWhitespace:NO]
@@ -93,44 +98,53 @@ extern NSString *const kSemanticHistoryColumnNumberKey;
 // use getFullPath:workingDirectory:lineNumber.
 //
 // Furthermore, the result may be decorated. For example:
-//   [semanticHistoryController pathOfExistingFileFoundWithPrefix:@"at Object.<anonymous> (/priva"
+//   [semanticHistoryController pathOfExistingFileFoundWithPrefix:@"at
+//   Object.<anonymous> (/priva"
 //                                                         suffix:@"te/tmp/test_iterm_node.js:1:69)"
 //                                               workingDirectory:@"/"
 //                                           charsTakenFromPrefix:&n
 //                                                 trimWhitespace:NO]
 //
-// Will return "(/private/tmp/test_iterm_node.js:1:60)". It is suitable to pass this to
-// getFullPath:workingDirectory:lineNumber:, which will remove the parens and extract the line
-// number, returning just the filename component.
+// Will return "(/private/tmp/test_iterm_node.js:1:60)". It is suitable to pass
+// this to getFullPath:workingDirectory:lineNumber:, which will remove the
+// parens and extract the line number, returning just the filename component.
 //
-// Whitespace trimming is useful if you don't mind this method returning a path even if
-// beforeStringIn is all whitespace and afterStringIn has a whitespace prefix. In that case, the
-// result of |charsTakenFromPrefixPtr| will be 0, and it's not suitable for highlighting a match.
+// Whitespace trimming is useful if you don't mind this method returning a path
+// even if beforeStringIn is all whitespace and afterStringIn has a whitespace
+// prefix. In that case, the result of |charsTakenFromPrefixPtr| will be 0, and
+// it's not suitable for highlighting a match.
 - (NSString *)pathOfExistingFileFoundWithPrefix:(NSString *)beforeStringIn
-    suffix:(NSString *)afterStringIn
-    workingDirectory:(NSString *)workingDirectory
-    charsTakenFromPrefix:(int *)charsTakenFromPrefixPtr
-    charsTakenFromSuffix:(int *)suffixChars
-    trimWhitespace:(BOOL)trimWhitespace;
+                                         suffix:(NSString *)afterStringIn
+                               workingDirectory:(NSString *)workingDirectory
+                           charsTakenFromPrefix:(int *)charsTakenFromPrefixPtr
+                           charsTakenFromSuffix:(int *)suffixChars
+                                 trimWhitespace:(BOOL)trimWhitespace;
 
-- (iTermPathFinder *)pathOfExistingFileFoundWithPrefix:(NSString *)beforeStringIn
-    suffix:(NSString *)afterStringIn
-    workingDirectory:(NSString *)workingDirectory
-    trimWhitespace:(BOOL)trimWhitespace
-    completion:(void (^)(NSString *path,
-    int prefixChars,
-    int suffixChars,
-    BOOL workingDirectoryIsLocal))completion;
+- (iTermPathFinder *)
+    pathOfExistingFileFoundWithPrefix:(NSString *)beforeStringIn
+                               suffix:(NSString *)afterStringIn
+                     workingDirectory:(NSString *)workingDirectory
+                       trimWhitespace:(BOOL)trimWhitespace
+                           completion:(void (^)(NSString *path, int prefixChars,
+                                                int suffixChars,
+                                                BOOL workingDirectoryIsLocal))
+                                          completion;
 
 #pragma mark - Testing
 
-// Tests can subclass and override -fileManager to fake the filesystem. The following methods are
-// called: fileExistsAtPathLocally:additionalNetworkPaths:, fileExistsAtPath:, fileExistsAtPath:isDirectory:
-@property (nonatomic, readonly) NSFileManager *fileManager;
+// Tests can subclass and override -fileManager to fake the filesystem. The
+// following methods are called:
+// fileExistsAtPathLocally:additionalNetworkPaths:, fileExistsAtPath:,
+// fileExistsAtPath:isDirectory:
+@property(nonatomic, readonly) NSFileManager *fileManager;
 
-// Tests can subclass and override these methods to avoid interacting with the filesystem.
-- (void)launchTaskWithPath:(NSString *)path arguments:(NSArray *)arguments completion:(void (^)(void))completion;
-- (void)launchAppWithBundleIdentifier:(NSString *)bundleIdentifier path:(NSString *)path;
+// Tests can subclass and override these methods to avoid interacting with the
+// filesystem.
+- (void)launchTaskWithPath:(NSString *)path
+                 arguments:(NSArray *)arguments
+                completion:(void (^)(void))completion;
+- (void)launchAppWithBundleIdentifier:(NSString *)bundleIdentifier
+                                 path:(NSString *)path;
 - (BOOL)openFile:(NSString *)fullPath fragment:(NSString *)fragment;
 - (BOOL)openURL:(NSURL *)url;
 - (BOOL)openURL:(NSURL *)url editorIdentifier:(NSString *)editorIdentifier;

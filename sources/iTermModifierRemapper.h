@@ -11,9 +11,11 @@
 @property(nonatomic, readonly) iTermPreferencesModifierTag leftOptionRemapping;
 @property(nonatomic, readonly) iTermPreferencesModifierTag rightOptionRemapping;
 @property(nonatomic, readonly) iTermPreferencesModifierTag leftCommandRemapping;
-@property(nonatomic, readonly) iTermPreferencesModifierTag rightCommandRemapping;
+@property(nonatomic, readonly)
+    iTermPreferencesModifierTag rightCommandRemapping;
 
-// Is any modifier set in prefs to do something other than its un-remapped behavior?
+// Is any modifier set in prefs to do something other than its un-remapped
+// behavior?
 @property(nonatomic, readonly) BOOL isAnyModifierRemapped;
 
 // Assign to start or stop remapping. The getter indicates if the event tap is

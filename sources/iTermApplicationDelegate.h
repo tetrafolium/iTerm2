@@ -8,7 +8,8 @@
  **
  **  Project: iTerm
  **
- **  Description: Implements the main application delegate and handles the addressbook functions.
+ **  Description: Implements the main application delegate and handles the
+ *addressbook functions.
  **
  **  This program is free software; you can redistribute it and/or modify
  **  it under the terms of the GNU General Public License as published by
@@ -25,10 +26,10 @@
  **  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <Carbon/Carbon.h>
 #import "DebugLogging.h"
 #import "iTermApplication.h"
+#import <Carbon/Carbon.h>
+#import <Cocoa/Cocoa.h>
 
 @class iTermScriptsMenuController;
 @class ITMNotification;
@@ -44,7 +45,7 @@ extern NSString *const kMarkAlertActionPostNotification;
 extern NSString *const kShowFullscreenTabsSettingDidChange;
 extern NSString *const iTermApplicationWillTerminate;
 
-@interface iTermApplicationDelegate : NSObject<iTermApplicationDelegate>
+@interface iTermApplicationDelegate : NSObject <iTermApplicationDelegate>
 
 @property(nonatomic, readonly) BOOL workspaceSessionActive;
 @property(nonatomic, readonly) BOOL isAppleScriptTestApp;
@@ -60,17 +61,20 @@ extern NSString *const iTermApplicationWillTerminate;
 @property(nonatomic, readonly) BOOL warnBeforeMultiLinePaste;
 @property(nonatomic, readonly) NSMenu *downloadsMenu;
 @property(nonatomic, readonly) NSMenu *uploadsMenu;
-@property(nonatomic, readonly) iTermScriptsMenuController *scriptsMenuController;
+@property(nonatomic, readonly)
+    iTermScriptsMenuController *scriptsMenuController;
 
 - (void)updateMaximizePaneMenuItem;
 - (void)updateUseTransparencyMenuItem;
 
 - (void)makeHotKeyWindowKeyIfOpen;
 
-// Call this when the user has any nontrivial interaction with a session, such as typing in it or closing a window.
+// Call this when the user has any nontrivial interaction with a session, such
+// as typing in it or closing a window.
 - (void)userDidInteractWithASession;
 
-- (void)openPasswordManagerToAccountName:(NSString *)name inSession:(PTYSession *)session;
+- (void)openPasswordManagerToAccountName:(NSString *)name
+                               inSession:(PTYSession *)session;
 - (void)didToggleTraditionalFullScreenMode;
 - (void)willRestoreWindow;
 

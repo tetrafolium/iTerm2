@@ -10,8 +10,8 @@
 
 @interface IntRange : NSObject {
 @public
-    int min;
-    int size;
+  int min;
+  int size;
 }
 
 + (instancetype)rangeWithMin:(int)min limit:(int)limit;
@@ -24,7 +24,8 @@
 
 @end
 
-// Maps a range of integers to an object. There is special handling for objects that are numbers.
+// Maps a range of integers to an object. There is special handling for objects
+// that are numbers.
 @interface IntervalMap : NSObject
 
 - (void)setObject:(id)object forRange:(IntRange *)range;

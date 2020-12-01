@@ -8,7 +8,7 @@
 
 #import "iTermProfilePreferencesBaseViewController.h"
 
-
-@interface ProfilesColorsPreferencesViewController : iTermProfilePreferencesBaseViewController
+@interface ProfilesColorsPreferencesViewController
+    : iTermProfilePreferencesBaseViewController
 + (NSString *)nameOfPresetUsedByProfile:(Profile *)profile;
 @end

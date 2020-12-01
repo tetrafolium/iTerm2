@@ -15,14 +15,15 @@ iTermWindowType iTermWindowTypeNormalized(iTermWindowType windowType);
 @interface PseudoTerminal (WindowStyle)
 
 + (NSWindowStyleMask)styleMaskForWindowType:(iTermWindowType)windowType
-    savedWindowType:(iTermWindowType)savedWindowType
-    hotkeyWindowType:(iTermHotkeyWindowType)hotkeyWindowType;
+                            savedWindowType:(iTermWindowType)savedWindowType
+                           hotkeyWindowType:
+                               (iTermHotkeyWindowType)hotkeyWindowType;
 
 - (NSWindow *)setWindowWithWindowType:(iTermWindowType)windowType
-    savedWindowType:(iTermWindowType)savedWindowType
-    windowTypeForStyleMask:(iTermWindowType)windowTypeForStyleMask
-    hotkeyWindowType:(iTermHotkeyWindowType)hotkeyWindowType
-    initialFrame:(NSRect)initialFrame;
+                      savedWindowType:(iTermWindowType)savedWindowType
+               windowTypeForStyleMask:(iTermWindowType)windowTypeForStyleMask
+                     hotkeyWindowType:(iTermHotkeyWindowType)hotkeyWindowType
+                         initialFrame:(NSRect)initialFrame;
 
 + (BOOL)windowTypeHasFullSizeContentView:(iTermWindowType)windowType;
 
@@ -36,7 +37,7 @@ iTermWindowType iTermWindowTypeNormalized(iTermWindowType windowType);
 - (iTermWindowType)windowTypeImpl;
 - (IBAction)toggleFullScreenModeImpl:(id)sender;
 - (void)toggleFullScreenModeImpl:(id)sender
-    completion:(void (^)(BOOL))completion;
+                      completion:(void (^)(BOOL))completion;
 - (BOOL)togglingLionFullScreenImpl;
 - (void)delayedEnterFullscreenImpl;
 - (void)windowWillEnterFullScreenImpl:(NSNotification *)notification;

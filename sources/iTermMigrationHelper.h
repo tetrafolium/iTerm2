@@ -10,6 +10,6 @@
 @interface iTermMigrationHelper : NSObject
 
 + (void)migrateApplicationSupportDirectoryIfNeeded;
-+ (void)recursiveMigrateBookmarks:(NSDictionary*)node path:(NSArray*)path;
++ (void)recursiveMigrateBookmarks:(NSDictionary *)node path:(NSArray *)path;
 
 @end

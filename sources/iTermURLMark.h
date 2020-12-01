@@ -8,7 +8,8 @@
 
 #import "iTermMark.h"
 
-// Invisible marks used to record where URL links are located so they can be freed.
+// Invisible marks used to record where URL links are located so they can be
+// freed.
 @interface iTermURLMark : iTermMark
-@property (nonatomic) unsigned short code;
+@property(nonatomic) unsigned short code;
 @end

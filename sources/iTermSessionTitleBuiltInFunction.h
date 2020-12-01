@@ -12,24 +12,23 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface iTermSessionTitleBuiltInFunction : NSObject<iTermBuiltInFunction>
+@interface iTermSessionTitleBuiltInFunction : NSObject <iTermBuiltInFunction>
 
 + (NSString *)titleForSessionName:(NSString *)sessionName
-    profileName:(NSString *)profileName
-    job:(NSString *)jobVariable
-    commandLine:(NSString *)commandLineVariable
-    pwd:(NSString *)pwdVariable
-    tty:(NSString *)ttyVariable
-    user:(NSString *)userVariable
-    host:(NSString *)hostVariable
-    tmuxPane:(nullable NSString *)tmuxPaneVariable
-    iconName:(NSString *)iconName
-    windowName:(NSString *)windowName
-    tmuxWindowName:(nullable NSString *)tmuxWindowName
-    tmuxWindowTitle:(nullable NSString *)tmuxWindowTitle
-    components:(iTermTitleComponents)titleComponents
-    isWindowTitle:(BOOL)isWindowTitle;
-
+                      profileName:(NSString *)profileName
+                              job:(NSString *)jobVariable
+                      commandLine:(NSString *)commandLineVariable
+                              pwd:(NSString *)pwdVariable
+                              tty:(NSString *)ttyVariable
+                             user:(NSString *)userVariable
+                             host:(NSString *)hostVariable
+                         tmuxPane:(nullable NSString *)tmuxPaneVariable
+                         iconName:(NSString *)iconName
+                       windowName:(NSString *)windowName
+                   tmuxWindowName:(nullable NSString *)tmuxWindowName
+                  tmuxWindowTitle:(nullable NSString *)tmuxWindowTitle
+                       components:(iTermTitleComponents)titleComponents
+                    isWindowTitle:(BOOL)isWindowTitle;
 
 @end
 

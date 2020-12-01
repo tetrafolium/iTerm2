@@ -30,13 +30,13 @@
 #import <Cocoa/Cocoa.h>
 
 typedef NS_ENUM(NSUInteger, PTYScrollerState) {
-    PTYScrollerStateOverlayHidden,
-    PTYScrollerStateOverlayVisibleNarrow,
-    PTYScrollerStateOverlayVisibleWide,
-    PTYScrollerStateLegacy
+  PTYScrollerStateOverlayHidden,
+  PTYScrollerStateOverlayVisibleNarrow,
+  PTYScrollerStateOverlayVisibleWide,
+  PTYScrollerStateLegacy
 };
 
-@protocol PTYScrollerDelegate<NSObject>
+@protocol PTYScrollerDelegate <NSObject>
 - (void)userScrollDidChange:(BOOL)userScroll;
 - (NSScrollView *)ptyScrollerScrollView NS_AVAILABLE_MAC(10_14);
 - (void)ptyScrollerDidTransitionToState:(PTYScrollerState)state;
@@ -57,13 +57,14 @@ typedef NS_ENUM(NSUInteger, PTYScrollerState) {
 // More specific type for the base class's method.
 - (PTYScroller *)ptyVerticalScroller;
 
-- (instancetype)initWithFrame:(NSRect)frame hasVerticalScroller:(BOOL)hasVerticalScroller;
+- (instancetype)initWithFrame:(NSRect)frame
+          hasVerticalScroller:(BOOL)hasVerticalScroller;
 - (void)detectUserScroll;
 - (BOOL)isLegacyScroller;
 
-// Accumulate vertical scroll from the event. If it's enough to scroll one or more lines, deduct
-// that from the total and return the number of rows to scroll by. The result will always be an
-// integer.
+// Accumulate vertical scroll from the event. If it's enough to scroll one or
+// more lines, deduct that from the total and return the number of rows to
+// scroll by. The result will always be an integer.
 - (CGFloat)accumulateVerticalScrollFromEvent:(NSEvent *)theEvent;
 
 @end

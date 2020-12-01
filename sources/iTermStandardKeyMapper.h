@@ -16,27 +16,27 @@ NS_ASSUME_NONNULL_BEGIN
 @class VT100Output;
 
 typedef struct {
-    VT100Output *outputFactory;
-    NSStringEncoding encoding;
-    iTermOptionKeyBehavior leftOptionKey;
-    iTermOptionKeyBehavior rightOptionKey;
-    BOOL screenlike;
+  VT100Output *outputFactory;
+  NSStringEncoding encoding;
+  iTermOptionKeyBehavior leftOptionKey;
+  iTermOptionKeyBehavior rightOptionKey;
+  BOOL screenlike;
 } iTermStandardKeyMapperConfiguration;
 
-@protocol iTermStandardKeyMapperDelegate<NSObject>
+@protocol iTermStandardKeyMapperDelegate <NSObject>
 
 - (void)standardKeyMapperWillMapKey:(iTermStandardKeyMapper *)standardKeyMapper;
 
 @end
 
-@interface iTermStandardKeyMapper : NSObject<iTermKeyMapper>
+@interface iTermStandardKeyMapper : NSObject <iTermKeyMapper>
 
-@property (nonatomic, weak) id<iTermStandardKeyMapperDelegate> delegate;
-@property (nonatomic) iTermStandardKeyMapperConfiguration configuration;
+@property(nonatomic, weak) id<iTermStandardKeyMapperDelegate> delegate;
+@property(nonatomic) iTermStandardKeyMapperConfiguration configuration;
 
 + (unichar)codeForSpecialControlCharacter:(unichar)character
-    characterIgnoringModifiers:(unichar)characterIgnoringModifiers
-    shiftPressed:(BOOL)shiftPressed;
+               characterIgnoringModifiers:(unichar)characterIgnoringModifiers
+                             shiftPressed:(BOOL)shiftPressed;
 @end
 
 NS_ASSUME_NONNULL_END

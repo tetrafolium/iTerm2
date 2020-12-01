@@ -6,8 +6,8 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
 #import "TransferrableFile.h"
+#import <Cocoa/Cocoa.h>
 
 @class TransferrableFileMenuItemViewController;
 
@@ -17,14 +17,17 @@
 
 + (instancetype)sharedInstance;
 - (void)removeItem:(TransferrableFileMenuItemViewController *)viewController;
-- (void)animateImage:(NSImage *)image intoDownloadsMenuFromPoint:(NSPoint)point onScreen:(NSScreen *)screen;
+- (void)animateImage:(NSImage *)image
+    intoDownloadsMenuFromPoint:(NSPoint)point
+                      onScreen:(NSScreen *)screen;
 - (void)openDownloadsMenu;
 - (void)openUploadsMenu;
 
 #pragma mark - Calls made by subclasses of TransferrableFile
 
 // Connection initiation has started.
-- (void)transferrableFileDidStartTransfer:(TransferrableFile *)transferrableFile;
+- (void)transferrableFileDidStartTransfer:
+    (TransferrableFile *)transferrableFile;
 
 // Stop was requested.
 - (void)transferrableFileWillStop:(TransferrableFile *)transferrableFile;
@@ -33,22 +36,23 @@
 - (void)transferrableFileDidStopTransfer:(TransferrableFile *)transferrableFile;
 
 // Number of bytes transferred has changed or total size has been discovered.
-- (void)transferrableFileProgressDidChange:(TransferrableFile *)transferrableFile;
+- (void)transferrableFileProgressDidChange:
+    (TransferrableFile *)transferrableFile;
 
 // |error| is nil on success
 - (void)transferrableFile:(TransferrableFile *)transferrableFile
     didFinishTransmissionWithError:(NSError *)error;
 
-// Shows a modal alert with the text in |prompt| and a freeform keyboard input. Returns the
-// value entered.
+// Shows a modal alert with the text in |prompt| and a freeform keyboard input.
+// Returns the value entered.
 - (void)transferrableFile:(TransferrableFile *)transferrableFile
-    interactivePrompt:(NSString *)prompt
-    completion:(void (^)(NSString *password))completion;
+        interactivePrompt:(NSString *)prompt
+               completion:(void (^)(NSString *password))completion;
 
 // Shows message, returns YES if OK, NO if Cancel
 - (BOOL)transferrableFile:(TransferrableFile *)transferrableFile
-    title:(NSString *)title
-    confirmMessage:(NSString *)message;
+                    title:(NSString *)title
+           confirmMessage:(NSString *)message;
 
 - (void)removeAllDownloads;
 - (void)removeAllUploads;

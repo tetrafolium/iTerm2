@@ -6,8 +6,8 @@
 //  Copyright 2011 Georgetech. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "ContextMenuActionPrefsController.h"
+#import <Cocoa/Cocoa.h>
 
 // Keys that go in rules:
 
@@ -36,13 +36,13 @@ extern NSString *const kVeryHighPrecision;
 - (void)smartSelectionChanged:(SmartSelectionController *)controller;
 @end
 
+@interface SmartSelectionController
+    : NSWindowController <ContextMenuActionPrefsDelegate>
 
-@interface SmartSelectionController : NSWindowController <ContextMenuActionPrefsDelegate>
-
-@property (nonatomic, copy) NSString *guid;
-@property (nonatomic) BOOL hasSelection;
-@property (nonatomic, weak) id<SmartSelectionDelegate> delegate;
-@property (nonatomic, readonly) NSArray<NSDictionary *> *rules;
+@property(nonatomic, copy) NSString *guid;
+@property(nonatomic) BOOL hasSelection;
+@property(nonatomic, weak) id<SmartSelectionDelegate> delegate;
+@property(nonatomic, readonly) NSArray<NSDictionary *> *rules;
 
 + (BOOL)logDebugInfo;
 + (double)precisionInRule:(NSDictionary *)rule;

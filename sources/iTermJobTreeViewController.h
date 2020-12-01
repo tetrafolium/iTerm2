@@ -14,7 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithProcessID:(pid_t)pid NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;
-- (instancetype)initWithNibName:(nullable NSNibName)nibNameOrNil bundle:(nullable NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
+- (instancetype)initWithNibName:(nullable NSNibName)nibNameOrNil
+                         bundle:(nullable NSBundle *)nibBundleOrNil
+    NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
 
 @end

@@ -6,9 +6,9 @@
 //
 //
 
-#import <Foundation/Foundation.h>
 #import "CVector.h"
 #import "VT100Token.h"
+#import <Foundation/Foundation.h>
 
 @class VT100TmuxParser;
 
@@ -23,10 +23,11 @@
 - (void)forceUnhookDCS:(NSString *)uniqueID;
 - (void)startTmuxRecoveryModeWithID:(NSString *)dcsID;
 
-// CVector was created for this method. Because so many VT100Token*s are created and destroyed,
-// too much time is spent adjusting their retain counts. Since an iTermObjectPool is used to avoid
-// alloc/dealloc calls, the retain counts aren't useful. Finally, NSMutableArray in OS 10.9 doesn't
-// respect initWithCapacity: for capacities over 16.
+// CVector was created for this method. Because so many VT100Token*s are created
+// and destroyed, too much time is spent adjusting their retain counts. Since an
+// iTermObjectPool is used to avoid alloc/dealloc calls, the retain counts
+// aren't useful. Finally, NSMutableArray in OS 10.9 doesn't respect
+// initWithCapacity: for capacities over 16.
 - (void)addParsedTokensToVector:(CVector *)vector;
 
 // Reset all state.

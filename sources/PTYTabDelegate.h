@@ -16,20 +16,20 @@
 
 // States
 typedef NS_OPTIONS(NSUInteger, PTYTabState) {
-    // Bell has rung.
-    kPTYTabBellState = (1 << 0),
+  // Bell has rung.
+  kPTYTabBellState = (1 << 0),
 
-    // Background tab is idle; it's been a while since new output arrived.
-    kPTYTabIdleState = (1 << 1),
+  // Background tab is idle; it's been a while since new output arrived.
+  kPTYTabIdleState = (1 << 1),
 
-    // Background tab just got new output.
-    kPTYTabNewOutputState = (1 << 2),
+  // Background tab just got new output.
+  kPTYTabNewOutputState = (1 << 2),
 
-    // A session has ended.
-    kPTYTabDeadState = (1 << 3)
+  // A session has ended.
+  kPTYTabDeadState = (1 << 3)
 };
 
-@protocol PTYTabDelegate<iTermSwipeHandler, NSObject>
+@protocol PTYTabDelegate <iTermSwipeHandler, NSObject>
 
 - (void)tab:(PTYTab *)tab didChangeProcessingStatus:(BOOL)isProcessing;
 - (void)tab:(PTYTab *)tab didChangeIcon:(NSImage *)icon;
@@ -42,9 +42,10 @@ typedef NS_OPTIONS(NSUInteger, PTYTabState) {
 - (void)tab:(PTYTab *)tab didSetMetalEnabled:(BOOL)useMetal;
 - (void)tabSessionDidChangeBackgroundColor:(PTYTab *)tab;
 - (void)tabDidChangeGraphic:(PTYTab *)tab
-    shouldShow:(BOOL)shouldShow
-    image:(NSImage *)image;
-- (BOOL)tabCanUseMetal:(PTYTab *)tab reason:(out iTermMetalUnavailableReason *)reason;
+                 shouldShow:(BOOL)shouldShow
+                      image:(NSImage *)image;
+- (BOOL)tabCanUseMetal:(PTYTab *)tab
+                reason:(out iTermMetalUnavailableReason *)reason;
 - (void)tabDidChangeMetalViewVisibility:(PTYTab *)tab;
 - (BOOL)tabShouldUseTransparency:(PTYTab *)tab;
 - (void)numberOfSessionsDidChangeInTab:(PTYTab *)tab;
@@ -57,8 +58,8 @@ typedef NS_OPTIONS(NSUInteger, PTYTabState) {
 - (void)tabEditSnippets:(PTYTab *)tab;
 - (void)tab:(PTYTab *)tab
     setBackgroundImage:(NSImage *)image
-    mode:(iTermBackgroundImageMode)imageMode
-    backgroundColor:(NSColor *)backgroundColor;
+                  mode:(iTermBackgroundImageMode)imageMode
+       backgroundColor:(NSColor *)backgroundColor;
 - (NSImage *)tabBackgroundImage;
 - (iTermBackgroundImageMode)tabBackgroundImageMode;
 - (CGFloat)tabBlend;

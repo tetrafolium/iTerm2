@@ -13,21 +13,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermCommandRunnerPool : NSObject
 
-@property (nonatomic, readonly) int capacity;
-@property (nonatomic, readonly, copy) NSString *command;
-@property (nonatomic, readonly, copy) NSArray<NSString *> *arguments;
-@property (nonatomic, readonly, copy) NSString *workingDirectory;
-@property (nonatomic, copy) NSDictionary<NSString *, NSString *> *environment;
+@property(nonatomic, readonly) int capacity;
+@property(nonatomic, readonly, copy) NSString *command;
+@property(nonatomic, readonly, copy) NSArray<NSString *> *arguments;
+@property(nonatomic, readonly, copy) NSString *workingDirectory;
+@property(nonatomic, copy) NSDictionary<NSString *, NSString *> *environment;
 
 - (instancetype)initWithCapacity:(int)capacity
-    command:(NSString *)command
-    arguments:(NSArray<NSString *> *)arguments
-    workingDirectory:(NSString *)workingDirectory
-    environment:(NSDictionary<NSString *, NSString *> *)environment NS_DESIGNATED_INITIALIZER;
+                         command:(NSString *)command
+                       arguments:(NSArray<NSString *> *)arguments
+                workingDirectory:(NSString *)workingDirectory
+                     environment:
+                         (NSDictionary<NSString *, NSString *> *)environment
+    NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (nullable iTermCommandRunner *)requestCommandRunnerWithTerminationBlock:(void (^)(iTermCommandRunner *, int))block;
+- (nullable iTermCommandRunner *)requestCommandRunnerWithTerminationBlock:
+    (void (^)(iTermCommandRunner *, int))block;
 - (void)terminateCommandRunner:(iTermCommandRunner *)commandRunner;
 
 @end

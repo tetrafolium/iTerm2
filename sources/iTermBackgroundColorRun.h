@@ -6,34 +6,32 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
 #import "ScreenChar.h"
+#import <Cocoa/Cocoa.h>
 
 @class iTermBoxedBackgroundColorRun;
 @class iTermTextExtractor;
 
 typedef struct {
-    NSRange range;
-    int bgColor;
-    int bgGreen;
-    int bgBlue;
-    ColorMode bgColorMode;
-    BOOL selected;
-    BOOL isMatch;
+  NSRange range;
+  int bgColor;
+  int bgGreen;
+  int bgBlue;
+  ColorMode bgColorMode;
+  BOOL selected;
+  BOOL isMatch;
 } iTermBackgroundColorRun;
 
 // NOTE: This does not compare the ranges.
 NS_INLINE BOOL iTermBackgroundColorRunsEqual(iTermBackgroundColorRun *a,
-        iTermBackgroundColorRun *b) {
-    return (a->bgColor == b->bgColor &&
-            a->bgGreen == b->bgGreen &&
-            a->bgBlue == b->bgBlue &&
-            a->bgColorMode == b->bgColorMode &&
-            a->selected == b->selected &&
-            a->isMatch == b->isMatch);
+                                             iTermBackgroundColorRun *b) {
+  return (a->bgColor == b->bgColor && a->bgGreen == b->bgGreen &&
+          a->bgBlue == b->bgBlue && a->bgColorMode == b->bgColorMode &&
+          a->selected == b->selected && a->isMatch == b->isMatch);
 }
 
-// A collection of color runs for a single line, along with info about the line itself.
+// A collection of color runs for a single line, along with info about the line
+// itself.
 @interface iTermBackgroundColorRunsInLine : NSObject
 
 // y coordinate to draw at
@@ -45,18 +43,19 @@ NS_INLINE BOOL iTermBackgroundColorRunsEqual(iTermBackgroundColorRun *a,
 @property(nonatomic, retain) NSArray<iTermBoxedBackgroundColorRun *> *array;
 @property(nonatomic, assign) NSInteger numberOfEquivalentRows;
 
-// Creates a new autoreleased iTermBackgroundColorRunsInLine object that's ready to use.
-// Fills in *anyBlinkPtr with YES if some character in the range is blinking.
+// Creates a new autoreleased iTermBackgroundColorRunsInLine object that's ready
+// to use. Fills in *anyBlinkPtr with YES if some character in the range is
+// blinking.
 + (instancetype)backgroundRunsInLine:(screen_char_t *)theLine
-    lineLength:(int)width
-    row:(int)row  // Row number in datasource
-    selectedIndexes:(NSIndexSet *)selectedIndexes
-    withinRange:(NSRange)charRange
-    matches:(NSData *)matches
-    anyBlink:(BOOL *)anyBlinkPtr
-    textExtractor:(iTermTextExtractor *)extractor
-    y:(CGFloat)y  // Value for self.y
-    line:(int)line;  // Value for self.line
+                          lineLength:(int)width
+                                 row:(int)row // Row number in datasource
+                     selectedIndexes:(NSIndexSet *)selectedIndexes
+                         withinRange:(NSRange)charRange
+                             matches:(NSData *)matches
+                            anyBlink:(BOOL *)anyBlinkPtr
+                       textExtractor:(iTermTextExtractor *)extractor
+                                   y:(CGFloat)y // Value for self.y
+                                line:(int)line; // Value for self.line
 
 @end
 
@@ -69,4 +68,3 @@ NS_INLINE BOOL iTermBackgroundColorRunsEqual(iTermBackgroundColorRun *a,
 + (instancetype)boxedBackgroundColorRunWithValue:(iTermBackgroundColorRun)value;
 
 @end
-

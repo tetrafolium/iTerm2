@@ -6,8 +6,8 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
 #import "iTermImage.h"
+#import <Cocoa/Cocoa.h>
 
 // Posted when a lazily loaded image is loaded.
 extern NSString *const iTermImageDidLoad;
@@ -15,12 +15,14 @@ extern NSString *const iTermImageDidLoad;
 // Describes an image. A screen_char_t may be used to draw a part of an image.
 // The code in the screen_char_t can be used to look up this object which is
 // 1:1 with images.
-@interface iTermImageInfo : NSObject<NSPasteboardItemDataProvider>
+@interface iTermImageInfo : NSObject <NSPasteboardItemDataProvider>
 
-+ (NSEdgeInsets)fractionalInsetsForPreservedAspectRatioWithDesiredSize:(NSSize)desiredSize
-    forImageSize:(NSSize)imageSize
-    cellSize:(NSSize)cellSize
-    numberOfCells:(NSSize)numberOfCells;
++ (NSEdgeInsets)
+    fractionalInsetsForPreservedAspectRatioWithDesiredSize:(NSSize)desiredSize
+                                              forImageSize:(NSSize)imageSize
+                                                  cellSize:(NSSize)cellSize
+                                             numberOfCells:
+                                                 (NSSize)numberOfCells;
 
 // A UUID, lazily allocated.
 @property(nonatomic, readonly) NSString *uniqueIdentifier;
@@ -55,7 +57,8 @@ extern NSString *const iTermImageDidLoad;
 // UTI string for image type.
 @property(nonatomic, readonly) NSString *imageType;
 
-// Creates a new randomly named temp file containing the image and returns its name.
+// Creates a new randomly named temp file containing the image and returns its
+// name.
 @property(nonatomic, readonly) NSString *nameForNewSavedTempFile;
 
 // Creates a pasteboard item that responds with image or file.
@@ -65,27 +68,28 @@ extern NSString *const iTermImageDidLoad;
 @property(nonatomic) BOOL broken;
 
 // Is there an image yet? one might be coming later
-@property (nonatomic, readonly) BOOL ready;
+@property(nonatomic, readonly) BOOL ready;
 
 // During restoration, do we still need to find a mark?
-@property (nonatomic) BOOL provisional;
+@property(nonatomic) BOOL provisional;
 
-// Used to create a new instance for a new image. This may remain an empty container until
-// -setImageFromImage: is called.
+// Used to create a new instance for a new image. This may remain an empty
+// container until -setImageFromImage: is called.
 - (instancetype)initWithCode:(unichar)code;
 
 // Used to create a new instance from a coded dictionary.
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
-// Returns an image whose size is self.size * cellSize. If the image is smaller and/or has an inset
-// there will be a transparent area around the edges.
+// Returns an image whose size is self.size * cellSize. If the image is smaller
+// and/or has an inset there will be a transparent area around the edges.
 - (NSImage *)imageWithCellSize:(CGSize)cellSize;
 
 // A more predictable version of the above. Timestamp determines GIF frame.
-- (NSImage *)imageWithCellSize:(CGSize)cellSize timestamp:(NSTimeInterval)timestamp;
+- (NSImage *)imageWithCellSize:(CGSize)cellSize
+                     timestamp:(NSTimeInterval)timestamp;
 
-// Binds an image. Data is optional and only used for animated GIFs. Not to be used after
-// -initWithDictionary.
+// Binds an image. Data is optional and only used for animated GIFs. Not to be
+// used after -initWithDictionary.
 - (void)setImageFromImage:(iTermImage *)image data:(NSData *)data;
 
 // Coded representation

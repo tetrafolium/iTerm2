@@ -32,4 +32,3 @@
 
 @interface MinimalFindView : NSView
 @end
-

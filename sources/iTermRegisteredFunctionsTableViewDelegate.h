@@ -9,7 +9,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface iTermRegisteredFunctionsTableViewDelegate : NSObject<NSTableViewDataSource, NSTableViewDelegate>
+@interface iTermRegisteredFunctionsTableViewDelegate
+    : NSObject <NSTableViewDataSource, NSTableViewDelegate>
 
 - (void)reload;
 

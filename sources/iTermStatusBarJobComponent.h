@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermStatusBarJobComponent : iTermStatusBarVariableBaseComponent
 
-@property (nonatomic, readonly) pid_t pid;
+@property(nonatomic, readonly) pid_t pid;
 
 @end
 

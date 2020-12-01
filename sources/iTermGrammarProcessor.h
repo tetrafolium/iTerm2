@@ -5,8 +5,8 @@
 //  Created by George Nachman on 5/21/18.
 //
 
-#import <Foundation/Foundation.h>
 #import <CoreParse/CoreParse.h>
+#import <Foundation/Foundation.h>
 
 // Associates production rules with syntax tree transforms. Combines production
 // rules to make numbered BNF. Offers an interface to run a transform block for
@@ -14,12 +14,13 @@
 @interface iTermGrammarProcessor : NSObject
 
 // Concatenated rules with each prefixed by a unique number.
-@property (nonatomic, readonly) NSString *backusNaurForm;
+@property(nonatomic, readonly) NSString *backusNaurForm;
 
 typedef id (^iTermGrammarProcessorSyntaxTreeTransformBlock)(CPSyntaxTree *);
 
 - (void)addProductionRule:(NSString *)bnf
-    treeTransform:(iTermGrammarProcessorSyntaxTreeTransformBlock)transform;
+            treeTransform:
+                (iTermGrammarProcessorSyntaxTreeTransformBlock)transform;
 
 // Calls the block for the rule that matched the root fo this tree and returns
 // its value.

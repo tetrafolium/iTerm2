@@ -1,40 +1,41 @@
-// Parses input into escape codes, text, etc. Although it's called VT100Terminal, it's more of an
-// xterm emulator. The real work of acting on escape codes is handled by the delegate.
+// Parses input into escape codes, text, etc. Although it's called
+// VT100Terminal, it's more of an xterm emulator. The real work of acting on
+// escape codes is handled by the delegate.
 
-#import <Cocoa/Cocoa.h>
-#import "iTermCursor.h"
 #import "ScreenChar.h"
 #import "VT100CSIParser.h"
 #import "VT100Grid.h"
 #import "VT100Output.h"
-#import "VT100TerminalDelegate.h"
 #import "VT100Parser.h"
+#import "VT100TerminalDelegate.h"
+#import "iTermCursor.h"
+#import <Cocoa/Cocoa.h>
 
-#define NUM_CHARSETS 4  // G0...G3. Values returned from -charset go from 0 to this.
+#define NUM_CHARSETS                                                           \
+  4 // G0...G3. Values returned from -charset go from 0 to this.
 #define NUM_MODIFIABLE_RESOURCES 5
 
 typedef struct {
-    BOOL bold;
-    BOOL blink;
-    BOOL underline;
-    VT100UnderlineStyle underlineStyle;
-    BOOL strikethrough;
-    BOOL reversed;
-    BOOL faint;
-    BOOL italic;
-    // TODO: Add invisible and protected
+  BOOL bold;
+  BOOL blink;
+  BOOL underline;
+  VT100UnderlineStyle underlineStyle;
+  BOOL strikethrough;
+  BOOL reversed;
+  BOOL faint;
+  BOOL italic;
+  // TODO: Add invisible and protected
 
-    int fgColorCode;
-    int fgGreen;
-    int fgBlue;
-    ColorMode fgColorMode;
+  int fgColorCode;
+  int fgGreen;
+  int fgBlue;
+  ColorMode fgColorMode;
 
-    int bgColorCode;
-    int bgGreen;
-    int bgBlue;
-    ColorMode bgColorMode;
+  int bgColorCode;
+  int bgGreen;
+  int bgBlue;
+  ColorMode bgColorMode;
 } VT100GraphicRendition;
-
 
 @interface VT100Terminal : NSObject
 
@@ -58,10 +59,14 @@ typedef struct {
 @property(nonatomic, readonly) BOOL isAnsi;
 @property(nonatomic, readonly) BOOL autorepeatMode;
 @property(nonatomic, assign) BOOL insertMode;
-@property(nonatomic, assign) BOOL sendReceiveMode;  // TODO: This is not actually used. It is a write-only variable. I guess I should add support for it but I doubt it's used much.
-@property(nonatomic, readonly) int charset;  // G0 through G3
+@property(nonatomic, assign)
+    BOOL sendReceiveMode; // TODO: This is not actually used. It is a write-only
+                          // variable. I guess I should add support for it but I
+                          // doubt it's used much.
+@property(nonatomic, readonly) int charset; // G0 through G3
 @property(nonatomic, assign) MouseMode mouseMode;
-@property(nonatomic, readonly) MouseMode previousMouseMode;  // will never equal NONE
+@property(nonatomic, readonly)
+    MouseMode previousMouseMode; // will never equal NONE
 @property(nonatomic, assign) MouseFormat mouseFormat;
 @property(nonatomic, assign) BOOL reportKeyUp;
 // -1: not set (fall back to profile settings)
@@ -69,17 +74,19 @@ typedef struct {
 // Will always have at least 5 values.
 @property(nonatomic, readonly) NSMutableArray<NSNumber *> *sendModifiers;
 
-// The current foreground/background color to display (they're swapped when reverseVideo is on).
+// The current foreground/background color to display (they're swapped when
+// reverseVideo is on).
 @property(nonatomic, readonly) screen_char_t foregroundColorCode;
 @property(nonatomic, readonly) screen_char_t backgroundColorCode;
 
-// The "real" foreground/background color, which doesn't change with reverseVideo.
+// The "real" foreground/background color, which doesn't change with
+// reverseVideo.
 @property(nonatomic, readonly) screen_char_t foregroundColorCodeReal;
 @property(nonatomic, readonly) screen_char_t backgroundColorCodeReal;
 
 @property(nonatomic, assign) BOOL cursorMode;
-@property(nonatomic, assign) BOOL keypadMode;  // YES=application, NO=numeric
-- (void)forceSetKeypadMode:(BOOL)mode;  // ignores allowKeypadMode
+@property(nonatomic, assign) BOOL keypadMode; // YES=application, NO=numeric
+- (void)forceSetKeypadMode:(BOOL)mode;        // ignores allowKeypadMode
 @property(nonatomic, assign) BOOL allowKeypadMode;
 @property(nonatomic, assign) BOOL allowPasteBracketing;
 

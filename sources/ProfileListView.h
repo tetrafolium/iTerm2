@@ -22,10 +22,10 @@
  **  along with this program; if not, write to the Free Software
  */
 
-#import <Cocoa/Cocoa.h>
+#import "FutureMethods.h"
 #import "ProfileModel.h"
 #import "ProfileTableView.h"
-#import "FutureMethods.h"
+#import <Cocoa/Cocoa.h>
 
 @class ProfileListView;
 @class ProfileModelWrapper;
@@ -45,25 +45,22 @@ extern NSString *const kProfileWasDeletedNotification;
 
 - (void)profileTableRowSelected:(id)profileTable;
 
-- (NSMenu*)profileTable:(id)profileTable menuForEvent:(NSEvent*)theEvent;
+- (NSMenu *)profileTable:(id)profileTable menuForEvent:(NSEvent *)theEvent;
 
 - (void)profileTableFilterDidChange:(ProfileListView *)profileListView;
 
 - (void)profileTableTagsVisibilityDidChange:(ProfileListView *)profileListView;
 @end
 
-@interface ProfileListView : NSView <
-    NSSplitViewDelegate,
-    NSTextFieldDelegate,
-    NSTableViewDataSource,
-    NSTableViewDelegate,
-    ProfileTableMenuHandler>
+@interface ProfileListView
+    : NSView <NSSplitViewDelegate, NSTextFieldDelegate, NSTableViewDataSource,
+              NSTableViewDelegate, ProfileTableMenuHandler>
 
 @property(nonatomic, readonly) BOOL tagsVisible;
 @property(nonatomic) CGFloat tagsFraction;
 @property(nonatomic, weak) IBOutlet id<ProfileListViewDelegate> delegate;
 @property(nonatomic, readonly) NSInteger numberOfRows;
-@property(nonatomic, readonly) NSSet<NSString*> *selectedGuids;
+@property(nonatomic, readonly) NSSet<NSString *> *selectedGuids;
 @property(nonatomic, readonly) BOOL hasSelection;
 
 // Don't use these if you've called allowMultipleSelections.
@@ -71,17 +68,20 @@ extern NSString *const kProfileWasDeletedNotification;
 @property(nonatomic, readonly) NSString *selectedGuid;
 @property(nonatomic, readonly) NSDictionary *restorableState;
 
-- (instancetype)initWithFrame:(NSRect)frameRect model:(ProfileModel*)dataSource;
-- (instancetype)initWithFrame:(NSRect)frameRect model:(ProfileModel*)dataSource font:(NSFont *)font;
-- (ProfileModelWrapper*)dataSource;
-- (void)setUnderlyingDatasource:(ProfileModel*)dataSource;
+- (instancetype)initWithFrame:(NSRect)frameRect
+                        model:(ProfileModel *)dataSource;
+- (instancetype)initWithFrame:(NSRect)frameRect
+                        model:(ProfileModel *)dataSource
+                         font:(NSFont *)font;
+- (ProfileModelWrapper *)dataSource;
+- (void)setUnderlyingDatasource:(ProfileModel *)dataSource;
 - (void)focusSearchField;
 - (BOOL)searchFieldHasText;
 - (void)forceOverlayScroller;
 
 - (void)reloadData;
 - (void)selectRowIndex:(int)theIndex;
-- (void)selectRowByGuid:(NSString*)guid;
+- (void)selectRowByGuid:(NSString *)guid;
 - (void)clearSearchField;
 - (void)allowEmptySelection;
 - (void)allowMultipleSelections;
@@ -94,7 +94,7 @@ extern NSString *const kProfileWasDeletedNotification;
 - (void)eraseQuery;
 - (void)resizeSubviewsWithOldSize:(NSSize)oldBoundsSize;
 - (void)turnOnDebug;
-- (NSTableView*)tableView;
+- (NSTableView *)tableView;
 
 - (void)setFont:(NSFont *)theFont;
 - (void)disableArrowHandler;
@@ -102,8 +102,8 @@ extern NSString *const kProfileWasDeletedNotification;
 - (void)toggleTags;
 - (void)setTagsOpen:(BOOL)open animated:(BOOL)animated;
 
-// Keep the currently selected profile in the list and selected even if it no longer matches the
-// filter.
+// Keep the currently selected profile in the list and selected even if it no
+// longer matches the filter.
 - (void)lockSelection;
 - (void)selectLockedSelection;
 - (void)unlockSelection;

@@ -7,6 +7,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface iTermStatusBarSetupConfigureComponentWindowController : NSWindowController
+@interface iTermStatusBarSetupConfigureComponentWindowController
+    : NSWindowController
 - (void)setKnobsViewController:(NSViewController *)viewController;
 @end

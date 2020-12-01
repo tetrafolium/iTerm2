@@ -13,35 +13,40 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermExpressionEvaluator : NSObject
-// If you access this before calling evaluateWithTimeout you get the result of the synchronous
-// evaluation.
-@property (nonatomic, readonly) id value;
-@property (nullable, nonatomic, readonly) NSError *error;
-@property (nullable, nonatomic, readonly) NSSet<NSString *> *missingValues;
-@property (nonatomic) BOOL debug;
-@property (nullable, nonatomic, copy) NSString *(^escapingFunction)(NSString *string);
+// If you access this before calling evaluateWithTimeout you get the result of
+// the synchronous evaluation.
+@property(nonatomic, readonly) id value;
+@property(nullable, nonatomic, readonly) NSError *error;
+@property(nullable, nonatomic, readonly) NSSet<NSString *> *missingValues;
+@property(nonatomic) BOOL debug;
+@property(nullable, nonatomic, copy) NSString * (^escapingFunction)
+    (NSString *string);
 
-- (instancetype)initWithParsedExpression:(iTermParsedExpression *)parsedExpression
-    invocation:(NSString *)invocation
-    scope:(iTermVariableScope *)scope NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithParsedExpression:
+                    (iTermParsedExpression *)parsedExpression
+                              invocation:(NSString *)invocation
+                                   scope:(iTermVariableScope *)scope
+    NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithExpressionString:(NSString *)expressionString
-    scope:(iTermVariableScope *)scope;
+                                   scope:(iTermVariableScope *)scope;
 
 - (instancetype)initWithInterpolatedString:(NSString *)interpolatedString
-    scope:(iTermVariableScope *)scope;
+                                     scope:(iTermVariableScope *)scope;
 
 // Fails on undefined references
 - (instancetype)initWithStrictInterpolatedString:(NSString *)interpolatedString
-    scope:(iTermVariableScope *)scope;
+                                           scope:(iTermVariableScope *)scope;
 
 - (instancetype)init NS_UNAVAILABLE;
 
-// Evaluates an expression. If timeout is 0 then it completes synchronously without making RPCs.
-// If the timeout is positive the object will live until the timer fires or the RPC completes.
-// Callers do not need to retain a reference to the expression evaluator.
+// Evaluates an expression. If timeout is 0 then it completes synchronously
+// without making RPCs. If the timeout is positive the object will live until
+// the timer fires or the RPC completes. Callers do not need to retain a
+// reference to the expression evaluator.
 - (void)evaluateWithTimeout:(NSTimeInterval)timeout
-    completion:(void (^)(iTermExpressionEvaluator *evaluator))completion;
+                 completion:
+                     (void (^)(iTermExpressionEvaluator *evaluator))completion;
 
 @end
 

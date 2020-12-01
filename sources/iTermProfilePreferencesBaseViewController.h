@@ -6,8 +6,8 @@
 //
 //
 
-#import "iTermPreferencesBaseViewController.h"
 #import "ProfileModel.h"
+#import "iTermPreferencesBaseViewController.h"
 
 @class iTermSizeRememberingView;
 @class iTermProfilePreferencesBaseViewController;
@@ -16,16 +16,22 @@
 
 - (Profile *)profilePreferencesCurrentProfile;
 - (ProfileModel *)profilePreferencesCurrentModel;
-- (void)profilePreferencesContentViewSizeDidChange:(iTermSizeRememberingView *)view;
+- (void)profilePreferencesContentViewSizeDidChange:
+    (iTermSizeRememberingView *)view;
 - (BOOL)editingTmuxSession;
-- (void)profilePreferencesViewController:(iTermProfilePreferencesBaseViewController *)viewController
-    willSetObjectWithKey:(NSString *)key;
-- (BOOL)profilePreferencesRevealViewController:(iTermProfilePreferencesBaseViewController *)viewController;
+- (void)profilePreferencesViewController:
+            (iTermProfilePreferencesBaseViewController *)viewController
+                    willSetObjectWithKey:(NSString *)key;
+- (BOOL)profilePreferencesRevealViewController:
+    (iTermProfilePreferencesBaseViewController *)viewController;
 @end
 
-@interface iTermProfilePreferencesBaseViewController : iTermPreferencesBaseViewController
+@interface iTermProfilePreferencesBaseViewController
+    : iTermPreferencesBaseViewController
 
-@property(nonatomic, weak) IBOutlet id<iTermProfilePreferencesBaseViewControllerDelegate> delegate;
+@property(nonatomic, weak)
+    IBOutlet id<iTermProfilePreferencesBaseViewControllerDelegate>
+        delegate;
 
 // Update controls' values after the selected profile changes.
 - (void)reloadProfile;

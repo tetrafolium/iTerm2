@@ -5,8 +5,8 @@
 //  Created by GEORGE NACHMAN on 7/4/18.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "iTermFindViewController.h"
+#import <Cocoa/Cocoa.h>
 
 @class FindViewController;
 
@@ -31,18 +31,19 @@
 - (void)growSelectionRight;
 
 // Returns the currently selected text.
-- (NSString*)selectedText;
+- (NSString *)selectedText;
 
 // Returns the currently selected text including leading/trailing whitespace.
-- (NSString*)unpaddedSelectedText;
+- (NSString *)unpaddedSelectedText;
 
 // Copies selected text to the pasteboard.
 - (void)copySelection;
 
 // Pastes the selected text to the session.
-- (void)pasteString:(NSString*)string;
+- (void)pasteString:(NSString *)string;
 
-// Requests that the document (in practice, PTYTextView) become the first responder.
+// Requests that the document (in practice, PTYTextView) become the first
+// responder.
 - (void)findViewControllerMakeDocumentFirstResponder;
 
 // Remove highlighted matches
@@ -50,14 +51,16 @@
 
 // Perform a search
 - (void)findString:(NSString *)aString
-    forwardDirection:(BOOL)direction
-    mode:(iTermFindMode)mode
-    withOffset:(int)offset
+       forwardDirection:(BOOL)direction
+                   mode:(iTermFindMode)mode
+             withOffset:(int)offset
     scrollToFirstResult:(BOOL)scrollToFirstResult;
 
 // The search view became (in)visible.
-- (void)findViewControllerVisibilityDidChange:(id<iTermFindViewController>)sender;
-- (void)findViewControllerDidCeaseToBeMandatory:(id<iTermFindViewController>)sender;
+- (void)findViewControllerVisibilityDidChange:
+    (id<iTermFindViewController>)sender;
+- (void)findViewControllerDidCeaseToBeMandatory:
+    (id<iTermFindViewController>)sender;
 
 - (NSInteger)findDriverNumberOfSearchResults;
 
@@ -67,17 +70,20 @@
 
 @interface iTermFindDriver : NSObject
 
-@property (nonatomic, weak) id<iTermFindDriverDelegate> delegate;
-@property (nonatomic, readonly) NSViewController<iTermFindViewController> *viewController;
-@property (nonatomic) iTermFindMode mode;
+@property(nonatomic, weak) id<iTermFindDriverDelegate> delegate;
+@property(nonatomic, readonly)
+    NSViewController<iTermFindViewController> *viewController;
+@property(nonatomic) iTermFindMode mode;
 
-// NOTE: Permanently visible find views (those added to status bars via configuration) never
-// return YES for isVisible.
-@property (nonatomic, readonly) BOOL isVisible;
-@property (nonatomic, copy) NSString *findString;
-@property (nonatomic) BOOL needsUpdateOnFocus;
+// NOTE: Permanently visible find views (those added to status bars via
+// configuration) never return YES for isVisible.
+@property(nonatomic, readonly) BOOL isVisible;
+@property(nonatomic, copy) NSString *findString;
+@property(nonatomic) BOOL needsUpdateOnFocus;
 
-- (instancetype)initWithViewController:(NSViewController<iTermFindViewController> *)viewController NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithViewController:
+    (NSViewController<iTermFindViewController> *)viewController
+    NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 // Animates in a hidden find view.
@@ -98,7 +104,7 @@
 // navigate with with next-previous. When the find window is opened, the state
 // is restored.
 - (void)closeViewAndDoTemporarySearchForString:(NSString *)string
-    mode:(iTermFindMode)mode;
+                                          mode:(iTermFindMode)mode;
 
 - (void)owningViewDidBecomeFirstResponder;
 

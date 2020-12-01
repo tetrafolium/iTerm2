@@ -8,12 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 
-
 @interface ArrangementPreviewView : NSView {
-    NSArray *arrangement_;
+  NSArray *arrangement_;
 }
 
-- (void)setArrangement:(NSArray*)arrangement;
+- (void)setArrangement:(NSArray *)arrangement;
 
 - (void)drawRect:(NSRect)rect;
 

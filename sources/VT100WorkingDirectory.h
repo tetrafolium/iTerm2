@@ -6,8 +6,8 @@
 //
 //
 
-#import <Foundation/Foundation.h>
 #import "IntervalTree.h"
+#import <Foundation/Foundation.h>
 
 @interface VT100WorkingDirectory : NSObject <IntervalTreeObject>
 

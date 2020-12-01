@@ -14,17 +14,18 @@
 
 extern NSString *const iTermWebViewErrorDomain;
 typedef NS_ENUM(NSUInteger, iTermWebViewErrorCode) {
-    iTermWebViewErrorCodeMissingInvocation,
-    iTermWebViewErrorCodeReceiverDealloced,
-    iTermWebViewErrorCodeRPCFailed,
-    iTermWebViewErrorCodeMissingCallback,
-    iTermWebViewErrorCodeCallbackFailed
+  iTermWebViewErrorCodeMissingInvocation,
+  iTermWebViewErrorCodeReceiverDealloced,
+  iTermWebViewErrorCodeRPCFailed,
+  iTermWebViewErrorCodeMissingCallback,
+  iTermWebViewErrorCodeCallbackFailed
 };
 
-@protocol iTermWebViewDelegate<NSObject>
+@protocol iTermWebViewDelegate <NSObject>
 - (void)itermWebViewScriptInvocation:(NSString *)invocation
-    didFailWithError:(NSError *)error;
-- (iTermVariableScope *)itermWebViewScriptScopeForUserContentController:(WKUserContentController *)userContentController;
+                    didFailWithError:(NSError *)error;
+- (iTermVariableScope *)itermWebViewScriptScopeForUserContentController:
+    (WKUserContentController *)userContentController;
 - (void)itermWebViewJavascriptError:(NSString *)errorText;
 - (void)itermWebViewWillExecuteJavascript:(NSString *)javascript;
 - (BOOL)itermWebViewShouldAllowInvocation;
@@ -32,7 +33,8 @@ typedef NS_ENUM(NSUInteger, iTermWebViewErrorCode) {
 
 @interface iTermWebViewWrapperViewController : NSViewController
 
-- (instancetype)initWithWebView:(WKWebView *)webView backupURL:(NSURL *)backupURL;
+- (instancetype)initWithWebView:(WKWebView *)webView
+                      backupURL:(NSURL *)backupURL;
 
 - (void)terminateWebView;
 

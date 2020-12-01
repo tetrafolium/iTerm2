@@ -8,15 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-#import "ProfileModel.h"
 #import "ITAddressBookMgr.h"
+#import "ProfileModel.h"
 
 @class iTermVariableScope;
 
 typedef NS_ENUM(NSUInteger, iTermInitialDirectoryMode) {
-    iTermInitialDirectoryModeHome,
-    iTermInitialDirectoryModeRecycle,
-    iTermInitialDirectoryModeCustom
+  iTermInitialDirectoryModeHome,
+  iTermInitialDirectoryModeRecycle,
+  iTermInitialDirectoryModeCustom
 };
 
 @interface iTermInitialDirectory : NSObject
@@ -26,11 +26,10 @@ typedef NS_ENUM(NSUInteger, iTermInitialDirectoryMode) {
 @property(nonatomic, copy) NSString *customDirectoryFormat;
 
 + (instancetype)initialDirectoryFromProfile:(Profile *)profile
-    objectType:(iTermObjectType)objectType;
+                                 objectType:(iTermObjectType)objectType;
 
 - (void)evaluateWithOldPWD:(NSString *)oldPWD
-    scope:(iTermVariableScope *)scope
-    completion:(void (^)(NSString *))completion;
+                     scope:(iTermVariableScope *)scope
+                completion:(void (^)(NSString *))completion;
 
 @end
-

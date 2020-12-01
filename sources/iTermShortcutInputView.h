@@ -6,14 +6,15 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
 #import "iTermShortcut.h"
+#import <Cocoa/Cocoa.h>
 
 @class iTermShortcutInputView;
 
 @protocol iTermShortcutInputViewDelegate <NSObject>
 
-- (void)shortcutInputView:(iTermShortcutInputView *)view didReceiveKeyPressEvent:(NSEvent *)event;
+- (void)shortcutInputView:(iTermShortcutInputView *)view
+    didReceiveKeyPressEvent:(NSEvent *)event;
 
 @end
 
@@ -23,7 +24,8 @@
 // You can assign the shortcutDelegate in IB as it is an IBOutlet.
 @interface iTermShortcutInputView : NSView
 
-@property(nonatomic, weak) IBOutlet id<iTermShortcutInputViewDelegate> shortcutDelegate;
+@property(nonatomic, weak) IBOutlet id<iTermShortcutInputViewDelegate>
+    shortcutDelegate;
 @property(nonatomic, assign) BOOL disableKeyRemapping;
 @property(nonatomic, assign, getter=isEnabled) BOOL enabled;
 @property(nonatomic, copy) NSString *stringValue;
@@ -35,6 +37,6 @@
 - (void)setShortcut:(iTermShortcut *)shortcut;
 
 - (NSString *)identifierForCode:(NSUInteger)code
-    modifiers:(NSEventModifierFlags)modifiers
-    character:(NSUInteger)character;
+                      modifiers:(NSEventModifierFlags)modifiers
+                      character:(NSUInteger)character;
 @end

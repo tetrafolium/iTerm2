@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface iTermSnippetsMenuController : NSObject
-@property (nonatomic, nullable, strong) NSMenu *menu;
+@property(nonatomic, nullable, strong) NSMenu *menu;
 @end
 
 NS_ASSUME_NONNULL_END

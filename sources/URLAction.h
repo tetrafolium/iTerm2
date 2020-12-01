@@ -6,8 +6,8 @@
 //
 //
 
-#import <Foundation/Foundation.h>
 #import "VT100GridTypes.h"
+#import <Foundation/Foundation.h>
 
 @class iTermImageInfo;
 @class iTermSemanticHistoryController;
@@ -16,11 +16,11 @@
 @class VT100RemoteHost;
 
 typedef NS_ENUM(NSInteger, URLActionType) {
-    kURLActionOpenURL,
-    kURLActionSmartSelectionAction,
-    kURLActionOpenExistingFile,
-    kURLActionOpenImage,
-    kURLActionSecureCopyFile,
+  kURLActionOpenURL,
+  kURLActionSmartSelectionAction,
+  kURLActionOpenExistingFile,
+  kURLActionOpenImage,
+  kURLActionSecureCopyFile,
 };
 
 @interface URLAction : NSObject
@@ -28,12 +28,13 @@ typedef NS_ENUM(NSInteger, URLActionType) {
 // Always set.
 @property(nonatomic, assign) URLActionType actionType;
 
-// Always set. Generally, the text that was used to select the action (e.g., the selection).
-// For images, this is the filename. See |identifier| for the ImageInfo.
+// Always set. Generally, the text that was used to select the action (e.g., the
+// selection). For images, this is the filename. See |identifier| for the
+// ImageInfo.
 @property(nonatomic, readonly) NSString *string;
 
-// Extra info. For kURLActionOpenImage, this holds an image. For kURLActionSecureCopyFile, this
-// holds an SCPPath.
+// Extra info. For kURLActionOpenImage, this holds an image. For
+// kURLActionSecureCopyFile, this holds an SCPPath.
 @property(nonatomic, readonly) id identifier;
 
 // Always set. The range of |string| on screen.
@@ -41,7 +42,9 @@ typedef NS_ENUM(NSInteger, URLActionType) {
 
 // For kURLActionOpenExistingFile, the full path the the file.
 @property(nonatomic, copy) NSString *fullPath;
-@property(nonatomic, copy) NSString *rawFilename;  // Before removing nearby punctuation. Might start with a/ or b/ so we keep it around.
+@property(nonatomic, copy)
+    NSString *rawFilename; // Before removing nearby punctuation. Might start
+                           // with a/ or b/ so we keep it around.
 @property(nonatomic, copy) NSString *lineNumber;
 @property(nonatomic, copy) NSString *columnNumber;
 
@@ -64,7 +67,7 @@ typedef NS_ENUM(NSInteger, URLActionType) {
 + (instancetype)urlActionToSecureCopyFile:(SCPPath *)scpPath;
 + (instancetype)urlActionToOpenURL:(NSString *)filename;
 + (instancetype)urlActionToPerformSmartSelectionRule:(NSDictionary *)rule
-    onString:(NSString *)content;
+                                            onString:(NSString *)content;
 + (instancetype)urlActionToOpenExistingFile:(NSString *)filename;
 + (instancetype)urlActionToOpenImage:(iTermImageInfo *)imageInfo;
 

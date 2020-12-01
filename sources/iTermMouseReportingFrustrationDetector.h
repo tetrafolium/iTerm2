@@ -11,12 +11,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class iTermMouseReportingFrustrationDetector;
 
-@protocol iTermMouseReportingFrustrationDetectorDelegate<NSObject>
-- (void)mouseReportingFrustrationDetectorDidDetectFrustration:(iTermMouseReportingFrustrationDetector *)sender;
+@protocol iTermMouseReportingFrustrationDetectorDelegate <NSObject>
+- (void)mouseReportingFrustrationDetectorDidDetectFrustration:
+    (iTermMouseReportingFrustrationDetector *)sender;
 @end
 
 @interface iTermMouseReportingFrustrationDetector : NSObject
-@property (nonatomic, weak) id<iTermMouseReportingFrustrationDetectorDelegate> delegate;
+@property(nonatomic, weak) id<iTermMouseReportingFrustrationDetectorDelegate>
+    delegate;
 
 - (void)mouseDown:(NSEvent *)event reported:(BOOL)reported;
 - (void)mouseUp:(NSEvent *)event reported:(BOOL)reported;

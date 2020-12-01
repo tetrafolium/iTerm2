@@ -9,12 +9,11 @@
 
 @interface iTermMemoryUtilization : NSObject
 
-@property (nonatomic) NSTimeInterval cadence;
-@property (nonatomic, readonly) long long availableMemory;
-@property (nonatomic, readonly) NSArray<NSNumber *> *samples;
+@property(nonatomic) NSTimeInterval cadence;
+@property(nonatomic, readonly) long long availableMemory;
+@property(nonatomic, readonly) NSArray<NSNumber *> *samples;
 
 + (instancetype)sharedInstance;
-- (void)addSubscriber:(id)subscriber
-    block:(void (^)(double))block;
+- (void)addSubscriber:(id)subscriber block:(void (^)(double))block;
 
 @end

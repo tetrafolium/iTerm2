@@ -31,11 +31,10 @@
 @property(nonatomic, readonly) NSColor *color;
 
 - (void)drawRect:(NSRect)rect;
-- (void)mouseUp:(NSEvent*) event;
+- (void)mouseUp:(NSEvent *)event;
 
 @end
 
 @interface iTermTabColorMenuItem : NSMenuItem
-@property (nonatomic, readonly) ColorsMenuItemView *colorsView;
+@property(nonatomic, readonly) ColorsMenuItemView *colorsView;
 @end
-

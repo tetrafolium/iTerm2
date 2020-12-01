@@ -10,9 +10,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermHamburgerButton : NSButton
-@property (nonatomic, strong) NSMenu *(^menuProvider)(void);
+@property(nonatomic, strong) NSMenu * (^menuProvider)(void);
 
-- (instancetype)initWithMenuProvider:(NSMenu *(^)(void))menuProvider NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithMenuProvider:(NSMenu * (^)(void))menuProvider
+    NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithFrame:(NSRect)frameRect NS_UNAVAILABLE;
 - (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;

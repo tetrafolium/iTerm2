@@ -8,7 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-// Panel for choosing a profile to open. Most of the logic is in iTermProfilesWindowController.m
+// Panel for choosing a profile to open. Most of the logic is in
+// iTermProfilesWindowController.m
 @interface iTermProfilesPanel : NSPanel
 
 @end

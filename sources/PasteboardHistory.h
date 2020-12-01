@@ -26,13 +26,11 @@
  **  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-
-
-#import <Cocoa/Cocoa.h>
-#import "iTermPopupWindowController.h"
 #import "PTYTextView.h"
 #import "PopupEntry.h"
 #import "VT100Screen.h"
+#import "iTermPopupWindowController.h"
+#import <Cocoa/Cocoa.h>
 
 #define kPasteboardHistoryDidChange @"PasteboardHistoryDidChange"
 
@@ -40,7 +38,7 @@
 
 @property(nonatomic, retain) NSDate *timestamp;
 
-+ (PasteboardEntry*)entryWithString:(NSString *)s score:(double)score;
++ (PasteboardEntry *)entryWithString:(NSString *)s score:(double)score;
 
 @end
 
@@ -49,7 +47,7 @@
 + (instancetype)sharedInstance;
 - (instancetype)initWithMaxEntries:(int)maxEntries;
 - (NSArray<PasteboardEntry *> *)entries;
-- (void)save:(NSString*)value;
+- (void)save:(NSString *)value;
 
 // Erases persistent history, but not in-memory.
 - (void)eraseHistory;
@@ -69,8 +67,10 @@
 - (void)refresh;
 - (void)onOpen;
 - (void)onClose;
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex;
-- (void)rowSelected:(id)sender;;
+- (id)tableView:(NSTableView *)aTableView
+    objectValueForTableColumn:(NSTableColumn *)aTableColumn
+                          row:(NSInteger)rowIndex;
+- (void)rowSelected:(id)sender;
+;
 
 @end
-

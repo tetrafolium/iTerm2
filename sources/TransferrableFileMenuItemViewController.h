@@ -6,8 +6,8 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
 #import "TransferrableFile.h"
+#import <Cocoa/Cocoa.h>
 
 @interface TransferrableFileMenuItemViewController : NSViewController
 
@@ -17,7 +17,8 @@
 @property(nonatomic, retain) NSMenuItem *removeFromListSubItem;
 @property(nonatomic, retain) NSMenuItem *openSubItem;
 
-- (instancetype)initWithTransferrableFile:(TransferrableFile *)transferrableFile;
+- (instancetype)initWithTransferrableFile:
+    (TransferrableFile *)transferrableFile;
 - (void)update;
 - (void)itemSelected:(id)sender;
 - (NSTimeInterval)timeSinceLastStatusChange;

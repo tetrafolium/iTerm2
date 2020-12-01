@@ -14,14 +14,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class iTermSwipeTracker;
 
-@protocol iTermSwipeTrackerDelegate<NSObject>
+@protocol iTermSwipeTrackerDelegate <NSObject>
 // Delta gives distance moved.
 - (iTermSwipeState *)swipeTrackerWillBeginNewSwipe:(iTermSwipeTracker *)tracker;
 - (BOOL)swipeTrackerShouldBeginNewSwipe:(iTermSwipeTracker *)tracker;
 @end
 
 @interface iTermSwipeTracker : NSObject
-@property (nonatomic, weak) id<iTermSwipeTrackerDelegate> delegate;
+@property(nonatomic, weak) id<iTermSwipeTrackerDelegate> delegate;
 
 - (BOOL)handleEvent:(NSEvent *)event;
 

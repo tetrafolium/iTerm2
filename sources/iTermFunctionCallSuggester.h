@@ -9,15 +9,20 @@
 
 @interface iTermFunctionCallSuggester : NSObject
 
-- (instancetype)initWithFunctionSignatures:(NSDictionary<NSString *, NSArray<NSString *> *> *)functionSignatures
-    pathSource:(NSSet<NSString *> *(^)(NSString *prefix))pathSource NS_DESIGNATED_INITIALIZER;
+- (instancetype)
+    initWithFunctionSignatures:
+        (NSDictionary<NSString *, NSArray<NSString *> *> *)functionSignatures
+                    pathSource:
+                        (NSSet<NSString *> * (^)(NSString *prefix))pathSource
+    NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (NSArray<NSString *> *)suggestionsForString:(NSString *)prefix;
 
 @end
 
-// Expects a string like "foo" or "foo\(bar())", including nested madness like foo\(bar(\"baz()")).
-// Of course, any such string may be truncated and appropriate suggestions will result.
+// Expects a string like "foo" or "foo\(bar())", including nested madness like
+// foo\(bar(\"baz()")). Of course, any such string may be truncated and
+// appropriate suggestions will result.
 @interface iTermSwiftyStringSuggester : iTermFunctionCallSuggester
 @end

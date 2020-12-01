@@ -9,15 +9,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol iTermGlobalScope<NSObject>
+@protocol iTermGlobalScope <NSObject>
 
-@property (nullable, nonatomic, strong) NSNumber *applicationPID;
-@property (nullable, nonatomic, strong) NSString *localhostName;
-@property (nullable, nonatomic, strong) NSString *effectiveTheme;
+@property(nullable, nonatomic, strong) NSNumber *applicationPID;
+@property(nullable, nonatomic, strong) NSString *localhostName;
+@property(nullable, nonatomic, strong) NSString *effectiveTheme;
 
 @end
 
-@interface iTermVariableScope (Global)<iTermGlobalScope>
+@interface iTermVariableScope (Global) <iTermGlobalScope>
 + (iTermVariableScope<iTermGlobalScope> *)globalsScope;
 @end
 

@@ -9,9 +9,9 @@
 
 @interface iTermStatusBarSetupCollectionViewItem : NSCollectionViewItem
 
-@property (nonatomic, copy) NSString *detailText;
-@property (nonatomic) BOOL hideDetail;
-@property (nonatomic, strong) NSColor *backgroundColor;
+@property(nonatomic, copy) NSString *detailText;
+@property(nonatomic) BOOL hideDetail;
+@property(nonatomic, strong) NSColor *backgroundColor;
 
 - (void)sizeToFit;
 

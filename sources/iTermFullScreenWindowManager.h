@@ -6,8 +6,8 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
 #import "iTermWeakReference.h"
+#import <Cocoa/Cocoa.h>
 
 @interface iTermFullScreenWindowManager : NSObject
 

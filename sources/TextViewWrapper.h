@@ -31,5 +31,5 @@
 @class PTYTextView;
 
 @interface TextViewWrapper : NSView
-@property (nonatomic) BOOL useMetal;
+@property(nonatomic) BOOL useMetal;
 @end

@@ -11,12 +11,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol iTermGenericStatusBarContainer<NSObject>
+@protocol iTermGenericStatusBarContainer <NSObject>
 - (NSColor *)genericStatusBarContainerBackgroundColor;
 @end
 
-@interface iTermGenericStatusBarContainer : NSView<iTermStatusBarContainer>
-@property (nonatomic, weak) id<iTermGenericStatusBarContainer> delegate;
+@interface iTermGenericStatusBarContainer : NSView <iTermStatusBarContainer>
+@property(nonatomic, weak) id<iTermGenericStatusBarContainer> delegate;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -13,19 +13,20 @@
 @class iTermUpdateCadenceController;
 
 typedef struct {
-    BOOL active;
-    BOOL idle;
-    BOOL visible;
-    BOOL useAdaptiveFrameRate;
-    NSInteger adaptiveFrameRateThroughputThreshold;
-    double slowFrameRate;
-    BOOL liveResizing;
+  BOOL active;
+  BOOL idle;
+  BOOL visible;
+  BOOL useAdaptiveFrameRate;
+  NSInteger adaptiveFrameRateThroughputThreshold;
+  double slowFrameRate;
+  BOOL liveResizing;
 } iTermUpdateCadenceState;
 
-@protocol iTermUpdateCadenceControllerDelegate<NSObject>
+@protocol iTermUpdateCadenceControllerDelegate <NSObject>
 
 // Time to update the display.
-- (void)updateCadenceControllerUpdateDisplay:(iTermUpdateCadenceController *)controller;
+- (void)updateCadenceControllerUpdateDisplay:
+    (iTermUpdateCadenceController *)controller;
 
 // Returns the current state of the delegate.
 - (iTermUpdateCadenceState)updateCadenceControllerState;
@@ -38,12 +39,13 @@ typedef struct {
 
 @interface iTermUpdateCadenceController : NSObject
 
-@property (nonatomic, readonly) BOOL updateTimerIsValid;
-@property (nonatomic, weak) id<iTermUpdateCadenceControllerDelegate> delegate;
-@property (nonatomic, readonly) iTermHistogram *histogram;
-@property (nonatomic, readonly) BOOL isActive;
+@property(nonatomic, readonly) BOOL updateTimerIsValid;
+@property(nonatomic, weak) id<iTermUpdateCadenceControllerDelegate> delegate;
+@property(nonatomic, readonly) iTermHistogram *histogram;
+@property(nonatomic, readonly) BOOL isActive;
 
-- (instancetype)initWithThroughputEstimator:(iTermThroughputEstimator *)throughputEstimator NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithThroughputEstimator:
+    (iTermThroughputEstimator *)throughputEstimator NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (void)changeCadenceIfNeeded;

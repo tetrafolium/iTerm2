@@ -33,7 +33,7 @@ extern NSString *const kTerminalFileShouldStopNotification;
 @end
 
 @interface TerminalFileDownload : TerminalFile
-@property (nonatomic) BOOL preconfirmed;
+@property(nonatomic) BOOL preconfirmed;
 @end
 
 @interface TerminalFileUpload : TerminalFile

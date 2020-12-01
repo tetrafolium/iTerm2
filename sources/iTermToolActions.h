@@ -7,8 +7,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "iTermToolbeltView.h"
 #import "PasteboardHistory.h"
+#import "iTermToolbeltView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

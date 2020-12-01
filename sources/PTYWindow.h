@@ -25,9 +25,8 @@
  **  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-
-#import <Cocoa/Cocoa.h>
 #import "iTermWeakReference.h"
+#import <Cocoa/Cocoa.h>
 
 @protocol PSMTabStyle;
 @class PTYTab;
@@ -42,7 +41,7 @@ extern NSString *const iTermWindowDocumentedEditedDidChange;
 extern const NSTimeInterval iTermWindowTitleChangeMinimumInterval;
 
 // Extra methods for delegates of terminal windows to implement.
-@protocol PTYWindowDelegateProtocol<NSObject,NSWindowDelegate>
+@protocol PTYWindowDelegateProtocol <NSObject, NSWindowDelegate>
 - (BOOL)lionFullScreen;
 - (BOOL)anyFullScreen;
 - (void)windowWillShowInitial;
@@ -54,15 +53,18 @@ extern const NSTimeInterval iTermWindowTitleChangeMinimumInterval;
 // Should the window's frame be constrainted to its present screen?
 - (BOOL)terminalWindowShouldConstrainFrameToScreen;
 - (NSColor *)terminalWindowDecorationBackgroundColor;
-- (NSColor *)terminalWindowDecorationTextColorForBackgroundColor:(NSColor *)backgroundColor;
+- (NSColor *)terminalWindowDecorationTextColorForBackgroundColor:
+    (NSColor *)backgroundColor;
 - (id<PSMTabStyle>)terminalWindowTabStyle;
 - (NSColor *)terminalWindowDecorationControlColor;
 - (BOOL)terminalWindowUseMinimalStyle;
 
 typedef NS_ENUM(NSUInteger, PTYWindowTitleBarFlavor) {
-    PTYWindowTitleBarFlavorDefault,
-    PTYWindowTitleBarFlavorOnePoint,  // One-point tall. Prevents overlapping the menu bar. Otherwise basically invisible.
-    PTYWindowTitleBarFlavorZeroPoints  // Completely invisible and overlaps the menu bar.
+  PTYWindowTitleBarFlavorDefault,
+  PTYWindowTitleBarFlavorOnePoint,  // One-point tall. Prevents overlapping the
+                                    // menu bar. Otherwise basically invisible.
+  PTYWindowTitleBarFlavorZeroPoints // Completely invisible and overlaps the
+                                    // menu bar.
 };
 
 - (PTYWindowTitleBarFlavor)ptyWindowTitleBarFlavor;
@@ -71,21 +73,23 @@ typedef NS_ENUM(NSUInteger, PTYWindowTitleBarFlavor) {
 @end
 
 // Common methods implemented by terminal windows of both kinds.
-@protocol PTYWindow<NSObject>
+@protocol PTYWindow <NSObject>
 @property(nonatomic, readonly) int screenNumber;
-@property(nonatomic, readonly, getter=isTogglingLionFullScreen) BOOL togglingLionFullScreen;
+@property(nonatomic, readonly, getter=isTogglingLionFullScreen)
+    BOOL togglingLionFullScreen;
 // A unique identifier that does not get recycled during the program's lifetime.
 @property(nonatomic, readonly) NSString *windowIdentifier;
 @property(nonatomic, readonly) id<PTYWindowDelegateProtocol> ptyDelegate;
 @property(nonatomic, readonly) BOOL titleChangedRecently;
 @property(nonatomic, readonly) BOOL isCompact;
 @property(nonatomic) NSInteger it_openingSheet;
-@property (nonatomic) BOOL it_becomingKey;
-@property (nonatomic) NSInteger it_accessibilityResizing;
+@property(nonatomic) BOOL it_becomingKey;
+@property(nonatomic) NSInteger it_accessibilityResizing;
 @property(nonatomic) BOOL it_restorableStateInvalid;
 
 - (NSColor *)it_terminalWindowDecorationBackgroundColor;
-- (NSColor *)it_terminalWindowDecorationTextColorForBackgroundColor:(NSColor *)backgroundColor;
+- (NSColor *)it_terminalWindowDecorationTextColorForBackgroundColor:
+    (NSColor *)backgroundColor;
 - (id<PSMTabStyle>)it_tabStyle;
 - (NSColor *)it_terminalWindowDecorationControlColor;
 - (BOOL)it_terminalWindowUseMinimalStyle;
@@ -98,7 +102,8 @@ typedef NS_ENUM(NSUInteger, PTYWindowTitleBarFlavor) {
 
 - (void)setRestoreState:(NSObject *)restoreState;
 
-// Returns the approximate fraction of this window that is occluded by other windows in this app.
+// Returns the approximate fraction of this window that is occluded by other
+// windows in this app.
 - (double)approximateFractionOccluded;
 - (void)it_setNeedsInvalidateShadow;
 
@@ -107,17 +112,17 @@ typedef NS_ENUM(NSUInteger, PTYWindowTitleBarFlavor) {
 typedef NSWindow<iTermWeaklyReferenceable, PTYWindow> iTermTerminalWindow;
 
 // A normal terminal window.
-@interface iTermWindow : NSWindow<iTermWeaklyReferenceable, PTYWindow>
+@interface iTermWindow : NSWindow <iTermWeaklyReferenceable, PTYWindow>
 @end
 
-@interface iTermCompactWindow : NSWindow<iTermWeaklyReferenceable, PTYWindow>
+@interface iTermCompactWindow : NSWindow <iTermWeaklyReferenceable, PTYWindow>
 @end
 
 // A floating hotkey window. This can overlap a lion fullscreen window.
-@interface iTermPanel : NSPanel<iTermWeaklyReferenceable, PTYWindow>
+@interface iTermPanel : NSPanel <iTermWeaklyReferenceable, PTYWindow>
 @end
 
-@interface iTermCompactPanel : NSPanel<iTermWeaklyReferenceable, PTYWindow>
+@interface iTermCompactPanel : NSPanel <iTermWeaklyReferenceable, PTYWindow>
 @end
 
 @interface NSWindow (Private)
@@ -136,4 +141,3 @@ typedef NSWindow<iTermWeaklyReferenceable, PTYWindow> iTermTerminalWindow;
 - (id<PTYWindow>)ptyWindow;
 
 @end
-

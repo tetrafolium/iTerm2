@@ -10,21 +10,20 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, iTermHapticFeedbackType) {
-    iTermHapticFeedbackTypeNone,
-    iTermHapticFeedbackTypeWeak,
-    iTermHapticFeedbackTypeMedium,
-    iTermHapticFeedbackTypeStrong
+  iTermHapticFeedbackTypeNone,
+  iTermHapticFeedbackTypeWeak,
+  iTermHapticFeedbackTypeMedium,
+  iTermHapticFeedbackTypeStrong
 };
 
 @interface iTermHapticActuator : NSObject
 
-@property (nonatomic) iTermHapticFeedbackType feedbackType;
+@property(nonatomic) iTermHapticFeedbackType feedbackType;
 
 + (instancetype)sharedActuator;
 
 - (void)actuateTouchDownFeedback;
 - (void)actuateTouchUpFeedback;
-
 
 @end
 

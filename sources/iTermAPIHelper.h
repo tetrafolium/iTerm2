@@ -5,16 +5,20 @@
 //  Created by George Nachman on 4/18/18.
 //
 
-#import <Foundation/Foundation.h>
 #import "iTermAPIServer.h"
 #import "iTermTuple.h"
+#import <Foundation/Foundation.h>
 
 extern NSString *const iTermRemoveAPIServerSubscriptionsNotification;
 extern NSString *const iTermAPIRegisteredFunctionsDidChangeNotification;
 extern NSString *const iTermAPIDidRegisterSessionTitleFunctionNotification;
-extern NSString *const iTermAPIDidRegisterStatusBarComponentNotification;  // object is the unique id of the status bar component
+extern NSString *const
+    iTermAPIDidRegisterStatusBarComponentNotification; // object is the unique
+                                                       // id of the status bar
+                                                       // component
 extern NSString *const iTermAPIHelperDidStopNotification;
-extern NSString *const iTermAPIHelperDidDetectChangeOfPythonAuthMethodNotification;
+extern NSString
+    *const iTermAPIHelperDidDetectChangeOfPythonAuthMethodNotification;
 extern NSString *const iTermAPIHelperErrorDomain;
 
 extern NSString *const iTermAPIHelperFunctionCallErrorUserInfoKeyConnection;
@@ -25,33 +29,34 @@ extern NSString *const iTermAPIHelperFunctionCallErrorUserInfoKeyConnection;
 @class NSWindow;
 
 typedef NS_ENUM(NSUInteger, iTermAPIHelperErrorCode) {
-    iTermAPIHelperErrorCodeRegistrationFailed,
-    iTermAPIHelperErrorCodeInvalidJSON,
-    iTermAPIHelperErrorCodeUnregisteredFunction,
-    iTermAPIHelperErrorCodeFunctionCallFailed,
-    iTermAPIHelperErrorCodeAPIDisabled,
-    iTermAPIHelperErrorCodeTimeout,
-    iTermAPIHelperErrorCodeInvalidIdentifier
+  iTermAPIHelperErrorCodeRegistrationFailed,
+  iTermAPIHelperErrorCodeInvalidJSON,
+  iTermAPIHelperErrorCodeUnregisteredFunction,
+  iTermAPIHelperErrorCodeFunctionCallFailed,
+  iTermAPIHelperErrorCodeAPIDisabled,
+  iTermAPIHelperErrorCodeTimeout,
+  iTermAPIHelperErrorCodeInvalidIdentifier
 };
 
 typedef void (^iTermServerOriginatedRPCCompletionBlock)(id, NSError *);
 
-@protocol iTermSubscribable<NSObject>
+@protocol iTermSubscribable <NSObject>
 
 - (NSString *)subscribableIdentifier;
 
-- (ITMNotificationResponse *)handleAPINotificationRequest:(ITMNotificationRequest *)request
-    connectionKey:(NSString *)connectionKey;
+- (ITMNotificationResponse *)
+    handleAPINotificationRequest:(ITMNotificationRequest *)request
+                   connectionKey:(NSString *)connectionKey;
 
 @end
 
 @interface iTermSessionTitleProvider : NSObject
-@property (nonatomic, readonly) NSString *displayName;
-@property (nonatomic, readonly) NSString *invocation;
-@property (nonatomic, readonly) NSString *uniqueIdentifier;
+@property(nonatomic, readonly) NSString *displayName;
+@property(nonatomic, readonly) NSString *invocation;
+@property(nonatomic, readonly) NSString *uniqueIdentifier;
 @end
 
-@interface iTermAPIHelper : NSObject<iTermAPIServerDelegate>
+@interface iTermAPIHelper : NSObject <iTermAPIServerDelegate>
 
 + (BOOL)confirmShouldStartServerAndUpdateUserDefaultsForced:(BOOL)forced;
 + (instancetype)sharedInstance;
@@ -60,53 +65,70 @@ typedef void (^iTermServerOriginatedRPCCompletionBlock)(id, NSError *);
 
 + (BOOL)requireApplescriptAuth;
 + (void)setRequireApplescriptAuth:(BOOL)requireApplescriptAuth
-    window:(NSWindow *)window;
+                           window:(NSWindow *)window;
 
-+ (NSString *)invocationWithFullyQualifiedName:(NSString *)fqname
-    defaults:(NSArray<ITMRPCRegistrationRequest_RPCArgument*> *)defaultsArray;
-+ (ITMRPCRegistrationRequest *)registrationRequestForStatusBarComponentWithUniqueIdentifier:(NSString *)uniqueIdentifier;
++ (NSString *)
+    invocationWithFullyQualifiedName:(NSString *)fqname
+                            defaults:
+                                (NSArray<ITMRPCRegistrationRequest_RPCArgument
+                                             *> *)defaultsArray;
++ (ITMRPCRegistrationRequest *)
+    registrationRequestForStatusBarComponentWithUniqueIdentifier:
+        (NSString *)uniqueIdentifier;
 
 - (instancetype)init NS_UNAVAILABLE;
 
 + (void)setEnabled:(BOOL)enabled;
 + (BOOL)isEnabled;
 
-- (void)postAPINotification:(ITMNotification *)notification toConnectionKey:(NSString *)connectionKey;
+- (void)postAPINotification:(ITMNotification *)notification
+            toConnectionKey:(NSString *)connectionKey;
 
 - (void)dispatchRPCWithName:(NSString *)name
-    arguments:(NSDictionary *)arguments
-    completion:(iTermServerOriginatedRPCCompletionBlock)completion;
+                  arguments:(NSDictionary *)arguments
+                 completion:(iTermServerOriginatedRPCCompletionBlock)completion;
 
 // function name -> [ arg1, arg2, ... ]
-+ (NSDictionary<NSString *, NSArray<NSString *> *> *)registeredFunctionSignatureDictionary;
++ (NSDictionary<NSString *, NSArray<NSString *> *> *)
+    registeredFunctionSignatureDictionary;
 
 + (NSArray<iTermSessionTitleProvider *> *)sessionTitleFunctions;
 
-+ (NSArray<ITMRPCRegistrationRequest *> *)statusBarComponentProviderRegistrationRequests;
-+ (NSArray<ITMRPCRegistrationRequest *> *)contextMenuProviderRegistrationRequests;
++ (NSArray<ITMRPCRegistrationRequest *> *)
+    statusBarComponentProviderRegistrationRequests;
++ (NSArray<ITMRPCRegistrationRequest *> *)
+    contextMenuProviderRegistrationRequests;
 
-+ (NSString *)nameOfScriptVendingStatusBarComponentWithUniqueIdentifier:(NSString *)uniqueID;
++ (NSString *)nameOfScriptVendingStatusBarComponentWithUniqueIdentifier:
+    (NSString *)uniqueID;
 
-// stringSignature is like func(arg1,arg2) or title.com.example.foo::func(arg1,arg2). Use iTermFunctionSignatureFromNamespaceAndNameAndArguments to construct it safely.
+// stringSignature is like func(arg1,arg2) or
+// title.com.example.foo::func(arg1,arg2). Use
+// iTermFunctionSignatureFromNamespaceAndNameAndArguments to construct it
+// safely.
 - (BOOL)haveRegisteredFunctionWithSignature:(NSString *)stringSignature;
 - (NSString *)connectionKeyForRPCWithSignature:(NSString *)signature;
 - (NSString *)connectionKeyForRPCWithName:(NSString *)name
-    explicitParameters:(NSDictionary<NSString *, id> *)explicitParameters
-    scope:(iTermVariableScope *)scope
-    fullParameters:(out NSDictionary<NSString *, id> **)fullParameters;
+                       explicitParameters:
+                           (NSDictionary<NSString *, id> *)explicitParameters
+                                    scope:(iTermVariableScope *)scope
+                           fullParameters:(out NSDictionary<NSString *, id> **)
+                                              fullParameters;
 
 - (void)logToConnectionHostingFunctionWithSignature:(NSString *)signatureString
-    format:(NSString *)format, ...;
+                                             format:(NSString *)format, ...;
 - (void)logToConnectionHostingFunctionWithSignature:(NSString *)signatureString
-    string:(NSString *)string;
-- (iTermScriptHistoryEntry *)scriptHistoryEntryForConnectionKey:(NSString *)connectionKey;
-- (NSDictionary<NSString *, iTermTuple<id, ITMNotificationRequest *> *> *)serverOriginatedRPCSubscriptions;
+                                             string:(NSString *)string;
+- (iTermScriptHistoryEntry *)scriptHistoryEntryForConnectionKey:
+    (NSString *)connectionKey;
+- (NSDictionary<NSString *, iTermTuple<id, ITMNotificationRequest *> *> *)
+    serverOriginatedRPCSubscriptions;
 
 @end
 
-@interface ITMRPCRegistrationRequest(Extensions)
+@interface ITMRPCRegistrationRequest (Extensions)
 // This gives the string signature.
-@property (nonatomic, readonly) NSString *it_stringRepresentation;
+@property(nonatomic, readonly) NSString *it_stringRepresentation;
 - (BOOL)it_rpcRegistrationRequestValidWithError:(out NSError **)error;
 
 // returns namespace.name

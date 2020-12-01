@@ -9,9 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-int iTermSetSmoothing(CGContextRef ctx,
-                      int * _Nullable savedFontSmoothingStyle,
-                      BOOL useThinStrokes,
-                      BOOL antialiased);
+int iTermSetSmoothing(CGContextRef ctx, int *_Nullable savedFontSmoothingStyle,
+                      BOOL useThinStrokes, BOOL antialiased);
 
 NS_ASSUME_NONNULL_END

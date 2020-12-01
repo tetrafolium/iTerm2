@@ -24,20 +24,22 @@
  **  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#import <Cocoa/Cocoa.h>
 #import "FutureMethods.h"
-#import "ProfileModel.h"
-#import "ProfileListView.h"
 #import "PTYTextViewDataSource.h"
+#import "ProfileListView.h"
+#import "ProfileModel.h"
 #import "SmartSelectionController.h"
 #import "TriggerController.h"
 #import "WindowArrangements.h"
+#import <Cocoa/Cocoa.h>
 
 extern NSString *const kRefreshTerminalNotification;
 extern NSString *const kUpdateLabelsNotification;
 extern NSString *const kKeyBindingsChangedNotification;
 extern NSString *const kPreferencePanelDidUpdateProfileFields;
-extern NSString *const kSessionProfileDidChange;  // Posted by a session when it changes to update the Get Info window.
+extern NSString
+    *const kSessionProfileDidChange; // Posted by a session when it changes to
+                                     // update the Get Info window.
 extern NSString *const kPreferencePanelDidLoadNotification;
 extern NSString *const kPreferencePanelWillCloseNotification;
 
@@ -62,20 +64,18 @@ CGFloat iTermPreferencePanelGetWindowMinimumWidth(BOOL session);
 
 void LoadPrefsFromCustomFolder(void);
 
-@protocol iTermPrefsPanelDelegate<NSObject>
+@protocol iTermPrefsPanelDelegate <NSObject>
 - (void)prefsPanelDidChangeFrameTo:(NSRect)newFrame;
 - (void)responderWillBecomeFirstResponder:(NSResponder *)responder;
 @end
 
 @interface iTermPrefsPanel : NSPanel
-@property (nonatomic, weak) id<iTermPrefsPanelDelegate> prefsPanelDelegate;
+@property(nonatomic, weak) id<iTermPrefsPanelDelegate> prefsPanelDelegate;
 @end
 
-@interface PreferencePanel : NSWindowController <
-    ProfileListViewDelegate,
-    NSTokenFieldDelegate,
-    NSWindowDelegate,
-    NSMenuDelegate>
+@interface PreferencePanel
+    : NSWindowController <ProfileListViewDelegate, NSTokenFieldDelegate,
+                          NSWindowDelegate, NSMenuDelegate>
 
 @property(nonatomic, readonly) NSString *currentProfileGuid;
 
@@ -86,12 +86,12 @@ void LoadPrefsFromCustomFolder(void);
 + (instancetype)sessionsInstance;
 
 - (instancetype)initWithProfileModel:(ProfileModel *)model
-    editCurrentSessionMode:(BOOL)editCurrentSessionMode;
+              editCurrentSessionMode:(BOOL)editCurrentSessionMode;
 
 - (void)openToProfileWithGuid:(NSString *)guid
-    selectGeneralTab:(BOOL)selectGeneralTab
-    tmux:(BOOL)tmux
-    scope:(iTermVariableScope<iTermSessionScope> *)scope;
+             selectGeneralTab:(BOOL)selectGeneralTab
+                         tmux:(BOOL)tmux
+                        scope:(iTermVariableScope<iTermSessionScope> *)scope;
 
 - (IBAction)showGlobalTabView:(id)sender;
 - (IBAction)showAppearanceTabView:(id)sender;
@@ -104,20 +104,21 @@ void LoadPrefsFromCustomFolder(void);
 
 - (WindowArrangements *)arrangements;
 - (void)run;
-- (NSTextField*)hotkeyField;
+- (NSTextField *)hotkeyField;
 
 - (void)changeFont:(id)fontManager;
 - (void)selectProfilesTab;
 
-// Go to the profiles tab, go to its Keys sub-tab, and open the Hotkey window panel.
+// Go to the profiles tab, go to its Keys sub-tab, and open the Hotkey window
+// panel.
 - (void)configureHotkeyForProfile:(Profile *)profile;
 - (void)openToProfileWithGuid:(NSString *)guid
     andEditComponentWithIdentifier:(NSString *)identifier
-    tmux:(BOOL)tmux
-    scope:(iTermVariableScope<iTermSessionScope> *)scope;
+                              tmux:(BOOL)tmux
+                             scope:
+                                 (iTermVariableScope<iTermSessionScope> *)scope;
 
-- (void)openToProfileWithGuid:(NSString *)guid
-    key:(NSString *)key;
+- (void)openToProfileWithGuid:(NSString *)guid key:(NSString *)key;
 
 - (void)openToPreferenceWithKey:(NSString *)key;
 

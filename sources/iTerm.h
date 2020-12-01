@@ -31,6 +31,8 @@
 #import "AvailabilityMacros.h"
 #import <Foundation/Foundation.h>
 
-#define NSLogRect(aRect)    NSLog(@"Rect = %f,%f,%f,%f", (aRect).origin.x, (aRect).origin.y, (aRect).size.width, (aRect).size.height)
+#define NSLogRect(aRect)                                                       \
+  NSLog(@"Rect = %f,%f,%f,%f", (aRect).origin.x, (aRect).origin.y,             \
+        (aRect).size.width, (aRect).size.height)
 
 #endif // _ITERM_H_

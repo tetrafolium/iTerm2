@@ -9,18 +9,19 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-// Runs a command through /bin/sh -c and adds it to the script console, optionally posting a
-// notification if it fails.
+// Runs a command through /bin/sh -c and adds it to the script console,
+// optionally posting a notification if it fails.
 @interface iTermBackgroundCommandRunner : NSObject
-@property (nonatomic, readonly) NSString *command;
-@property (nonatomic, readonly) NSString *shell;
-@property (nonatomic, readonly) NSString *title;
-@property (nonatomic, nullable, copy) NSString *notificationTitle;  // Title to show in user notification
-@property (nonatomic, nullable, copy) NSString *path;
+@property(nonatomic, readonly) NSString *command;
+@property(nonatomic, readonly) NSString *shell;
+@property(nonatomic, readonly) NSString *title;
+@property(nonatomic, nullable, copy)
+    NSString *notificationTitle; // Title to show in user notification
+@property(nonatomic, nullable, copy) NSString *path;
 
 - (instancetype)initWithCommand:(NSString *)command
-    shell:(NSString *)shell
-    title:(NSString *)title NS_DESIGNATED_INITIALIZER;
+                          shell:(NSString *)shell
+                          title:(NSString *)title NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 

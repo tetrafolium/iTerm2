@@ -14,8 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface iTermStatusBarLayout (tmux)
 
 + (instancetype)tmuxLayoutWithController:(TmuxController *)controller
-    scope:(nullable iTermVariableScope *)scope
-    window:(int)window;
+                                   scope:(nullable iTermVariableScope *)scope
+                                  window:(int)window;
 + (BOOL)shouldOverrideLayout:(NSDictionary *)layout;
 
 @end

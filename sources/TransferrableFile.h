@@ -11,13 +11,13 @@
 @class TransferrableFile;
 
 typedef NS_ENUM(NSInteger, TransferrableFileStatus) {
-    kTransferrableFileStatusUnstarted,
-    kTransferrableFileStatusStarting,
-    kTransferrableFileStatusTransferring,
-    kTransferrableFileStatusFinishedSuccessfully,
-    kTransferrableFileStatusFinishedWithError,
-    kTransferrableFileStatusCancelling,
-    kTransferrableFileStatusCancelled
+  kTransferrableFileStatusUnstarted,
+  kTransferrableFileStatusStarting,
+  kTransferrableFileStatusTransferring,
+  kTransferrableFileStatusFinishedSuccessfully,
+  kTransferrableFileStatusFinishedWithError,
+  kTransferrableFileStatusCancelling,
+  kTransferrableFileStatusCancelled
 };
 
 @interface TransferrableFile : NSObject
@@ -25,7 +25,7 @@ typedef NS_ENUM(NSInteger, TransferrableFileStatus) {
 @property(atomic, assign) BOOL openWhenFinished;
 @property(atomic, assign) TransferrableFileStatus status;
 @property(atomic, assign) NSUInteger bytesTransferred;
-@property(atomic, assign) NSInteger fileSize;  // -1 if unknown
+@property(atomic, assign) NSInteger fileSize; // -1 if unknown
 @property(atomic, retain) TransferrableFile *successor;
 @property(atomic, assign) BOOL hasPredecessor;
 
@@ -43,7 +43,8 @@ typedef NS_ENUM(NSInteger, TransferrableFileStatus) {
 - (void)download;
 - (void)upload;
 - (void)stop;
-- (NSString *)localPath;  // For downloads, should be nil until download is complete.
+- (NSString *)
+    localPath; // For downloads, should be nil until download is complete.
 - (NSString *)error;
 - (NSString *)destination;
 - (NSTimeInterval)timeOfLastStatusChange;
@@ -52,10 +53,9 @@ typedef NS_ENUM(NSInteger, TransferrableFileStatus) {
 #pragma mark - Utility
 
 - (NSString *)finalDestinationForPath:(NSString *)baseName
-    destinationDirectory:(NSString *)destinationDirectory;
+                 destinationDirectory:(NSString *)destinationDirectory;
 - (NSString *)downloadsDirectory;
 - (BOOL)quarantine:(NSString *)path sourceURL:(NSURL *)sourceURL;
 - (void)failedToRemoveUnquarantinedFileAt:(NSString *)path;
 
 @end
-

@@ -17,8 +17,8 @@
 
 + (instancetype)ruleWithString:(NSString *)string;
 - (double)scoreForHostname:(NSString *)hostname
-    username:(NSString *)username
-    path:(NSString *)path
-    job:(NSString *)job;
+                  username:(NSString *)username
+                      path:(NSString *)path
+                       job:(NSString *)job;
 
 @end

@@ -5,8 +5,8 @@
 //  Created by George Nachman on 5/8/19.
 //
 
-#import <Foundation/Foundation.h>
 #import "VT100GridTypes.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermTmuxLayoutBuilderLeafNode : iTermTmuxLayoutBuilderNode
 - (instancetype)initWithSessionOfSize:(VT100GridSize)size
-    windowPane:(int)windowPane;
+                           windowPane:(int)windowPane;
 @end
 
 @interface iTermTmuxLayoutBuilderInteriorNode : iTermTmuxLayoutBuilderNode
@@ -24,8 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface iTermTmuxLayoutBuilder : NSObject
-@property (nonatomic, readonly) NSString *layoutString;
-@property (nonatomic, readonly) VT100GridSize clientSize;
+@property(nonatomic, readonly) NSString *layoutString;
+@property(nonatomic, readonly) VT100GridSize clientSize;
 
 - (instancetype)initWithRootNode:(iTermTmuxLayoutBuilderNode *)node;
 

@@ -11,8 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermSavePanelFileFormatAccessory : NSViewController
 
-@property (nonatomic, strong) IBOutlet NSPopUpButton *popupButton;
-@property (nonatomic, copy) void (^onChange)(NSInteger);
+@property(nonatomic, strong) IBOutlet NSPopUpButton *popupButton;
+@property(nonatomic, copy) void (^onChange)(NSInteger);
 @end
 
 NS_ASSUME_NONNULL_END

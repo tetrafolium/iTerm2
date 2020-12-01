@@ -7,16 +7,15 @@
 
 #import <Cocoa/Cocoa.h>
 
-@protocol iTermSolidColorView<NSObject>
+@protocol iTermSolidColorView <NSObject>
 @property(nonatomic, retain) NSColor *color;
 
-- (instancetype)initWithFrame:(NSRect)frame color:(NSColor*)color;
+- (instancetype)initWithFrame:(NSRect)frame color:(NSColor *)color;
 - (void)setFlipped:(BOOL)value;
 @end
 
-@interface SolidColorView : NSView<iTermSolidColorView>
+@interface SolidColorView : NSView <iTermSolidColorView>
 @end
 
-@interface iTermLayerBackedSolidColorView : NSView<iTermSolidColorView>
+@interface iTermLayerBackedSolidColorView : NSView <iTermSolidColorView>
 @end
-

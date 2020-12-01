@@ -13,7 +13,7 @@
 extern NSString *const iTermSessionBuriedStateChangeTabNotification;
 
 @interface iTermBuriedSessions : NSObject
-@property (nonatomic, strong) NSArray<NSMenu *> *menus;
+@property(nonatomic, strong) NSArray<NSMenu *> *menus;
 
 + (instancetype)sharedInstance;
 

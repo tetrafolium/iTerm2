@@ -10,27 +10,32 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, iTermStatusBarAutoRainbowStyle) {
-    iTermStatusBarAutoRainbowStyleDisabled,
-    iTermStatusBarAutoRainbowStyleLight,
-    iTermStatusBarAutoRainbowStyleDark,
-    iTermStatusBarAutoRainbowStyleAutomatic
+  iTermStatusBarAutoRainbowStyleDisabled,
+  iTermStatusBarAutoRainbowStyleLight,
+  iTermStatusBarAutoRainbowStyleDark,
+  iTermStatusBarAutoRainbowStyleAutomatic
 };
 
 @class iTermStatusBarAutoRainbowController;
 
-@protocol iTermStatusBarAutoRainbowControllerDelegate<NSObject>
-- (void)autoRainbowControllerDidInvalidateColors:(iTermStatusBarAutoRainbowController *)controller;
+@protocol iTermStatusBarAutoRainbowControllerDelegate <NSObject>
+- (void)autoRainbowControllerDidInvalidateColors:
+    (iTermStatusBarAutoRainbowController *)controller;
 @end
 
 @interface iTermStatusBarAutoRainbowController : NSObject
-@property (nonatomic, weak) id<iTermStatusBarAutoRainbowControllerDelegate> delegate;
-@property (nonatomic) iTermStatusBarAutoRainbowStyle style;
-@property (nonatomic) BOOL darkBackground;
+@property(nonatomic, weak) id<iTermStatusBarAutoRainbowControllerDelegate>
+    delegate;
+@property(nonatomic) iTermStatusBarAutoRainbowStyle style;
+@property(nonatomic) BOOL darkBackground;
 
-- (instancetype)initWithStyle:(iTermStatusBarAutoRainbowStyle)style NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithStyle:(iTermStatusBarAutoRainbowStyle)style
+    NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
-- (void)enumerateColorsWithCount:(NSInteger)count block:(void (^ NS_NOESCAPE)(NSInteger i, NSColor *color))block;
+- (void)enumerateColorsWithCount:(NSInteger)count
+                           block:(void (^NS_NOESCAPE)(NSInteger i,
+                                                      NSColor *color))block;
 
 @end
 

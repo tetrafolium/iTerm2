@@ -6,8 +6,8 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
 #import "SolidColorView.h"
+#import <Cocoa/Cocoa.h>
 
 @interface iTermClearView : SolidColorView
 

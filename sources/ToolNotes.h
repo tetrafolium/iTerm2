@@ -12,9 +12,9 @@
 #import "iTermToolbeltView.h"
 
 @interface ToolNotes : NSView <ToolbeltTool, NSTextViewDelegate> {
-    NSTextView *textView_;
-    NSFileManager *filemanager_;
-    BOOL ignoreNotification_;
+  NSTextView *textView_;
+  NSFileManager *filemanager_;
+  BOOL ignoreNotification_;
 }
 
 @end

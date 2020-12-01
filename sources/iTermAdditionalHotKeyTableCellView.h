@@ -10,5 +10,6 @@
 
 #import "iTermShortcutInputView.h"
 
-@interface iTermAdditionalHotKeyTableCellView : NSTableCellView<iTermShortcutInputViewDelegate>
+@interface iTermAdditionalHotKeyTableCellView
+    : NSTableCellView <iTermShortcutInputViewDelegate>
 @end

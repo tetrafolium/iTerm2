@@ -15,8 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 
-// Converts a path like "/System/Volumes/Data/bar/baz" into "/bar/baz" when there's an entry in
-// synthetic.conf like:
+// Converts a path like "/System/Volumes/Data/bar/baz" into "/bar/baz" when
+// there's an entry in synthetic.conf like:
 //
 // bar  System/Volumes/Data/bar
 - (NSString *)pathByReplacingPrefixWithSyntheticRoot:(NSString *)dir;

@@ -5,11 +5,12 @@
 //  Created by George Nachman on 5/20/18.
 //
 
-#import <Foundation/Foundation.h>
-#import <CoreParse/CoreParse.h>
 #import "iTermParsedExpression.h"
+#import <CoreParse/CoreParse.h>
+#import <Foundation/Foundation.h>
 
-@interface iTermExpressionParser : NSObject <CPParserDelegate, CPTokeniserDelegate>
+@interface iTermExpressionParser
+    : NSObject <CPParserDelegate, CPTokeniserDelegate>
 
 // Use this to get an instance. Only on the main thread.
 // Parses strings like: foo(x:y)
@@ -23,20 +24,25 @@
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (iTermParsedExpression *)parse:(NSString *)invocation scope:(iTermVariableScope *)scope;
+- (iTermParsedExpression *)parse:(NSString *)invocation
+                           scope:(iTermVariableScope *)scope;
 
-+ (iTermParsedExpression *)parsedExpressionWithInterpolatedString:(NSString *)swifty
-    scope:(iTermVariableScope *)scope;
++ (iTermParsedExpression *)
+    parsedExpressionWithInterpolatedString:(NSString *)swifty
+                                     scope:(iTermVariableScope *)scope;
 
 // Strings get passed through escapingFunction, if nonnil.
-+ (iTermParsedExpression *)parsedExpressionWithInterpolatedString:(NSString *)swifty
-    escapingFunction:(NSString *(^)(NSString *string))escapingFunction
-    scope:(iTermVariableScope *)scope
-    strict:(BOOL)strict;
++ (iTermParsedExpression *)
+    parsedExpressionWithInterpolatedString:(NSString *)swifty
+                          escapingFunction:
+                              (NSString * (^)(NSString *string))escapingFunction
+                                     scope:(iTermVariableScope *)scope
+                                    strict:(BOOL)strict;
 
-// Given an invocation like foo(x: "bar", y: [1, 2]) returns the signature like foo(x,y)
-+ (NSString *)signatureForFunctionCallInvocation:(NSString *)invocation
-    error:(out NSError *__autoreleasing *)error;
+// Given an invocation like foo(x: "bar", y: [1, 2]) returns the signature like
+// foo(x,y)
++ (NSString *)
+    signatureForFunctionCallInvocation:(NSString *)invocation
+                                 error:(out NSError *__autoreleasing *)error;
 
 @end
-

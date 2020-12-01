@@ -7,20 +7,20 @@ extern NSString *const kCoprocessStatusChangeNotification;
 @class Coprocess;
 @class PTYTask;
 
-@protocol iTermTask<NSObject>
+@protocol iTermTask <NSObject>
 
-@property (nonatomic, readonly) int fd;
+@property(nonatomic, readonly) int fd;
 
-@property (nonatomic, readonly) pid_t pid;
-@property (nonatomic, readonly) pid_t pidToWaitOn;
+@property(nonatomic, readonly) pid_t pid;
+@property(nonatomic, readonly) pid_t pidToWaitOn;
 
-@property (nonatomic, readonly) BOOL hasCoprocess;
-@property (nonatomic, strong) Coprocess *coprocess;
+@property(nonatomic, readonly) BOOL hasCoprocess;
+@property(nonatomic, strong) Coprocess *coprocess;
 
-@property (nonatomic, readonly) BOOL wantsRead;
-@property (nonatomic, readonly) BOOL wantsWrite;
-@property (nonatomic, readonly) BOOL writeBufferHasRoom;
-@property (nonatomic, readonly) BOOL hasBrokenPipe;
+@property(nonatomic, readonly) BOOL wantsRead;
+@property(nonatomic, readonly) BOOL wantsWrite;
+@property(nonatomic, readonly) BOOL writeBufferHasRoom;
+@property(nonatomic, readonly) BOOL hasBrokenPipe;
 
 - (void)processRead;
 - (void)processWrite;
@@ -48,8 +48,7 @@ extern NSString *const kCoprocessStatusChangeNotification;
 - (void)lock;
 - (void)unlock;
 
-- (void)pipeDidBreakForExternalProcessID:(pid_t)pid
-    status:(int)status;
+- (void)pipeDidBreakForExternalProcessID:(pid_t)pid status:(int)status;
 
 void UnblockTaskNotifier(void);
 

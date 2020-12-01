@@ -5,12 +5,12 @@
 //  Created by George Nachman on 2/10/19.
 //
 
-#import <Foundation/Foundation.h>
 #import "iTermBuiltInFunctions.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface iTermMoveTabToWindowBuiltInFunction : NSObject<iTermBuiltInFunction>
+@interface iTermMoveTabToWindowBuiltInFunction : NSObject <iTermBuiltInFunction>
 @end
 
 NS_ASSUME_NONNULL_END

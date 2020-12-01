@@ -11,7 +11,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface iTermShellIntegrationFirstPageViewController : NSViewController<iTermShellIntegrationInstallerViewController>
+@interface iTermShellIntegrationFirstPageViewController
+    : NSViewController <iTermShellIntegrationInstallerViewController>
 @end
 
 NS_ASSUME_NONNULL_END

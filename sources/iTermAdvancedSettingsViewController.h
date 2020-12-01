@@ -6,11 +6,13 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
 #import "iTermSearchableViewController.h"
+#import <Cocoa/Cocoa.h>
 
 extern BOOL gIntrospecting;
 
-@interface iTermAdvancedSettingsViewController : NSViewController <iTermSearchableViewController, NSTableViewDataSource, NSTableViewDelegate>
+@interface iTermAdvancedSettingsViewController
+    : NSViewController <iTermSearchableViewController, NSTableViewDataSource,
+                        NSTableViewDelegate>
 
 @end

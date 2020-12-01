@@ -12,51 +12,48 @@
 
 // A vector of pointers that is fast and simple.
 typedef struct {
-    int capacity;
-    void **elements;
-    int count;
+  int capacity;
+  void **elements;
+  int count;
 } CVector;
 
 NS_INLINE void CVectorCreate(CVector *vector, int capacity) {
-    vector->capacity = capacity;
-    vector->elements = (void **)iTermMalloc(vector->capacity * sizeof(void *));
-    vector->count = 0;
+  vector->capacity = capacity;
+  vector->elements = (void **)iTermMalloc(vector->capacity * sizeof(void *));
+  vector->count = 0;
 }
 
-NS_INLINE void CVectorDestroy(const CVector *vector) {
-    free(vector->elements);
-}
+NS_INLINE void CVectorDestroy(const CVector *vector) { free(vector->elements); }
 
 NS_INLINE void *CVectorGet(const CVector *vector, int index) {
-    return vector->elements[index];
+  return vector->elements[index];
 }
 
-NS_INLINE int CVectorCount(const CVector *vector) {
-    return vector->count;
-}
+NS_INLINE int CVectorCount(const CVector *vector) { return vector->count; }
 
 NS_INLINE id CVectorGetObject(const CVector *vector, int index) {
-    return (__bridge id) vector->elements[index];
+  return (__bridge id)vector->elements[index];
 }
 
 NS_INLINE void CVectorSet(const CVector *vector, int index, void *value) {
-    vector->elements[index] = value;
+  vector->elements[index] = value;
 }
 
 NS_INLINE void CVectorAppend(CVector *vector, void *value) {
-    if (vector->count + 1 == vector->capacity) {
-        assert(vector->capacity >= 0 && vector->capacity < (1 << 27));
-        vector->capacity *= 2;
-        vector->elements = iTermRealloc(vector->elements, vector->capacity, sizeof(void *));
-    }
-    vector->elements[vector->count++] = value;
+  if (vector->count + 1 == vector->capacity) {
+    assert(vector->capacity >= 0 && vector->capacity < (1 << 27));
+    vector->capacity *= 2;
+    vector->elements =
+        iTermRealloc(vector->elements, vector->capacity, sizeof(void *));
+  }
+  vector->elements[vector->count++] = value;
 }
 
 NS_INLINE id CVectorLastObject(const CVector *vector) {
-    if (vector->count == 0) {
-        return nil;
-    }
-    return (__bridge id)(CVectorGet(vector, vector->count - 1));
+  if (vector->count == 0) {
+    return nil;
+  }
+  return (__bridge id)(CVectorGet(vector, vector->count - 1));
 }
 
 // Hacky but fast templates in C.
@@ -80,41 +77,47 @@ NS_INLINE id CVectorLastObject(const CVector *vector) {
 //   ...
 // }
 //
-// All vector types must be defined at the bottom of this file with CTVectorDefine(t).
+// All vector types must be defined at the bottom of this file with
+// CTVectorDefine(t).
 
 #define CTVector(__type) CTVector_##__type
 
-#define CTVectorDefine(__type) \
-typedef struct { \
-    int capacity; \
-    __type *elements; \
-    int count; \
-} CTVector(__type)
+#define CTVectorDefine(__type)                                                 \
+  typedef struct {                                                             \
+    int capacity;                                                              \
+    __type *elements;                                                          \
+    int count;                                                                 \
+  } CTVector(__type)
 
-#define CTVectorCreate(__vector, __capacity) \
-do { \
-  __typeof(__vector) __v = __vector; \
-  \
-  __v->capacity = __capacity; \
-  __v->elements = (__typeof(__v->elements))iTermMalloc(__v->capacity * sizeof(*__v->elements)); \
-  __v->count = 0; \
-} while(0)
+#define CTVectorCreate(__vector, __capacity)                                   \
+  do {                                                                         \
+    __typeof(__vector) __v = __vector;                                         \
+                                                                               \
+    __v->capacity = __capacity;                                                \
+    __v->elements = (__typeof(__v->elements))iTermMalloc(                      \
+        __v->capacity * sizeof(*__v->elements));                               \
+    __v->count = 0;                                                            \
+  } while (0)
 
 #define CTVectorDestroy(__vector) CVectorDestroy((CVector *)(__vector))
 #define CTVectorGet(__vector, __index) (__vector)->elements[(__index)]
 #define CTVectorCount(__vector) (__vector)->count
-#define CTVectorSet(__vector, __index, __value) (__vector)->elements[(__index)] = (__value)
-#define CTVectorAppend(__vector, __value) do { \
-  __typeof(__vector) __v = (__vector); \
-  \
-  while (__v->count + 1 >= __v->capacity) { \
-    assert(__v->capacity >= 0 && __v->capacity < (1 << 27)); \
-    __v->capacity *= 2; \
-    __v->elements = iTermRealloc(__v->elements, __v->capacity, sizeof(*__v->elements)); \
-  } \
-  __v->elements[__v->count++] = (__value); \
-} while(0)
-#define CTVectorElementsFromIndex(__vector, __index) (__vector)->elements + __index
+#define CTVectorSet(__vector, __index, __value)                                \
+  (__vector)->elements[(__index)] = (__value)
+#define CTVectorAppend(__vector, __value)                                      \
+  do {                                                                         \
+    __typeof(__vector) __v = (__vector);                                       \
+                                                                               \
+    while (__v->count + 1 >= __v->capacity) {                                  \
+      assert(__v->capacity >= 0 && __v->capacity < (1 << 27));                 \
+      __v->capacity *= 2;                                                      \
+      __v->elements =                                                          \
+          iTermRealloc(__v->elements, __v->capacity, sizeof(*__v->elements));  \
+    }                                                                          \
+    __v->elements[__v->count++] = (__value);                                   \
+  } while (0)
+#define CTVectorElementsFromIndex(__vector, __index)                           \
+  (__vector)->elements + __index
 
 // Registry for typed vectors.
 CTVectorDefine(CGFloat);
@@ -125,5 +128,3 @@ CTVectorDefine(short);
 CTVectorDefine(char);
 CTVectorDefine(NSInteger);
 CTVectorDefine(NSUInteger);
-
-

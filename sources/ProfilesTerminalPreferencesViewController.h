@@ -8,7 +8,8 @@
 
 #import "iTermProfilePreferencesBaseViewController.h"
 
-@interface ProfilesTerminalPreferencesViewController : iTermProfilePreferencesBaseViewController
+@interface ProfilesTerminalPreferencesViewController
+    : iTermProfilePreferencesBaseViewController
 
 - (void)layoutSubviewsForEditCurrentSessionMode;
 

@@ -10,8 +10,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermSearchHistory : NSObject
-@property (nonatomic, readonly) NSArray<NSString *> *queries;
-@property (nonatomic) NSInteger maximumCount;
+@property(nonatomic, readonly) NSArray<NSString *> *queries;
+@property(nonatomic) NSInteger maximumCount;
 
 + (instancetype)sharedInstance;
 - (void)addQuery:(NSString *)query;

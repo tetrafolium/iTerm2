@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class iTermPublisher;
 
-@protocol iTermPublisherDelegate<NSObject>
+@protocol iTermPublisherDelegate <NSObject>
 
 - (void)publisherDidChangeNumberOfSubscribers:(iTermPublisher *)publisher;
 
@@ -19,22 +19,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermPublisher<PayloadType> : NSObject
 
-@property (nonatomic, weak) id<iTermPublisherDelegate> delegate;
-@property (nonatomic, readonly) NSTimeInterval timeIntervalSinceLastUpdate;
-@property (nonatomic, readonly) BOOL hasAnySubscribers;
-@property (nonatomic, nullable, readonly) NSArray<PayloadType> *historicalValues;
+@property(nonatomic, weak) id<iTermPublisherDelegate> delegate;
+@property(nonatomic, readonly) NSTimeInterval timeIntervalSinceLastUpdate;
+@property(nonatomic, readonly) BOOL hasAnySubscribers;
+@property(nonatomic, nullable, readonly) NSArray<PayloadType> *historicalValues;
 
 - (instancetype)initWithCapacity:(NSInteger)capacity NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (void)publish:(PayloadType)payload;
 
-- (void)addSubscriber:(id)subscriber
-    block:(void (^)(PayloadType payload))block;
+- (void)addSubscriber:(id)subscriber block:(void (^)(PayloadType payload))block;
 
 - (void)removeSubscriber:(id)subscriber;
 
 @end
 
 NS_ASSUME_NONNULL_END
-

@@ -5,8 +5,8 @@
 //  Created by George Nachman on 10/8/17.
 //
 
-#import <Foundation/Foundation.h>
 #import "iTermMetalDriver.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class PTYTextView;
 
 NS_CLASS_AVAILABLE(10_11, NA)
-@protocol iTermMetalGlueDelegate<NSObject>
+@protocol iTermMetalGlueDelegate <NSObject>
 - (void)metalGlueDidDrawFrameAndNeedsRedraw:(BOOL)redrawAsap;
 - (CGContextRef)metalGlueContext;
 - (NSImage *)metalGlueBackgroundImage;
@@ -25,11 +25,11 @@ NS_CLASS_AVAILABLE(10_11, NA)
 @end
 
 NS_CLASS_AVAILABLE(10_11, NA)
-@interface iTermMetalGlue : NSObject<iTermMetalDriverDataSource>
+@interface iTermMetalGlue : NSObject <iTermMetalDriverDataSource>
 
-@property (nullable, nonatomic, strong) PTYTextView *textView;
-@property (nonatomic, strong) VT100Screen *screen;
-@property (nonatomic, weak) id<iTermMetalGlueDelegate> delegate;
+@property(nullable, nonatomic, strong) PTYTextView *textView;
+@property(nonatomic, strong) VT100Screen *screen;
+@property(nonatomic, weak) id<iTermMetalGlueDelegate> delegate;
 
 @end
 

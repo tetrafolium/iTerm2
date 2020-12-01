@@ -15,9 +15,11 @@
 // Prefix of error message when connecting client is outdated.
 extern NSString *const iTermWebSocketConnectionLibraryVersionTooOldString;
 
-@protocol iTermWebSocketConnectionDelegate<NSObject>
-- (void)webSocketConnectionDidTerminate:(iTermWebSocketConnection *)webSocketConnection;
-- (void)webSocketConnection:(iTermWebSocketConnection *)webSocketConnection didReadFrame:(iTermWebSocketFrame *)frame;
+@protocol iTermWebSocketConnectionDelegate <NSObject>
+- (void)webSocketConnectionDidTerminate:
+    (iTermWebSocketConnection *)webSocketConnection;
+- (void)webSocketConnection:(iTermWebSocketConnection *)webSocketConnection
+               didReadFrame:(iTermWebSocketFrame *)frame;
 @end
 
 @interface iTermWebSocketConnection : NSObject
@@ -30,18 +32,17 @@ extern NSString *const iTermWebSocketConnectionLibraryVersionTooOldString;
 @property(nonatomic, readonly) NSString *guid;
 
 + (instancetype)newWebSocketConnectionForRequest:(NSURLRequest *)request
-    connection:(iTermHTTPConnection *)connection
-    reason:(out NSString **)reason;
+                                      connection:
+                                          (iTermHTTPConnection *)connection
+                                          reason:(out NSString **)reason;
 
 - (instancetype)init NS_UNAVAILABLE;
 
 - (void)handleRequest:(NSURLRequest *)request
-    completion:(void (^)(void))completion;
-- (void)closeWithCompletion:(void (^)(void))completion;  // Send close frame
-- (void)abortWithCompletion:(void (^)(void))completion;  // Close TCP connection
-- (void)sendBinary:(NSData *)binaryData
-    completion:(void (^)(void))completion;
-- (void)sendText:(NSString *)text
-    completion:(void (^)(void))completion;
+           completion:(void (^)(void))completion;
+- (void)closeWithCompletion:(void (^)(void))completion; // Send close frame
+- (void)abortWithCompletion:(void (^)(void))completion; // Close TCP connection
+- (void)sendBinary:(NSData *)binaryData completion:(void (^)(void))completion;
+- (void)sendText:(NSString *)text completion:(void (^)(void))completion;
 
 @end

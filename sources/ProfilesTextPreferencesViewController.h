@@ -8,6 +8,7 @@
 
 #import "iTermProfilePreferencesBaseViewController.h"
 
-@interface ProfilesTextPreferencesViewController : iTermProfilePreferencesBaseViewController
+@interface ProfilesTextPreferencesViewController
+    : iTermProfilePreferencesBaseViewController
 
 @end

@@ -22,11 +22,12 @@
  **  along with this program; if not, write to the Free Software
  */
 
-#import <Cocoa/Cocoa.h>
-#import "ProfileListView.h"
 #import "FutureMethods.h"
+#import "ProfileListView.h"
+#import <Cocoa/Cocoa.h>
 
-@interface iTermProfilesWindowController : NSWindowController <ProfileListViewDelegate, NSWindowDelegate>
+@interface iTermProfilesWindowController
+    : NSWindowController <ProfileListViewDelegate, NSWindowDelegate>
 
 + (instancetype)sharedInstance;
 
@@ -38,7 +39,7 @@
 - (void)profileTableSelectionDidChange:(id)profileTable;
 - (void)profileTableSelectionWillChange:(id)profileTable;
 - (void)profileTableRowSelected:(id)profileTable;
-- (NSMenu*)profileTable:(id)profileTable menuForEvent:(NSEvent*)theEvent;
+- (NSMenu *)profileTable:(id)profileTable menuForEvent:(NSEvent *)theEvent;
 - (IBAction)editBookmarks:(id)sender;
 - (IBAction)closeAfterOpeningChanged:(id)sender;
 - (IBAction)newTabsInNewWindow:(id)sender;

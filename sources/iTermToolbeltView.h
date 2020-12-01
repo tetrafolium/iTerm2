@@ -1,8 +1,8 @@
 #import <Cocoa/Cocoa.h>
 
 #import "FutureMethods.h"
-#import "iTermToolWrapper.h"
 #import "PTYSplitView.h"
+#import "iTermToolWrapper.h"
 
 @protocol PTYSplitViewDelegate;
 @class ToolCapturedOutputView;
@@ -25,7 +25,8 @@ extern NSString *const iTermToolbeltDidRegisterDynamicToolNotification;
 // Notification posted when all windows should hide their toolbelts.
 extern NSString *const kToolbeltShouldHide;
 
-@interface iTermToolbeltView : NSView <PTYSplitViewDelegate, ToolWrapperDelegate>
+@interface iTermToolbeltView
+    : NSView <PTYSplitViewDelegate, ToolWrapperDelegate>
 
 @property(nonatomic, assign) id<iTermToolbeltViewDelegate> delegate;
 @property(nonatomic, readonly) ToolDirectoriesView *directoriesView;
@@ -45,9 +46,13 @@ extern NSString *const kToolbeltShouldHide;
 + (int)numberOfVisibleTools;
 + (BOOL)shouldShowTool:(NSString *)name;
 + (NSArray<NSString *> *)builtInToolNames;
-+ (void)registerDynamicToolWithIdentifier:(NSString *)identifier name:(NSString *)name URL:(NSString *)url revealIfAlreadyRegistered:(BOOL)revealIfAlreadyRegistered;
++ (void)registerDynamicToolWithIdentifier:(NSString *)identifier
+                                     name:(NSString *)name
+                                      URL:(NSString *)url
+                revealIfAlreadyRegistered:(BOOL)revealIfAlreadyRegistered;
 
-- (instancetype)initWithFrame:(NSRect)frame delegate:(id<iTermToolbeltViewDelegate>)delegate;
+- (instancetype)initWithFrame:(NSRect)frame
+                     delegate:(id<iTermToolbeltViewDelegate>)delegate;
 
 // Stop timers, etc., releasing any internal references to self.
 - (void)shutdown;

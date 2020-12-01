@@ -17,9 +17,6 @@
 
 @end
 
-@interface ToolJobs : NSView <
-    ToolbeltTool,
-    NSComboBoxDelegate,
-    NSTableViewDelegate,
-    NSTableViewDataSource>
+@interface ToolJobs : NSView <ToolbeltTool, NSComboBoxDelegate,
+                              NSTableViewDelegate, NSTableViewDataSource>
 @end

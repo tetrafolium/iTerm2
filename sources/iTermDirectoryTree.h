@@ -11,7 +11,7 @@
 @class iTermDirectoryTreeNode;
 
 @interface iTermDirectoryTree : NSObject {
-    iTermDirectoryTreeNode *_root;
+  iTermDirectoryTreeNode *_root;
 }
 
 + (NSMutableArray *)attributedComponentsInPath:(NSAttributedString *)path;

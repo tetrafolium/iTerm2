@@ -11,12 +11,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class iTermUntitledWindowStateMachine;
 
-@protocol iTermUntitledWindowStateMachineDelegate<NSObject>
-- (void)untitledWindowStateMachineCreateNewWindow:(iTermUntitledWindowStateMachine *)sender;
+@protocol iTermUntitledWindowStateMachineDelegate <NSObject>
+- (void)untitledWindowStateMachineCreateNewWindow:
+    (iTermUntitledWindowStateMachine *)sender;
 @end
 
 @interface iTermUntitledWindowStateMachine : NSObject
-@property (nonatomic, weak) id<iTermUntitledWindowStateMachineDelegate> delegate;
+@property(nonatomic, weak) id<iTermUntitledWindowStateMachineDelegate> delegate;
 
 - (void)maybeOpenUntitledFile;
 - (void)didRestoreSomeWindows;

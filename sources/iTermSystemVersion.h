@@ -8,4 +8,4 @@
 
 #import <Cocoa/Cocoa.h>
 
-BOOL IsTouchBarAvailable(void);  // 10.12.2, but only if a selector exists.
+BOOL IsTouchBarAvailable(void); // 10.12.2, but only if a selector exists.

@@ -14,9 +14,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface iTermBroadcastPasswordHelper : NSObject
 
 + (void)tryToSendPassword:(NSString *)password
-    toSessions:(NSArray<PTYSession *> *)sessions
-    completion:(NSArray<PTYSession *> *(^)(NSArray<PTYSession *> *okSessions,
-    NSArray<PTYSession *> *problemSessions))completion;
+               toSessions:(NSArray<PTYSession *> *)sessions
+               completion:
+                   (NSArray<PTYSession *> * (^)(
+                       NSArray<PTYSession *> *okSessions,
+                       NSArray<PTYSession *> *problemSessions))completion;
 
 - (instancetype)init NS_UNAVAILABLE;
 

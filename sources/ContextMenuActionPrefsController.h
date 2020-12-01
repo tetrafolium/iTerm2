@@ -6,18 +6,18 @@
 //  Copyright 2011 Georgetech. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "FutureMethods.h"
+#import <Cocoa/Cocoa.h>
 
 @class VT100RemoteHost;
 
 typedef NS_ENUM(NSInteger, ContextMenuActions) {
-    kOpenFileContextMenuAction,
-    kOpenUrlContextMenuAction,
-    kRunCommandContextMenuAction,
-    kRunCoprocessContextMenuAction,
-    kSendTextContextMenuAction,
-    kRunCommandInWindowContextMenuAction,
+  kOpenFileContextMenuAction,
+  kOpenUrlContextMenuAction,
+  kRunCommandContextMenuAction,
+  kRunCoprocessContextMenuAction,
+  kSendTextContextMenuAction,
+  kRunCommandInWindowContextMenuAction,
 };
 
 @protocol ContextMenuActionPrefsDelegate <NSObject>
@@ -26,24 +26,24 @@ typedef NS_ENUM(NSInteger, ContextMenuActions) {
 
 @end
 
+@interface ContextMenuActionPrefsController
+    : NSWindowController <NSWindowDelegate, NSTableViewDelegate,
+                          NSTableViewDataSource>
 
-@interface ContextMenuActionPrefsController : NSWindowController <
-    NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource>
-
-@property (nonatomic, weak) id<ContextMenuActionPrefsDelegate> delegate;
-@property (nonatomic) BOOL hasSelection;
+@property(nonatomic, weak) id<ContextMenuActionPrefsDelegate> delegate;
+@property(nonatomic) BOOL hasSelection;
 
 + (ContextMenuActions)actionForActionDict:(NSDictionary *)dict;
 
 + (NSString *)titleForActionDict:(NSDictionary *)dict
-    withCaptureComponents:(NSArray *)components
-    workingDirectory:(NSString *)workingDirectory
-    remoteHost:(VT100RemoteHost *)remoteHost;
+           withCaptureComponents:(NSArray *)components
+                workingDirectory:(NSString *)workingDirectory
+                      remoteHost:(VT100RemoteHost *)remoteHost;
 
 + (NSString *)parameterForActionDict:(NSDictionary *)dict
-    withCaptureComponents:(NSArray *)components
-    workingDirectory:(NSString *)workingDirectory
-    remoteHost:(VT100RemoteHost *)remoteHost;
+               withCaptureComponents:(NSArray *)components
+                    workingDirectory:(NSString *)workingDirectory
+                          remoteHost:(VT100RemoteHost *)remoteHost;
 
 - (IBAction)ok:(id)sender;
 - (void)setActions:(NSArray *)newActions;

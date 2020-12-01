@@ -7,14 +7,13 @@
 
 #import <AppKit/AppKit.h>
 
-
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface NSIndexSet (iTerm)
 
-@property (nonatomic, readonly) NSArray<NSNumber *> *it_array;
+@property(nonatomic, readonly) NSArray<NSNumber *> *it_array;
 
 + (instancetype)it_indexSetWithIndexesInRange:(NSRange)range;
 

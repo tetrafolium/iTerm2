@@ -6,11 +6,11 @@
 //
 //
 
-#import <Foundation/Foundation.h>
 #import "iTermShortcut.h"
 #import "iTermWeakReference.h"
+#import <Foundation/Foundation.h>
 
-@protocol iTermHotKeyNavigableSession<NSObject, iTermWeaklyReferenceable>
+@protocol iTermHotKeyNavigableSession <NSObject, iTermWeaklyReferenceable>
 - (void)sessionHotkeyDidNavigateToSession:(iTermShortcut *)shortcut;
 - (BOOL)sessionHotkeyIsAlreadyFirstResponder;
 - (BOOL)sessionHotkeyIsAlreadyActiveInNonkeyWindow;
@@ -28,7 +28,8 @@
 + (instancetype)sharedInstance;
 
 - (void)removeSession:(id<iTermHotKeyNavigableSession>)session;
-- (void)setShortcut:(iTermShortcut *)shortcut forSession:(id<iTermHotKeyNavigableSession>)session;
+- (void)setShortcut:(iTermShortcut *)shortcut
+         forSession:(id<iTermHotKeyNavigableSession>)session;
 - (iTermShortcut *)shortcutForSession:(id<iTermHotKeyNavigableSession>)session;
 
 @end

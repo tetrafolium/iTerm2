@@ -11,19 +11,20 @@
 
 @interface iTermSyntheticDirectory : NSObject
 // Something like "/bar"
-@property (nonatomic, readonly) NSString *root;
+@property(nonatomic, readonly) NSString *root;
 // Something like "/System/Volumes/Data/bar"
-@property (nonatomic, readonly) NSString *target;
+@property(nonatomic, readonly) NSString *target;
 
-- (instancetype)initWithRoot:(NSString *)root target:(NSString *)target NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithRoot:(NSString *)root
+                      target:(NSString *)target NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (NSString *)pathByReplacingPrefixWithSyntheticRoot:(NSString *)dir;
 @end
 
-@interface iTermSyntheticConfParser()
-@property (nonatomic, readonly) NSArray<iTermSyntheticDirectory *> *syntheticDirectories;
+@interface iTermSyntheticConfParser ()
+@property(nonatomic, readonly)
+    NSArray<iTermSyntheticDirectory *> *syntheticDirectories;
 
 - (instancetype)initPrivate NS_DESIGNATED_INITIALIZER;
 @end
-

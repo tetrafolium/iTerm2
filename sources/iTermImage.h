@@ -10,7 +10,8 @@
 
 @interface iTermImage : NSObject
 
-// For animated gifs, delays is 1:1 with images. For non-animated images, delays is empty.
+// For animated gifs, delays is 1:1 with images. For non-animated images, delays
+// is empty.
 @property(nonatomic, readonly) NSMutableArray<NSNumber *> *delays;
 @property(nonatomic, readonly) NSSize size;
 @property(nonatomic, readonly) NSMutableArray<NSImage *> *images;

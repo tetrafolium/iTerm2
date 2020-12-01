@@ -5,14 +5,14 @@
 //  Created by George Nachman on 8/1/18.
 //
 
-#import <Foundation/Foundation.h>
 #import "CVector.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class iTermEchoProbe;
 
-@protocol iTermEchoProbeDelegate<NSObject>
+@protocol iTermEchoProbeDelegate <NSObject>
 
 - (void)echoProbe:(iTermEchoProbe *)echoProbe writeData:(NSData *)data;
 - (void)echoProbe:(iTermEchoProbe *)echoProbe writeString:(NSString *)string;
@@ -25,11 +25,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermEchoProbe : NSObject
 
-@property (nonatomic, weak) id<iTermEchoProbeDelegate> delegate;
-@property (nonatomic, readonly) BOOL isActive;
+@property(nonatomic, weak) id<iTermEchoProbeDelegate> delegate;
+@property(nonatomic, readonly) BOOL isActive;
 
 - (void)beginProbeWithBackspace:(NSData *)backspaceData
-    password:(NSString *)password;
+                       password:(NSString *)password;
 - (void)updateEchoProbeStateWithTokenCVector:(CVector *)vector;
 - (void)enterPassword;
 

@@ -6,15 +6,15 @@
 //  Copyright 2010 George Nachman. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "PseudoTerminal.h"
 #import "WindowControllerInterface.h"
+#import <Cocoa/Cocoa.h>
 
 @interface FakeWindow : NSObject <WindowControllerInterface>
 
-
-- (instancetype)initFromRealWindow:(NSWindowController<iTermWindowController> *)aTerm
-    session:(PTYSession*)aSession;
+- (instancetype)initFromRealWindow:
+                    (NSWindowController<iTermWindowController> *)aTerm
+                           session:(PTYSession *)aSession;
 
 // PseudoTerminal should call this after adding the session to its tab view.
 - (void)rejoin:(NSWindowController<iTermWindowController> *)aTerm;

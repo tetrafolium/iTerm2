@@ -26,22 +26,22 @@
  **  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-
-#import <Cocoa/Cocoa.h>
 #import "DVRBuffer.h"
+#import <Cocoa/Cocoa.h>
 
 @interface DVRDecoder : NSObject
 
 @property(nonatomic, readonly) long long timestamp;
 
-- (instancetype)initWithBuffer:(DVRBuffer*)buffer;
+- (instancetype)initWithBuffer:(DVRBuffer *)buffer;
 
-// Jump to a given timestamp, or the next available frame. Returns true on success.
-// Returns false if timestamp is later than the last timestamp or there are no frames.
+// Jump to a given timestamp, or the next available frame. Returns true on
+// success. Returns false if timestamp is later than the last timestamp or there
+// are no frames.
 - (BOOL)seek:(long long)timestamp;
 
 // Accessors for the most recent frame.
-- (char*)decodedFrame;
+- (char *)decodedFrame;
 - (int)length;
 - (DVRFrameInfo)info;
 
@@ -55,4 +55,3 @@
 - (void)invalidateIndex:(long long)i;
 
 @end
-

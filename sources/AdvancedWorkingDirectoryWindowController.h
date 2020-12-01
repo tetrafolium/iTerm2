@@ -6,10 +6,11 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
 #import "ProfileModel.h"
+#import <Cocoa/Cocoa.h>
 
-@interface AdvancedWorkingDirectoryWindowController : NSWindowController <NSWindowDelegate>
+@interface AdvancedWorkingDirectoryWindowController
+    : NSWindowController <NSWindowDelegate>
 
 @property(nonatomic, copy) Profile *profile;
 

@@ -14,26 +14,33 @@
 
 // Creates an image context and runs block. Do drawing into the current
 // graphics context in the block. Returns the resulting image.
-+ (instancetype)imageOfSize:(NSSize)size drawBlock:(void (^ NS_NOESCAPE)(void))block;
++ (instancetype)imageOfSize:(NSSize)size
+                  drawBlock:(void (^NS_NOESCAPE)(void))block;
 
-+ (instancetype)imageWithRawData:(NSData *)data
-    size:(NSSize)size
-    bitsPerSample:(NSInteger)bitsPerSample  // e.g. 8 or 1
-    samplesPerPixel:(NSInteger)samplesPerPixel  // e.g. 4 (RGBA) or 1
-    hasAlpha:(BOOL)hasAlpha
-    colorSpaceName:(NSString *)colorSpaceName;  // e.g., NSCalibratedRGBColorSpace
++ (instancetype)
+    imageWithRawData:(NSData *)data
+                size:(NSSize)size
+       bitsPerSample:(NSInteger)bitsPerSample   // e.g. 8 or 1
+     samplesPerPixel:(NSInteger)samplesPerPixel // e.g. 4 (RGBA) or 1
+            hasAlpha:(BOOL)hasAlpha
+      colorSpaceName:
+          (NSString *)colorSpaceName; // e.g., NSCalibratedRGBColorSpace
 
-// Load a file and create a low DPI version by downscaling it and use the file itself as the
-// high DPI representation.
-+ (NSImage *)it_imageWithScaledBitmapFromFile:(NSString *)file pointSize:(NSSize)pointSize;
+// Load a file and create a low DPI version by downscaling it and use the file
+// itself as the high DPI representation.
++ (NSImage *)it_imageWithScaledBitmapFromFile:(NSString *)file
+                                    pointSize:(NSSize)pointSize;
 
 // Returns "gif", "png", etc., or nil.
 + (NSString *)extensionForUniformType:(NSString *)type;
 
-+ (NSImage *)it_imageForSymbolName:(NSString *)name accessibilityDescription:(NSString *)description NS_AVAILABLE_MAC(10_16);
++ (NSImage *)it_imageForSymbolName:(NSString *)name
+          accessibilityDescription:(NSString *)description
+    NS_AVAILABLE_MAC(10_16);
 + (NSImage *)it_hamburgerForClass:(Class)theClass;
 + (instancetype)it_imageNamed:(NSImageName)name forClass:(Class)theClass;
-+ (instancetype)it_cacheableImageNamed:(NSImageName)name forClass:(Class)theClass;
++ (instancetype)it_cacheableImageNamed:(NSImageName)name
+                              forClass:(Class)theClass;
 
 // Returns an image blurred by repeated box blurs with |radius| iterations.
 - (NSImage *)blurredImageWithRadius:(int)radius;
@@ -53,13 +60,14 @@
 - (void)saveAsPNGTo:(NSString *)filename;
 
 - (NSImage *)it_imageWithTintColor:(NSColor *)tintColor;
-- (NSImage *)it_cachingImageWithTintColor:(NSColor *)tintColor key:(const void *)key;
+- (NSImage *)it_cachingImageWithTintColor:(NSColor *)tintColor
+                                      key:(const void *)key;
 - (NSImage *)it_verticallyFlippedImage;
 - (NSImage *)it_horizontallyFlippedImage;
 - (NSImage *)it_imageOfSize:(NSSize)size;
 
-// Returns an image of size `size`, with the receiver zoomed and cropped so it at least fills the
-// resulting image.
+// Returns an image of size `size`, with the receiver zoomed and cropped so it
+// at least fills the resulting image.
 - (NSImage *)it_imageFillingSize:(NSSize)size;
 
 @end

@@ -8,15 +8,16 @@
 #import <Cocoa/Cocoa.h>
 
 typedef struct {
-    NSInteger currentIndex;
-    NSInteger numberOfResults;
+  NSInteger currentIndex;
+  NSInteger numberOfResults;
 } iTermSearchFieldCounts;
 
 @class iTermSearchFieldCell;
 
-@protocol iTermSearchFieldControl<NSObject>
+@protocol iTermSearchFieldControl <NSObject>
 - (BOOL)searchFieldControlHasCounts:(iTermSearchFieldCell *)cell;
-- (iTermSearchFieldCounts)searchFieldControlGetCounts:(iTermSearchFieldCell *)cell;
+- (iTermSearchFieldCounts)searchFieldControlGetCounts:
+    (iTermSearchFieldCell *)cell;
 @end
 
 @interface iTermSearchFieldCell : NSSearchFieldCell
@@ -33,4 +34,3 @@ typedef struct {
 
 @interface iTermMiniSearchFieldCell : iTermSearchFieldCell
 @end
-

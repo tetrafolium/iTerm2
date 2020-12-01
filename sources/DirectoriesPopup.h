@@ -6,8 +6,8 @@
 //
 //
 
-#import "iTermPopupWindowController.h"
 #import "PopupEntry.h"
+#import "iTermPopupWindowController.h"
 
 @class iTermRecentDirectoryMO;
 @class VT100RemoteHost;

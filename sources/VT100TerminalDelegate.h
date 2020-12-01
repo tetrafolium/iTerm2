@@ -6,43 +6,44 @@
 //
 //
 
-#import <Foundation/Foundation.h>
 #import "VT100InlineImageHelper.h"
 #import "VT100Token.h"
+#import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSInteger, MouseMode) {
-    MOUSE_REPORTING_NONE = -1,
-    MOUSE_REPORTING_NORMAL = 0,
-    MOUSE_REPORTING_HIGHLIGHT = 1,
-    MOUSE_REPORTING_BUTTON_MOTION = 2,
-    MOUSE_REPORTING_ALL_MOTION = 3,
+  MOUSE_REPORTING_NONE = -1,
+  MOUSE_REPORTING_NORMAL = 0,
+  MOUSE_REPORTING_HIGHLIGHT = 1,
+  MOUSE_REPORTING_BUTTON_MOTION = 2,
+  MOUSE_REPORTING_ALL_MOTION = 3,
 };
 
 typedef NS_ENUM(NSInteger, VT100TerminalSemanticTextType) {
-    kVT100TerminalSemanticTextTypeFilename = 1,
-    kVT100TerminalSemanticTextTypeDirectory = 2,
-    kVT100TerminalSemanticTextTypeProcessId = 3,
+  kVT100TerminalSemanticTextTypeFilename = 1,
+  kVT100TerminalSemanticTextTypeDirectory = 2,
+  kVT100TerminalSemanticTextTypeProcessId = 3,
 
-    kVT100TerminalSemanticTextTypeMax
+  kVT100TerminalSemanticTextTypeMax
 };
 
 typedef NS_ENUM(NSUInteger, VT100AttentionRequestType) {
-    VT100AttentionRequestTypeStartBouncingDockIcon,
-    VT100AttentionRequestTypeStopBouncingDockIcon,
-    VT100AttentionRequestTypeBounceOnceDockIcon,
-    VT100AttentionRequestTypeFireworks,
-    VT100AttentionRequestTypeFlash
+  VT100AttentionRequestTypeStartBouncingDockIcon,
+  VT100AttentionRequestTypeStopBouncingDockIcon,
+  VT100AttentionRequestTypeBounceOnceDockIcon,
+  VT100AttentionRequestTypeFireworks,
+  VT100AttentionRequestTypeFlash
 };
 
 typedef NS_ENUM(int, VT100TerminalColorIndex) {
-    VT100TerminalColorIndexText = -1,
-    VT100TerminalColorIndexBackground = -2,
-    VT100TerminalColorIndexFirst8BitColorIndex = 0,
-    VT100TerminalColorIndexLast8BitColorIndex = 255
+  VT100TerminalColorIndexText = -1,
+  VT100TerminalColorIndexBackground = -2,
+  VT100TerminalColorIndexFirst8BitColorIndex = 0,
+  VT100TerminalColorIndexLast8BitColorIndex = 255
 };
 
 @protocol VT100TerminalDelegate <NSObject>
-// Append a string at the cursor's position and advance the cursor, scrolling if necessary.
+// Append a string at the cursor's position and advance the cursor, scrolling if
+// necessary.
 - (void)terminalAppendString:(NSString *)string;
 - (void)terminalAppendAsciiData:(AsciiData *)asciiData;
 
@@ -84,10 +85,12 @@ typedef NS_ENUM(int, VT100TerminalColorIndex) {
 // Replaces the screen contents with a test pattern.
 - (void)terminalShowTestPattern;
 
-// Returns the cursor's position relative to the scroll region's origin. 1-based.
+// Returns the cursor's position relative to the scroll region's origin.
+// 1-based.
 - (int)terminalRelativeCursorX;
 
-// Returns the cursor's position relative to the scroll region's origin. 1-based.
+// Returns the cursor's position relative to the scroll region's origin.
+// 1-based.
 - (int)terminalRelativeCursorY;
 
 // Set the top/bottom scroll region. 0-based. Inclusive.
@@ -103,8 +106,8 @@ typedef NS_ENUM(int, VT100TerminalColorIndex) {
 // Erase all characters before the cursor and/or after the cursor.
 - (void)terminalEraseInDisplayBeforeCursor:(BOOL)before afterCursor:(BOOL)after;
 
-// Erase all lines before/after the cursor. If erasing both, the screen is copied into the
-// scrollback buffer.
+// Erase all lines before/after the cursor. If erasing both, the screen is
+// copied into the scrollback buffer.
 - (void)terminalEraseLineBeforeCursor:(BOOL)before afterCursor:(BOOL)after;
 
 // Set a tabstop at the current cursor column.
@@ -130,7 +133,7 @@ typedef NS_ENUM(int, VT100TerminalColorIndex) {
 
 // Returns the current cursor style as a DECSCUSR param.
 - (void)terminalGetCursorType:(ITermCursorType *)cursorTypeOut
-    blinking:(BOOL *)blinking;
+                     blinking:(BOOL *)blinking;
 
 // Sets the left/right scroll region.
 - (void)terminalSetLeftMargin:(int)scrollLeft rightMargin:(int)scrollRight;
@@ -157,13 +160,15 @@ typedef NS_ENUM(int, VT100TerminalColorIndex) {
 // Sets the cursor's y coordinate. 1-based.
 - (void)terminalSetCursorY:(int)y;
 
-// Erases some number of characters after the cursor, replacing them with blanks.
+// Erases some number of characters after the cursor, replacing them with
+// blanks.
 - (void)terminalEraseCharactersAfterCursor:(int)j;
 
 // Send the current print buffer to the printer.
 - (void)terminalPrintBuffer;
 
-// Future input (linefeeds, carriage returns, and appended strings) should be saved for printing and not displayed.
+// Future input (linefeeds, carriage returns, and appended strings) should be
+// saved for printing and not displayed.
 - (void)terminalBeginRedirectingToPrintBuffer;
 
 // Send the current screen contents to the printer.
@@ -178,7 +183,8 @@ typedef NS_ENUM(int, VT100TerminalColorIndex) {
 // Pastes a string to the shell.
 - (void)terminalPasteString:(NSString *)string;
 
-// Inserts |n| blank chars after the cursor, moving chars to the right of them over.
+// Inserts |n| blank chars after the cursor, moving chars to the right of them
+// over.
 - (void)terminalInsertEmptyCharsAtCursor:(int)n;
 
 // Inserts |n| blank lines after the cursor, moving lines below them down.
@@ -235,13 +241,15 @@ typedef NS_ENUM(int, VT100TerminalColorIndex) {
 // Restores the window/icon (depending on isWindow) title from a stack.
 - (void)terminalPopCurrentTitleForWindow:(BOOL)isWindow;
 
-// Posts a message to Notification center. Returns YES if the message was posted.
+// Posts a message to Notification center. Returns YES if the message was
+// posted.
 - (BOOL)terminalPostUserNotification:(NSString *)message;
 
 // Enters Tmux mode.
 - (void)terminalStartTmuxModeWithDCSIdentifier:(NSString *)dcsID;
 
-// Handles input during tmux mode. A single line of input will be in the token's string.
+// Handles input during tmux mode. A single line of input will be in the token's
+// string.
 - (void)terminalHandleTmuxInput:(VT100Token *)token;
 
 // Returns the size of the terminal in cells.
@@ -283,7 +291,8 @@ typedef NS_ENUM(int, VT100TerminalColorIndex) {
 // Set the proxy icon of current session window.
 - (void)terminalSetProxyIcon:(NSString *)value;
 
-// Erase the screen (preserving the line the cursor is on) and the scrollback buffer.
+// Erase the screen (preserving the line the cursor is on) and the scrollback
+// buffer.
 - (void)terminalClearBuffer;
 
 // Called when the current directory may have changed.
@@ -299,8 +308,8 @@ typedef NS_ENUM(int, VT100TerminalColorIndex) {
 // Set a note. Value is message or length|message or x|y|length|message
 - (void)terminalAddNote:(NSString *)value show:(BOOL)show;
 
-// Sets the current pasteboard. Legal values are ruler, find, and font. Other values, including
-// empty string, are treated as the default pasteboard.
+// Sets the current pasteboard. Legal values are ruler, find, and font. Other
+// values, including empty string, are treated as the default pasteboard.
 - (void)terminalSetPasteboard:(NSString *)value;
 - (void)terminalCopyBufferToPasteboard;
 - (BOOL)terminalIsAppendingToPasteboard;
@@ -308,17 +317,16 @@ typedef NS_ENUM(int, VT100TerminalColorIndex) {
 
 // Download of a base64-encoded file
 // nil = name unknown, -1 = size unknown. Return YES to accept it.
-- (BOOL)terminalWillReceiveFileNamed:(NSString *)name
-    ofSize:(NSInteger)size;
+- (BOOL)terminalWillReceiveFileNamed:(NSString *)name ofSize:(NSInteger)size;
 
 - (BOOL)terminalWillReceiveInlineFileNamed:(NSString *)name
-    ofSize:(NSInteger)size
-    width:(int)width
-    units:(VT100TerminalUnits)widthUnits
-    height:(int)height
-    units:(VT100TerminalUnits)heightUnits
-    preserveAspectRatio:(BOOL)preserveAspectRatio
-    inset:(NSEdgeInsets)inset;
+                                    ofSize:(NSInteger)size
+                                     width:(int)width
+                                     units:(VT100TerminalUnits)widthUnits
+                                    height:(int)height
+                                     units:(VT100TerminalUnits)heightUnits
+                       preserveAspectRatio:(BOOL)preserveAspectRatio
+                                     inset:(NSEdgeInsets)inset;
 
 // Download completed normally
 - (void)terminalDidFinishReceivingFile;
@@ -332,8 +340,9 @@ typedef NS_ENUM(int, VT100TerminalColorIndex) {
 // terminalDidReceiveBase64FileData: calls.
 - (void)terminalFileReceiptEndedUnexpectedly;
 
-// Begin sending a file upload (base64 filename + newline + base64 file + newline)
-// args are "multiple" (meaning multiple files are allowed) or "single".
+// Begin sending a file upload (base64 filename + newline + base64 file +
+// newline) args are "multiple" (meaning multiple files are allowed) or
+// "single".
 - (void)terminalRequestUpload:(NSString *)args;
 
 // Signal the user that the terminal wants attention.
@@ -350,7 +359,8 @@ typedef NS_ENUM(int, VT100TerminalColorIndex) {
 - (void)terminalSetSelectedTextColor:(NSColor *)color;
 - (void)terminalSetCursorColor:(NSColor *)color;
 - (void)terminalSetCursorTextColor:(NSColor *)color;
-- (void)terminalSetColorTableEntryAtIndex:(VT100TerminalColorIndex)n color:(NSColor *)color;
+- (void)terminalSetColorTableEntryAtIndex:(VT100TerminalColorIndex)n
+                                    color:(NSColor *)color;
 
 // Change the color tint of the current tab.
 - (void)terminalSetCurrentTabColor:(NSColor *)color;
@@ -421,8 +431,9 @@ typedef NS_ENUM(int, VT100TerminalColorIndex) {
 - (void)terminalWillStartLinkWithCode:(unsigned short)code;
 
 // Custom escape sequences
-- (void)terminalCustomEscapeSequenceWithParameters:(NSDictionary<NSString *, NSString *> *)parameters
-    payload:(NSString *)payload;
+- (void)terminalCustomEscapeSequenceWithParameters:
+            (NSDictionary<NSString *, NSString *> *)parameters
+                                           payload:(NSString *)payload;
 
 - (void)terminalRepeatPreviousCharacter:(int)times;
 

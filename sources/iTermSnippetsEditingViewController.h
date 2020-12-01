@@ -13,8 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermSnippetsEditingViewController : NSViewController
 
-- (void)defineControlsInContainer:(iTermPreferencesBaseViewController *)container
-    containerView:(NSView *)containerView;
+- (void)defineControlsInContainer:
+            (iTermPreferencesBaseViewController *)container
+                    containerView:(NSView *)containerView;
 
 @end
 

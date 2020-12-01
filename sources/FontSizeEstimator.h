@@ -26,20 +26,20 @@
  **  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-
 #import <Cocoa/Cocoa.h>
 
-
 @interface FontSizeEstimator : NSObject {
-    NSSize size;
-    double baseline;
+  NSSize size;
+  double baseline;
 }
 
-@property (nonatomic, assign) NSSize size;
+@property(nonatomic, assign) NSSize size;
 
-// Returns a text container and layout manager that are ready to measure a capital W.
+// Returns a text container and layout manager that are ready to measure a
+// capital W.
 + (NSTextContainer *)textContainer;
-+ (NSLayoutManager *)layoutManagerForFont:(NSFont *)aFont textContainer:(NSTextContainer *)textContainer;
++ (NSLayoutManager *)layoutManagerForFont:(NSFont *)aFont
+                            textContainer:(NSTextContainer *)textContainer;
 
 + (instancetype)fontSizeEstimatorForFont:(NSFont *)aFont;
 

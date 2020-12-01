@@ -6,14 +6,15 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
 #import "IntervalTree.h"
 #import "PTYNoteView.h"
+#import <Cocoa/Cocoa.h>
 
 // Post this when the note view's anchor has a chance to become centered.
-extern NSString * const PTYNoteViewControllerShouldUpdatePosition;
+extern NSString *const PTYNoteViewControllerShouldUpdatePosition;
 
-// Notification posted when we transition between [any note is visible] <-> [no notes are visible]
+// Notification posted when we transition between [any note is visible] <-> [no
+// notes are visible]
 extern NSString *const iTermAnnotationVisibilityDidChange;
 
 @class PTYNoteViewController;
@@ -23,16 +24,15 @@ extern NSString *const iTermAnnotationVisibilityDidChange;
 - (void)noteDidEndEditing:(PTYNoteViewController *)note;
 @end
 
-@interface PTYNoteViewController : NSViewController <
-    IntervalTreeObject,
-    NSTextViewDelegate,
-    PTYNoteViewDelegate> {
-    PTYNoteView *noteView_;
-    NSTextView *textView_;
-    NSScrollView *scrollView_;
-    NSPoint anchor_;
-    BOOL watchForUpdate_;
-    BOOL hidden_;
+@interface PTYNoteViewController
+    : NSViewController <IntervalTreeObject, NSTextViewDelegate,
+                        PTYNoteViewDelegate> {
+  PTYNoteView *noteView_;
+  NSTextView *textView_;
+  NSScrollView *scrollView_;
+  NSPoint anchor_;
+  BOOL watchForUpdate_;
+  BOOL hidden_;
 }
 
 @property(nonatomic, retain) PTYNoteView *noteView;

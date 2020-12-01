@@ -11,9 +11,9 @@
 #import "ITAddressBookMgr.h"
 
 typedef NS_ENUM(NSInteger, iTermRestorableSessionGroup) {
-    kiTermRestorableSessionGroupSession,
-    kiTermRestorableSessionGroupTab,
-    kiTermRestorableSessionGroupWindow
+  kiTermRestorableSessionGroupSession,
+  kiTermRestorableSessionGroupTab,
+  kiTermRestorableSessionGroupWindow
 };
 
 @class PTYSession;

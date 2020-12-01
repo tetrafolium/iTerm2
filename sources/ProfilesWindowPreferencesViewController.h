@@ -10,7 +10,8 @@
 
 CGFloat iTermMaxBlurRadius(void);
 
-@interface ProfilesWindowPreferencesViewController : iTermProfilePreferencesBaseViewController
+@interface ProfilesWindowPreferencesViewController
+    : iTermProfilePreferencesBaseViewController
 
 - (void)layoutSubviewsForEditCurrentSessionMode;
 

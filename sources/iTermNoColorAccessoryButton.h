@@ -14,6 +14,7 @@
 - (void)noColorChosen:(id)sender;
 @end
 
-// A button for use as an accessory in the color picker panel that selects "no color".
+// A button for use as an accessory in the color picker panel that selects "no
+// color".
 @interface iTermNoColorAccessoryButton : NSButton
 @end

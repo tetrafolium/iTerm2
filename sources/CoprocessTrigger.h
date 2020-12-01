@@ -6,9 +6,8 @@
 //  Copyright 2011 Georgetech. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "ScriptTrigger.h"
-
+#import <Cocoa/Cocoa.h>
 
 @interface CoprocessTrigger : Trigger
 

@@ -10,10 +10,12 @@
 
 @interface iTermDisclosableView : NSView
 
-@property (nonatomic, copy) void (^requestLayout)(void);
-@property (nonatomic, readonly) NSTextView *textView;
+@property(nonatomic, copy) void (^requestLayout)(void);
+@property(nonatomic, readonly) NSTextView *textView;
 
-- (instancetype)initWithFrame:(NSRect)frameRect prompt:(NSString *)prompt message:(NSString *)message NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithFrame:(NSRect)frameRect
+                       prompt:(NSString *)prompt
+                      message:(NSString *)message NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithFrame:(NSRect)frameRect NS_UNAVAILABLE;
 - (instancetype)initWithCoder:(NSCoder *)decoder NS_UNAVAILABLE;
@@ -21,10 +23,14 @@
 @end
 
 @interface iTermScrollingDisclosableView : iTermDisclosableView
-- (instancetype)initWithFrame:(NSRect)frameRect prompt:(NSString *)prompt message:(NSString *)message maximumHeight:(CGFloat)maximumHeight NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithFrame:(NSRect)frameRect prompt:(NSString *)prompt message:(NSString *)message NS_UNAVAILABLE;
+- (instancetype)initWithFrame:(NSRect)frameRect
+                       prompt:(NSString *)prompt
+                      message:(NSString *)message
+                maximumHeight:(CGFloat)maximumHeight NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithFrame:(NSRect)frameRect
+                       prompt:(NSString *)prompt
+                      message:(NSString *)message NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithFrame:(NSRect)frameRect NS_UNAVAILABLE;
 - (instancetype)initWithCoder:(NSCoder *)decoder NS_UNAVAILABLE;
 @end
-

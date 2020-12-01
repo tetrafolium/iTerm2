@@ -5,13 +5,14 @@
 //  Created by George Nachman on 7/5/18.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "iTermStatusBarComponentKnob.h"
+#import <Cocoa/Cocoa.h>
 #import <ColorPicker/ColorPicker.h>
 
-@interface iTermStatusBarKnobColorViewController : NSViewController<iTermStatusBarKnobViewController>
+@interface iTermStatusBarKnobColorViewController
+    : NSViewController <iTermStatusBarKnobViewController>
 
-@property (nonatomic, strong) IBOutlet NSTextField *label;
-@property (nonatomic) NSDictionary *value;
+@property(nonatomic, strong) IBOutlet NSTextField *label;
+@property(nonatomic) NSDictionary *value;
 
 @end
