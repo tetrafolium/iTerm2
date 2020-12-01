@@ -9,12 +9,13 @@
 
 @interface iTermAdvancedGPUSettingsViewController : NSViewController
 
-@property (nonatomic, strong) IBOutlet NSButton *disableWhenDisconnected;
-@property (nonatomic, strong) IBOutlet NSButton *preferIntegratedGPU;
-@property (nonatomic, strong) IBOutlet NSButton *maximizeThroughput;
+@property(nonatomic, strong) IBOutlet NSButton *disableWhenDisconnected;
+@property(nonatomic, strong) IBOutlet NSButton *preferIntegratedGPU;
+@property(nonatomic, strong) IBOutlet NSButton *maximizeThroughput;
 
 @end
 
 @interface iTermAdvancedGPUSettingsWindowController : NSWindowController
-@property (nonatomic, strong) IBOutlet iTermAdvancedGPUSettingsViewController *viewController;
+@property(nonatomic, strong)
+    IBOutlet iTermAdvancedGPUSettingsViewController *viewController;
 @end

@@ -11,7 +11,7 @@
 @class iTermScriptFunctionCall;
 @class iTermVariableScope;
 
-@protocol iTermObject<NSObject>
+@protocol iTermObject <NSObject>
 
 - (NSString *)description;
 - (iTermBuiltInFunctions *)objectMethodRegistry;
@@ -19,13 +19,10 @@
 
 @end
 
-void iTermCallMethodByIdentifier(NSString *identifier,
-                                 NSString *name,
+void iTermCallMethodByIdentifier(NSString *identifier, NSString *name,
                                  NSDictionary *args,
                                  void (^completion)(id, NSError *));
 
-void iTermCallMethodOnObject(id<iTermObject> object,
-                             NSString *name,
+void iTermCallMethodOnObject(id<iTermObject> object, NSString *name,
                              NSDictionary *args,
                              void (^completion)(id, NSError *));
-

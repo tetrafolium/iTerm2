@@ -11,5 +11,6 @@
 @class iTermWebSocketFrame;
 
 @interface iTermWebSocketFrameBuilder : NSObject
-- (void)addData:(NSData *)data frame:(void (^)(iTermWebSocketFrame *, BOOL *))frameBlock;
+- (void)addData:(NSData *)data
+          frame:(void (^)(iTermWebSocketFrame *, BOOL *))frameBlock;
 @end

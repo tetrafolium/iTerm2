@@ -1,7 +1,7 @@
-#import <Cocoa/Cocoa.h>
 #import "PTYTextViewDataSource.h"
 #import "VT100TerminalDelegate.h"
 #import "VT100Token.h"
+#import <Cocoa/Cocoa.h>
 
 @class VT100RemoteHost;
 @class VT100Screen;
@@ -28,7 +28,8 @@
 // Called when the screen's size changes.
 - (void)screenSizeDidChangeWithNewTopLineAt:(int)newTop;
 
-// A change was made to the screen's contents which could cause a trigger to fire.
+// A change was made to the screen's contents which could cause a trigger to
+// fire.
 - (void)screenTriggerableChangeDidOccur;
 
 // Called when the screen and terminal's attributes are reset
@@ -37,9 +38,10 @@
 // Terminal can change title
 - (BOOL)screenAllowTitleSetting;
 
-// Called after text was added to the current line. Can be used to check triggers.
+// Called after text was added to the current line. Can be used to check
+// triggers.
 - (void)screenDidAppendStringToCurrentLine:(NSString *)string
-    isPlainText:(BOOL)plainText;
+                               isPlainText:(BOOL)plainText;
 - (void)screenDidAppendAsciiDataToCurrentLine:(AsciiData *)asciiData;
 
 // Change the cursor's appearance.
@@ -47,10 +49,9 @@
 - (void)screenSetCursorType:(ITermCursorType)type;
 
 - (void)screenGetCursorType:(ITermCursorType *)cursorTypeOut
-    blinking:(BOOL *)blinking;
+                   blinking:(BOOL *)blinking;
 
 - (void)screenResetCursorTypeAndBlink;
-
 
 // Returns if the screen is permitted to resize the window.
 - (BOOL)screenShouldInitiateWindowResize;
@@ -83,7 +84,8 @@
 // Returns the top left pixel coordinate of the window.
 - (NSPoint)screenWindowTopLeftPixelCoordinate;
 
-// Delegate should move the window's top left point to the given screen coordinate.
+// Delegate should move the window's top left point to the given screen
+// coordinate.
 - (void)screenMoveWindowTopLeftPointTo:(NSPoint)point;
 
 // If flag is set, the window should be miniaturized; otherwise, deminiaturize.
@@ -110,13 +112,16 @@
 // Returns the rect in the view that is currently visible.
 - (NSSize)screenSize;
 
-// If the flag is set, push the current window title onto a stack; otherwise push the icon title.
+// If the flag is set, push the current window title onto a stack; otherwise
+// push the icon title.
 - (void)screenPushCurrentTitleForWindow:(BOOL)flag;
 
-// If the flag is set, pop the current window title from the stack; otherwise pop the icon title.
+// If the flag is set, pop the current window title from the stack; otherwise
+// pop the icon title.
 - (void)screenPopCurrentTitleForWindow:(BOOL)flag;
 
-// Returns the screen's number (in practice, this is the tab's number that cmd-N switches to).
+// Returns the screen's number (in practice, this is the tab's number that cmd-N
+// switches to).
 - (int)screenNumber;
 
 // Returns the window's index.
@@ -149,14 +154,16 @@
 // Request that the currently visible area of the screen be sent for printing.
 - (void)screenPrintVisibleArea;
 
-// Returns if iTermTabContentsChanged notifications should be published when the view is updated.
+// Returns if iTermTabContentsChanged notifications should be published when the
+// view is updated.
 - (BOOL)screenShouldSendContentsChangedNotification;
 
 // Returns whether terminal-generated notifications are allowed.
 - (BOOL)screenShouldPostTerminalGeneratedAlert;
 
 // Should this bell be ignored?
-- (BOOL)screenShouldIgnoreBellWhichIsAudible:(BOOL)audible visible:(BOOL)visible;
+- (BOOL)screenShouldIgnoreBellWhichIsAudible:(BOOL)audible
+                                     visible:(BOOL)visible;
 
 // PTYTextView deselect
 - (void)screenRemoveSelection;
@@ -187,7 +194,8 @@
 
 - (void)screenDisinterSession;
 
-- (void)screenGetWorkingDirectoryWithCompletion:(void (^)(NSString *workingDirectory))completion;
+- (void)screenGetWorkingDirectoryWithCompletion:
+    (void (^)(NSString *workingDirectory))completion;
 
 // Show/hide the cursor.
 - (void)screenSetCursorVisible:(BOOL)visible;
@@ -217,7 +225,9 @@
 - (BOOL)screenIsAppendingToPasteboard;
 - (void)screenAppendDataToPasteboard:(NSData *)data;
 
-- (void)screenWillReceiveFileNamed:(NSString *)name ofSize:(NSInteger)size preconfirmed:(BOOL)preconfirmed;
+- (void)screenWillReceiveFileNamed:(NSString *)name
+                            ofSize:(NSInteger)size
+                      preconfirmed:(BOOL)preconfirmed;
 - (void)screenDidFinishReceivingFile;
 - (void)screenDidFinishReceivingInlineFile;
 - (void)screenDidReceiveBase64FileData:(NSString *)data;
@@ -235,8 +245,9 @@
 
 - (void)screenCurrentHostDidChange:(VT100RemoteHost *)host;
 - (void)screenCurrentDirectoryDidChangeTo:(NSString *)newPath;
-- (void)screenDidReceiveCustomEscapeSequenceWithParameters:(NSDictionary<NSString *, NSString *> *)parameters
-    payload:(NSString *)payload;
+- (void)screenDidReceiveCustomEscapeSequenceWithParameters:
+            (NSDictionary<NSString *, NSString *> *)parameters
+                                                   payload:(NSString *)payload;
 - (CGFloat)screenBackingScaleFactor;
 
 // Ok to write to shell?
@@ -246,15 +257,16 @@
 // FinalTerm stuff
 - (void)screenCommandDidChangeWithRange:(VT100GridCoordRange)range;
 - (void)screenCommandDidEndWithRange:(VT100GridCoordRange)range;
-- (void)screenCommandDidExitWithCode:(int)code mark:(VT100ScreenMark *)maybeMark;
+- (void)screenCommandDidExitWithCode:(int)code
+                                mark:(VT100ScreenMark *)maybeMark;
 - (BOOL)screenShouldPlacePromptAtFirstColumn;
 
 - (NSString *)screenProfileName;
 
 - (void)screenLogWorkingDirectoryAtLine:(int)line
-    withDirectory:(NSString *)directory
-    pushed:(BOOL)pushed
-    timely:(BOOL)timely;
+                          withDirectory:(NSString *)directory
+                                 pushed:(BOOL)pushed
+                                 timely:(BOOL)timely;
 
 - (void)screenSuggestShellIntegrationUpgrade;
 - (void)screenDidDetectShell:(NSString *)shell;
@@ -278,11 +290,12 @@
 - (void)screenDidReceiveLineFeed;
 - (void)screenSoftAlternateScreenModeDidChange;
 - (void)screenReportKeyUpDidChange:(BOOL)reportKeyUp;
-- (BOOL)screenConfirmDownloadNamed:(NSString *)name canExceedSize:(NSInteger)limit;
+- (BOOL)screenConfirmDownloadNamed:(NSString *)name
+                     canExceedSize:(NSInteger)limit;
 - (BOOL)screenConfirmDownloadAllowed:(NSString *)name
-    size:(NSInteger)size
-    displayInline:(BOOL)displayInline
-    promptIfBig:(BOOL *)promptIfBig;
+                                size:(NSInteger)size
+                       displayInline:(BOOL)displayInline
+                         promptIfBig:(BOOL *)promptIfBig;
 - (BOOL)screenShouldClearScrollbackBuffer;
 - (VT100GridRange)screenRangeOfVisibleLines;
 

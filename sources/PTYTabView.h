@@ -24,30 +24,34 @@
  **  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#import <Foundation/Foundation.h>
-#import <AppKit/AppKit.h>
 #import "PSMTabBarControl.h"
+#import <AppKit/AppKit.h>
+#import <Foundation/Foundation.h>
 
-// An NSTabView offers the tab bar control and a view in which one of several NSTabViewItem objects
-// (each of which has an associated NSView) is displayed. This subclass doesn't draw the control;
-// that's expected to be a subview of its container. That tab bar control is PTYTabView's delegate.
-// This implementation adds delegate callbacks as needed by PSMTabBarControl and keeps track of the
-// MRU order of tabs, as well as providing methods for cycling among them.
+// An NSTabView offers the tab bar control and a view in which one of several
+// NSTabViewItem objects (each of which has an associated NSView) is displayed.
+// This subclass doesn't draw the control; that's expected to be a subview of
+// its container. That tab bar control is PTYTabView's delegate. This
+// implementation adds delegate callbacks as needed by PSMTabBarControl and
+// keeps track of the MRU order of tabs, as well as providing methods for
+// cycling among them.
 @interface PTYTabView : NSTabView
 
 // Override setDelegate so that it accepts PSMTabBarControl without warning
 @property(atomic, assign) id<PSMTabViewDelegate> delegate;
 
-// Selects a tab where sender's -representedObject is a NSTabViewItem. Used from a window's
-// context menu.
+// Selects a tab where sender's -representedObject is a NSTabViewItem. Used from
+// a window's context menu.
 - (void)selectTab:(id)sender;
 
 // Select tab relative to current one.
 - (void)nextTab:(id)sender;
 - (void)previousTab:(id)sender;
 
-// Handle cycle forwards/cycle backwards actions, often bound to ctrl-tab and ctrl-shift-tab.
-- (void)cycleKeyDownWithModifiers:(NSUInteger)modifierFlags forwards:(BOOL)forwards;
+// Handle cycle forwards/cycle backwards actions, often bound to ctrl-tab and
+// ctrl-shift-tab.
+- (void)cycleKeyDownWithModifiers:(NSUInteger)modifierFlags
+                         forwards:(BOOL)forwards;
 - (void)cycleFlagsChanged:(NSUInteger)modifierFlags;
 - (void)cycleForwards:(BOOL)forwards;
 

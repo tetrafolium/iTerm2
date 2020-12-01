@@ -15,7 +15,7 @@
 @property(nonatomic, copy) NSString *line;
 @property(nonatomic, copy) NSArray *values;
 @property(nonatomic, retain) CaptureTrigger *trigger;
-@property(nonatomic, assign) BOOL state;  // user-defined state
+@property(nonatomic, assign) BOOL state; // user-defined state
 @property(nonatomic, retain) iTermCapturedOutputMark *mark;
 @property(nonatomic, assign) long long absoluteLineNumber;
 

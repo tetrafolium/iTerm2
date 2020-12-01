@@ -18,9 +18,13 @@
 // Setting this actually sets the markGuid.
 @property(nonatomic, retain) VT100ScreenMark *mark;
 
-+ (instancetype)commandHistoryCommandUseInContext:(NSManagedObjectContext *)context;
++ (instancetype)commandHistoryCommandUseInContext:
+    (NSManagedObjectContext *)context;
 + (NSString *)entityName;
-+ (instancetype)commandHistoryCommandUseFromDeprecatedSerialization:(id)serializedValue
-    inContext:(NSManagedObjectContext *)context;
++ (instancetype)
+    commandHistoryCommandUseFromDeprecatedSerialization:(id)serializedValue
+                                              inContext:
+                                                  (NSManagedObjectContext *)
+                                                      context;
 
 @end

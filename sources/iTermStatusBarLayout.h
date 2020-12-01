@@ -18,20 +18,21 @@ extern NSString *const iTermStatusBarLayoutKeyAdvancedConfiguration;
 
 @class iTermStatusBarLayout;
 
-@protocol iTermStatusBarLayoutDelegate<NSObject>
+@protocol iTermStatusBarLayoutDelegate <NSObject>
 
 - (void)statusBarLayoutDidChange:(iTermStatusBarLayout *)layout;
 
 @end
 
-@interface iTermStatusBarAdvancedConfiguration : NSObject<NSCopying, NSSecureCoding>
-@property (nullable, nonatomic, strong) NSColor *separatorColor;
-@property (nullable, nonatomic, strong) NSColor *backgroundColor;
-@property (nullable, nonatomic, strong) NSColor *defaultTextColor;
-@property (nullable, nonatomic, strong) NSFont *font;
-@property (nonatomic) iTermStatusBarLayoutAlgorithmSetting layoutAlgorithm;
-@property (nonatomic) iTermStatusBarAutoRainbowStyle autoRainbowStyle;
-@property (nonatomic) BOOL removeEmptyComponents;
+@interface iTermStatusBarAdvancedConfiguration
+    : NSObject <NSCopying, NSSecureCoding>
+@property(nullable, nonatomic, strong) NSColor *separatorColor;
+@property(nullable, nonatomic, strong) NSColor *backgroundColor;
+@property(nullable, nonatomic, strong) NSColor *defaultTextColor;
+@property(nullable, nonatomic, strong) NSFont *font;
+@property(nonatomic) iTermStatusBarLayoutAlgorithmSetting layoutAlgorithm;
+@property(nonatomic) iTermStatusBarAutoRainbowStyle autoRainbowStyle;
+@property(nonatomic) BOOL removeEmptyComponents;
 
 + (instancetype)advancedConfigurationFromDictionary:(NSDictionary *)dict;
 + (NSFont *)defaultFont;
@@ -40,16 +41,20 @@ extern NSString *const iTermStatusBarLayoutKeyAdvancedConfiguration;
 
 @end
 
-@interface iTermStatusBarLayout : NSObject<NSSecureCoding>
+@interface iTermStatusBarLayout : NSObject <NSSecureCoding>
 
-@property (nonatomic, weak) id<iTermStatusBarLayoutDelegate> delegate;
-@property (nonatomic, strong) NSArray<id<iTermStatusBarComponent>> *components;
-@property (nonatomic, readonly) iTermStatusBarAdvancedConfiguration *advancedConfiguration;
+@property(nonatomic, weak) id<iTermStatusBarLayoutDelegate> delegate;
+@property(nonatomic, strong) NSArray<id<iTermStatusBarComponent>> *components;
+@property(nonatomic, readonly)
+    iTermStatusBarAdvancedConfiguration *advancedConfiguration;
 
-- (instancetype)initWithComponents:(NSArray<id<iTermStatusBarComponent>> *)components
-    advancedConfiguration:(iTermStatusBarAdvancedConfiguration *)advancedConfiguration NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithComponents:
+                    (NSArray<id<iTermStatusBarComponent>> *)components
+             advancedConfiguration:
+                 (iTermStatusBarAdvancedConfiguration *)advancedConfiguration
+    NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithDictionary:(NSDictionary *)layout
-    scope:(nullable iTermVariableScope *)scope;
+                             scope:(nullable iTermVariableScope *)scope;
 - (instancetype)initWithScope:(nullable iTermVariableScope *)scope;
 - (instancetype)init NS_UNAVAILABLE;
 

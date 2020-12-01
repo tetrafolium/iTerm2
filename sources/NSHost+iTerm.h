@@ -9,9 +9,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSHost(iTerm)
+@interface NSHost (iTerm)
 
-// For localhost. It's too hard to do this as an instance method, and I don't need to get fancy.
+// For localhost. It's too hard to do this as an instance method, and I don't
+// need to get fancy.
 + (NSString *)fullyQualifiedDomainName;
 
 @end

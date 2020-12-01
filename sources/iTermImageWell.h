@@ -12,7 +12,8 @@
 
 @protocol iTermImageWellDelegate <NSObject>
 - (void)imageWellDidClick:(iTermImageWell *)imageWell;
-- (void)imageWellDidPerformDropOperation:(iTermImageWell *)imageWell filename:(NSString *)filename;
+- (void)imageWellDidPerformDropOperation:(iTermImageWell *)imageWell
+                                filename:(NSString *)filename;
 @end
 
 @interface iTermImageWell : NSImageView

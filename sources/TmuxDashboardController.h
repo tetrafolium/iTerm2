@@ -6,16 +6,16 @@
 //  Copyright (c) 2011 Georgetech. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "TmuxSessionsTable.h"
 #import "TmuxWindowsTable.h"
+#import <Cocoa/Cocoa.h>
 
 @class TmuxController;
 
-@interface TmuxDashboardController : NSWindowController <TmuxSessionsTableProtocol, TmuxWindowsTableProtocol>
+@interface TmuxDashboardController
+    : NSWindowController <TmuxSessionsTableProtocol, TmuxWindowsTableProtocol>
 
 + (instancetype)sharedInstance;
-- (void)didAttachWithHiddenWindows:(BOOL)anyHidden
-    tooManyWindows:(BOOL)tooMany;
+- (void)didAttachWithHiddenWindows:(BOOL)anyHidden tooManyWindows:(BOOL)tooMany;
 
 @end

@@ -6,9 +6,9 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
 #import "NSDictionary+iTerm.h"
 #import "ProfileModel.h"
+#import <Cocoa/Cocoa.h>
 
 @class iTermKeystroke;
 
@@ -16,7 +16,7 @@ extern const NSEventModifierFlags kHotKeyModifierMask;
 extern CGFloat kShortcutPreferredHeight;
 
 // Describes a keyboard shortcut for opening a hotkey window.
-@interface iTermShortcut : NSObject<NSCopying>
+@interface iTermShortcut : NSObject <NSCopying>
 @property(nonatomic, assign) NSUInteger keyCode;
 @property(nonatomic, assign) NSEventModifierFlags modifiers;
 @property(nonatomic, copy) NSString *characters;
@@ -27,8 +27,9 @@ extern CGFloat kShortcutPreferredHeight;
 // Suitable for display.
 @property(nonatomic, readonly) NSString *stringValue;
 
-// Uniquely describes the shortcut for testing with equality against other kinds of hotkeys (e.g.,
-// modifier double-presses) and excludes irrelevant info (like characters with modifiers).
+// Uniquely describes the shortcut for testing with equality against other kinds
+// of hotkeys (e.g., modifier double-presses) and excludes irrelevant info (like
+// characters with modifiers).
 @property(nonatomic, readonly) iTermHotKeyDescriptor *descriptor;
 
 // Is this shortcut assigned? If not, it "empty" and can't be used.
@@ -50,9 +51,10 @@ extern CGFloat kShortcutPreferredHeight;
 + (NSDictionary *)dictionaryForShortString:(NSString *)string;
 
 - (instancetype)initWithKeyCode:(NSUInteger)code
-    modifiers:(NSEventModifierFlags)modifiers
-    characters:(NSString *)characters
-    charactersIgnoringModifiers:(NSString *)charactersIgnoringModifiers NS_DESIGNATED_INITIALIZER;
+                      modifiers:(NSEventModifierFlags)modifiers
+                     characters:(NSString *)characters
+    charactersIgnoringModifiers:(NSString *)charactersIgnoringModifiers
+    NS_DESIGNATED_INITIALIZER;
 
 // Change in place from a KeyDown event.
 - (void)setFromEvent:(NSEvent *)event;

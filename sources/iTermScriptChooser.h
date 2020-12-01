@@ -12,6 +12,6 @@
 @interface iTermScriptChooser : NSObject
 
 + (void)chooseWithValidator:(BOOL (^)(NSURL *))validator
-    completion:(void (^)(NSURL *, SIGIdentity *))completion;
+                 completion:(void (^)(NSURL *, SIGIdentity *))completion;
 
 @end

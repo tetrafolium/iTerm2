@@ -11,12 +11,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermMultiServerChildDidTerminateNotification : iTermBaseNotification
 
-@property (nonatomic, readonly) pid_t pid;
-@property (nonatomic, readonly) int terminationStatus;
+@property(nonatomic, readonly) pid_t pid;
+@property(nonatomic, readonly) int terminationStatus;
 
-+ (instancetype)notificationWithProcessID:(pid_t)pid terminationStatus:(int)terminationStatus;
++ (instancetype)notificationWithProcessID:(pid_t)pid
+                        terminationStatus:(int)terminationStatus;
 + (void)subscribe:(NSObject *)owner
-    block:(void (^)(iTermMultiServerChildDidTerminateNotification * _Nonnull notification))block;
+            block:(void (^)(iTermMultiServerChildDidTerminateNotification
+                                *_Nonnull notification))block;
 @end
 
 NS_ASSUME_NONNULL_END

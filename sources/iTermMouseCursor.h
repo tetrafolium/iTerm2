@@ -9,10 +9,10 @@
 #import <Cocoa/Cocoa.h>
 
 typedef NS_ENUM(NSInteger, iTermMouseCursorType) {
-    iTermMouseCursorTypeIBeam,
-    iTermMouseCursorTypeIBeamWithCircle,
-    iTermMouseCursorTypeNorthwestSoutheastArrow,
-    iTermMouseCursorTypeArrow
+  iTermMouseCursorTypeIBeam,
+  iTermMouseCursorTypeIBeamWithCircle,
+  iTermMouseCursorTypeNorthwestSoutheastArrow,
+  iTermMouseCursorTypeArrow
 };
 
 @interface iTermMouseCursor : NSCursor

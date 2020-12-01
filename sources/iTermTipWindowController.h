@@ -11,7 +11,7 @@
 @class iTermHotKey;
 @class iTermTip;
 
-@protocol iTermTipWindowDelegate<NSObject>
+@protocol iTermTipWindowDelegate <NSObject>
 
 // User requested to dismiss the tip.
 - (void)tipWindowDismissed;

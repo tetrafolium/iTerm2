@@ -15,8 +15,9 @@
 @property(nonatomic, assign) int endX;
 @property(nonatomic, assign) long long absEndY;
 @property(nonatomic, retain) NSDictionary *rule;
-@property(nonatomic, retain) NSArray *components;  // Regex match components. 0 is full match, 1+ are capture groups.
+@property(nonatomic, retain)
+    NSArray *components; // Regex match components. 0 is full match, 1+ are
+                         // capture groups.
 
 - (NSComparisonResult)compare:(SmartMatch *)aNumber;
 @end
-

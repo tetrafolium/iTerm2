@@ -28,36 +28,35 @@
 #import <Cocoa/Cocoa.h>
 
 typedef struct {
-    // Number of cells wide, tall
-    int width;
-    int height;
+  // Number of cells wide, tall
+  int width;
+  int height;
 
-    // 0-based cursor position
-    int cursorX;
-    int cursorY;
+  // 0-based cursor position
+  int cursorX;
+  int cursorY;
 
-    // Time in us since 1970 of frame.
-    long long timestamp;
+  // Time in us since 1970 of frame.
+  long long timestamp;
 
-    // Value from DVRFrameType enum.
-    int frameType;
+  // Value from DVRFrameType enum.
+  int frameType;
 } DVRFrameInfo;
 
-@interface DVRIndexEntry : NSObject
-{
+@interface DVRIndexEntry : NSObject {
 @public
-    // Frame metadata.
-    DVRFrameInfo info;
+  // Frame metadata.
+  DVRFrameInfo info;
 
-    // Position in DVRBuffer's store.
-    long long position;
+  // Position in DVRBuffer's store.
+  long long position;
 
-    // Number of bytes in buffer.
-    int frameLength;
+  // Number of bytes in buffer.
+  int frameLength;
 }
 
 + (instancetype)entryFromDictionaryValue:(NSDictionary *)dict;
 
-@property (nonatomic, readonly) NSDictionary *dictionaryValue;
+@property(nonatomic, readonly) NSDictionary *dictionaryValue;
 
 @end

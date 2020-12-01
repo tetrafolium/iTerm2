@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol iTermComposerTextViewDelegate<NSObject>
+@protocol iTermComposerTextViewDelegate <NSObject>
 - (void)composerTextViewDidFinishWithCancel:(BOOL)cancel;
 
 @optional
@@ -17,11 +17,12 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface iTermComposerTextView : NSTextView
-@property (nonatomic, weak) IBOutlet id<iTermComposerTextViewDelegate> composerDelegate;
+@property(nonatomic, weak) IBOutlet id<iTermComposerTextViewDelegate>
+    composerDelegate;
 @end
 
 @interface iTermStatusBarLargeComposerViewController : NSViewController
-@property (nonatomic, strong) IBOutlet iTermComposerTextView *textView;
+@property(nonatomic, strong) IBOutlet iTermComposerTextView *textView;
 
 @end
 

@@ -11,10 +11,10 @@
 @class PTYNoteViewController;
 
 typedef NS_ENUM(NSInteger, PTYNoteViewTipEdge) {
-    kPTYNoteViewTipEdgeLeft,
-    kPTYNoteViewTipEdgeTop,
-    kPTYNoteViewTipEdgeRight,
-    kPTYNoteViewTipEdgeBottom
+  kPTYNoteViewTipEdgeLeft,
+  kPTYNoteViewTipEdgeTop,
+  kPTYNoteViewTipEdgeRight,
+  kPTYNoteViewTipEdgeBottom
 };
 
 @protocol PTYNoteViewDelegate <NSObject>
@@ -23,17 +23,17 @@ typedef NS_ENUM(NSInteger, PTYNoteViewTipEdge) {
 @end
 
 @interface PTYNoteView : NSView {
-    PTYNoteViewController *noteViewController_;  // weak
-    BOOL dragRight_;
-    BOOL dragBottom_;
-    NSPoint dragOrigin_;
-    NSSize originalSize_;
-    NSPoint point_;
-    NSView *contentView_;
-    PTYNoteViewTipEdge tipEdge_;
-    id<PTYNoteViewDelegate> delegate_;
-    NSButton *killButton_;
-    NSColor *backgroundColor_;
+  PTYNoteViewController *noteViewController_; // weak
+  BOOL dragRight_;
+  BOOL dragBottom_;
+  NSPoint dragOrigin_;
+  NSSize originalSize_;
+  NSPoint point_;
+  NSView *contentView_;
+  PTYNoteViewTipEdge tipEdge_;
+  id<PTYNoteViewDelegate> delegate_;
+  NSButton *killButton_;
+  NSColor *backgroundColor_;
 }
 
 @property(nonatomic, assign) id<PTYNoteViewDelegate> delegate;

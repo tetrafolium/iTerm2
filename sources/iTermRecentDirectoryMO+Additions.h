@@ -6,23 +6,24 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
 #import "iTermRecentDirectoryMO.h"
+#import <Cocoa/Cocoa.h>
 
 @interface iTermRecentDirectoryMO (Additions)
 
 + (NSString *)entityName;
 + (instancetype)entryWithDictionary:(NSDictionary *)dictionary
-    inContext:(NSManagedObjectContext *)context;
-- (NSAttributedString *)attributedStringForTableColumn:(NSTableColumn *)aTableColumn
-    abbreviationSafeComponents:(NSIndexSet *)abbreviationSafeIndexes;
+                          inContext:(NSManagedObjectContext *)context;
+- (NSAttributedString *)
+    attributedStringForTableColumn:(NSTableColumn *)aTableColumn
+        abbreviationSafeComponents:(NSIndexSet *)abbreviationSafeIndexes;
 
-
-// Take an attributedString having |path| with extra styles and remove bits from it to fit.
-- (NSAttributedString *)attributedStringForTableColumn:(NSTableColumn *)aTableColumn
-    basedOnAttributedString:(NSAttributedString *)attributedString
-    baseAttributes:(NSDictionary *)baseAttributes
-    abbreviationSafeComponents:(NSIndexSet *)abbreviationSafeIndexes;
+// Take an attributedString having |path| with extra styles and remove bits from
+// it to fit.
+- (NSAttributedString *)
+    attributedStringForTableColumn:(NSTableColumn *)aTableColumn
+           basedOnAttributedString:(NSAttributedString *)attributedString
+                    baseAttributes:(NSDictionary *)baseAttributes
+        abbreviationSafeComponents:(NSIndexSet *)abbreviationSafeIndexes;
 
 @end
-

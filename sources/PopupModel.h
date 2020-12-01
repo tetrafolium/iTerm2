@@ -12,15 +12,15 @@
 
 @interface PopupModel : NSObject <NSFastEnumeration>
 
-@property (nonatomic, readonly) NSUInteger count;
+@property(nonatomic, readonly) NSUInteger count;
 
 - (instancetype)initWithMaxEntries:(int)maxEntries;
 - (void)removeAllObjects;
 - (void)addObject:(id)object;
-- (void)addHit:(PopupEntry*)object;
+- (void)addHit:(PopupEntry *)object;
 - (id)objectAtIndex:(NSUInteger)index;
 - (NSUInteger)indexOfObject:(id)o;
 - (void)sortByScore;
-- (int)indexOfObjectWithMainValue:(NSString*)value;
+- (int)indexOfObjectWithMainValue:(NSString *)value;
 
 @end

@@ -14,13 +14,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface iTermRestorableStateSQLite : NSObject<iTermRestorableStateRestorer, iTermRestorableStateSaver>
+@interface iTermRestorableStateSQLite
+    : NSObject <iTermRestorableStateRestorer, iTermRestorableStateSaver>
 
-@property (nonatomic, weak) id<iTermRestorableStateRestoring, iTermRestorableStateSaving> delegate;
-@property (nonatomic) BOOL needsSave;
+@property(nonatomic, weak)
+    id<iTermRestorableStateRestoring, iTermRestorableStateSaving>
+        delegate;
+@property(nonatomic) BOOL needsSave;
 
 - (instancetype)initWithURL:(NSURL *)url
-    erase:(BOOL)erase NS_DESIGNATED_INITIALIZER;
+                      erase:(BOOL)erase NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 @end

@@ -14,8 +14,8 @@
 #include "DebugLogging.h"
 
 typedef union {
-    struct cmsghdr cm;
-    char control[CMSG_SPACE(sizeof(int))];
+  struct cmsghdr cm;
+  char control[CMSG_SPACE(sizeof(int))];
 } iTermFileDescriptorControlMessage;
 
 void iTermFileDescriptorServerLog(char *format, ...);
@@ -24,28 +24,28 @@ int iTermFileDescriptorServerAccept(int socketFd);
 void SetRunningServer(void);
 
 ssize_t iTermFileDescriptorServerSendMessageAndFileDescriptor(int connectionFd,
-        void *buffer,
-        size_t bufferSize,
-        int fdToSend);
+                                                              void *buffer,
+                                                              size_t bufferSize,
+                                                              int fdToSend);
 
 ssize_t iTermFileDescriptorServerWriteLengthAndBuffer(int connectionFd,
-        void *buffer,
-        size_t bufferSize,
-        int *errorOut);
-ssize_t iTermFileDescriptorServerWriteLengthAndBufferAndFileDescriptor(int connectionFd,
-        void *buffer,
-        size_t bufferSize,
-        int fdToSend,
-        int *errorOut);
+                                                      void *buffer,
+                                                      size_t bufferSize,
+                                                      int *errorOut);
+ssize_t iTermFileDescriptorServerWriteLengthAndBufferAndFileDescriptor(
+    int connectionFd, void *buffer, size_t bufferSize, int fdToSend,
+    int *errorOut);
 
 ssize_t iTermFileDescriptorServerWrite(int fd, void *buffer, size_t bufferSize);
 
 // For use on a pipe or other non-socket
-ssize_t iTermFileDescriptorClientWrite(int fd, const void *buffer, size_t bufferSize);
+ssize_t iTermFileDescriptorClientWrite(int fd, const void *buffer,
+                                       size_t bufferSize);
 
-// Takes an array of file descriptors and its length as input. `results` should be an array of
-// equal length. On return, the readable FDs will have the corresponding value in `results` set to
-// true. Takes care of EINTR. Return value is number of readable FDs.
+// Takes an array of file descriptors and its length as input. `results` should
+// be an array of equal length. On return, the readable FDs will have the
+// corresponding value in `results` set to true. Takes care of EINTR. Return
+// value is number of readable FDs.
 int iTermSelect(int *fds, int count, int *results, int wantErrors);
 
 // Like iTermSelect but selects for writing.

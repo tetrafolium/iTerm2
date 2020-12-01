@@ -6,12 +6,12 @@
 //
 //
 
-#import <Foundation/Foundation.h>
 #import "ITAddressBookMgr.h"
-#import "iTermCursor.h"
-#import "iTermTimestampDrawHelper.h"
 #import "ScreenChar.h"
 #import "VT100GridTypes.h"
+#import "iTermCursor.h"
+#import "iTermTimestampDrawHelper.h"
+#import <Foundation/Foundation.h>
 
 @class iTermColorMap;
 @class iTermFindOnPageHelper;
@@ -25,14 +25,15 @@ BOOL CheckFindMatchAtIndex(NSData *findMatches, int index);
 @protocol iTermTextDrawingHelperDelegate <NSObject>
 
 - (void)drawingHelperDrawBackgroundImageInRect:(NSRect)rect
-    blendDefaultBackground:(BOOL)blendDefaultBackground;
+                        blendDefaultBackground:(BOOL)blendDefaultBackground;
 
 - (VT100ScreenMark *)drawingHelperMarkOnLine:(int)line;
 
 - (screen_char_t *)drawingHelperLineAtIndex:(int)line;
 - (screen_char_t *)drawingHelperLineAtScreenIndex:(int)line;
 
-- (screen_char_t *)drawingHelperCopyLineAtIndex:(int)line toBuffer:(screen_char_t *)buffer;
+- (screen_char_t *)drawingHelperCopyLineAtIndex:(int)line
+                                       toBuffer:(screen_char_t *)buffer;
 
 - (iTermTextExtractor *)drawingHelperTextExtractor;
 
@@ -43,21 +44,22 @@ BOOL CheckFindMatchAtIndex(NSData *findMatches, int index);
 - (NSDate *)drawingHelperTimestampForLine:(int)line;
 
 - (NSColor *)drawingHelperColorForCode:(int)theIndex
-    green:(int)green
-    blue:(int)blue
-    colorMode:(ColorMode)theMode
-    bold:(BOOL)isBold
-    faint:(BOOL)isFaint
-    isBackground:(BOOL)isBackground;
+                                 green:(int)green
+                                  blue:(int)blue
+                             colorMode:(ColorMode)theMode
+                                  bold:(BOOL)isBold
+                                 faint:(BOOL)isFaint
+                          isBackground:(BOOL)isBackground;
 
 - (PTYFontInfo *)drawingHelperFontForChar:(UniChar)ch
-    isComplex:(BOOL)isComplex
-    renderBold:(BOOL *)renderBold
-    renderItalic:(BOOL *)renderItalic;
+                                isComplex:(BOOL)isComplex
+                               renderBold:(BOOL *)renderBold
+                             renderItalic:(BOOL *)renderItalic;
 
 - (NSData *)drawingHelperMatchesOnLine:(int)line;
 
-- (void)drawingHelperDidFindRunOfAnimatedCellsStartingAt:(VT100GridCoord)coord ofLength:(int)length;
+- (void)drawingHelperDidFindRunOfAnimatedCellsStartingAt:(VT100GridCoord)coord
+                                                ofLength:(int)length;
 
 - (NSString *)drawingHelperLabelForDropTargetOnLine:(int)line;
 
@@ -120,7 +122,8 @@ BOOL CheckFindMatchAtIndex(NSData *findMatches, int index);
 // Location of the copy-mode cursor
 @property(nonatomic, assign) VT100GridCoord copyModeCursorCoord;
 
-// Height of the "excess" region between the last line and the bottom of the view.
+// Height of the "excess" region between the last line and the bottom of the
+// view.
 @property(nonatomic, assign) double excess;
 
 // Total number of lines ever scrolled out of history.
@@ -129,9 +132,10 @@ BOOL CheckFindMatchAtIndex(NSData *findMatches, int index);
 // Should ambiguous-width characters be treated as double-width?
 @property(nonatomic, assign) BOOL ambiguousIsDoubleWidth;
 
-// Unicode normalization form to use. In practice, I can't find a way that this is used. We
-// don't normalize IME text on input unless there's a combining mark, but I don't know a case where
-// adding a combining mark would change a character from narrow to ambiguous width.
+// Unicode normalization form to use. In practice, I can't find a way that this
+// is used. We don't normalize IME text on input unless there's a combining
+// mark, but I don't know a case where adding a combining mark would change a
+// character from narrow to ambiguous width.
 @property(nonatomic, assign) iTermUnicodeNormalization normalization;
 
 // Is a background image in use?
@@ -155,14 +159,16 @@ BOOL CheckFindMatchAtIndex(NSData *findMatches, int index);
 // Should a box cursor be drawn filled in?
 @property(nonatomic, assign) BOOL shouldDrawFilledInCursor;
 
-// Does bold text render as the bright version of a dim ansi color, and also use specified bold color?
+// Does bold text render as the bright version of a dim ansi color, and also use
+// specified bold color?
 @property(nonatomic, assign) BOOL useCustomBoldColor;
 
 // Is this the current text view of the "front" terminal window?
 // TODO: This might be the same as textViewIsActiveSession.
 @property(nonatomic, assign) BOOL isFrontTextView;
 
-// Background transparency level. Should be 1 if transparency is off for this view.
+// Background transparency level. Should be 1 if transparency is off for this
+// view.
 @property(nonatomic, assign) double transparencyAlpha;
 
 // Is the cursor visible?
@@ -189,10 +195,12 @@ BOOL CheckFindMatchAtIndex(NSData *findMatches, int index);
 // Should text with the blink flag actually blink?
 @property(nonatomic, assign) BOOL blinkAllowed;
 
-// Underlined selection range (inclusive of all values), indicating clickable url.
+// Underlined selection range (inclusive of all values), indicating clickable
+// url.
 @property(nonatomic, assign) VT100GridAbsWindowedRange underlinedRange;
 
-// If set, the last-modified time of each line on the screen is shown on the right side of the display.
+// If set, the last-modified time of each line on the screen is shown on the
+// right side of the display.
 @property(nonatomic, assign) BOOL showTimestamps;
 
 // Amount to shift anti-aliased text by horizontally to simulate bold
@@ -201,10 +209,12 @@ BOOL CheckFindMatchAtIndex(NSData *findMatches, int index);
 // NSTextInputClient support
 @property(nonatomic, retain) NSAttributedString *markedText;
 
-// Marked text may have a selection. This gives the range of selected characters.
+// Marked text may have a selection. This gives the range of selected
+// characters.
 @property(nonatomic, assign) NSRange inputMethodSelectedRange;
 
-// This gives the range of marked text. Used here to determine if there is marked text.
+// This gives the range of marked text. Used here to determine if there is
+// marked text.
 @property(nonatomic, assign) NSRange inputMethodMarkedRange;
 
 // This gives the number of lines added to the bottom of the frame that do
@@ -212,7 +222,8 @@ BOOL CheckFindMatchAtIndex(NSData *findMatches, int index);
 // IME text.
 @property(nonatomic, assign) int numberOfIMELines;
 
-// The current time since reference date. Exposed to facilitate testing timestamps.
+// The current time since reference date. Exposed to facilitate testing
+// timestamps.
 @property(nonatomic, assign) NSTimeInterval now;
 
 // If set, use GMT timezone for timestamps to make tests locale-independent.
@@ -251,17 +262,19 @@ BOOL CheckFindMatchAtIndex(NSData *findMatches, int index);
 // Line number that is being hovered over for drop
 @property(nonatomic, assign) int dropLine;
 
-// Lazily loading images that could not be drawn. Contains unique identifiers of iTermImageInfo*s
+// Lazily loading images that could not be drawn. Contains unique identifiers of
+// iTermImageInfo*s
 @property(nonatomic, readonly) NSSet<NSString *> *missingImages;
 
-// Smallest of the baseline offset for the available fonts. Is a negative number.
+// Smallest of the baseline offset for the available fonts. Is a negative
+// number.
 @property(nonatomic, assign) CGFloat baselineOffset;
 
 // Underline offset to use. Negative.
 @property(nonatomic, assign) CGFloat underlineOffset;
 
-// Is bold text allowed? If so, then double struck text may be used when a bold version of the font
-// is not available.
+// Is bold text allowed? If so, then double struck text may be used when a bold
+// version of the font is not available.
 @property(nonatomic, assign) BOOL boldAllowed;
 
 // Version of unicode. Determines character widths.
@@ -282,45 +295,47 @@ BOOL CheckFindMatchAtIndex(NSData *findMatches, int index);
 
 // Does the current ascii font have ligatures? Used to determine if ASCII
 // symbols (non-alphanumerics) get to use the fastpath.
-@property (nonatomic, readonly) BOOL asciiLigaturesAvailable;
+@property(nonatomic, readonly) BOOL asciiLigaturesAvailable;
 
-@property (nonatomic, readonly, class) NSColor *successMarkColor;
-@property (nonatomic, readonly, class) NSColor *errorMarkColor;
-@property (nonatomic, readonly, class) NSColor *otherMarkColor;
-@property (nonatomic) BOOL useNativePowerlineGlyphs;
-@property (nonatomic) CGFloat badgeTopMargin;
-@property (nonatomic) CGFloat badgeRightMargin;
+@property(nonatomic, readonly, class) NSColor *successMarkColor;
+@property(nonatomic, readonly, class) NSColor *errorMarkColor;
+@property(nonatomic, readonly, class) NSColor *otherMarkColor;
+@property(nonatomic) BOOL useNativePowerlineGlyphs;
+@property(nonatomic) CGFloat badgeTopMargin;
+@property(nonatomic) CGFloat badgeRightMargin;
 
-@property (nonatomic, readonly) NSColor *blockCursorFillColorRespectingSmartSelection;
+@property(nonatomic, readonly)
+    NSColor *blockCursorFillColorRespectingSmartSelection;
 
 // imageSize: size of image to draw
-// destinationRect: rect bounding the region of a scrollview's content view (i.e., very tall view) that's being drawn
-// destinationFrameSize: size of the scrollview's content view
-// visibleSize: size of visible portion of scrollview
+// destinationRect: rect bounding the region of a scrollview's content view
+// (i.e., very tall view) that's being drawn destinationFrameSize: size of the
+// scrollview's content view visibleSize: size of visible portion of scrollview
 // sourceRectPtr: filled in with source frame to draw from
 //
 // Returns: destination frame to draw to
 + (NSRect)rectForBadgeImageOfSize:(NSSize)imageSize
-    destinationRect:(NSRect)destinationRect
-    destinationFrameSize:(NSSize)destinationFrameSize
-    visibleSize:(NSSize)visibleSize
-    sourceRectPtr:(NSRect *)sourceRectPtr
-    margins:(NSEdgeInsets)margins;
+                  destinationRect:(NSRect)destinationRect
+             destinationFrameSize:(NSSize)destinationFrameSize
+                      visibleSize:(NSSize)visibleSize
+                    sourceRectPtr:(NSRect *)sourceRectPtr
+                          margins:(NSEdgeInsets)margins;
 
-// Indicates whether the cursor should take its color from the background (if YES) or text color (if NO).
+// Indicates whether the cursor should take its color from the background (if
+// YES) or text color (if NO).
 + (BOOL)cursorUsesBackgroundColorForScreenChar:(screen_char_t)screenChar
-    wantBackground:(BOOL)wantBackgroundColor
-    reverseVideo:(BOOL)reverseVideo;
+                                wantBackground:(BOOL)wantBackgroundColor
+                                  reverseVideo:(BOOL)reverseVideo;
 
 + (NSRect)frameForMarkContainedInRect:(NSRect)container
-    cellSize:(CGSize)cellSize
-    cellSizeWithoutSpacing:(CGSize)cellSizeWithoutSpacing
-    scale:(CGFloat)scale;
+                             cellSize:(CGSize)cellSize
+               cellSizeWithoutSpacing:(CGSize)cellSizeWithoutSpacing
+                                scale:(CGFloat)scale;
 
 // Updates self.blinkingFound.
 - (void)drawTextViewContentInRect:(NSRect)rect
-    rectsPtr:(const NSRect *)rectArray
-    rectCount:(NSInteger)rectCount;
+                         rectsPtr:(const NSRect *)rectArray
+                        rectCount:(NSInteger)rectCount;
 
 // If timestamps are to be shown, call this just before drawing.
 - (void)createTimestampDrawingHelper;
@@ -330,8 +345,12 @@ BOOL CheckFindMatchAtIndex(NSData *findMatches, int index);
 
 - (VT100GridCoordRange)coordRangeForRect:(NSRect)rect;
 
-- (CGFloat)yOriginForUnderlineForFont:(NSFont *)font yOffset:(CGFloat)yOffset cellHeight:(CGFloat)cellHeight;
-- (CGFloat)yOriginForStrikethroughForFont:(NSFont *)font yOffset:(CGFloat)yOffset cellHeight:(CGFloat)cellHeight;
+- (CGFloat)yOriginForUnderlineForFont:(NSFont *)font
+                              yOffset:(CGFloat)yOffset
+                           cellHeight:(CGFloat)cellHeight;
+- (CGFloat)yOriginForStrikethroughForFont:(NSFont *)font
+                                  yOffset:(CGFloat)yOffset
+                               cellHeight:(CGFloat)cellHeight;
 
 - (CGFloat)underlineThicknessForFont:(NSFont *)font;
 - (CGFloat)strikethroughThicknessForFont:(NSFont *)font;
@@ -341,52 +360,44 @@ BOOL CheckFindMatchAtIndex(NSData *findMatches, int index);
 
 @end
 
-NS_INLINE BOOL iTermTextDrawingHelperIsCharacterDrawable(const screen_char_t *const c,
-        const screen_char_t *const predecessor,
-        BOOL isStringifiable,
-        BOOL blinkingItemsVisible,
-        BOOL blinkAllowed,
-        BOOL preferSpeedToFullLigatureSupport) {
-    const unichar code = c->code;
-    if (c->image) {
-        return YES;
+NS_INLINE BOOL iTermTextDrawingHelperIsCharacterDrawable(
+    const screen_char_t *const c, const screen_char_t *const predecessor,
+    BOOL isStringifiable, BOOL blinkingItemsVisible, BOOL blinkAllowed,
+    BOOL preferSpeedToFullLigatureSupport) {
+  const unichar code = c->code;
+  if (c->image) {
+    return YES;
+  }
+  if (!c->complexChar) {
+    if (code == DWC_RIGHT || code == DWC_SKIP || code == TAB_FILLER ||
+        code < ' ') {
+      return NO;
+    } else if (preferSpeedToFullLigatureSupport && code == ' ' &&
+               !c->underline && !c->strikethrough && !c->urlCode) {
+      return NO;
     }
-    if (!c->complexChar) {
-        if (code == DWC_RIGHT ||
-                code == DWC_SKIP ||
-                code == TAB_FILLER ||
-                code < ' ') {
-            return NO;
-        } else if (preferSpeedToFullLigatureSupport &&
-                   code == ' ' &&
-                   !c->underline &&
-                   !c->strikethrough &&
-                   !c->urlCode) {
-            return NO;
-        }
-    } else if (predecessor && ComplexCharCodeIsSpacingCombiningMark(c->code)) {
-        if (predecessor->complexChar || predecessor->code > 127) {
-            // A spacing combining mark that has a non-ascii predecessor is not visible because the predecessor draws it.
-            return NO;
-        }
+  } else if (predecessor && ComplexCharCodeIsSpacingCombiningMark(c->code)) {
+    if (predecessor->complexChar || predecessor->code > 127) {
+      // A spacing combining mark that has a non-ascii predecessor is not
+      // visible because the predecessor draws it.
+      return NO;
     }
-    if (blinkingItemsVisible || !(blinkAllowed && c->blink)) {
-        // This char is either not blinking or during the "on" cycle of the
-        // blink. It should be drawn.
+  }
+  if (blinkingItemsVisible || !(blinkAllowed && c->blink)) {
+    // This char is either not blinking or during the "on" cycle of the
+    // blink. It should be drawn.
 
-        if (c->complexChar) {
-            // TODO: Not all composed/surrogate pair grapheme clusters are drawable
-            return isStringifiable;
-        } else {
-            // Non-complex char
-            // TODO: There are other spaces in unicode that should be supported.
-            return (code != 0 &&
-                    code != '\t' &&
-                    !(code >= ITERM2_PRIVATE_BEGIN && code <= ITERM2_PRIVATE_END));
-
-        }
+    if (c->complexChar) {
+      // TODO: Not all composed/surrogate pair grapheme clusters are drawable
+      return isStringifiable;
     } else {
-        // Character hidden because of blinking.
-        return NO;
+      // Non-complex char
+      // TODO: There are other spaces in unicode that should be supported.
+      return (code != 0 && code != '\t' &&
+              !(code >= ITERM2_PRIVATE_BEGIN && code <= ITERM2_PRIVATE_END));
     }
+  } else {
+    // Character hidden because of blinking.
+    return NO;
+  }
 }

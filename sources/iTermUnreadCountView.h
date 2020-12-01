@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermUnreadCountView : NSView
-@property (nonatomic) NSInteger count;
+@property(nonatomic) NSInteger count;
 @end
 
 NS_ASSUME_NONNULL_END

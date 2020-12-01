@@ -13,17 +13,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermStatusBarBaseLayoutAlgorithm : iTermStatusBarLayoutAlgorithm {
 @protected
-    CGFloat _statusBarWidth;
-    NSArray<iTermStatusBarContainerView *> *_containerViews;
+  CGFloat _statusBarWidth;
+  NSArray<iTermStatusBarContainerView *> *_containerViews;
 }
 
 - (NSArray<iTermStatusBarContainerView *> *)unhiddenContainerViews;
-- (NSArray<iTermStatusBarContainerView *> *)fittingSubsetOfContainerViewsFrom:(NSArray<iTermStatusBarContainerView *> *)views;
+- (NSArray<iTermStatusBarContainerView *> *)fittingSubsetOfContainerViewsFrom:
+    (NSArray<iTermStatusBarContainerView *> *)views;
 - (void)updateMargins:(NSArray<iTermStatusBarContainerView *> *)views;
-- (CGFloat)totalMarginWidthForViews:(NSArray<iTermStatusBarContainerView *> *)views;
-- (CGFloat)minimumWidthOfContainerViews:(NSArray<iTermStatusBarContainerView *> *)views;
-- (NSArray<iTermStatusBarContainerView *> *)containerViewsSortedByPriority:(NSArray<iTermStatusBarContainerView *> *)eligibleContainerViews;
-- (void)makeWidthsAndOriginsIntegers:(NSArray<iTermStatusBarContainerView *> *)views;
+- (CGFloat)totalMarginWidthForViews:
+    (NSArray<iTermStatusBarContainerView *> *)views;
+- (CGFloat)minimumWidthOfContainerViews:
+    (NSArray<iTermStatusBarContainerView *> *)views;
+- (NSArray<iTermStatusBarContainerView *> *)containerViewsSortedByPriority:
+    (NSArray<iTermStatusBarContainerView *> *)eligibleContainerViews;
+- (void)makeWidthsAndOriginsIntegers:
+    (NSArray<iTermStatusBarContainerView *> *)views;
 - (CGFloat)minimumWidthForComponent:(id<iTermStatusBarComponent>)component;
 - (CGFloat)maximumWidthForComponent:(id<iTermStatusBarComponent>)component;
 

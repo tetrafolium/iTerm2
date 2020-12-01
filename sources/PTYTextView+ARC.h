@@ -7,19 +7,18 @@
 
 #import "PTYTextView.h"
 
-#import "iTermTextViewContextMenuHelper.h"
-#import "iTermMouseReportingFrustrationDetector.h"
-#import "iTermURLActionHelper.h"
 #import "VT100GridTypes.h"
+#import "iTermMouseReportingFrustrationDetector.h"
+#import "iTermTextViewContextMenuHelper.h"
+#import "iTermURLActionHelper.h"
 
 @class URLAction;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PTYTextView (ARC)<
-    iTermContextMenuHelperDelegate,
-    iTermMouseReportingFrustrationDetectorDelegate,
-    iTermURLActionHelperDelegate>
+@interface PTYTextView (ARC) <iTermContextMenuHelperDelegate,
+                              iTermMouseReportingFrustrationDetectorDelegate,
+                              iTermURLActionHelperDelegate>
 
 - (void)initARC;
 
@@ -29,13 +28,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Coordinate Space Conversions
 
-- (NSPoint)clickPoint:(NSEvent *)event allowRightMarginOverflow:(BOOL)allowRightMarginOverflow;
+- (NSPoint)clickPoint:(NSEvent *)event
+    allowRightMarginOverflow:(BOOL)allowRightMarginOverflow;
 
 - (NSPoint)windowLocationToRowCol:(NSPoint)locationInWindow
-    allowRightMarginOverflow:(BOOL)allowRightMarginOverflow;
+         allowRightMarginOverflow:(BOOL)allowRightMarginOverflow;
 
 - (VT100GridCoord)coordForPoint:(NSPoint)locationInTextView
-    allowRightMarginOverflow:(BOOL)allowRightMarginOverflow;
+       allowRightMarginOverflow:(BOOL)allowRightMarginOverflow;
 
 - (NSPoint)pointForCoord:(VT100GridCoord)coord;
 
@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Semantic History
 
 - (void)handleSemanticHistoryItemDragWithEvent:(NSEvent *)event
-    coord:(VT100GridCoord)coord;
+                                         coord:(VT100GridCoord)coord;
 
 #pragma mark - Underlined Actions
 

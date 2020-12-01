@@ -10,7 +10,9 @@
 
 @interface NSWorkspace (iTerm)
 
-// Returns a filename for a temp file. The file will be named /tmp/\(prefix)\(random stuff)\(suffix)
-- (NSString *)temporaryFileNameWithPrefix:(NSString *)prefix suffix:(NSString *)suffix;
+// Returns a filename for a temp file. The file will be named
+// /tmp/\(prefix)\(random stuff)\(suffix)
+- (NSString *)temporaryFileNameWithPrefix:(NSString *)prefix
+                                   suffix:(NSString *)suffix;
 
 @end

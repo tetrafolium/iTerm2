@@ -16,14 +16,14 @@ extern NSString *const iTermStatusBarUnreadCountDidChange;
 + (instancetype)sharedInstance;
 
 - (void)setUnreadCountForComponentWithIdentifier:(NSString *)identifier
-    count:(NSInteger)count;
+                                           count:(NSInteger)count;
 
 - (void)setUnreadCountForComponentWithIdentifier:(NSString *)identifier
-    count:(NSInteger)count
-    sessionID:(NSString *)sessionID;
+                                           count:(NSInteger)count
+                                       sessionID:(NSString *)sessionID;
 
 - (NSInteger)unreadCountForComponentWithIdentifier:(NSString *)identifier
-    sessionID:(NSString *)sessionID;
+                                         sessionID:(NSString *)sessionID;
 
 @end
 

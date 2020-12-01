@@ -8,7 +8,8 @@
 
 #import "iTermProfilePreferencesBaseViewController.h"
 
-@interface ProfilesKeysPreferencesViewController : iTermProfilePreferencesBaseViewController
+@interface ProfilesKeysPreferencesViewController
+    : iTermProfilePreferencesBaseViewController
 
 - (void)layoutSubviewsForEditCurrentSessionMode;
 - (IBAction)openHotKeyPanel:(id)sender;

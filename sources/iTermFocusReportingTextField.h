@@ -11,29 +11,33 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class iTermFocusReportingTextField;
 
-@protocol iTermFocusReportingTextFieldDelegate<NSTextFieldDelegate>
+@protocol iTermFocusReportingTextFieldDelegate <NSTextFieldDelegate>
 @optional
-- (void)focusReportingTextFieldWillBecomeFirstResponder:(iTermFocusReportingTextField *)sender;
+- (void)focusReportingTextFieldWillBecomeFirstResponder:
+    (iTermFocusReportingTextField *)sender;
 @end
 
 @interface iTermFocusReportingTextField : NSTextField
 
-@property (nullable, weak) id<iTermFocusReportingTextFieldDelegate> delegate;
+@property(nullable, weak) id<iTermFocusReportingTextFieldDelegate> delegate;
 
 @end
 
 @class iTermFocusReportingSearchField;
 
-@protocol iTermFocusReportingSearchFieldDelegate<NSSearchFieldDelegate>
+@protocol iTermFocusReportingSearchFieldDelegate <NSSearchFieldDelegate>
 @optional
-- (void)focusReportingSearchFieldWillBecomeFirstResponder:(iTermFocusReportingSearchField *)sender;
-- (NSInteger)focusReportingSearchFieldNumberOfResults:(iTermFocusReportingSearchField *)sender;
-- (NSInteger)focusReportingSearchFieldCurrentIndex:(iTermFocusReportingSearchField *)sender;
+- (void)focusReportingSearchFieldWillBecomeFirstResponder:
+    (iTermFocusReportingSearchField *)sender;
+- (NSInteger)focusReportingSearchFieldNumberOfResults:
+    (iTermFocusReportingSearchField *)sender;
+- (NSInteger)focusReportingSearchFieldCurrentIndex:
+    (iTermFocusReportingSearchField *)sender;
 @end
 
 @interface iTermFocusReportingSearchField : NSSearchField
 
-@property (nullable, weak) id<iTermFocusReportingSearchFieldDelegate> delegate;
+@property(nullable, weak) id<iTermFocusReportingSearchFieldDelegate> delegate;
 
 @end
 

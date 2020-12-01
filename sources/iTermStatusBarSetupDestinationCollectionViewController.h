@@ -12,16 +12,18 @@
 @class iTermStatusBarLayout;
 @class iTermStatusBarAdvancedConfiguration;
 
-@interface iTermStatusBarSetupDestinationCollectionViewController : NSViewController
+@interface iTermStatusBarSetupDestinationCollectionViewController
+    : NSViewController
 
-@property (nonatomic, copy) NSArray<iTermStatusBarSetupElement *> *elements;
-@property (nonatomic, strong) iTermStatusBarAdvancedConfiguration *advancedConfiguration;
-@property (nonatomic, strong) NSColor *defaultBackgroundColor;
-@property (nonatomic, strong) NSColor *defaultTextColor;
-@property (nonatomic, copy) void (^onChange)(void);
+@property(nonatomic, copy) NSArray<iTermStatusBarSetupElement *> *elements;
+@property(nonatomic, strong)
+    iTermStatusBarAdvancedConfiguration *advancedConfiguration;
+@property(nonatomic, strong) NSColor *defaultBackgroundColor;
+@property(nonatomic, strong) NSColor *defaultTextColor;
+@property(nonatomic, copy) void (^onChange)(void);
 // Drops from this view are accepted
-@property (nonatomic, weak) NSCollectionView *sourceCollectionView;
-@property (nonatomic) BOOL darkBackground;
+@property(nonatomic, weak) NSCollectionView *sourceCollectionView;
+@property(nonatomic) BOOL darkBackground;
 
 - (void)setLayout:(iTermStatusBarLayout *)layout;
 - (NSDictionary *)layoutDictionary;

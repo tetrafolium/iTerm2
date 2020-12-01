@@ -12,15 +12,18 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PTYSession (ARC)
 
 + (void)openPartialAttachmentsForArrangement:(NSDictionary *)arrangement
-    completion:(void (^)(NSDictionary *))completion;
+                                  completion:
+                                      (void (^)(NSDictionary *))completion;
 
-- (void)fetchAutoLogFilenameWithCompletion:(void (^)(NSString *filename))completion;
+- (void)fetchAutoLogFilenameWithCompletion:
+    (void (^)(NSString *filename))completion;
 - (void)setTermIDIfPossible;
 - (void)watchForPasteBracketingOopsieWithPrefix:(NSString *)prefix;
 
 #pragma mark - Private
 
-- (BOOL)tryToFinishAttachingToMultiserverWithPartialAttachment:(id<iTermPartialAttachment>)partialAttachment;
+- (BOOL)tryToFinishAttachingToMultiserverWithPartialAttachment:
+    (id<iTermPartialAttachment>)partialAttachment;
 
 @end
 

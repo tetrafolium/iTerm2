@@ -12,9 +12,10 @@
 
 @protocol iTermDragHandleViewDelegate <NSObject>
 
-// Should return the number of pixels right (or left, for negative values) the drag handle was
-// allowed to move.
-- (CGFloat)dragHandleView:(iTermDragHandleView *)dragHandle didMoveBy:(CGFloat)delta;
+// Should return the number of pixels right (or left, for negative values) the
+// drag handle was allowed to move.
+- (CGFloat)dragHandleView:(iTermDragHandleView *)dragHandle
+                didMoveBy:(CGFloat)delta;
 
 @optional
 
@@ -23,7 +24,8 @@
 
 @end
 
-// An invisible vertical drag handle that reports horizontal drags to the delegate.
+// An invisible vertical drag handle that reports horizontal drags to the
+// delegate.
 @interface iTermDragHandleView : NSView
 
 @property(nonatomic, assign) id<iTermDragHandleViewDelegate> delegate;

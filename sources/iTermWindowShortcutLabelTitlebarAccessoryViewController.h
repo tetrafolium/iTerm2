@@ -8,11 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface iTermWindowShortcutLabelTitlebarAccessoryViewController : NSTitlebarAccessoryViewController
+@interface iTermWindowShortcutLabelTitlebarAccessoryViewController
+    : NSTitlebarAccessoryViewController
 
 @property(nonatomic, assign) int ordinal;
 @property(nonatomic, assign) BOOL isMain;
 
-+ (NSString *)stringForOrdinal:(int)ordinal deemphasized:(out BOOL *)deemphasized;
++ (NSString *)stringForOrdinal:(int)ordinal
+                  deemphasized:(out BOOL *)deemphasized;
 
 @end

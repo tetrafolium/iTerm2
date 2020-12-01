@@ -28,7 +28,6 @@
 
 @end
 
-
 @interface iTermOpenQuicklySessionItem : iTermOpenQuicklyItem
 
 // Holds the session's colors and can create a logo with them as needed.
@@ -43,7 +42,7 @@
 @end
 
 @interface iTermOpenQuicklyArrangementItem : iTermOpenQuicklyItem
-@property (nonatomic) BOOL inTabs;
+@property(nonatomic) BOOL inTabs;
 @end
 
 @interface iTermOpenQuicklyHelpItem : iTermOpenQuicklyItem

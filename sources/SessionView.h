@@ -25,13 +25,13 @@
  **  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#import <Cocoa/Cocoa.h>
-#import "iTermFindDriver.h"
-#import "iTermMetalDriver.h"
 #import "PTYScrollView.h"
 #import "PTYSession.h"
 #import "SessionTitleView.h"
 #import "SplitSelectionView.h"
+#import "iTermFindDriver.h"
+#import "iTermMetalDriver.h"
+#import <Cocoa/Cocoa.h>
 
 @class iTermAnnouncementViewController;
 @class iTermBackgroundColorView;
@@ -46,7 +46,7 @@
 
 extern NSString *const SessionViewWasSelectedForInspectionNotification;
 
-@protocol iTermSessionViewDelegate<iTermFindDriverDelegate, NSObject>
+@protocol iTermSessionViewDelegate <iTermFindDriverDelegate, NSObject>
 
 // Mouse entered the view.
 - (void)sessionViewMouseEntered:(NSEvent *)event;
@@ -71,15 +71,16 @@ extern NSString *const SessionViewWasSelectedForInspectionNotification;
 
 // Requests to draw part of the background image/color.
 - (void)sessionViewDrawBackgroundImageInView:(NSView *)view
-    viewRect:(NSRect)rect
-    blendDefaultBackground:(BOOL)blendDefaultBackground;
+                                    viewRect:(NSRect)rect
+                      blendDefaultBackground:(BOOL)blendDefaultBackground;
 
 // Drag entered this view.
 - (NSDragOperation)sessionViewDraggingEntered:(id<NSDraggingInfo>)sender;
 - (void)sessionViewDraggingExited:(id<NSDraggingInfo>)sender;
 
 // Would the current drop target split this view?
-- (BOOL)sessionViewShouldSplitSelectionAfterDragUpdate:(id<NSDraggingInfo>)sender;
+- (BOOL)sessionViewShouldSplitSelectionAfterDragUpdate:
+    (id<NSDraggingInfo>)sender;
 
 // Perform a drag into this view.
 - (BOOL)sessionViewPerformDragOperation:(id<NSDraggingInfo>)sender;
@@ -149,21 +150,25 @@ extern NSString *const SessionViewWasSelectedForInspectionNotification;
 @end
 
 typedef NS_ENUM(NSUInteger, iTermSessionViewFindDriver) {
-    iTermSessionViewFindDriverDropDown,
-    iTermSessionViewFindDriverTemporaryStatusBar,
-    iTermSessionViewFindDriverPermanentStatusBar
+  iTermSessionViewFindDriverDropDown,
+  iTermSessionViewFindDriverTemporaryStatusBar,
+  iTermSessionViewFindDriverPermanentStatusBar
 };
 
 @interface SessionView : NSView <SessionTitleViewDelegate>
 // Unique per-process id of view, used for ordering them in PTYTab.
 @property(nonatomic, assign) int viewId;
 
-// If a modifier+digit switches panes, this is the value of digit. Used to show in title bar.
+// If a modifier+digit switches panes, this is the value of digit. Used to show
+// in title bar.
 @property(nonatomic, assign) int ordinal;
-@property(nonatomic, readonly) iTermAnnouncementViewController *currentAnnouncement;
+@property(nonatomic, readonly)
+    iTermAnnouncementViewController *currentAnnouncement;
 @property(nonatomic, weak) id<iTermSessionViewDelegate> delegate;
-@property(nonatomic, readonly) iTermSearchResultsMinimapView *searchResultsMinimap NS_AVAILABLE_MAC(10_14);
-@property(nonatomic, readonly) iTermIncrementalMinimapView *marksMinimap NS_AVAILABLE_MAC(10_14);
+@property(nonatomic, readonly)
+    iTermSearchResultsMinimapView *searchResultsMinimap NS_AVAILABLE_MAC(10_14);
+@property(nonatomic, readonly)
+    iTermIncrementalMinimapView *marksMinimap NS_AVAILABLE_MAC(10_14);
 @property(nonatomic, readonly) PTYScrollView *scrollview;
 @property(nonatomic, readonly) PTYScroller *verticalScroller;
 @property(nonatomic, readonly) iTermMetalDriver *driver NS_AVAILABLE_MAC(10_11);
@@ -177,35 +182,41 @@ typedef NS_ENUM(NSUInteger, iTermSessionViewFindDriver) {
 @property(nonatomic, readonly) iTermFindDriver *findDriver;
 @property(nonatomic, readonly) NSSize internalDecorationSize;
 @property(nonatomic, readonly) iTermSessionViewFindDriver findDriverType;
-@property(nonatomic, weak) id<iTermSearchResultsMinimapViewDelegate> searchResultsMinimapViewDelegate NS_AVAILABLE_MAC(10_14);
+@property(nonatomic, weak) id<iTermSearchResultsMinimapViewDelegate>
+    searchResultsMinimapViewDelegate NS_AVAILABLE_MAC(10_14);
 @property(nonatomic, strong) NSImage *image;
 @property(nonatomic) iTermBackgroundImageMode imageMode;
 
-// For macOS 10.14+ when subpixel AA is OFF, this draws the default background color. When there's
-// a background image it will be translucent to effect blending. When subpixel AA is ON or the OS
-// is 10.13 or earlier then this is hidden. It can't be used with subpixel AA because macOS isn't
-// able to take the color it's drawing over into account when choosing the subpixel colors and it
-// looks horrible.
-@property(nonatomic, strong) iTermBackgroundColorView *backgroundColorView NS_AVAILABLE_MAC(10_14);
+// For macOS 10.14+ when subpixel AA is OFF, this draws the default background
+// color. When there's a background image it will be translucent to effect
+// blending. When subpixel AA is ON or the OS is 10.13 or earlier then this is
+// hidden. It can't be used with subpixel AA because macOS isn't able to take
+// the color it's drawing over into account when choosing the subpixel colors
+// and it looks horrible.
+@property(nonatomic, strong)
+    iTermBackgroundColorView *backgroundColorView NS_AVAILABLE_MAC(10_14);
 
-// How far the metal view extends beyond the visible part of the viewport, such as under the title
-// bar or bottom per-pane status bar.
+// How far the metal view extends beyond the visible part of the viewport, such
+// as under the title bar or bottom per-pane status bar.
 @property(nonatomic, readonly) NSEdgeInsets extraMargins;
 
 - (void)setTerminalBackgroundColor:(NSColor *)color;
 
 - (void)showFindUI;
 - (void)findViewDidHide;
-- (void)setUseMetal:(BOOL)useMetal dataSource:(id<iTermMetalDriverDataSource>)dataSource NS_AVAILABLE_MAC(10_11);;
+- (void)setUseMetal:(BOOL)useMetal
+         dataSource:(id<iTermMetalDriverDataSource>)dataSource
+    NS_AVAILABLE_MAC(10_11);
+;
 - (void)didChangeMetalViewAlpha;
-- (void)setTransparencyAlpha:(CGFloat)transparencyAlpha
-    blend:(CGFloat)blend;
+- (void)setTransparencyAlpha:(CGFloat)transparencyAlpha blend:(CGFloat)blend;
 
 + (double)titleHeight;
-+ (NSDate*)lastResizeDate;
++ (NSDate *)lastResizeDate;
 + (void)windowDidResize;
 
-- (void)setMetalViewNeedsDisplayInTextViewRect:(NSRect)textViewRect NS_AVAILABLE_MAC(10_11);
+- (void)setMetalViewNeedsDisplayInTextViewRect:(NSRect)textViewRect
+    NS_AVAILABLE_MAC(10_11);
 
 - (void)setDimmed:(BOOL)isDimmed;
 - (void)setBackgroundDimmed:(BOOL)backgroundDimmed;
@@ -213,11 +224,14 @@ typedef NS_ENUM(NSUInteger, iTermSessionViewFindDriver) {
 - (void)updateColors;
 - (void)saveFrameSize;
 - (void)restoreFrameSize;
-- (void)setSplitSelectionMode:(SplitSelectionMode)mode move:(BOOL)move session:(id)session;
+- (void)setSplitSelectionMode:(SplitSelectionMode)mode
+                         move:(BOOL)move
+                      session:(id)session;
 - (BOOL)setShowTitle:(BOOL)value adjustScrollView:(BOOL)adjustScrollView;
 - (BOOL)showTitle;
 
-- (BOOL)setShowBottomStatusBar:(BOOL)value adjustScrollView:(BOOL)adjustScrollView;
+- (BOOL)setShowBottomStatusBar:(BOOL)value
+              adjustScrollView:(BOOL)adjustScrollView;
 - (BOOL)showBottomStatusBar;
 
 - (void)setTitle:(NSString *)title;
@@ -245,7 +259,9 @@ typedef NS_ENUM(NSUInteger, iTermSessionViewFindDriver) {
 - (NSRect)contentRect;
 
 // Insets the rect by the titlebar and status bar if they are present.
-- (NSRect)insetRect:(NSRect)rect flipped:(BOOL)flipped includeBottomStatusBar:(BOOL)includeBottomStatusBar;
+- (NSRect)insetRect:(NSRect)rect
+                   flipped:(BOOL)flipped
+    includeBottomStatusBar:(BOOL)includeBottomStatusBar;
 
 - (void)addAnnouncement:(iTermAnnouncementViewController *)announcement;
 

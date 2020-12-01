@@ -6,8 +6,8 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
 #import "PasteEvent.h"
+#import <Cocoa/Cocoa.h>
 
 extern const int kNumberOfSpacesPerTabCancel;
 extern const int kNumberOfSpacesPerTabNoConversion;
@@ -66,23 +66,24 @@ extern const NSInteger iTermQuickPasteBytesPerCallDefaultValue;
 
 // This performs all the transformations except for bracketing.
 + (void)sanitizePasteEvent:(PasteEvent *)pasteEvent
-    encoding:(NSStringEncoding)encoding;
+                  encoding:(NSStringEncoding)encoding;
 
-// Queue up a string to paste. If the queue is empty, it will begin pasting immediately.
+// Queue up a string to paste. If the queue is empty, it will begin pasting
+// immediately.
 - (void)pasteString:(NSString *)theString
-    slowly:(BOOL)slowly
+              slowly:(BOOL)slowly
     escapeShellChars:(BOOL)escapeShellChars
-    isUpload:(BOOL)isUpload
-    tabTransform:(iTermTabTransformTags)tabTransform
-    spacesPerTab:(int)spacesPerTab;
+            isUpload:(BOOL)isUpload
+        tabTransform:(iTermTabTransformTags)tabTransform
+        spacesPerTab:(int)spacesPerTab;
 
 - (void)pasteString:(NSString *)theString
-    slowly:(BOOL)slowly
+              slowly:(BOOL)slowly
     escapeShellChars:(BOOL)escapeShellChars
-    isUpload:(BOOL)isUpload
-    tabTransform:(iTermTabTransformTags)tabTransform
-    spacesPerTab:(int)spacesPerTab
-    progress:(void (^)(NSInteger))progress;
+            isUpload:(BOOL)isUpload
+        tabTransform:(iTermTabTransformTags)tabTransform
+        spacesPerTab:(int)spacesPerTab
+            progress:(void (^)(NSInteger))progress;
 
 // The string comes from the paste special view controller.
 - (void)pasteString:(NSString *)theString stringConfig:(NSString *)jsonConfig;
@@ -90,12 +91,15 @@ extern const NSInteger iTermQuickPasteBytesPerCallDefaultValue;
 // Save an event to process after pasting is done.
 - (void)enqueueEvent:(NSEvent *)event;
 
-// Remove all queued events and pending pastes, and hide the paste indicator if shown.
+// Remove all queued events and pending pastes, and hide the paste indicator if
+// shown.
 - (void)abort;
 
-- (void)showPasteOptionsInWindow:(NSWindow *)window bracketingEnabled:(BOOL)bracketingEnabled;
+- (void)showPasteOptionsInWindow:(NSWindow *)window
+               bracketingEnabled:(BOOL)bracketingEnabled;
 
-// Convert tabs to spaces in source, perhaps asking the user questions in modal alerts.
+// Convert tabs to spaces in source, perhaps asking the user questions in modal
+// alerts.
 - (int)numberOfSpacesToConvertTabsTo:(NSString *)source;
 
 // Call this when a shell prompt begins. If pasting in "commands" mode this
@@ -109,18 +113,18 @@ extern const NSInteger iTermQuickPasteBytesPerCallDefaultValue;
 
 // This method can be overridden for testing.
 - (NSTimer *)scheduledTimerWithTimeInterval:(NSTimeInterval)ti
-    target:(id)aTarget
-    selector:(SEL)aSelector
-    userInfo:(id)userInfo
-    repeats:(BOOL)yesOrNo;
+                                     target:(id)aTarget
+                                   selector:(SEL)aSelector
+                                   userInfo:(id)userInfo
+                                    repeats:(BOOL)yesOrNo;
 
 - (PasteEvent *)pasteEventWithString:(NSString *)theString
-    slowly:(BOOL)slowly
-    escapeShellChars:(BOOL)escapeShellChars
-    isUpload:(BOOL)isUpload
-    tabTransform:(iTermTabTransformTags)tabTransform
-    spacesPerTab:(int)spacesPerTab
-    progress:(void (^)(NSInteger))progress;
+                              slowly:(BOOL)slowly
+                    escapeShellChars:(BOOL)escapeShellChars
+                            isUpload:(BOOL)isUpload
+                        tabTransform:(iTermTabTransformTags)tabTransform
+                        spacesPerTab:(int)spacesPerTab
+                            progress:(void (^)(NSInteger))progress;
 - (void)tryToPasteEvent:(PasteEvent *)pasteEvent;
 
 @end

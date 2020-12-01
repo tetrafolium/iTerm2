@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol iTermOpenQuicklyCommand<NSObject>
+@protocol iTermOpenQuicklyCommand <NSObject>
 @property(nonatomic, copy) NSString *text;
 + (NSString *)tipTitle;
 + (NSString *)tipDetail;
@@ -24,7 +24,7 @@
 - (BOOL)supportsSnippet;
 @end
 
-@interface iTermOpenQuicklyCommand : NSObject<iTermOpenQuicklyCommand>
+@interface iTermOpenQuicklyCommand : NSObject <iTermOpenQuicklyCommand>
 + (NSString *)restrictionDescription;
 @end
 

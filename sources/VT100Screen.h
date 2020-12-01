@@ -1,12 +1,12 @@
-#import <Cocoa/Cocoa.h>
-#import "iTermEncoderAdapter.h"
-#import "iTermIntervalTreeObserver.h"
 #import "PTYNoteViewController.h"
 #import "PTYTextViewDataSource.h"
 #import "SCPPath.h"
 #import "VT100ScreenDelegate.h"
 #import "VT100Terminal.h"
 #import "VT100Token.h"
+#import "iTermEncoderAdapter.h"
+#import "iTermIntervalTreeObserver.h"
+#import <Cocoa/Cocoa.h>
 
 @class DVR;
 @class iTermNotificationController;
@@ -21,9 +21,10 @@
 @protocol iTermMark;
 @class VT100Terminal;
 
-// Dictionary keys for -highlightTextInRange:basedAtAbsoluteLineNumber:absoluteLineNumber:color:
-extern NSString * const kHighlightForegroundColor;
-extern NSString * const kHighlightBackgroundColor;
+// Dictionary keys for
+// -highlightTextInRange:basedAtAbsoluteLineNumber:absoluteLineNumber:color:
+extern NSString *const kHighlightForegroundColor;
+extern NSString *const kHighlightBackgroundColor;
 
 // Key into dictionaryValue to get screen state.
 extern NSString *const kScreenStateKey;
@@ -32,15 +33,13 @@ extern int kVT100ScreenMinColumns;
 extern int kVT100ScreenMinRows;
 extern const NSInteger VT100ScreenBigFileDownloadThreshold;
 
-@interface VT100Screen : NSObject <
-    PTYNoteViewControllerDelegate,
-    PTYTextViewDataSource,
-    VT100GridDelegate,
-    VT100TerminalDelegate> {
+@interface VT100Screen
+    : NSObject <PTYNoteViewControllerDelegate, PTYTextViewDataSource,
+                VT100GridDelegate, VT100TerminalDelegate> {
 @private
-    // This is here because the unit test needs to manipulate it.
-    // Scrollback buffer
-    LineBuffer* linebuffer_;
+  // This is here because the unit test needs to manipulate it.
+  // Scrollback buffer
+  LineBuffer *linebuffer_;
 }
 
 @property(nonatomic, retain) VT100Terminal *terminal;
@@ -61,22 +60,23 @@ extern const NSInteger VT100ScreenBigFileDownloadThreshold;
 @property(nonatomic, assign) BOOL appendToScrollbackWithStatusBar;
 @property(nonatomic, readonly) VT100GridAbsCoordRange lastCommandOutputRange;
 @property(nonatomic, assign) iTermUnicodeNormalization normalization;
-@property(nonatomic, readonly) BOOL shellIntegrationInstalled;  // Just a guess.
+@property(nonatomic, readonly) BOOL shellIntegrationInstalled; // Just a guess.
 @property(nonatomic, readonly) NSIndexSet *animatedLines;
 @property(nonatomic, readonly) VT100GridAbsCoord startOfRunningCommandOutput;
 @property(nonatomic, readonly) int lineNumberOfCursor;
 @property(nonatomic, readonly) NSSize viewSize;
 
-// Valid while at the command prompt only. Gives the range of the current prompt. Meaningful
-// only if the end is not equal to the start.
+// Valid while at the command prompt only. Gives the range of the current
+// prompt. Meaningful only if the end is not equal to the start.
 @property(nonatomic, readonly) VT100GridAbsCoordRange currentPromptRange;
 
 // Valid only if its x component is nonnegative.
 // Gives the coordinate where the current command begins.
 @property(nonatomic, readonly) VT100GridAbsCoord commandStartCoord;
 
-// Assigning to `size` resizes the session and tty. Its contents are reflowed. The alternate grid's
-// contents are reflowed, and the selection is updated. It is a little slow so be judicious.
+// Assigning to `size` resizes the session and tty. Its contents are reflowed.
+// The alternate grid's contents are reflowed, and the selection is updated. It
+// is a little slow so be judicious.
 @property(nonatomic, assign) VT100GridSize size;
 
 // Designated initializer.
@@ -88,8 +88,8 @@ extern const NSInteger VT100ScreenBigFileDownloadThreshold;
 // Convert a run to one without nulls on either end.
 - (VT100GridRun)runByTrimmingNullsFromRun:(VT100GridRun)run;
 
-// Indicates if line drawing mode is enabled for any character set, or if the current character set
-// is not G0.
+// Indicates if line drawing mode is enabled for any character set, or if the
+// current character set is not G0.
 - (BOOL)allCharacterSetPropertiesHaveDefaultValues;
 
 - (void)showCursor:(BOOL)show;
@@ -101,50 +101,58 @@ extern const NSInteger VT100ScreenBigFileDownloadThreshold;
 - (void)clearScrollbackBuffer;
 
 - (void)appendScreenChars:(screen_char_t *)line
-    length:(int)length
-    continuation:(screen_char_t)continuation;
-- (void)appendLinesMatchingQuery:(NSString *)query from:(VT100Screen *)source mode:(iTermFindMode)mode;
+                   length:(int)length
+             continuation:(screen_char_t)continuation;
+- (void)appendLinesMatchingQuery:(NSString *)query
+                            from:(VT100Screen *)source
+                            mode:(iTermFindMode)mode;
 
-// Append a string to the screen at the current cursor position. The terminal's insert and wrap-
-// around modes are respected, the cursor is advanced, the screen may be scrolled, and the line
-// buffer may change.
+// Append a string to the screen at the current cursor position. The terminal's
+// insert and wrap- around modes are respected, the cursor is advanced, the
+// screen may be scrolled, and the line buffer may change.
 - (void)appendStringAtCursor:(NSString *)string;
 - (void)appendAsciiDataAtCursor:(AsciiData *)asciiData;
 
-// This is a hacky thing that moves the cursor to the next line, not respecting scroll regions.
-// It's used for the tmux status screen.
+// This is a hacky thing that moves the cursor to the next line, not respecting
+// scroll regions. It's used for the tmux status screen.
 - (void)crlf;
 
-// Move the cursor down one position, scrolling if needed. Scroll regions are respected.
+// Move the cursor down one position, scrolling if needed. Scroll regions are
+// respected.
 - (void)linefeed;
 
-// Sets the primary grid's contents and scrollback history. |history| is an array of NSData
-// containing screen_char_t's. It contains a bizarre workaround for tmux bugs.
+// Sets the primary grid's contents and scrollback history. |history| is an
+// array of NSData containing screen_char_t's. It contains a bizarre workaround
+// for tmux bugs.
 - (void)setHistory:(NSArray *)history;
 
 // Sets the alt grid's contents. |lines| is NSData with screen_char_t's.
 - (void)setAltScreen:(NSArray *)lines;
 
-// Load state from tmux. The |state| dictionary has keys from the kStateDictXxx values.
+// Load state from tmux. The |state| dictionary has keys from the kStateDictXxx
+// values.
 - (void)setTmuxState:(NSDictionary *)state;
 
 // Set the colors in the range relative to the start of the given line number.
-// See kHighlightXxxColor constants at the top of this file for dict keys, values are NSColor*s.
+// See kHighlightXxxColor constants at the top of this file for dict keys,
+// values are NSColor*s.
 - (void)highlightTextInRange:(NSRange)range
     basedAtAbsoluteLineNumber:(long long)absoluteLineNumber
-    colors:(NSDictionary *)colors;
+                       colors:(NSDictionary *)colors;
 
 - (void)linkTextInRange:(NSRange)range
     basedAtAbsoluteLineNumber:(long long)absoluteLineNumber
-    URLCode:(unsigned short)code;
+                      URLCode:(unsigned short)code;
 
 // Load a frame from a dvr decoder.
-- (void)setFromFrame:(screen_char_t*)s len:(int)len info:(DVRFrameInfo)info;
+- (void)setFromFrame:(screen_char_t *)s len:(int)len info:(DVRFrameInfo)info;
 
-// Save the position of the end of the scrollback buffer without the screen appended.
+// Save the position of the end of the scrollback buffer without the screen
+// appended.
 - (void)storeLastPositionInLineBufferAsFindContextSavedPosition;
 
-// Restore the saved position into a passed-in find context (see saveFindContextAbsPos and
+// Restore the saved position into a passed-in find context (see
+// saveFindContextAbsPos and
 // storeLastPositionInLineBufferAsFindContextSavedPosition).
 - (void)restoreSavedPositionToFindContext:(FindContext *)context;
 
@@ -155,8 +163,8 @@ extern const NSInteger VT100ScreenBigFileDownloadThreshold;
 // This is provided for testing only.
 - (VT100Grid *)currentGrid;
 
-// Called when a bell is to be run. Applies rate limiting and kicks off the bell indicators
-// (notifications, flashing lights, sounds) per user preference.
+// Called when a bell is to be run. Applies rate limiting and kicks off the bell
+// indicators (notifications, flashing lights, sounds) per user preference.
 - (void)activateBell;
 
 // Show an inline image. image and data are mutually exclusive.
@@ -164,8 +172,9 @@ extern const NSInteger VT100ScreenBigFileDownloadThreshold;
 
 - (void)resetAnimatedLines;
 
-- (iTermStringLine *)stringLineAsStringAtAbsoluteLineNumber:(long long)absoluteLineNumber
-    startPtr:(long long *)startAbsLineNumber;
+- (iTermStringLine *)
+    stringLineAsStringAtAbsoluteLineNumber:(long long)absoluteLineNumber
+                                  startPtr:(long long *)startAbsLineNumber;
 
 - (void)toggleAlternateScreen;
 
@@ -177,13 +186,14 @@ extern const NSInteger VT100ScreenBigFileDownloadThreshold;
 - (VT100ScreenMark *)promptMarkWithGUID:(NSString *)guid;
 - (BOOL)markIsValid:(iTermMark *)mark;
 - (id<iTermMark>)addMarkStartingAtAbsoluteLine:(long long)line
-    oneLine:(BOOL)oneLine
-    ofClass:(Class)markClass;
+                                       oneLine:(BOOL)oneLine
+                                       ofClass:(Class)markClass;
 - (VT100GridRange)lineNumberRangeOfInterval:(Interval *)interval;
 - (void)enumeratePromptsFrom:(NSString *)maybeFirst
-    to:(NSString *)maybeLast
-    block:(void (^ NS_NOESCAPE)(VT100ScreenMark *mark))block;
-// These methods normally only return one object, but if there is a tie, all of the equally-positioned marks/notes are returned.
+                          to:(NSString *)maybeLast
+                       block:(void (^NS_NOESCAPE)(VT100ScreenMark *mark))block;
+// These methods normally only return one object, but if there is a tie, all of
+// the equally-positioned marks/notes are returned.
 - (NSArray *)lastMarksOrNotes;
 - (NSArray *)firstMarksOrNotes;
 
@@ -203,21 +213,23 @@ extern const NSInteger VT100ScreenBigFileDownloadThreshold;
 
 - (BOOL)containsMark:(id<iTermMark>)mark;
 
-- (void)setWorkingDirectory:(NSString *)workingDirectory onLine:(int)line pushed:(BOOL)pushed;
+- (void)setWorkingDirectory:(NSString *)workingDirectory
+                     onLine:(int)line
+                     pushed:(BOOL)pushed;
 - (NSString *)workingDirectoryOnLine:(int)line;
 - (VT100RemoteHost *)remoteHostOnLine:(int)line;
-- (VT100ScreenMark *)lastCommandMark;  // last mark representing a command
+- (VT100ScreenMark *)lastCommandMark; // last mark representing a command
 
 - (BOOL)encodeContents:(id<iTermEncoderAdapter>)encoder
-    linesDropped:(int *)linesDroppedOut;
+          linesDropped:(int *)linesDroppedOut;
 
-// WARNING: This may change the screen size! Use -restoreInitialSize to restore it.
-// This is useful for restoring other stuff that depends on the screen having its original size
-// such as selections.
+// WARNING: This may change the screen size! Use -restoreInitialSize to restore
+// it. This is useful for restoring other stuff that depends on the screen
+// having its original size such as selections.
 - (void)restoreFromDictionary:(NSDictionary *)dictionary
-    includeRestorationBanner:(BOOL)includeRestorationBanner
-    knownTriggers:(NSArray *)triggers
-    reattached:(BOOL)reattached;
+     includeRestorationBanner:(BOOL)includeRestorationBanner
+                knownTriggers:(NSArray *)triggers
+                   reattached:(BOOL)reattached;
 - (void)restoreInitialSize;
 
 // Zero-based (as VT100GridCoord always is), unlike -cursorX and -cursorY.
@@ -235,9 +247,10 @@ extern const NSInteger VT100ScreenBigFileDownloadThreshold;
 - (VT100GridCoordRange)coordRangeForInterval:(Interval *)interval;
 
 - (BOOL)confirmBigDownloadWithBeforeSize:(NSInteger)sizeBefore
-    afterSize:(NSInteger)afterSize
-    name:(NSString *)name;
-- (void)enumerateObservableMarks:(void (^ NS_NOESCAPE)(iTermIntervalTreeObjectType, NSInteger))block;
+                               afterSize:(NSInteger)afterSize
+                                    name:(NSString *)name;
+- (void)enumerateObservableMarks:
+    (void (^NS_NOESCAPE)(iTermIntervalTreeObjectType, NSInteger))block;
 
 @end
 

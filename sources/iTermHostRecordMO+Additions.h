@@ -6,8 +6,8 @@
 //
 //
 
-#import <Foundation/Foundation.h>
 #import "iTermHostRecordMO.h"
+#import <Foundation/Foundation.h>
 
 @interface iTermHostRecordMO (Additions)
 

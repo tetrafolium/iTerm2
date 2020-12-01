@@ -25,7 +25,8 @@
 
 @interface NSFileManager (iTerm)
 
-+ (NSString *)pathToSaveFileInFolder:(NSString *)destinationDirectory preferredName:(NSString *)preferredName;
++ (NSString *)pathToSaveFileInFolder:(NSString *)destinationDirectory
+                       preferredName:(NSString *)preferredName;
 
 - (NSString *)legacyApplicationSupportDirectory;
 - (NSString *)applicationSupportDirectory;
@@ -36,34 +37,36 @@
 
 - (BOOL)directoryIsWritable:(NSString *)dir;
 
-// Returns YES if the file looks like it might be on a local filesystem, but doesn't check if it
-// actually exists.
+// Returns YES if the file looks like it might be on a local filesystem, but
+// doesn't check if it actually exists.
 - (BOOL)fileIsLocal:(NSString *)filename
     additionalNetworkPaths:(NSArray<NSString *> *)additionalNetworkPaths;
 
 // Returns YES if the file exists on a local (non-network) filesystem.
 - (BOOL)fileExistsAtPathLocally:(NSString *)filename
-    additionalNetworkPaths:(NSArray<NSString *> *)additionalNetworkpaths;
+         additionalNetworkPaths:(NSArray<NSString *> *)additionalNetworkpaths;
 
 - (BOOL)fileHasForbiddenPrefix:(NSString *)filename
-    additionalNetworkPaths:(NSArray<NSString *> *)additionalNetworkpaths;
+        additionalNetworkPaths:(NSArray<NSString *> *)additionalNetworkpaths;
 
 // Returns the path to the user's desktop.
 - (NSString *)desktopDirectory;
 
-// Filename holding the version number of iTerm2 that was last run. If iTerm2 is launched with
-// this file as the file to open, then autolaunch scripts won't run and window restoration.
+// Filename holding the version number of iTerm2 that was last run. If iTerm2 is
+// launched with this file as the file to open, then autolaunch scripts won't
+// run and window restoration.
 - (NSString *)versionNumberFilename;
 
-// Directory where scripts live. These are loaded and added to a menu or auto-run at startup.
+// Directory where scripts live. These are loaded and added to a menu or
+// auto-run at startup.
 - (NSString *)scriptsPath;
 
 // Path to special auto-launch script that is run at startup.
-- (NSString *)legacyAutolaunchScriptPath;  // applescript
-- (NSString *)autolaunchScriptPath;  // scripting API
+- (NSString *)legacyAutolaunchScriptPath; // applescript
+- (NSString *)autolaunchScriptPath;       // scripting API
 
-// Path to special file that, if it exists at launch time, suppresses autolaunch script and
-// window restoration.
+// Path to special file that, if it exists at launch time, suppresses autolaunch
+// script and window restoration.
 - (NSString *)quietFilePath;
 - (BOOL)directoryEmpty:(NSString *)path;
 - (BOOL)itemIsSymlink:(NSString *)path;

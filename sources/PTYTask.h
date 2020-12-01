@@ -2,10 +2,10 @@
 
 #import <Foundation/Foundation.h>
 
+#import "VT100GridTypes.h"
 #import "iTermFileDescriptorClient.h"
 #import "iTermLoggingHelper.h"
 #import "iTermTTYState.h"
-#import "VT100GridTypes.h"
 
 #import <termios.h>
 
@@ -22,10 +22,11 @@
 
 // Runs in the same background task as -threadedReadTask:length:.
 - (void)threadedTaskBrokenPipe;
-- (void)brokenPipe;  // Called in main thread
+- (void)brokenPipe; // Called in main thread
 - (void)tmuxClientWrite:(NSData *)data;
 
-// Called on main thread from within launchWithPath:arguments:environment:customShell:gridSize:viewSize:isUTF8:.
+// Called on main thread from within
+// launchWithPath:arguments:environment:customShell:gridSize:viewSize:isUTF8:.
 - (void)taskDiedImmediately;
 
 // Main thread
@@ -33,107 +34,122 @@
 @end
 
 typedef NS_ENUM(NSUInteger, iTermJobManagerForkAndExecStatus) {
-    iTermJobManagerForkAndExecStatusSuccess,
-    iTermJobManagerForkAndExecStatusTempFileError,
-    iTermJobManagerForkAndExecStatusFailedToFork,
-    iTermJobManagerForkAndExecStatusTaskDiedImmediately,
-    iTermJobManagerForkAndExecStatusServerError,
-    iTermJobManagerForkAndExecStatusServerLaunchFailed
+  iTermJobManagerForkAndExecStatusSuccess,
+  iTermJobManagerForkAndExecStatusTempFileError,
+  iTermJobManagerForkAndExecStatusFailedToFork,
+  iTermJobManagerForkAndExecStatusTaskDiedImmediately,
+  iTermJobManagerForkAndExecStatusServerError,
+  iTermJobManagerForkAndExecStatusServerLaunchFailed
 };
 
 typedef NS_ENUM(NSUInteger, iTermJobManagerKillingMode) {
-    iTermJobManagerKillingModeRegular,            // SIGHUP, child only
-    iTermJobManagerKillingModeForce,              // SIGKILL, child only
-    iTermJobManagerKillingModeForceUnrestorable,  // SIGKILL to server if available. SIGHUP to child always.
-    iTermJobManagerKillingModeProcessGroup,       // SIGHUP to process group
-    iTermJobManagerKillingModeBrokenPipe,         // Removes unix domain socket and file descriptor for it. Ensures server is waitpid()ed on. This does not directly kill the child process.
+  iTermJobManagerKillingModeRegular,           // SIGHUP, child only
+  iTermJobManagerKillingModeForce,             // SIGKILL, child only
+  iTermJobManagerKillingModeForceUnrestorable, // SIGKILL to server if
+                                               // available. SIGHUP to child
+                                               // always.
+  iTermJobManagerKillingModeProcessGroup,      // SIGHUP to process group
+  iTermJobManagerKillingModeBrokenPipe, // Removes unix domain socket and file
+                                        // descriptor for it. Ensures server is
+                                        // waitpid()ed on. This does not
+                                        // directly kill the child process.
 };
 
 typedef struct {
-    pid_t pid;
-    int number;
+  pid_t pid;
+  int number;
 } iTermFileDescriptorMultiServerProcess;
 
 typedef NS_ENUM(NSUInteger, iTermGeneralServerConnectionType) {
-    iTermGeneralServerConnectionTypeMono,
-    iTermGeneralServerConnectionTypeMulti
+  iTermGeneralServerConnectionTypeMono,
+  iTermGeneralServerConnectionTypeMulti
 };
 
 typedef struct {
-    iTermGeneralServerConnectionType type;
-    union {
-        iTermFileDescriptorServerConnection mono;
-        iTermFileDescriptorMultiServerProcess multi;
-    };
+  iTermGeneralServerConnectionType type;
+  union {
+    iTermFileDescriptorServerConnection mono;
+    iTermFileDescriptorMultiServerProcess multi;
+  };
 } iTermGeneralServerConnection;
 
-@protocol iTermJobManagerPartialResult<NSObject>
+@protocol iTermJobManagerPartialResult <NSObject>
 @end
 
-@protocol iTermJobManager<NSObject>
+@protocol iTermJobManager <NSObject>
 
-@property (atomic) int fd;
-@property (atomic, copy) NSString *tty;
-@property (atomic, readonly) pid_t externallyVisiblePid;
-@property (atomic, readonly) BOOL hasJob;
-@property (atomic, readonly) id sessionRestorationIdentifier;
-@property (atomic, readonly) pid_t pidToWaitOn;
-@property (atomic, readonly) BOOL isSessionRestorationPossible;
-@property (atomic, readonly) BOOL ioAllowed;
-@property (atomic, readonly) dispatch_queue_t queue;
-@property (atomic, readonly) BOOL isReadOnly;
+@property(atomic) int fd;
+@property(atomic, copy) NSString *tty;
+@property(atomic, readonly) pid_t externallyVisiblePid;
+@property(atomic, readonly) BOOL hasJob;
+@property(atomic, readonly) id sessionRestorationIdentifier;
+@property(atomic, readonly) pid_t pidToWaitOn;
+@property(atomic, readonly) BOOL isSessionRestorationPossible;
+@property(atomic, readonly) BOOL ioAllowed;
+@property(atomic, readonly) dispatch_queue_t queue;
+@property(atomic, readonly) BOOL isReadOnly;
 
 + (BOOL)available;
 
 - (instancetype)initWithQueue:(dispatch_queue_t)queue;
 
 - (void)forkAndExecWithTtyState:(iTermTTYState)ttyState
-    argpath:(NSString *)argpath
-    argv:(NSArray<NSString *> *)argv
-    initialPwd:(NSString *)initialPwd
-    newEnviron:(NSArray<NSString *> *)newEnviron
-    task:(id<iTermTask>)task
-    completion:(void (^)(iTermJobManagerForkAndExecStatus))completion;
+                        argpath:(NSString *)argpath
+                           argv:(NSArray<NSString *> *)argv
+                     initialPwd:(NSString *)initialPwd
+                     newEnviron:(NSArray<NSString *> *)newEnviron
+                           task:(id<iTermTask>)task
+                     completion:
+                         (void (^)(iTermJobManagerForkAndExecStatus))completion;
 
 typedef NS_OPTIONS(NSUInteger, iTermJobManagerAttachResults) {
-    iTermJobManagerAttachResultsAttached = (1 << 0),
-    iTermJobManagerAttachResultsRegistered = (1 << 1)
+  iTermJobManagerAttachResultsAttached = (1 << 0),
+  iTermJobManagerAttachResultsRegistered = (1 << 1)
 };
 
-// Completion block will be invoked on the main thread. ok gives whether it succeeded.
+// Completion block will be invoked on the main thread. ok gives whether it
+// succeeded.
 - (void)attachToServer:(iTermGeneralServerConnection)serverConnection
-    withProcessID:(NSNumber *)thePid
-    task:(id<iTermTask>)task
-    completion:(void (^)(iTermJobManagerAttachResults results))completion;
+         withProcessID:(NSNumber *)thePid
+                  task:(id<iTermTask>)task
+            completion:
+                (void (^)(iTermJobManagerAttachResults results))completion;
 
-- (iTermJobManagerAttachResults)attachToServer:(iTermGeneralServerConnection)serverConnection
-    withProcessID:(NSNumber *)thePid
-    task:(id<iTermTask>)task;
+- (iTermJobManagerAttachResults)
+    attachToServer:(iTermGeneralServerConnection)serverConnection
+     withProcessID:(NSNumber *)thePid
+              task:(id<iTermTask>)task;
 
 - (void)killWithMode:(iTermJobManagerKillingMode)mode;
 
-// Atomic. Only closes it once. Returns YES if close() called, NO if already closed.
+// Atomic. Only closes it once. Returns YES if close() called, NO if already
+// closed.
 - (BOOL)closeFileDescriptor;
 
 @optional
 // Attach to the server before an iTermTask exists.
-- (void)asyncPartialAttachToServer:(iTermGeneralServerConnection)serverConnection
-    withProcessID:(NSNumber *)thePid
-    completion:(void (^)(id<iTermJobManagerPartialResult> result))completion;
+- (void)asyncPartialAttachToServer:
+            (iTermGeneralServerConnection)serverConnection
+                     withProcessID:(NSNumber *)thePid
+                        completion:
+                            (void (^)(id<iTermJobManagerPartialResult> result))
+                                completion;
 
-// After a partial attach, call this to register (if needed) and compute the attach results.
-- (iTermJobManagerAttachResults)finishAttaching:(id<iTermJobManagerPartialResult>)result
-    task:(id<iTermTask>)task;
+// After a partial attach, call this to register (if needed) and compute the
+// attach results.
+- (iTermJobManagerAttachResults)finishAttaching:
+                                    (id<iTermJobManagerPartialResult>)result
+                                           task:(id<iTermTask>)task;
 
 @end
 
 @protocol iTermPartialAttachment
-@property (nonatomic, strong) id<iTermJobManagerPartialResult> partialResult;
-@property (nonatomic, strong) id<iTermJobManager> jobManager;
-@property (nonatomic, strong) dispatch_queue_t queue;
+@property(nonatomic, strong) id<iTermJobManagerPartialResult> partialResult;
+@property(nonatomic, strong) id<iTermJobManager> jobManager;
+@property(nonatomic, strong) dispatch_queue_t queue;
 @end
 
-@interface PTYTask : NSObject<iTermLogging>
+@interface PTYTask : NSObject <iTermLogging>
 
 @property(atomic, readonly) BOOL hasMuteCoprocess;
 @property(atomic, weak) id<PTYTaskDelegate> delegate;
@@ -145,7 +161,8 @@ typedef NS_OPTIONS(NSUInteger, iTermJobManagerAttachResults) {
 
 @property(atomic, readonly) int fd;
 @property(atomic, readonly) pid_t pid;
-// Externally, only PTYSession should assign to this when reattaching to a server.
+// Externally, only PTYSession should assign to this when reattaching to a
+// server.
 @property(atomic, readonly) NSString *tty;
 @property(atomic, readonly) NSString *path;
 @property(atomic, readonly) NSString *getWorkingDirectory;
@@ -158,34 +175,38 @@ typedef NS_OPTIONS(NSUInteger, iTermJobManagerAttachResults) {
 @property(nonatomic, readonly) BOOL passwordInput;
 @property(nonatomic) unichar pendingHighSurrogate;
 @property(nonatomic, copy) NSNumber *tmuxClientProcessID;
-// This is used by tmux clients as a way to route data from %output in to the taskNotifier. Like
-// the name says you can't write to it.
+// This is used by tmux clients as a way to route data from %output in to the
+// taskNotifier. Like the name says you can't write to it.
 @property(atomic) int readOnlyFileDescriptor;
 
 - (instancetype)init;
 
 - (BOOL)hasBrokenPipe;
 
-// Command the profile was created with. nil for login shell or whatever's in the command field of the profile otherwise.
+// Command the profile was created with. nil for login shell or whatever's in
+// the command field of the profile otherwise.
 - (NSString *)originalCommand;
 
-- (void)launchWithPath:(NSString*)progpath
-    arguments:(NSArray*)args
-    environment:(NSDictionary*)env
-    customShell:(NSString *)customShell
-    gridSize:(VT100GridSize)gridSize
-    viewSize:(NSSize)viewSize
-    isUTF8:(BOOL)isUTF8
-    completion:(void (^)(void))completion;
+- (void)launchWithPath:(NSString *)progpath
+             arguments:(NSArray *)args
+           environment:(NSDictionary *)env
+           customShell:(NSString *)customShell
+              gridSize:(VT100GridSize)gridSize
+              viewSize:(NSSize)viewSize
+                isUTF8:(BOOL)isUTF8
+            completion:(void (^)(void))completion;
 
-- (void)fetchProcessInfoForCurrentJobWithCompletion:(void (^)(iTermProcessInfo *))completion;
+- (void)fetchProcessInfoForCurrentJobWithCompletion:
+    (void (^)(iTermProcessInfo *))completion;
 - (iTermProcessInfo *)cachedProcessInfoIfAvailable;
 
-- (void)writeTask:(NSData*)data;
+- (void)writeTask:(NSData *)data;
 
-// Cause the slave to receive a SIGWINCH and change the tty's window size. If `size` equals the
-// tty's current window size then no action is taken.
-- (void)setSize:(VT100GridSize)size viewSize:(NSSize)viewSize scaleFactor:(CGFloat)scaleFactor;
+// Cause the slave to receive a SIGWINCH and change the tty's window size. If
+// `size` equals the tty's current window size then no action is taken.
+- (void)setSize:(VT100GridSize)size
+       viewSize:(NSSize)viewSize
+    scaleFactor:(CGFloat)scaleFactor;
 
 - (void)stop;
 
@@ -203,17 +224,21 @@ typedef NS_OPTIONS(NSUInteger, iTermJobManagerAttachResults) {
 - (BOOL)tryToAttachToServerWithProcessId:(pid_t)thePid tty:(NSString *)tty;
 
 // Multiserver
-- (iTermJobManagerAttachResults)tryToAttachToMultiserverWithRestorationIdentifier:(NSDictionary *)restorationIdentifier;
+- (iTermJobManagerAttachResults)
+    tryToAttachToMultiserverWithRestorationIdentifier:
+        (NSDictionary *)restorationIdentifier;
 
 // Wire up the server as the task's file descriptor and process. The caller
 // will have connected to the server to get this info. Requires
-// [iTermAdvancedSettingsModel runJobsInServers]. Multiservers may return failure (NO) here
-// if the pid is not known.
+// [iTermAdvancedSettingsModel runJobsInServers]. Multiservers may return
+// failure (NO) here if the pid is not known.
 - (void)attachToServer:(iTermGeneralServerConnection)serverConnection
-    completion:(void (^)(iTermJobManagerAttachResults results))completion;
+            completion:
+                (void (^)(iTermJobManagerAttachResults results))completion;
 
 // Synchronous version of attachToServer:completion:
-- (iTermJobManagerAttachResults)attachToServer:(iTermGeneralServerConnection)serverConnection;
+- (iTermJobManagerAttachResults)attachToServer:
+    (iTermGeneralServerConnection)serverConnection;
 
 - (void)killWithMode:(iTermJobManagerKillingMode)mode;
 
@@ -221,11 +246,17 @@ typedef NS_OPTIONS(NSUInteger, iTermJobManagerAttachResults) {
 
 - (void)getWorkingDirectoryWithCompletion:(void (^)(NSString *pwd))completion;
 
-- (void)partiallyAttachToMultiserverWithRestorationIdentifier:(NSDictionary *)restorationIdentifier
-    completion:(void (^)(id<iTermJobManagerPartialResult>))completion;
+- (void)
+    partiallyAttachToMultiserverWithRestorationIdentifier:
+        (NSDictionary *)restorationIdentifier
+                                               completion:
+                                                   (void (^)(
+                                                       id<iTermJobManagerPartialResult>))
+                                                       completion;
 
-- (iTermJobManagerAttachResults)finishAttachingToMultiserver:(id<iTermJobManagerPartialResult>)partialResult
-    jobManager:(id<iTermJobManager>)jobManager
-    queue:(dispatch_queue_t)queue;
+- (iTermJobManagerAttachResults)
+    finishAttachingToMultiserver:(id<iTermJobManagerPartialResult>)partialResult
+                      jobManager:(id<iTermJobManager>)jobManager
+                           queue:(dispatch_queue_t)queue;
 
 @end

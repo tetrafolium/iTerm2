@@ -5,17 +5,17 @@
 //  Created by George Nachman on 5/16/20.
 //
 
-#import <Foundation/Foundation.h>
 #import "VT100GridTypes.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-// A string with an array of coords that is 1:1 with the UTF-16 codepoints in `string` giving their
-// locations in history.
+// A string with an array of coords that is 1:1 with the UTF-16 codepoints in
+// `string` giving their locations in history.
 @interface iTermLocatedString : NSObject
-@property (nonatomic, readonly) NSString *string;
-@property (nonatomic, readonly) NSArray<NSValue *> *coords;
-@property (nonatomic, readonly) NSInteger length;
+@property(nonatomic, readonly) NSString *string;
+@property(nonatomic, readonly) NSArray<NSValue *> *coords;
+@property(nonatomic, readonly) NSInteger length;
 
 - (void)appendString:(NSString *)string at:(VT100GridCoord)coord;
 - (void)erase;
@@ -26,14 +26,14 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface iTermLocatedAttributedString : iTermLocatedString
-@property (nonatomic, readonly) NSAttributedString *attributedString;
+@property(nonatomic, readonly) NSAttributedString *attributedString;
 
 - (void)appendString:(NSString *)string
-    withAttributes:(NSDictionary *)attributes
-    at:(VT100GridCoord)coord;
+      withAttributes:(NSDictionary *)attributes
+                  at:(VT100GridCoord)coord;
 
 - (void)appendAttributedString:(NSAttributedString *)attributedString
-    at:(VT100GridCoord)coord;
+                            at:(VT100GridCoord)coord;
 
 @end
 

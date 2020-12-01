@@ -7,8 +7,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import "iTermTuple.h"
 #import "ProfileModel.h"
+#import "iTermTuple.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -23,7 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSDictionary *)builtInPresetKeyMappings;
 
-+ (NSArray<iTermTuple<iTermKeystroke *, iTermKeyBindingAction *> *> *)keystrokeTuplesInAllPresets;
++ (NSArray<iTermTuple<iTermKeystroke *, iTermKeyBindingAction *> *> *)
+    keystrokeTuplesInAllPresets;
 
 + (NSArray *)globalPresetNames;
 
@@ -34,13 +35,15 @@ NS_ASSUME_NONNULL_BEGIN
 // Load a set of preset keymappings from PresetKeyMappings.plist into the
 // specified bookmarks, removing all of its previous mappings.
 + (Profile *)profileByLoadingPresetNamed:(NSString *)presetName
-    intoProfile:(Profile *)sourceProfile
-    byReplacingAll:(BOOL)replaceAll;
-+ (NSSet<iTermKeystroke *> *)keystrokesInKeyMappingPresetWithName:(NSString *)presetName;
+                             intoProfile:(Profile *)sourceProfile
+                          byReplacingAll:(BOOL)replaceAll;
++ (NSSet<iTermKeystroke *> *)keystrokesInKeyMappingPresetWithName:
+    (NSString *)presetName;
 
 // Load a set of preset keymappings from GlobalKeyMap.plist into the global
 // keymappings, removing all previous mappings.
-+ (void)setGlobalKeyMappingsToPreset:(NSString *)presetName byReplacingAll:(BOOL)replaceAll;
++ (void)setGlobalKeyMappingsToPreset:(NSString *)presetName
+                      byReplacingAll:(BOOL)replaceAll;
 
 + (NSSet<iTermKeystroke *> *)keystrokesInGlobalPreset:(NSString *)presetName;
 

@@ -10,20 +10,20 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, iTermIntervalTreeObjectType) {
-    iTermIntervalTreeObjectTypeSuccessMark,
-    iTermIntervalTreeObjectTypeOtherMark,
-    iTermIntervalTreeObjectTypeErrorMark,
-    iTermIntervalTreeObjectTypeManualMark,
-    iTermIntervalTreeObjectTypeAnnotation,
-    iTermIntervalTreeObjectTypeUnknown,
+  iTermIntervalTreeObjectTypeSuccessMark,
+  iTermIntervalTreeObjectTypeOtherMark,
+  iTermIntervalTreeObjectTypeErrorMark,
+  iTermIntervalTreeObjectTypeManualMark,
+  iTermIntervalTreeObjectTypeAnnotation,
+  iTermIntervalTreeObjectTypeUnknown,
 };
 
-@protocol iTermIntervalTreeObserver<NSObject>
+@protocol iTermIntervalTreeObserver <NSObject>
 - (void)intervalTreeDidReset;
 - (void)intervalTreeDidAddObjectOfType:(iTermIntervalTreeObjectType)type
-    onLine:(NSInteger)line;
+                                onLine:(NSInteger)line;
 - (void)intervalTreeDidRemoveObjectOfType:(iTermIntervalTreeObjectType)type
-    onLine:(NSInteger)line;
+                                   onLine:(NSInteger)line;
 - (void)intervalTreeVisibleRangeDidChange;
 @end
 

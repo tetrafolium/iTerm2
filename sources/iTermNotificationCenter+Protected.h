@@ -7,7 +7,8 @@
 
 #import "iTermNotificationCenter.h"
 
-@interface iTermBaseNotification()
+@interface iTermBaseNotification ()
 - (instancetype)initPrivate NS_DESIGNATED_INITIALIZER;
-+ (void)internalSubscribe:(NSObject *)owner withBlock:(void (^)(id notification))block;
++ (void)internalSubscribe:(NSObject *)owner
+                withBlock:(void (^)(id notification))block;
 @end

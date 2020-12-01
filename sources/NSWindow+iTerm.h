@@ -10,18 +10,20 @@
 
 extern NSString *const iTermWindowAppearanceDidChange;
 
-@interface NSWindow(iTerm)
+@interface NSWindow (iTerm)
 
 // Is window Lion fullscreen?
 @property(nonatomic, readonly) BOOL isFullScreen;
 - (BOOL)isTerminalWindow;
 
-@property (nonatomic, readonly) NSArray<__kindof NSTitlebarAccessoryViewController *> *it_titlebarAccessoryViewControllers;
-@property (nonatomic, readonly) NSString *it_styleMaskDescription;
+@property(nonatomic, readonly)
+    NSArray<__kindof NSTitlebarAccessoryViewController *>
+        *it_titlebarAccessoryViewControllers;
+@property(nonatomic, readonly) NSString *it_styleMaskDescription;
 
-// Use this when making a panel key so it won't dismiss the hotkey window. It works around a problem
-// in Cocoa where windowDidResginKey gets called before the new window is key, which I observed
-// with the open quickly window.
+// Use this when making a panel key so it won't dismiss the hotkey window. It
+// works around a problem in Cocoa where windowDidResginKey gets called before
+// the new window is key, which I observed with the open quickly window.
 - (void)it_makeKeyAndOrderFront;
 
 - (NSView *)it_titlebarViewOfClassWithName:(NSString *)className;

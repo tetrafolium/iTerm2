@@ -5,8 +5,8 @@
 //  Created by George Nachman on 11/25/19.
 //
 
-#import <Foundation/Foundation.h>
 #import "PTYTask.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,7 +14,6 @@ extern NSString *const iTermMultiServerRestorationKeyType;
 extern NSString *const iTermMultiServerRestorationKeyVersion;
 extern NSString *const iTermMultiServerRestorationKeySocket;
 extern NSString *const iTermMultiServerRestorationKeyChildPID;
-
 
 //      ┌────────────────────────────┐     ┌────────────────────────────────┐
 // ┌───>│ iTermMultiServerConnection │  ┌─>│ iTermFileDescriptorMultiClient │
@@ -24,14 +23,14 @@ extern NSString *const iTermMultiServerRestorationKeyChildPID;
 // │ │  └────────────────────────────┘  ┌──│╌_children                      │
 // │ │                           ^      │  └────────────────────────────────┘
 // │ └─>┌─────────────────────┐  │      │
-// │    │ NSMutableDictionary │  │      │   ┌─────────────────────────────────────┐
-// │    ├─────────────────────│  │      └──>│ iTermFileDescriptorMultiClientChild │
-// │    │ NSNumber -> Obj     │──┘        * ├─────────────────────────────────────┤
-// │    └─────────────────────┘             │ - pid                               │
-// │                                        │ - fd                                │
-// │    ╔═════════════════╗                 │ - tty                               │
-// │    ║ iTermJobManager ║<────────────┐   │ - terminationStatus                 │
-// │    ╚═════════════════╝             │   └─────────────────────────────────────┘
+// │    │ NSMutableDictionary │  │      │
+// ┌─────────────────────────────────────┐ │    ├─────────────────────│  │ └──>│
+// iTermFileDescriptorMultiClientChild │ │    │ NSNumber -> Obj     │──┘
+// * ├─────────────────────────────────────┤ │    └─────────────────────┘ │ -
+// pid                               │ │ │ - fd                                │
+// │    ╔═════════════════╗                 │ - tty │ │    ║ iTermJobManager
+// ║<────────────┐   │ - terminationStatus                 │ │
+// ╚═════════════════╝             │   └─────────────────────────────────────┘
 // │            ▲ ▲ ▲                   │
 // │            ║ ║ ║                   │   ┌─────────────┐
 // │            ║ ║ ║                   │   │ PTYTask     │
@@ -46,17 +45,18 @@ extern NSString *const iTermMultiServerRestorationKeyChildPID;
 // │            ║ │ iTermMonoServerJobManager │  │ iTermLegacyServerJobManager │
 // │            ║ └───────────────────────────┘  └─────────────────────────────┘
 // │            ║
-// │   ┌────────────────────────────┐       ┌─────────────────────────────────────┐
-// │   │ iTermMultiServerJobManager │   ┌──>│ iTermFileDescriptorMultiClientChild │
-// │   ├────────────────────────────┤   │   ├─────────────────────────────────────┤
-// └───│╌_conn                      │   │   │ - pid                               │
-//     │ _child╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│───┘   │ - fd                                │
-//     └────────────────────────────┘       │ - tty                               │
-//                                          │ - terminationStatus                 │
+// │   ┌────────────────────────────┐ ┌─────────────────────────────────────┐ │
+// │ iTermMultiServerJobManager │   ┌──>│ iTermFileDescriptorMultiClientChild │
+// │   ├────────────────────────────┤   │
+// ├─────────────────────────────────────┤ └───│╌_conn                      │ │
+// │ - pid                               │
+//     │ _child╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│───┘   │ - fd │
+//     └────────────────────────────┘       │ - tty │
+//                                          │ - terminationStatus │
 //                                          └─────────────────────────────────────┘
 //
 
-@interface iTermMultiServerJobManager : NSObject<iTermJobManager>
+@interface iTermMultiServerJobManager : NSObject <iTermJobManager>
 
 + (BOOL)getGeneralConnection:(iTermGeneralServerConnection *)generalConnection
     fromRestorationIdentifier:(NSDictionary *)dict;

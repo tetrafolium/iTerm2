@@ -10,16 +10,16 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, iTermScrollWheelStateMachineState) {
-    iTermScrollWheelStateMachineStateGround,
-    iTermScrollWheelStateMachineStateStartDrag,
-    iTermScrollWheelStateMachineStateDrag,
-    iTermScrollWheelStateMachineStateTouchAndHold,
+  iTermScrollWheelStateMachineStateGround,
+  iTermScrollWheelStateMachineStateStartDrag,
+  iTermScrollWheelStateMachineStateDrag,
+  iTermScrollWheelStateMachineStateTouchAndHold,
 };
 
 extern NSString *iTermShortEventPhasesString(NSEvent *event);
 
 @interface iTermScrollWheelStateMachine : NSObject
-@property (nonatomic, readonly) iTermScrollWheelStateMachineState state;
+@property(nonatomic, readonly) iTermScrollWheelStateMachineState state;
 
 - (void)handleEvent:(NSEvent *)event;
 

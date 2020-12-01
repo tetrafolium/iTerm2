@@ -6,8 +6,8 @@
 //
 //
 
-#import <Foundation/Foundation.h>
 #import "PTYWindow.h"
+#import <Foundation/Foundation.h>
 
 // This wraps iTermWindow and iTermPanel so that AppleScript thinks they have
 // the same class. That makes AppleScript, which is a dumpster fire, happy.

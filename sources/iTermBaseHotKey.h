@@ -14,7 +14,7 @@
 @class iTermProfileHotKey;
 @class iTermBaseHotKey;
 
-@protocol iTermHotKeyDelegate<NSObject>
+@protocol iTermHotKeyDelegate <NSObject>
 - (BOOL)willFinishRollingOutProfileHotKey:(iTermProfileHotKey *)profileHotKey;
 - (void)suppressHideApp;
 - (void)storePreviouslyActiveApp:(iTermProfileHotKey *)profileHotKey;
@@ -28,13 +28,17 @@
 @property(nonatomic, readonly) NSArray<iTermShortcut *> *shortcuts;
 @property(nonatomic, readonly) BOOL hasModifierActivation;
 @property(nonatomic, readonly) iTermHotKeyModifierActivation modifierActivation;
-@property(nonatomic, readonly) NSArray<iTermHotKeyDescriptor *> *hotKeyDescriptors;
-@property(nonatomic, readonly) iTermHotKeyDescriptor *modifierActivationDescriptor;
+@property(nonatomic, readonly)
+    NSArray<iTermHotKeyDescriptor *> *hotKeyDescriptors;
+@property(nonatomic, readonly)
+    iTermHotKeyDescriptor *modifierActivationDescriptor;
 @property(nonatomic, assign) id<iTermHotKeyDelegate> delegate;
 
 - (instancetype)initWithShortcuts:(NSArray<iTermShortcut *> *)shortcuts
-    hasModifierActivation:(BOOL)hasModifierActivation
-    modifierActivation:(iTermHotKeyModifierActivation)modifierActivation NS_DESIGNATED_INITIALIZER;
+            hasModifierActivation:(BOOL)hasModifierActivation
+               modifierActivation:
+                   (iTermHotKeyModifierActivation)modifierActivation
+    NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -42,10 +46,10 @@
 - (void)unregister;
 - (void)setShortcuts:(NSArray<iTermShortcut *> *)shortcuts
     hasModifierActivation:(BOOL)hasModifierActivation
-    modifierActivation:(iTermHotKeyModifierActivation)modifierActivation;
+       modifierActivation:(iTermHotKeyModifierActivation)modifierActivation;
 @end
 
-@interface iTermBaseHotKey(Internal)
+@interface iTermBaseHotKey (Internal)
 - (BOOL)keyDownEventIsHotKeyShortcutPress:(NSEvent *)event;
 - (void)simulatePress;
 @end

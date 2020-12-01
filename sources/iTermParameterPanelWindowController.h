@@ -13,10 +13,9 @@
 // the value. These fields belong to that sheet.
 @interface iTermParameterPanelWindowController : NSWindowController
 
-@property (nonatomic, strong) IBOutlet NSTextField *parameterName;
-@property (nonatomic, strong) IBOutlet NSTextField *parameterValue;
-@property (nonatomic, strong) IBOutlet NSTextField *parameterPrompt;
-@property (nonatomic, readonly) BOOL canceled;
-
+@property(nonatomic, strong) IBOutlet NSTextField *parameterName;
+@property(nonatomic, strong) IBOutlet NSTextField *parameterValue;
+@property(nonatomic, strong) IBOutlet NSTextField *parameterPrompt;
+@property(nonatomic, readonly) BOOL canceled;
 
 @end

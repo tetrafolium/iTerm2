@@ -5,12 +5,10 @@
 //  Created by George Nachman on 9/23/11.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "Trigger.h"
-
+#import <Cocoa/Cocoa.h>
 
 @interface ScriptTrigger : Trigger {
-
 }
 
 + (NSString *)title;

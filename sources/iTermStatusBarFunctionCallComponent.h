@@ -5,8 +5,8 @@
 //  Created by George Nachman on 7/9/18.
 //
 
-#import <Foundation/Foundation.h>
 #import "iTermStatusBarBaseComponent.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

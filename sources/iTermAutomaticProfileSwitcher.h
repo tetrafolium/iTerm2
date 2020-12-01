@@ -6,8 +6,8 @@
 //
 //
 
-#import <Foundation/Foundation.h>
 #import "ProfileModel.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,10 +19,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, retain, nullable) NSMutableSet *overriddenFields;
 @end
 
-// The session that uses automatic profile switching should implement this protocol.
-@protocol iTermAutomaticProfileSwitcherDelegate<NSObject>
+// The session that uses automatic profile switching should implement this
+// protocol.
+@protocol iTermAutomaticProfileSwitcherDelegate <NSObject>
 
-// Make the |savedProfile| into the current profile, respecting overridden fields, etc.
+// Make the |savedProfile| into the current profile, respecting overridden
+// fields, etc.
 - (void)automaticProfileSwitcherLoadProfile:(iTermSavedProfile *)savedProfile;
 
 // Returns the current profile, including local changes.
@@ -44,20 +46,23 @@ NS_ASSUME_NONNULL_BEGIN
 
 // You should set this or nothing will work.
 @property(nonatomic, weak) id<iTermAutomaticProfileSwitcherDelegate> delegate;
-@property(nonatomic, readonly) NSString *profileStackString;  // For tests
+@property(nonatomic, readonly) NSString *profileStackString; // For tests
 
-- (instancetype)initWithDelegate:(id<iTermAutomaticProfileSwitcherDelegate>)delegate NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithDelegate:(id<iTermAutomaticProfileSwitcherDelegate>)delegate
-    savedState:(NSDictionary *)savedState;
+- (instancetype)initWithDelegate:
+    (id<iTermAutomaticProfileSwitcherDelegate>)delegate
+    NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithDelegate:
+                    (id<iTermAutomaticProfileSwitcherDelegate>)delegate
+                      savedState:(NSDictionary *)savedState;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (NSDictionary *)savedState;
 
 // Call this when the hostname, username, or path changes.
 - (void)setHostname:(nullable NSString *)hostname
-    username:(nullable NSString *)username
-    path:(nullable NSString *)path
-    job:(nullable NSString *)job;
+           username:(nullable NSString *)username
+               path:(nullable NSString *)path
+                job:(nullable NSString *)job;
 
 @end
 

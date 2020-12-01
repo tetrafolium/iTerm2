@@ -15,17 +15,16 @@
 // the vagueries of unicode, or more obviously, for regex searches).
 @interface ResultRange : NSObject {
 @public
-    int position;
-    int length;
+  int position;
+  int length;
 }
 @end
 
 @interface XYRange : NSObject {
 @public
-    int xStart;
-    int yStart;
-    int xEnd;
-    int yEnd;
+  int xStart;
+  int yStart;
+  int xEnd;
+  int yEnd;
 }
 @end
-

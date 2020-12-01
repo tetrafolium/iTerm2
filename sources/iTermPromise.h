@@ -9,9 +9,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface iTermOr<T,U> : NSObject
-@property (nonatomic, readonly) BOOL hasFirst;
-@property (nonatomic, readonly) BOOL hasSecond;
+@interface iTermOr<T, U> : NSObject
+@property(nonatomic, readonly) BOOL hasFirst;
+@property(nonatomic, readonly) BOOL hasSecond;
 
 + (instancetype)first:(T)object;
 + (instancetype)second:(U)object;
@@ -19,19 +19,19 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
 
-- (void)whenFirst:(void (^ NS_NOESCAPE _Nullable)(T object))firstBlock
-    second:(void (^ NS_NOESCAPE _Nullable)(U object))secondBlock;
+- (void)whenFirst:(void (^NS_NOESCAPE _Nullable)(T object))firstBlock
+           second:(void (^NS_NOESCAPE _Nullable)(U object))secondBlock;
 
 @end
 
-@protocol iTermPromiseSeal<NSObject>
+@protocol iTermPromiseSeal <NSObject>
 - (void)fulfill:(id)value;
 - (void)reject:(NSError *)error;
 @end
 
 @interface iTermPromise<T> : NSObject
 
-+ (instancetype)promise:(void (^ NS_NOESCAPE)(id<iTermPromiseSeal> seal))block;
++ (instancetype)promise:(void (^NS_NOESCAPE)(id<iTermPromiseSeal> seal))block;
 
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;

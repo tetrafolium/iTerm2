@@ -27,10 +27,10 @@
  **  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#import <Cocoa/Cocoa.h>
 #import "DVRBuffer.h"
 #import "DVRDecoder.h"
 #import "DVREncoder.h"
+#import <Cocoa/Cocoa.h>
 
 @interface DVR : NSObject
 
@@ -53,15 +53,15 @@
 //   cleanLines: Lines that are known unchanged
 //   info: Metadata for the frame.
 - (void)appendFrame:(NSArray<NSData *> *)frameLines
-    length:(int)length
-    cleanLines:(NSIndexSet *)cleanLines
-    info:(DVRFrameInfo*)info;
+             length:(int)length
+         cleanLines:(NSIndexSet *)cleanLines
+               info:(DVRFrameInfo *)info;
 
 // allocate a new decoder. Use -[releaseDecoder:] when you're done with it.
-- (DVRDecoder*)getDecoder;
+- (DVRDecoder *)getDecoder;
 
 // frees a decoder allocated with -[getDecoder].
-- (void)releaseDecoder:(DVRDecoder*)decoder;
+- (void)releaseDecoder:(DVRDecoder *)decoder;
 
 - (NSDictionary *)dictionaryValueFrom:(long long)from to:(long long)to;
 - (long long)firstTimestampAfter:(long long)timestamp;

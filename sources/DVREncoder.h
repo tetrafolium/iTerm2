@@ -25,13 +25,12 @@
  **  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-
-#import <Cocoa/Cocoa.h>
 #import "DVRBuffer.h"
+#import <Cocoa/Cocoa.h>
 
 @interface DVREncoder : NSObject
 
-- (instancetype)initWithBuffer:(DVRBuffer*)buffer;
+- (instancetype)initWithBuffer:(DVRBuffer *)buffer;
 
 // Encoded a frame into the DVRBuffer. Call -[reserve:] first.
 //   frameLines: An array of screen lines
@@ -39,9 +38,9 @@
 //   cleanLines: The line numbers that are unchanged from the last frame.
 //   info: screen state.
 - (void)appendFrame:(NSArray *)frameLines
-    length:(int)length
-    cleanLines:(NSIndexSet *)cleanLines
-    info:(DVRFrameInfo *)info;
+             length:(int)length
+         cleanLines:(NSIndexSet *)cleanLines
+               info:(DVRFrameInfo *)info;
 
 // Allocate some number of bytes for an upcoming appendFrame call.
 // Returns true if some frames were freed to make room. The caller should

@@ -6,8 +6,8 @@
 //  Copyright (c) 2011 George Nachman. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "PointerPreferencesViewController.h"
+#import <Cocoa/Cocoa.h>
 
 extern NSString *kPasteFromClipboardPointerAction;
 extern NSString *kPasteFromSelectionPointerAction;
@@ -45,30 +45,29 @@ extern NSString *kThreeFingerSwipeUp;
 extern NSString *kThreeFingerSwipeDown;
 extern NSString *kForceTouchSingleClick;
 
-// This manages the tableview and associated buttons and controls for managing pointer actions.
+// This manages the tableview and associated buttons and controls for managing
+// pointer actions.
 @interface PointerPrefsController : NSObject
 
-@property (nonatomic) BOOL hasSelection;
+@property(nonatomic) BOOL hasSelection;
 
 + (NSString *)actionWithButton:(int)buttonNumber
-    numClicks:(int)numClicks
-    modifiers:(int)modMask;
+                     numClicks:(int)numClicks
+                     modifiers:(int)modMask;
 + (NSString *)argumentWithButton:(int)buttonNumber
-    numClicks:(int)numClicks
-    modifiers:(int)modMask;
+                       numClicks:(int)numClicks
+                       modifiers:(int)modMask;
 
-+ (NSString *)actionForTapWithTouches:(int)numTouches
-    modifiers:(int)modMask;
-+ (NSString *)argumentForTapWithTouches:(int)numTouches
-    modifiers:(int)modMask;
++ (NSString *)actionForTapWithTouches:(int)numTouches modifiers:(int)modMask;
++ (NSString *)argumentForTapWithTouches:(int)numTouches modifiers:(int)modMask;
 
-+ (NSString *)actionForGesture:(NSString *)gesture
-    modifiers:(int)modMask;
-+ (NSString *)argumentForGesture:(NSString *)gesture
-    modifiers:(int)modMask;
++ (NSString *)actionForGesture:(NSString *)gesture modifiers:(int)modMask;
++ (NSString *)argumentForGesture:(NSString *)gesture modifiers:(int)modMask;
 + (BOOL)haveThreeFingerTapEvents;
 
-- (void)setButtonNumber:(int)buttonNumber clickCount:(int)clickCount modifiers:(int)modMask;
+- (void)setButtonNumber:(int)buttonNumber
+             clickCount:(int)clickCount
+              modifiers:(int)modMask;
 - (void)setGesture:(NSString *)gesture modifiers:(int)modMask;
 - (IBAction)buttonOrGestureChanged:(id)sender;
 - (IBAction)ok:(id)sender;

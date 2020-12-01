@@ -27,9 +27,8 @@
  */
 #import <Cocoa/Cocoa.h>
 
-
 @interface iTermSearchField : NSSearchField {
-    id arrowHandler_;
+  id arrowHandler_;
 }
 
 - (BOOL)performKeyEquivalent:(NSEvent *)theEvent;

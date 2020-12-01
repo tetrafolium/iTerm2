@@ -6,8 +6,8 @@
 //
 //
 
-#import <Foundation/Foundation.h>
 #import "iTermShortcut.h"
+#import <Foundation/Foundation.h>
 
 @interface iTermHotkeyPreferencesModel : NSObject
 
@@ -21,14 +21,13 @@
 @property(nonatomic, assign) BOOL animate;
 @property(nonatomic, assign) BOOL floats;
 @property(nonatomic, retain) NSArray<iTermShortcut *> *alternateShortcuts;
-@property(nonatomic, retain) NSArray<NSDictionary *> *alternateShortcutDictionaries;
+@property(nonatomic, retain)
+    NSArray<NSDictionary *> *alternateShortcutDictionaries;
 
 // Radio buttons
 @property(nonatomic, assign) iTermHotKeyDockPreference dockPreference;
-
 
 @property(nonatomic, readonly) BOOL hotKeyAssigned;
 @property(nonatomic, readonly) NSDictionary<NSString *, id> *dictionaryValue;
 
 @end
-

@@ -6,8 +6,8 @@
 //
 //
 
-#import <Foundation/Foundation.h>
 #import "VT100GridTypes.h"
+#import <Foundation/Foundation.h>
 
 @interface VT100LineInfo : NSObject <NSCopying>
 
@@ -15,7 +15,9 @@
 @property(nonatomic, readonly) NSInteger generation;
 
 - (instancetype)initWithWidth:(int)width;
-- (void)setDirty:(BOOL)dirty inRange:(VT100GridRange)range updateTimestamp:(BOOL)updateTimestamp;
+- (void)setDirty:(BOOL)dirty
+            inRange:(VT100GridRange)range
+    updateTimestamp:(BOOL)updateTimestamp;
 - (BOOL)isDirtyAtOffset:(int)x;
 - (BOOL)anyCharIsDirty;
 - (VT100GridRange)dirtyRange;

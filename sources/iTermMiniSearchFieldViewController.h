@@ -5,11 +5,12 @@
 //  Created by George Nachman on 7/7/18.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "iTermFindViewController.h"
+#import <Cocoa/Cocoa.h>
 
-@interface iTermMiniSearchFieldViewController : NSViewController<iTermFindViewController>
-@property (nonatomic) BOOL canClose;
+@interface iTermMiniSearchFieldViewController
+    : NSViewController <iTermFindViewController>
+@property(nonatomic) BOOL canClose;
 
 - (void)sizeToFitSize:(NSSize)size;
 

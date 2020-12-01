@@ -6,19 +6,15 @@
 //
 //
 
-#import <Foundation/Foundation.h>
 #import "iTermFindDriver.h"
+#import <Foundation/Foundation.h>
 
 typedef NS_OPTIONS(NSUInteger, FindOptions) {
-    FindOptBackwards        = (1 << 0),
-    FindMultipleResults     = (1 << 1)
+  FindOptBackwards = (1 << 0),
+  FindMultipleResults = (1 << 1)
 };
 
-typedef NS_ENUM(NSInteger, FindContextStatus) {
-    Searching,
-    Matched,
-    NotFound
-};
+typedef NS_ENUM(NSInteger, FindContextStatus) { Searching, Matched, NotFound };
 
 @interface FindContext : NSObject
 

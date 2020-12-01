@@ -3,7 +3,8 @@
 // These methods are exposed via an AppleScript API and should not be removed.
 @interface PTYSession (Scripting)
 
-// Key-value coding compliance for AppleScript. It's generally better to go through the |colorMap|.
+// Key-value coding compliance for AppleScript. It's generally better to go
+// through the |colorMap|.
 @property(nonatomic, retain) NSColor *backgroundColor;
 @property(nonatomic, retain) NSColor *boldColor;
 @property(nonatomic, retain) NSColor *cursorColor;

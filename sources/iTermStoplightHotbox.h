@@ -9,11 +9,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol iTermHotboxSuppressing<NSObject>
+@protocol iTermHotboxSuppressing <NSObject>
 - (BOOL)supressesHotbox;
 @end
 
-@protocol iTermStoplightHotboxDelegate<NSObject>
+@protocol iTermStoplightHotboxDelegate <NSObject>
 - (BOOL)stoplightHotboxMouseEnter;
 - (void)stoplightHotboxMouseExit;
 - (NSColor *)stoplightHotboxColor;
@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface iTermStoplightHotbox : NSView
-@property (nonatomic, weak) id<iTermStoplightHotboxDelegate> delegate;
+@property(nonatomic, weak) id<iTermStoplightHotboxDelegate> delegate;
 @end
 
 NS_ASSUME_NONNULL_END

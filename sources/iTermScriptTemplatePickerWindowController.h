@@ -8,20 +8,20 @@
 #import <Cocoa/Cocoa.h>
 
 typedef NS_ENUM(NSInteger, iTermScriptEnvironment) {
-    iTermScriptEnvironmentNone,
-    iTermScriptEnvironmentBasic,
-    iTermScriptEnvironmentPrivateEnvironment
+  iTermScriptEnvironmentNone,
+  iTermScriptEnvironmentBasic,
+  iTermScriptEnvironmentPrivateEnvironment
 };
 
 typedef NS_ENUM(NSInteger, iTermScriptTemplate) {
-    iTermScriptTemplateNone,
-    iTermScriptTemplateSimple,
-    iTermScriptTemplateDaemon
+  iTermScriptTemplateNone,
+  iTermScriptTemplateSimple,
+  iTermScriptTemplateDaemon
 };
 
 @interface iTermScriptTemplatePickerWindowController : NSWindowController
 
-@property (nonatomic, readonly) iTermScriptEnvironment selectedEnvironment;
-@property (nonatomic, readonly) iTermScriptTemplate selectedTemplate;
+@property(nonatomic, readonly) iTermScriptEnvironment selectedEnvironment;
+@property(nonatomic, readonly) iTermScriptTemplate selectedTemplate;
 
 @end

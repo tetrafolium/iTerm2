@@ -10,4 +10,3 @@
 + (NSString *)durationString:(NSTimeInterval)duration;
 
 @end
-

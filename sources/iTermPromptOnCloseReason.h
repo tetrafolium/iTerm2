@@ -6,17 +6,18 @@
 //
 //
 
-#import <Foundation/Foundation.h>
 #import "ProfileModel.h"
+#import <Foundation/Foundation.h>
 
 @interface iTermPromptOnCloseReason : NSObject
 
-@property (nonatomic, readonly) BOOL hasReason;
-@property (nonatomic, readonly) NSString *message;
+@property(nonatomic, readonly) BOOL hasReason;
+@property(nonatomic, readonly) NSString *message;
 
 + (instancetype)noReason;
 + (instancetype)profileAlwaysPrompts:(Profile *)profile;
-+ (instancetype)profile:(Profile *)profile blockedByJobs:(NSArray<NSString *> *)jobs;
++ (instancetype)profile:(Profile *)profile
+          blockedByJobs:(NSArray<NSString *> *)jobs;
 + (instancetype)alwaysConfirmQuitPreferenceEnabled;
 + (instancetype)alwaysConfirmQuitPreferenceEvenIfThereAreNoWindowsEnabled;
 + (instancetype)closingMultipleSessionsPreferenceEnabled;

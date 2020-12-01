@@ -18,11 +18,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;
 - (instancetype)initWithWindow:(nullable NSWindow *)window NS_UNAVAILABLE;
-- (instancetype)initWithWindowNibPath:(NSString *)windowNibPath owner:(id)owner NS_UNAVAILABLE;
+- (instancetype)initWithWindowNibPath:(NSString *)windowNibPath
+                                owner:(id)owner NS_UNAVAILABLE;
 
-@property (nonatomic, copy) Profile *profile;
-@property (nonatomic, readonly) Profile *profileMutations;
-@property (nonatomic, readonly) BOOL ok;
+@property(nonatomic, copy) Profile *profile;
+@property(nonatomic, readonly) Profile *profileMutations;
+@property(nonatomic, readonly) BOOL ok;
 
 @end
 

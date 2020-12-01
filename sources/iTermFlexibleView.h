@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface iTermFlexibleView : NSView
 @property(nonatomic, retain) NSColor *color;
 
-- (instancetype)initWithFrame:(NSRect)frame color:(NSColor*)color;
+- (instancetype)initWithFrame:(NSRect)frame color:(NSColor *)color;
 - (void)setFlipped:(BOOL)value;
 
 @end

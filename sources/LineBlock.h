@@ -6,33 +6,33 @@
 //
 //
 
-#import <Foundation/Foundation.h>
+#import "ScreenChar.h"
 #import "iTermEncoderAdapter.h"
 #import "iTermFindViewController.h"
-#import "ScreenChar.h"
+#import <Foundation/Foundation.h>
 
 typedef struct {
-    NSTimeInterval timestamp;
-    screen_char_t continuation;
-    int number_of_wrapped_lines;
-    int width_for_number_of_wrapped_lines;
+  NSTimeInterval timestamp;
+  screen_char_t continuation;
+  int number_of_wrapped_lines;
+  int width_for_number_of_wrapped_lines;
 
-    // Remembers the offsets at which double-width characters that are wrapped
-    // to the next line occur for a pane of width
-    // width_for_double_width_characters_cache.
-    NSMutableIndexSet *double_width_characters;
-    int width_for_double_width_characters_cache;
-    NSInteger generation;
+  // Remembers the offsets at which double-width characters that are wrapped
+  // to the next line occur for a pane of width
+  // width_for_double_width_characters_cache.
+  NSMutableIndexSet *double_width_characters;
+  int width_for_double_width_characters_cache;
+  NSInteger generation;
 } LineBlockMetadata;
 
 @class LineBlock;
 
-@protocol iTermLineBlockObserver<NSObject>
+@protocol iTermLineBlockObserver <NSObject>
 - (void)lineBlockDidChange:(LineBlock *)lineBlock;
 @end
 
-// LineBlock represents an ordered collection of lines of text. It stores them contiguously
-// in a buffer.
+// LineBlock represents an ordered collection of lines of text. It stores them
+// contiguously in a buffer.
 @interface LineBlock : NSObject <NSCopying, iTermUniquelyIdentifiable>
 
 // Once this is set to true, it stays true. If double width characters are
@@ -47,34 +47,37 @@ typedef struct {
 
 - (instancetype)initWithRawBufferSize:(int)size;
 
-// Try to append a line to the end of the buffer. Returns false if it does not fit. If length > buffer_size it will never succeed.
-// Callers should split such lines into multiple pieces.
-- (BOOL)appendLine:(screen_char_t*)buffer
-    length:(int)length
-    partial:(BOOL)partial
-    width:(int)width
-    timestamp:(NSTimeInterval)timestamp
-    continuation:(screen_char_t)continuation;
+// Try to append a line to the end of the buffer. Returns false if it does not
+// fit. If length > buffer_size it will never succeed. Callers should split such
+// lines into multiple pieces.
+- (BOOL)appendLine:(screen_char_t *)buffer
+            length:(int)length
+           partial:(BOOL)partial
+             width:(int)width
+         timestamp:(NSTimeInterval)timestamp
+      continuation:(screen_char_t)continuation;
 
-// Try to get a line that is lineNum after the first line in this block after wrapping them to a given width.
-// If the line is present, return a pointer to its start and fill in *lineLength with the number of bytes in the line.
-// If the line is not present, decrement *lineNum by the number of lines in this block and return NULL.
-- (screen_char_t*)getWrappedLineWithWrapWidth:(int)width
-    lineNum:(int*)lineNum
-    lineLength:(int*)lineLength
-    includesEndOfLine:(int*)includesEndOfLine
-    continuation:(screen_char_t *)continuationPtr;
+// Try to get a line that is lineNum after the first line in this block after
+// wrapping them to a given width. If the line is present, return a pointer to
+// its start and fill in *lineLength with the number of bytes in the line. If
+// the line is not present, decrement *lineNum by the number of lines in this
+// block and return NULL.
+- (screen_char_t *)getWrappedLineWithWrapWidth:(int)width
+                                       lineNum:(int *)lineNum
+                                    lineLength:(int *)lineLength
+                             includesEndOfLine:(int *)includesEndOfLine
+                                  continuation:(screen_char_t *)continuationPtr;
 
-// Sets *yOffsetPtr (if not null) to the number of consecutive empty lines just before |lineNum| because
-// there's no way for the returned pointer to indicate this.
-- (screen_char_t*)getWrappedLineWithWrapWidth:(int)width
-    lineNum:(int*)lineNum
-    lineLength:(int*)lineLength
-    includesEndOfLine:(int*)includesEndOfLine
-    yOffset:(int*)yOffsetPtr
-    continuation:(screen_char_t *)continuationPtr
-    isStartOfWrappedLine:(BOOL *)isStartOfWrappedLine;
-
+// Sets *yOffsetPtr (if not null) to the number of consecutive empty lines just
+// before |lineNum| because there's no way for the returned pointer to indicate
+// this.
+- (screen_char_t *)getWrappedLineWithWrapWidth:(int)width
+                                       lineNum:(int *)lineNum
+                                    lineLength:(int *)lineLength
+                             includesEndOfLine:(int *)includesEndOfLine
+                                       yOffset:(int *)yOffsetPtr
+                                  continuation:(screen_char_t *)continuationPtr
+                          isStartOfWrappedLine:(BOOL *)isStartOfWrappedLine;
 
 // Get the number of lines in this block at a given screen width.
 - (int)getNumLinesWithWrapWidth:(int)width;
@@ -86,14 +89,14 @@ typedef struct {
 - (BOOL)hasPartial;
 
 // Remove the last line. Returns false if there was none.
-- (BOOL)popLastLineInto:(screen_char_t**)ptr
-    withLength:(int*)length
-    upToWidth:(int)width
-    timestamp:(NSTimeInterval *)timestampPtr
-    continuation:(screen_char_t *)continuationPtr;
+- (BOOL)popLastLineInto:(screen_char_t **)ptr
+             withLength:(int *)length
+              upToWidth:(int)width
+              timestamp:(NSTimeInterval *)timestampPtr
+           continuation:(screen_char_t *)continuationPtr;
 
-// Drop lines from the start of the buffer. Returns the number of lines actually dropped
-// (either n or the number of lines in the block).
+// Drop lines from the start of the buffer. Returns the number of lines actually
+// dropped (either n or the number of lines in the block).
 - (int)dropLines:(int)n withWidth:(int)width chars:(int *)charsDropped;
 
 // Returns true if there are no lines in the block
@@ -108,7 +111,8 @@ typedef struct {
 // Return the number of raw (unwrapped) lines
 - (int)numRawLines;
 
-// Return the position of the first used character in the raw buffer. Only valid if not empty.
+// Return the position of the first used character in the raw buffer. Only valid
+// if not empty.
 - (int)startOffset;
 
 // Return the length of a raw (unwrapped) line
@@ -123,7 +127,8 @@ typedef struct {
 // NSLog the contents of the block. For debugging.
 - (void)dump:(int)rawOffset toDebugLog:(BOOL)toDebugLog;
 
-// Returns the timestamp associated with a line when wrapped to the specified width.
+// Returns the timestamp associated with a line when wrapped to the specified
+// width.
 - (NSTimeInterval)timestampForLineNumber:(int)lineNum width:(int)width;
 - (NSInteger)generationForLineNumber:(int)lineNum width:(int)width;
 
@@ -137,31 +142,34 @@ typedef struct {
 - (int)numEntries;
 
 // Searches for a substring, populating results with ResultRange objects.
-- (void)findSubstring:(NSString*)substring
-    options:(int)options
-    mode:(iTermFindMode)mode
-    atOffset:(int)offset
-    results:(NSMutableArray*)results
-    multipleResults:(BOOL)multipleResults;
+- (void)findSubstring:(NSString *)substring
+              options:(int)options
+                 mode:(iTermFindMode)mode
+             atOffset:(int)offset
+              results:(NSMutableArray *)results
+      multipleResults:(BOOL)multipleResults;
 
-// Tries to convert a byte offset into the block to an x,y coordinate relative to the first char
-// in the block. Returns YES on success, NO if the position is out of range.
+// Tries to convert a byte offset into the block to an x,y coordinate relative
+// to the first char in the block. Returns YES on success, NO if the position is
+// out of range.
 //
-// If the position is after the last character on a line, wrapEOL determines if it will return the
-// coordinate of the first null on that line of the first character on the next line.
+// If the position is after the last character on a line, wrapEOL determines if
+// it will return the coordinate of the first null on that line of the first
+// character on the next line.
 - (BOOL)convertPosition:(int)position
-    withWidth:(int)width
-    wrapOnEOL:(BOOL)wrapOnEOL
-    toX:(int*)x
-    toY:(int*)y;
+              withWidth:(int)width
+              wrapOnEOL:(BOOL)wrapOnEOL
+                    toX:(int *)x
+                    toY:(int *)y;
 
-// Returns the position of a char at (x, lineNum). Fills in yOffsetPtr with number of blank lines
-// before that cell, and sets *extendsPtr if x is at the right margin (after nulls).
-- (int)getPositionOfLine:(int*)lineNum
-    atX:(int)x
-    withWidth:(int)width
-    yOffset:(int *)yOffsetPtr
-    extends:(BOOL *)extendsPtr;
+// Returns the position of a char at (x, lineNum). Fills in yOffsetPtr with
+// number of blank lines before that cell, and sets *extendsPtr if x is at the
+// right margin (after nulls).
+- (int)getPositionOfLine:(int *)lineNum
+                     atX:(int)x
+               withWidth:(int)width
+                 yOffset:(int *)yOffsetPtr
+                 extends:(BOOL *)extendsPtr;
 
 // Count the number of "full lines" in buffer up to position 'length'. A full
 // line is one that, after wrapping, goes all the way to the edge of the screen
@@ -173,21 +181,20 @@ typedef struct {
 // |xxxxx|                                           |x     |
 // |x    |
 - (int)numberOfFullLinesFromOffset:(int)offset
-    length:(int)length
-    width:(int)width;
+                            length:(int)length
+                             width:(int)width;
 
 - (int)numberOfFullLinesFromBuffer:(screen_char_t *)buffer
-    length:(int)length
-    width:(int)width;
+                            length:(int)length
+                             width:(int)width;
 #if BETA
-int iTermLineBlockNumberOfFullLinesImpl(screen_char_t *buffer,
-                                        int length,
+int iTermLineBlockNumberOfFullLinesImpl(screen_char_t *buffer, int length,
                                         int width,
                                         BOOL mayHaveDoubleWidthCharacter);
-#endif  // BETA
+#endif // BETA
 
-// Finds a where the nth line begins after wrapping and returns its offset from the start of the
-// buffer.
+// Finds a where the nth line begins after wrapping and returns its offset from
+// the start of the buffer.
 //
 // In the following example, this would return:
 // pointer to a if n==0, pointer to g if n==1, asserts if n > 1
@@ -201,10 +208,11 @@ int iTermLineBlockNumberOfFullLinesImpl(screen_char_t *buffer,
 // |abcde|   <- line is short after wrapping
 // |XXzzzz|
 // The slow code for dealing with DWCs is run only if mayHaveDwc is YES.
-int OffsetOfWrappedLine(screen_char_t* p, int n, int length, int width, BOOL mayHaveDwc);
+int OffsetOfWrappedLine(screen_char_t *p, int n, int length, int width,
+                        BOOL mayHaveDwc);
 
-// Returns a dictionary with the contents of this block. The data is a weak reference and will be
-// invalid if the block is changed.
+// Returns a dictionary with the contents of this block. The data is a weak
+// reference and will be invalid if the block is changed.
 - (NSDictionary *)dictionary;
 
 // Number of empty lines at the end of the block.

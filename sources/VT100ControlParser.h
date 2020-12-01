@@ -6,17 +6,13 @@
 //
 //
 
-#import <Foundation/Foundation.h>
 #import "CVector.h"
 #import "VT100Token.h"
+#import <Foundation/Foundation.h>
 
-NS_INLINE BOOL iscontrol(int c) {
-    return c <= 0x1f;
-}
+NS_INLINE BOOL iscontrol(int c) { return c <= 0x1f; }
 
-NS_INLINE BOOL isc1(int c) {
-    return c >= 0x84 && c <= 0x9f;
-}
+NS_INLINE BOOL isc1(int c) { return c >= 0x84 && c <= 0x9f; }
 
 @interface VT100ControlParser : NSObject
 
@@ -26,19 +22,19 @@ NS_INLINE BOOL isc1(int c) {
 // Is the unique ID for the current DCS parser, if any, equal to this?
 - (BOOL)shouldUnhook:(NSString *)uniqueID;
 
-// Force the DCS parser to remove its hook (presently, that means terminating tmux integration).
+// Force the DCS parser to remove its hook (presently, that means terminating
+// tmux integration).
 - (void)unhookDCS;
 
 - (void)parseControlWithData:(unsigned char *)datap
-    datalen:(int)datalen
-    rmlen:(int *)rmlen
-    incidentals:(CVector *)incidentals
-    token:(VT100Token *)token
-    encoding:(NSStringEncoding)encoding
-    savedState:(NSMutableDictionary *)savedState
-    dcsHooked:(BOOL *)dcsHooked;
+                     datalen:(int)datalen
+                       rmlen:(int *)rmlen
+                 incidentals:(CVector *)incidentals
+                       token:(VT100Token *)token
+                    encoding:(NSStringEncoding)encoding
+                  savedState:(NSMutableDictionary *)savedState
+                   dcsHooked:(BOOL *)dcsHooked;
 
 - (void)startTmuxRecoveryModeWithID:(NSString *)dcsID;
 
 @end
-

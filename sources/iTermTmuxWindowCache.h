@@ -13,17 +13,18 @@ extern NSString *const iTermTmuxWindowCacheDidChange;
 
 @interface iTermTmuxWindowCacheWindowInfo : NSObject
 
-@property (nonatomic, readonly) NSString *name;
-@property (nonatomic, readonly) int windowNumber;
-@property (nonatomic, readonly) int sessionNumber;
-@property (nonatomic, readonly) NSString *clientName;
+@property(nonatomic, readonly) NSString *name;
+@property(nonatomic, readonly) int windowNumber;
+@property(nonatomic, readonly) int sessionNumber;
+@property(nonatomic, readonly) NSString *clientName;
 
 - (instancetype)init NS_UNAVAILABLE;
 
 @end
 
 @interface iTermTmuxWindowCache : NSObject
-@property (nonatomic, readonly) NSArray<iTermTmuxWindowCacheWindowInfo *> *hiddenWindows;
+@property(nonatomic, readonly)
+    NSArray<iTermTmuxWindowCacheWindowInfo *> *hiddenWindows;
 
 + (instancetype)sharedInstance;
 

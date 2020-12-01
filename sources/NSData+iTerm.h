@@ -17,9 +17,12 @@
 // Base-64 decodes string and returns data or nil.
 + (NSData *)dataWithBase64EncodedString:(NSString *)string;
 
-+ (NSData *)dataWithTGZContainingFiles:(NSArray<NSString *> *)files relativeToPath:(NSString *)basePath error:(NSError **)error;
++ (NSData *)dataWithTGZContainingFiles:(NSArray<NSString *> *)files
+                        relativeToPath:(NSString *)basePath
+                                 error:(NSError **)error;
 
-// returns a string the the data base-64 encoded into 77-column lines divided by lineBreak.
+// returns a string the the data base-64 encoded into 77-column lines divided by
+// lineBreak.
 - (NSString *)stringWithBase64EncodingWithLineBreak:(NSString *)lineBreak;
 
 // Indicates if the data contains a single-byte code belonging to |asciiSet|.
@@ -27,10 +30,9 @@
 
 - (BOOL)hasPrefixOfBytes:(char *)bytes length:(int)length;
 
-
-// Appends this data to the file at |path|. If |addNewline| is YES then a '\n' is appended if the
-// file does not already end with \n or \r. This plays a little fast and loose with character
-// encoding, but it gets the job done.
+// Appends this data to the file at |path|. If |addNewline| is YES then a '\n'
+// is appended if the file does not already end with \n or \r. This plays a
+// little fast and loose with character encoding, but it gets the job done.
 - (BOOL)appendToFile:(NSString *)path addLineBreakIfNeeded:(BOOL)addNewline;
 
 // Converts data into a string using the given encoding.
@@ -39,7 +41,8 @@
 + (NSData *)it_dataWithArchivedObject:(id<NSCoding>)object;
 - (id)it_unarchivedObjectOfClasses:(NSArray<Class> *)allowedClasses;
 
-+ (NSData *)it_dataWithSecurelyArchivedObject:(id<NSCoding>)object error:(NSError **)error;
++ (NSData *)it_dataWithSecurelyArchivedObject:(id<NSCoding>)object
+                                        error:(NSError **)error;
 - (id)it_unarchivedObjectOfBasicClassesWithError:(NSError **)error;
 
 - (BOOL)isEqualToByte:(unsigned char)byte;
@@ -48,10 +51,10 @@
 - (NSData *)it_compressedData;
 
 - (NSData *)aesCBCEncryptedDataWithPCKS7PaddingAndKey:(NSData *)key
-    iv:(NSData *)iv;
+                                                   iv:(NSData *)iv;
 
 - (NSData *)decryptedAESCBCDataWithPCKS7PaddingAndKey:(NSData *)key
-    iv:(NSData *)iv;
+                                                   iv:(NSData *)iv;
 
 + (NSData *)randomAESKey;
 

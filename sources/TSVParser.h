@@ -7,11 +7,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-
 @interface TSVDocument : NSObject
 
-@property (nonatomic, retain) NSMutableArray *columns;
-@property (nonatomic, readonly) NSMutableArray *records;
+@property(nonatomic, retain) NSMutableArray *columns;
+@property(nonatomic, readonly) NSMutableArray *records;
 
 - (NSString *)valueInRecord:(NSArray *)record forField:(NSString *)fieldName;
 
@@ -19,7 +18,8 @@
 
 @interface TSVParser : NSObject
 
-+ (TSVDocument *)documentFromString:(NSString *)string withFields:(NSArray *)fields;
++ (TSVDocument *)documentFromString:(NSString *)string
+                         withFields:(NSArray *)fields;
 
 @end
 

@@ -11,7 +11,8 @@
 @interface iTermDirectoryTreeNode : NSObject
 
 @property(nonatomic, copy) NSString *component;
-@property(nonatomic, readonly) NSMutableDictionary<NSString *, iTermDirectoryTreeNode *> *children;
+@property(nonatomic, readonly)
+    NSMutableDictionary<NSString *, iTermDirectoryTreeNode *> *children;
 @property(nonatomic, assign) int count;
 
 - (id)initWithComponent:(NSString *)component;

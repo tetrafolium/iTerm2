@@ -5,9 +5,9 @@
 //  Created by George Nachman on 2/18/20.
 //
 
-#import <Foundation/Foundation.h>
 #import "iTermRestorableStateRestorer.h"
 #import "iTermRestorableStateSaver.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,14 +15,16 @@ NS_ASSUME_NONNULL_BEGIN
 @class NSCoding;
 @class NSWindow;
 
-@protocol iTermRestorableStateControllerDelegate<iTermRestorableStateSaving, iTermRestorableStateRestoring>
-- (void)restorableStateDidFinishRequestingRestorations:(iTermRestorableStateController *)sender;
+@protocol iTermRestorableStateControllerDelegate <iTermRestorableStateSaving,
+                                                  iTermRestorableStateRestoring>
+- (void)restorableStateDidFinishRequestingRestorations:
+    (iTermRestorableStateController *)sender;
 @end
 
 @interface iTermRestorableStateController : NSObject
-@property (nonatomic, weak) id<iTermRestorableStateControllerDelegate> delegate;
-@property (nonatomic, readonly) NSInteger numberOfWindowsRestored;
-@property (nonatomic, class) BOOL forceSaveState;
+@property(nonatomic, weak) id<iTermRestorableStateControllerDelegate> delegate;
+@property(nonatomic, readonly) NSInteger numberOfWindowsRestored;
+@property(nonatomic, class) BOOL forceSaveState;
 
 // This is the single source of truth for the whole app.
 + (BOOL)stateRestorationEnabled;

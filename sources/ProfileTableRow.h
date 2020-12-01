@@ -5,8 +5,8 @@
 //  Created by George Nachman on 1/9/12.
 //
 
-#import <Foundation/Foundation.h>
 #import "ProfileModel.h"
+#import <Foundation/Foundation.h>
 
 // This wraps a single bookmark and adds a KeyValueCoding. To keep things simple
 // it will hold only the bookmark's GUID, since bookmark dictionaries themselves
@@ -17,16 +17,17 @@
 
 @property(nonatomic, readonly) Profile *bookmark;
 
-- (instancetype)initWithBookmark:(Profile*)bookmark underlyingModel:(ProfileModel*)underlyingModel;
+- (instancetype)initWithBookmark:(Profile *)bookmark
+                 underlyingModel:(ProfileModel *)underlyingModel;
 
 @end
 
 @interface ProfileTableRow (KeyValueCoding)
 // We need ascending order to sort default before not-default so we can't use
 // anything sensible like BOOL or "Yes"/"No" because they'd sort wrong.
-    typedef NS_ENUM(NSInteger, BookmarkRowIsDefault) {
-    IsDefault = 1,
-    IsNotDefault = 2
+typedef NS_ENUM(NSInteger, BookmarkRowIsDefault) {
+  IsDefault = 1,
+  IsNotDefault = 2
 };
 
 @property(nonatomic, readonly) NSString *name;
@@ -37,4 +38,3 @@
 - (NSNumber *)default;
 
 @end
-

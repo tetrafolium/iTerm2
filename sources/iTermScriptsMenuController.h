@@ -10,19 +10,19 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermScriptItem : NSObject
-@property (nonatomic, readonly, weak) iTermScriptItem *parent;
-@property (nonatomic, readonly, strong) NSString *name;
-@property (nonatomic, readonly, strong) NSString *path;
-@property (nonatomic, readonly) BOOL isFolder;
-@property (nonatomic, readonly) BOOL fullEnvironment;
-@property (nonatomic, readonly) NSArray<iTermScriptItem *> *children;
-@property (nonatomic, readonly) BOOL isAutoLaunchFolderItem;
+@property(nonatomic, readonly, weak) iTermScriptItem *parent;
+@property(nonatomic, readonly, strong) NSString *name;
+@property(nonatomic, readonly, strong) NSString *path;
+@property(nonatomic, readonly) BOOL isFolder;
+@property(nonatomic, readonly) BOOL fullEnvironment;
+@property(nonatomic, readonly) NSArray<iTermScriptItem *> *children;
+@property(nonatomic, readonly) BOOL isAutoLaunchFolderItem;
 @end
 
 @interface iTermScriptsMenuController : NSObject
 
-@property (nonatomic, strong) NSMenuItem *installRuntimeMenuItem;
-@property (nonatomic, readonly) NSArray<NSString *> *allScripts;
+@property(nonatomic, strong) NSMenuItem *installRuntimeMenuItem;
+@property(nonatomic, readonly) NSArray<NSString *> *allScripts;
 
 - (NSArray<iTermScriptItem *> *)scriptItems;
 
@@ -35,12 +35,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)newPythonScript;
 
 - (void)launchScriptWithRelativePath:(NSString *)path
-    arguments:(NSArray<NSString *> *)arguments
-    explicitUserAction:(BOOL)explicitUserAction;
+                           arguments:(NSArray<NSString *> *)arguments
+                  explicitUserAction:(BOOL)explicitUserAction;
 
 - (void)launchScriptWithAbsolutePath:(NSString *)fullPath
-    arguments:(NSArray<NSString *> *)arguments
-    explicitUserAction:(BOOL)explicitUserAction;
+                           arguments:(NSArray<NSString *> *)arguments
+                  explicitUserAction:(BOOL)explicitUserAction;
 - (BOOL)couldLaunchScriptWithAbsolutePath:(NSString *)fullPath;
 
 - (void)chooseAndExportScript;
@@ -51,10 +51,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)couldMoveScriptToAutoLaunch:(NSString *)fullPath;
 
 - (void)importDidFinishWithErrorMessage:(nullable NSString *)errorMessage
-    location:(NSURL *)location
-    originalURL:(NSURL *)url;
+                               location:(NSURL *)location
+                            originalURL:(NSURL *)url;
 
 @end
 
 NS_ASSUME_NONNULL_END
-

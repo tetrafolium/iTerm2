@@ -1,7 +1,7 @@
-#import <Foundation/Foundation.h>
 #import "iTermWeakReference.h"
+#import <Foundation/Foundation.h>
 
-@protocol iTermEventTapRemappingDelegate<NSObject>
+@protocol iTermEventTapRemappingDelegate <NSObject>
 
 // Called on every keypress when the event tap is enabled.
 //
@@ -10,30 +10,34 @@
 //
 // The type may indicate the event tap was cancelled and the delegate  may call
 // -reEnable to start it up again.
-- (CGEventRef)remappedEventFromEventTappedWithType:(CGEventType)type event:(CGEventRef)event;
+- (CGEventRef)remappedEventFromEventTappedWithType:(CGEventType)type
+                                             event:(CGEventRef)event;
 
 @end
 
-@protocol iTermEventTapObserver<NSObject, iTermWeaklyReferenceable>
+@protocol iTermEventTapObserver <NSObject, iTermWeaklyReferenceable>
 - (void)eventTappedWithType:(CGEventType)type event:(CGEventRef)event;
 @end
 
 /**
- * Manages an event tap. The delegate's method will be invoked when any key is pressed.
+ * Manages an event tap. The delegate's method will be invoked when any key is
+ * pressed.
  */
 @interface iTermEventTap : NSObject
 
-// Indicates if the event tap has started. When a remapping delegate or observers are present it will
-// be enabled.
+// Indicates if the event tap has started. When a remapping delegate or
+// observers are present it will be enabled.
 @property(nonatomic, getter=isEnabled, readonly) BOOL enabled;
 
 // While the event tap is enabled the delegate's method is invoked on each
 // event. The returned value replaces the original event. This must be set for
 // the event tap to be enabled. If you want read-only access add yourself as an
 // observer.
-@property(nonatomic, assign) id<iTermEventTapRemappingDelegate> remappingDelegate;
+@property(nonatomic, assign) id<iTermEventTapRemappingDelegate>
+    remappingDelegate;
 
-@property(nonatomic, readonly) NSArray<iTermWeakReference<id<iTermEventTapObserver>> *> *observers;
+@property(nonatomic, readonly)
+    NSArray<iTermWeakReference<id<iTermEventTapObserver>> *> *observers;
 
 // `types` is from CGEventMaskBit(kCGEventKeyDown), for example
 - (instancetype)initWithEventTypes:(CGEventMask)types NS_DESIGNATED_INITIALIZER;
@@ -52,10 +56,10 @@
 // remapping delegate is set to nil.
 @interface iTermFlagsChangedEventTap : iTermEventTap
 // Number of times the event tap fired since -resetCount or initialization.
-@property (nonatomic, readonly) NSInteger count;
+@property(nonatomic, readonly) NSInteger count;
 
-// WARNING: This will create the event tap. Use sharedInstanceCreatingIfNeeded: if you don't want
-// it created at all.
+// WARNING: This will create the event tap. Use sharedInstanceCreatingIfNeeded:
+// if you don't want it created at all.
 + (instancetype)sharedInstance;
 + (instancetype)sharedInstanceCreatingIfNeeded:(BOOL)createIfNeeded;
 - (void)resetCount;

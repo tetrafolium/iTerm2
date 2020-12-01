@@ -13,7 +13,6 @@
 // Inherit from PTYSplitView to get its fancy delegate callbacks.
 @interface iTermToolbeltSplitView : PTYSplitView
 
-@property (readwrite, copy) NSColor *dividerColor;
+@property(readwrite, copy) NSColor *dividerColor;
 
 @end
-

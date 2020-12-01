@@ -28,10 +28,11 @@
  **  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#import <Cocoa/Cocoa.h>
 #import "PTYWindow.h"
+#import <Cocoa/Cocoa.h>
 
-// Used for keys you can press on the touch bar that have no equivalent on physical keyboards that Apple recognizes
+// Used for keys you can press on the touch bar that have no equivalent on
+// physical keyboards that Apple recognizes
 extern unsigned short iTermBogusVirtualKeyCode;
 
 // Notifications posted when the character panel opens/closes. A pile of hacks.
@@ -46,7 +47,7 @@ extern NSString *const iTermApplicationDidCloseModalWindow;
 @class iTermApplicationDelegate;
 @class iTermScriptingWindow;
 
-@protocol iTermApplicationDelegate<NSApplicationDelegate>
+@protocol iTermApplicationDelegate <NSApplicationDelegate>
 - (NSMenu *)statusBarMenu;
 @end
 
@@ -69,14 +70,16 @@ extern NSString *const iTermApplicationDidCloseModalWindow;
 @property(nonatomic, readonly) BOOL it_justBecameActive;
 @property(nonatomic) BOOL it_restorableStateInvalid;
 
-// In big sur, sheets aren't key windows any more. This finds the current sheet for the key window and returns it.
+// In big sur, sheets aren't key windows any more. This finds the current sheet
+// for the key window and returns it.
 @property(nonatomic, readonly) NSWindow *it_keyWindow;
 
 - (void)sendEvent:(NSEvent *)anEvent;
 - (iTermApplicationDelegate<iTermApplicationDelegate> *)delegate;
 - (BOOL)routeEventToShortcutInputView:(NSEvent *)event;
 
-// Like orderedWindows, but only iTermWindow/iTermPanel objects wrapped in iTermScriptingWindow*s are returned.
+// Like orderedWindows, but only iTermWindow/iTermPanel objects wrapped in
+// iTermScriptingWindow*s are returned.
 - (NSArray<iTermScriptingWindow *> *)orderedScriptingWindows;
 
 - (void)activateAppWithCompletion:(void (^)(void))completion;

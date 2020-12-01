@@ -8,7 +8,8 @@
 
 #import "iTermProfilePreferencesBaseViewController.h"
 
-@interface ProfilesSessionPreferencesViewController : iTermProfilePreferencesBaseViewController
+@interface ProfilesSessionPreferencesViewController
+    : iTermProfilePreferencesBaseViewController
 
 - (void)layoutSubviewsForEditCurrentSessionMode;
 - (void)configureStatusBarComponentWithIdentifier:(NSString *)identifier;

@@ -14,7 +14,7 @@
 @property(nonatomic, copy) NSString *prefix;
 @property(nonatomic, copy) NSString *mainValue;
 
-+ (PopupEntry*)entryWithString:(NSString*)s score:(double)score;
++ (PopupEntry *)entryWithString:(NSString *)s score:(double)score;
 - (BOOL)isEqual:(id)o;
 - (NSComparisonResult)compare:(id)otherObject;
 // Update the hit multiplier for a new hit and return its new value

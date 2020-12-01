@@ -11,21 +11,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol iTermTabScope;
 
-@protocol iTermWindowScope<NSObject>
+@protocol iTermWindowScope <NSObject>
 
-@property (nullable, nonatomic, strong) NSString *windowTitleOverrideFormat;
-@property (nullable, nonatomic, readonly) NSString *windowTitleOverride;
-@property (nullable, nonatomic, readonly) iTermVariableScope<iTermTabScope> *currentTab;
-@property (nullable, nonatomic, strong) NSString *windowID;
-@property (nonatomic, readonly) NSRect frame;
-@property (nullable, nonatomic, readonly) NSString *style;
+@property(nullable, nonatomic, strong) NSString *windowTitleOverrideFormat;
+@property(nullable, nonatomic, readonly) NSString *windowTitleOverride;
+@property(nullable, nonatomic, readonly)
+    iTermVariableScope<iTermTabScope> *currentTab;
+@property(nullable, nonatomic, strong) NSString *windowID;
+@property(nonatomic, readonly) NSRect frame;
+@property(nullable, nonatomic, readonly) NSString *style;
 
 @end
 
-@interface iTermVariableScope(Window)<iTermWindowScope>
+@interface iTermVariableScope (Window) <iTermWindowScope>
 
 + (instancetype)newWindowScopeWithVariables:(iTermVariables *)variables
-    tabVariables:(iTermVariables *)tabVariables;
+                               tabVariables:(iTermVariables *)tabVariables;
 @end
 
 NS_ASSUME_NONNULL_END

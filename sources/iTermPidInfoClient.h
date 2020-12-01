@@ -19,21 +19,25 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 
 - (void)getMaximumNumberOfFileDescriptorsForProcess:(pid_t)pid
-    completion:(void (^)(size_t count))completion;
+                                         completion:
+                                             (void (^)(size_t count))completion;
 
 - (void)getFileDescriptorsForProcess:(pid_t)pid
-    queue:(dispatch_queue_t)queue
-    completion:(void (^)(int count, struct proc_fdinfo *fds))completion;
+                               queue:(dispatch_queue_t)queue
+                          completion:
+                              (void (^)(int count,
+                                        struct proc_fdinfo *fds))completion;
 
 - (void)getPortsInProcess:(pid_t)pid
-    queue:(dispatch_queue_t)queue
-    completion:(void (^)(int count, struct proc_fileportinfo *fds))completion;
+                    queue:(dispatch_queue_t)queue
+               completion:(void (^)(int count,
+                                    struct proc_fileportinfo *fds))completion;
 
 - (void)getWorkingDirectoryOfProcessWithID:(pid_t)pid
-    queue:(dispatch_queue_t)queue
-    completion:(void (^)(NSString *rawDir))completion;
+                                     queue:(dispatch_queue_t)queue
+                                completion:
+                                    (void (^)(NSString *rawDir))completion;
 
 @end
-
 
 NS_ASSUME_NONNULL_END

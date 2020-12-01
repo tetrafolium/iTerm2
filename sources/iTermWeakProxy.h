@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermWeakProxy<ObjectType> : NSProxy
 
-@property (nullable, weak) ObjectType object;
+@property(nullable, weak) ObjectType object;
 
 - (instancetype)initWithObject:(ObjectType)object;
 

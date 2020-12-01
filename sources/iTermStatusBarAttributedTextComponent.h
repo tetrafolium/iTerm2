@@ -13,15 +13,17 @@ NS_ASSUME_NONNULL_BEGIN
 // a terrible hack to work around an NSTextField bug.
 @interface iTermStatusBarAttributedTextComponent : iTermStatusBarBaseComponent
 
-@property (nonatomic, readonly) NSArray<NSAttributedString *> *attributedStringVariants;
+@property(nonatomic, readonly)
+    NSArray<NSAttributedString *> *attributedStringVariants;
 
-@property (nonatomic, readonly) NSTextField *textField;
-@property (nonatomic, readonly) NSColor *textColor;
+@property(nonatomic, readonly) NSTextField *textField;
+@property(nonatomic, readonly) NSColor *textColor;
 
 - (CGFloat)widthForAttributedString:(NSAttributedString *)string;
 - (void)updateTextFieldIfNeeded;
 
-// Subclasses can override this to return YES if the longest variant can always be truncated to fit.
+// Subclasses can override this to return YES if the longest variant can always
+// be truncated to fit.
 - (BOOL)truncatesTail;
 
 @end

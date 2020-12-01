@@ -14,24 +14,24 @@ extern NSInteger iTermGenerationAlwaysEncode;
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, iTermGraphEncoderState) {
-    iTermGraphEncoderStateLive,
-    iTermGraphEncoderStateCommitted,
-    iTermGraphEncoderStateRolledBack
+  iTermGraphEncoderStateLive,
+  iTermGraphEncoderStateCommitted,
+  iTermGraphEncoderStateRolledBack
 };
 
 typedef NS_OPTIONS(NSUInteger, iTermGraphEncoderArrayOptions) {
-    iTermGraphEncoderArrayOptionsNone = 0,
-    iTermGraphEncoderArrayOptionsReverse = (1 << 0)
+  iTermGraphEncoderArrayOptionsNone = 0,
+  iTermGraphEncoderArrayOptionsReverse = (1 << 0)
 };
 
-@protocol iTermGraphEncodable<NSObject>
+@protocol iTermGraphEncodable <NSObject>
 - (BOOL)graphEncoderShouldIgnore;
 @end
 
 @interface iTermGraphEncoder : NSObject
 // nil if rolled back.
-@property (nullable, nonatomic, readonly) iTermEncoderGraphRecord *record;
-@property (nonatomic, readonly) iTermGraphEncoderState state;
+@property(nullable, nonatomic, readonly) iTermEncoderGraphRecord *record;
+@property(nonatomic, readonly) iTermGraphEncoderState state;
 
 - (void)encodeString:(NSString *)string forKey:(NSString *)key;
 - (void)encodeNumber:(NSNumber *)number forKey:(NSString *)key;
@@ -44,37 +44,39 @@ typedef NS_OPTIONS(NSUInteger, iTermGraphEncoderArrayOptions) {
 
 - (void)mergeDictionary:(NSDictionary *)dictionary;
 
-// When encoding an array where all elements have the same key, use the identifer to distinguish
-// array elements. For example, if you have an array of [obj1, obj2, obj3] whose identifiers are
-// 1, 2, and 3 respectively and the array's value changes to [obj2, obj3, obj4] then the encoder
-// can see that obj2 and obj3 don't need to be re-encoded if their generation is unchanged and
-// that it can delete obj1.
+// When encoding an array where all elements have the same key, use the
+// identifer to distinguish array elements. For example, if you have an array of
+// [obj1, obj2, obj3] whose identifiers are 1, 2, and 3 respectively and the
+// array's value changes to [obj2, obj3, obj4] then the encoder can see that
+// obj2 and obj3 don't need to be re-encoded if their generation is unchanged
+// and that it can delete obj1.
 //
 // The block can return NO to rollback any changes it has made.
 - (BOOL)encodeChildWithKey:(NSString *)key
-    identifier:(NSString *)identifier
-    generation:(NSInteger)generation
-    block:(BOOL (^ NS_NOESCAPE)(iTermGraphEncoder *subencoder))block;
+                identifier:(NSString *)identifier
+                generation:(NSInteger)generation
+                     block:(BOOL (^NS_NOESCAPE)(iTermGraphEncoder *subencoder))
+                               block;
 
 // Return nil from block to stop adding elements. Otherwise, return identifier.
 // The block should use `identifier` as the key for the POD/graph it encodes.
 // The keys of the POD/graphs encoded with `subencoder` are ignored.
 - (void)encodeArrayWithKey:(NSString *)key
-    generation:(NSInteger)generation
-    identifiers:(NSArray<NSString *> *)identifiers
-    options:(iTermGraphEncoderArrayOptions)options
-    block:(BOOL (^ NS_NOESCAPE)(NSString *identifier,
-    NSInteger i,
-    iTermGraphEncoder *subencoder,
-    BOOL *stop))block;
+                generation:(NSInteger)generation
+               identifiers:(NSArray<NSString *> *)identifiers
+                   options:(iTermGraphEncoderArrayOptions)options
+                     block:(BOOL (^NS_NOESCAPE)(NSString *identifier,
+                                                NSInteger i,
+                                                iTermGraphEncoder *subencoder,
+                                                BOOL *stop))block;
 
 - (void)encodeDictionary:(NSDictionary *)dict
-    withKey:(NSString *)key
-    generation:(NSInteger)generation;
+                 withKey:(NSString *)key
+              generation:(NSInteger)generation;
 
 - (instancetype)initWithKey:(NSString *)key
-    identifier:(NSString *)identifier
-    generation:(NSInteger)generation NS_DESIGNATED_INITIALIZER;
+                 identifier:(NSString *)identifier
+                 generation:(NSInteger)generation NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithRecord:(iTermEncoderGraphRecord *)record;
 
@@ -83,6 +85,5 @@ typedef NS_OPTIONS(NSUInteger, iTermGraphEncoderArrayOptions) {
 - (void)rollback;
 
 @end
-
 
 NS_ASSUME_NONNULL_END

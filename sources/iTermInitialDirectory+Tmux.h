@@ -14,19 +14,19 @@ NS_ASSUME_NONNULL_BEGIN
 @interface iTermInitialDirectory (Tmux)
 
 - (void)tmuxNewWindowCommandInSessionNumber:(nullable NSNumber *)sessionNumber
-    recyclingSupported:(BOOL)recyclingSupported
-    scope:(iTermVariableScope *)scope
-    completion:(void (^)(NSString *))completion;
+                         recyclingSupported:(BOOL)recyclingSupported
+                                      scope:(iTermVariableScope *)scope
+                                 completion:(void (^)(NSString *))completion;
 
 - (void)tmuxNewWindowCommandRecyclingSupported:(BOOL)recyclingSupported
-    scope:(iTermVariableScope *)scope
-    completion:(void (^)(NSString *))completion;
+                                         scope:(iTermVariableScope *)scope
+                                    completion:(void (^)(NSString *))completion;
 
 - (void)tmuxSplitWindowCommand:(int)wp
-    vertically:(BOOL)splitVertically
-    recyclingSupported:(BOOL)recyclingSupported
-    scope:(iTermVariableScope *)scope
-    completion:(void (^)(NSString *))completion;
+                    vertically:(BOOL)splitVertically
+            recyclingSupported:(BOOL)recyclingSupported
+                         scope:(iTermVariableScope *)scope
+                    completion:(void (^)(NSString *))completion;
 
 @end
 

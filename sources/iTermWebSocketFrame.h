@@ -30,22 +30,22 @@
 */
 
 typedef NS_ENUM(int, iTermWebSocketOpcode) {
-    iTermWebSocketOpcodeContinuation = 0x0,
-    iTermWebSocketOpcodeText = 0x1,
-    iTermWebSocketOpcodeBinary = 0x2,
+  iTermWebSocketOpcodeContinuation = 0x0,
+  iTermWebSocketOpcodeText = 0x1,
+  iTermWebSocketOpcodeBinary = 0x2,
 
-    // Control opcodes
-    iTermWebSocketOpcodeConnectionClose = 0x8,
-    iTermWebSocketOpcodePing = 0x9,
-    iTermWebSocketOpcodePong = 0xa,
+  // Control opcodes
+  iTermWebSocketOpcodeConnectionClose = 0x8,
+  iTermWebSocketOpcodePing = 0x9,
+  iTermWebSocketOpcodePong = 0xa,
 };
 
 @interface iTermWebSocketFrame : NSObject
-@property (nonatomic, readonly) BOOL fin;
-@property (nonatomic, readonly) iTermWebSocketOpcode opcode;
-@property (nonatomic, readonly) NSData *payload;
-@property (nonatomic, readonly) NSString *text;
-@property (nonatomic, readonly) NSData *data;
+@property(nonatomic, readonly) BOOL fin;
+@property(nonatomic, readonly) iTermWebSocketOpcode opcode;
+@property(nonatomic, readonly) NSData *payload;
+@property(nonatomic, readonly) NSString *text;
+@property(nonatomic, readonly) NSData *data;
 
 + (instancetype)closeFrame;
 + (instancetype)closeFrameWithCode:(uint16_t)code reason:(NSString *)reason;
@@ -53,7 +53,7 @@ typedef NS_ENUM(int, iTermWebSocketOpcode) {
 + (instancetype)pongFrameForPingFrame:(iTermWebSocketFrame *)ping;
 + (instancetype)textFrameWithString:(NSString *)string;
 + (instancetype)binaryFrameWithData:(NSData *)data;
-+ (instancetype)frameWithDataSource:(unsigned char *(^)(int64_t))dataSource;
++ (instancetype)frameWithDataSource:(unsigned char * (^)(int64_t))dataSource;
 
 // Valid if opcode is ConnectionClose
 - (uint16_t)closeFrameCode;

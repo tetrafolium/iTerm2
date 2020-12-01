@@ -12,7 +12,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface iTermToolSnippets : NSView <ToolbeltTool, NSTableViewDataSource, NSTableViewDelegate>
+@interface iTermToolSnippets
+    : NSView <ToolbeltTool, NSTableViewDataSource, NSTableViewDelegate>
 
 @end
 

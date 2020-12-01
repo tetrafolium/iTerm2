@@ -19,18 +19,19 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSDictionary *)globalTouchBarMap;
 
 // Replace the global touchbar map with a new dictionary.
-+ (void)setGlobalTouchBarMap:(NSDictionary*)src;
++ (void)setGlobalTouchBarMap:(NSDictionary *)src;
 
 + (void)removeTouchbarItem:(iTermTouchbarItem *)item;
 
-+ (NSArray<iTermTouchbarItem *> *)sortedTouchbarItemsInDictionary:(NSDictionary<NSString *, NSDictionary *> *)dict;
++ (NSArray<iTermTouchbarItem *> *)sortedTouchbarItemsInDictionary:
+    (NSDictionary<NSString *, NSDictionary *> *)dict;
 
 + (NSDictionary *)dictionaryByRemovingTouchbarItem:(iTermTouchbarItem *)item
-    fromDictionary:(NSDictionary *)dictionary;
+                                    fromDictionary:(NSDictionary *)dictionary;
 
 + (void)updateDictionary:(NSMutableDictionary *)dict
-    forTouchbarItem:(iTermTouchbarItem *)touchbarItem
-    action:(iTermKeyBindingAction *)action;
+         forTouchbarItem:(iTermTouchbarItem *)touchbarItem
+                  action:(iTermKeyBindingAction *)action;
 
 @end
 

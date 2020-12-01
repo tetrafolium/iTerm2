@@ -9,34 +9,31 @@
 #import <termios.h>
 
 typedef struct {
-    struct termios term;
-    struct winsize win;
-    char tty[PATH_MAX];
+  struct termios term;
+  struct winsize win;
+  char tty[PATH_MAX];
 } iTermTTYState;
 
 typedef struct {
-    unsigned short width;
-    unsigned short height;
+  unsigned short width;
+  unsigned short height;
 } iTermTTYCellSize;
 
 typedef struct {
-    unsigned short width;
-    unsigned short height;
+  unsigned short width;
+  unsigned short height;
 } iTermTTYPixelSize;
 
 iTermTTYPixelSize iTermTTYPixelSizeMake(double width, double height);
 iTermTTYCellSize iTermTTYCellSizeMake(double width, double height);
 
 typedef struct {
-    iTermTTYCellSize cellSize;
-    iTermTTYPixelSize pixelSize;
+  iTermTTYCellSize cellSize;
+  iTermTTYPixelSize pixelSize;
 } PTYTaskSize;
 
-void iTermTTYStateInit(iTermTTYState *ttyState,
-                       iTermTTYCellSize gridSize,
-                       iTermTTYPixelSize viewSize,
-                       int isUTF8);
+void iTermTTYStateInit(iTermTTYState *ttyState, iTermTTYCellSize gridSize,
+                       iTermTTYPixelSize viewSize, int isUTF8);
 
 void iTermSetTerminalSize(int fd, PTYTaskSize taskSize);
 int PTYTaskSizeEqual(PTYTaskSize lhs, PTYTaskSize rhs);
-

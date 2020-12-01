@@ -15,30 +15,31 @@ NS_ASSUME_NONNULL_BEGIN
 @class ProfileModel;
 
 typedef enum {
-    JOURNAL_ADD,
-    JOURNAL_REMOVE,
-    JOURNAL_REMOVE_ALL,
-    JOURNAL_SET_DEFAULT
+  JOURNAL_ADD,
+  JOURNAL_REMOVE,
+  JOURNAL_REMOVE_ALL,
+  JOURNAL_SET_DEFAULT
 } JournalAction;
 
 @interface iTermProfileModelJournalParams : NSObject
-@property (nonatomic) SEL selector;                  // normal action
-@property (nonatomic) SEL alternateSelector;         // opt+click
-@property (nonatomic) SEL openAllSelector;           // open all bookmarks
-@property (nonatomic) SEL alternateOpenAllSelector;  // opt+open all bookmarks
-@property (nonatomic, weak) id target;               // receiver of selector (actually an __unsafe_unretained id)
+@property(nonatomic) SEL selector;                 // normal action
+@property(nonatomic) SEL alternateSelector;        // opt+click
+@property(nonatomic) SEL openAllSelector;          // open all bookmarks
+@property(nonatomic) SEL alternateOpenAllSelector; // opt+open all bookmarks
+@property(nonatomic, weak)
+    id target; // receiver of selector (actually an __unsafe_unretained id)
 @end
 
-@protocol iTermProfileModelMenuController<NSObject>
+@protocol iTermProfileModelMenuController <NSObject>
 - (void)addBookmark:(Profile *)b
-    toMenu:(NSMenu *)menu
-    startingAtItem:(int)skip
-    withTags:(NSArray *)tags
-    params:(iTermProfileModelJournalParams *)params
-    atPos:(int)theIndex;
+             toMenu:(NSMenu *)menu
+     startingAtItem:(int)skip
+           withTags:(NSArray *)tags
+             params:(iTermProfileModelJournalParams *)params
+              atPos:(int)theIndex;
 @end
 
-@protocol iTermProfileModelJournalModel<NSObject>
+@protocol iTermProfileModelJournalModel <NSObject>
 - (Profile *)profileWithGuid:(NSString *)guid;
 - (id<iTermProfileModelMenuController>)menuController;
 @end
@@ -46,19 +47,20 @@ typedef enum {
 @interface BookmarkJournalEntry : NSObject
 
 @property(nonatomic, readonly) JournalAction action;
-@property(nonatomic, readonly) int index;  // Index of bookmark
+@property(nonatomic, readonly) int index; // Index of bookmark
 @property(nullable, nonatomic, readonly, strong) NSString *guid;
 @property(nonatomic, readonly, strong) id<iTermProfileModelJournalModel> model;
-@property(nonatomic, readonly, strong) NSArray *tags;  // Tags before the action was applied.
+@property(nonatomic, readonly, strong)
+    NSArray *tags; // Tags before the action was applied.
 
 + (instancetype)journalWithAction:(JournalAction)action
-    bookmark:(nullable Profile *)bookmark
-    model:(id<iTermProfileModelJournalModel>)model;
+                         bookmark:(nullable Profile *)bookmark
+                            model:(id<iTermProfileModelJournalModel>)model;
 
 + (instancetype)journalWithAction:(JournalAction)action
-    bookmark:(nullable Profile *)bookmark
-    model:(id<iTermProfileModelJournalModel>)model
-    index:(int)index;
+                         bookmark:(nullable Profile *)bookmark
+                            model:(id<iTermProfileModelJournalModel>)model
+                            index:(int)index;
 
 @end
 

@@ -8,11 +8,9 @@
 
 #import "PseudoTerminal.h"
 
-@interface PseudoTerminal (TouchBar) <
-    NSCandidateListTouchBarItemDelegate,
-    NSTouchBarDelegate,
-    NSScrubberDelegate,
-    NSScrubberDataSource>
+@interface PseudoTerminal (TouchBar) <NSCandidateListTouchBarItemDelegate,
+                                      NSTouchBarDelegate, NSScrubberDelegate,
+                                      NSScrubberDataSource>
 
 - (void)updateTouchBarIfNeeded:(BOOL)force;
 - (void)updateTouchBarFunctionKeyLabels;

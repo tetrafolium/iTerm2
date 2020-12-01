@@ -15,21 +15,21 @@ NS_ASSUME_NONNULL_BEGIN
 @class iTermTermkeyKeyMapper;
 
 typedef struct {
-    NSStringEncoding encoding;
-    iTermOptionKeyBehavior leftOptionKey;
-    iTermOptionKeyBehavior rightOptionKey;
-    BOOL applicationCursorMode;
-    BOOL applicationKeypadMode;
+  NSStringEncoding encoding;
+  iTermOptionKeyBehavior leftOptionKey;
+  iTermOptionKeyBehavior rightOptionKey;
+  BOOL applicationCursorMode;
+  BOOL applicationKeypadMode;
 } iTermTermkeyKeyMapperConfiguration;
 
-@protocol iTermTermkeyKeyMapperDelegate<NSObject>
+@protocol iTermTermkeyKeyMapperDelegate <NSObject>
 - (void)termkeyKeyMapperWillMapKey:(iTermTermkeyKeyMapper *)termkeyKeyMaper;
 @end
 
-@interface iTermTermkeyKeyMapper : NSObject<iTermKeyMapper>
+@interface iTermTermkeyKeyMapper : NSObject <iTermKeyMapper>
 
-@property (nonatomic, weak) id<iTermTermkeyKeyMapperDelegate> delegate;
-@property (nonatomic) iTermTermkeyKeyMapperConfiguration configuration;
+@property(nonatomic, weak) id<iTermTermkeyKeyMapperDelegate> delegate;
+@property(nonatomic) iTermTermkeyKeyMapperConfiguration configuration;
 
 @end
 

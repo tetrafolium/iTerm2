@@ -1,15 +1,16 @@
-#import <Foundation/Foundation.h>
 #import "AATree.h"
+#import <Foundation/Foundation.h>
 
 @class IntervalTreeEntry;
 
-@interface Interval : NSObject<NSCopying>
+@interface Interval : NSObject <NSCopying>
 // Negative locations have special meaning. Don't use them.
 @property(nonatomic, assign) long long location;
 @property(nonatomic, assign) long long length;
 @property(nonatomic, readonly) long long limit;
 
-+ (instancetype)intervalWithLocation:(long long)location length:(long long)length;
++ (instancetype)intervalWithLocation:(long long)location
+                              length:(long long)length;
 + (Interval *)maxInterval;
 // One more than the largest value in the interval.
 - (BOOL)intersects:(Interval *)other;
@@ -30,12 +31,14 @@
 - (NSDictionary *)dictionaryValue;
 @end
 
-// A node in the interval tree will contain one or more entries, each of which has an interval and an object. All intervals should have the same location.
+// A node in the interval tree will contain one or more entries, each of which
+// has an interval and an object. All intervals should have the same location.
 @interface IntervalTreeEntry : NSObject
 @property(nonatomic, retain) Interval *interval;
 @property(nonatomic, retain) id<IntervalTreeObject> object;
 
-+ (IntervalTreeEntry *)entryWithInterval:(Interval *)interval object:(id<IntervalTreeObject>)object;
++ (IntervalTreeEntry *)entryWithInterval:(Interval *)interval
+                                  object:(id<IntervalTreeObject>)object;
 @end
 
 @interface IntervalTreeValue : NSObject
@@ -59,7 +62,8 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
 
 // |object| should implement -hash.
-- (void)addObject:(id<IntervalTreeObject>)object withInterval:(Interval *)interval;
+- (void)addObject:(id<IntervalTreeObject>)object
+     withInterval:(Interval *)interval;
 - (void)removeObject:(id<IntervalTreeObject>)object;
 - (NSArray<IntervalTreeObject> *)objectsInInterval:(Interval *)interval;
 - (NSArray<IntervalTreeObject> *)allObjects;
@@ -74,7 +78,8 @@
 - (NSArray<IntervalTreeObject> *)objectsWithLargestLocation;
 
 // Returns the object with the largest location before (but NOT AT) |location|.
-- (NSArray<IntervalTreeObject> *)objectsWithLargestLocationBefore:(long long)location;
+- (NSArray<IntervalTreeObject> *)objectsWithLargestLocationBefore:
+    (long long)location;
 
 - (NSArray<IntervalTreeObject> *)objectsWithLargestLimitBefore:(long long)limit;
 - (NSArray<IntervalTreeObject> *)objectsWithSmallestLimitAfter:(long long)limit;

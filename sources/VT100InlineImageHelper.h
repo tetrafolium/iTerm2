@@ -12,20 +12,19 @@ NS_ASSUME_NONNULL_BEGIN
 @class VT100Grid;
 
 typedef NS_ENUM(NSInteger, VT100TerminalUnits) {
-    kVT100TerminalUnitsCells,
-    kVT100TerminalUnitsPixels,
-    kVT100TerminalUnitsPercentage,
-    kVT100TerminalUnitsAuto,
+  kVT100TerminalUnitsCells,
+  kVT100TerminalUnitsPixels,
+  kVT100TerminalUnitsPercentage,
+  kVT100TerminalUnitsAuto,
 };
 
-@protocol VT100InlineImageHelperDelegate<NSObject>
+@protocol VT100InlineImageHelperDelegate <NSObject>
 - (void)inlineImageConfirmBigDownloadWithBeforeSize:(NSInteger)lengthBefore
-    afterSize:(NSInteger)lengthAfter
-    name:(NSString *)name;
+                                          afterSize:(NSInteger)lengthAfter
+                                               name:(NSString *)name;
 - (NSSize)inlineImageCellSize;
 - (void)inlineImageAppendLinefeed;
-- (void)inlineImageSetMarkOnScreenLine:(NSInteger)line
-    code:(unichar)code;
+- (void)inlineImageSetMarkOnScreenLine:(NSInteger)line code:(unichar)code;
 
 @end
 
@@ -33,24 +32,24 @@ typedef NS_ENUM(NSInteger, VT100TerminalUnits) {
 // and write it to a VT100Grid.
 @interface VT100InlineImageHelper : NSObject
 
-@property (nonatomic, weak) id<VT100InlineImageHelperDelegate> delegate;
+@property(nonatomic, weak) id<VT100InlineImageHelperDelegate> delegate;
 
 - (instancetype)initWithName:(NSString *)name
-    width:(int)width
-    widthUnits:(VT100TerminalUnits)widthUnits
-    height:(int)height
-    heightUnits:(VT100TerminalUnits)heightUnits
-    scaleFactor:(CGFloat)scaleFactor
-    preserveAspectRatio:(BOOL)preserveAspectRatio
-    inset:(NSEdgeInsets)inset
-    preconfirmed:(BOOL)preconfirmed;
+                       width:(int)width
+                  widthUnits:(VT100TerminalUnits)widthUnits
+                      height:(int)height
+                 heightUnits:(VT100TerminalUnits)heightUnits
+                 scaleFactor:(CGFloat)scaleFactor
+         preserveAspectRatio:(BOOL)preserveAspectRatio
+                       inset:(NSEdgeInsets)inset
+                preconfirmed:(BOOL)preconfirmed;
 
 - (instancetype)initWithSixelData:(NSData *)data
-    scaleFactor:(CGFloat)scaleFactor;
+                      scaleFactor:(CGFloat)scaleFactor;
 
 - (instancetype)initWithNativeImageNamed:(NSString *)name
-    spanningWidth:(int)width
-    scaleFactor:(CGFloat)scaleFactor;
+                           spanningWidth:(int)width
+                             scaleFactor:(CGFloat)scaleFactor;
 
 - (instancetype)init NS_UNAVAILABLE;
 

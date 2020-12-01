@@ -8,14 +8,14 @@
 
 #import <Cocoa/Cocoa.h>
 
-@protocol iTermBadgeLabelDelegate<NSObject>
+@protocol iTermBadgeLabelDelegate <NSObject>
 - (NSFont *)badgeLabelFontOfSize:(CGFloat)pointSize;
 - (NSSize)badgeLabelSizeFraction;
 @end
 
 @interface iTermBadgeLabel : NSObject
 
-@property (nonatomic, weak) id<iTermBadgeLabelDelegate> delegate;
+@property(nonatomic, weak) id<iTermBadgeLabelDelegate> delegate;
 
 // Color for badge text fill
 @property(nonatomic, retain) NSColor *fillColor;

@@ -6,10 +6,11 @@
 //  Copyright 2011 Georgetech. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "ArrangementPreviewView.h"
+#import <Cocoa/Cocoa.h>
 
-@interface WindowArrangements : NSViewController <NSTableViewDataSource, NSTableViewDelegate>
+@interface WindowArrangements
+    : NSViewController <NSTableViewDataSource, NSTableViewDelegate>
 
 + (WindowArrangements *)sharedInstance;
 
@@ -29,9 +30,9 @@
 + (NSArray *)allNames;
 
 + (void)refreshRestoreArrangementsMenu:(NSMenuItem *)menuItem
-    withSelector:(SEL)selector
-    defaultShortcut:(NSString *)defaultShortcut
-    identifier:(NSString *)identifier;
+                          withSelector:(SEL)selector
+                       defaultShortcut:(NSString *)defaultShortcut
+                            identifier:(NSString *)identifier;
 
 + (NSString *)nameForNewArrangement;
 

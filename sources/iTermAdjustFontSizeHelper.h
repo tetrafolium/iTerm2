@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)biggerFont:(PTYSession *)currentSession;
 + (void)smallerFont:(PTYSession *)currentSession;
 + (void)returnToDefaultSize:(PTYSession *)currentSession
-    resetRowsCols:(BOOL)reset;
+              resetRowsCols:(BOOL)reset;
 + (void)toggleSizeChangesAffectProfile;
 
 @end

@@ -13,8 +13,8 @@ extern const CGFloat iTermTextPopoverViewControllerHorizontalMarginWidth;
 
 @interface iTermTextPopoverViewController : NSViewController
 
-@property (nonatomic, strong) IBOutlet NSPopover *popover;
-@property (nonatomic, strong) IBOutlet NSTextView *textView;
+@property(nonatomic, strong) IBOutlet NSPopover *popover;
+@property(nonatomic, strong) IBOutlet NSTextView *textView;
 
 - (void)appendString:(NSString *)string;
 

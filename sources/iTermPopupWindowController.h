@@ -22,7 +22,9 @@
 - (void)popupInsertText:(NSString *)text;
 - (void)popupKeyDown:(NSEvent *)event;
 // Return YES if the delegate handles it, NO if Popup should handle it.
-- (BOOL)popupHandleSelector:(SEL)selector string:(NSString *)string currentValue:(NSString *)currentValue;
+- (BOOL)popupHandleSelector:(SEL)selector
+                     string:(NSString *)string
+               currentValue:(NSString *)currentValue;
 - (void)popupWillClose:(iTermPopupWindowController *)popup;
 - (BOOL)popupWindowIsInFloatingHotkeyWindow;
 - (void)popupIsSearching:(BOOL)searching;
@@ -33,9 +35,9 @@
 
 @property(nonatomic, assign) id<PopupDelegate> delegate;
 
-- (instancetype)initWithWindowNibName:(NSString*)nibName
-    tablePtr:(NSTableView**)table
-    model:(PopupModel*)model;
+- (instancetype)initWithWindowNibName:(NSString *)nibName
+                             tablePtr:(NSTableView **)table
+                                model:(PopupModel *)model;
 
 // Programmatically close the window.
 - (void)closePopupWindow;
@@ -49,8 +51,8 @@
 // Called by clients to open window.
 - (void)popWithDelegate:(id<PopupDelegate>)delegate;
 
-// Safely shut down the popup when the parent is about to be dealloced. Clients must call this from
-// dealloc. It removes possible pending timers.
+// Safely shut down the popup when the parent is about to be dealloced. Clients
+// must call this from dealloc. It removes possible pending timers.
 - (void)shutdown;
 
 // Subclasses may override these methods.
@@ -68,24 +70,29 @@
 - (void)onOpen;
 
 // Get a value for a table cell. Always returns a value from the model.
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex;
+- (id)tableView:(NSTableView *)aTableView
+    objectValueForTableColumn:(NSTableColumn *)aTableColumn
+                          row:(NSInteger)rowIndex;
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
 
 - (void)setOnTop:(BOOL)onTop;
-- (PopupModel*)unfilteredModel;
-- (PopupModel*)model;
+- (PopupModel *)unfilteredModel;
+- (PopupModel *)model;
 - (void)setPosition:(BOOL)canChangeSide;
 - (void)reloadData:(BOOL)canChangeSide;
 - (void)_setClearFilterOnNextKeyDownFlag:(id)sender;
 - (int)convertIndex:(int)i;
-- (NSAttributedString*)attributedStringForEntry:(PopupEntry*)entry isSelected:(BOOL)isSelected;
+- (NSAttributedString *)attributedStringForEntry:(PopupEntry *)entry
+                                      isSelected:(BOOL)isSelected;
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView;
-- (BOOL)_word:(NSString*)temp matchesFilter:(NSString*)filter;
+- (BOOL)_word:(NSString *)temp matchesFilter:(NSString *)filter;
 
 - (NSString *)truncatedMainValueForEntry:(PopupEntry *)entry;
-- (NSAttributedString *)shrunkToFitAttributedString:(NSAttributedString *)attributedString
-    inEntry:(PopupEntry *)entry
-    baseAttributes:(NSDictionary *)baseAttributes;
-- (BOOL)passKeyEventToDelegateForSelector:(SEL)selector string:(NSString *)string;
+- (NSAttributedString *)
+    shrunkToFitAttributedString:(NSAttributedString *)attributedString
+                        inEntry:(PopupEntry *)entry
+                 baseAttributes:(NSDictionary *)baseAttributes;
+- (BOOL)passKeyEventToDelegateForSelector:(SEL)selector
+                                   string:(NSString *)string;
 
 @end

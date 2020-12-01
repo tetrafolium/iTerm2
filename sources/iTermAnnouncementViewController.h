@@ -6,8 +6,8 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
 #import "iTermAnnouncementView.h"
+#import <Cocoa/Cocoa.h>
 
 @class iTermAnnouncementViewController;
 
@@ -24,9 +24,9 @@
 @property(nonatomic, assign) BOOL dismissOnKeyDown;
 
 + (instancetype)announcementWithTitle:(NSString *)title
-    style:(iTermAnnouncementViewStyle)style
-    withActions:(NSArray *)actions
-    completion:(void (^)(int))completion;
+                                style:(iTermAnnouncementViewStyle)style
+                          withActions:(NSArray *)actions
+                           completion:(void (^)(int))completion;
 
 - (void)dismiss;
 

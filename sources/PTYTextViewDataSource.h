@@ -1,10 +1,10 @@
 // DataSource for PTYTextView.
+#import "LineBuffer.h"
+#import "ScreenChar.h"
+#import "VT100GridTypes.h"
 #import "iTermCursor.h"
 #import "iTermFindDriver.h"
 #import "iTermLogicalMovementHelper.h"
-#import "ScreenChar.h"
-#import "LineBuffer.h"
-#import "VT100GridTypes.h"
 
 @class iTermColorMap;
 @class PTYNoteViewController;
@@ -17,9 +17,9 @@
 @class VT100Terminal;
 
 @interface PTYTextViewSynchronousUpdateState : NSObject
-@property (nonatomic, strong) VT100Grid *grid;
-@property (nonatomic) BOOL cursorVisible;
-@property (nonatomic, strong) iTermColorMap *colorMap;
+@property(nonatomic, strong) VT100Grid *grid;
+@property(nonatomic) BOOL cursorVisible;
+@property(nonatomic, strong) iTermColorMap *colorMap;
 @end
 
 @protocol iTermTextDataSource <NSObject>
@@ -33,8 +33,8 @@
 
 @end
 
-
-@protocol PTYTextViewDataSource <iTermLogicalMovementHelperDelegate, iTermTextDataSource>
+@protocol PTYTextViewDataSource <iTermLogicalMovementHelperDelegate,
+                                 iTermTextDataSource>
 
 - (VT100Terminal *)terminal;
 - (int)height;
@@ -46,31 +46,34 @@
 - (screen_char_t *)getLineAtScreenIndex:(int)theIndex;
 
 // Provide a buffer as large as sizeof(screen_char_t*) * ([SCREEN width] + 1)
-- (screen_char_t *)getLineAtIndex:(int)theIndex withBuffer:(screen_char_t*)buffer;
+- (screen_char_t *)getLineAtIndex:(int)theIndex
+                       withBuffer:(screen_char_t *)buffer;
 - (NSArray<ScreenCharArray *> *)linesInRange:(NSRange)range;
 - (int)numberOfScrollbackLines;
 - (int)scrollbackOverflow;
 - (void)resetScrollbackOverflow;
 - (long long)absoluteLineNumberOfCursor;
-- (BOOL)continueFindAllResults:(NSMutableArray*)results
-    inContext:(FindContext*)context;
-- (FindContext*)findContext;
+- (BOOL)continueFindAllResults:(NSMutableArray *)results
+                     inContext:(FindContext *)context;
+- (FindContext *)findContext;
 
 // Initialize the find context.
-- (void)setFindString:(NSString*)aString
-    forwardDirection:(BOOL)direction
-    mode:(iTermFindMode)mode
-    startingAtX:(int)x
-    startingAtY:(int)y
-    withOffset:(int)offsetof  // Offset in the direction of searching (offset=1 while searching backwards means start one char before x,y)
-    inContext:(FindContext*)context
-    multipleResults:(BOOL)multipleResults;
+- (void)setFindString:(NSString *)aString
+     forwardDirection:(BOOL)direction
+                 mode:(iTermFindMode)mode
+          startingAtX:(int)x
+          startingAtY:(int)y
+           withOffset:(int)offsetof // Offset in the direction of searching
+                                    // (offset=1 while searching backwards means
+                                    // start one char before x,y)
+            inContext:(FindContext *)context
+      multipleResults:(BOOL)multipleResults;
 
 // Save the position of the current find context (with the screen appended).
 - (void)saveFindContextAbsPos;
 
 // Return a human-readable dump of the screen contents.
-- (NSString*)debugString;
+- (NSString *)debugString;
 - (BOOL)isAllDirty;
 - (void)resetAllDirty;
 - (void)setRangeOfCharsAnimated:(NSRange)range onLine:(int)line;
@@ -79,8 +82,8 @@
 
 // Set the cursor dirty. Cursor coords are different because of how they handle
 // being in the WIDTH'th column (it wraps to the start of the next line)
-// whereas that wouldn't normally be a legal X value. If possible, the char to the right of the
-// cursor is also set dirty to handle DWCs.
+// whereas that wouldn't normally be a legal X value. If possible, the char to
+// the right of the cursor is also set dirty to handle DWCs.
 - (void)setCharDirtyAtCursorX:(int)x Y:(int)y;
 - (void)setLineDirtyAtY:(int)y;
 
@@ -105,7 +108,8 @@
 // Returns the last modified date for a given line.
 - (NSDate *)timestampForLine:(int)y;
 
-- (void)addNote:(PTYNoteViewController *)note inRange:(VT100GridCoordRange)range;
+- (void)addNote:(PTYNoteViewController *)note
+        inRange:(VT100GridCoordRange)range;
 - (void)removeInaccessibleNotes;
 
 // Returns all notes in a range of cells.
@@ -119,7 +123,8 @@
 
 - (SCPPath *)scpPathForFile:(NSString *)filename onLine:(int)line;
 - (VT100RemoteHost *)remoteHostOnLine:(int)line;
-- (VT100GridCoordRange)textViewRangeOfOutputForCommandMark:(VT100ScreenMark *)mark;
+- (VT100GridCoordRange)textViewRangeOfOutputForCommandMark:
+    (VT100ScreenMark *)mark;
 
 // Indicates if we're in alternate screen mode.
 - (BOOL)showingAlternateScreen;
@@ -128,9 +133,10 @@
 
 // When the cursor is about to be hidden, a copy of the grid is saved. This
 // method is used to temporarily swap in the saved grid if one is available. It
-// returns a nonnil state if the saved grid was swapped in (only possible if useSavedGrid
-// is YES, of course).
-- (PTYTextViewSynchronousUpdateState *)setUseSavedGridIfAvailable:(BOOL)useSavedGrid;
+// returns a nonnil state if the saved grid was swapped in (only possible if
+// useSavedGrid is YES, of course).
+- (PTYTextViewSynchronousUpdateState *)setUseSavedGridIfAvailable:
+    (BOOL)useSavedGrid;
 - (NSString *)compactLineDumpWithContinuationMarks;
 - (NSSet<NSString *> *)sgrCodesForChar:(screen_char_t)c;
 

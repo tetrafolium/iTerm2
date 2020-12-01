@@ -11,13 +11,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class iTermExpect;
 
-@protocol iTermShellIntegrationWindowControllerDelegate<NSObject>
+@protocol iTermShellIntegrationWindowControllerDelegate <NSObject>
 - (void)shellIntegrationWindowControllerSendText:(NSString *)text;
 - (iTermExpect *)shellIntegrationExpect;
 @end
 
 @interface iTermShellIntegrationWindowController : NSWindowController
-@property (nonatomic, weak) id<iTermShellIntegrationWindowControllerDelegate> delegate;
+@property(nonatomic, weak) id<iTermShellIntegrationWindowControllerDelegate>
+    delegate;
 @end
 
 NS_ASSUME_NONNULL_END

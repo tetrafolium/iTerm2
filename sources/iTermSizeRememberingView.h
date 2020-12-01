@@ -17,4 +17,3 @@
 
 @interface iTermPrefsProfilesGeneralView : iTermSizeRememberingView
 @end
-

@@ -6,8 +6,8 @@
 //
 //  Created by George Nachman on 8/26/11.
 
-#import <Foundation/Foundation.h>
 #import "SplitSelectionView.h"
+#import <Foundation/Foundation.h>
 
 extern NSString *const iTermMovePaneDragType;
 extern NSString *const iTermSessionDidChangeTabNotification;
@@ -18,10 +18,10 @@ extern NSString *const iTermSessionDidChangeTabNotification;
 @class SessionView;
 @interface MovePaneController : NSObject <SplitSelectionViewDelegate>
 
-@property (nonatomic, readonly) BOOL isDragInProgress;
-@property (nonatomic, readonly) BOOL dropping;
-@property (nonatomic, assign) BOOL dragFailed;
-@property (nonatomic, assign) PTYSession *session;
+@property(nonatomic, readonly) BOOL isDragInProgress;
+@property(nonatomic, readonly) BOOL dropping;
+@property(nonatomic, assign) BOOL dragFailed;
+@property(nonatomic, assign) PTYSession *session;
 
 + (instancetype)sharedInstance;
 // Initiate click-to-move mode.
@@ -35,25 +35,28 @@ extern NSString *const iTermSessionDidChangeTabNotification;
 - (void)beginDrag:(PTYSession *)session;
 - (BOOL)isMovingSession:(PTYSession *)s;
 - (BOOL)dropInSession:(PTYSession *)dest
-    half:(SplitSessionHalf)half
-    atPoint:(NSPoint)point;
+                 half:(SplitSessionHalf)half
+              atPoint:(NSPoint)point;
 - (BOOL)dropTab:(PTYTab *)tab
-    inSession:(PTYSession *)dest
-    half:(SplitSessionHalf)half
-    atPoint:(NSPoint)point;
+      inSession:(PTYSession *)dest
+           half:(SplitSessionHalf)half
+        atPoint:(NSPoint)point;
 
-// Clears the session so that the normal drop handler (e.g., -[SessionView draggedImage:endedAt:operation:])
-// doesn't do anything.
+// Clears the session so that the normal drop handler (e.g., -[SessionView
+// draggedImage:endedAt:operation:]) doesn't do anything.
 - (void)clearSession;
 
-// Returns an autoreleased session view. Add the session view to something useful and release it.
+// Returns an autoreleased session view. Add the session view to something
+// useful and release it.
 - (SessionView *)removeAndClearSession;
 - (void)moveSessionToNewWindow:(PTYSession *)movingSession
-    atPoint:(NSPoint)point;
+                       atPoint:(NSPoint)point;
 
 // Move the window by |distance|.
 - (void)moveWindowBy:(NSPoint)distance;
 
-+ (void)moveTab:(PTYTab *)tab toWindow:(PseudoTerminal *)window atIndex:(NSInteger)index;
++ (void)moveTab:(PTYTab *)tab
+       toWindow:(PseudoTerminal *)window
+        atIndex:(NSInteger)index;
 
 @end

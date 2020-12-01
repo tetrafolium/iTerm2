@@ -17,7 +17,7 @@
 @class iTermToolWrapper;
 @class VT100ScreenMark;
 
-@protocol iTermToolbeltViewDelegate<NSObject>
+@protocol iTermToolbeltViewDelegate <NSObject>
 
 - (CGFloat)growToolbeltBy:(CGFloat)amount;
 // Dragging of the toolbelt's handle finished.
@@ -28,9 +28,11 @@
 - (pid_t)toolbeltCurrentShellProcessId;
 - (VT100ScreenMark *)toolbeltLastCommandMark;
 - (void)toolbeltDidSelectMark:(iTermMark *)mark;
-- (void)toolbeltActivateTriggerForCapturedOutputInCurrentSession:(CapturedOutput *)capturedOutput;
+- (void)toolbeltActivateTriggerForCapturedOutputInCurrentSession:
+    (CapturedOutput *)capturedOutput;
 - (BOOL)toolbeltCurrentSessionHasGuid:(NSString *)guid;
-- (NSArray<iTermCommandHistoryCommandUseMO *> *)toolbeltCommandUsesForCurrentSession;
+- (NSArray<iTermCommandHistoryCommandUseMO *> *)
+    toolbeltCommandUsesForCurrentSession;
 - (void)toolbeltApplyActionToCurrentSession:(iTermAction *)action;
 
 @end
@@ -52,7 +54,9 @@
 @optional
 - (NSDictionary *)restorableState;
 - (void)restoreFromState:(NSDictionary *)state;
-- (instancetype)initWithFrame:(NSRect)frame URL:(NSURL *)url identifier:(NSString *)identifier;
+- (instancetype)initWithFrame:(NSRect)frame
+                          URL:(NSURL *)url
+                   identifier:(NSString *)identifier;
 - (void)relayout;
 - (void)shutdown;
 - (void)windowBackgroundColorDidChange;

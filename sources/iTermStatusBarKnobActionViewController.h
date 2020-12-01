@@ -5,14 +5,15 @@
 //  Created by George Nachman on 3/22/19.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "iTermStatusBarComponentKnob.h"
+#import <Cocoa/Cocoa.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface iTermStatusBarKnobActionViewController : NSViewController<iTermStatusBarKnobViewController>
+@interface iTermStatusBarKnobActionViewController
+    : NSViewController <iTermStatusBarKnobViewController>
 
-@property (nonatomic) NSDictionary *value;
+@property(nonatomic) NSDictionary *value;
 
 @end
 

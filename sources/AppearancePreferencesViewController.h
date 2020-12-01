@@ -11,6 +11,7 @@
 // Posted when the user changes the process type to/from LSUIElement.
 extern NSString *const iTermProcessTypeDidChangeNotification;
 
-@interface AppearancePreferencesViewController : iTermPreferencesBaseViewController
+@interface AppearancePreferencesViewController
+    : iTermPreferencesBaseViewController
 
 @end

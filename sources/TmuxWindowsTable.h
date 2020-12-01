@@ -6,8 +6,8 @@
 //  Copyright (c) 2011 Georgetech. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "FutureMethods.h"
+#import <Cocoa/Cocoa.h>
 
 extern NSString *kWindowPasteboardType;
 
@@ -27,9 +27,10 @@ extern NSString *kWindowPasteboardType;
 
 @end
 
-@interface TmuxWindowsTable : NSObject <NSTableViewDelegate, NSTableViewDataSource>
+@interface TmuxWindowsTable
+    : NSObject <NSTableViewDelegate, NSTableViewDataSource>
 
-@property (nonatomic, assign) id<TmuxWindowsTableProtocol> delegate;
+@property(nonatomic, assign) id<TmuxWindowsTableProtocol> delegate;
 
 - (void)setWindows:(NSArray *)windows;
 - (void)setNameOfWindowWithId:(int)wid to:(NSString *)newName;

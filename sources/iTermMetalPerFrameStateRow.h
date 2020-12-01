@@ -17,26 +17,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermMetalPerFrameStateRow : NSObject {
 @public
-    NSInteger _generation;
-    NSNumber *_markStyle;
-    iTermData *_screenCharLine;
-    NSIndexSet *_selectedIndexSet;
-    NSDate *_date;
-    NSData *_matches;
-    NSRange _underlinedRange;  // Underline for semantic history
+  NSInteger _generation;
+  NSNumber *_markStyle;
+  iTermData *_screenCharLine;
+  NSIndexSet *_selectedIndexSet;
+  NSDate *_date;
+  NSData *_matches;
+  NSRange _underlinedRange; // Underline for semantic history
 }
 
 - (instancetype)init NS_UNAVAILABLE;
 @end
 
-
 @interface iTermMetalPerFrameStateRowFactory : NSObject
 
-- (instancetype)initWithDrawingHelper:(iTermTextDrawingHelper *)drawingHelper
-    textView:(PTYTextView *)textView
-    screen:(VT100Screen *)screen
-    configuration:(iTermMetalPerFrameStateConfiguration *)configuration
-    width:(int)width NS_DESIGNATED_INITIALIZER;
+- (instancetype)
+    initWithDrawingHelper:(iTermTextDrawingHelper *)drawingHelper
+                 textView:(PTYTextView *)textView
+                   screen:(VT100Screen *)screen
+            configuration:(iTermMetalPerFrameStateConfiguration *)configuration
+                    width:(int)width NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (iTermMetalPerFrameStateRow *)newRowForLine:(int)line;

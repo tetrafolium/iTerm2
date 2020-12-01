@@ -5,12 +5,12 @@
 //  Created by George Nachman on 1/6/19.
 //
 
-#import <Foundation/Foundation.h>
 #import "iTermKeyMapper.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface iTermRawKeyMapper : NSObject<iTermKeyMapper>
+@interface iTermRawKeyMapper : NSObject <iTermKeyMapper>
 
 @end
 

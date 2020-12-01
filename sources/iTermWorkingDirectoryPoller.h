@@ -13,28 +13,30 @@ NS_ASSUME_NONNULL_BEGIN
 @class iTermVariableScope;
 @class TmuxGateway;
 
-@protocol iTermWorkingDirectoryPollerDelegate<NSObject>
+@protocol iTermWorkingDirectoryPollerDelegate <NSObject>
 - (BOOL)workingDirectoryPollerShouldPoll;
-- (void)workingDirectoryPollerDidFindWorkingDirectory:(nullable NSString *)path invalidated:(BOOL)invalidated;
+- (void)workingDirectoryPollerDidFindWorkingDirectory:(nullable NSString *)path
+                                          invalidated:(BOOL)invalidated;
 - (pid_t)workingDirectoryPollerProcessID;
 @end
 
 @interface iTermWorkingDirectoryPoller : NSObject
 
-@property (nonatomic, weak) id<iTermWorkingDirectoryPollerDelegate> delegate;
-@property (nonatomic, nullable, strong) iTermTmuxOptionMonitor *tmuxOptionMonitor;
+@property(nonatomic, weak) id<iTermWorkingDirectoryPollerDelegate> delegate;
+@property(nonatomic, nullable, strong)
+    iTermTmuxOptionMonitor *tmuxOptionMonitor;
 
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithTmuxGateway:(TmuxGateway *)gateway
-    scope:(iTermVariableScope *)scope
-    windowPane:(int)windowPane;
+                              scope:(iTermVariableScope *)scope
+                         windowPane:(int)windowPane;
 
 - (void)poll;
 - (void)didReceiveLineFeed;
 - (void)userDidPressKey;
 - (void)invalidateOutstandingRequests;
-- (void)addOneTimeCompletion:(void (^)(NSString * _Nullable))completion;
+- (void)addOneTimeCompletion:(void (^)(NSString *_Nullable))completion;
 
 @end
 

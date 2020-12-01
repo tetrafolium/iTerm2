@@ -7,11 +7,12 @@
 
 #import "iTermPreferencesSearch.h"
 
-@protocol iTermSearchableViewController<NSObject>
+@protocol iTermSearchableViewController <NSObject>
 - (NSString *)documentOwnerIdentifier;
-- (NSArray<iTermPreferencesSearchDocument *> *)searchableViewControllerDocuments;
-- (NSView *)searchableViewControllerRevealItemForDocument:(iTermPreferencesSearchDocument *)document
-    forQuery:(NSString *)query
-    willChangeTab:(BOOL *)willChangeTab;
+- (NSArray<iTermPreferencesSearchDocument *> *)
+    searchableViewControllerDocuments;
+- (NSView *)searchableViewControllerRevealItemForDocument:
+                (iTermPreferencesSearchDocument *)document
+                                                 forQuery:(NSString *)query
+                                            willChangeTab:(BOOL *)willChangeTab;
 @end
-

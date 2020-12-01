@@ -11,15 +11,17 @@
 
 @interface iTermStatusBarRPCProvidedTextComponent : iTermStatusBarTextComponent
 
-- (instancetype)initWithRegistrationRequest:(ITMRPCRegistrationRequest *)registrationRequest
-    scope:(iTermVariableScope *)scope
-    knobs:(NSDictionary *)knobs;
+- (instancetype)initWithRegistrationRequest:
+                    (ITMRPCRegistrationRequest *)registrationRequest
+                                      scope:(iTermVariableScope *)scope
+                                      knobs:(NSDictionary *)knobs;
 
 @end
 
-@interface iTermStatusBarRPCComponentFactory : NSObject<iTermStatusBarComponentFactory>
+@interface iTermStatusBarRPCComponentFactory
+    : NSObject <iTermStatusBarComponentFactory>
 
-- (instancetype)initWithRegistrationRequest:(ITMRPCRegistrationRequest *)registrationRequest;
+- (instancetype)initWithRegistrationRequest:
+    (ITMRPCRegistrationRequest *)registrationRequest;
 
 @end
-

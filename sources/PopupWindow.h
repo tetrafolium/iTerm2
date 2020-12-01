@@ -13,7 +13,7 @@
 // I should really make this weak. I think there's enough hacks in place to
 // prevent a leak. Some day when I have lots of free time I can arcify
 // PseudoTerminal :)
-@property (nonatomic, retain) NSWindow *owningWindow;
+@property(nonatomic, retain) NSWindow *owningWindow;
 
 - (void)shutdown;
 

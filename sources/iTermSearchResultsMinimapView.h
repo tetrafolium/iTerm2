@@ -5,17 +5,19 @@
 //  Created by George Nachman on 3/14/20.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "iTermTuple.h"
+#import <Cocoa/Cocoa.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class iTermSearchResultsMinimapView;
 
 NS_CLASS_AVAILABLE_MAC(10_14)
-@protocol iTermSearchResultsMinimapViewDelegate<NSObject>
-- (NSIndexSet *)searchResultsMinimapViewLocations:(iTermSearchResultsMinimapView *)view;
-- (NSRange)searchResultsMinimapViewRangeOfVisibleLines:(iTermSearchResultsMinimapView *)view;
+@protocol iTermSearchResultsMinimapViewDelegate <NSObject>
+- (NSIndexSet *)searchResultsMinimapViewLocations:
+    (iTermSearchResultsMinimapView *)view;
+- (NSRange)searchResultsMinimapViewRangeOfVisibleLines:
+    (iTermSearchResultsMinimapView *)view;
 @end
 
 @interface iTermBaseMinimapView : NSView
@@ -28,19 +30,21 @@ NS_CLASS_AVAILABLE_MAC(10_14)
 
 NS_CLASS_AVAILABLE_MAC(10_14)
 @interface iTermSearchResultsMinimapView : iTermBaseMinimapView
-@property (nonatomic, weak) id<iTermSearchResultsMinimapViewDelegate> delegate;
+@property(nonatomic, weak) id<iTermSearchResultsMinimapViewDelegate> delegate;
 @end
 
 @interface iTermIncrementalMinimapView : iTermBaseMinimapView
 
 // (outline color, fill color)
-- (instancetype)initWithColors:(NSArray<iTermTuple<NSColor *, NSColor *> *> *)colors NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithColors:
+    (NSArray<iTermTuple<NSColor *, NSColor *> *> *)colors
+    NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (void)addObjectOfType:(NSInteger)objectType onLine:(NSInteger)line;
 - (void)removeObjectOfType:(NSInteger)objectType fromLine:(NSInteger)line;
 - (void)setFirstVisibleLine:(NSInteger)firstVisibleLine
-    numberOfVisibleLines:(NSInteger)numberOfVisibleLines;
+       numberOfVisibleLines:(NSInteger)numberOfVisibleLines;
 - (void)removeAllObjects;
 - (void)setLines:(NSMutableIndexSet *)lines forType:(NSInteger)type;
 

@@ -9,10 +9,10 @@
 #import <Cocoa/Cocoa.h>
 
 typedef NS_ENUM(NSInteger, iTermTipCardActionButtonAnimationState) {
-    kTipCardButtonNotAnimating,  // Staying put
-    kTipCardButtonAnimatingIn,  // Staged to become visible
-    kTipCardButtonAnimatingOut,  // Staged to hide
-    kTipCardButtonAnimatingOutCurrently  // Moving
+  kTipCardButtonNotAnimating,         // Staying put
+  kTipCardButtonAnimatingIn,          // Staged to become visible
+  kTipCardButtonAnimatingOut,         // Staged to hide
+  kTipCardButtonAnimatingOutCurrently // Moving
 };
 
 // A button in the tip-of-the-day card.
@@ -22,7 +22,8 @@ typedef NS_ENUM(NSInteger, iTermTipCardActionButtonAnimationState) {
 @property(nonatomic, copy) void (^block)(id);
 
 // Used by card to perform layout on buttons that are coming or going.
-@property(nonatomic, assign) iTermTipCardActionButtonAnimationState animationState;
+@property(nonatomic, assign)
+    iTermTipCardActionButtonAnimationState animationState;
 
 // What the frame will be when animation is done.
 @property(nonatomic, assign) NSRect postAnimationFrame;

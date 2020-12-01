@@ -31,6 +31,6 @@ extern NSString *kStateDictMouseUTF8Mode;
 + (NSString *)format;
 + (TmuxStateParser *)sharedInstance;
 - (NSMutableDictionary *)parsedStateFromString:(NSString *)layout
-    forPaneId:(int)paneId;
+                                     forPaneId:(int)paneId;
 
 @end

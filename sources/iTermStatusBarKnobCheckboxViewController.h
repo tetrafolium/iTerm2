@@ -5,12 +5,13 @@
 //  Created by George Nachman on 6/30/18.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "iTermStatusBarComponentKnob.h"
+#import <Cocoa/Cocoa.h>
 
-@interface iTermStatusBarKnobCheckboxViewController : NSViewController<iTermStatusBarKnobViewController>
+@interface iTermStatusBarKnobCheckboxViewController
+    : NSViewController <iTermStatusBarKnobViewController>
 
-@property (nonatomic, strong) IBOutlet NSButton *checkbox;
-@property (nonatomic) NSNumber *value;
+@property(nonatomic, strong) IBOutlet NSButton *checkbox;
+@property(nonatomic) NSNumber *value;
 
 @end

@@ -6,12 +6,12 @@
 //
 //
 
+#import "ProfileModel.h"
 #import "iTermPreferencesBaseViewController.h"
 #import "iTermShortcutInputView.h"
-#import "ProfileModel.h"
 
-@interface KeysPreferencesViewController : iTermPreferencesBaseViewController <
-    iTermShortcutInputViewDelegate>
+@interface KeysPreferencesViewController
+    : iTermPreferencesBaseViewController <iTermShortcutInputViewDelegate>
 
 @property(nonatomic, readonly) NSTextField *hotkeyField;
 

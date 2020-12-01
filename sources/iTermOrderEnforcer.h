@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol iTermOrderedToken<NSObject>
+@protocol iTermOrderedToken <NSObject>
 - (BOOL)commit;
 - (BOOL)peek;
 @end

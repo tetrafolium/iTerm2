@@ -10,12 +10,12 @@
 
 @interface iTermAdvancedSettingsModel : NSObject
 
-    typedef enum {
-    kiTermAdvancedSettingTypeBoolean,
-    kiTermAdvancedSettingTypeInteger,
-    kiTermAdvancedSettingTypeFloat,
-    kiTermAdvancedSettingTypeString,
-    kiTermAdvancedSettingTypeOptionalBoolean
+typedef enum {
+  kiTermAdvancedSettingTypeBoolean,
+  kiTermAdvancedSettingTypeInteger,
+  kiTermAdvancedSettingTypeFloat,
+  kiTermAdvancedSettingTypeString,
+  kiTermAdvancedSettingTypeOptionalBoolean
 } iTermAdvancedSettingType;
 
 extern NSString *const kAdvancedSettingIdentifier;
@@ -180,8 +180,10 @@ extern NSString *const iTermAdvancedSettingsDidChange;
 + (void)setNoSyncDoNotWarnBeforeMultilinePaste:(BOOL)value;
 + (NSString *)noSyncDoNotWarnBeforeMultilinePasteUserDefaultsKey;
 + (BOOL)noSyncDoNotWarnBeforePastingOneLineEndingInNewlineAtShellPrompt;
-+ (void)setNoSyncDoNotWarnBeforePastingOneLineEndingInNewlineAtShellPrompt:(BOOL)value;
-+ (NSString *)noSyncDoNotWarnBeforePastingOneLineEndingInNewlineAtShellPromptUserDefaultsKey;
++ (void)setNoSyncDoNotWarnBeforePastingOneLineEndingInNewlineAtShellPrompt:
+    (BOOL)value;
++ (NSString *)
+    noSyncDoNotWarnBeforePastingOneLineEndingInNewlineAtShellPromptUserDefaultsKey;
 + (BOOL)noSyncNeverAskAboutMouseReportingFrustration;
 + (void)setNoSyncNeverAskAboutMouseReportingFrustration:(BOOL)value;
 + (BOOL)noSyncNeverRemindPrefsChangesLostForFile;
@@ -234,7 +236,8 @@ extern NSString *const iTermAdvancedSettingsDidChange;
 + (double)quickPasteDelayBetweenCalls;
 + (BOOL)remapModifiersWithoutEventTap;
 
-// Remember window positions? If off, lets the OS pick the window position. Smart window placement takes precedence over this.
+// Remember window positions? If off, lets the OS pick the window position.
+// Smart window placement takes precedence over this.
 + (BOOL)rememberWindowPositions;
 
 + (BOOL)restrictSemanticHistoryPrefixAndSuffixToLogicalWindow;
@@ -266,14 +269,14 @@ extern NSString *const iTermAdvancedSettingsDidChange;
 + (int)slowPasteBytesPerCall;
 + (double)slowPasteDelayBetweenCalls;
 
-// The cursor's background goes to the "most different" color from its neighbors if the difference
-// in brightness between the proposed background color and the neighbors' background color is less
-// than this threshold.
+// The cursor's background goes to the "most different" color from its neighbors
+// if the difference in brightness between the proposed background color and the
+// neighbors' background color is less than this threshold.
 + (double)smartCursorColorBgThreshold;
 
 // The cursor's text is forced to black or white if it is too similar to the
-// background. If the brightness difference is less than this value then the text color becomes
-// black or white.
+// background. If the brightness difference is less than this value then the
+// text color becomes black or white.
 + (double)smartCursorColorFgThreshold;
 + (BOOL)solidUnderlines;
 + (BOOL)squareWindowCorners;
@@ -348,7 +351,5 @@ extern NSString *const iTermAdvancedSettingsDidChange;
 + (BOOL)wrapFocus;
 + (BOOL)zeroWidthSpaceAdvancesCursor;
 + (BOOL)zippyTextDrawing;
-
-
 
 @end

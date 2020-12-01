@@ -8,9 +8,10 @@
 // and |value|. If |name| is nil then it is the feature's title. |highlight|
 // gives indices that should be highlighted, and may be nil.
 - (id)openQuicklyModelDisplayStringForFeatureNamed:(NSString *)name
-    value:(NSString *)value
-    highlightedIndexes:(NSIndexSet *)highlight;
-- (NSAttributedString *)openQuicklyModelAttributedStringForDetail:(NSString *)detail;
+                                             value:(NSString *)value
+                                highlightedIndexes:(NSIndexSet *)highlight;
+- (NSAttributedString *)openQuicklyModelAttributedStringForDetail:
+    (NSString *)detail;
 
 @end
 
@@ -24,8 +25,8 @@
 // Recalculate items, adding those that match |queryString|.
 - (void)updateWithQuery:(NSString *)queryString;
 
-// Returns a PTYSession* or Profile* for an item at a given index. May return nil if the
-// session has closed or profile was deleted.
+// Returns a PTYSession* or Profile* for an item at a given index. May return
+// nil if the session has closed or profile was deleted.
 - (id)objectAtIndex:(NSInteger)index;
 
 @end

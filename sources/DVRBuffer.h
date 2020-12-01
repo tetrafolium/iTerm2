@@ -26,23 +26,16 @@
  **  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-
-#import <Cocoa/Cocoa.h>
 #import "DVRIndexEntry.h"
+#import <Cocoa/Cocoa.h>
 
 // Sequences in a diff frame begin with one byte indicating the type of content
 // that follows. The values come from this enum:
-enum {
-    kSameSequence,
-    kDiffSequence
-};
+enum { kSameSequence, kDiffSequence };
 
 // Types of frames that DVREncoder and DVRDecoder use.
 struct timeval;
-typedef enum {
-    DVRFrameTypeKeyFrame,
-    DVRFrameTypeDiffFrame
-} DVRFrameType;
+typedef enum { DVRFrameTypeKeyFrame, DVRFrameTypeDiffFrame } DVRFrameType;
 
 @interface DVRBuffer : NSObject
 
@@ -59,30 +52,29 @@ typedef enum {
 
 - (instancetype)initWithBufferCapacity:(long long)capacity;
 
-// Reserve a chunk of memory. Returns true if blocks had to be freed to make room.
-// You can get a pointer to the reserved memory with -[scratch].
+// Reserve a chunk of memory. Returns true if blocks had to be freed to make
+// room. You can get a pointer to the reserved memory with -[scratch].
 - (BOOL)reserve:(long long)length;
-- (char*)scratch;
+- (char *)scratch;
 
 - (ptrdiff_t)offsetOfPointer:(char *)pointer;
 
-// Allocate a block. Returns the assigned key. You must have called -[reserve] first.
-// length may less than reserved amount.
+// Allocate a block. Returns the assigned key. You must have called -[reserve]
+// first. length may less than reserved amount.
 - (long long)allocateBlock:(long long)length;
 
 // Free the first block.
 - (void)deallocateBlock;
 
 // Return a pointer to the memory for some key or null if it doesn't exist.
-- (void*)blockForKey:(long long)key;
+- (void *)blockForKey:(long long)key;
 
 // Returns true if there's enough free space without deallocating a block.
 - (BOOL)hasSpaceAvailable:(long long)length;
 
 // Look up an index entry by key.
-- (DVRIndexEntry*)entryForKey:(long long)key;
+- (DVRIndexEntry *)entryForKey:(long long)key;
 - (BOOL)loadFromDictionary:(NSDictionary *)dict;
 - (DVRIndexEntry *)firstEntryWithTimestampAfter:(long long)timestamp;
 
 @end
-

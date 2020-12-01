@@ -10,9 +10,9 @@
 
 @interface iTermRateLimitedUpdate : NSObject
 
-@property (nonatomic) NSTimeInterval minimumInterval;
-@property (nonatomic) BOOL debug;
-@property (nonatomic, readonly) NSTimeInterval deferCount;
+@property(nonatomic) NSTimeInterval minimumInterval;
+@property(nonatomic) BOOL debug;
+@property(nonatomic, readonly) NSTimeInterval deferCount;
 
 // Do not perform a pending action.
 - (void)invalidate;
@@ -22,10 +22,11 @@
 
 // A target/action version of the above.
 - (void)performRateLimitedSelector:(SEL)selector
-    onTarget:(id)target
-    withObject:(id)object;
+                          onTarget:(id)target
+                        withObject:(id)object;
 
-// If there is a pending block, do it now (synchronously) and cancel the delayed perform.
+// If there is a pending block, do it now (synchronously) and cancel the delayed
+// perform.
 - (void)force;
 
 // Forces a pending update to occur within `duration` seconds. Does nothing if
@@ -34,7 +35,8 @@
 
 @end
 
-// Remembers the delay across restarts. Useful for things like checking for updates every N days.
+// Remembers the delay across restarts. Useful for things like checking for
+// updates every N days.
 @interface iTermPersistentRateLimitedUpdate : iTermRateLimitedUpdate
 
 - (instancetype)init NS_UNAVAILABLE;
@@ -45,4 +47,3 @@
 // Only updates after a period of idleness equal to the minimumInterval
 @interface iTermRateLimitedIdleUpdate : iTermRateLimitedUpdate
 @end
-

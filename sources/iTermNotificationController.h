@@ -7,7 +7,8 @@
  **
  **  Project: iTerm
  **
- **  Description: Implements the delegate for notifications using Notification Center.
+ **  Description: Implements the delegate for notifications using Notification
+ *Center.
  **
  **  Usage:
  **      In your class header file, add the following @class directive
@@ -51,8 +52,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface iTermNotificationController : NSObject <
-    NSUserNotificationCenterDelegate>
+@interface iTermNotificationController
+    : NSObject <NSUserNotificationCenterDelegate>
 
 + (instancetype)sharedInstance;
 
@@ -60,8 +61,7 @@
 - (void)notify:(NSString *)title;
 
 //  Generate a 'full' message with a specified notification type.
-- (void)notify:(NSString *)title
-    withDescription:(NSString *)description;
+- (void)notify:(NSString *)title withDescription:(NSString *)description;
 
 // Generate a 'full' message with a specified notification type,
 // associated with a particular window/tab/view.
@@ -69,25 +69,25 @@
 // Returns YES if the notification was posted.
 - (BOOL)notify:(NSString *)title
     withDescription:(NSString *)description
-    windowIndex:(int)windowIndex
-    tabIndex:(int)tabIndex
-    viewIndex:(int)viewIndex;
+        windowIndex:(int)windowIndex
+           tabIndex:(int)tabIndex
+          viewIndex:(int)viewIndex;
 
 // Adds the sticky argument.
 - (BOOL)notify:(NSString *)title
     withDescription:(NSString *)description
-    windowIndex:(int)windowIndex
-    tabIndex:(int)tabIndex
-    viewIndex:(int)viewIndex
-    sticky:(BOOL)sticky;
+        windowIndex:(int)windowIndex
+           tabIndex:(int)tabIndex
+          viewIndex:(int)viewIndex
+             sticky:(BOOL)sticky;
 
 - (void)postNotificationWithTitle:(NSString *)title
-    detail:(NSString *)detail
-    URL:(NSURL *)url;
+                           detail:(NSString *)detail
+                              URL:(NSURL *)url;
 
 - (void)postNotificationWithTitle:(NSString *)title
-    detail:(NSString *)detail
-    callbackNotificationName:(NSString *)name
-    callbackNotificationUserInfo:(NSDictionary *)userInfo;
+                           detail:(NSString *)detail
+         callbackNotificationName:(NSString *)name
+     callbackNotificationUserInfo:(NSDictionary *)userInfo;
 
 @end

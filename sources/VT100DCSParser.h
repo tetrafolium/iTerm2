@@ -6,60 +6,61 @@
 //
 //
 
-#import <Foundation/Foundation.h>
+#import "CVector.h"
 #import "VT100Token.h"
 #import "iTermParser.h"
-#import "CVector.h"
+#import <Foundation/Foundation.h>
 
-@protocol VT100DCSParserHook<NSObject>
+@protocol VT100DCSParserHook <NSObject>
 
 @property(nonatomic, readonly) NSString *hookDescription;
 
 // Return YES if it should unhook.
 - (BOOL)handleInput:(iTermParserContext *)context
     support8BitControlCharacters:(BOOL)support8BitControlCharacters
-    token:(VT100Token *)result;
+                           token:(VT100Token *)result;
 
 @end
 
 typedef NS_ENUM(NSInteger, DcsTermcapTerminfoRequestName) {
-    kDcsTermcapTerminfoRequestUnrecognizedName,
-    kDcsTermcapTerminfoRequestTerminalName,
-    kDcsTermcapTerminfoRequestiTerm2ProfileName,
-    kDcsTermcapTerminfoRequestTerminfoName
+  kDcsTermcapTerminfoRequestUnrecognizedName,
+  kDcsTermcapTerminfoRequestTerminalName,
+  kDcsTermcapTerminfoRequestiTerm2ProfileName,
+  kDcsTermcapTerminfoRequestTerminfoName
 };
 
-NS_INLINE BOOL isDCS(unsigned char *code, int len, BOOL support8BitControlCharacters) {
-    if (support8BitControlCharacters && len >= 1 && code[0] == VT100CC_C1_DCS) {
-        return YES;
-    }
-    return (len >= 2 && code[0] == VT100CC_ESC && code[1] == 'P');
+NS_INLINE BOOL isDCS(unsigned char *code, int len,
+                     BOOL support8BitControlCharacters) {
+  if (support8BitControlCharacters && len >= 1 && code[0] == VT100CC_C1_DCS) {
+    return YES;
+  }
+  return (len >= 2 && code[0] == VT100CC_ESC && code[1] == 'P');
 }
 
 typedef NS_ENUM(NSInteger, VT100DCSState) {
-    // Initial state
-    kVT100DCSStateEntry,
+  // Initial state
+  kVT100DCSStateEntry,
 
-    // Intermediate bytes, usually zero or one punctuation marks.
-    kVT100DCSStateIntermediate,
+  // Intermediate bytes, usually zero or one punctuation marks.
+  kVT100DCSStateIntermediate,
 
-    // Semicolon-delimited numeric parameters
-    kVT100DCSStateParam,
+  // Semicolon-delimited numeric parameters
+  kVT100DCSStateParam,
 
-    // Waiting for terminator but failure is guaranteed.
-    kVT100DCSStateIgnore,
+  // Waiting for terminator but failure is guaranteed.
+  kVT100DCSStateIgnore,
 
-    // Finished.
-    kVT100DCSStateGround,
+  // Finished.
+  kVT100DCSStateGround,
 
-    // ESC after ground state.
-    kVT100DCSStateEscape,
+  // ESC after ground state.
+  kVT100DCSStateEscape,
 
-    // After ESC while in DCS.
-    kVT100DCSStateDCSEscape,
+  // After ESC while in DCS.
+  kVT100DCSStateDCSEscape,
 
-    // Reading final byte or bytes.
-    kVT100DCSStatePassthrough
+  // Reading final byte or bytes.
+  kVT100DCSStatePassthrough
 };
 
 @interface VT100DCSParser : NSObject
@@ -71,16 +72,20 @@ typedef NS_ENUM(NSInteger, VT100DCSState) {
 // For debug logging; nil if no hook.
 @property(nonatomic, readonly) NSString *hookDescription;
 
-// Uniquely identifies this object so the main thread can avoid unhooking the wrong session.
+// Uniquely identifies this object so the main thread can avoid unhooking the
+// wrong session.
 @property(nonatomic, readonly) NSString *uniqueID;
 
-+ (NSDictionary *)termcapTerminfoNameDictionary;  // string name -> DcsTermcapTerminfoRequestName
-+ (NSDictionary *)termcapTerminfoInverseNameDictionary;  // DcsTermcapTerminfoRequestName -> string name
++ (NSDictionary *)
+    termcapTerminfoNameDictionary; // string name ->
+                                   // DcsTermcapTerminfoRequestName
++ (NSDictionary *)termcapTerminfoInverseNameDictionary; // DcsTermcapTerminfoRequestName
+                                                        // -> string name
 
 - (void)decodeFromContext:(iTermParserContext *)context
-    token:(VT100Token *)result
-    encoding:(NSStringEncoding)encoding
-    savedState:(NSMutableDictionary *)savedState;
+                    token:(VT100Token *)result
+                 encoding:(NSStringEncoding)encoding
+               savedState:(NSMutableDictionary *)savedState;
 
 // Reset to ground state, unhooking if needed.
 - (void)reset;

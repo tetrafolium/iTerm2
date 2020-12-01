@@ -9,9 +9,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol iTermFocusFollowsMouseFocusReceiver<NSObject>
-// Allows a new split pane to become focused even though the mouse pointer is elsewhere.
-// Records the mouse position. Refuses first responder as long as the mouse doesn't move.
+@protocol iTermFocusFollowsMouseFocusReceiver <NSObject>
+// Allows a new split pane to become focused even though the mouse pointer is
+// elsewhere. Records the mouse position. Refuses first responder as long as the
+// mouse doesn't move.
 - (void)refuseFirstResponderAtCurrentMouseLocation;
 @end
 

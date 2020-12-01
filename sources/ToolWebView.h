@@ -6,8 +6,8 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
 #import "iTermToolbeltView.h"
+#import <Cocoa/Cocoa.h>
 
 @interface ToolWebView : NSView <ToolbeltTool>
 

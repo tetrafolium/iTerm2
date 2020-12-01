@@ -9,8 +9,8 @@
 #import <Cocoa/Cocoa.h>
 
 @interface ToastWindowController : NSWindowController {
-    BOOL hiding_;
-    NSTimer *hideTimer_;
+  BOOL hiding_;
+  NSTimer *hideTimer_;
 }
 
 + (void)showToastWithMessage:(NSString *)message;

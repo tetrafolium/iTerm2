@@ -8,17 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
-#import "iTermShortcut.h"
 #import "NSDictionary+iTerm.h"
+#import "iTermShortcut.h"
 
 @interface iTermAdditionalHotKeyObjectValue : NSObject
 
 + (instancetype)objectValueWithShortcut:(iTermShortcut *)shortcut
-    inUseDescriptors:(NSArray<iTermHotKeyDescriptor *> *)descriptors;
+                       inUseDescriptors:
+                           (NSArray<iTermHotKeyDescriptor *> *)descriptors;
 
 @property(nonatomic, retain) iTermShortcut *shortcut;
-@property(nonatomic, retain) NSArray<iTermHotKeyDescriptor *> *descriptorsInUseByOtherProfiles;
+@property(nonatomic, retain)
+    NSArray<iTermHotKeyDescriptor *> *descriptorsInUseByOtherProfiles;
 @property(nonatomic, readonly) BOOL isDuplicate;
 
 @end
-

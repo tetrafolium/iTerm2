@@ -8,9 +8,10 @@
 #import <Cocoa/Cocoa.h>
 
 #import "FutureMethods.h"
-#import "iTermToolbeltView.h"
 #import "PasteboardHistory.h"
+#import "iTermToolbeltView.h"
 
-@interface ToolPasteHistory : NSView <ToolbeltTool, NSTableViewDataSource, NSTableViewDelegate>
+@interface ToolPasteHistory
+    : NSView <ToolbeltTool, NSTableViewDataSource, NSTableViewDelegate>
 
 @end

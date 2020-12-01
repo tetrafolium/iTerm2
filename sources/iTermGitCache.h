@@ -5,15 +5,18 @@
 //  Created by George Nachman on 9/7/18.
 //
 
-#import <Foundation/Foundation.h>
 #import "iTermGitState.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermGitCache : NSObject
 
-- (void)setState:(iTermGitState *)state forPath:(NSString *)path ttl:(NSTimeInterval)ttl;
-- (nullable iTermGitState *)stateForPath:(NSString *)path maximumAge:(NSTimeInterval)maximumAge;
+- (void)setState:(iTermGitState *)state
+         forPath:(NSString *)path
+             ttl:(NSTimeInterval)ttl;
+- (nullable iTermGitState *)stateForPath:(NSString *)path
+                              maximumAge:(NSTimeInterval)maximumAge;
 - (void)removeStateForPath:(NSString *)path;
 
 @end

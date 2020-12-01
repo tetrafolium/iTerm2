@@ -11,16 +11,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class PasteContext;
 
-@protocol iTermStatusBarProgressComponentDelegate<NSObject>
+@protocol iTermStatusBarProgressComponentDelegate <NSObject>
 - (void)statusBarProgressComponentDidCancel;
 @end
 
 @interface iTermStatusBarProgressComponent : iTermStatusBarBaseComponent
 
-@property (nonatomic, strong) PasteContext *pasteContext;
-@property (nonatomic) int bufferLength;
-@property (nonatomic) int remainingLength;
-@property (nonatomic, weak) id<iTermStatusBarProgressComponentDelegate> progressDelegate;
+@property(nonatomic, strong) PasteContext *pasteContext;
+@property(nonatomic) int bufferLength;
+@property(nonatomic) int remainingLength;
+@property(nonatomic, weak) id<iTermStatusBarProgressComponentDelegate>
+    progressDelegate;
 
 @end
 

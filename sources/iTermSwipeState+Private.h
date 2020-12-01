@@ -10,25 +10,25 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef enum {
-    iTermSwipeStateMomentumStageNone,
-    // No possibility of momentum events. Continue forward.
-    iTermSwipeStateMomentumStagePositive,
-    // No possibility of momentum events. Continue backward.
-    iTermSwipeStateMomentumStageNegative
-}  iTermSwipeStateMomentumStage;
+  iTermSwipeStateMomentumStageNone,
+  // No possibility of momentum events. Continue forward.
+  iTermSwipeStateMomentumStagePositive,
+  // No possibility of momentum events. Continue backward.
+  iTermSwipeStateMomentumStageNegative
+} iTermSwipeStateMomentumStage;
 
 typedef struct {
-    iTermScrollWheelStateMachineState before;
-    iTermScrollWheelStateMachineState after;
+  iTermScrollWheelStateMachineState before;
+  iTermScrollWheelStateMachineState after;
 } iTermScrollWheelStateMachineStateTransition;
 
 @interface iTermSwipeState ()
-@property (nonatomic, readonly) BOOL shouldTrack;
-@property (nonatomic, readonly) BOOL isRetired;
-@property (nonatomic, readonly) iTermSwipeStateMomentumStage momentumStage;
+@property(nonatomic, readonly) BOOL shouldTrack;
+@property(nonatomic, readonly) BOOL isRetired;
+@property(nonatomic, readonly) iTermSwipeStateMomentumStage momentumStage;
 
 - (BOOL)handleEvent:(NSEvent *)event
-    transition:(iTermScrollWheelStateMachineStateTransition)transition;
+         transition:(iTermScrollWheelStateMachineStateTransition)transition;
 
 - (void)update:(NSTimeInterval)elapsedTime;
 

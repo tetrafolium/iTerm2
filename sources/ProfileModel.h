@@ -50,49 +50,55 @@ extern NSString *const iTermProfileModelNewTabMenuItemIdentifierPrefix;
 + (ProfileModel *)sharedInstance;
 + (ProfileModel *)sessionsInstance;
 - (NSMutableArray<NSString *> *)debugHistoryForGuid:(NSString *)guid;
-+ (NSString*)freshGuid;
++ (NSString *)freshGuid;
 + (void)migratePromptOnCloseInMutableBookmark:(NSMutableDictionary *)dict;
 + (BOOL)migrated;
-+ (NSAttributedString *)attributedStringForName:(NSString *)name
++ (NSAttributedString *)
+         attributedStringForName:(NSString *)name
     highlightingMatchesForFilter:(NSString *)filter
-    defaultAttributes:(NSDictionary *)defaultAttributes
-    highlightedAttributes:(NSDictionary *)highlightedAttributes;
+               defaultAttributes:(NSDictionary *)defaultAttributes
+           highlightedAttributes:(NSDictionary *)highlightedAttributes;
 + (NSArray *)attributedTagsForTags:(NSArray *)tags
-    highlightingMatchesForFilter:(NSString *)filter
-    defaultAttributes:(NSDictionary *)defaultAttributes
-    highlightedAttributes:(NSDictionary *)highlightedAttributes;
+      highlightingMatchesForFilter:(NSString *)filter
+                 defaultAttributes:(NSDictionary *)defaultAttributes
+             highlightedAttributes:(NSDictionary *)highlightedAttributes;
 - (int)numberOfBookmarks;
-- (int)numberOfBookmarksWithFilter:(NSString*)filter;
-- (NSArray*)bookmarkIndicesMatchingFilter:(NSString*)filter;
-- (NSArray*)bookmarkIndicesMatchingFilter:(NSString*)filter orGuid:(NSString *)lockedGuid;
-- (int)indexOfProfileWithGuid:(NSString*)guid;
-- (int)indexOfProfileWithGuid:(NSString*)guid withFilter:(NSString*)filter;
-- (Profile*)profileAtIndex:(int)index;
-- (Profile*)profileAtIndex:(int)index withFilter:(NSString*)filter;
-- (void)addBookmark:(Profile*)bookmark;
-- (void)addBookmark:(Profile*)bookmark inSortedOrder:(BOOL)sort;
-- (void)removeProfileWithGuid:(NSString*)guid;
-- (void)removeBookmarksAtIndices:(NSArray*)indices;
+- (int)numberOfBookmarksWithFilter:(NSString *)filter;
+- (NSArray *)bookmarkIndicesMatchingFilter:(NSString *)filter;
+- (NSArray *)bookmarkIndicesMatchingFilter:(NSString *)filter
+                                    orGuid:(NSString *)lockedGuid;
+- (int)indexOfProfileWithGuid:(NSString *)guid;
+- (int)indexOfProfileWithGuid:(NSString *)guid withFilter:(NSString *)filter;
+- (Profile *)profileAtIndex:(int)index;
+- (Profile *)profileAtIndex:(int)index withFilter:(NSString *)filter;
+- (void)addBookmark:(Profile *)bookmark;
+- (void)addBookmark:(Profile *)bookmark inSortedOrder:(BOOL)sort;
+- (void)removeProfileWithGuid:(NSString *)guid;
+- (void)removeBookmarksAtIndices:(NSArray *)indices;
 - (void)removeBookmarkAtIndex:(int)index;
-- (void)removeBookmarkAtIndex:(int)index withFilter:(NSString*)filter;
-- (void)setBookmark:(Profile*)bookmark atIndex:(int)index;
-- (void)setBookmark:(Profile*)bookmark withGuid:(NSString*)guid;
+- (void)removeBookmarkAtIndex:(int)index withFilter:(NSString *)filter;
+- (void)setBookmark:(Profile *)bookmark atIndex:(int)index;
+- (void)setBookmark:(Profile *)bookmark withGuid:(NSString *)guid;
 - (void)removeAllBookmarks;
-- (NSArray*)rawData;
-- (void)load:(NSArray*)prefs;
-- (Profile*)defaultBookmark;
-- (Profile*)bookmarkWithName:(NSString*)name;
-- (Profile*)bookmarkWithGuid:(NSString*)guid;
-- (int)indexOfBookmarkWithName:(NSString*)name;
-- (NSArray*)allTags;
-- (BOOL)bookmark:(Profile*)bookmark hasTag:(NSString*)tag;
-- (Profile*)setObject:(id)object forKey:(NSString*)key inBookmark:(Profile*)bookmark;
-- (Profile *)setObjectsFromDictionary:(NSDictionary *)dictionary inProfile:(Profile *)bookmark;
-- (void)setDefaultByGuid:(NSString*)guid;
-- (void)moveGuid:(NSString*)guid toRow:(int)row;
+- (NSArray *)rawData;
+- (void)load:(NSArray *)prefs;
+- (Profile *)defaultBookmark;
+- (Profile *)bookmarkWithName:(NSString *)name;
+- (Profile *)bookmarkWithGuid:(NSString *)guid;
+- (int)indexOfBookmarkWithName:(NSString *)name;
+- (NSArray *)allTags;
+- (BOOL)bookmark:(Profile *)bookmark hasTag:(NSString *)tag;
+- (Profile *)setObject:(id)object
+                forKey:(NSString *)key
+            inBookmark:(Profile *)bookmark;
+- (Profile *)setObjectsFromDictionary:(NSDictionary *)dictionary
+                            inProfile:(Profile *)bookmark;
+- (void)setDefaultByGuid:(NSString *)guid;
+- (void)moveGuid:(NSString *)guid toRow:(int)row;
 - (void)rebuildMenus;
-// Return the absolute index of a bookmark given its index with the filter applied.
-- (int)convertFilteredIndex:(int)theIndex withFilter:(NSString*)filter;
+// Return the absolute index of a bookmark given its index with the filter
+// applied.
+- (int)convertFilteredIndex:(int)theIndex withFilter:(NSString *)filter;
 - (void)dump;
 - (NSArray<Profile *> *)bookmarks;
 - (NSArray *)guids;
@@ -103,8 +109,9 @@ extern NSString *const iTermProfileModelNewTabMenuItemIdentifierPrefix;
 // guid in 'bookmark'. The name is preserved if it is different than the
 // original profile's name.
 - (void)setProfilePreservingGuidWithGuid:(NSString *)origGuid
-    fromProfile:(Profile *)bookmark
-    overrides:(NSDictionary<NSString *, id> *)overrides;
+                             fromProfile:(Profile *)bookmark
+                               overrides:
+                                   (NSDictionary<NSString *, id> *)overrides;
 
 // Write to user defaults
 - (void)flush;
@@ -118,4 +125,3 @@ extern NSString *const iTermProfileModelNewTabMenuItemIdentifierPrefix;
 - (void)performBlockWithCoalescedNotifications:(void (^)(void))block;
 
 @end
-

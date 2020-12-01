@@ -6,8 +6,8 @@
 //
 //
 
-#import <Foundation/Foundation.h>
 #import "Api.pbobjc.h"
+#import <Foundation/Foundation.h>
 
 extern NSString *const iTermAPIServerAuthorizationKey;
 extern NSString *const iTermAPIServerDidReceiveMessage;
@@ -16,89 +16,113 @@ extern NSString *const iTermAPIServerConnectionRejected;
 extern NSString *const iTermAPIServerConnectionAccepted;
 extern NSString *const iTermAPIServerConnectionClosed;
 
-@protocol iTermAPIServerDelegate<NSObject>
+@protocol iTermAPIServerDelegate <NSObject>
 - (BOOL)apiServerAuthorizeProcesses:(NSArray<NSNumber *> *)pids
-    preauthorized:(BOOL)preauthorized
-    disableAuthUI:(BOOL)disableAuthUI
-    advisoryName:(NSString *)advisoryName
-    reason:(out NSString **)reason
-    displayName:(out NSString **)displayName;
-- (void)apiServerGetBuffer:(ITMGetBufferRequest *)request handler:(void (^)(ITMGetBufferResponse *))handler;
-- (void)apiServerGetPrompt:(ITMGetPromptRequest *)request handler:(void (^)(ITMGetPromptResponse *))handler;
-- (void)apiServerListPrompts:(ITMListPromptsRequest *)request handler:(void (^)(ITMListPromptsResponse *))handler;
+                      preauthorized:(BOOL)preauthorized
+                      disableAuthUI:(BOOL)disableAuthUI
+                       advisoryName:(NSString *)advisoryName
+                             reason:(out NSString **)reason
+                        displayName:(out NSString **)displayName;
+- (void)apiServerGetBuffer:(ITMGetBufferRequest *)request
+                   handler:(void (^)(ITMGetBufferResponse *))handler;
+- (void)apiServerGetPrompt:(ITMGetPromptRequest *)request
+                   handler:(void (^)(ITMGetPromptResponse *))handler;
+- (void)apiServerListPrompts:(ITMListPromptsRequest *)request
+                     handler:(void (^)(ITMListPromptsResponse *))handler;
 - (void)apiServerNotification:(ITMNotificationRequest *)request
-    connectionKey:(NSString *)connectionKey
-    handler:(void (^)(ITMNotificationResponse *))handler;
+                connectionKey:(NSString *)connectionKey
+                      handler:(void (^)(ITMNotificationResponse *))handler;
 - (void)apiServerDidCloseConnectionWithKey:(NSString *)connectionKey;
 - (void)apiServerRegisterTool:(ITMRegisterToolRequest *)request
-    handler:(void (^)(ITMRegisterToolResponse *))handler;
+                      handler:(void (^)(ITMRegisterToolResponse *))handler;
 - (void)apiServerSetProfileProperty:(ITMSetProfilePropertyRequest *)request
-    handler:(void (^)(ITMSetProfilePropertyResponse *))handler;
+                            handler:(void (^)(ITMSetProfilePropertyResponse *))
+                                        handler;
 - (void)apiServerGetProfileProperty:(ITMGetProfilePropertyRequest *)request
-    handler:(void (^)(ITMGetProfilePropertyResponse *))handler;
+                            handler:(void (^)(ITMGetProfilePropertyResponse *))
+                                        handler;
 - (void)apiServerListSessions:(ITMListSessionsRequest *)request
-    handler:(void (^)(ITMListSessionsResponse *))handler;
+                      handler:(void (^)(ITMListSessionsResponse *))handler;
 - (void)apiServerSendText:(ITMSendTextRequest *)request
-    handler:(void (^)(ITMSendTextResponse *))handler;
+                  handler:(void (^)(ITMSendTextResponse *))handler;
 - (void)apiServerCreateTab:(ITMCreateTabRequest *)request
-    handler:(void (^)(ITMCreateTabResponse *))handler;
+                   handler:(void (^)(ITMCreateTabResponse *))handler;
 - (void)apiServerSplitPane:(ITMSplitPaneRequest *)request
-    handler:(void (^)(ITMSplitPaneResponse *))handler;
+                   handler:(void (^)(ITMSplitPaneResponse *))handler;
 - (void)apiServerSetProperty:(ITMSetPropertyRequest *)request
-    handler:(void (^)(ITMSetPropertyResponse *))handler;
+                     handler:(void (^)(ITMSetPropertyResponse *))handler;
 - (void)apiServerGetProperty:(ITMGetPropertyRequest *)request
-    handler:(void (^)(ITMGetPropertyResponse *))handler;
+                     handler:(void (^)(ITMGetPropertyResponse *))handler;
 - (void)apiServerInject:(ITMInjectRequest *)request
-    handler:(void (^)(ITMInjectResponse *))handler;
+                handler:(void (^)(ITMInjectResponse *))handler;
 - (void)apiServerActivate:(ITMActivateRequest *)request
-    handler:(void (^)(ITMActivateResponse *))handler;
+                  handler:(void (^)(ITMActivateResponse *))handler;
 - (void)apiServerVariable:(ITMVariableRequest *)request
-    handler:(void (^)(ITMVariableResponse *))handler;
+                  handler:(void (^)(ITMVariableResponse *))handler;
 - (void)apiServerSavedArrangement:(ITMSavedArrangementRequest *)request
-    handler:(void (^)(ITMSavedArrangementResponse *))response;
+                          handler:
+                              (void (^)(ITMSavedArrangementResponse *))response;
 - (void)apiServerFocus:(ITMFocusRequest *)request
-    handler:(void (^)(ITMFocusResponse *))response;
+               handler:(void (^)(ITMFocusResponse *))response;
 - (void)apiServerListProfiles:(ITMListProfilesRequest *)request
-    handler:(void (^)(ITMListProfilesResponse *))response;
-- (void)apiServerServerOriginatedRPCResult:(ITMServerOriginatedRPCResultRequest *)request
-    connectionKey:(NSString *)connectionKey
-    handler:(void (^)(ITMServerOriginatedRPCResultResponse *))response;
+                      handler:(void (^)(ITMListProfilesResponse *))response;
+- (void)
+    apiServerServerOriginatedRPCResult:
+        (ITMServerOriginatedRPCResultRequest *)request
+                         connectionKey:(NSString *)connectionKey
+                               handler:
+                                   (void (^)(
+                                       ITMServerOriginatedRPCResultResponse *))
+                                       response;
 - (void)apiServerRestartSession:(ITMRestartSessionRequest *)request
-    handler:(void (^)(ITMRestartSessionResponse *))response;
+                        handler:(void (^)(ITMRestartSessionResponse *))response;
 - (void)apiServerMenuItem:(ITMMenuItemRequest *)request
-    handler:(void (^)(ITMMenuItemResponse *))response;
+                  handler:(void (^)(ITMMenuItemResponse *))response;
 - (void)apiServerSetTabLayout:(ITMSetTabLayoutRequest *)request
-    handler:(void (^)(ITMSetTabLayoutResponse *))response;
+                      handler:(void (^)(ITMSetTabLayoutResponse *))response;
 - (void)apiServerGetBroadcastDomains:(ITMGetBroadcastDomainsRequest *)request
-    handler:(void (^)(ITMGetBroadcastDomainsResponse *))response;
+                             handler:
+                                 (void (^)(ITMGetBroadcastDomainsResponse *))
+                                     response;
 - (void)apiServerTmuxRequest:(ITMTmuxRequest *)request
-    handler:(void (^)(ITMTmuxResponse *))handler;
+                     handler:(void (^)(ITMTmuxResponse *))handler;
 - (void)apiServerReorderTabsRequest:(ITMReorderTabsRequest *)request
-    handler:(void (^)(ITMReorderTabsResponse *))response;
+                            handler:
+                                (void (^)(ITMReorderTabsResponse *))response;
 - (void)apiServerPreferencesRequest:(ITMPreferencesRequest *)request
-    handler:(void (^)(ITMPreferencesResponse *))response;
+                            handler:
+                                (void (^)(ITMPreferencesResponse *))response;
 - (void)apiServerColorPresetRequest:(ITMColorPresetRequest *)request
-    handler:(void (^)(ITMColorPresetResponse *))response;
+                            handler:
+                                (void (^)(ITMColorPresetResponse *))response;
 - (void)apiServerSelectionRequest:(ITMSelectionRequest *)request
-    handler:(void (^)(ITMSelectionResponse *))response;
-- (void)apiServerStatusBarComponentRequest:(ITMStatusBarComponentRequest *)request
-    handler:(void (^)(ITMStatusBarComponentResponse *))response;
-- (void)apiServerSetBroadcastDomainsRequest:(ITMSetBroadcastDomainsRequest *)request
-    handler:(void (^)(ITMSetBroadcastDomainsResponse *))completion;
+                          handler:(void (^)(ITMSelectionResponse *))response;
+- (void)
+    apiServerStatusBarComponentRequest:(ITMStatusBarComponentRequest *)request
+                               handler:
+                                   (void (^)(ITMStatusBarComponentResponse *))
+                                       response;
+- (void)
+    apiServerSetBroadcastDomainsRequest:(ITMSetBroadcastDomainsRequest *)request
+                                handler:
+                                    (void (^)(ITMSetBroadcastDomainsResponse *))
+                                        completion;
 - (void)apiServerCloseRequest:(ITMCloseRequest *)request
-    handler:(void (^)(ITMCloseResponse *))response;
+                      handler:(void (^)(ITMCloseResponse *))response;
 - (void)apiServerInvokeFunctionRequest:(ITMInvokeFunctionRequest *)request
-    handler:(void (^)(ITMInvokeFunctionResponse *))response;
+                               handler:(void (^)(ITMInvokeFunctionResponse *))
+                                           response;
 @end
 
 @interface iTermAPIServer : NSObject
 
-@property (nonatomic, weak) id<iTermAPIServerDelegate> delegate;
+@property(nonatomic, weak) id<iTermAPIServerDelegate> delegate;
 
 // Key to the websocket connection. Valid only during delegate callbacks.
-@property (nonatomic, weak, readonly) id currentKey;
+@property(nonatomic, weak, readonly) id currentKey;
 
-- (void)postAPINotification:(ITMNotification *)notification toConnectionKey:(NSString *)connectionKey;
+- (void)postAPINotification:(ITMNotification *)notification
+            toConnectionKey:(NSString *)connectionKey;
 - (NSString *)websocketKeyForConnectionKey:(NSString *)connectionKey;
 
 - (void)stop;

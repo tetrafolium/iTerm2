@@ -11,73 +11,90 @@ extern const int iTermMinimumPythonEnvironmentVersion;
 
 @class iTermOptionalComponentDownloadWindowController;
 
-@protocol iTermOptionalComponentDownloadWindowControllerDelegate<NSObject>
-- (void)optionalComponentDownload:(iTermOptionalComponentDownloadWindowController *)sender didFinishWithError:(NSError *)error;
+@protocol iTermOptionalComponentDownloadWindowControllerDelegate <NSObject>
+- (void)optionalComponentDownload:
+            (iTermOptionalComponentDownloadWindowController *)sender
+               didFinishWithError:(NSError *)error;
 @end
 
 @interface iTermOptionalComponentDownloadPhase : NSObject
-@property (nonatomic, copy, readonly) NSURL *url;
-@property (nonatomic, strong, readonly) NSInputStream *stream;
-@property (nonatomic, strong, readonly) NSError *error;
-@property (nonatomic, copy, readonly) iTermOptionalComponentDownloadPhase *(^nextPhaseFactory)(iTermOptionalComponentDownloadPhase *);
-@property (nonatomic, copy, readonly) NSString *title;
-@property (nonatomic, readonly) BOOL progressIsDeterminant;
-@property (nonatomic, readonly) NSString *progressString;
-@property (nonatomic, readonly) BOOL buttonEnabled;
+@property(nonatomic, copy, readonly) NSURL *url;
+@property(nonatomic, strong, readonly) NSInputStream *stream;
+@property(nonatomic, strong, readonly) NSError *error;
+@property(nonatomic, copy, readonly)
+    iTermOptionalComponentDownloadPhase * (^nextPhaseFactory)
+        (iTermOptionalComponentDownloadPhase *);
+@property(nonatomic, copy, readonly) NSString *title;
+@property(nonatomic, readonly) BOOL progressIsDeterminant;
+@property(nonatomic, readonly) NSString *progressString;
+@property(nonatomic, readonly) BOOL buttonEnabled;
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithURL:(NSURL *)url
-    title:(NSString *)title
-    nextPhaseFactory:(iTermOptionalComponentDownloadPhase *(^)(iTermOptionalComponentDownloadPhase *))nextPhaseFactory;
+                      title:(NSString *)title
+           nextPhaseFactory:
+               (iTermOptionalComponentDownloadPhase * (^)(
+                   iTermOptionalComponentDownloadPhase *))nextPhaseFactory;
 
 @end
 
 @interface iTermDownloadableComponentInfo : NSObject
-@property (nonatomic, readonly) NSURL *URL;
-@property (nonatomic, readonly) NSInteger size;
-@property (nonatomic, readonly) NSString *signature;
-@property (nonatomic, readonly) BOOL isSitePackagesOnly;
+@property(nonatomic, readonly) NSURL *URL;
+@property(nonatomic, readonly) NSInteger size;
+@property(nonatomic, readonly) NSString *signature;
+@property(nonatomic, readonly) BOOL isSitePackagesOnly;
 
 - (instancetype)initWithURL:(NSURL *)url
-    size:(NSInteger)size
-    signature:(NSString *)signature
-    isSitePackagesOnly:(BOOL)isSitePackagesOnly NS_DESIGNATED_INITIALIZER;
+                       size:(NSInteger)size
+                  signature:(NSString *)signature
+         isSitePackagesOnly:(BOOL)isSitePackagesOnly NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 @end
 
 @interface iTermManifestDownloadPhase : iTermOptionalComponentDownloadPhase
-@property (nonatomic, readonly) iTermDownloadableComponentInfo *fullComponent;
-@property (nonatomic, readonly) iTermDownloadableComponentInfo *sitePackagesComponent;
-@property (nonatomic, readonly) NSRange sitePackagesDependencies;
+@property(nonatomic, readonly) iTermDownloadableComponentInfo *fullComponent;
+@property(nonatomic, readonly)
+    iTermDownloadableComponentInfo *sitePackagesComponent;
+@property(nonatomic, readonly) NSRange sitePackagesDependencies;
 
-@property (nonatomic, readonly) int version;
-@property (nonatomic, copy, readonly) NSString *requestedPythonVersion;
-@property (nonatomic, copy, readonly) NSArray<NSString *> *pythonVersionsInArchive;
+@property(nonatomic, readonly) int version;
+@property(nonatomic, copy, readonly) NSString *requestedPythonVersion;
+@property(nonatomic, copy, readonly)
+    NSArray<NSString *> *pythonVersionsInArchive;
 
 - (instancetype)initWithURL:(NSURL *)url
-    requestedPythonVersion:(NSString *)requestedPythonVersion
-    nextPhaseFactory:(iTermOptionalComponentDownloadPhase *(^)(iTermOptionalComponentDownloadPhase *))nextPhaseFactory;
+     requestedPythonVersion:(NSString *)requestedPythonVersion
+           nextPhaseFactory:
+               (iTermOptionalComponentDownloadPhase * (^)(
+                   iTermOptionalComponentDownloadPhase *))nextPhaseFactory;
 
-- (iTermDownloadableComponentInfo *)infoGivenExistingFullComponent:(NSNumber *)existingFullComponent;
+- (iTermDownloadableComponentInfo *)infoGivenExistingFullComponent:
+    (NSNumber *)existingFullComponent;
 
 @end
 
 @interface iTermPayloadDownloadPhase : iTermOptionalComponentDownloadPhase
-@property (nonatomic, copy, readonly) NSString *expectedSignature;
-@property (nonatomic, copy, readonly) NSString *requestedPythonVersion;
-@property (nonatomic, copy, readonly) NSArray<NSString *> *expectedVersions;
-@property (nonatomic, readonly) int version;
+@property(nonatomic, copy, readonly) NSString *expectedSignature;
+@property(nonatomic, copy, readonly) NSString *requestedPythonVersion;
+@property(nonatomic, copy, readonly) NSArray<NSString *> *expectedVersions;
+@property(nonatomic, readonly) int version;
 
 - (instancetype)initWithURL:(NSURL *)url
-    version:(int)version
-    expectedSignature:(NSString *)expectedSignature
-    requestedPythonVersion:(NSString *)requestedPythonVersion
-    expectedVersions:(NSArray<NSString *> *)expectedVersions
-    nextPhaseFactory:(iTermOptionalComponentDownloadPhase *(^)(iTermOptionalComponentDownloadPhase *))nextPhaseFactory NS_DESIGNATED_INITIALIZER;
+                    version:(int)version
+          expectedSignature:(NSString *)expectedSignature
+     requestedPythonVersion:(NSString *)requestedPythonVersion
+           expectedVersions:(NSArray<NSString *> *)expectedVersions
+           nextPhaseFactory:
+               (iTermOptionalComponentDownloadPhase * (^)(
+                   iTermOptionalComponentDownloadPhase *))nextPhaseFactory
+    NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithURL:(NSURL *)url
-    title:(NSString *)title
-    nextPhaseFactory:(iTermOptionalComponentDownloadPhase *(^)(iTermOptionalComponentDownloadPhase *))nextPhaseFactory NS_UNAVAILABLE;
+                      title:(NSString *)title
+           nextPhaseFactory:
+               (iTermOptionalComponentDownloadPhase * (^)(
+                   iTermOptionalComponentDownloadPhase *))nextPhaseFactory
+    NS_UNAVAILABLE;
 
 @end
 
@@ -85,11 +102,12 @@ extern const int iTermMinimumPythonEnvironmentVersion;
 @end
 
 @interface iTermOptionalComponentDownloadWindowController : NSWindowController
-@property (nonatomic, copy) void (^completion)(iTermOptionalComponentDownloadPhase *);
-@property (nonatomic, readonly) iTermOptionalComponentDownloadPhase *currentPhase;
+@property(nonatomic, copy) void (^completion)
+    (iTermOptionalComponentDownloadPhase *);
+@property(nonatomic, readonly)
+    iTermOptionalComponentDownloadPhase *currentPhase;
 
 - (void)beginPhase:(iTermOptionalComponentDownloadPhase *)phase;
 - (void)showMessage:(NSString *)message;
 
 @end
-

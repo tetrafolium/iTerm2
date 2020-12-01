@@ -22,7 +22,7 @@ extern NSString *const kTipUrlKey;
 @property(nonatomic, readonly) NSString *url;
 @property(nonatomic, readonly) NSAttributedString *attributedString;
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary identifier:(NSString *)identifier;
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary
+                        identifier:(NSString *)identifier;
 
 @end
-

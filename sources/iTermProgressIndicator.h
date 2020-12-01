@@ -13,4 +13,3 @@
 @interface iTermProgressIndicator : NSView
 @property(nonatomic, assign) double fraction;
 @end
-

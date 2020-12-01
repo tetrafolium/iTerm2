@@ -9,5 +9,5 @@
 #import <Cocoa/Cocoa.h>
 
 @interface iTermTouchBarButton : NSButton
-@property (nonatomic, copy) NSDictionary *keyBindingAction;
+@property(nonatomic, copy) NSDictionary *keyBindingAction;
 @end

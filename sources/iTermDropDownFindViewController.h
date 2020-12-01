@@ -25,10 +25,11 @@
  **  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#import <Cocoa/Cocoa.h>
 #import "FutureMethods.h"
 #import "iTermController.h"
 #import "iTermFindViewController.h"
+#import <Cocoa/Cocoa.h>
 
-@interface iTermDropDownFindViewController : NSViewController <iTermFindViewController, NSTextFieldDelegate>
+@interface iTermDropDownFindViewController
+    : NSViewController <iTermFindViewController, NSTextFieldDelegate>
 @end

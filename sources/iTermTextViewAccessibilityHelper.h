@@ -6,8 +6,8 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
 #import "ScreenChar.h"
+#import <Cocoa/Cocoa.h>
 
 // "Accessibility space" is the last lines of the session which are exposed to
 // accessibility, as opposed to actual line numbers in the terminal. The 0th
@@ -52,7 +52,8 @@
 // there's a clean interface here.
 @interface iTermTextViewAccessibilityHelper : NSObject
 
-@property(nonatomic, assign) id<iTermTextViewAccessibilityHelperDelegate> delegate;
+@property(nonatomic, assign) id<iTermTextViewAccessibilityHelperDelegate>
+    delegate;
 
 - (NSInteger)lineForIndex:(NSUInteger)theIndex;
 - (NSRange)rangeForLine:(NSUInteger)lineNumber;
@@ -75,6 +76,5 @@
 - (NSRange)visibleCharacterRange;
 - (NSURL *)currentDocumentURL;
 - (void)setSelectedTextRange:(NSRange)range;
-
 
 @end

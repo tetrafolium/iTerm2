@@ -23,10 +23,11 @@
 @property(nonatomic, readonly) BOOL mini;
 
 - (instancetype)initWithContext:(PasteContext *)pasteContext_
-    length:(int)length
-    mini:(BOOL)mini NS_DESIGNATED_INITIALIZER;
+                         length:(int)length
+                           mini:(BOOL)mini NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;
-- (instancetype)initWithNibName:(NSNibName)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
+- (instancetype)initWithNibName:(NSNibName)nibNameOrNil
+                         bundle:(NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (IBAction)cancel:(id)sender;

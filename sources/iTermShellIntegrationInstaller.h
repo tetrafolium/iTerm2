@@ -13,7 +13,7 @@
 - (void)willAppear;
 @end
 
-@protocol iTermShellIntegrationInstallerDelegate<NSObject>
+@protocol iTermShellIntegrationInstallerDelegate <NSObject>
 - (void)shellIntegrationInstallerContinue;
 - (void)shellIntegrationInstallerSetInstallUtilities:(BOOL)installUtilities;
 - (void)shellIntegrationInstallerBack;
@@ -27,11 +27,12 @@
 @end
 
 typedef NS_ENUM(NSUInteger, iTermShellIntegrationShell) {
-    iTermShellIntegrationShellBash,
-    iTermShellIntegrationShellTcsh,
-    iTermShellIntegrationShellZsh,
-    iTermShellIntegrationShellFish,
-    iTermShellIntegrationShellUnknown
+  iTermShellIntegrationShellBash,
+  iTermShellIntegrationShellTcsh,
+  iTermShellIntegrationShellZsh,
+  iTermShellIntegrationShellFish,
+  iTermShellIntegrationShellUnknown
 };
 
-extern NSString *iTermShellIntegrationShellString(iTermShellIntegrationShell shell);
+extern NSString *
+iTermShellIntegrationShellString(iTermShellIntegrationShell shell);

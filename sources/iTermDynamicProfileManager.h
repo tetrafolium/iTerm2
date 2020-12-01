@@ -6,12 +6,12 @@
 //
 //
 
-#import <Foundation/Foundation.h>
 #import "ProfileModel.h"
+#import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSUInteger, iTermDynamicProfileFileType) {
-    kDynamicProfileFileTypeJSON,
-    kDynamicProfileFileTypePropertyList,
+  kDynamicProfileFileTypeJSON,
+  kDynamicProfileFileTypePropertyList,
 };
 
 @interface iTermDynamicProfileManager : NSObject
@@ -20,19 +20,20 @@ typedef NS_ENUM(NSUInteger, iTermDynamicProfileFileType) {
 
 // Reads profiles from a dyamic profiles file.
 - (NSArray<Profile *> *)profilesInFile:(NSString *)filename
-    fileType:(iTermDynamicProfileFileType *)fileType;
+                              fileType:(iTermDynamicProfileFileType *)fileType;
 
-// Returns a JSON/Plist root element for a dynamic profiles file that contains `profiles`.
+// Returns a JSON/Plist root element for a dynamic profiles file that contains
+// `profiles`.
 - (NSDictionary *)dictionaryForProfiles:(NSArray<Profile *> *)profiles;
 
 // Load the profiles from |filename| and add valid profiles into |profiles|.
 // Add their guids to |guids|.
 - (BOOL)loadDynamicProfilesFromFile:(NSString *)filename
-    intoArray:(NSMutableArray *)profiles
-    guids:(NSMutableSet *)guids;
+                          intoArray:(NSMutableArray *)profiles
+                              guids:(NSMutableSet *)guids;
 
-// Immediately examine the dynamic profiles files to see if they've changed and update the model
-// if needed.
+// Immediately examine the dynamic profiles files to see if they've changed and
+// update the model if needed.
 - (void)reloadDynamicProfiles;
 - (void)revealProfileWithGUID:(NSString *)guid;
 
