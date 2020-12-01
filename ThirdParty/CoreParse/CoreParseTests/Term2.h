@@ -10,6 +10,6 @@
 
 @interface Term2 : RuleBase
 
-@property (readwrite,assign) float value;
+@property(readwrite, assign) float value;
 
 @end

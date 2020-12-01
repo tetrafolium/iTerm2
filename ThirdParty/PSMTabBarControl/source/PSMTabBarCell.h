@@ -6,9 +6,9 @@
 //  Copyright 2005 Positive Spin Media. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-#import "PSMTabBarControl.h"
 #import "PSMProgressIndicator.h"
+#import "PSMTabBarControl.h"
+#import <Cocoa/Cocoa.h>
 
 @class PSMTabBarControl;
 @protocol PSMTabStyle;
@@ -31,8 +31,10 @@
 @property(nonatomic, readonly) BOOL closeButtonVisible;
 @property(nonatomic, assign) int tabState;
 @property(nonatomic, assign) NSRect frame;
-@property(nonatomic, assign) NSTrackingRectTag cellTrackingTag;  // right side tracking, if dragging
-@property(nonatomic, assign) NSTrackingRectTag closeButtonTrackingTag;  // left side tracking, if dragging
+@property(nonatomic, assign)
+    NSTrackingRectTag cellTrackingTag; // right side tracking, if dragging
+@property(nonatomic, assign)
+    NSTrackingRectTag closeButtonTrackingTag; // left side tracking, if dragging
 @property(nonatomic, assign) BOOL isInOverflowMenu;
 @property(nonatomic, assign) BOOL closeButtonPressed;
 @property(nonatomic, assign) BOOL closeButtonOver;
@@ -50,12 +52,15 @@
 @property(nonatomic, readonly) float minimumWidthOfCell;
 @property(nonatomic, readonly) float desiredWidthOfCell;
 @property(nonatomic, readonly) id<PSMTabStyle> style;
-@property(nonatomic, assign) NSLineBreakMode truncationStyle;  // How to truncate title.
+@property(nonatomic, assign)
+    NSLineBreakMode truncationStyle; // How to truncate title.
 @property(nonatomic, readonly) NSAccessibilityElement *element;
 
 // creation/destruction
 - (id)initWithControlView:(PSMTabBarControl *)controlView;
-- (id)initPlaceholderWithFrame:(NSRect)frame expanded:(BOOL)value inControlView:(PSMTabBarControl *)controlView;
+- (id)initPlaceholderWithFrame:(NSRect)frame
+                      expanded:(BOOL)value
+                 inControlView:(PSMTabBarControl *)controlView;
 
 // accessors
 - (void)setStringValue:(NSString *)aString;
@@ -67,7 +72,7 @@
 // drawing
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView;
 - (void)drawPostHocDecorationsOnSelectedCell:(PSMTabBarCell *)cell
-    tabBarControl:(PSMTabBarControl *)bar;
+                               tabBarControl:(PSMTabBarControl *)bar;
 
 // drag support
 - (NSImage *)dragImage;

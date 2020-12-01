@@ -12,13 +12,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class SIGIdentity;
 
-@protocol SIGSigningAlgorithm<NSObject>
+@protocol SIGSigningAlgorithm <NSObject>
 
 + (NSString *)name;
 
 - (nullable NSData *)signatureForInputStream:(NSInputStream *)inputStream
-    usingIdentity:(SIGIdentity *)identity
-    error:(out NSError **)error;
+                               usingIdentity:(SIGIdentity *)identity
+                                       error:(out NSError **)error;
 
 @end
 

@@ -10,8 +10,9 @@
 
 #import "CoreParse.h"
 
-@interface CPTestErrorHandlingDelegate : NSObject <CPTokeniserDelegate, CPParserDelegate>
+@interface CPTestErrorHandlingDelegate
+    : NSObject <CPTokeniserDelegate, CPParserDelegate>
 
-@property (readwrite, assign) BOOL hasEncounteredError;
+@property(readwrite, assign) BOOL hasEncounteredError;
 
 @end

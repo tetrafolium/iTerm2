@@ -5,7 +5,7 @@
  */
 @interface CPKSliderView : NSView
 
-    /** The current value. Assign to this to move the slider. */
+/** The current value. Assign to this to move the slider. */
 @property(nonatomic) CGFloat selectedValue;
 
 /**
@@ -18,8 +18,8 @@
  * @return An initialized instance.
  */
 - (instancetype)initWithFrame:(NSRect)frame
-    value:(CGFloat)value
-    block:(void (^)(CGFloat))block;
+                        value:(CGFloat)value
+                        block:(void (^)(CGFloat))block;
 
 - (NSBezierPath *)boundingPath;
 

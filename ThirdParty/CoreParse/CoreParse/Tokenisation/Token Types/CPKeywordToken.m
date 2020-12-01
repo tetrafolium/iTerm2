@@ -12,67 +12,56 @@
 
 @synthesize keyword;
 
-+ (id)tokenWithKeyword:(NSString *)keyword
-{
-    return [[[CPKeywordToken alloc] initWithKeyword:keyword] autorelease];
++ (id)tokenWithKeyword:(NSString *)keyword {
+  return [[[CPKeywordToken alloc] initWithKeyword:keyword] autorelease];
 }
 
-- (id)initWithKeyword:(NSString *)initKeyword
-{
-    self = [super init];
+- (id)initWithKeyword:(NSString *)initKeyword {
+  self = [super init];
 
-    if (nil != self)
-    {
-        [self setKeyword:initKeyword];
-    }
+  if (nil != self) {
+    [self setKeyword:initKeyword];
+  }
 
-    return self;
+  return self;
 }
 
-- (id)init
-{
-    return [self initWithKeyword:@" "];
+- (id)init {
+  return [self initWithKeyword:@" "];
 }
 
-- (void)dealloc
-{
-    [keyword release];
-    [super dealloc];
+- (void)dealloc {
+  [keyword release];
+  [super dealloc];
 }
 
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"<Keyword: %@>", [self keyword]];
+- (NSString *)description {
+  return [NSString stringWithFormat:@"<Keyword: %@>", [self keyword]];
 }
 
-- (NSString *)name
-{
-    return [self keyword];
+- (NSString *)name {
+  return [self keyword];
 }
 
-- (NSUInteger)hash
-{
-    return [[self keyword] hash];
+- (NSUInteger)hash {
+  return [[self keyword] hash];
 }
 
-- (BOOL)isKeywordToken
-{
-    return YES;
+- (BOOL)isKeywordToken {
+  return YES;
 }
 
-- (BOOL)isEqual:(id)object
-{
-    return ([object isKeywordToken] &&
-            [((CPKeywordToken *)object)->keyword isEqualToString:keyword]);
+- (BOOL)isEqual:(id)object {
+  return ([object isKeywordToken] &&
+          [((CPKeywordToken *)object)->keyword isEqualToString:keyword]);
 }
 
 @end
 
 @implementation NSObject (CPIsKeywordToken)
 
-- (BOOL)isKeywordToken
-{
-    return NO;
+- (BOOL)isKeywordToken {
+  return NO;
 }
 
 @end

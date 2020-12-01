@@ -17,11 +17,11 @@
  */
 @interface CPEOFToken : CPToken
 
-    /**
-     * Creates an end of file token.
-     *
-     * @return A token representing the end of the input stream.
-     */
+/**
+ * Creates an end of file token.
+ *
+ * @return A token representing the end of the input stream.
+ */
 + (id)eof;
 
 @end

@@ -19,24 +19,26 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * A class for containing downloaded data along with some information about it.
  */
-SU_EXPORT @interface SPUDownloadData : NSObject <NSSecureCoding>
+SU_EXPORT @interface SPUDownloadData : NSObject<NSSecureCoding>
 
-- (instancetype)initWithData:(NSData *)data textEncodingName:(NSString * _Nullable)textEncodingName MIMEType:(NSString * _Nullable)MIMEType;
+- (instancetype)initWithData:(NSData *)data
+            textEncodingName:(NSString *_Nullable)textEncodingName
+                    MIMEType:(NSString *_Nullable)MIMEType;
 
 /*!
  * The raw data that was downloaded.
  */
-@property (nonatomic, readonly) NSData *data;
+@property(nonatomic, readonly) NSData *data;
 
 /*!
  * The IANA charset encoding name if available. Eg: "utf-8"
  */
-@property (nonatomic, readonly, nullable, copy) NSString *textEncodingName;
+@property(nonatomic, readonly, nullable, copy) NSString *textEncodingName;
 
 /*!
  * The MIME type if available. Eg: "text/plain"
  */
-@property (nonatomic, readonly, nullable, copy) NSString *MIMEType;
+@property(nonatomic, readonly, nullable, copy) NSString *MIMEType;
 
 @end
 

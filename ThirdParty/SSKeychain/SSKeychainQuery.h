@@ -16,9 +16,9 @@
 
 #ifdef SSKEYCHAIN_SYNCHRONIZATION_AVAILABLE
 typedef NS_ENUM(NSUInteger, SSKeychainQuerySynchronizationMode) {
-    SSKeychainQuerySynchronizationModeAny,
-    SSKeychainQuerySynchronizationModeNo,
-    SSKeychainQuerySynchronizationModeYes
+  SSKeychainQuerySynchronizationModeAny,
+  SSKeychainQuerySynchronizationModeNo,
+  SSKeychainQuerySynchronizationModeYes
 };
 #endif
 
@@ -27,34 +27,33 @@ typedef NS_ENUM(NSUInteger, SSKeychainQuerySynchronizationMode) {
  */
 @interface SSKeychainQuery : NSObject
 
-    /** kSecAttrAccount */
-@property (nonatomic, copy) NSString *account;
+/** kSecAttrAccount */
+@property(nonatomic, copy) NSString *account;
 
 /** kSecAttrService */
-@property (nonatomic, copy) NSString *service;
+@property(nonatomic, copy) NSString *service;
 
 /** kSecAttrLabel */
-@property (nonatomic, copy) NSString *label;
+@property(nonatomic, copy) NSString *label;
 
 #if __IPHONE_3_0 && TARGET_OS_IPHONE
 /** kSecAttrAccessGroup (only used on iOS) */
-@property (nonatomic, copy) NSString *accessGroup;
+@property(nonatomic, copy) NSString *accessGroup;
 #endif
 
 #ifdef SSKEYCHAIN_SYNCHRONIZATION_AVAILABLE
 /** kSecAttrSynchronizable */
-@property (nonatomic) SSKeychainQuerySynchronizationMode synchronizationMode;
+@property(nonatomic) SSKeychainQuerySynchronizationMode synchronizationMode;
 #endif
 
 /** Root storage for password information */
-@property (nonatomic, copy) NSData *passwordData;
+@property(nonatomic, copy) NSData *passwordData;
 
 /**
  Convenience accessor for setting and getting a password string. Passes through
  to `passwordData` using UTF-8 string encoding.
  */
-@property (nonatomic, copy) NSString *password;
-
+@property(nonatomic, copy) NSString *password;
 
 ///------------------------
 /// @name Saving & Deleting
@@ -78,7 +77,6 @@ typedef NS_ENUM(NSUInteger, SSKeychainQuerySynchronizationMode) {
  @return `YES` if saving was successful, `NO` otherwise.
  */
 - (BOOL)deleteItem:(NSError **)error;
-
 
 ///---------------
 /// @name Fetching
@@ -108,16 +106,16 @@ typedef NS_ENUM(NSUInteger, SSKeychainQuerySynchronizationMode) {
  */
 - (BOOL)fetch:(NSError **)error;
 
-
 ///-----------------------------
 /// @name Synchronization Status
 ///-----------------------------
 
 #ifdef SSKEYCHAIN_SYNCHRONIZATION_AVAILABLE
 /**
- Returns a boolean indicating if keychain synchronization is available on the device at runtime. The #define
- SSKEYCHAIN_SYNCHRONIZATION_AVAILABLE is only for compile time. If you are checking for the presence of synchronization,
- you should use this method.
+ Returns a boolean indicating if keychain synchronization is available on the
+ device at runtime. The #define SSKEYCHAIN_SYNCHRONIZATION_AVAILABLE is only for
+ compile time. If you are checking for the presence of synchronization, you
+ should use this method.
 
  @return A value indicating if keychain synchronization is available
  */

@@ -10,9 +10,9 @@
 
 @interface CPSyntaxTree ()
 
-@property (readwrite,retain) CPRule *rule;
-@property (readwrite,copy) NSArray *children;
-@property (readwrite,copy) NSDictionary *tagValues;
+@property(readwrite, retain) CPRule *rule;
+@property(readwrite, copy) NSArray *children;
+@property(readwrite, copy) NSDictionary *tagValues;
 
 @end
 
@@ -22,94 +22,92 @@
 @synthesize children;
 @synthesize tagValues;
 
-+ (id)syntaxTreeWithRule:(CPRule *)rule children:(NSArray *)children
-{
-    return [[[self alloc] initWithRule:rule children:children tagValues:[NSDictionary dictionary]] autorelease];
++ (id)syntaxTreeWithRule:(CPRule *)rule children:(NSArray *)children {
+  return [[[self alloc] initWithRule:rule
+                            children:children
+                           tagValues:[NSDictionary dictionary]] autorelease];
 }
 
 - (id)initWithRule:(CPRule *)initRule children:(NSArray *)initChildren;
 {
-    return [self initWithRule:initRule children:initChildren tagValues:[NSDictionary dictionary]];
+  return [self initWithRule:initRule
+                   children:initChildren
+                  tagValues:[NSDictionary dictionary]];
 }
 
-+ (id)syntaxTreeWithRule:(CPRule *)rule children:(NSArray *)children tagValues:(NSDictionary *)tagValues;
++ (id)syntaxTreeWithRule:(CPRule *)rule
+                children:(NSArray *)children
+               tagValues:(NSDictionary *)tagValues;
 {
-    return [[[self alloc] initWithRule:rule children:children tagValues:tagValues] autorelease];
+  return [[[self alloc] initWithRule:rule children:children
+                           tagValues:tagValues] autorelease];
 }
 
-- (id)initWithRule:(CPRule *)initRule children:(NSArray *)initChildren tagValues:(NSDictionary *)initTagValues
-{
-    self = [super init];
+- (id)initWithRule:(CPRule *)initRule
+          children:(NSArray *)initChildren
+         tagValues:(NSDictionary *)initTagValues {
+  self = [super init];
 
-    if (nil != self)
-    {
-        [self setRule:initRule];
-        [self setChildren:initChildren];
-        [self setTagValues:initTagValues];
-    }
+  if (nil != self) {
+    [self setRule:initRule];
+    [self setChildren:initChildren];
+    [self setTagValues:initTagValues];
+  }
 
-    return self;
+  return self;
 }
 
-- (id)init
-{
-    return [self initWithRule:nil children:[NSArray array] tagValues:[NSDictionary dictionary]];
+- (id)init {
+  return [self initWithRule:nil
+                   children:[NSArray array]
+                  tagValues:[NSDictionary dictionary]];
 }
 
-- (void)dealloc
-{
-    [rule release];
-    [children release];
-    [tagValues release];
+- (void)dealloc {
+  [rule release];
+  [children release];
+  [tagValues release];
 
-    [super dealloc];
+  [super dealloc];
 }
 
-- (id)valueForTag:(NSString *)tagName
-{
-    return [tagValues objectForKey:tagName];
+- (id)valueForTag:(NSString *)tagName {
+  return [tagValues objectForKey:tagName];
 }
 
-- (id)childAtIndex:(NSUInteger)idx
-{
-    return [children objectAtIndex:idx];
+- (id)childAtIndex:(NSUInteger)idx {
+  return [children objectAtIndex:idx];
 }
 
-- (NSUInteger)hash
-{
-    return [[self rule] hash];
+- (NSUInteger)hash {
+  return [[self rule] hash];
 }
 
-- (BOOL)isSyntaxTree
-{
-    return YES;
+- (BOOL)isSyntaxTree {
+  return YES;
 }
 
-- (BOOL)isEqual:(id)object
-{
-    return ([object isSyntaxTree] &&
-            ((CPSyntaxTree *)object)->rule == rule &&
-            [((CPSyntaxTree *)object)->children isEqualToArray:children]);
+- (BOOL)isEqual:(id)object {
+  return ([object isSyntaxTree] && ((CPSyntaxTree *)object)->rule == rule &&
+          [((CPSyntaxTree *)object)->children isEqualToArray:children]);
 }
 
-- (NSString *)description
-{
-    NSMutableString *desc = [NSMutableString stringWithString:@"("];
-    for (id obj in children)
-    {
-        [desc appendFormat:@"%@ ", obj];
-    }
-    [desc replaceCharactersInRange:NSMakeRange([desc length] - 1, 1) withString:@")"];
-    return desc;
+- (NSString *)description {
+  NSMutableString *desc = [NSMutableString stringWithString:@"("];
+  for (id obj in children) {
+    [desc appendFormat:@"%@ ", obj];
+  }
+  [desc replaceCharactersInRange:NSMakeRange([desc length] - 1, 1)
+                      withString:@")"];
+  return desc;
 }
 
 @end
 
-@implementation NSObject(CPIsSyntaxTree)
+@implementation NSObject (CPIsSyntaxTree)
 
-- (BOOL)isSyntaxTree
-{
-    return NO;
+- (BOOL)isSyntaxTree {
+  return NO;
 }
 
 @end

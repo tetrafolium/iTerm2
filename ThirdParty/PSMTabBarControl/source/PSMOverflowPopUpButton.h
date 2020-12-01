@@ -8,17 +8,16 @@
 
 #import <Cocoa/Cocoa.h>
 
-
 @interface PSMOverflowPopUpButton : NSPopUpButton {
-    NSImage         *_PSMTabBarOverflowPopUpImage;
-    NSImage         *_PSMTabBarOverflowDownPopUpImage;
-    BOOL            _down;
-    BOOL			_animatingAlternateImage;
-    NSTimer			*_animationTimer;
-    float			_animationValue;
+  NSImage *_PSMTabBarOverflowPopUpImage;
+  NSImage *_PSMTabBarOverflowDownPopUpImage;
+  BOOL _down;
+  BOOL _animatingAlternateImage;
+  NSTimer *_animationTimer;
+  float _animationValue;
 }
 
-//alternate image display
+// alternate image display
 - (BOOL)animatingAlternateImage;
 - (void)setAnimatingAlternateImage:(BOOL)flag;
 

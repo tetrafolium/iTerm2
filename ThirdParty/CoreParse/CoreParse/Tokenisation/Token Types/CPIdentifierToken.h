@@ -21,14 +21,14 @@
 /// @name Creating and Initialising an Identifier Token
 ///---------------------------------------------------------------------------------------
 
-    /**
-     * Creates an identifier token with the identifier found in the input.
-     *
-     * @param identifier The identifier found in the input stream.
-     * @return Returns a CPIdentifierToken representing the specified identifier.
-     *
-     * @see initWithIdentifier:
-     */
+/**
+ * Creates an identifier token with the identifier found in the input.
+ *
+ * @param identifier The identifier found in the input stream.
+ * @return Returns a CPIdentifierToken representing the specified identifier.
+ *
+ * @see initWithIdentifier:
+ */
 + (id)tokenWithIdentifier:(NSString *)identifier;
 
 /**
@@ -48,7 +48,7 @@
 /**
  * The identifier found in the input stream
  */
-@property (readwrite,copy) NSString *identifier;
+@property(readwrite, copy) NSString *identifier;
 
 @end
 
@@ -57,4 +57,3 @@
 - (BOOL)isIdentifierToken;
 
 @end
-

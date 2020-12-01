@@ -10,48 +10,52 @@
 
 @implementation PSMDarkHighContrastTabStyle
 
-
 - (NSString *)name {
-    return @"Dark High Contrast";
+  return @"Dark High Contrast";
 }
 
 - (BOOL)highVisibility {
-    return [[self.tabBar.delegate tabView:self.tabBar valueOfOption:PSMTabBarControlOptionHighVisibility] boolValue];
+  return [[self.tabBar.delegate tabView:self.tabBar
+                          valueOfOption:PSMTabBarControlOptionHighVisibility]
+      boolValue];
 }
 
-- (NSColor *)textColorDefaultSelected:(BOOL)selected backgroundColor:(NSColor *)backgroundColor windowIsMainAndAppIsActive:(BOOL)mainAndActive {
-    if ([self highVisibility]) {
-        return selected ? [NSColor blackColor] : [NSColor whiteColor];
-    } else {
-        return [NSColor whiteColor];
-    }
+- (NSColor *)textColorDefaultSelected:(BOOL)selected
+                      backgroundColor:(NSColor *)backgroundColor
+           windowIsMainAndAppIsActive:(BOOL)mainAndActive {
+  if ([self highVisibility]) {
+    return selected ? [NSColor blackColor] : [NSColor whiteColor];
+  } else {
+    return [NSColor whiteColor];
+  }
 }
 
 - (NSColor *)accessoryTextColor {
-    return [NSColor whiteColor];
+  return [NSColor whiteColor];
 }
 
-- (NSColor *)backgroundColorSelected:(BOOL)selected highlightAmount:(CGFloat)highlightAmount {
-    CGFloat value;
-    if ([self highVisibility]) {
-        value = selected ? 0.80 : 0.03;
+- (NSColor *)backgroundColorSelected:(BOOL)selected
+                     highlightAmount:(CGFloat)highlightAmount {
+  CGFloat value;
+  if ([self highVisibility]) {
+    value = selected ? 0.80 : 0.03;
+  } else {
+    BOOL shouldBeLight;
+    if (@available(macOS 10.14, *)) {
+      shouldBeLight = selected;
     } else {
-        BOOL shouldBeLight;
-        if (@available(macOS 10.14, *)) {
-            shouldBeLight = selected;
-        } else {
-            shouldBeLight = !selected;
-        }
-        value = shouldBeLight ? 0.2 : 0.03;
+      shouldBeLight = !selected;
     }
-    if (selected) {
-        value += highlightAmount * 0.05;
-    }
-    return [NSColor colorWithCalibratedWhite:value alpha:1.00];
+    value = shouldBeLight ? 0.2 : 0.03;
+  }
+  if (selected) {
+    value += highlightAmount * 0.05;
+  }
+  return [NSColor colorWithCalibratedWhite:value alpha:1.00];
 }
 
 - (CGFloat)fontSize {
-    return 12.0;
+  return 12.0;
 }
 
 @end

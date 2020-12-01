@@ -5,7 +5,8 @@
  */
 @interface CPKEyedropperView : NSView
 
-    /** An array of arrays. The inner arrays have NSColor. This defines a grid to draw. */
+/** An array of arrays. The inner arrays have NSColor. This defines a grid to
+ * draw. */
 @property(nonatomic) NSArray *colors;
 
 /** Called on click. */

@@ -24,33 +24,33 @@ SU_EXPORT extern NSString *const SUSparkleErrorDomain;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wc++98-compat"
 typedef NS_ENUM(OSStatus, SUError) {
-    // Appcast phase errors.
-    SUAppcastParseError = 1000,
-    SUNoUpdateError = 1001,
-    SUAppcastError = 1002,
-    SURunningFromDiskImageError = 1003,
-    SURunningTranslocated = 1004,
+  // Appcast phase errors.
+  SUAppcastParseError = 1000,
+  SUNoUpdateError = 1001,
+  SUAppcastError = 1002,
+  SURunningFromDiskImageError = 1003,
+  SURunningTranslocated = 1004,
 
-    // Download phase errors.
-    SUTemporaryDirectoryError = 2000,
-    SUDownloadError = 2001,
+  // Download phase errors.
+  SUTemporaryDirectoryError = 2000,
+  SUDownloadError = 2001,
 
-    // Extraction phase errors.
-    SUUnarchivingError = 3000,
-    SUSignatureError = 3001,
+  // Extraction phase errors.
+  SUUnarchivingError = 3000,
+  SUSignatureError = 3001,
 
-    // Installation phase errors.
-    SUFileCopyFailure = 4000,
-    SUAuthenticationFailure = 4001,
-    SUMissingUpdateError = 4002,
-    SUMissingInstallerToolError = 4003,
-    SURelaunchError = 4004,
-    SUInstallationError = 4005,
-    SUDowngradeError = 4006,
-    SUInstallationCancelledError = 4007,
+  // Installation phase errors.
+  SUFileCopyFailure = 4000,
+  SUAuthenticationFailure = 4001,
+  SUMissingUpdateError = 4002,
+  SUMissingInstallerToolError = 4003,
+  SURelaunchError = 4004,
+  SUInstallationError = 4005,
+  SUDowngradeError = 4006,
+  SUInstallationCancelledError = 4007,
 
-    // System phase errors
-    SUSystemPowerOffError = 5000
+  // System phase errors
+  SUSystemPowerOffError = 5000
 };
 #pragma clang diagnostic pop
 

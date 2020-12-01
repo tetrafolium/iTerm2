@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBUInt32UInt32Dictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -72,8 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithUInt32:(uint32_t)value
-    forKey:(uint32_t)key;
++ (instancetype)dictionaryWithUInt32:(uint32_t)value forKey:(uint32_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -84,9 +83,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithUInt32s:(const uint32_t [_Nullable])values
-    forKeys:(const uint32_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithUInt32s:(const uint32_t[_Nullable])values
+                              forKeys:(const uint32_t[_Nullable])keys
+                                count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -97,7 +96,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A newly instanced dictionary with the entries from the given
  *         dictionary in it.
  **/
-+ (instancetype)dictionaryWithDictionary:(GPBUInt32UInt32Dictionary *)dictionary;
++ (instancetype)dictionaryWithDictionary:
+    (GPBUInt32UInt32Dictionary *)dictionary;
 
 /**
  * Creates and initializes a dictionary with the given capacity.
@@ -117,16 +117,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithUInt32s:(const uint32_t [_Nullable])values
-    forKeys:(const uint32_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithUInt32s:(const uint32_t[_Nullable])values
+                        forKeys:(const uint32_t[_Nullable])keys
+                          count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBUInt32UInt32Dictionary *)dictionary;
 
@@ -200,7 +202,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBUInt32Int32Dictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -216,8 +218,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithInt32:(int32_t)value
-    forKey:(uint32_t)key;
++ (instancetype)dictionaryWithInt32:(int32_t)value forKey:(uint32_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -228,9 +229,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithInt32s:(const int32_t [_Nullable])values
-    forKeys:(const uint32_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithInt32s:(const int32_t[_Nullable])values
+                             forKeys:(const uint32_t[_Nullable])keys
+                               count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -261,16 +262,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithInt32s:(const int32_t [_Nullable])values
-    forKeys:(const uint32_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithInt32s:(const int32_t[_Nullable])values
+                       forKeys:(const uint32_t[_Nullable])keys
+                         count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBUInt32Int32Dictionary *)dictionary;
 
@@ -301,8 +304,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndInt32sUsingBlock:
-    (void (^)(uint32_t key, int32_t value, BOOL *stop))block;
+- (void)enumerateKeysAndInt32sUsingBlock:(void (^)(uint32_t key, int32_t value,
+                                                   BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -344,7 +347,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBUInt32UInt64Dictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -360,8 +363,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithUInt64:(uint64_t)value
-    forKey:(uint32_t)key;
++ (instancetype)dictionaryWithUInt64:(uint64_t)value forKey:(uint32_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -372,9 +374,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithUInt64s:(const uint64_t [_Nullable])values
-    forKeys:(const uint32_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithUInt64s:(const uint64_t[_Nullable])values
+                              forKeys:(const uint32_t[_Nullable])keys
+                                count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -385,7 +387,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A newly instanced dictionary with the entries from the given
  *         dictionary in it.
  **/
-+ (instancetype)dictionaryWithDictionary:(GPBUInt32UInt64Dictionary *)dictionary;
++ (instancetype)dictionaryWithDictionary:
+    (GPBUInt32UInt64Dictionary *)dictionary;
 
 /**
  * Creates and initializes a dictionary with the given capacity.
@@ -405,16 +408,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithUInt64s:(const uint64_t [_Nullable])values
-    forKeys:(const uint32_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithUInt64s:(const uint64_t[_Nullable])values
+                        forKeys:(const uint32_t[_Nullable])keys
+                          count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBUInt32UInt64Dictionary *)dictionary;
 
@@ -488,7 +493,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBUInt32Int64Dictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -504,8 +509,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithInt64:(int64_t)value
-    forKey:(uint32_t)key;
++ (instancetype)dictionaryWithInt64:(int64_t)value forKey:(uint32_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -516,9 +520,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithInt64s:(const int64_t [_Nullable])values
-    forKeys:(const uint32_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithInt64s:(const int64_t[_Nullable])values
+                             forKeys:(const uint32_t[_Nullable])keys
+                               count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -549,16 +553,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithInt64s:(const int64_t [_Nullable])values
-    forKeys:(const uint32_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithInt64s:(const int64_t[_Nullable])values
+                       forKeys:(const uint32_t[_Nullable])keys
+                         count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBUInt32Int64Dictionary *)dictionary;
 
@@ -589,8 +595,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndInt64sUsingBlock:
-    (void (^)(uint32_t key, int64_t value, BOOL *stop))block;
+- (void)enumerateKeysAndInt64sUsingBlock:(void (^)(uint32_t key, int64_t value,
+                                                   BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -632,7 +638,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBUInt32BoolDictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -648,8 +654,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithBool:(BOOL)value
-    forKey:(uint32_t)key;
++ (instancetype)dictionaryWithBool:(BOOL)value forKey:(uint32_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -660,9 +665,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithBools:(const BOOL [_Nullable])values
-    forKeys:(const uint32_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithBools:(const BOOL[_Nullable])values
+                            forKeys:(const uint32_t[_Nullable])keys
+                              count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -693,16 +698,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithBools:(const BOOL [_Nullable])values
-    forKeys:(const uint32_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithBools:(const BOOL[_Nullable])values
+                      forKeys:(const uint32_t[_Nullable])keys
+                        count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBUInt32BoolDictionary *)dictionary;
 
@@ -733,8 +740,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndBoolsUsingBlock:
-    (void (^)(uint32_t key, BOOL value, BOOL *stop))block;
+- (void)enumerateKeysAndBoolsUsingBlock:(void (^)(uint32_t key, BOOL value,
+                                                  BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -776,7 +783,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBUInt32FloatDictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -792,8 +799,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithFloat:(float)value
-    forKey:(uint32_t)key;
++ (instancetype)dictionaryWithFloat:(float)value forKey:(uint32_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -804,9 +810,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithFloats:(const float [_Nullable])values
-    forKeys:(const uint32_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithFloats:(const float[_Nullable])values
+                             forKeys:(const uint32_t[_Nullable])keys
+                               count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -837,16 +843,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithFloats:(const float [_Nullable])values
-    forKeys:(const uint32_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithFloats:(const float[_Nullable])values
+                       forKeys:(const uint32_t[_Nullable])keys
+                         count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBUInt32FloatDictionary *)dictionary;
 
@@ -877,8 +885,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndFloatsUsingBlock:
-    (void (^)(uint32_t key, float value, BOOL *stop))block;
+- (void)enumerateKeysAndFloatsUsingBlock:(void (^)(uint32_t key, float value,
+                                                   BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -920,7 +928,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBUInt32DoubleDictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -936,8 +944,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithDouble:(double)value
-    forKey:(uint32_t)key;
++ (instancetype)dictionaryWithDouble:(double)value forKey:(uint32_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -948,9 +955,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithDoubles:(const double [_Nullable])values
-    forKeys:(const uint32_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithDoubles:(const double[_Nullable])values
+                              forKeys:(const uint32_t[_Nullable])keys
+                                count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -961,7 +968,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A newly instanced dictionary with the entries from the given
  *         dictionary in it.
  **/
-+ (instancetype)dictionaryWithDictionary:(GPBUInt32DoubleDictionary *)dictionary;
++ (instancetype)dictionaryWithDictionary:
+    (GPBUInt32DoubleDictionary *)dictionary;
 
 /**
  * Creates and initializes a dictionary with the given capacity.
@@ -981,16 +989,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithDoubles:(const double [_Nullable])values
-    forKeys:(const uint32_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithDoubles:(const double[_Nullable])values
+                        forKeys:(const uint32_t[_Nullable])keys
+                          count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBUInt32DoubleDictionary *)dictionary;
 
@@ -1021,8 +1031,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndDoublesUsingBlock:
-    (void (^)(uint32_t key, double value, BOOL *stop))block;
+- (void)enumerateKeysAndDoublesUsingBlock:(void (^)(uint32_t key, double value,
+                                                    BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -1064,7 +1074,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBUInt32EnumDictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 /** The validation function to check if the enums are valid. */
 @property(nonatomic, readonly) GPBEnumValidationFunc validationFunc;
@@ -1081,7 +1091,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary.
  **/
-+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func;
++ (instancetype)dictionaryWithValidationFunction:
+    (nullable GPBEnumValidationFunc)func;
 
 /**
  * Creates and initializes a dictionary with the single entry given.
@@ -1092,9 +1103,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    rawValue:(int32_t)rawValue
-    forKey:(uint32_t)key;
++ (instancetype)dictionaryWithValidationFunction:
+                    (nullable GPBEnumValidationFunc)func
+                                        rawValue:(int32_t)rawValue
+                                          forKey:(uint32_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -1106,10 +1118,11 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    rawValues:(const int32_t [_Nullable])values
-    forKeys:(const uint32_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)
+    dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
+                           rawValues:(const int32_t[_Nullable])values
+                             forKeys:(const uint32_t[_Nullable])keys
+                               count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -1130,8 +1143,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the given capacity.
  **/
-+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    capacity:(NSUInteger)numItems;
++ (instancetype)dictionaryWithValidationFunction:
+                    (nullable GPBEnumValidationFunc)func
+                                        capacity:(NSUInteger)numItems;
 
 /**
  * Initializes a dictionary with the given validation function.
@@ -1153,9 +1167,10 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A newly initialized dictionary with the keys and values in it.
  **/
 - (instancetype)initWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    rawValues:(const int32_t [_Nullable])values
-    forKeys:(const uint32_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+                                 rawValues:(const int32_t[_Nullable])values
+                                   forKeys:(const uint32_t[_Nullable])keys
+                                     count:(NSUInteger)count
+    NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes a dictionary with the entries from the given.
@@ -1177,11 +1192,11 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A newly initialized dictionary with the given capacity.
  **/
 - (instancetype)initWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    capacity:(NSUInteger)numItems;
+                                  capacity:(NSUInteger)numItems;
 
 // These will return kGPBUnrecognizedEnumeratorValue if the value for the key
-// is not a valid enumerator as defined by validationFunc. If the actual value is
-// desired, use "raw" version of the method.
+// is not a valid enumerator as defined by validationFunc. If the actual value
+// is desired, use "raw" version of the method.
 
 /**
  * Gets the value for the given key.
@@ -1201,14 +1216,14 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndEnumsUsingBlock:
-    (void (^)(uint32_t key, int32_t value, BOOL *stop))block;
+- (void)enumerateKeysAndEnumsUsingBlock:(void (^)(uint32_t key, int32_t value,
+                                                  BOOL *stop))block;
 
 /**
  * Gets the raw enum value for the given key.
  *
- * @note This method bypass the validationFunc to enable the access of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the access of values
+ *that were not known at the time the binary was compiled.
  *
  * @param rawValue Pointer into which the value will be set, if found.
  * @param key      Key under which the value is stored, if present.
@@ -1220,8 +1235,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Enumerates the keys and values on this dictionary with the given block.
  *
- * @note This method bypass the validationFunc to enable the access of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the access of values
+ *that were not known at the time the binary was compiled.
  *
  * @param block The block to enumerate with.
  *   **key**:      The key for the current entry.
@@ -1234,8 +1249,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Adds the keys and raw enum values from another dictionary.
  *
- * @note This method bypass the validationFunc to enable the setting of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the setting of values
+ *that were not known at the time the binary was compiled.
  *
  * @param otherDictionary Dictionary containing entries to be added to this
  *                        dictionary.
@@ -1258,8 +1273,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Sets the raw enum value for the given key.
  *
- * @note This method bypass the validationFunc to enable the setting of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the setting of values
+ *that were not known at the time the binary was compiled.
  *
  * @param rawValue The raw enum value to set.
  * @param key      The key under which to store the raw enum value.
@@ -1288,9 +1303,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @note This class is not meant to be subclassed.
  **/
-@interface GPBUInt32ObjectDictionary<__covariant ObjectType> : NSObject <NSCopying>
+@interface GPBUInt32ObjectDictionary<__covariant ObjectType>
+    : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -1306,8 +1322,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithObject:(ObjectType)object
-    forKey:(uint32_t)key;
++ (instancetype)dictionaryWithObject:(ObjectType)object forKey:(uint32_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -1318,9 +1333,11 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithObjects:(const ObjectType _Nonnull GPB_UNSAFE_UNRETAINED [_Nullable])objects
-    forKeys:(const uint32_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithObjects:
+                    (const ObjectType _Nonnull GPB_UNSAFE_UNRETAINED[_Nullable])
+                        objects
+                              forKeys:(const uint32_t[_Nullable])keys
+                                count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -1331,7 +1348,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A newly instanced dictionary with the entries from the given
  *         dictionary in it.
  **/
-+ (instancetype)dictionaryWithDictionary:(GPBUInt32ObjectDictionary *)dictionary;
++ (instancetype)dictionaryWithDictionary:
+    (GPBUInt32ObjectDictionary *)dictionary;
 
 /**
  * Creates and initializes a dictionary with the given capacity.
@@ -1351,16 +1369,20 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithObjects:(const ObjectType _Nonnull GPB_UNSAFE_UNRETAINED [_Nullable])objects
-    forKeys:(const uint32_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithObjects:
+                    (const ObjectType _Nonnull GPB_UNSAFE_UNRETAINED[_Nullable])
+                        objects
+                        forKeys:(const uint32_t[_Nullable])keys
+                          count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBUInt32ObjectDictionary *)dictionary;
 
@@ -1388,7 +1410,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param block The block to enumerate with.
  *   **key**:         The key for the current entry.
  *   **object**:      The value for the current entry
- *   **stop**:        A pointer to a boolean that when set stops the enumeration.
+ *   **stop**:        A pointer to a boolean that when set stops the
+ *enumeration.
  **/
 - (void)enumerateKeysAndObjectsUsingBlock:
     (void (^)(uint32_t key, ObjectType object, BOOL *stop))block;
@@ -1433,7 +1456,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBInt32UInt32Dictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -1449,8 +1472,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithUInt32:(uint32_t)value
-    forKey:(int32_t)key;
++ (instancetype)dictionaryWithUInt32:(uint32_t)value forKey:(int32_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -1461,9 +1483,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithUInt32s:(const uint32_t [_Nullable])values
-    forKeys:(const int32_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithUInt32s:(const uint32_t[_Nullable])values
+                              forKeys:(const int32_t[_Nullable])keys
+                                count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -1494,16 +1516,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithUInt32s:(const uint32_t [_Nullable])values
-    forKeys:(const int32_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithUInt32s:(const uint32_t[_Nullable])values
+                        forKeys:(const int32_t[_Nullable])keys
+                          count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBInt32UInt32Dictionary *)dictionary;
 
@@ -1534,8 +1558,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndUInt32sUsingBlock:
-    (void (^)(int32_t key, uint32_t value, BOOL *stop))block;
+- (void)enumerateKeysAndUInt32sUsingBlock:(void (^)(int32_t key, uint32_t value,
+                                                    BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -1577,7 +1601,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBInt32Int32Dictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -1593,8 +1617,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithInt32:(int32_t)value
-    forKey:(int32_t)key;
++ (instancetype)dictionaryWithInt32:(int32_t)value forKey:(int32_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -1605,9 +1628,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithInt32s:(const int32_t [_Nullable])values
-    forKeys:(const int32_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithInt32s:(const int32_t[_Nullable])values
+                             forKeys:(const int32_t[_Nullable])keys
+                               count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -1638,16 +1661,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithInt32s:(const int32_t [_Nullable])values
-    forKeys:(const int32_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithInt32s:(const int32_t[_Nullable])values
+                       forKeys:(const int32_t[_Nullable])keys
+                         count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBInt32Int32Dictionary *)dictionary;
 
@@ -1678,8 +1703,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndInt32sUsingBlock:
-    (void (^)(int32_t key, int32_t value, BOOL *stop))block;
+- (void)enumerateKeysAndInt32sUsingBlock:(void (^)(int32_t key, int32_t value,
+                                                   BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -1721,7 +1746,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBInt32UInt64Dictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -1737,8 +1762,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithUInt64:(uint64_t)value
-    forKey:(int32_t)key;
++ (instancetype)dictionaryWithUInt64:(uint64_t)value forKey:(int32_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -1749,9 +1773,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithUInt64s:(const uint64_t [_Nullable])values
-    forKeys:(const int32_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithUInt64s:(const uint64_t[_Nullable])values
+                              forKeys:(const int32_t[_Nullable])keys
+                                count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -1782,16 +1806,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithUInt64s:(const uint64_t [_Nullable])values
-    forKeys:(const int32_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithUInt64s:(const uint64_t[_Nullable])values
+                        forKeys:(const int32_t[_Nullable])keys
+                          count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBInt32UInt64Dictionary *)dictionary;
 
@@ -1822,8 +1848,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndUInt64sUsingBlock:
-    (void (^)(int32_t key, uint64_t value, BOOL *stop))block;
+- (void)enumerateKeysAndUInt64sUsingBlock:(void (^)(int32_t key, uint64_t value,
+                                                    BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -1865,7 +1891,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBInt32Int64Dictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -1881,8 +1907,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithInt64:(int64_t)value
-    forKey:(int32_t)key;
++ (instancetype)dictionaryWithInt64:(int64_t)value forKey:(int32_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -1893,9 +1918,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithInt64s:(const int64_t [_Nullable])values
-    forKeys:(const int32_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithInt64s:(const int64_t[_Nullable])values
+                             forKeys:(const int32_t[_Nullable])keys
+                               count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -1926,16 +1951,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithInt64s:(const int64_t [_Nullable])values
-    forKeys:(const int32_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithInt64s:(const int64_t[_Nullable])values
+                       forKeys:(const int32_t[_Nullable])keys
+                         count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBInt32Int64Dictionary *)dictionary;
 
@@ -1966,8 +1993,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndInt64sUsingBlock:
-    (void (^)(int32_t key, int64_t value, BOOL *stop))block;
+- (void)enumerateKeysAndInt64sUsingBlock:(void (^)(int32_t key, int64_t value,
+                                                   BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -2009,7 +2036,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBInt32BoolDictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -2025,8 +2052,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithBool:(BOOL)value
-    forKey:(int32_t)key;
++ (instancetype)dictionaryWithBool:(BOOL)value forKey:(int32_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -2037,9 +2063,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithBools:(const BOOL [_Nullable])values
-    forKeys:(const int32_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithBools:(const BOOL[_Nullable])values
+                            forKeys:(const int32_t[_Nullable])keys
+                              count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -2070,16 +2096,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithBools:(const BOOL [_Nullable])values
-    forKeys:(const int32_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithBools:(const BOOL[_Nullable])values
+                      forKeys:(const int32_t[_Nullable])keys
+                        count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBInt32BoolDictionary *)dictionary;
 
@@ -2110,8 +2138,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndBoolsUsingBlock:
-    (void (^)(int32_t key, BOOL value, BOOL *stop))block;
+- (void)enumerateKeysAndBoolsUsingBlock:(void (^)(int32_t key, BOOL value,
+                                                  BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -2153,7 +2181,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBInt32FloatDictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -2169,8 +2197,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithFloat:(float)value
-    forKey:(int32_t)key;
++ (instancetype)dictionaryWithFloat:(float)value forKey:(int32_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -2181,9 +2208,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithFloats:(const float [_Nullable])values
-    forKeys:(const int32_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithFloats:(const float[_Nullable])values
+                             forKeys:(const int32_t[_Nullable])keys
+                               count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -2214,16 +2241,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithFloats:(const float [_Nullable])values
-    forKeys:(const int32_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithFloats:(const float[_Nullable])values
+                       forKeys:(const int32_t[_Nullable])keys
+                         count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBInt32FloatDictionary *)dictionary;
 
@@ -2254,8 +2283,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndFloatsUsingBlock:
-    (void (^)(int32_t key, float value, BOOL *stop))block;
+- (void)enumerateKeysAndFloatsUsingBlock:(void (^)(int32_t key, float value,
+                                                   BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -2297,7 +2326,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBInt32DoubleDictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -2313,8 +2342,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithDouble:(double)value
-    forKey:(int32_t)key;
++ (instancetype)dictionaryWithDouble:(double)value forKey:(int32_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -2325,9 +2353,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithDoubles:(const double [_Nullable])values
-    forKeys:(const int32_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithDoubles:(const double[_Nullable])values
+                              forKeys:(const int32_t[_Nullable])keys
+                                count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -2358,16 +2386,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithDoubles:(const double [_Nullable])values
-    forKeys:(const int32_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithDoubles:(const double[_Nullable])values
+                        forKeys:(const int32_t[_Nullable])keys
+                          count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBInt32DoubleDictionary *)dictionary;
 
@@ -2398,8 +2428,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndDoublesUsingBlock:
-    (void (^)(int32_t key, double value, BOOL *stop))block;
+- (void)enumerateKeysAndDoublesUsingBlock:(void (^)(int32_t key, double value,
+                                                    BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -2441,7 +2471,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBInt32EnumDictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 /** The validation function to check if the enums are valid. */
 @property(nonatomic, readonly) GPBEnumValidationFunc validationFunc;
@@ -2458,7 +2488,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary.
  **/
-+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func;
++ (instancetype)dictionaryWithValidationFunction:
+    (nullable GPBEnumValidationFunc)func;
 
 /**
  * Creates and initializes a dictionary with the single entry given.
@@ -2469,9 +2500,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    rawValue:(int32_t)rawValue
-    forKey:(int32_t)key;
++ (instancetype)dictionaryWithValidationFunction:
+                    (nullable GPBEnumValidationFunc)func
+                                        rawValue:(int32_t)rawValue
+                                          forKey:(int32_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -2483,10 +2515,11 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    rawValues:(const int32_t [_Nullable])values
-    forKeys:(const int32_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)
+    dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
+                           rawValues:(const int32_t[_Nullable])values
+                             forKeys:(const int32_t[_Nullable])keys
+                               count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -2507,8 +2540,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the given capacity.
  **/
-+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    capacity:(NSUInteger)numItems;
++ (instancetype)dictionaryWithValidationFunction:
+                    (nullable GPBEnumValidationFunc)func
+                                        capacity:(NSUInteger)numItems;
 
 /**
  * Initializes a dictionary with the given validation function.
@@ -2530,9 +2564,10 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A newly initialized dictionary with the keys and values in it.
  **/
 - (instancetype)initWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    rawValues:(const int32_t [_Nullable])values
-    forKeys:(const int32_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+                                 rawValues:(const int32_t[_Nullable])values
+                                   forKeys:(const int32_t[_Nullable])keys
+                                     count:(NSUInteger)count
+    NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes a dictionary with the entries from the given.
@@ -2554,11 +2589,11 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A newly initialized dictionary with the given capacity.
  **/
 - (instancetype)initWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    capacity:(NSUInteger)numItems;
+                                  capacity:(NSUInteger)numItems;
 
 // These will return kGPBUnrecognizedEnumeratorValue if the value for the key
-// is not a valid enumerator as defined by validationFunc. If the actual value is
-// desired, use "raw" version of the method.
+// is not a valid enumerator as defined by validationFunc. If the actual value
+// is desired, use "raw" version of the method.
 
 /**
  * Gets the value for the given key.
@@ -2578,14 +2613,14 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndEnumsUsingBlock:
-    (void (^)(int32_t key, int32_t value, BOOL *stop))block;
+- (void)enumerateKeysAndEnumsUsingBlock:(void (^)(int32_t key, int32_t value,
+                                                  BOOL *stop))block;
 
 /**
  * Gets the raw enum value for the given key.
  *
- * @note This method bypass the validationFunc to enable the access of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the access of values
+ *that were not known at the time the binary was compiled.
  *
  * @param rawValue Pointer into which the value will be set, if found.
  * @param key      Key under which the value is stored, if present.
@@ -2597,8 +2632,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Enumerates the keys and values on this dictionary with the given block.
  *
- * @note This method bypass the validationFunc to enable the access of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the access of values
+ *that were not known at the time the binary was compiled.
  *
  * @param block The block to enumerate with.
  *   **key**:      The key for the current entry.
@@ -2611,8 +2646,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Adds the keys and raw enum values from another dictionary.
  *
- * @note This method bypass the validationFunc to enable the setting of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the setting of values
+ *that were not known at the time the binary was compiled.
  *
  * @param otherDictionary Dictionary containing entries to be added to this
  *                        dictionary.
@@ -2635,8 +2670,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Sets the raw enum value for the given key.
  *
- * @note This method bypass the validationFunc to enable the setting of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the setting of values
+ *that were not known at the time the binary was compiled.
  *
  * @param rawValue The raw enum value to set.
  * @param key      The key under which to store the raw enum value.
@@ -2665,9 +2700,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @note This class is not meant to be subclassed.
  **/
-@interface GPBInt32ObjectDictionary<__covariant ObjectType> : NSObject <NSCopying>
+@interface GPBInt32ObjectDictionary<__covariant ObjectType>
+    : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -2683,8 +2719,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithObject:(ObjectType)object
-    forKey:(int32_t)key;
++ (instancetype)dictionaryWithObject:(ObjectType)object forKey:(int32_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -2695,9 +2730,11 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithObjects:(const ObjectType _Nonnull GPB_UNSAFE_UNRETAINED [_Nullable])objects
-    forKeys:(const int32_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithObjects:
+                    (const ObjectType _Nonnull GPB_UNSAFE_UNRETAINED[_Nullable])
+                        objects
+                              forKeys:(const int32_t[_Nullable])keys
+                                count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -2728,16 +2765,20 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithObjects:(const ObjectType _Nonnull GPB_UNSAFE_UNRETAINED [_Nullable])objects
-    forKeys:(const int32_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithObjects:
+                    (const ObjectType _Nonnull GPB_UNSAFE_UNRETAINED[_Nullable])
+                        objects
+                        forKeys:(const int32_t[_Nullable])keys
+                          count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBInt32ObjectDictionary *)dictionary;
 
@@ -2765,7 +2806,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param block The block to enumerate with.
  *   **key**:         The key for the current entry.
  *   **object**:      The value for the current entry
- *   **stop**:        A pointer to a boolean that when set stops the enumeration.
+ *   **stop**:        A pointer to a boolean that when set stops the
+ *enumeration.
  **/
 - (void)enumerateKeysAndObjectsUsingBlock:
     (void (^)(int32_t key, ObjectType object, BOOL *stop))block;
@@ -2810,7 +2852,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBUInt64UInt32Dictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -2826,8 +2868,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithUInt32:(uint32_t)value
-    forKey:(uint64_t)key;
++ (instancetype)dictionaryWithUInt32:(uint32_t)value forKey:(uint64_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -2838,9 +2879,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithUInt32s:(const uint32_t [_Nullable])values
-    forKeys:(const uint64_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithUInt32s:(const uint32_t[_Nullable])values
+                              forKeys:(const uint64_t[_Nullable])keys
+                                count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -2851,7 +2892,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A newly instanced dictionary with the entries from the given
  *         dictionary in it.
  **/
-+ (instancetype)dictionaryWithDictionary:(GPBUInt64UInt32Dictionary *)dictionary;
++ (instancetype)dictionaryWithDictionary:
+    (GPBUInt64UInt32Dictionary *)dictionary;
 
 /**
  * Creates and initializes a dictionary with the given capacity.
@@ -2871,16 +2913,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithUInt32s:(const uint32_t [_Nullable])values
-    forKeys:(const uint64_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithUInt32s:(const uint32_t[_Nullable])values
+                        forKeys:(const uint64_t[_Nullable])keys
+                          count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBUInt64UInt32Dictionary *)dictionary;
 
@@ -2954,7 +2998,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBUInt64Int32Dictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -2970,8 +3014,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithInt32:(int32_t)value
-    forKey:(uint64_t)key;
++ (instancetype)dictionaryWithInt32:(int32_t)value forKey:(uint64_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -2982,9 +3025,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithInt32s:(const int32_t [_Nullable])values
-    forKeys:(const uint64_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithInt32s:(const int32_t[_Nullable])values
+                             forKeys:(const uint64_t[_Nullable])keys
+                               count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -3015,16 +3058,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithInt32s:(const int32_t [_Nullable])values
-    forKeys:(const uint64_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithInt32s:(const int32_t[_Nullable])values
+                       forKeys:(const uint64_t[_Nullable])keys
+                         count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBUInt64Int32Dictionary *)dictionary;
 
@@ -3055,8 +3100,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndInt32sUsingBlock:
-    (void (^)(uint64_t key, int32_t value, BOOL *stop))block;
+- (void)enumerateKeysAndInt32sUsingBlock:(void (^)(uint64_t key, int32_t value,
+                                                   BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -3098,7 +3143,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBUInt64UInt64Dictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -3114,8 +3159,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithUInt64:(uint64_t)value
-    forKey:(uint64_t)key;
++ (instancetype)dictionaryWithUInt64:(uint64_t)value forKey:(uint64_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -3126,9 +3170,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithUInt64s:(const uint64_t [_Nullable])values
-    forKeys:(const uint64_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithUInt64s:(const uint64_t[_Nullable])values
+                              forKeys:(const uint64_t[_Nullable])keys
+                                count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -3139,7 +3183,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A newly instanced dictionary with the entries from the given
  *         dictionary in it.
  **/
-+ (instancetype)dictionaryWithDictionary:(GPBUInt64UInt64Dictionary *)dictionary;
++ (instancetype)dictionaryWithDictionary:
+    (GPBUInt64UInt64Dictionary *)dictionary;
 
 /**
  * Creates and initializes a dictionary with the given capacity.
@@ -3159,16 +3204,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithUInt64s:(const uint64_t [_Nullable])values
-    forKeys:(const uint64_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithUInt64s:(const uint64_t[_Nullable])values
+                        forKeys:(const uint64_t[_Nullable])keys
+                          count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBUInt64UInt64Dictionary *)dictionary;
 
@@ -3242,7 +3289,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBUInt64Int64Dictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -3258,8 +3305,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithInt64:(int64_t)value
-    forKey:(uint64_t)key;
++ (instancetype)dictionaryWithInt64:(int64_t)value forKey:(uint64_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -3270,9 +3316,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithInt64s:(const int64_t [_Nullable])values
-    forKeys:(const uint64_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithInt64s:(const int64_t[_Nullable])values
+                             forKeys:(const uint64_t[_Nullable])keys
+                               count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -3303,16 +3349,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithInt64s:(const int64_t [_Nullable])values
-    forKeys:(const uint64_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithInt64s:(const int64_t[_Nullable])values
+                       forKeys:(const uint64_t[_Nullable])keys
+                         count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBUInt64Int64Dictionary *)dictionary;
 
@@ -3343,8 +3391,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndInt64sUsingBlock:
-    (void (^)(uint64_t key, int64_t value, BOOL *stop))block;
+- (void)enumerateKeysAndInt64sUsingBlock:(void (^)(uint64_t key, int64_t value,
+                                                   BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -3386,7 +3434,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBUInt64BoolDictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -3402,8 +3450,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithBool:(BOOL)value
-    forKey:(uint64_t)key;
++ (instancetype)dictionaryWithBool:(BOOL)value forKey:(uint64_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -3414,9 +3461,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithBools:(const BOOL [_Nullable])values
-    forKeys:(const uint64_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithBools:(const BOOL[_Nullable])values
+                            forKeys:(const uint64_t[_Nullable])keys
+                              count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -3447,16 +3494,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithBools:(const BOOL [_Nullable])values
-    forKeys:(const uint64_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithBools:(const BOOL[_Nullable])values
+                      forKeys:(const uint64_t[_Nullable])keys
+                        count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBUInt64BoolDictionary *)dictionary;
 
@@ -3487,8 +3536,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndBoolsUsingBlock:
-    (void (^)(uint64_t key, BOOL value, BOOL *stop))block;
+- (void)enumerateKeysAndBoolsUsingBlock:(void (^)(uint64_t key, BOOL value,
+                                                  BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -3530,7 +3579,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBUInt64FloatDictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -3546,8 +3595,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithFloat:(float)value
-    forKey:(uint64_t)key;
++ (instancetype)dictionaryWithFloat:(float)value forKey:(uint64_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -3558,9 +3606,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithFloats:(const float [_Nullable])values
-    forKeys:(const uint64_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithFloats:(const float[_Nullable])values
+                             forKeys:(const uint64_t[_Nullable])keys
+                               count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -3591,16 +3639,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithFloats:(const float [_Nullable])values
-    forKeys:(const uint64_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithFloats:(const float[_Nullable])values
+                       forKeys:(const uint64_t[_Nullable])keys
+                         count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBUInt64FloatDictionary *)dictionary;
 
@@ -3631,8 +3681,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndFloatsUsingBlock:
-    (void (^)(uint64_t key, float value, BOOL *stop))block;
+- (void)enumerateKeysAndFloatsUsingBlock:(void (^)(uint64_t key, float value,
+                                                   BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -3674,7 +3724,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBUInt64DoubleDictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -3690,8 +3740,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithDouble:(double)value
-    forKey:(uint64_t)key;
++ (instancetype)dictionaryWithDouble:(double)value forKey:(uint64_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -3702,9 +3751,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithDoubles:(const double [_Nullable])values
-    forKeys:(const uint64_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithDoubles:(const double[_Nullable])values
+                              forKeys:(const uint64_t[_Nullable])keys
+                                count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -3715,7 +3764,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A newly instanced dictionary with the entries from the given
  *         dictionary in it.
  **/
-+ (instancetype)dictionaryWithDictionary:(GPBUInt64DoubleDictionary *)dictionary;
++ (instancetype)dictionaryWithDictionary:
+    (GPBUInt64DoubleDictionary *)dictionary;
 
 /**
  * Creates and initializes a dictionary with the given capacity.
@@ -3735,16 +3785,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithDoubles:(const double [_Nullable])values
-    forKeys:(const uint64_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithDoubles:(const double[_Nullable])values
+                        forKeys:(const uint64_t[_Nullable])keys
+                          count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBUInt64DoubleDictionary *)dictionary;
 
@@ -3775,8 +3827,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndDoublesUsingBlock:
-    (void (^)(uint64_t key, double value, BOOL *stop))block;
+- (void)enumerateKeysAndDoublesUsingBlock:(void (^)(uint64_t key, double value,
+                                                    BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -3818,7 +3870,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBUInt64EnumDictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 /** The validation function to check if the enums are valid. */
 @property(nonatomic, readonly) GPBEnumValidationFunc validationFunc;
@@ -3835,7 +3887,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary.
  **/
-+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func;
++ (instancetype)dictionaryWithValidationFunction:
+    (nullable GPBEnumValidationFunc)func;
 
 /**
  * Creates and initializes a dictionary with the single entry given.
@@ -3846,9 +3899,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    rawValue:(int32_t)rawValue
-    forKey:(uint64_t)key;
++ (instancetype)dictionaryWithValidationFunction:
+                    (nullable GPBEnumValidationFunc)func
+                                        rawValue:(int32_t)rawValue
+                                          forKey:(uint64_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -3860,10 +3914,11 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    rawValues:(const int32_t [_Nullable])values
-    forKeys:(const uint64_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)
+    dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
+                           rawValues:(const int32_t[_Nullable])values
+                             forKeys:(const uint64_t[_Nullable])keys
+                               count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -3884,8 +3939,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the given capacity.
  **/
-+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    capacity:(NSUInteger)numItems;
++ (instancetype)dictionaryWithValidationFunction:
+                    (nullable GPBEnumValidationFunc)func
+                                        capacity:(NSUInteger)numItems;
 
 /**
  * Initializes a dictionary with the given validation function.
@@ -3907,9 +3963,10 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A newly initialized dictionary with the keys and values in it.
  **/
 - (instancetype)initWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    rawValues:(const int32_t [_Nullable])values
-    forKeys:(const uint64_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+                                 rawValues:(const int32_t[_Nullable])values
+                                   forKeys:(const uint64_t[_Nullable])keys
+                                     count:(NSUInteger)count
+    NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes a dictionary with the entries from the given.
@@ -3931,11 +3988,11 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A newly initialized dictionary with the given capacity.
  **/
 - (instancetype)initWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    capacity:(NSUInteger)numItems;
+                                  capacity:(NSUInteger)numItems;
 
 // These will return kGPBUnrecognizedEnumeratorValue if the value for the key
-// is not a valid enumerator as defined by validationFunc. If the actual value is
-// desired, use "raw" version of the method.
+// is not a valid enumerator as defined by validationFunc. If the actual value
+// is desired, use "raw" version of the method.
 
 /**
  * Gets the value for the given key.
@@ -3955,14 +4012,14 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndEnumsUsingBlock:
-    (void (^)(uint64_t key, int32_t value, BOOL *stop))block;
+- (void)enumerateKeysAndEnumsUsingBlock:(void (^)(uint64_t key, int32_t value,
+                                                  BOOL *stop))block;
 
 /**
  * Gets the raw enum value for the given key.
  *
- * @note This method bypass the validationFunc to enable the access of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the access of values
+ *that were not known at the time the binary was compiled.
  *
  * @param rawValue Pointer into which the value will be set, if found.
  * @param key      Key under which the value is stored, if present.
@@ -3974,8 +4031,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Enumerates the keys and values on this dictionary with the given block.
  *
- * @note This method bypass the validationFunc to enable the access of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the access of values
+ *that were not known at the time the binary was compiled.
  *
  * @param block The block to enumerate with.
  *   **key**:      The key for the current entry.
@@ -3988,8 +4045,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Adds the keys and raw enum values from another dictionary.
  *
- * @note This method bypass the validationFunc to enable the setting of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the setting of values
+ *that were not known at the time the binary was compiled.
  *
  * @param otherDictionary Dictionary containing entries to be added to this
  *                        dictionary.
@@ -4012,8 +4069,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Sets the raw enum value for the given key.
  *
- * @note This method bypass the validationFunc to enable the setting of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the setting of values
+ *that were not known at the time the binary was compiled.
  *
  * @param rawValue The raw enum value to set.
  * @param key      The key under which to store the raw enum value.
@@ -4042,9 +4099,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @note This class is not meant to be subclassed.
  **/
-@interface GPBUInt64ObjectDictionary<__covariant ObjectType> : NSObject <NSCopying>
+@interface GPBUInt64ObjectDictionary<__covariant ObjectType>
+    : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -4060,8 +4118,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithObject:(ObjectType)object
-    forKey:(uint64_t)key;
++ (instancetype)dictionaryWithObject:(ObjectType)object forKey:(uint64_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -4072,9 +4129,11 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithObjects:(const ObjectType _Nonnull GPB_UNSAFE_UNRETAINED [_Nullable])objects
-    forKeys:(const uint64_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithObjects:
+                    (const ObjectType _Nonnull GPB_UNSAFE_UNRETAINED[_Nullable])
+                        objects
+                              forKeys:(const uint64_t[_Nullable])keys
+                                count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -4085,7 +4144,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A newly instanced dictionary with the entries from the given
  *         dictionary in it.
  **/
-+ (instancetype)dictionaryWithDictionary:(GPBUInt64ObjectDictionary *)dictionary;
++ (instancetype)dictionaryWithDictionary:
+    (GPBUInt64ObjectDictionary *)dictionary;
 
 /**
  * Creates and initializes a dictionary with the given capacity.
@@ -4105,16 +4165,20 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithObjects:(const ObjectType _Nonnull GPB_UNSAFE_UNRETAINED [_Nullable])objects
-    forKeys:(const uint64_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithObjects:
+                    (const ObjectType _Nonnull GPB_UNSAFE_UNRETAINED[_Nullable])
+                        objects
+                        forKeys:(const uint64_t[_Nullable])keys
+                          count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBUInt64ObjectDictionary *)dictionary;
 
@@ -4142,7 +4206,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param block The block to enumerate with.
  *   **key**:         The key for the current entry.
  *   **object**:      The value for the current entry
- *   **stop**:        A pointer to a boolean that when set stops the enumeration.
+ *   **stop**:        A pointer to a boolean that when set stops the
+ *enumeration.
  **/
 - (void)enumerateKeysAndObjectsUsingBlock:
     (void (^)(uint64_t key, ObjectType object, BOOL *stop))block;
@@ -4187,7 +4252,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBInt64UInt32Dictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -4203,8 +4268,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithUInt32:(uint32_t)value
-    forKey:(int64_t)key;
++ (instancetype)dictionaryWithUInt32:(uint32_t)value forKey:(int64_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -4215,9 +4279,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithUInt32s:(const uint32_t [_Nullable])values
-    forKeys:(const int64_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithUInt32s:(const uint32_t[_Nullable])values
+                              forKeys:(const int64_t[_Nullable])keys
+                                count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -4248,16 +4312,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithUInt32s:(const uint32_t [_Nullable])values
-    forKeys:(const int64_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithUInt32s:(const uint32_t[_Nullable])values
+                        forKeys:(const int64_t[_Nullable])keys
+                          count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBInt64UInt32Dictionary *)dictionary;
 
@@ -4288,8 +4354,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndUInt32sUsingBlock:
-    (void (^)(int64_t key, uint32_t value, BOOL *stop))block;
+- (void)enumerateKeysAndUInt32sUsingBlock:(void (^)(int64_t key, uint32_t value,
+                                                    BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -4331,7 +4397,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBInt64Int32Dictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -4347,8 +4413,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithInt32:(int32_t)value
-    forKey:(int64_t)key;
++ (instancetype)dictionaryWithInt32:(int32_t)value forKey:(int64_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -4359,9 +4424,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithInt32s:(const int32_t [_Nullable])values
-    forKeys:(const int64_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithInt32s:(const int32_t[_Nullable])values
+                             forKeys:(const int64_t[_Nullable])keys
+                               count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -4392,16 +4457,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithInt32s:(const int32_t [_Nullable])values
-    forKeys:(const int64_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithInt32s:(const int32_t[_Nullable])values
+                       forKeys:(const int64_t[_Nullable])keys
+                         count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBInt64Int32Dictionary *)dictionary;
 
@@ -4432,8 +4499,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndInt32sUsingBlock:
-    (void (^)(int64_t key, int32_t value, BOOL *stop))block;
+- (void)enumerateKeysAndInt32sUsingBlock:(void (^)(int64_t key, int32_t value,
+                                                   BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -4475,7 +4542,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBInt64UInt64Dictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -4491,8 +4558,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithUInt64:(uint64_t)value
-    forKey:(int64_t)key;
++ (instancetype)dictionaryWithUInt64:(uint64_t)value forKey:(int64_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -4503,9 +4569,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithUInt64s:(const uint64_t [_Nullable])values
-    forKeys:(const int64_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithUInt64s:(const uint64_t[_Nullable])values
+                              forKeys:(const int64_t[_Nullable])keys
+                                count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -4536,16 +4602,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithUInt64s:(const uint64_t [_Nullable])values
-    forKeys:(const int64_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithUInt64s:(const uint64_t[_Nullable])values
+                        forKeys:(const int64_t[_Nullable])keys
+                          count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBInt64UInt64Dictionary *)dictionary;
 
@@ -4576,8 +4644,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndUInt64sUsingBlock:
-    (void (^)(int64_t key, uint64_t value, BOOL *stop))block;
+- (void)enumerateKeysAndUInt64sUsingBlock:(void (^)(int64_t key, uint64_t value,
+                                                    BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -4619,7 +4687,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBInt64Int64Dictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -4635,8 +4703,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithInt64:(int64_t)value
-    forKey:(int64_t)key;
++ (instancetype)dictionaryWithInt64:(int64_t)value forKey:(int64_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -4647,9 +4714,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithInt64s:(const int64_t [_Nullable])values
-    forKeys:(const int64_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithInt64s:(const int64_t[_Nullable])values
+                             forKeys:(const int64_t[_Nullable])keys
+                               count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -4680,16 +4747,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithInt64s:(const int64_t [_Nullable])values
-    forKeys:(const int64_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithInt64s:(const int64_t[_Nullable])values
+                       forKeys:(const int64_t[_Nullable])keys
+                         count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBInt64Int64Dictionary *)dictionary;
 
@@ -4720,8 +4789,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndInt64sUsingBlock:
-    (void (^)(int64_t key, int64_t value, BOOL *stop))block;
+- (void)enumerateKeysAndInt64sUsingBlock:(void (^)(int64_t key, int64_t value,
+                                                   BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -4763,7 +4832,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBInt64BoolDictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -4779,8 +4848,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithBool:(BOOL)value
-    forKey:(int64_t)key;
++ (instancetype)dictionaryWithBool:(BOOL)value forKey:(int64_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -4791,9 +4859,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithBools:(const BOOL [_Nullable])values
-    forKeys:(const int64_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithBools:(const BOOL[_Nullable])values
+                            forKeys:(const int64_t[_Nullable])keys
+                              count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -4824,16 +4892,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithBools:(const BOOL [_Nullable])values
-    forKeys:(const int64_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithBools:(const BOOL[_Nullable])values
+                      forKeys:(const int64_t[_Nullable])keys
+                        count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBInt64BoolDictionary *)dictionary;
 
@@ -4864,8 +4934,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndBoolsUsingBlock:
-    (void (^)(int64_t key, BOOL value, BOOL *stop))block;
+- (void)enumerateKeysAndBoolsUsingBlock:(void (^)(int64_t key, BOOL value,
+                                                  BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -4907,7 +4977,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBInt64FloatDictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -4923,8 +4993,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithFloat:(float)value
-    forKey:(int64_t)key;
++ (instancetype)dictionaryWithFloat:(float)value forKey:(int64_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -4935,9 +5004,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithFloats:(const float [_Nullable])values
-    forKeys:(const int64_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithFloats:(const float[_Nullable])values
+                             forKeys:(const int64_t[_Nullable])keys
+                               count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -4968,16 +5037,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithFloats:(const float [_Nullable])values
-    forKeys:(const int64_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithFloats:(const float[_Nullable])values
+                       forKeys:(const int64_t[_Nullable])keys
+                         count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBInt64FloatDictionary *)dictionary;
 
@@ -5008,8 +5079,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndFloatsUsingBlock:
-    (void (^)(int64_t key, float value, BOOL *stop))block;
+- (void)enumerateKeysAndFloatsUsingBlock:(void (^)(int64_t key, float value,
+                                                   BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -5051,7 +5122,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBInt64DoubleDictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -5067,8 +5138,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithDouble:(double)value
-    forKey:(int64_t)key;
++ (instancetype)dictionaryWithDouble:(double)value forKey:(int64_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -5079,9 +5149,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithDoubles:(const double [_Nullable])values
-    forKeys:(const int64_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithDoubles:(const double[_Nullable])values
+                              forKeys:(const int64_t[_Nullable])keys
+                                count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -5112,16 +5182,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithDoubles:(const double [_Nullable])values
-    forKeys:(const int64_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithDoubles:(const double[_Nullable])values
+                        forKeys:(const int64_t[_Nullable])keys
+                          count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBInt64DoubleDictionary *)dictionary;
 
@@ -5152,8 +5224,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndDoublesUsingBlock:
-    (void (^)(int64_t key, double value, BOOL *stop))block;
+- (void)enumerateKeysAndDoublesUsingBlock:(void (^)(int64_t key, double value,
+                                                    BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -5195,7 +5267,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBInt64EnumDictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 /** The validation function to check if the enums are valid. */
 @property(nonatomic, readonly) GPBEnumValidationFunc validationFunc;
@@ -5212,7 +5284,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary.
  **/
-+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func;
++ (instancetype)dictionaryWithValidationFunction:
+    (nullable GPBEnumValidationFunc)func;
 
 /**
  * Creates and initializes a dictionary with the single entry given.
@@ -5223,9 +5296,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    rawValue:(int32_t)rawValue
-    forKey:(int64_t)key;
++ (instancetype)dictionaryWithValidationFunction:
+                    (nullable GPBEnumValidationFunc)func
+                                        rawValue:(int32_t)rawValue
+                                          forKey:(int64_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -5237,10 +5311,11 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    rawValues:(const int32_t [_Nullable])values
-    forKeys:(const int64_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)
+    dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
+                           rawValues:(const int32_t[_Nullable])values
+                             forKeys:(const int64_t[_Nullable])keys
+                               count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -5261,8 +5336,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the given capacity.
  **/
-+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    capacity:(NSUInteger)numItems;
++ (instancetype)dictionaryWithValidationFunction:
+                    (nullable GPBEnumValidationFunc)func
+                                        capacity:(NSUInteger)numItems;
 
 /**
  * Initializes a dictionary with the given validation function.
@@ -5284,9 +5360,10 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A newly initialized dictionary with the keys and values in it.
  **/
 - (instancetype)initWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    rawValues:(const int32_t [_Nullable])values
-    forKeys:(const int64_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+                                 rawValues:(const int32_t[_Nullable])values
+                                   forKeys:(const int64_t[_Nullable])keys
+                                     count:(NSUInteger)count
+    NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes a dictionary with the entries from the given.
@@ -5308,11 +5385,11 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A newly initialized dictionary with the given capacity.
  **/
 - (instancetype)initWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    capacity:(NSUInteger)numItems;
+                                  capacity:(NSUInteger)numItems;
 
 // These will return kGPBUnrecognizedEnumeratorValue if the value for the key
-// is not a valid enumerator as defined by validationFunc. If the actual value is
-// desired, use "raw" version of the method.
+// is not a valid enumerator as defined by validationFunc. If the actual value
+// is desired, use "raw" version of the method.
 
 /**
  * Gets the value for the given key.
@@ -5332,14 +5409,14 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndEnumsUsingBlock:
-    (void (^)(int64_t key, int32_t value, BOOL *stop))block;
+- (void)enumerateKeysAndEnumsUsingBlock:(void (^)(int64_t key, int32_t value,
+                                                  BOOL *stop))block;
 
 /**
  * Gets the raw enum value for the given key.
  *
- * @note This method bypass the validationFunc to enable the access of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the access of values
+ *that were not known at the time the binary was compiled.
  *
  * @param rawValue Pointer into which the value will be set, if found.
  * @param key      Key under which the value is stored, if present.
@@ -5351,8 +5428,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Enumerates the keys and values on this dictionary with the given block.
  *
- * @note This method bypass the validationFunc to enable the access of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the access of values
+ *that were not known at the time the binary was compiled.
  *
  * @param block The block to enumerate with.
  *   **key**:      The key for the current entry.
@@ -5365,8 +5442,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Adds the keys and raw enum values from another dictionary.
  *
- * @note This method bypass the validationFunc to enable the setting of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the setting of values
+ *that were not known at the time the binary was compiled.
  *
  * @param otherDictionary Dictionary containing entries to be added to this
  *                        dictionary.
@@ -5389,8 +5466,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Sets the raw enum value for the given key.
  *
- * @note This method bypass the validationFunc to enable the setting of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the setting of values
+ *that were not known at the time the binary was compiled.
  *
  * @param rawValue The raw enum value to set.
  * @param key      The key under which to store the raw enum value.
@@ -5419,9 +5496,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @note This class is not meant to be subclassed.
  **/
-@interface GPBInt64ObjectDictionary<__covariant ObjectType> : NSObject <NSCopying>
+@interface GPBInt64ObjectDictionary<__covariant ObjectType>
+    : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -5437,8 +5515,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithObject:(ObjectType)object
-    forKey:(int64_t)key;
++ (instancetype)dictionaryWithObject:(ObjectType)object forKey:(int64_t)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -5449,9 +5526,11 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithObjects:(const ObjectType _Nonnull GPB_UNSAFE_UNRETAINED [_Nullable])objects
-    forKeys:(const int64_t [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithObjects:
+                    (const ObjectType _Nonnull GPB_UNSAFE_UNRETAINED[_Nullable])
+                        objects
+                              forKeys:(const int64_t[_Nullable])keys
+                                count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -5482,16 +5561,20 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithObjects:(const ObjectType _Nonnull GPB_UNSAFE_UNRETAINED [_Nullable])objects
-    forKeys:(const int64_t [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithObjects:
+                    (const ObjectType _Nonnull GPB_UNSAFE_UNRETAINED[_Nullable])
+                        objects
+                        forKeys:(const int64_t[_Nullable])keys
+                          count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBInt64ObjectDictionary *)dictionary;
 
@@ -5519,7 +5602,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param block The block to enumerate with.
  *   **key**:         The key for the current entry.
  *   **object**:      The value for the current entry
- *   **stop**:        A pointer to a boolean that when set stops the enumeration.
+ *   **stop**:        A pointer to a boolean that when set stops the
+ *enumeration.
  **/
 - (void)enumerateKeysAndObjectsUsingBlock:
     (void (^)(int64_t key, ObjectType object, BOOL *stop))block;
@@ -5564,7 +5648,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBBoolUInt32Dictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -5580,8 +5664,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithUInt32:(uint32_t)value
-    forKey:(BOOL)key;
++ (instancetype)dictionaryWithUInt32:(uint32_t)value forKey:(BOOL)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -5592,9 +5675,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithUInt32s:(const uint32_t [_Nullable])values
-    forKeys:(const BOOL [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithUInt32s:(const uint32_t[_Nullable])values
+                              forKeys:(const BOOL[_Nullable])keys
+                                count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -5625,16 +5708,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithUInt32s:(const uint32_t [_Nullable])values
-    forKeys:(const BOOL [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithUInt32s:(const uint32_t[_Nullable])values
+                        forKeys:(const BOOL[_Nullable])keys
+                          count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBBoolUInt32Dictionary *)dictionary;
 
@@ -5665,8 +5750,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndUInt32sUsingBlock:
-    (void (^)(BOOL key, uint32_t value, BOOL *stop))block;
+- (void)enumerateKeysAndUInt32sUsingBlock:(void (^)(BOOL key, uint32_t value,
+                                                    BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -5708,7 +5793,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBBoolInt32Dictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -5724,8 +5809,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithInt32:(int32_t)value
-    forKey:(BOOL)key;
++ (instancetype)dictionaryWithInt32:(int32_t)value forKey:(BOOL)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -5736,9 +5820,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithInt32s:(const int32_t [_Nullable])values
-    forKeys:(const BOOL [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithInt32s:(const int32_t[_Nullable])values
+                             forKeys:(const BOOL[_Nullable])keys
+                               count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -5769,16 +5853,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithInt32s:(const int32_t [_Nullable])values
-    forKeys:(const BOOL [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithInt32s:(const int32_t[_Nullable])values
+                       forKeys:(const BOOL[_Nullable])keys
+                         count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBBoolInt32Dictionary *)dictionary;
 
@@ -5809,8 +5895,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndInt32sUsingBlock:
-    (void (^)(BOOL key, int32_t value, BOOL *stop))block;
+- (void)enumerateKeysAndInt32sUsingBlock:(void (^)(BOOL key, int32_t value,
+                                                   BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -5852,7 +5938,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBBoolUInt64Dictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -5868,8 +5954,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithUInt64:(uint64_t)value
-    forKey:(BOOL)key;
++ (instancetype)dictionaryWithUInt64:(uint64_t)value forKey:(BOOL)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -5880,9 +5965,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithUInt64s:(const uint64_t [_Nullable])values
-    forKeys:(const BOOL [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithUInt64s:(const uint64_t[_Nullable])values
+                              forKeys:(const BOOL[_Nullable])keys
+                                count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -5913,16 +5998,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithUInt64s:(const uint64_t [_Nullable])values
-    forKeys:(const BOOL [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithUInt64s:(const uint64_t[_Nullable])values
+                        forKeys:(const BOOL[_Nullable])keys
+                          count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBBoolUInt64Dictionary *)dictionary;
 
@@ -5953,8 +6040,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndUInt64sUsingBlock:
-    (void (^)(BOOL key, uint64_t value, BOOL *stop))block;
+- (void)enumerateKeysAndUInt64sUsingBlock:(void (^)(BOOL key, uint64_t value,
+                                                    BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -5996,7 +6083,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBBoolInt64Dictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -6012,8 +6099,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithInt64:(int64_t)value
-    forKey:(BOOL)key;
++ (instancetype)dictionaryWithInt64:(int64_t)value forKey:(BOOL)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -6024,9 +6110,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithInt64s:(const int64_t [_Nullable])values
-    forKeys:(const BOOL [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithInt64s:(const int64_t[_Nullable])values
+                             forKeys:(const BOOL[_Nullable])keys
+                               count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -6057,16 +6143,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithInt64s:(const int64_t [_Nullable])values
-    forKeys:(const BOOL [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithInt64s:(const int64_t[_Nullable])values
+                       forKeys:(const BOOL[_Nullable])keys
+                         count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBBoolInt64Dictionary *)dictionary;
 
@@ -6097,8 +6185,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndInt64sUsingBlock:
-    (void (^)(BOOL key, int64_t value, BOOL *stop))block;
+- (void)enumerateKeysAndInt64sUsingBlock:(void (^)(BOOL key, int64_t value,
+                                                   BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -6140,7 +6228,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBBoolBoolDictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -6156,8 +6244,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithBool:(BOOL)value
-    forKey:(BOOL)key;
++ (instancetype)dictionaryWithBool:(BOOL)value forKey:(BOOL)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -6168,9 +6255,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithBools:(const BOOL [_Nullable])values
-    forKeys:(const BOOL [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithBools:(const BOOL[_Nullable])values
+                            forKeys:(const BOOL[_Nullable])keys
+                              count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -6201,16 +6288,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithBools:(const BOOL [_Nullable])values
-    forKeys:(const BOOL [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithBools:(const BOOL[_Nullable])values
+                      forKeys:(const BOOL[_Nullable])keys
+                        count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBBoolBoolDictionary *)dictionary;
 
@@ -6241,8 +6330,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndBoolsUsingBlock:
-    (void (^)(BOOL key, BOOL value, BOOL *stop))block;
+- (void)enumerateKeysAndBoolsUsingBlock:(void (^)(BOOL key, BOOL value,
+                                                  BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -6284,7 +6373,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBBoolFloatDictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -6300,8 +6389,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithFloat:(float)value
-    forKey:(BOOL)key;
++ (instancetype)dictionaryWithFloat:(float)value forKey:(BOOL)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -6312,9 +6400,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithFloats:(const float [_Nullable])values
-    forKeys:(const BOOL [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithFloats:(const float[_Nullable])values
+                             forKeys:(const BOOL[_Nullable])keys
+                               count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -6345,16 +6433,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithFloats:(const float [_Nullable])values
-    forKeys:(const BOOL [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithFloats:(const float[_Nullable])values
+                       forKeys:(const BOOL[_Nullable])keys
+                         count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBBoolFloatDictionary *)dictionary;
 
@@ -6385,8 +6475,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndFloatsUsingBlock:
-    (void (^)(BOOL key, float value, BOOL *stop))block;
+- (void)enumerateKeysAndFloatsUsingBlock:(void (^)(BOOL key, float value,
+                                                   BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -6428,7 +6518,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBBoolDoubleDictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -6444,8 +6534,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithDouble:(double)value
-    forKey:(BOOL)key;
++ (instancetype)dictionaryWithDouble:(double)value forKey:(BOOL)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -6456,9 +6545,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithDoubles:(const double [_Nullable])values
-    forKeys:(const BOOL [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithDoubles:(const double[_Nullable])values
+                              forKeys:(const BOOL[_Nullable])keys
+                                count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -6489,16 +6578,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithDoubles:(const double [_Nullable])values
-    forKeys:(const BOOL [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithDoubles:(const double[_Nullable])values
+                        forKeys:(const BOOL[_Nullable])keys
+                          count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBBoolDoubleDictionary *)dictionary;
 
@@ -6529,8 +6620,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndDoublesUsingBlock:
-    (void (^)(BOOL key, double value, BOOL *stop))block;
+- (void)enumerateKeysAndDoublesUsingBlock:(void (^)(BOOL key, double value,
+                                                    BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -6572,7 +6663,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBBoolEnumDictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 /** The validation function to check if the enums are valid. */
 @property(nonatomic, readonly) GPBEnumValidationFunc validationFunc;
@@ -6589,7 +6680,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary.
  **/
-+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func;
++ (instancetype)dictionaryWithValidationFunction:
+    (nullable GPBEnumValidationFunc)func;
 
 /**
  * Creates and initializes a dictionary with the single entry given.
@@ -6600,9 +6692,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    rawValue:(int32_t)rawValue
-    forKey:(BOOL)key;
++ (instancetype)dictionaryWithValidationFunction:
+                    (nullable GPBEnumValidationFunc)func
+                                        rawValue:(int32_t)rawValue
+                                          forKey:(BOOL)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -6614,10 +6707,11 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    rawValues:(const int32_t [_Nullable])values
-    forKeys:(const BOOL [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)
+    dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
+                           rawValues:(const int32_t[_Nullable])values
+                             forKeys:(const BOOL[_Nullable])keys
+                               count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -6638,8 +6732,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the given capacity.
  **/
-+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    capacity:(NSUInteger)numItems;
++ (instancetype)dictionaryWithValidationFunction:
+                    (nullable GPBEnumValidationFunc)func
+                                        capacity:(NSUInteger)numItems;
 
 /**
  * Initializes a dictionary with the given validation function.
@@ -6661,9 +6756,10 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A newly initialized dictionary with the keys and values in it.
  **/
 - (instancetype)initWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    rawValues:(const int32_t [_Nullable])values
-    forKeys:(const BOOL [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+                                 rawValues:(const int32_t[_Nullable])values
+                                   forKeys:(const BOOL[_Nullable])keys
+                                     count:(NSUInteger)count
+    NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes a dictionary with the entries from the given.
@@ -6685,11 +6781,11 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A newly initialized dictionary with the given capacity.
  **/
 - (instancetype)initWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    capacity:(NSUInteger)numItems;
+                                  capacity:(NSUInteger)numItems;
 
 // These will return kGPBUnrecognizedEnumeratorValue if the value for the key
-// is not a valid enumerator as defined by validationFunc. If the actual value is
-// desired, use "raw" version of the method.
+// is not a valid enumerator as defined by validationFunc. If the actual value
+// is desired, use "raw" version of the method.
 
 /**
  * Gets the value for the given key.
@@ -6709,14 +6805,14 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndEnumsUsingBlock:
-    (void (^)(BOOL key, int32_t value, BOOL *stop))block;
+- (void)enumerateKeysAndEnumsUsingBlock:(void (^)(BOOL key, int32_t value,
+                                                  BOOL *stop))block;
 
 /**
  * Gets the raw enum value for the given key.
  *
- * @note This method bypass the validationFunc to enable the access of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the access of values
+ *that were not known at the time the binary was compiled.
  *
  * @param rawValue Pointer into which the value will be set, if found.
  * @param key      Key under which the value is stored, if present.
@@ -6728,8 +6824,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Enumerates the keys and values on this dictionary with the given block.
  *
- * @note This method bypass the validationFunc to enable the access of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the access of values
+ *that were not known at the time the binary was compiled.
  *
  * @param block The block to enumerate with.
  *   **key**:      The key for the current entry.
@@ -6742,8 +6838,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Adds the keys and raw enum values from another dictionary.
  *
- * @note This method bypass the validationFunc to enable the setting of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the setting of values
+ *that were not known at the time the binary was compiled.
  *
  * @param otherDictionary Dictionary containing entries to be added to this
  *                        dictionary.
@@ -6766,8 +6862,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Sets the raw enum value for the given key.
  *
- * @note This method bypass the validationFunc to enable the setting of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the setting of values
+ *that were not known at the time the binary was compiled.
  *
  * @param rawValue The raw enum value to set.
  * @param key      The key under which to store the raw enum value.
@@ -6796,9 +6892,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @note This class is not meant to be subclassed.
  **/
-@interface GPBBoolObjectDictionary<__covariant ObjectType> : NSObject <NSCopying>
+@interface GPBBoolObjectDictionary<__covariant ObjectType>
+    : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -6814,8 +6911,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithObject:(ObjectType)object
-    forKey:(BOOL)key;
++ (instancetype)dictionaryWithObject:(ObjectType)object forKey:(BOOL)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -6826,9 +6922,11 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithObjects:(const ObjectType _Nonnull GPB_UNSAFE_UNRETAINED [_Nullable])objects
-    forKeys:(const BOOL [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)dictionaryWithObjects:
+                    (const ObjectType _Nonnull GPB_UNSAFE_UNRETAINED[_Nullable])
+                        objects
+                              forKeys:(const BOOL[_Nullable])keys
+                                count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -6859,16 +6957,20 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithObjects:(const ObjectType _Nonnull GPB_UNSAFE_UNRETAINED [_Nullable])objects
-    forKeys:(const BOOL [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithObjects:
+                    (const ObjectType _Nonnull GPB_UNSAFE_UNRETAINED[_Nullable])
+                        objects
+                        forKeys:(const BOOL[_Nullable])keys
+                          count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBBoolObjectDictionary *)dictionary;
 
@@ -6896,10 +6998,11 @@ NS_ASSUME_NONNULL_BEGIN
  * @param block The block to enumerate with.
  *   **key**:         The key for the current entry.
  *   **object**:      The value for the current entry
- *   **stop**:        A pointer to a boolean that when set stops the enumeration.
+ *   **stop**:        A pointer to a boolean that when set stops the
+ *enumeration.
  **/
-- (void)enumerateKeysAndObjectsUsingBlock:
-    (void (^)(BOOL key, ObjectType object, BOOL *stop))block;
+- (void)enumerateKeysAndObjectsUsingBlock:(void (^)(BOOL key, ObjectType object,
+                                                    BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -6941,7 +7044,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBStringUInt32Dictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -6957,8 +7060,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithUInt32:(uint32_t)value
-    forKey:(NSString *)key;
++ (instancetype)dictionaryWithUInt32:(uint32_t)value forKey:(NSString *)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -6969,9 +7071,11 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithUInt32s:(const uint32_t [_Nullable])values
-    forKeys:(const NSString * _Nonnull GPB_UNSAFE_UNRETAINED [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)
+    dictionaryWithUInt32s:(const uint32_t[_Nullable])values
+                  forKeys:(const NSString
+                               *_Nonnull GPB_UNSAFE_UNRETAINED[_Nullable])keys
+                    count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -6982,7 +7086,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A newly instanced dictionary with the entries from the given
  *         dictionary in it.
  **/
-+ (instancetype)dictionaryWithDictionary:(GPBStringUInt32Dictionary *)dictionary;
++ (instancetype)dictionaryWithDictionary:
+    (GPBStringUInt32Dictionary *)dictionary;
 
 /**
  * Creates and initializes a dictionary with the given capacity.
@@ -7002,16 +7107,20 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithUInt32s:(const uint32_t [_Nullable])values
-    forKeys:(const NSString * _Nonnull GPB_UNSAFE_UNRETAINED [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)
+    initWithUInt32s:(const uint32_t[_Nullable])values
+            forKeys:
+                (const NSString *_Nonnull GPB_UNSAFE_UNRETAINED[_Nullable])keys
+              count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBStringUInt32Dictionary *)dictionary;
 
@@ -7085,7 +7194,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBStringInt32Dictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -7101,8 +7210,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithInt32:(int32_t)value
-    forKey:(NSString *)key;
++ (instancetype)dictionaryWithInt32:(int32_t)value forKey:(NSString *)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -7113,9 +7221,12 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithInt32s:(const int32_t [_Nullable])values
-    forKeys:(const NSString * _Nonnull GPB_UNSAFE_UNRETAINED [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)
+    dictionaryWithInt32s:(const int32_t[_Nullable])values
+                 forKeys:
+                     (const NSString *_Nonnull GPB_UNSAFE_UNRETAINED[_Nullable])
+                         keys
+                   count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -7146,16 +7257,20 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithInt32s:(const int32_t [_Nullable])values
-    forKeys:(const NSString * _Nonnull GPB_UNSAFE_UNRETAINED [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)
+    initWithInt32s:(const int32_t[_Nullable])values
+           forKeys:
+               (const NSString *_Nonnull GPB_UNSAFE_UNRETAINED[_Nullable])keys
+             count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBStringInt32Dictionary *)dictionary;
 
@@ -7186,8 +7301,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndInt32sUsingBlock:
-    (void (^)(NSString *key, int32_t value, BOOL *stop))block;
+- (void)enumerateKeysAndInt32sUsingBlock:(void (^)(NSString *key, int32_t value,
+                                                   BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -7229,7 +7344,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBStringUInt64Dictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -7245,8 +7360,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithUInt64:(uint64_t)value
-    forKey:(NSString *)key;
++ (instancetype)dictionaryWithUInt64:(uint64_t)value forKey:(NSString *)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -7257,9 +7371,11 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithUInt64s:(const uint64_t [_Nullable])values
-    forKeys:(const NSString * _Nonnull GPB_UNSAFE_UNRETAINED [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)
+    dictionaryWithUInt64s:(const uint64_t[_Nullable])values
+                  forKeys:(const NSString
+                               *_Nonnull GPB_UNSAFE_UNRETAINED[_Nullable])keys
+                    count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -7270,7 +7386,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A newly instanced dictionary with the entries from the given
  *         dictionary in it.
  **/
-+ (instancetype)dictionaryWithDictionary:(GPBStringUInt64Dictionary *)dictionary;
++ (instancetype)dictionaryWithDictionary:
+    (GPBStringUInt64Dictionary *)dictionary;
 
 /**
  * Creates and initializes a dictionary with the given capacity.
@@ -7290,16 +7407,20 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithUInt64s:(const uint64_t [_Nullable])values
-    forKeys:(const NSString * _Nonnull GPB_UNSAFE_UNRETAINED [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)
+    initWithUInt64s:(const uint64_t[_Nullable])values
+            forKeys:
+                (const NSString *_Nonnull GPB_UNSAFE_UNRETAINED[_Nullable])keys
+              count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBStringUInt64Dictionary *)dictionary;
 
@@ -7373,7 +7494,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBStringInt64Dictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -7389,8 +7510,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithInt64:(int64_t)value
-    forKey:(NSString *)key;
++ (instancetype)dictionaryWithInt64:(int64_t)value forKey:(NSString *)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -7401,9 +7521,12 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithInt64s:(const int64_t [_Nullable])values
-    forKeys:(const NSString * _Nonnull GPB_UNSAFE_UNRETAINED [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)
+    dictionaryWithInt64s:(const int64_t[_Nullable])values
+                 forKeys:
+                     (const NSString *_Nonnull GPB_UNSAFE_UNRETAINED[_Nullable])
+                         keys
+                   count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -7434,16 +7557,20 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithInt64s:(const int64_t [_Nullable])values
-    forKeys:(const NSString * _Nonnull GPB_UNSAFE_UNRETAINED [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)
+    initWithInt64s:(const int64_t[_Nullable])values
+           forKeys:
+               (const NSString *_Nonnull GPB_UNSAFE_UNRETAINED[_Nullable])keys
+             count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBStringInt64Dictionary *)dictionary;
 
@@ -7474,8 +7601,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndInt64sUsingBlock:
-    (void (^)(NSString *key, int64_t value, BOOL *stop))block;
+- (void)enumerateKeysAndInt64sUsingBlock:(void (^)(NSString *key, int64_t value,
+                                                   BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -7517,7 +7644,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBStringBoolDictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -7533,8 +7660,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithBool:(BOOL)value
-    forKey:(NSString *)key;
++ (instancetype)dictionaryWithBool:(BOOL)value forKey:(NSString *)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -7545,9 +7671,12 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithBools:(const BOOL [_Nullable])values
-    forKeys:(const NSString * _Nonnull GPB_UNSAFE_UNRETAINED [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)
+    dictionaryWithBools:(const BOOL[_Nullable])values
+                forKeys:
+                    (const NSString *_Nonnull GPB_UNSAFE_UNRETAINED[_Nullable])
+                        keys
+                  count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -7578,16 +7707,20 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithBools:(const BOOL [_Nullable])values
-    forKeys:(const NSString * _Nonnull GPB_UNSAFE_UNRETAINED [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)
+    initWithBools:(const BOOL[_Nullable])values
+          forKeys:
+              (const NSString *_Nonnull GPB_UNSAFE_UNRETAINED[_Nullable])keys
+            count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBStringBoolDictionary *)dictionary;
 
@@ -7618,8 +7751,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndBoolsUsingBlock:
-    (void (^)(NSString *key, BOOL value, BOOL *stop))block;
+- (void)enumerateKeysAndBoolsUsingBlock:(void (^)(NSString *key, BOOL value,
+                                                  BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -7661,7 +7794,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBStringFloatDictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -7677,8 +7810,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithFloat:(float)value
-    forKey:(NSString *)key;
++ (instancetype)dictionaryWithFloat:(float)value forKey:(NSString *)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -7689,9 +7821,12 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithFloats:(const float [_Nullable])values
-    forKeys:(const NSString * _Nonnull GPB_UNSAFE_UNRETAINED [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)
+    dictionaryWithFloats:(const float[_Nullable])values
+                 forKeys:
+                     (const NSString *_Nonnull GPB_UNSAFE_UNRETAINED[_Nullable])
+                         keys
+                   count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -7722,16 +7857,20 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithFloats:(const float [_Nullable])values
-    forKeys:(const NSString * _Nonnull GPB_UNSAFE_UNRETAINED [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)
+    initWithFloats:(const float[_Nullable])values
+           forKeys:
+               (const NSString *_Nonnull GPB_UNSAFE_UNRETAINED[_Nullable])keys
+             count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBStringFloatDictionary *)dictionary;
 
@@ -7762,8 +7901,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndFloatsUsingBlock:
-    (void (^)(NSString *key, float value, BOOL *stop))block;
+- (void)enumerateKeysAndFloatsUsingBlock:(void (^)(NSString *key, float value,
+                                                   BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -7805,7 +7944,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBStringDoubleDictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -7821,8 +7960,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithDouble:(double)value
-    forKey:(NSString *)key;
++ (instancetype)dictionaryWithDouble:(double)value forKey:(NSString *)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -7833,9 +7971,11 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithDoubles:(const double [_Nullable])values
-    forKeys:(const NSString * _Nonnull GPB_UNSAFE_UNRETAINED [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)
+    dictionaryWithDoubles:(const double[_Nullable])values
+                  forKeys:(const NSString
+                               *_Nonnull GPB_UNSAFE_UNRETAINED[_Nullable])keys
+                    count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -7846,7 +7986,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A newly instanced dictionary with the entries from the given
  *         dictionary in it.
  **/
-+ (instancetype)dictionaryWithDictionary:(GPBStringDoubleDictionary *)dictionary;
++ (instancetype)dictionaryWithDictionary:
+    (GPBStringDoubleDictionary *)dictionary;
 
 /**
  * Creates and initializes a dictionary with the given capacity.
@@ -7866,16 +8007,20 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with a copy of the values and keys.
  **/
-- (instancetype)initWithDoubles:(const double [_Nullable])values
-    forKeys:(const NSString * _Nonnull GPB_UNSAFE_UNRETAINED [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)
+    initWithDoubles:(const double[_Nullable])values
+            forKeys:
+                (const NSString *_Nonnull GPB_UNSAFE_UNRETAINED[_Nullable])keys
+              count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes this dictionary, copying the entries from the given dictionary.
  *
- * @param dictionary Dictionary containing the entries to add to this dictionary.
+ * @param dictionary Dictionary containing the entries to add to this
+ *dictionary.
  *
- * @return A newly initialized dictionary with the entries of the given dictionary.
+ * @return A newly initialized dictionary with the entries of the given
+ *dictionary.
  **/
 - (instancetype)initWithDictionary:(GPBStringDoubleDictionary *)dictionary;
 
@@ -7906,8 +8051,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndDoublesUsingBlock:
-    (void (^)(NSString *key, double value, BOOL *stop))block;
+- (void)enumerateKeysAndDoublesUsingBlock:(void (^)(NSString *key, double value,
+                                                    BOOL *stop))block;
 
 /**
  * Adds the keys and values from another dictionary.
@@ -7949,7 +8094,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBStringEnumDictionary : NSObject <NSCopying>
 
-    /** Number of entries stored in this dictionary. */
+/** Number of entries stored in this dictionary. */
 @property(nonatomic, readonly) NSUInteger count;
 /** The validation function to check if the enums are valid. */
 @property(nonatomic, readonly) GPBEnumValidationFunc validationFunc;
@@ -7966,7 +8111,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary.
  **/
-+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func;
++ (instancetype)dictionaryWithValidationFunction:
+    (nullable GPBEnumValidationFunc)func;
 
 /**
  * Creates and initializes a dictionary with the single entry given.
@@ -7977,9 +8123,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the key and value in it.
  **/
-+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    rawValue:(int32_t)rawValue
-    forKey:(NSString *)key;
++ (instancetype)dictionaryWithValidationFunction:
+                    (nullable GPBEnumValidationFunc)func
+                                        rawValue:(int32_t)rawValue
+                                          forKey:(NSString *)key;
 
 /**
  * Creates and initializes a dictionary with the entries given.
@@ -7991,10 +8138,13 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the keys and values in it.
  **/
-+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    rawValues:(const int32_t [_Nullable])values
-    forKeys:(const NSString * _Nonnull GPB_UNSAFE_UNRETAINED [_Nullable])keys
-    count:(NSUInteger)count;
++ (instancetype)
+    dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
+                           rawValues:(const int32_t[_Nullable])values
+                             forKeys:
+                                 (const NSString *_Nonnull GPB_UNSAFE_UNRETAINED
+                                      [_Nullable])keys
+                               count:(NSUInteger)count;
 
 /**
  * Creates and initializes a dictionary with the entries from the given.
@@ -8015,8 +8165,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced dictionary with the given capacity.
  **/
-+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    capacity:(NSUInteger)numItems;
++ (instancetype)dictionaryWithValidationFunction:
+                    (nullable GPBEnumValidationFunc)func
+                                        capacity:(NSUInteger)numItems;
 
 /**
  * Initializes a dictionary with the given validation function.
@@ -8037,10 +8188,13 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized dictionary with the keys and values in it.
  **/
-- (instancetype)initWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    rawValues:(const int32_t [_Nullable])values
-    forKeys:(const NSString * _Nonnull GPB_UNSAFE_UNRETAINED [_Nullable])keys
-    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)
+    initWithValidationFunction:(nullable GPBEnumValidationFunc)func
+                     rawValues:(const int32_t[_Nullable])values
+                       forKeys:
+                           (const NSString
+                                *_Nonnull GPB_UNSAFE_UNRETAINED[_Nullable])keys
+                         count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes a dictionary with the entries from the given.
@@ -8062,11 +8216,11 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A newly initialized dictionary with the given capacity.
  **/
 - (instancetype)initWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    capacity:(NSUInteger)numItems;
+                                  capacity:(NSUInteger)numItems;
 
 // These will return kGPBUnrecognizedEnumeratorValue if the value for the key
-// is not a valid enumerator as defined by validationFunc. If the actual value is
-// desired, use "raw" version of the method.
+// is not a valid enumerator as defined by validationFunc. If the actual value
+// is desired, use "raw" version of the method.
 
 /**
  * Gets the value for the given key.
@@ -8086,14 +8240,14 @@ NS_ASSUME_NONNULL_BEGIN
  *   **value**:      The value for the current entry
  *   **stop**:       A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateKeysAndEnumsUsingBlock:
-    (void (^)(NSString *key, int32_t value, BOOL *stop))block;
+- (void)enumerateKeysAndEnumsUsingBlock:(void (^)(NSString *key, int32_t value,
+                                                  BOOL *stop))block;
 
 /**
  * Gets the raw enum value for the given key.
  *
- * @note This method bypass the validationFunc to enable the access of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the access of values
+ *that were not known at the time the binary was compiled.
  *
  * @param rawValue Pointer into which the value will be set, if found.
  * @param key      Key under which the value is stored, if present.
@@ -8105,8 +8259,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Enumerates the keys and values on this dictionary with the given block.
  *
- * @note This method bypass the validationFunc to enable the access of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the access of values
+ *that were not known at the time the binary was compiled.
  *
  * @param block The block to enumerate with.
  *   **key**:      The key for the current entry.
@@ -8119,8 +8273,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Adds the keys and raw enum values from another dictionary.
  *
- * @note This method bypass the validationFunc to enable the setting of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the setting of values
+ *that were not known at the time the binary was compiled.
  *
  * @param otherDictionary Dictionary containing entries to be added to this
  *                        dictionary.
@@ -8143,8 +8297,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Sets the raw enum value for the given key.
  *
- * @note This method bypass the validationFunc to enable the setting of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the setting of values
+ *that were not known at the time the binary was compiled.
  *
  * @param rawValue The raw enum value to set.
  * @param key      The key under which to store the raw enum value.
@@ -8178,21 +8332,25 @@ NS_ASSUME_NONNULL_END
 //%DICTIONARY_POD_INTERFACES_FOR_KEY(String, NSString, *, OBJECT)
 //%PDDM-DEFINE DICTIONARY_INTERFACES_FOR_POD_KEY(KEY_NAME, KEY_TYPE)
 //%DICTIONARY_POD_INTERFACES_FOR_KEY(KEY_NAME, KEY_TYPE, , POD)
-//%DICTIONARY_POD_KEY_TO_OBJECT_INTERFACE(KEY_NAME, KEY_TYPE, Object, ObjectType)
-//%PDDM-DEFINE DICTIONARY_POD_INTERFACES_FOR_KEY(KEY_NAME, KEY_TYPE, KisP, KHELPER)
-//%DICTIONARY_KEY_TO_POD_INTERFACE(KEY_NAME, KEY_TYPE, KisP, KHELPER, UInt32, uint32_t)
-//%DICTIONARY_KEY_TO_POD_INTERFACE(KEY_NAME, KEY_TYPE, KisP, KHELPER, Int32, int32_t)
-//%DICTIONARY_KEY_TO_POD_INTERFACE(KEY_NAME, KEY_TYPE, KisP, KHELPER, UInt64, uint64_t)
-//%DICTIONARY_KEY_TO_POD_INTERFACE(KEY_NAME, KEY_TYPE, KisP, KHELPER, Int64, int64_t)
-//%DICTIONARY_KEY_TO_POD_INTERFACE(KEY_NAME, KEY_TYPE, KisP, KHELPER, Bool, BOOL)
-//%DICTIONARY_KEY_TO_POD_INTERFACE(KEY_NAME, KEY_TYPE, KisP, KHELPER, Float, float)
-//%DICTIONARY_KEY_TO_POD_INTERFACE(KEY_NAME, KEY_TYPE, KisP, KHELPER, Double, double)
-//%DICTIONARY_KEY_TO_ENUM_INTERFACE(KEY_NAME, KEY_TYPE, KisP, KHELPER, Enum, int32_t)
-//%PDDM-DEFINE DICTIONARY_KEY_TO_POD_INTERFACE(KEY_NAME, KEY_TYPE, KisP, KHELPER, VALUE_NAME, VALUE_TYPE)
-//%DICTIONARY_COMMON_INTERFACE(KEY_NAME, KEY_TYPE, KisP, KHELPER, VALUE_NAME, VALUE_TYPE, POD, VALUE_NAME, value)
-//%PDDM-DEFINE DICTIONARY_POD_KEY_TO_OBJECT_INTERFACE(KEY_NAME, KEY_TYPE, VALUE_NAME, VALUE_TYPE)
-//%DICTIONARY_COMMON_INTERFACE(KEY_NAME, KEY_TYPE, , POD, VALUE_NAME, VALUE_TYPE, OBJECT, Object, object)
-//%PDDM-DEFINE VALUE_FOR_KEY_POD(KEY_TYPE, VALUE_TYPE, VNAME)
+//%DICTIONARY_POD_KEY_TO_OBJECT_INTERFACE(KEY_NAME, KEY_TYPE, Object,
+//ObjectType) %PDDM-DEFINE DICTIONARY_POD_INTERFACES_FOR_KEY(KEY_NAME, KEY_TYPE,
+//KisP, KHELPER) %DICTIONARY_KEY_TO_POD_INTERFACE(KEY_NAME, KEY_TYPE, KisP,
+//KHELPER, UInt32, uint32_t) %DICTIONARY_KEY_TO_POD_INTERFACE(KEY_NAME,
+//KEY_TYPE, KisP, KHELPER, Int32, int32_t)
+//%DICTIONARY_KEY_TO_POD_INTERFACE(KEY_NAME, KEY_TYPE, KisP, KHELPER, UInt64,
+//uint64_t) %DICTIONARY_KEY_TO_POD_INTERFACE(KEY_NAME, KEY_TYPE, KisP, KHELPER,
+//Int64, int64_t) %DICTIONARY_KEY_TO_POD_INTERFACE(KEY_NAME, KEY_TYPE, KisP,
+//KHELPER, Bool, BOOL) %DICTIONARY_KEY_TO_POD_INTERFACE(KEY_NAME, KEY_TYPE,
+//KisP, KHELPER, Float, float) %DICTIONARY_KEY_TO_POD_INTERFACE(KEY_NAME,
+//KEY_TYPE, KisP, KHELPER, Double, double)
+//%DICTIONARY_KEY_TO_ENUM_INTERFACE(KEY_NAME, KEY_TYPE, KisP, KHELPER, Enum,
+//int32_t) %PDDM-DEFINE DICTIONARY_KEY_TO_POD_INTERFACE(KEY_NAME, KEY_TYPE,
+//KisP, KHELPER, VALUE_NAME, VALUE_TYPE) %DICTIONARY_COMMON_INTERFACE(KEY_NAME,
+//KEY_TYPE, KisP, KHELPER, VALUE_NAME, VALUE_TYPE, POD, VALUE_NAME, value)
+//%PDDM-DEFINE DICTIONARY_POD_KEY_TO_OBJECT_INTERFACE(KEY_NAME, KEY_TYPE,
+//VALUE_NAME, VALUE_TYPE) %DICTIONARY_COMMON_INTERFACE(KEY_NAME, KEY_TYPE, ,
+//POD, VALUE_NAME, VALUE_TYPE, OBJECT, Object, object) %PDDM-DEFINE
+//VALUE_FOR_KEY_POD(KEY_TYPE, VALUE_TYPE, VNAME)
 //%/**
 //% * Gets the value for the given key.
 //% *
@@ -8225,7 +8383,8 @@ NS_ASSUME_NONNULL_END
 //%GPB##KEY_NAME##VALUE_NAME##Dictionary
 //%PDDM-DEFINE DICTIONARY_CLASS_DECLOBJECT(KEY_NAME, VALUE_NAME, VALUE_TYPE)
 //%GPB##KEY_NAME##VALUE_NAME##Dictionary<__covariant VALUE_TYPE>
-//%PDDM-DEFINE DICTIONARY_COMMON_INTERFACE(KEY_NAME, KEY_TYPE, KisP, KHELPER, VALUE_NAME, VALUE_TYPE, VHELPER, VNAME, VNAME_VAR)
+//%PDDM-DEFINE DICTIONARY_COMMON_INTERFACE(KEY_NAME, KEY_TYPE, KisP, KHELPER,
+//VALUE_NAME, VALUE_TYPE, VHELPER, VNAME, VNAME_VAR)
 //%#pragma mark - KEY_NAME -> VALUE_NAME
 //%
 //%/**
@@ -8234,7 +8393,8 @@ NS_ASSUME_NONNULL_END
 //% *
 //% * @note This class is not meant to be subclassed.
 //% **/
-//%@interface DICTIONARY_CLASS_DECL##VHELPER(KEY_NAME, VALUE_NAME, VALUE_TYPE) : NSObject <NSCopying>
+//%@interface DICTIONARY_CLASS_DECL##VHELPER(KEY_NAME, VALUE_NAME, VALUE_TYPE) :
+//NSObject <NSCopying>
 //%
 //%/** Number of entries stored in this dictionary. */
 //%@property(nonatomic, readonly) NSUInteger count;
@@ -8260,24 +8420,24 @@ NS_ASSUME_NONNULL_END
 //% *
 //% * @param ##VNAME_VAR##s      The values to be placed in the dictionary.
 //% * @param keys ##VNAME_VAR$S##  The keys under which to store the values.
-//% * @param count ##VNAME_VAR$S## The number of entries to store in the dictionary.
-//% *
-//% * @return A newly instanced dictionary with the keys and values in it.
-//% **/
-//%+ (instancetype)dictionaryWith##VNAME##s:(const VALUE_TYPE ARRAY_ARG_MODIFIER##VHELPER()[])##VNAME_VAR##s
-//%                      ##VNAME$S##  forKeys:(const KEY_TYPE##KisP$S##KisP ARRAY_ARG_MODIFIER##KHELPER()[])keys
-//%                      ##VNAME$S##    count:(NSUInteger)count;
+//% * @param count ##VNAME_VAR$S## The number of entries to store in the
+//dictionary. % * % * @return A newly instanced dictionary with the keys and
+//values in it. % **/
+//%+ (instancetype)dictionaryWith##VNAME##s:(const VALUE_TYPE
+//ARRAY_ARG_MODIFIER##VHELPER()[])##VNAME_VAR##s % ##VNAME$S##  forKeys:(const
+//KEY_TYPE##KisP$S##KisP ARRAY_ARG_MODIFIER##KHELPER()[])keys % ##VNAME$S##
+//count:(NSUInteger)count;
 //%
 //%/**
 //% * Creates and initializes a dictionary with the entries from the given.
 //% * dictionary.
 //% *
-//% * @param dictionary Dictionary containing the entries to add to the dictionary.
-//% *
-//% * @return A newly instanced dictionary with the entries from the given
-//% *         dictionary in it.
-//% **/
-//%+ (instancetype)dictionaryWithDictionary:(GPB##KEY_NAME##VALUE_NAME##Dictionary *)dictionary;
+//% * @param dictionary Dictionary containing the entries to add to the
+//dictionary. % * % * @return A newly instanced dictionary with the entries from
+//the given % *         dictionary in it. % **/
+//%+
+//(instancetype)dictionaryWithDictionary:(GPB##KEY_NAME##VALUE_NAME##Dictionary
+//*)dictionary;
 //%
 //%/**
 //% * Creates and initializes a dictionary with the given capacity.
@@ -8293,22 +8453,21 @@ NS_ASSUME_NONNULL_END
 //% *
 //% * @param ##VNAME_VAR##s      The values to be placed in this dictionary.
 //% * @param keys ##VNAME_VAR$S##  The keys under which to store the values.
-//% * @param count ##VNAME_VAR$S## The number of elements to copy into the dictionary.
-//% *
-//% * @return A newly initialized dictionary with a copy of the values and keys.
-//% **/
-//%- (instancetype)initWith##VNAME##s:(const VALUE_TYPE ARRAY_ARG_MODIFIER##VHELPER()[])##VNAME_VAR##s
-//%                ##VNAME$S##  forKeys:(const KEY_TYPE##KisP$S##KisP ARRAY_ARG_MODIFIER##KHELPER()[])keys
-//%                ##VNAME$S##    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+//% * @param count ##VNAME_VAR$S## The number of elements to copy into the
+//dictionary. % * % * @return A newly initialized dictionary with a copy of the
+//values and keys. % **/
+//%- (instancetype)initWith##VNAME##s:(const VALUE_TYPE
+//ARRAY_ARG_MODIFIER##VHELPER()[])##VNAME_VAR##s %                ##VNAME$S##
+//forKeys:(const KEY_TYPE##KisP$S##KisP ARRAY_ARG_MODIFIER##KHELPER()[])keys %
+//##VNAME$S##    count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 //%
 //%/**
-//% * Initializes this dictionary, copying the entries from the given dictionary.
-//% *
-//% * @param dictionary Dictionary containing the entries to add to this dictionary.
-//% *
-//% * @return A newly initialized dictionary with the entries of the given dictionary.
-//% **/
-//%- (instancetype)initWithDictionary:(GPB##KEY_NAME##VALUE_NAME##Dictionary *)dictionary;
+//% * Initializes this dictionary, copying the entries from the given
+//dictionary. % * % * @param dictionary Dictionary containing the entries to add
+//to this dictionary. % * % * @return A newly initialized dictionary with the
+//entries of the given dictionary. % **/
+//%- (instancetype)initWithDictionary:(GPB##KEY_NAME##VALUE_NAME##Dictionary
+//*)dictionary;
 //%
 //%/**
 //% * Initializes this dictionary with the requested capacity.
@@ -8319,7 +8478,8 @@ NS_ASSUME_NONNULL_END
 //% **/
 //%- (instancetype)initWithCapacity:(NSUInteger)numItems;
 //%
-//%DICTIONARY_IMMUTABLE_INTERFACE(KEY_NAME, KEY_TYPE, KisP, VALUE_NAME, VALUE_TYPE, VHELPER, VNAME, VNAME_VAR)
+//%DICTIONARY_IMMUTABLE_INTERFACE(KEY_NAME, KEY_TYPE, KisP, VALUE_NAME,
+//VALUE_TYPE, VHELPER, VNAME, VNAME_VAR)
 //%
 //%/**
 //% * Adds the keys and values from another dictionary.
@@ -8327,16 +8487,20 @@ NS_ASSUME_NONNULL_END
 //% * @param otherDictionary Dictionary containing entries to be added to this
 //% *                        dictionary.
 //% **/
-//%- (void)addEntriesFromDictionary:(GPB##KEY_NAME##VALUE_NAME##Dictionary *)otherDictionary;
+//%- (void)addEntriesFromDictionary:(GPB##KEY_NAME##VALUE_NAME##Dictionary
+//*)otherDictionary;
 //%
-//%DICTIONARY_MUTABLE_INTERFACE(KEY_NAME, KEY_TYPE, KisP, VALUE_NAME, VALUE_TYPE, VHELPER, VNAME, VNAME_VAR)
+//%DICTIONARY_MUTABLE_INTERFACE(KEY_NAME, KEY_TYPE, KisP, VALUE_NAME,
+//VALUE_TYPE, VHELPER, VNAME, VNAME_VAR)
 //%
 //%@end
 //%
 
-//%PDDM-DEFINE DICTIONARY_KEY_TO_ENUM_INTERFACE(KEY_NAME, KEY_TYPE, KisP, KHELPER, VALUE_NAME, VALUE_TYPE)
-//%DICTIONARY_KEY_TO_ENUM_INTERFACE2(KEY_NAME, KEY_TYPE, KisP, KHELPER, VALUE_NAME, VALUE_TYPE, Enum)
-//%PDDM-DEFINE DICTIONARY_KEY_TO_ENUM_INTERFACE2(KEY_NAME, KEY_TYPE, KisP, KHELPER, VALUE_NAME, VALUE_TYPE, VHELPER)
+//%PDDM-DEFINE DICTIONARY_KEY_TO_ENUM_INTERFACE(KEY_NAME, KEY_TYPE, KisP,
+//KHELPER, VALUE_NAME, VALUE_TYPE) %DICTIONARY_KEY_TO_ENUM_INTERFACE2(KEY_NAME,
+//KEY_TYPE, KisP, KHELPER, VALUE_NAME, VALUE_TYPE, Enum) %PDDM-DEFINE
+//DICTIONARY_KEY_TO_ENUM_INTERFACE2(KEY_NAME, KEY_TYPE, KisP, KHELPER,
+//VALUE_NAME, VALUE_TYPE, VHELPER)
 //%#pragma mark - KEY_NAME -> VALUE_NAME
 //%
 //%/**
@@ -8364,7 +8528,8 @@ NS_ASSUME_NONNULL_END
 //% *
 //% * @return A newly instanced dictionary.
 //% **/
-//%+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func;
+//%+ (instancetype)dictionaryWithValidationFunction:(nullable
+//GPBEnumValidationFunc)func;
 //%
 //%/**
 //% * Creates and initializes a dictionary with the single entry given.
@@ -8375,9 +8540,9 @@ NS_ASSUME_NONNULL_END
 //% *
 //% * @return A newly instanced dictionary with the key and value in it.
 //% **/
-//%+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
-//%                                        rawValue:(VALUE_TYPE)rawValue
-//%                                          forKey:(KEY_TYPE##KisP$S##KisP)key;
+//%+ (instancetype)dictionaryWithValidationFunction:(nullable
+//GPBEnumValidationFunc)func % rawValue:(VALUE_TYPE)rawValue %
+//forKey:(KEY_TYPE##KisP$S##KisP)key;
 //%
 //%/**
 //% * Creates and initializes a dictionary with the entries given.
@@ -8389,21 +8554,21 @@ NS_ASSUME_NONNULL_END
 //% *
 //% * @return A newly instanced dictionary with the keys and values in it.
 //% **/
-//%+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
-//%                                       rawValues:(const VALUE_TYPE ARRAY_ARG_MODIFIER##VHELPER()[])values
-//%                                         forKeys:(const KEY_TYPE##KisP$S##KisP ARRAY_ARG_MODIFIER##KHELPER()[])keys
-//%                                           count:(NSUInteger)count;
+//%+ (instancetype)dictionaryWithValidationFunction:(nullable
+//GPBEnumValidationFunc)func % rawValues:(const VALUE_TYPE
+//ARRAY_ARG_MODIFIER##VHELPER()[])values % forKeys:(const KEY_TYPE##KisP$S##KisP
+//ARRAY_ARG_MODIFIER##KHELPER()[])keys % count:(NSUInteger)count;
 //%
 //%/**
 //% * Creates and initializes a dictionary with the entries from the given.
 //% * dictionary.
 //% *
-//% * @param dictionary Dictionary containing the entries to add to the dictionary.
-//% *
-//% * @return A newly instanced dictionary with the entries from the given
-//% *         dictionary in it.
-//% **/
-//%+ (instancetype)dictionaryWithDictionary:(GPB##KEY_NAME##VALUE_NAME##Dictionary *)dictionary;
+//% * @param dictionary Dictionary containing the entries to add to the
+//dictionary. % * % * @return A newly instanced dictionary with the entries from
+//the given % *         dictionary in it. % **/
+//%+
+//(instancetype)dictionaryWithDictionary:(GPB##KEY_NAME##VALUE_NAME##Dictionary
+//*)dictionary;
 //%
 //%/**
 //% * Creates and initializes a dictionary with the given capacity.
@@ -8413,8 +8578,8 @@ NS_ASSUME_NONNULL_END
 //% *
 //% * @return A newly instanced dictionary with the given capacity.
 //% **/
-//%+ (instancetype)dictionaryWithValidationFunction:(nullable GPBEnumValidationFunc)func
-//%                                        capacity:(NSUInteger)numItems;
+//%+ (instancetype)dictionaryWithValidationFunction:(nullable
+//GPBEnumValidationFunc)func % capacity:(NSUInteger)numItems;
 //%
 //%/**
 //% * Initializes a dictionary with the given validation function.
@@ -8423,7 +8588,8 @@ NS_ASSUME_NONNULL_END
 //% *
 //% * @return A newly initialized dictionary.
 //% **/
-//%- (instancetype)initWithValidationFunction:(nullable GPBEnumValidationFunc)func;
+//%- (instancetype)initWithValidationFunction:(nullable
+//GPBEnumValidationFunc)func;
 //%
 //%/**
 //% * Initializes a dictionary with the entries given.
@@ -8435,21 +8601,21 @@ NS_ASSUME_NONNULL_END
 //% *
 //% * @return A newly initialized dictionary with the keys and values in it.
 //% **/
-//%- (instancetype)initWithValidationFunction:(nullable GPBEnumValidationFunc)func
-//%                                 rawValues:(const VALUE_TYPE ARRAY_ARG_MODIFIER##VHELPER()[])values
-//%                                   forKeys:(const KEY_TYPE##KisP$S##KisP ARRAY_ARG_MODIFIER##KHELPER()[])keys
-//%                                     count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
+//%- (instancetype)initWithValidationFunction:(nullable
+//GPBEnumValidationFunc)func %                                 rawValues:(const
+//VALUE_TYPE ARRAY_ARG_MODIFIER##VHELPER()[])values % forKeys:(const
+//KEY_TYPE##KisP$S##KisP ARRAY_ARG_MODIFIER##KHELPER()[])keys %
+//count:(NSUInteger)count NS_DESIGNATED_INITIALIZER;
 //%
 //%/**
 //% * Initializes a dictionary with the entries from the given.
 //% * dictionary.
 //% *
-//% * @param dictionary Dictionary containing the entries to add to the dictionary.
-//% *
-//% * @return A newly initialized dictionary with the entries from the given
-//% *         dictionary in it.
-//% **/
-//%- (instancetype)initWithDictionary:(GPB##KEY_NAME##VALUE_NAME##Dictionary *)dictionary;
+//% * @param dictionary Dictionary containing the entries to add to the
+//dictionary. % * % * @return A newly initialized dictionary with the entries
+//from the given % *         dictionary in it. % **/
+//%- (instancetype)initWithDictionary:(GPB##KEY_NAME##VALUE_NAME##Dictionary
+//*)dictionary;
 //%
 //%/**
 //% * Initializes a dictionary with the given capacity.
@@ -8459,64 +8625,65 @@ NS_ASSUME_NONNULL_END
 //% *
 //% * @return A newly initialized dictionary with the given capacity.
 //% **/
-//%- (instancetype)initWithValidationFunction:(nullable GPBEnumValidationFunc)func
-//%                                  capacity:(NSUInteger)numItems;
+//%- (instancetype)initWithValidationFunction:(nullable
+//GPBEnumValidationFunc)func % capacity:(NSUInteger)numItems;
 //%
 //%// These will return kGPBUnrecognizedEnumeratorValue if the value for the key
-//%// is not a valid enumerator as defined by validationFunc. If the actual value is
+//%// is not a valid enumerator as defined by validationFunc. If the actual
+//value is
 //%// desired, use "raw" version of the method.
 //%
-//%DICTIONARY_IMMUTABLE_INTERFACE(KEY_NAME, KEY_TYPE, KisP, VALUE_NAME, VALUE_TYPE, VHELPER, Enum, value)
+//%DICTIONARY_IMMUTABLE_INTERFACE(KEY_NAME, KEY_TYPE, KisP, VALUE_NAME,
+//VALUE_TYPE, VHELPER, Enum, value)
 //%
 //%/**
 //% * Gets the raw enum value for the given key.
 //% *
-//% * @note This method bypass the validationFunc to enable the access of values that
-//% *       were not known at the time the binary was compiled.
-//% *
-//% * @param rawValue Pointer into which the value will be set, if found.
-//% * @param key      Key under which the value is stored, if present.
-//% *
-//% * @return YES if the key was found and the value was copied, NO otherwise.
-//% **/
-//%- (BOOL)getRawValue:(nullable VALUE_TYPE *)rawValue forKey:(KEY_TYPE##KisP$S##KisP)key;
+//% * @note This method bypass the validationFunc to enable the access of values
+//that % *       were not known at the time the binary was compiled. % * % *
+//@param rawValue Pointer into which the value will be set, if found. % * @param
+//key      Key under which the value is stored, if present. % * % * @return YES
+//if the key was found and the value was copied, NO otherwise. % **/
+//%- (BOOL)getRawValue:(nullable VALUE_TYPE *)rawValue
+//forKey:(KEY_TYPE##KisP$S##KisP)key;
 //%
 //%/**
 //% * Enumerates the keys and values on this dictionary with the given block.
 //% *
-//% * @note This method bypass the validationFunc to enable the access of values that
-//% *       were not known at the time the binary was compiled.
-//% *
-//% * @param block The block to enumerate with.
-//% *   **key**:      The key for the current entry.
-//% *   **rawValue**: The value for the current entry
-//% *   **stop**:     A pointer to a boolean that when set stops the enumeration.
-//% **/
+//% * @note This method bypass the validationFunc to enable the access of values
+//that % *       were not known at the time the binary was compiled. % * % *
+//@param block The block to enumerate with. % *   **key**:      The key for the
+//current entry. % *   **rawValue**: The value for the current entry % *
+//**stop**:     A pointer to a boolean that when set stops the enumeration. %
+//**/
 //%- (void)enumerateKeysAndRawValuesUsingBlock:
 //%    (void (^)(KEY_TYPE KisP##key, VALUE_TYPE rawValue, BOOL *stop))block;
 //%
 //%/**
 //% * Adds the keys and raw enum values from another dictionary.
 //% *
-//% * @note This method bypass the validationFunc to enable the setting of values that
-//% *       were not known at the time the binary was compiled.
-//% *
+//% * @note This method bypass the validationFunc to enable the setting of
+//values that % *       were not known at the time the binary was compiled. % *
 //% * @param otherDictionary Dictionary containing entries to be added to this
 //% *                        dictionary.
 //% **/
-//%- (void)addRawEntriesFromDictionary:(GPB##KEY_NAME##VALUE_NAME##Dictionary *)otherDictionary;
+//%- (void)addRawEntriesFromDictionary:(GPB##KEY_NAME##VALUE_NAME##Dictionary
+//*)otherDictionary;
 //%
 //%// If value is not a valid enumerator as defined by validationFunc, these
 //%// methods will assert in debug, and will log in release and assign the value
-//%// to the default value. Use the rawValue methods below to assign non enumerator
+//%// to the default value. Use the rawValue methods below to assign non
+//enumerator
 //%// values.
 //%
-//%DICTIONARY_MUTABLE_INTERFACE(KEY_NAME, KEY_TYPE, KisP, VALUE_NAME, VALUE_TYPE, VHELPER, Enum, value)
+//%DICTIONARY_MUTABLE_INTERFACE(KEY_NAME, KEY_TYPE, KisP, VALUE_NAME,
+//VALUE_TYPE, VHELPER, Enum, value)
 //%
 //%@end
 //%
 
-//%PDDM-DEFINE DICTIONARY_IMMUTABLE_INTERFACE(KEY_NAME, KEY_TYPE, KisP, VALUE_NAME, VALUE_TYPE, VHELPER, VNAME, VNAME_VAR)
+//%PDDM-DEFINE DICTIONARY_IMMUTABLE_INTERFACE(KEY_NAME, KEY_TYPE, KisP,
+//VALUE_NAME, VALUE_TYPE, VHELPER, VNAME, VNAME_VAR)
 //%VALUE_FOR_KEY_##VHELPER(KEY_TYPE##KisP$S##KisP, VALUE_TYPE, VNAME)
 //%
 //%/**
@@ -8525,20 +8692,23 @@ NS_ASSUME_NONNULL_END
 //% * @param block The block to enumerate with.
 //% *   **key**: ##VNAME_VAR$S##  The key for the current entry.
 //% *   **VNAME_VAR**:      The value for the current entry
-//% *   **stop**: ##VNAME_VAR$S## A pointer to a boolean that when set stops the enumeration.
-//% **/
+//% *   **stop**: ##VNAME_VAR$S## A pointer to a boolean that when set stops the
+//enumeration. % **/
 //%- (void)enumerateKeysAnd##VNAME##sUsingBlock:
 //%    (void (^)(KEY_TYPE KisP##key, VALUE_TYPE VNAME_VAR, BOOL *stop))block;
 
-//%PDDM-DEFINE DICTIONARY_MUTABLE_INTERFACE(KEY_NAME, KEY_TYPE, KisP, VALUE_NAME, VALUE_TYPE, VHELPER, VNAME, VNAME_VAR)
+//%PDDM-DEFINE DICTIONARY_MUTABLE_INTERFACE(KEY_NAME, KEY_TYPE, KisP,
+//VALUE_NAME, VALUE_TYPE, VHELPER, VNAME, VNAME_VAR)
 //%/**
 //% * Sets the value for the given key.
 //% *
 //% * @param ##VNAME_VAR     The value to set.
 //% * @param key ##VNAME_VAR$S## The key under which to store the value.
 //% **/
-//%- (void)set##VNAME##:(VALUE_TYPE)##VNAME_VAR forKey:(KEY_TYPE##KisP$S##KisP)key;
-//%DICTIONARY_EXTRA_MUTABLE_METHODS_##VHELPER(KEY_NAME, KEY_TYPE, KisP, VALUE_NAME, VALUE_TYPE)
+//%- (void)set##VNAME##:(VALUE_TYPE)##VNAME_VAR
+//forKey:(KEY_TYPE##KisP$S##KisP)key;
+//%DICTIONARY_EXTRA_MUTABLE_METHODS_##VHELPER(KEY_NAME, KEY_TYPE, KisP,
+//VALUE_NAME, VALUE_TYPE)
 //%/**
 //% * Removes the entry for the given key.
 //% *
@@ -8551,18 +8721,20 @@ NS_ASSUME_NONNULL_END
 //% **/
 //%- (void)removeAll;
 
-//%PDDM-DEFINE DICTIONARY_EXTRA_MUTABLE_METHODS_POD(KEY_NAME, KEY_TYPE, KisP, VALUE_NAME, VALUE_TYPE)
+//%PDDM-DEFINE DICTIONARY_EXTRA_MUTABLE_METHODS_POD(KEY_NAME, KEY_TYPE, KisP,
+//VALUE_NAME, VALUE_TYPE)
 // Empty
-//%PDDM-DEFINE DICTIONARY_EXTRA_MUTABLE_METHODS_OBJECT(KEY_NAME, KEY_TYPE, KisP, VALUE_NAME, VALUE_TYPE)
+//%PDDM-DEFINE DICTIONARY_EXTRA_MUTABLE_METHODS_OBJECT(KEY_NAME, KEY_TYPE, KisP,
+//VALUE_NAME, VALUE_TYPE)
 // Empty
-//%PDDM-DEFINE DICTIONARY_EXTRA_MUTABLE_METHODS_Enum(KEY_NAME, KEY_TYPE, KisP, VALUE_NAME, VALUE_TYPE)
+//%PDDM-DEFINE DICTIONARY_EXTRA_MUTABLE_METHODS_Enum(KEY_NAME, KEY_TYPE, KisP,
+//VALUE_NAME, VALUE_TYPE)
 //%
 //%/**
 //% * Sets the raw enum value for the given key.
 //% *
-//% * @note This method bypass the validationFunc to enable the setting of values that
-//% *       were not known at the time the binary was compiled.
-//% *
+//% * @note This method bypass the validationFunc to enable the setting of
+//values that % *       were not known at the time the binary was compiled. % *
 //% * @param rawValue The raw enum value to set.
 //% * @param key      The key under which to store the raw enum value.
 //% **/

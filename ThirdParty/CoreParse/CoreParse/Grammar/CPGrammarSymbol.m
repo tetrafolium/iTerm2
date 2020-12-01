@@ -13,104 +13,88 @@
 @synthesize name;
 @synthesize terminal;
 
-+ (id)nonTerminalWithName:(NSString *)name
-{
-    return [[[self alloc] initWithName:name isTerminal:NO] autorelease];
++ (id)nonTerminalWithName:(NSString *)name {
+  return [[[self alloc] initWithName:name isTerminal:NO] autorelease];
 }
 
-+ (id)terminalWithName:(NSString *)name
-{
-    return [[[self alloc] initWithName:name isTerminal:YES] autorelease];
++ (id)terminalWithName:(NSString *)name {
+  return [[[self alloc] initWithName:name isTerminal:YES] autorelease];
 }
 
 - (id)initWithName:(NSString *)initName isTerminal:(BOOL)isTerminal;
 {
-    self = [super init];
+  self = [super init];
 
-    if (nil != self)
-    {
-        [self setName:initName];
-        [self setTerminal:isTerminal];
-    }
+  if (nil != self) {
+    [self setName:initName];
+    [self setTerminal:isTerminal];
+  }
 
-    return self;
+  return self;
 }
 
-- (id)init
-{
-    return [self initWithName:@"" isTerminal:NO];
+- (id)init {
+  return [self initWithName:@"" isTerminal:NO];
 }
 
-#define CPGrammarSymbolNameKey     @"n"
+#define CPGrammarSymbolNameKey @"n"
 #define CPGrammarSymbolTerminalKey @"t"
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super init];
+- (id)initWithCoder:(NSCoder *)aDecoder {
+  self = [super init];
 
-    if (nil != self)
-    {
-        [self setName:[aDecoder decodeObjectForKey:CPGrammarSymbolNameKey]];
-        [self setTerminal:[aDecoder decodeBoolForKey:CPGrammarSymbolTerminalKey]];
-    }
+  if (nil != self) {
+    [self setName:[aDecoder decodeObjectForKey:CPGrammarSymbolNameKey]];
+    [self setTerminal:[aDecoder decodeBoolForKey:CPGrammarSymbolTerminalKey]];
+  }
 
-    return self;
+  return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
-    [aCoder encodeObject:[self name] forKey:CPGrammarSymbolNameKey];
-    [aCoder encodeBool:[self isTerminal] forKey:CPGrammarSymbolTerminalKey];
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+  [aCoder encodeObject:[self name] forKey:CPGrammarSymbolNameKey];
+  [aCoder encodeBool:[self isTerminal] forKey:CPGrammarSymbolTerminalKey];
 }
 
-- (BOOL)isGrammarSymbol
-{
-    return YES;
+- (BOOL)isGrammarSymbol {
+  return YES;
 }
 
-- (BOOL)isEqual:(id)object
-{
-    return ([object isGrammarSymbol] &&
-            ((CPGrammarSymbol *)object)->terminal == terminal &&
-            [((CPGrammarSymbol *)object)->name isEqualToString:name]);
+- (BOOL)isEqual:(id)object {
+  return ([object isGrammarSymbol] &&
+          ((CPGrammarSymbol *)object)->terminal == terminal &&
+          [((CPGrammarSymbol *)object)->name isEqualToString:name]);
 }
 
-- (BOOL)isEqualToGrammarSymbol:(CPGrammarSymbol *)object
-{
-    return (object != nil && object->terminal == terminal && [object->name isEqualToString:name]);
+- (BOOL)isEqualToGrammarSymbol:(CPGrammarSymbol *)object {
+  return (object != nil && object->terminal == terminal &&
+          [object->name isEqualToString:name]);
 }
 
-- (NSUInteger)hash
-{
-    return [[self name] hash];
+- (NSUInteger)hash {
+  return [[self name] hash];
 }
 
-- (NSString *)description
-{
-    if ([self isTerminal])
-    {
-        return [NSString stringWithFormat:@"\"%@\"", [self name]];
-    }
-    else
-    {
-        return [NSString stringWithFormat:@"<%@>", [self name]];
-    }
+- (NSString *)description {
+  if ([self isTerminal]) {
+    return [NSString stringWithFormat:@"\"%@\"", [self name]];
+  } else {
+    return [NSString stringWithFormat:@"<%@>", [self name]];
+  }
 }
 
-- (void)dealloc
-{
-    [name release];
+- (void)dealloc {
+  [name release];
 
-    [super dealloc];
+  [super dealloc];
 }
 
 @end
 
 @implementation NSObject (CPGrammarSymbol)
 
-- (BOOL)isGrammarSymbol
-{
-    return NO;
+- (BOOL)isGrammarSymbol {
+  return NO;
 }
 
 @end

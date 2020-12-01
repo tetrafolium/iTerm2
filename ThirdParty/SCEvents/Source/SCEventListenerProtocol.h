@@ -35,7 +35,8 @@
  *
  * @author Stuart Connolly http://stuconnolly.com/
  *
- * SCEvents' event listenser protocol. Delegates must implement this protocol to be notified of events.
+ * SCEvents' event listenser protocol. Delegates must implement this protocol to
+ * be notified of events.
  */
 @protocol SCEventListenerProtocol
 

@@ -10,8 +10,8 @@
 
 @interface CPShiftReduceState ()
 
-@property (readwrite,retain) NSObject *object;
-@property (readwrite,assign) NSUInteger state;
+@property(readwrite, retain) NSObject *object;
+@property(readwrite, assign) NSUInteger state;
 
 @end
 
@@ -20,34 +20,30 @@
 @synthesize object;
 @synthesize state;
 
-+ (id)shiftReduceStateWithObject:(NSObject *)object state:(NSUInteger)state
-{
-    return [[[self alloc] initWithObject:object state:state] autorelease];
++ (id)shiftReduceStateWithObject:(NSObject *)object state:(NSUInteger)state {
+  return [[[self alloc] initWithObject:object state:state] autorelease];
 }
 
-- (id)initWithObject:(NSObject *)initObject state:(NSUInteger)initState
-{
-    self = [super init];
+- (id)initWithObject:(NSObject *)initObject state:(NSUInteger)initState {
+  self = [super init];
 
-    if (nil != self)
-    {
-        [self setObject:initObject];
-        [self setState:initState];
-    }
+  if (nil != self) {
+    [self setObject:initObject];
+    [self setState:initState];
+  }
 
-    return self;
+  return self;
 }
 
-- (void)dealloc
-{
-    [object release];
+- (void)dealloc {
+  [object release];
 
-    [super dealloc];
+  [super dealloc];
 }
 
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"<CPShiftReduceState: %@ (%ld)", [self object], (long)[self state]];
+- (NSString *)description {
+  return [NSString stringWithFormat:@"<CPShiftReduceState: %@ (%ld)",
+                                    [self object], (long)[self state]];
 }
 
 @end

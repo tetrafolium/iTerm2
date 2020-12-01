@@ -6,12 +6,12 @@
 //  Copyright © 2018 George Nachman. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "SIGSigningAlgorithm.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SIGSHA2SigningAlgorithm : NSObject<SIGSigningAlgorithm>
+@interface SIGSHA2SigningAlgorithm : NSObject <SIGSigningAlgorithm>
 
 @end
 

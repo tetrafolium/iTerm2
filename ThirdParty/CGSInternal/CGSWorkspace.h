@@ -23,32 +23,42 @@
 
 #pragma once
 #include "CGSConnection.h"
-#include "CGSWindow.h"
 #include "CGSTransitions.h"
+#include "CGSWindow.h"
 
 typedef unsigned int CGSWorkspaceID;
 
 /*! The space id given when we're switching spaces. */
 static const CGSWorkspaceID kCGSTransitioningWorkspaceID = 65538;
 
-
-
 CG_EXTERN_C_BEGIN
 
 /*! Gets and sets the current workspace. */
-CG_EXTERN CGError CGSGetWorkspace(CGSConnectionID cid, CGSWorkspaceID *outWorkspace);
-CG_EXTERN CGError CGSSetWorkspace(CGSConnectionID cid, CGSWorkspaceID workspace);
+CG_EXTERN CGError CGSGetWorkspace(CGSConnectionID cid,
+                                  CGSWorkspaceID *outWorkspace);
+CG_EXTERN CGError CGSSetWorkspace(CGSConnectionID cid,
+                                  CGSWorkspaceID workspace);
 
-/*! Transitions to a workspace asynchronously. Note that `duration` is in seconds. */
-CG_EXTERN CGError CGSSetWorkspaceWithTransition(CGSConnectionID cid, CGSWorkspaceID workspace, CGSTransitionType transition, CGSTransitionFlags options, float duration);
+/*! Transitions to a workspace asynchronously. Note that `duration` is in
+ * seconds. */
+CG_EXTERN CGError CGSSetWorkspaceWithTransition(CGSConnectionID cid,
+                                                CGSWorkspaceID workspace,
+                                                CGSTransitionType transition,
+                                                CGSTransitionFlags options,
+                                                float duration);
 
 /*! Gets and sets the workspace for a window. */
-CG_EXTERN CGError CGSGetWindowWorkspace(CGSConnectionID cid, CGSWindowID wid, CGSWorkspaceID *outWorkspace);
-CG_EXTERN CGError CGSSetWindowWorkspace(CGSConnectionID cid, CGSWindowID wid, CGSWorkspaceID workspace);
+CG_EXTERN CGError CGSGetWindowWorkspace(CGSConnectionID cid, CGSWindowID wid,
+                                        CGSWorkspaceID *outWorkspace);
+CG_EXTERN CGError CGSSetWindowWorkspace(CGSConnectionID cid, CGSWindowID wid,
+                                        CGSWorkspaceID workspace);
 
 /*! Gets the number of windows in the workspace. */
-CG_EXTERN CGError CGSGetWorkspaceWindowCount(CGSConnectionID cid, int workspaceNumber, int *outCount);
-CG_EXTERN CGError CGSGetWorkspaceWindowList(CGSConnectionID cid, int workspaceNumber, int count, CGSWindowID *list, int *outCount);
-
+CG_EXTERN CGError CGSGetWorkspaceWindowCount(CGSConnectionID cid,
+                                             int workspaceNumber,
+                                             int *outCount);
+CG_EXTERN CGError CGSGetWorkspaceWindowList(CGSConnectionID cid,
+                                            int workspaceNumber, int count,
+                                            CGSWindowID *list, int *outCount);
 
 CG_EXTERN_C_END

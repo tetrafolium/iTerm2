@@ -13,63 +13,53 @@
 @synthesize recoveryType;
 @synthesize additionalToken;
 
-+ (id)recoveryActionWithAdditionalToken:(CPToken *)token
-{
-    return [[[self alloc] initWithAdditionalToken:token] autorelease];
++ (id)recoveryActionWithAdditionalToken:(CPToken *)token {
+  return [[[self alloc] initWithAdditionalToken:token] autorelease];
 }
 
-+ (id)recoveryActionDeletingCurrentToken
-{
-    return [[[self alloc] initWithDeleteAction] autorelease];
++ (id)recoveryActionDeletingCurrentToken {
+  return [[[self alloc] initWithDeleteAction] autorelease];
 }
 
-+ (id)recoveryActionStop
-{
-    return [[[self alloc] initWithStopAction] autorelease];
++ (id)recoveryActionStop {
+  return [[[self alloc] initWithStopAction] autorelease];
 }
 
-- (id)initWithAdditionalToken:(CPToken *)token
-{
-    self = [super init];
+- (id)initWithAdditionalToken:(CPToken *)token {
+  self = [super init];
 
-    if (nil != self)
-    {
-        [self setRecoveryType:CPRecoveryTypeAddToken];
-        [self setAdditionalToken:token];
-    }
+  if (nil != self) {
+    [self setRecoveryType:CPRecoveryTypeAddToken];
+    [self setAdditionalToken:token];
+  }
 
-    return self;
+  return self;
 }
 
-- (id)initWithDeleteAction
-{
-    self = [super init];
+- (id)initWithDeleteAction {
+  self = [super init];
 
-    if (nil != self)
-    {
-        [self setRecoveryType:CPRecoveryTypeRemoveToken];
-    }
+  if (nil != self) {
+    [self setRecoveryType:CPRecoveryTypeRemoveToken];
+  }
 
-    return self;
+  return self;
 }
 
-- (id)initWithStopAction
-{
-    self = [super init];
+- (id)initWithStopAction {
+  self = [super init];
 
-    if (nil != self)
-    {
-        [self setRecoveryType:CPRecoveryTypeBail];
-    }
+  if (nil != self) {
+    [self setRecoveryType:CPRecoveryTypeBail];
+  }
 
-    return self;
+  return self;
 }
 
-- (void)dealloc
-{
-    [additionalToken release];
+- (void)dealloc {
+  [additionalToken release];
 
-    [super dealloc];
+  [super dealloc];
 }
 
 @end

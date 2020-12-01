@@ -2,7 +2,8 @@
 
 @interface CPKSwatchView : NSView
 
-    /** The color to display. When the color is changed by the color picker this value gets updated. */
+/** The color to display. When the color is changed by the color picker this
+ * value gets updated. */
 @property(nonatomic, retain) NSColor *color;
 
 /** Defaults to 3 */

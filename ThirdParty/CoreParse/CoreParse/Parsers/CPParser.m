@@ -10,7 +10,7 @@
 
 @interface CPParser ()
 
-@property (readwrite,retain) CPGrammar *grammar;
+@property(readwrite, retain) CPGrammar *grammar;
 
 @end
 
@@ -19,53 +19,50 @@
 @synthesize grammar;
 @synthesize delegate;
 
-+ (id)parserWithGrammar:(CPGrammar *)grammar
-{
-    return [[[self alloc] initWithGrammar:grammar] autorelease];
++ (id)parserWithGrammar:(CPGrammar *)grammar {
+  return [[[self alloc] initWithGrammar:grammar] autorelease];
 }
 
-- (id)initWithGrammar:(CPGrammar *)initGrammar
-{
-    self = [super init];
+- (id)initWithGrammar:(CPGrammar *)initGrammar {
+  self = [super init];
 
-    if (nil != self)
-    {
-        [self setGrammar:initGrammar];
-    }
+  if (nil != self) {
+    [self setGrammar:initGrammar];
+  }
 
-    return self;
+  return self;
 }
 
-- (id)init
-{
-    return [self initWithGrammar:nil];
+- (id)init {
+  return [self initWithGrammar:nil];
 }
 
-- (void)dealloc
-{
-    [grammar release];
+- (void)dealloc {
+  [grammar release];
 
-    [super dealloc];
+  [super dealloc];
 }
 
-- (id)parse:(CPTokenStream *)tokenStream
-{
-    [NSException raise:@"Abstract Class Exception"
-                 format:@"CPParser is an abstract class, use one of the concrete subclasses to parse your token stream"];
+- (id)parse:(CPTokenStream *)tokenStream {
+  [NSException raise:@"Abstract Class Exception"
+              format:@"CPParser is an abstract class, use one of the concrete "
+                     @"subclasses to parse your token stream"];
 
-    return nil;
+  return nil;
 }
 
-- (void)setDelegate:(id<CPParserDelegate>)aDelegate
-{
-    if (delegate != aDelegate)
-    {
-        delegate = aDelegate;
+- (void)setDelegate:(id<CPParserDelegate>)aDelegate {
+  if (delegate != aDelegate) {
+    delegate = aDelegate;
 
-        delegateRespondsTo.didProduceSyntaxTree = [delegate respondsToSelector:@selector(parser:didProduceSyntaxTree:)];
-        delegateRespondsTo.didEncounterErrorOnInput = [delegate respondsToSelector:@selector(parser:didEncounterErrorOnInput:)];
-        delegateRespondsTo.didEncounterErrorOnInputExpecting = [delegate respondsToSelector:@selector(parser:didEncounterErrorOnInput:expecting:)];
-    }
+    delegateRespondsTo.didProduceSyntaxTree =
+        [delegate respondsToSelector:@selector(parser:didProduceSyntaxTree:)];
+    delegateRespondsTo.didEncounterErrorOnInput = [delegate
+        respondsToSelector:@selector(parser:didEncounterErrorOnInput:)];
+    delegateRespondsTo.didEncounterErrorOnInputExpecting =
+        [delegate respondsToSelector:@selector(parser:
+                                         didEncounterErrorOnInput:expecting:)];
+  }
 }
 
 @end

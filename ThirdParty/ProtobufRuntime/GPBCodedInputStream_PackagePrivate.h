@@ -40,41 +40,41 @@
 @class GPBFieldDescriptor;
 
 typedef struct GPBCodedInputStreamState {
-    const uint8_t *bytes;
-    size_t bufferSize;
-    size_t bufferPos;
+  const uint8_t *bytes;
+  size_t bufferSize;
+  size_t bufferPos;
 
-    // For parsing subsections of an input stream you can put a hard limit on
-    // how much should be read. Normally the limit is the end of the stream,
-    // but you can adjust it to anywhere, and if you hit it you will be at the
-    // end of the stream, until you adjust the limit.
-    size_t currentLimit;
-    int32_t lastTag;
-    NSUInteger recursionDepth;
+  // For parsing subsections of an input stream you can put a hard limit on
+  // how much should be read. Normally the limit is the end of the stream,
+  // but you can adjust it to anywhere, and if you hit it you will be at the
+  // end of the stream, until you adjust the limit.
+  size_t currentLimit;
+  int32_t lastTag;
+  NSUInteger recursionDepth;
 } GPBCodedInputStreamState;
 
 @interface GPBCodedInputStream () {
-    @package
-    struct GPBCodedInputStreamState state_;
-    NSData *buffer_;
+@package
+  struct GPBCodedInputStreamState state_;
+  NSData *buffer_;
 }
 
 // Group support is deprecated, so we hide this interface from users, but
 // support for older data.
 - (void)readGroup:(int32_t)fieldNumber
-    message:(GPBMessage *)message
+              message:(GPBMessage *)message
     extensionRegistry:(GPBExtensionRegistry *)extensionRegistry;
 
 // Reads a group field value from the stream and merges it into the given
 // UnknownFieldSet.
 - (void)readUnknownGroup:(int32_t)fieldNumber
-    message:(GPBUnknownFieldSet *)message;
+                 message:(GPBUnknownFieldSet *)message;
 
 // Reads a map entry.
 - (void)readMapEntry:(id)mapDictionary
     extensionRegistry:(GPBExtensionRegistry *)extensionRegistry
-    field:(GPBFieldDescriptor *)field
-    parentMessage:(GPBMessage *)parentMessage;
+                field:(GPBFieldDescriptor *)field
+        parentMessage:(GPBMessage *)parentMessage;
 @end
 
 CF_EXTERN_C_BEGIN
@@ -96,11 +96,12 @@ int32_t GPBCodedInputStreamReadSInt32(GPBCodedInputStreamState *state);
 int64_t GPBCodedInputStreamReadSInt64(GPBCodedInputStreamState *state);
 BOOL GPBCodedInputStreamReadBool(GPBCodedInputStreamState *state);
 NSString *GPBCodedInputStreamReadRetainedString(GPBCodedInputStreamState *state)
-__attribute((ns_returns_retained));
+    __attribute((ns_returns_retained));
 NSData *GPBCodedInputStreamReadRetainedBytes(GPBCodedInputStreamState *state)
-__attribute((ns_returns_retained));
-NSData *GPBCodedInputStreamReadRetainedBytesNoCopy(
-    GPBCodedInputStreamState *state) __attribute((ns_returns_retained));
+    __attribute((ns_returns_retained));
+NSData *
+GPBCodedInputStreamReadRetainedBytesNoCopy(GPBCodedInputStreamState *state)
+    __attribute((ns_returns_retained));
 
 size_t GPBCodedInputStreamPushLimit(GPBCodedInputStreamState *state,
                                     size_t byteLimit);

@@ -4,55 +4,57 @@
 @implementation CPKSwatchView
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
-    self = [super initWithFrame:frameRect];
-    if (self) {
-        self.cpk_cornerRadius = 2;
-        self.borderColor = [NSColor grayColor];
-    }
-    return self;
+  self = [super initWithFrame:frameRect];
+  if (self) {
+    self.cpk_cornerRadius = 2;
+    self.borderColor = [NSColor grayColor];
+  }
+  return self;
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
-    [super drawRect:dirtyRect];
+  [super drawRect:dirtyRect];
 
-    NSRect rect = self.bounds;
-    rect.origin.x += 0.5;
-    rect.origin.y += 0.5;
-    rect.size.width -= 1;
-    rect.size.height -= 1;
+  NSRect rect = self.bounds;
+  rect.origin.x += 0.5;
+  rect.origin.y += 0.5;
+  rect.size.width -= 1;
+  rect.size.height -= 1;
 
-    NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:rect
-                                       xRadius:self.cpk_cornerRadius
-                                       yRadius:self.cpk_cornerRadius];
-    [NSGraphicsContext saveGraphicsState];
-    [path addClip];
+  NSBezierPath *path =
+      [NSBezierPath bezierPathWithRoundedRect:rect
+                                      xRadius:self.cpk_cornerRadius
+                                      yRadius:self.cpk_cornerRadius];
+  [NSGraphicsContext saveGraphicsState];
+  [path addClip];
 
-    if (self.color) {
-        [[NSColor colorWithPatternImage:[self cpk_imageNamed:@"SwatchCheckerboard"]] set];
-        NSRect offset = [self convertRect:self.bounds toView:nil];
-        [[NSGraphicsContext currentContext] setPatternPhase:offset.origin];
-        NSRectFill(rect);
+  if (self.color) {
+    [[NSColor colorWithPatternImage:[self cpk_imageNamed:@"SwatchCheckerboard"]]
+        set];
+    NSRect offset = [self convertRect:self.bounds toView:nil];
+    [[NSGraphicsContext currentContext] setPatternPhase:offset.origin];
+    NSRectFill(rect);
 
-        [self.color set];
-        NSRectFillUsingOperation(self.bounds, NSCompositeSourceOver);
-    }
+    [self.color set];
+    NSRectFillUsingOperation(self.bounds, NSCompositeSourceOver);
+  }
 
-    [NSGraphicsContext restoreGraphicsState];
+  [NSGraphicsContext restoreGraphicsState];
 
-    [self.borderColor set];
+  [self.borderColor set];
+  [path stroke];
+
+  if (!self.color) {
+    path = [NSBezierPath bezierPath];
+    [path moveToPoint:NSMakePoint(NSMaxX(rect), NSMinY(rect))];
+    [path lineToPoint:NSMakePoint(NSMinX(rect), NSMaxY(rect))];
     [path stroke];
-
-    if (!self.color) {
-        path = [NSBezierPath bezierPath];
-        [path moveToPoint:NSMakePoint(NSMaxX(rect), NSMinY(rect))];
-        [path lineToPoint:NSMakePoint(NSMinX(rect), NSMaxY(rect))];
-        [path stroke];
-    }
+  }
 }
 
 - (void)setColor:(NSColor *)color {
-    _color = color;
-    [self setNeedsDisplay:YES];
+  _color = color;
+  [self setNeedsDisplay:YES];
 }
 
 @end

@@ -30,26 +30,29 @@
  */
 SU_EXPORT @interface SUUpdater : NSObject
 
-@property (unsafe_unretained) IBOutlet id<SUUpdaterDelegate> delegate;
+@property(unsafe_unretained) IBOutlet id<SUUpdaterDelegate> delegate;
 
 /*!
  The shared updater for the main bundle.
 
- This is equivalent to passing [NSBundle mainBundle] to SUUpdater::updaterForBundle:
+ This is equivalent to passing [NSBundle mainBundle] to
+ SUUpdater::updaterForBundle:
  */
 + (SUUpdater *)sharedUpdater;
 
 /*!
  The shared updater for a specified bundle.
 
- If an updater has already been initialized for the provided bundle, that shared instance will be returned.
+ If an updater has already been initialized for the provided bundle, that shared
+ instance will be returned.
  */
 + (SUUpdater *)updaterForBundle:(NSBundle *)bundle;
 
 /*!
  Designated initializer for SUUpdater.
 
- If an updater has already been initialized for the provided bundle, that shared instance will be returned.
+ If an updater has already been initialized for the provided bundle, that shared
+ instance will be returned.
  */
 - (instancetype)initForBundle:(NSBundle *)bundle;
 
@@ -78,8 +81,8 @@ SU_EXPORT @interface SUUpdater : NSObject
  proceeds as usual.
 
  If automatic downloading of updates it turned on and allowed, however,
- this will invoke that behavior, and if an update is found, it will be downloaded
- in the background silently and will be prepped for installation.
+ this will invoke that behavior, and if an update is found, it will be
+ downloaded in the background silently and will be prepped for installation.
 
  This will not find updates that the user has opted into skipping.
  */
@@ -89,17 +92,20 @@ SU_EXPORT @interface SUUpdater : NSObject
  A property indicating whether or not to check for updates automatically.
 
  Setting this property will persist in the host bundle's user defaults.
- The update schedule cycle will be reset in a short delay after the property's new value is set.
- This is to allow reverting this property without kicking off a schedule change immediately
+ The update schedule cycle will be reset in a short delay after the property's
+ new value is set. This is to allow reverting this property without kicking off
+ a schedule change immediately
  */
 @property BOOL automaticallyChecksForUpdates;
 
 /*!
- A property indicating whether or not updates can be automatically downloaded in the background.
+ A property indicating whether or not updates can be automatically downloaded in
+ the background.
 
  Note that automatic downloading of updates can be disallowed by the developer
- or by the user's system if silent updates cannot be done (eg: if they require authentication).
- In this case, -automaticallyDownloadsUpdates will return NO regardless of how this property is set.
+ or by the user's system if silent updates cannot be done (eg: if they require
+ authentication). In this case, -automaticallyDownloadsUpdates will return NO
+ regardless of how this property is set.
 
  Setting this property will persist in the host bundle's user defaults.
  */
@@ -109,8 +115,9 @@ SU_EXPORT @interface SUUpdater : NSObject
  A property indicating the current automatic update check interval.
 
  Setting this property will persist in the host bundle's user defaults.
- The update schedule cycle will be reset in a short delay after the property's new value is set.
- This is to allow reverting this property without kicking off a schedule change immediately
+ The update schedule cycle will be reset in a short delay after the property's
+ new value is set. This is to allow reverting this property without kicking off
+ a schedule change immediately
  */
 @property NSTimeInterval updateCheckInterval;
 
@@ -132,47 +139,51 @@ SU_EXPORT @interface SUUpdater : NSObject
 
  Setting this property will persist in the host bundle's user defaults.
  If you don't want persistence, you may want to consider instead implementing
- SUUpdaterDelegate::feedURLStringForUpdater: or SUUpdaterDelegate::feedParametersForUpdater:sendingSystemProfile:
+ SUUpdaterDelegate::feedURLStringForUpdater: or
+ SUUpdaterDelegate::feedParametersForUpdater:sendingSystemProfile:
 
  This property must be called on the main thread.
  */
-@property (copy) NSURL *feedURL;
+@property(copy) NSURL *feedURL;
 
 /*!
  The host bundle that is being updated.
  */
-@property (readonly, strong) NSBundle *hostBundle;
+@property(readonly, strong) NSBundle *hostBundle;
 
 /*!
  The bundle this class (SUUpdater) is loaded into.
  */
-@property (strong, readonly) NSBundle *sparkleBundle;
+@property(strong, readonly) NSBundle *sparkleBundle;
 
 /*!
  The user agent used when checking for updates.
 
  The default implementation can be overrided.
  */
-@property (nonatomic, copy) NSString *userAgentString;
+@property(nonatomic, copy) NSString *userAgentString;
 
 /*!
  The HTTP headers used when checking for updates.
 
- The keys of this dictionary are HTTP header fields (NSString) and values are corresponding values (NSString)
+ The keys of this dictionary are HTTP header fields (NSString) and values are
+ corresponding values (NSString)
  */
-@property (copy) NSDictionary<NSString *, NSString *> *httpHeaders;
+@property(copy) NSDictionary<NSString *, NSString *> *httpHeaders;
 
 /*!
- A property indicating whether or not the user's system profile information is sent when checking for updates.
+ A property indicating whether or not the user's system profile information is
+ sent when checking for updates.
 
  Setting this property will persist in the host bundle's user defaults.
  */
 @property BOOL sendsSystemProfile;
 
 /*!
- A property indicating the decryption password used for extracting updates shipped as Apple Disk Images (dmg)
+ A property indicating the decryption password used for extracting updates
+ shipped as Apple Disk Images (dmg)
  */
-@property (nonatomic, copy) NSString *decryptionPassword;
+@property(nonatomic, copy) NSString *decryptionPassword;
 
 /*!
     This function ignores normal update schedule, ignores user preferences,
@@ -196,8 +207,8 @@ SU_EXPORT @interface SUUpdater : NSObject
     A progress dialog is shown but the user will never be prompted to read the
     release notes.
 
-    This function will cause update to be downloaded twice if automatic updates are
-    enabled.
+    This function will cause update to be downloaded twice if automatic updates
+   are enabled.
 
     You may want to respond to the userDidCancelDownload delegate method in case
     the user clicks the "Cancel" button while the update is downloading.
@@ -209,7 +220,7 @@ SU_EXPORT @interface SUUpdater : NSObject
 
     \returns \c nil if no check has been performed.
  */
-@property (readonly, copy) NSDate *lastUpdateCheckDate;
+@property(readonly, copy) NSDate *lastUpdateCheckDate;
 
 /*!
     Appropriately schedules or cancels the update checking timer according to
@@ -223,10 +234,10 @@ SU_EXPORT @interface SUUpdater : NSObject
 /*!
    A property indicating whether or not an update is in progress.
 
-   Note this property is not indicative of whether or not user initiated updates can be performed.
-   Use SUUpdater::validateMenuItem: for that instead.
+   Note this property is not indicative of whether or not user initiated updates
+   can be performed. Use SUUpdater::validateMenuItem: for that instead.
  */
-@property (readonly) BOOL updateInProgress;
+@property(readonly) BOOL updateInProgress;
 
 @end
 

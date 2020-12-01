@@ -38,8 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @code
  *   + (GPBExtensionRegistry *)extensionRegistry;
  * @endcode
- * which is a @c GPBExtensionRegistry that includes all the extensions defined by
- * this file and all files that it depends on.
+ * which is a @c GPBExtensionRegistry that includes all the extensions defined
+ *by this file and all files that it depends on.
  **/
 @interface GPBEmptyRoot : GPBRootObject
 @end

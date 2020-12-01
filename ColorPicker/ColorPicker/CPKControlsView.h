@@ -4,11 +4,12 @@
 extern NSString *const kCPKUseSystemColorPicker;
 
 /**
- * Draws a row of controls: add favorite, remove favorite, pick color, and swatch.
+ * Draws a row of controls: add favorite, remove favorite, pick color, and
+ * swatch.
  */
 @interface CPKControlsView : NSView
 
-    /** Should the "Remove Favorite" button be enabled? */
+/** Should the "Remove Favorite" button be enabled? */
 @property(nonatomic) BOOL removeEnabled;
 
 /** Block called when you clicks on "No Color". */
@@ -27,8 +28,8 @@ extern NSString *const kCPKUseSystemColorPicker;
 @property(nonatomic, copy) void (^useNativeColorPicker)(void);
 
 /**
- * Use the system color picker? Setting this to YES opens the picker and adjusts the icon to
- * indicate it's active.
+ * Use the system color picker? Setting this to YES opens the picker and adjusts
+ * the icon to indicate it's active.
  */
 @property(nonatomic) BOOL useSystemColorPicker;
 
@@ -43,7 +44,8 @@ extern NSString *const kCPKUseSystemColorPicker;
  *
  * @return Initialized instance.
  */
-- (instancetype)initWithFrame:(NSRect)frameRect noColorAllowed:(BOOL)noColorAllowed NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithFrame:(NSRect)frameRect
+               noColorAllowed:(BOOL)noColorAllowed NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithCoder:(NSCoder *)coder NS_DESIGNATED_INITIALIZER;
 

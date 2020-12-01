@@ -6,24 +6,26 @@
 //  Copyright 2006 Positive Spin Media. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-#import "PSMTabStyle.h"
 #import "PSMTabBarControl.h"
+#import "PSMTabStyle.h"
+#import <Cocoa/Cocoa.h>
 
 extern BOOL gDebugLogging;
-int DebugLogImpl(const char *file, int line, const char *function, NSString* value);
-#define DLog(args...) \
-    do { \
-        if (gDebugLogging) { \
-            DebugLogImpl(__FILE__, __LINE__, __FUNCTION__, [NSString stringWithFormat:args]); \
-        } \
-    } while (0)
+int DebugLogImpl(const char *file, int line, const char *function,
+                 NSString *value);
+#define DLog(args...)                                                          \
+  do {                                                                         \
+    if (gDebugLogging) {                                                       \
+      DebugLogImpl(__FILE__, __LINE__, __FUNCTION__,                           \
+                   [NSString stringWithFormat:args]);                          \
+    }                                                                          \
+  } while (0)
 
 @interface NSColor (HSP)
-@property (nonatomic, readonly) CGFloat it_hspBrightness;
+@property(nonatomic, readonly) CGFloat it_hspBrightness;
 @end
 
-@interface PSMYosemiteTabStyle : NSObject<NSCoding, PSMTabStyle>
+@interface PSMYosemiteTabStyle : NSObject <NSCoding, PSMTabStyle>
 
 @property(nonatomic, readonly) NSColor *tabBarColor;
 @property(nonatomic, readonly) PSMTabBarOrientation orientation;
@@ -38,12 +40,12 @@ int DebugLogImpl(const char *file, int line, const char *function, NSString* val
 - (NSEdgeInsets)backgroundInsetsWithHorizontalOrientation:(BOOL)horizontal;
 
 - (NSColor *)effectiveBackgroundColorForTabWithTabColor:(NSColor *)tabColor
-    selected:(BOOL)selected
-    highlightAmount:(CGFloat)highlightAmount
-    window:(NSWindow *)window;
+                                               selected:(BOOL)selected
+                                        highlightAmount:(CGFloat)highlightAmount
+                                                 window:(NSWindow *)window;
 - (void)drawCellBackgroundSelected:(BOOL)selected
-    inRect:(NSRect)cellFrame
-    withTabColor:(NSColor *)tabColor
-    highlightAmount:(CGFloat)highlightAmount
-    horizontal:(BOOL)horizontal;
+                            inRect:(NSRect)cellFrame
+                      withTabColor:(NSColor *)tabColor
+                   highlightAmount:(CGFloat)highlightAmount
+                        horizontal:(BOOL)horizontal;
 @end

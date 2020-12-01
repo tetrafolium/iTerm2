@@ -12,34 +12,32 @@
 
 @implementation CPWhiteSpaceRecogniser
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    return [super init];
+- (id)initWithCoder:(NSCoder *)aDecoder {
+  return [super init];
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
+- (void)encodeWithCoder:(NSCoder *)aCoder {
 }
 
-+ (id)whiteSpaceRecogniser
-{
-    return [[[CPWhiteSpaceRecogniser alloc] init] autorelease];
++ (id)whiteSpaceRecogniser {
+  return [[[CPWhiteSpaceRecogniser alloc] init] autorelease];
 }
 
-- (CPToken *)recogniseTokenInString:(NSString *)tokenString currentTokenPosition:(NSUInteger *)tokenPosition
-{
-    NSScanner *scanner = [NSScanner scannerWithString:tokenString];
-    [scanner setCharactersToBeSkipped:nil];
-    [scanner setScanLocation:*tokenPosition];
-    NSString *scannedString;
-    BOOL success = [scanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:&scannedString];
-    if (success)
-    {
-        *tokenPosition = [scanner scanLocation];
-        return [CPWhiteSpaceToken whiteSpace:scannedString];
-    }
+- (CPToken *)recogniseTokenInString:(NSString *)tokenString
+               currentTokenPosition:(NSUInteger *)tokenPosition {
+  NSScanner *scanner = [NSScanner scannerWithString:tokenString];
+  [scanner setCharactersToBeSkipped:nil];
+  [scanner setScanLocation:*tokenPosition];
+  NSString *scannedString;
+  BOOL success = [scanner
+      scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]
+                 intoString:&scannedString];
+  if (success) {
+    *tokenPosition = [scanner scanLocation];
+    return [CPWhiteSpaceToken whiteSpace:scannedString];
+  }
 
-    return nil;
+  return nil;
 }
 
 @end

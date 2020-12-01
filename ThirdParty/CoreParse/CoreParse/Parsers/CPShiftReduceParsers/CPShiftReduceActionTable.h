@@ -10,17 +10,20 @@
 
 @class CPShiftReduceAction;
 
-#import "CPToken.h"
 #import "CPGrammar.h"
+#import "CPToken.h"
 
-@interface CPShiftReduceActionTable : NSObject <NSCoding>
-{}
+@interface CPShiftReduceActionTable : NSObject <NSCoding> {
+}
 
 - (id)initWithCapacity:(NSUInteger)capacity;
 
-- (BOOL)setAction:(CPShiftReduceAction *)action forState:(NSUInteger)state name:(NSString *)token;
+- (BOOL)setAction:(CPShiftReduceAction *)action
+         forState:(NSUInteger)state
+             name:(NSString *)token;
 
-- (CPShiftReduceAction *)actionForState:(NSUInteger)state token:(CPToken *)token;
+- (CPShiftReduceAction *)actionForState:(NSUInteger)state
+                                  token:(CPToken *)token;
 - (NSSet *)acceptableTokenNamesForState:(NSUInteger)state;
 
 - (NSString *)descriptionWithGrammar:(CPGrammar *)g;

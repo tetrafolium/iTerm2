@@ -38,15 +38,15 @@ NS_ASSUME_NONNULL_BEGIN
  * @code
  *   + (GPBExtensionRegistry *)extensionRegistry;
  * @endcode
- * which is a @c GPBExtensionRegistry that includes all the extensions defined by
- * this file and all files that it depends on.
+ * which is a @c GPBExtensionRegistry that includes all the extensions defined
+ *by this file and all files that it depends on.
  **/
 @interface GPBSourceContextRoot : GPBRootObject
 @end
 
 #pragma mark - GPBSourceContext
 
-typedef GPB_ENUM(GPBSourceContext_FieldNumber) {
+typedef GPB_ENUM(GPBSourceContext_FieldNumber){
     GPBSourceContext_FieldNumber_FileName = 1,
 };
 
@@ -56,10 +56,10 @@ typedef GPB_ENUM(GPBSourceContext_FieldNumber) {
  **/
 @interface GPBSourceContext : GPBMessage
 
-    /**
-     * The path-qualified name of the .proto file that contained the associated
-     * protobuf element.  For example: `"google/protobuf/source_context.proto"`.
-     **/
+/**
+ * The path-qualified name of the .proto file that contained the associated
+ * protobuf element.  For example: `"google/protobuf/source_context.proto"`.
+ **/
 @property(nonatomic, readwrite, copy, null_resettable) NSString *fileName;
 
 @end

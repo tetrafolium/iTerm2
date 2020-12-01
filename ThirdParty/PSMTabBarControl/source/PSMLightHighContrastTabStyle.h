@@ -6,10 +6,10 @@
 //
 //
 
-#import <Foundation/Foundation.h>
 #import "PSMTabStyle.h"
 #import "PSMYosemiteTabStyle.h"
+#import <Foundation/Foundation.h>
 
-@interface PSMLightHighContrastTabStyle : PSMYosemiteTabStyle<PSMTabStyle>
+@interface PSMLightHighContrastTabStyle : PSMYosemiteTabStyle <PSMTabStyle>
 
 @end

@@ -10,7 +10,7 @@
 
 #import "CoreParse.h"
 
-@interface CPTestWhiteSpaceIgnoringDelegate : NSObject <CPTokeniserDelegate>
-{}
+@interface CPTestWhiteSpaceIgnoringDelegate : NSObject <CPTokeniserDelegate> {
+}
 
 @end

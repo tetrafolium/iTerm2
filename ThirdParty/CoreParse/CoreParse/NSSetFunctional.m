@@ -8,28 +8,24 @@
 
 #import "NSSetFunctional.h"
 
+@implementation NSSet (Functional)
 
-@implementation NSSet(Functional)
+- (NSSet *)cp_map:(id (^)(id obj))block {
+  NSUInteger c = [self count];
+  id *resultingObjects = malloc(c * sizeof(id));
 
-- (NSSet *)cp_map:(id(^)(id obj))block
-{
-    NSUInteger c = [self count];
-    id *resultingObjects = malloc(c * sizeof(id));
-
-    NSUInteger nonNilCount = 0;
-    for (id obj in self)
-    {
-        id r = block(obj);
-        if (nil != r)
-        {
-            resultingObjects[nonNilCount] = r;
-            nonNilCount++;
-        }
+  NSUInteger nonNilCount = 0;
+  for (id obj in self) {
+    id r = block(obj);
+    if (nil != r) {
+      resultingObjects[nonNilCount] = r;
+      nonNilCount++;
     }
+  }
 
-    NSSet *s = [NSSet setWithObjects:resultingObjects count:nonNilCount];
-    free(resultingObjects);
-    return s;
+  NSSet *s = [NSSet setWithObjects:resultingObjects count:nonNilCount];
+  free(resultingObjects);
+  return s;
 }
 
 @end

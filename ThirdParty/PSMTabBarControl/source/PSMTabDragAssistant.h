@@ -7,11 +7,13 @@
 //
 
 /*
- This class is a sigleton that manages the details of a tab drag and drop.  The details were beginning to overwhelm me when keeping all of this in the control and cells :-)
+ This class is a sigleton that manages the details of a tab drag and drop.  The
+ details were beginning to overwhelm me when keeping all of this in the control
+ and cells :-)
  */
 
-#import <Cocoa/Cocoa.h>
 #import "PSMTabBarControl.h"
+#import <Cocoa/Cocoa.h>
 @class PSMTabBarCell;
 @class PSMTabDragWindow;
 
@@ -21,7 +23,7 @@
 
 @interface PSMTabDragAssistant : NSObject
 
-@property (nonatomic, readonly) BOOL dropping;
+@property(nonatomic, readonly) BOOL dropping;
 
 // Creation/destruction
 + (PSMTabDragAssistant *)sharedDragAssistant;
@@ -43,13 +45,19 @@
 - (void)setTargetCell:(PSMTabBarCell *)cell;
 
 // Functionality
-- (void)startAnimationWithOrientation:(PSMTabBarOrientation)orientation width:(CGFloat)width;
-- (void)startDraggingCell:(PSMTabBarCell *)cell fromTabBar:(PSMTabBarControl *)control withMouseDownEvent:(NSEvent *)event;
-- (void)draggingEnteredTabBar:(PSMTabBarControl *)control atPoint:(NSPoint)mouseLoc;
-- (void)draggingUpdatedInTabBar:(PSMTabBarControl *)control atPoint:(NSPoint)mouseLoc;
+- (void)startAnimationWithOrientation:(PSMTabBarOrientation)orientation
+                                width:(CGFloat)width;
+- (void)startDraggingCell:(PSMTabBarCell *)cell
+               fromTabBar:(PSMTabBarControl *)control
+       withMouseDownEvent:(NSEvent *)event;
+- (void)draggingEnteredTabBar:(PSMTabBarControl *)control
+                      atPoint:(NSPoint)mouseLoc;
+- (void)draggingUpdatedInTabBar:(PSMTabBarControl *)control
+                        atPoint:(NSPoint)mouseLoc;
 - (void)draggingExitedTabBar:(PSMTabBarControl *)control;
 - (void)performDragOperation:(id<NSDraggingInfo>)sender;
-- (void)draggedImageEndedAt:(NSPoint)aPoint operation:(NSDragOperation)operation;
+- (void)draggedImageEndedAt:(NSPoint)aPoint
+                  operation:(NSDragOperation)operation;
 - (void)finishDrag;
 
 - (void)draggingBeganAt:(NSPoint)aPoint;
@@ -60,7 +68,8 @@
 - (void)calculateDragAnimationForTabBar:(PSMTabBarControl *)control;
 
 // Placeholder
-- (void)distributePlaceholdersInTabBar:(PSMTabBarControl *)control withDraggedCell:(PSMTabBarCell *)cell;
+- (void)distributePlaceholdersInTabBar:(PSMTabBarControl *)control
+                       withDraggedCell:(PSMTabBarCell *)cell;
 - (void)distributePlaceholdersInTabBar:(PSMTabBarControl *)control;
 - (void)removeAllPlaceholdersFromTabBar:(PSMTabBarControl *)control;
 

@@ -41,8 +41,8 @@
 #pragma mark Initialisation
 
 /**
- * Returns an initialized instance of SCEvent using the supplied event ID, date, path
- * and flag.
+ * Returns an initialized instance of SCEvent using the supplied event ID, date,
+ * path and flag.
  *
  * @param identifer The ID of the event
  * @param date      The date of the event
@@ -52,15 +52,18 @@
  * @return The initialized (autoreleased) instance
  */
 + (SCEvent *)eventWithEventId:(NSUInteger)identifier
-    eventDate:(NSDate *)date
-    eventPath:(NSString *)path
-    eventFlags:(SCEventFlags)flags
-{
-    return [[[SCEvent alloc] initWithEventId:identifier eventDate:date eventPath:path eventFlags:flags] autorelease];
+                    eventDate:(NSDate *)date
+                    eventPath:(NSString *)path
+                   eventFlags:(SCEventFlags)flags {
+  return [[[SCEvent alloc] initWithEventId:identifier
+                                 eventDate:date
+                                 eventPath:path
+                                eventFlags:flags] autorelease];
 }
 
 /**
- * Initializes an instance of SCEvent using the supplied event ID, path and flag.
+ * Initializes an instance of SCEvent using the supplied event ID, path and
+ * flag.
  *
  * @param identifer The ID of the event
  * @param date      The date of the event
@@ -70,18 +73,17 @@
  * @return The initialized instance
  */
 - (id)initWithEventId:(NSUInteger)identifier
-    eventDate:(NSDate *)date
-    eventPath:(NSString *)path
-    eventFlags:(SCEventFlags)flags
-{
-    if ((self = [super init])) {
-        [self setEventId:identifier];
-        [self setEventDate:date];
-        [self setEventPath:path];
-        [self setEventFlags:flags];
-    }
+            eventDate:(NSDate *)date
+            eventPath:(NSString *)path
+           eventFlags:(SCEventFlags)flags {
+  if ((self = [super init])) {
+    [self setEventId:identifier];
+    [self setEventDate:date];
+    [self setEventPath:path];
+    [self setEventFlags:flags];
+  }
 
-    return self;
+  return self;
 }
 
 #pragma mark -
@@ -93,23 +95,21 @@
  *
  * @return The description string
  */
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"<%@ { eventId = %ld, eventPath = %@, eventFlags = %ld } >",
-                     [self className],
-                     ((unsigned long)_eventId),
-                     [self eventPath],
-                     ((unsigned long)_eventFlags)];
+- (NSString *)description {
+  return [NSString
+      stringWithFormat:
+          @"<%@ { eventId = %ld, eventPath = %@, eventFlags = %ld } >",
+          [self className], ((unsigned long)_eventId), [self eventPath],
+          ((unsigned long)_eventFlags)];
 }
 
 #pragma mark -
 
-- (void)dealloc
-{
-    [_eventDate release];
-    _eventDate = nil;
-    [_eventPath release];
-    [super dealloc];
+- (void)dealloc {
+  [_eventDate release];
+  _eventDate = nil;
+  [_eventPath release];
+  [super dealloc];
 }
 
 @end

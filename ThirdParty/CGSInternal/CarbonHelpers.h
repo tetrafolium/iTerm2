@@ -26,15 +26,18 @@
 #pragma once
 #include "CGSWindow.h"
 
-
 CG_EXTERN_C_BEGIN
 
 /* Gets a CGSWindowID for a WindowRef. Implemented in Carbon.framework.
-   This call is deprecated in 10.5. Please use the public alternative, `HIWindowGetCGWindowID`. */
-CG_EXTERN CGSWindowID GetNativeWindowFromWindowRef(WindowRef ref) DEPRECATED_IN_MAC_OS_X_VERSION_10_5_AND_LATER;
+   This call is deprecated in 10.5. Please use the public alternative,
+   `HIWindowGetCGWindowID`. */
+CG_EXTERN CGSWindowID GetNativeWindowFromWindowRef(WindowRef ref)
+    DEPRECATED_IN_MAC_OS_X_VERSION_10_5_AND_LATER;
 
-/* Gets a WindowRef (in the current process) from a CGSWindowID. Implemented in Carbon.framework.
-   This call is deprecated in 10.5. Please use the public alternative, `HIWindowFromCGWindowID`. */
-CG_EXTERN WindowRef GetWindowRefFromNativeWindow(CGSWindowID wid) DEPRECATED_IN_MAC_OS_X_VERSION_10_5_AND_LATER;
+/* Gets a WindowRef (in the current process) from a CGSWindowID. Implemented in
+   Carbon.framework. This call is deprecated in 10.5. Please use the public
+   alternative, `HIWindowFromCGWindowID`. */
+CG_EXTERN WindowRef GetWindowRefFromNativeWindow(CGSWindowID wid)
+    DEPRECATED_IN_MAC_OS_X_VERSION_10_5_AND_LATER;
 
 CG_EXTERN_C_END

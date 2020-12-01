@@ -11,18 +11,18 @@
 @implementation SIGKey
 
 - (instancetype)initWithSecKey:(SecKeyRef)secKey {
-    self = [super init];
-    if (self) {
-        CFRetain(secKey);
-        _secKey = secKey;
-    }
-    return self;
+  self = [super init];
+  if (self) {
+    CFRetain(secKey);
+    _secKey = secKey;
+  }
+  return self;
 }
 
 - (void)dealloc {
-    if (_secKey) {
-        CFRelease(_secKey);
-    }
+  if (_secKey) {
+    CFRelease(_secKey);
+  }
 }
 
 @end

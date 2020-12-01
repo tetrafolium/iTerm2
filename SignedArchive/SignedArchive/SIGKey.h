@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SIGKey : NSObject
 
-@property (nonatomic, readonly) SecKeyRef secKey;
+@property(nonatomic, readonly) SecKeyRef secKey;
 
 - (instancetype)initWithSecKey:(SecKeyRef)secKey NS_DESIGNATED_INITIALIZER;
 

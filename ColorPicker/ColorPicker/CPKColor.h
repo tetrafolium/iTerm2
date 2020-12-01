@@ -21,26 +21,26 @@ NS_ASSUME_NONNULL_BEGIN
 // query for it and get the samet hing back, even for black and white.
 @interface CPKColor : NSObject
 
-@property (nonatomic, readonly) CGFloat hueComponent;
-@property (nonatomic, readonly) CGFloat saturationComponent;
-@property (nonatomic, readonly) CGFloat brightnessComponent;
-@property (nonatomic, readonly) CGFloat redComponent;
-@property (nonatomic, readonly) CGFloat greenComponent;
-@property (nonatomic, readonly) CGFloat blueComponent;
-@property (nonatomic, readonly) CGFloat alphaComponent;
-@property (nonatomic, readonly) NSColor *color;
+@property(nonatomic, readonly) CGFloat hueComponent;
+@property(nonatomic, readonly) CGFloat saturationComponent;
+@property(nonatomic, readonly) CGFloat brightnessComponent;
+@property(nonatomic, readonly) CGFloat redComponent;
+@property(nonatomic, readonly) CGFloat greenComponent;
+@property(nonatomic, readonly) CGFloat blueComponent;
+@property(nonatomic, readonly) CGFloat alphaComponent;
+@property(nonatomic, readonly) NSColor *color;
 
 - (instancetype)initWithColor:(NSColor *)color NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithHue:(CGFloat)hue
-    saturation:(CGFloat)saturation
-    brightness:(CGFloat)brightness
-    alpha:(CGFloat)alpha;
+                 saturation:(CGFloat)saturation
+                 brightness:(CGFloat)brightness
+                      alpha:(CGFloat)alpha;
 
 - (instancetype)initWithRed:(CGFloat)red
-    green:(CGFloat)green
-    blue:(CGFloat)blue
-    alpha:(CGFloat)alpha;
+                      green:(CGFloat)green
+                       blue:(CGFloat)blue
+                      alpha:(CGFloat)alpha;
 
 - (instancetype)init NS_UNAVAILABLE;
 

@@ -27,21 +27,29 @@
 
 typedef int CGSCIFilterID;
 
-/*! Creates a new CGSCIFilter from a filter name. These names are the same as you'd usually use for CIFilters. */
-CG_EXTERN CGError CGSNewCIFilterByName(CGSConnectionID cid, CFStringRef filterName, CGSCIFilterID *outFilter);
+/*! Creates a new CGSCIFilter from a filter name. These names are the same as
+ * you'd usually use for CIFilters. */
+CG_EXTERN CGError CGSNewCIFilterByName(CGSConnectionID cid,
+                                       CFStringRef filterName,
+                                       CGSCIFilterID *outFilter);
 
-/*! Adds or removes a CIFilter to a window. Flags are currently unknown (the Dock uses 0x3001).
-	Note: This stuff is VERY crashy under 10.4.10 - make sure to remove the filter before minimizing the window or closing it. */
-CG_EXTERN CGError CGSAddWindowFilter(CGSConnectionID cid, CGSWindowID wid, CGSCIFilterID filter, int flags);
-CG_EXTERN CGError CGSRemoveWindowFilter(CGSConnectionID cid, CGSWindowID wid, CGSCIFilterID filter);
+/*! Adds or removes a CIFilter to a window. Flags are currently unknown (the
+   Dock uses 0x3001).
+        Note: This stuff is VERY crashy under 10.4.10 - make sure to remove the
+   filter before minimizing the window or closing it. */
+CG_EXTERN CGError CGSAddWindowFilter(CGSConnectionID cid, CGSWindowID wid,
+                                     CGSCIFilterID filter, int flags);
+CG_EXTERN CGError CGSRemoveWindowFilter(CGSConnectionID cid, CGSWindowID wid,
+                                        CGSCIFilterID filter);
 
 enum {
-    kCGWindowFilterUnderlay = 1,
-    kCGWindowFilterDock = 0x3001,
+  kCGWindowFilterUnderlay = 1,
+  kCGWindowFilterDock = 0x3001,
 };
 
 /*! Loads a set of values into the CIFilter. */
-CG_EXTERN CGError CGSSetCIFilterValuesFromDictionary(CGSConnectionID cid, CGSCIFilterID filter, CFDictionaryRef filterValues);
+CG_EXTERN CGError CGSSetCIFilterValuesFromDictionary(
+    CGSConnectionID cid, CGSCIFilterID filter, CFDictionaryRef filterValues);
 
 /*! Releases a CIFilter. */
 CG_EXTERN CGError CGSReleaseCIFilter(CGSConnectionID cid, CGSCIFilterID filter);

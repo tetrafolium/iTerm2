@@ -11,31 +11,32 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(long long, SIGArchiveTag) {
-    SIGArchiveTagHeader = 0,
-    SIGArchiveTagPayload = 1,
-    SIGArchiveTagMetadata = 2,
-    SIGArchiveTagSignature = 3,  // Deprecated. Signs only the payload.
-    SIGArchiveTagCertificate = 4,
-    SIGArchiveTagSignature2 = 5,  // Signs the entire file excluding the signature2 chunk. Must be the last entry.
+  SIGArchiveTagHeader = 0,
+  SIGArchiveTagPayload = 1,
+  SIGArchiveTagMetadata = 2,
+  SIGArchiveTagSignature = 3, // Deprecated. Signs only the payload.
+  SIGArchiveTagCertificate = 4,
+  SIGArchiveTagSignature2 = 5, // Signs the entire file excluding the signature2
+                               // chunk. Must be the last entry.
 };
 
 extern NSString *const SIGArchiveHeaderMagicString;
 
 @interface SIGArchiveChunk : NSObject
 
-@property (nonatomic, readonly) SIGArchiveTag tag;
-@property (nonatomic, readonly) long long payloadLength;
-@property (nonatomic, readonly) long long chunkLength;
-@property (nonatomic, readonly) long long payloadOffset;
-@property (nonatomic, readonly) NSFileHandle *fileHandle;
+@property(nonatomic, readonly) SIGArchiveTag tag;
+@property(nonatomic, readonly) long long payloadLength;
+@property(nonatomic, readonly) long long chunkLength;
+@property(nonatomic, readonly) long long payloadOffset;
+@property(nonatomic, readonly) NSFileHandle *fileHandle;
 
 + (instancetype)chunkFromFileHandle:(NSFileHandle *)fileHandle
-    atOffset:(long long)offset
-    error:(out NSError **)error;
+                           atOffset:(long long)offset
+                              error:(out NSError **)error;
 
 - (instancetype)initWithTag:(SIGArchiveTag)tag
-    length:(long long)length
-    offset:(long long)offset NS_DESIGNATED_INITIALIZER;
+                     length:(long long)length
+                     offset:(long long)offset NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (NSData *)data:(out NSError **)error;
@@ -45,14 +46,13 @@ extern NSString *const SIGArchiveHeaderMagicString;
 @interface SIGArchiveChunkWriter : SIGArchiveChunk
 
 - (BOOL)writeData:(NSData *)data
-    toStream:(NSOutputStream *)stream
-    error:(out NSError **)error;
+         toStream:(NSOutputStream *)stream
+            error:(out NSError **)error;
 
 - (BOOL)writeStream:(NSInputStream *)readStream
-    toStream:(NSOutputStream *)writeStream
-    error:(out NSError **)error;
+           toStream:(NSOutputStream *)writeStream
+              error:(out NSError **)error;
 
 @end
-
 
 NS_ASSUME_NONNULL_END

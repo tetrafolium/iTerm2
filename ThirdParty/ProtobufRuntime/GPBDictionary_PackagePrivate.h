@@ -40,9 +40,9 @@
 @protocol GPBDictionaryInternalsProtocol
 - (size_t)computeSerializedSizeAsField:(GPBFieldDescriptor *)field;
 - (void)writeToCodedOutputStream:(GPBCodedOutputStream *)outputStream
-    asField:(GPBFieldDescriptor *)field;
+                         asField:(GPBFieldDescriptor *)field;
 - (void)setGPBGenericValue:(GPBGenericValue *)value
-    forGPBGenericValueKey:(GPBGenericValue *)key;
+     forGPBGenericValueKey:(GPBGenericValue *)key;
 - (void)enumerateForTextFormat:(void (^)(id keyObj, id valueObj))block;
 @end
 
@@ -60,9 +60,9 @@
 //%DICTIONARY_PRIVATE_INTERFACES(KEY_NAME, Enum, Enum)
 
 //%PDDM-DEFINE DICTIONARY_PRIVATE_INTERFACES(KEY_NAME, VALUE_NAME, HELPER)
-//%@interface GPB##KEY_NAME##VALUE_NAME##Dictionary () <GPBDictionaryInternalsProtocol> {
-//% @package
-//%  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+//%@interface GPB##KEY_NAME##VALUE_NAME##Dictionary ()
+//<GPBDictionaryInternalsProtocol> { % @package %  GPB_UNSAFE_UNRETAINED
+//GPBMessage *_autocreator;
 //%}
 //%EXTRA_DICTIONARY_PRIVATE_INTERFACES_##HELPER()@end
 //%
@@ -84,59 +84,59 @@
 // This block of code is generated, do not edit it directly.
 
 @interface GPBUInt32UInt32Dictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBUInt32Int32Dictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBUInt32UInt64Dictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBUInt32Int64Dictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBUInt32BoolDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBUInt32FloatDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBUInt32DoubleDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBUInt32EnumDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 - (NSData *)serializedDataForUnknownValue:(int32_t)value
-    forKey:(GPBGenericValue *)key
-    keyDataType:(GPBDataType)keyDataType;
+                                   forKey:(GPBGenericValue *)key
+                              keyDataType:(GPBDataType)keyDataType;
 @end
 
 @interface GPBUInt32ObjectDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 - (BOOL)isInitialized;
 - (instancetype)deepCopyWithZone:(NSZone *)zone
@@ -147,59 +147,59 @@
 // This block of code is generated, do not edit it directly.
 
 @interface GPBInt32UInt32Dictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBInt32Int32Dictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBInt32UInt64Dictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBInt32Int64Dictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBInt32BoolDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBInt32FloatDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBInt32DoubleDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBInt32EnumDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 - (NSData *)serializedDataForUnknownValue:(int32_t)value
-    forKey:(GPBGenericValue *)key
-    keyDataType:(GPBDataType)keyDataType;
+                                   forKey:(GPBGenericValue *)key
+                              keyDataType:(GPBDataType)keyDataType;
 @end
 
 @interface GPBInt32ObjectDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 - (BOOL)isInitialized;
 - (instancetype)deepCopyWithZone:(NSZone *)zone
@@ -210,59 +210,59 @@
 // This block of code is generated, do not edit it directly.
 
 @interface GPBUInt64UInt32Dictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBUInt64Int32Dictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBUInt64UInt64Dictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBUInt64Int64Dictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBUInt64BoolDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBUInt64FloatDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBUInt64DoubleDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBUInt64EnumDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 - (NSData *)serializedDataForUnknownValue:(int32_t)value
-    forKey:(GPBGenericValue *)key
-    keyDataType:(GPBDataType)keyDataType;
+                                   forKey:(GPBGenericValue *)key
+                              keyDataType:(GPBDataType)keyDataType;
 @end
 
 @interface GPBUInt64ObjectDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 - (BOOL)isInitialized;
 - (instancetype)deepCopyWithZone:(NSZone *)zone
@@ -273,59 +273,59 @@
 // This block of code is generated, do not edit it directly.
 
 @interface GPBInt64UInt32Dictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBInt64Int32Dictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBInt64UInt64Dictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBInt64Int64Dictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBInt64BoolDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBInt64FloatDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBInt64DoubleDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBInt64EnumDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 - (NSData *)serializedDataForUnknownValue:(int32_t)value
-    forKey:(GPBGenericValue *)key
-    keyDataType:(GPBDataType)keyDataType;
+                                   forKey:(GPBGenericValue *)key
+                              keyDataType:(GPBDataType)keyDataType;
 @end
 
 @interface GPBInt64ObjectDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 - (BOOL)isInitialized;
 - (instancetype)deepCopyWithZone:(NSZone *)zone
@@ -336,59 +336,59 @@
 // This block of code is generated, do not edit it directly.
 
 @interface GPBBoolUInt32Dictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBBoolInt32Dictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBBoolUInt64Dictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBBoolInt64Dictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBBoolBoolDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBBoolFloatDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBBoolDoubleDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBBoolEnumDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 - (NSData *)serializedDataForUnknownValue:(int32_t)value
-    forKey:(GPBGenericValue *)key
-    keyDataType:(GPBDataType)keyDataType;
+                                   forKey:(GPBGenericValue *)key
+                              keyDataType:(GPBDataType)keyDataType;
 @end
 
 @interface GPBBoolObjectDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 - (BOOL)isInitialized;
 - (instancetype)deepCopyWithZone:(NSZone *)zone
@@ -399,54 +399,54 @@
 // This block of code is generated, do not edit it directly.
 
 @interface GPBStringUInt32Dictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBStringInt32Dictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBStringUInt64Dictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBStringInt64Dictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBStringBoolDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBStringFloatDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBStringDoubleDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
 @interface GPBStringEnumDictionary () <GPBDictionaryInternalsProtocol> {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 - (NSData *)serializedDataForUnknownValue:(int32_t)value
-    forKey:(GPBGenericValue *)key
-    keyDataType:(GPBDataType)keyDataType;
+                                   forKey:(GPBGenericValue *)key
+                              keyDataType:(GPBDataType)keyDataType;
 @end
 
 //%PDDM-EXPAND-END (6 expansions)
@@ -454,8 +454,8 @@
 #pragma mark - NSDictionary Subclass
 
 @interface GPBAutocreatedDictionary : NSMutableDictionary {
-    @package
-    GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
+@package
+  GPB_UNSAFE_UNRETAINED GPBMessage *_autocreator;
 }
 @end
 
@@ -466,7 +466,7 @@ CF_EXTERN_C_BEGIN
 // Helper to compute size when an NSDictionary is used for the map instead
 // of a custom type.
 size_t GPBDictionaryComputeSizeInternalHelper(NSDictionary *dict,
-        GPBFieldDescriptor *field);
+                                              GPBFieldDescriptor *field);
 
 // Helper to write out when an NSDictionary is used for the map instead
 // of a custom type.
@@ -477,7 +477,7 @@ void GPBDictionaryWriteToStreamInternalHelper(
 // Helper to check message initialization when an NSDictionary is used for
 // the map instead of a custom type.
 BOOL GPBDictionaryIsInitializedInternalHelper(NSDictionary *dict,
-        GPBFieldDescriptor *field);
+                                              GPBFieldDescriptor *field);
 
 // Helper to read a map instead.
 void GPBDictionaryReadEntry(id mapDictionary, GPBCodedInputStream *stream,

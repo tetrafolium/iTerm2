@@ -44,21 +44,18 @@ NS_ASSUME_NONNULL_BEGIN
  * @code
  *   + (GPBExtensionRegistry *)extensionRegistry;
  * @endcode
- * which is a @c GPBExtensionRegistry that includes all the extensions defined by
- * this file and all files that it depends on.
+ * which is a @c GPBExtensionRegistry that includes all the extensions defined
+ *by this file and all files that it depends on.
  **/
 @interface GPBApiRoot : GPBRootObject
 @end
 
 #pragma mark - GPBApi
 
-typedef GPB_ENUM(GPBApi_FieldNumber) {
-    GPBApi_FieldNumber_Name = 1,
-    GPBApi_FieldNumber_MethodsArray = 2,
-    GPBApi_FieldNumber_OptionsArray = 3,
-    GPBApi_FieldNumber_Version = 4,
-    GPBApi_FieldNumber_SourceContext = 5,
-    GPBApi_FieldNumber_MixinsArray = 6,
+typedef GPB_ENUM(GPBApi_FieldNumber){
+    GPBApi_FieldNumber_Name = 1,          GPBApi_FieldNumber_MethodsArray = 2,
+    GPBApi_FieldNumber_OptionsArray = 3,  GPBApi_FieldNumber_Version = 4,
+    GPBApi_FieldNumber_SourceContext = 5, GPBApi_FieldNumber_MixinsArray = 6,
     GPBApi_FieldNumber_Syntax = 7,
 };
 
@@ -67,20 +64,24 @@ typedef GPB_ENUM(GPBApi_FieldNumber) {
  **/
 @interface GPBApi : GPBMessage
 
-    /**
-     * The fully qualified name of this api, including package name
-     * followed by the api's simple name.
-     **/
+/**
+ * The fully qualified name of this api, including package name
+ * followed by the api's simple name.
+ **/
 @property(nonatomic, readwrite, copy, null_resettable) NSString *name;
 
 /** The methods of this api, in unspecified order. */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<GPBMethod*> *methodsArray;
-/** The number of items in @c methodsArray without causing the array to be created. */
+@property(nonatomic, readwrite, strong, null_resettable)
+    NSMutableArray<GPBMethod *> *methodsArray;
+/** The number of items in @c methodsArray without causing the array to be
+ * created. */
 @property(nonatomic, readonly) NSUInteger methodsArray_Count;
 
 /** Any metadata attached to the API. */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<GPBOption*> *optionsArray;
-/** The number of items in @c optionsArray without causing the array to be created. */
+@property(nonatomic, readwrite, strong, null_resettable)
+    NSMutableArray<GPBOption *> *optionsArray;
+/** The number of items in @c optionsArray without causing the array to be
+ * created. */
 @property(nonatomic, readonly) NSUInteger optionsArray_Count;
 
 /**
@@ -111,13 +112,16 @@ typedef GPB_ENUM(GPBApi_FieldNumber) {
  * Source context for the protocol buffer service represented by this
  * message.
  **/
-@property(nonatomic, readwrite, strong, null_resettable) GPBSourceContext *sourceContext;
+@property(nonatomic, readwrite, strong, null_resettable)
+    GPBSourceContext *sourceContext;
 /** Test to see if @c sourceContext has been set. */
 @property(nonatomic, readwrite) BOOL hasSourceContext;
 
 /** Included APIs. See [Mixin][]. */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<GPBMixin*> *mixinsArray;
-/** The number of items in @c mixinsArray without causing the array to be created. */
+@property(nonatomic, readwrite, strong, null_resettable)
+    NSMutableArray<GPBMixin *> *mixinsArray;
+/** The number of items in @c mixinsArray without causing the array to be
+ * created. */
 @property(nonatomic, readonly) NSUInteger mixinsArray_Count;
 
 /** The source syntax of the service. */
@@ -139,7 +143,7 @@ void SetGPBApi_Syntax_RawValue(GPBApi *message, int32_t value);
 
 #pragma mark - GPBMethod
 
-typedef GPB_ENUM(GPBMethod_FieldNumber) {
+typedef GPB_ENUM(GPBMethod_FieldNumber){
     GPBMethod_FieldNumber_Name = 1,
     GPBMethod_FieldNumber_RequestTypeURL = 2,
     GPBMethod_FieldNumber_RequestStreaming = 3,
@@ -154,7 +158,7 @@ typedef GPB_ENUM(GPBMethod_FieldNumber) {
  **/
 @interface GPBMethod : GPBMessage
 
-    /** The simple name of this method. */
+/** The simple name of this method. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *name;
 
 /** A URL of the input message type. */
@@ -164,14 +168,17 @@ typedef GPB_ENUM(GPBMethod_FieldNumber) {
 @property(nonatomic, readwrite) BOOL requestStreaming;
 
 /** The URL of the output message type. */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *responseTypeURL;
+@property(nonatomic, readwrite, copy, null_resettable)
+    NSString *responseTypeURL;
 
 /** If true, the response is streamed. */
 @property(nonatomic, readwrite) BOOL responseStreaming;
 
 /** Any metadata attached to the method. */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<GPBOption*> *optionsArray;
-/** The number of items in @c optionsArray without causing the array to be created. */
+@property(nonatomic, readwrite, strong, null_resettable)
+    NSMutableArray<GPBOption *> *optionsArray;
+/** The number of items in @c optionsArray without causing the array to be
+ * created. */
 @property(nonatomic, readonly) NSUInteger optionsArray_Count;
 
 /** The source syntax of this method. */
@@ -193,7 +200,7 @@ void SetGPBMethod_Syntax_RawValue(GPBMethod *message, int32_t value);
 
 #pragma mark - GPBMixin
 
-typedef GPB_ENUM(GPBMixin_FieldNumber) {
+typedef GPB_ENUM(GPBMixin_FieldNumber){
     GPBMixin_FieldNumber_Name = 1,
     GPBMixin_FieldNumber_Root = 2,
 };
@@ -279,7 +286,7 @@ typedef GPB_ENUM(GPBMixin_FieldNumber) {
  **/
 @interface GPBMixin : GPBMessage
 
-    /** The fully qualified name of the API which is included. */
+/** The fully qualified name of the API which is included. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *name;
 
 /**

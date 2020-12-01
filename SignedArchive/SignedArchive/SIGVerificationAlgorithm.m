@@ -6,9 +6,9 @@
 //  Copyright © 2018 George Nachman. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "SIGSHA2VerificationAlgorithm.h"
+#import <Foundation/Foundation.h>
 
 NSArray<NSString *> *SIGVerificationDigestAlgorithmNames(void) {
-    return @[ [SIGSHA2VerificationAlgorithm name] ];
+  return @[ [SIGSHA2VerificationAlgorithm name] ];
 }

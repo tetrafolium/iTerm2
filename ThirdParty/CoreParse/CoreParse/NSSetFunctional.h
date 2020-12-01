@@ -8,9 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@interface NSSet (Functional)
 
-@interface NSSet(Functional)
-
-- (NSSet *)cp_map:(id(^)(id obj))block;
+- (NSSet *)cp_map:(id (^)(id obj))block;
 
 @end

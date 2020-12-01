@@ -12,67 +12,56 @@
 
 @synthesize number;
 
-+ (id)tokenWithNumber:(NSNumber *)number
-{
-    return [[[CPNumberToken alloc] initWithNumber:number] autorelease];
++ (id)tokenWithNumber:(NSNumber *)number {
+  return [[[CPNumberToken alloc] initWithNumber:number] autorelease];
 }
 
-- (id)initWithNumber:(NSNumber *)initNumber
-{
-    self = [super init];
+- (id)initWithNumber:(NSNumber *)initNumber {
+  self = [super init];
 
-    if (nil != self)
-    {
-        [self setNumber:initNumber];
-    }
+  if (nil != self) {
+    [self setNumber:initNumber];
+  }
 
-    return self;
+  return self;
 }
 
-- (id)init
-{
-    return [self initWithNumber:[NSNumber numberWithInteger:0]];
+- (id)init {
+  return [self initWithNumber:[NSNumber numberWithInteger:0]];
 }
 
-- (void)dealloc
-{
-    [number release];
-    [super dealloc];
+- (void)dealloc {
+  [number release];
+  [super dealloc];
 }
 
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"<Number: %@>", [self number]];
+- (NSString *)description {
+  return [NSString stringWithFormat:@"<Number: %@>", [self number]];
 }
 
-- (NSString *)name
-{
-    return @"Number";
+- (NSString *)name {
+  return @"Number";
 }
 
-- (NSUInteger)hash
-{
-    return [[self number] hash];
+- (NSUInteger)hash {
+  return [[self number] hash];
 }
 
-- (BOOL)isNumberToken
-{
-    return YES;
+- (BOOL)isNumberToken {
+  return YES;
 }
 
-- (BOOL)isEqual:(id)object
-{
-    return ([object isNumberToken] &&
-            [((CPNumberToken *)object)->number isEqualToNumber:number]);
+- (BOOL)isEqual:(id)object {
+  return ([object isNumberToken] &&
+          [((CPNumberToken *)object)->number isEqualToNumber:number]);
 }
 
 @end
 
 @implementation NSObject (CPIsNumberToken)
 
-- (BOOL)isNumberToken
-{
-    return NO;
+- (BOOL)isNumberToken {
+  return NO;
 }
 
 @end

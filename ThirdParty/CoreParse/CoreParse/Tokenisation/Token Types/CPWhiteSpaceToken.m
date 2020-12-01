@@ -12,62 +12,53 @@
 
 @synthesize whiteSpace;
 
-+ (id)whiteSpace:(NSString *)whiteSpace
-{
-    return [[[CPWhiteSpaceToken alloc] initWithWhiteSpace:whiteSpace] autorelease];
++ (id)whiteSpace:(NSString *)whiteSpace {
+  return
+      [[[CPWhiteSpaceToken alloc] initWithWhiteSpace:whiteSpace] autorelease];
 }
 
-- (id)initWithWhiteSpace:(NSString *)initWhiteSpace
-{
-    self = [super init];
+- (id)initWithWhiteSpace:(NSString *)initWhiteSpace {
+  self = [super init];
 
-    if (nil != self)
-    {
-        [self setWhiteSpace:initWhiteSpace];
-    }
+  if (nil != self) {
+    [self setWhiteSpace:initWhiteSpace];
+  }
 
-    return self;
+  return self;
 }
 
-- (id)init
-{
-    return [self initWithWhiteSpace:@""];
+- (id)init {
+  return [self initWithWhiteSpace:@""];
 }
 
-- (void)dealloc
-{
-    [whiteSpace release];
+- (void)dealloc {
+  [whiteSpace release];
 
-    [super dealloc];
+  [super dealloc];
 }
 
-- (NSString *)name
-{
-    return @"Whitespace";
+- (NSString *)name {
+  return @"Whitespace";
 }
 
-- (NSUInteger)hash
-{
-    return 1;
+- (NSUInteger)hash {
+  return 1;
 }
 
-- (BOOL)isWhiteSpaceToken
-{
-    return YES;
+- (BOOL)isWhiteSpaceToken {
+  return YES;
 }
 
-- (BOOL)isEqual:(id)object
-{
-    return [object isWhiteSpaceToken];
+- (BOOL)isEqual:(id)object {
+  return [object isWhiteSpaceToken];
 }
 
 @end
 
 @implementation NSObject (CPIsWhiteSpaceToken)
 
-- (BOOL)isWhiteSpaceToken
-{
-    return NO;
+- (BOOL)isWhiteSpaceToken {
+  return NO;
 }
 
 @end

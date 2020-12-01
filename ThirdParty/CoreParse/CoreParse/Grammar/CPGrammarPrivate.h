@@ -12,10 +12,10 @@
 
 @interface CPGrammar (CPGrammarPrivate)
 
-@property (readwrite,copy  ) NSArray *rules;
+@property(readwrite, copy) NSArray *rules;
 
-@property (readwrite,retain) NSMutableDictionary *rulesByNonTerminal;
-@property (readwrite,retain) NSMutableDictionary *followCache;
+@property(readwrite, retain) NSMutableDictionary *rulesByNonTerminal;
+@property(readwrite, retain) NSMutableDictionary *followCache;
 
 - (NSArray *)orderedRules;
 

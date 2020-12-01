@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 
 /**
- * The CPGrammarSymbol class represents a terminal or non-terminal grammar symbol.
+ * The CPGrammarSymbol class represents a terminal or non-terminal grammar
+ * symbol.
  *
  * All grammar symbols carry a name which is used in constructing CPRules.
  */
@@ -19,15 +20,15 @@
 /// @name Creating and Initialising a Rule
 ///---------------------------------------------------------------------------------------
 
-    /**
-     * Creates a non-terminal grammar symbol.
-     *
-     * @param name The non-terminal name.
-     * @return Returns a non-terminal CPGrammarSymbol with the specified name.
-     *
-     * @see terminalWithName:
-     * @see initWithName:isTerminal:
-     */
+/**
+ * Creates a non-terminal grammar symbol.
+ *
+ * @param name The non-terminal name.
+ * @return Returns a non-terminal CPGrammarSymbol with the specified name.
+ *
+ * @see terminalWithName:
+ * @see initWithName:isTerminal:
+ */
 + (id)nonTerminalWithName:(NSString *)name;
 
 /**
@@ -45,7 +46,8 @@
  * Initialises a grammar symbol.
  *
  * @param name     The non-terminal name.
- * @param terminal Specifies whether the grammar symbol is a terminal or non-terminal.
+ * @param terminal Specifies whether the grammar symbol is a terminal or
+ * non-terminal.
  * @return Returns a CPGrammarSymbol with the specified name.
  *
  * @see terminalWithName:
@@ -60,12 +62,12 @@
 /**
  * The grammar symbol's name.
  */
-@property (readwrite, copy  ) NSString *name;
+@property(readwrite, copy) NSString *name;
 
 /**
  * Whether the grammar symbol is a terminal or non-terminal.
  */
-@property (readwrite, assign, getter=isTerminal) BOOL terminal;
+@property(readwrite, assign, getter=isTerminal) BOOL terminal;
 
 /**
  * Determines whether the grammar symbol is equal to another.

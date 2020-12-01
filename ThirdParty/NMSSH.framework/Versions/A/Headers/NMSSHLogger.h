@@ -1,10 +1,10 @@
 #import "NMSSH.h"
 
 typedef NS_OPTIONS(NSUInteger, NMSSHLogLevel) {
-    NMSSHLogLevelVerbose = (1 << 0 | 1 << 1 | 1 << 2 | 1 << 3),
-    NMSSHLogLevelInfo    = (1 << 1 | 1 << 2 | 1 << 3),
-    NMSSHLogLevelWarn    = (1 << 2 | 1 << 3),
-    NMSSHLogLevelError   = (1 << 3)
+  NMSSHLogLevelVerbose = (1 << 0 | 1 << 1 | 1 << 2 | 1 << 3),
+  NMSSHLogLevelInfo = (1 << 1 | 1 << 2 | 1 << 3),
+  NMSSHLogLevelWarn = (1 << 2 | 1 << 3),
+  NMSSHLogLevelError = (1 << 3)
 };
 
 /**
@@ -16,11 +16,11 @@ typedef NS_OPTIONS(NSUInteger, NMSSHLogLevel) {
 /// @name Retrieve the shared logger
 /// ----------------------------------------------------------------------------
 
-    /**
-     Retrieve the shared logger instance
+/**
+ Retrieve the shared logger instance
 
-     @returns Shared logger
-     */
+ @returns Shared logger
+ */
 + (nonnull instancetype)logger NS_SWIFT_NAME(shared());
 
 /// ----------------------------------------------------------------------------
@@ -38,13 +38,14 @@ typedef NS_OPTIONS(NSUInteger, NMSSHLogLevel) {
  _level_ - Log level<br>
  _format_ - Log message
  */
-@property (nonatomic, nonnull, copy) void (^logBlock)(NMSSHLogLevel level, NSString * _Nonnull format);
+@property(nonatomic, nonnull, copy) void (^logBlock)
+    (NMSSHLogLevel level, NSString *_Nonnull format);
 
 /** The maximum log level */
-@property (nonatomic, assign) NMSSHLogLevel logLevel;
+@property(nonatomic, assign) NMSSHLogLevel logLevel;
 
 /** Enable or disable the logging feature */
-@property (nonatomic, assign, getter = isEnabled) BOOL enabled;
+@property(nonatomic, assign, getter=isEnabled) BOOL enabled;
 
 /// ----------------------------------------------------------------------------
 /// @name Logging

@@ -1,5 +1,5 @@
-#import <Cocoa/Cocoa.h>
 #import "CPKSliderView.h"
+#import <Cocoa/Cocoa.h>
 
 @class CPKColor;
 
@@ -8,7 +8,8 @@
  */
 @interface CPKAlphaSliderView : CPKSliderView
 
-    /** The selected color. Does not move the slider's value, only affects the gradient's color. */
+/** The selected color. Does not move the slider's value, only affects the
+ * gradient's color. */
 @property(nonatomic) CPKColor *color;
 
 /**
@@ -21,8 +22,8 @@
  * @return An initialized instance.
  */
 - (instancetype)initWithFrame:(NSRect)frame
-    alpha:(CGFloat)alpha
-    color:(CPKColor *)color
-    block:(void (^)(CGFloat))block;
+                        alpha:(CGFloat)alpha
+                        color:(CPKColor *)color
+                        block:(void (^)(CGFloat))block;
 
 @end
