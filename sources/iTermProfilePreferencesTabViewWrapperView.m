@@ -8,14 +8,14 @@
 #import "iTermProfilePreferencesTabViewWrapperView.h"
 
 @implementation iTermProfilePreferencesTabViewWrapperView {
-    IBOutlet NSView *_tabView;
+  IBOutlet NSView *_tabView;
 }
 
 - (void)resizeWithOldSuperviewSize:(NSSize)oldSize {
-    [super resizeWithOldSuperviewSize:oldSize];
-    NSRect frame = self.bounds;
-    frame.size.width = MAX(frame.size.width, 565);
-    _tabView.frame = frame;
+  [super resizeWithOldSuperviewSize:oldSize];
+  NSRect frame = self.bounds;
+  frame.size.width = MAX(frame.size.width, 565);
+  _tabView.frame = frame;
 }
 
 @end

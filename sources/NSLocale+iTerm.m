@@ -11,7 +11,7 @@
 @implementation NSLocale (iTerm)
 
 - (BOOL)commasAndPeriodsGoInsideQuotationMarks {
-    return [[self localeIdentifier] isEqualToString:@"en_US"];
+  return [[self localeIdentifier] isEqualToString:@"en_US"];
 }
 
 @end

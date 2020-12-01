@@ -8,23 +8,27 @@
 #import "iTermShellIntegrationRootView.h"
 
 @implementation iTermShellIntegrationRootView {
-    NSTrackingArea *_area;
+  NSTrackingArea *_area;
 }
 
 - (void)viewDidMoveToWindow {
-    if (!_area) {
-        [self createTrackingArea];
-    }
-
+  if (!_area) {
+    [self createTrackingArea];
+  }
 }
 - (void)createTrackingArea {
-    NSTrackingAreaOptions options = NSTrackingMouseMoved | NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways;
-    _area = [[NSTrackingArea alloc] initWithRect:self.bounds options:options owner:self userInfo:nil];
-    [self addTrackingArea:_area];
+  NSTrackingAreaOptions options = NSTrackingMouseMoved |
+                                  NSTrackingMouseEnteredAndExited |
+                                  NSTrackingActiveAlways;
+  _area = [[NSTrackingArea alloc] initWithRect:self.bounds
+                                       options:options
+                                         owner:self
+                                      userInfo:nil];
+  [self addTrackingArea:_area];
 }
 
 - (void)cursorUpdate:(NSEvent *)event {
-    [[NSCursor pointingHandCursor] set];
+  [[NSCursor pointingHandCursor] set];
 }
 
 @end

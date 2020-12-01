@@ -11,14 +11,14 @@
 @implementation iTermTipRootView
 
 - (void)drawRect:(NSRect)dirtyRect {
-    [super drawRect:dirtyRect];
+  [super drawRect:dirtyRect];
 
-    [[NSColor clearColor] set];
-    NSRectFill(self.bounds);
+  [[NSColor clearColor] set];
+  NSRectFill(self.bounds);
 }
 
 - (BOOL)isFlipped {
-    return YES;
+  return YES;
 }
 
 @end

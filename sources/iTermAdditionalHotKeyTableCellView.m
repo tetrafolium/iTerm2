@@ -11,36 +11,36 @@
 #import "iTermAdditionalHotKeyObjectValue.h"
 
 @implementation iTermAdditionalHotKeyTableCellView {
-    iTermAdditionalHotKeyObjectValue *_objectValue;
-    IBOutlet iTermShortcutInputView *_shortcut;
-    IBOutlet NSView *_duplicateWarning;
+  iTermAdditionalHotKeyObjectValue *_objectValue;
+  IBOutlet iTermShortcutInputView *_shortcut;
+  IBOutlet NSView *_duplicateWarning;
 }
 
 - (void)awakeFromNib {
-    _shortcut.shortcutDelegate = self;
+  _shortcut.shortcutDelegate = self;
 }
 
 - (void)setBackgroundStyle:(NSBackgroundStyle)backgroundStyle {
-    [super setBackgroundStyle:backgroundStyle];
-    _shortcut.backgroundStyle = backgroundStyle;
+  [super setBackgroundStyle:backgroundStyle];
+  _shortcut.backgroundStyle = backgroundStyle;
 }
 - (void)setObjectValue:(iTermAdditionalHotKeyObjectValue *)objectValue {
-    [_objectValue autorelease];
-    _objectValue = [objectValue retain];
-    _shortcut.stringValue = objectValue.shortcut.stringValue;
-    _duplicateWarning.hidden = objectValue ? !objectValue.isDuplicate : YES;
+  [_objectValue autorelease];
+  _objectValue = [objectValue retain];
+  _shortcut.stringValue = objectValue.shortcut.stringValue;
+  _duplicateWarning.hidden = objectValue ? !objectValue.isDuplicate : YES;
 }
 
 - (iTermAdditionalHotKeyObjectValue *)objectValue {
-    return _objectValue;
+  return _objectValue;
 }
 
 #pragma mark - iTermShortcutInputViewDelegate
 
-- (void)shortcutInputView:(iTermShortcutInputView *)view didReceiveKeyPressEvent:(NSEvent *)event {
-    [_objectValue.shortcut setFromEvent:event];
-    _duplicateWarning.hidden = !_objectValue.isDuplicate;
+- (void)shortcutInputView:(iTermShortcutInputView *)view
+    didReceiveKeyPressEvent:(NSEvent *)event {
+  [_objectValue.shortcut setFromEvent:event];
+  _duplicateWarning.hidden = !_objectValue.isDuplicate;
 }
 
 @end
-

@@ -15,23 +15,29 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermCommandHistoryEntryMO (CoreDataProperties)
 
-@property (nullable, nonatomic, retain) NSString *command;
-@property (nullable, nonatomic, retain) NSNumber *matchLocation;
-@property (nullable, nonatomic, retain) NSNumber *numberOfUses;
-@property (nullable, nonatomic, retain) NSNumber *timeOfLastUse;
-@property (nullable, nonatomic, retain) iTermHostRecordMO *remoteHost;
-@property (nullable, nonatomic, retain) NSOrderedSet<iTermCommandHistoryCommandUseMO *> *uses;
+@property(nullable, nonatomic, retain) NSString *command;
+@property(nullable, nonatomic, retain) NSNumber *matchLocation;
+@property(nullable, nonatomic, retain) NSNumber *numberOfUses;
+@property(nullable, nonatomic, retain) NSNumber *timeOfLastUse;
+@property(nullable, nonatomic, retain) iTermHostRecordMO *remoteHost;
+@property(nullable, nonatomic, retain)
+    NSOrderedSet<iTermCommandHistoryCommandUseMO *> *uses;
 
 @end
 
 @interface iTermCommandHistoryEntryMO (CoreDataGeneratedAccessors)
 
-- (void)insertObject:(iTermCommandHistoryCommandUseMO *)value inUsesAtIndex:(NSUInteger)idx;
+- (void)insertObject:(iTermCommandHistoryCommandUseMO *)value
+       inUsesAtIndex:(NSUInteger)idx;
 - (void)removeObjectFromUsesAtIndex:(NSUInteger)idx;
-- (void)insertUses:(NSArray<iTermCommandHistoryCommandUseMO *> *)value atIndexes:(NSIndexSet *)indexes;
+- (void)insertUses:(NSArray<iTermCommandHistoryCommandUseMO *> *)value
+         atIndexes:(NSIndexSet *)indexes;
 - (void)removeUsesAtIndexes:(NSIndexSet *)indexes;
-- (void)replaceObjectInUsesAtIndex:(NSUInteger)idx withObject:(iTermCommandHistoryCommandUseMO *)value;
-- (void)replaceUsesAtIndexes:(NSIndexSet *)indexes withUses:(NSArray<iTermCommandHistoryCommandUseMO *> *)values;
+- (void)replaceObjectInUsesAtIndex:(NSUInteger)idx
+                        withObject:(iTermCommandHistoryCommandUseMO *)value;
+- (void)replaceUsesAtIndexes:(NSIndexSet *)indexes
+                    withUses:
+                        (NSArray<iTermCommandHistoryCommandUseMO *> *)values;
 - (void)addUsesObject:(iTermCommandHistoryCommandUseMO *)value;
 - (void)removeUsesObject:(iTermCommandHistoryCommandUseMO *)value;
 - (void)addUses:(NSOrderedSet<iTermCommandHistoryCommandUseMO *> *)values;

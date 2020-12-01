@@ -10,7 +10,7 @@
 @implementation iTermGlobalSearchOutlineView
 
 - (BOOL)acceptsFirstMouse:(NSEvent *)event {
-    return YES;
+  return YES;
 }
 
 @end

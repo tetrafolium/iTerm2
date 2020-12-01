@@ -9,7 +9,6 @@
 
 // Contains raw pixels for a single part of a character.
 @interface iTermCharacterBitmap : NSObject
-@property (nonatomic, strong) NSMutableData *data;
-@property (nonatomic) CGSize size;
+@property(nonatomic, strong) NSMutableData *data;
+@property(nonatomic) CGSize size;
 @end
-

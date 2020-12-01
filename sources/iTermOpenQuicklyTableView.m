@@ -3,7 +3,7 @@
 @implementation iTermOpenQuicklyTableView
 
 - (BOOL)acceptsFirstResponder {
-    return NO;
+  return NO;
 }
 
 @end

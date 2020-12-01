@@ -11,11 +11,11 @@
 @implementation iTermAboutWindow
 
 - (IBAction)closeCurrentSession:(id)sender {
-    [self close];
+  [self close];
 }
 
 - (BOOL)autoHidesHotKeyWindow {
-    return NO;
+  return NO;
 }
 
 @end

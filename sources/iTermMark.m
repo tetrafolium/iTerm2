@@ -17,24 +17,24 @@
 #pragma mark - IntervalTreeObject
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
-    return [super init];
+  return [super init];
 }
 
 - (NSDictionary *)dictionaryValue {
-    return @ {};
+  return @{};
 }
 
 #pragma mark - NSObject
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@: %p interval=%@>",
-                     self.class, self, self.entry.interval];
+  return [NSString stringWithFormat:@"<%@: %p interval=%@>", self.class, self,
+                                    self.entry.interval];
 }
 
 #pragma mark - APIs
 
 - (BOOL)isVisible {
-    return YES;
+  return YES;
 }
 
 @end

@@ -22,87 +22,92 @@
 
 #include <sys/ioctl.h>
 
-int iTermForkAndExecToRunJobInServer(iTermForkState *forkState,
-                                     iTermTTYState *ttyState,
-                                     NSString *tempPath,
-                                     const char *argpath,
-                                     const char **argv,
-                                     BOOL closeFileDescriptors,
-                                     const char *initialPwd,
-                                     const char **newEnviron) {
-    // Get ready to run the server in a thread.
-    __block int serverConnectionFd = -1;
-    DLog(@"iTermForkAndExecToRunJobInServer");
-    int serverSocketFd = iTermFileDescriptorServerSocketBindListen(tempPath.UTF8String);
+int iTermForkAndExecToRunJobInServer(
+    iTermForkState *forkState, iTermTTYState *ttyState, NSString *tempPath,
+    const char *argpath, const char **argv, BOOL closeFileDescriptors,
+    const char *initialPwd, const char **newEnviron) {
+  // Get ready to run the server in a thread.
+  __block int serverConnectionFd = -1;
+  DLog(@"iTermForkAndExecToRunJobInServer");
+  int serverSocketFd =
+      iTermFileDescriptorServerSocketBindListen(tempPath.UTF8String);
 
-    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+  dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 
-    // In another thread, accept on the unix domain socket. Since it's
-    // already listening, there's no race here. connect will block until
-    // accept is called if the main thread wins the race. accept will block
-    // til connect is called if the background thread wins the race.
-    iTermFileDescriptorServerLog("Kicking off a background job to accept() in the server");
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+  // In another thread, accept on the unix domain socket. Since it's
+  // already listening, there's no race here. connect will block until
+  // accept is called if the main thread wins the race. accept will block
+  // til connect is called if the background thread wins the race.
+  iTermFileDescriptorServerLog(
+      "Kicking off a background job to accept() in the server");
+  dispatch_async(
+      dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         iTermFileDescriptorServerLog("Now running the accept queue block");
-        serverConnectionFd = iTermFileDescriptorServerAcceptAndClose(serverSocketFd);
+        serverConnectionFd =
+            iTermFileDescriptorServerAcceptAndClose(serverSocketFd);
 
         // Let the main thread go. This is necessary to ensure that
         // serverConnectionFd is written to before the main thread uses it.
         iTermFileDescriptorServerLog("Signal the semaphore");
         dispatch_semaphore_signal(semaphore);
-    });
+      });
 
-    // Connect to the server running in a thread.
-    forkState->connectionFd = iTermFileDescriptorClientConnect(tempPath.UTF8String);
-    assert(forkState->connectionFd != -1);  // If this happens the block dispatched above never returns. Ran out of FDs, presumably.
+  // Connect to the server running in a thread.
+  forkState->connectionFd =
+      iTermFileDescriptorClientConnect(tempPath.UTF8String);
+  assert(forkState->connectionFd !=
+         -1); // If this happens the block dispatched above never returns. Ran
+              // out of FDs, presumably.
 
-    // Wait for serverConnectionFd to be written to.
-    iTermFileDescriptorServerLog("Waiting for the semaphore");
-    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-    iTermFileDescriptorServerLog("The semaphore was signaled");
+  // Wait for serverConnectionFd to be written to.
+  iTermFileDescriptorServerLog("Waiting for the semaphore");
+  dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+  iTermFileDescriptorServerLog("The semaphore was signaled");
 
-    dispatch_release(semaphore);
+  dispatch_release(semaphore);
 
-    // Remove the temporary file. The server will create a new socket file
-    // if the client dies. That file's name is dependent on its process ID,
-    // which we don't know yet, so that's why this temp file dance has to
-    // be done.
-    unlink(tempPath.UTF8String);
+  // Remove the temporary file. The server will create a new socket file
+  // if the client dies. That file's name is dependent on its process ID,
+  // which we don't know yet, so that's why this temp file dance has to
+  // be done.
+  unlink(tempPath.UTF8String);
 
-    // Now fork. This variant of forkpty passes through the master, slave,
-    // and serverConnectionFd to the child job.
-    pipe(forkState->deadMansPipe);
+  // Now fork. This variant of forkpty passes through the master, slave,
+  // and serverConnectionFd to the child job.
+  pipe(forkState->deadMansPipe);
 
-    // This closes serverConnectionFd and deadMansPipe[1] in the parent process but not the child.
-    iTermFileDescriptorServerLog("Calling MyForkPty");
-    forkState->numFileDescriptorsToPreserve = kNumFileDescriptorsToDup;
-    DLog(@"Calling iTermPosixTTYReplacementForkPty");
-    int fd = -1;
-    assert([iTermAdvancedSettingsModel runJobsInServers]);
-    forkState->pid = iTermPosixTTYReplacementForkPty(&fd, ttyState, serverConnectionFd, forkState->deadMansPipe[1]);
+  // This closes serverConnectionFd and deadMansPipe[1] in the parent process
+  // but not the child.
+  iTermFileDescriptorServerLog("Calling MyForkPty");
+  forkState->numFileDescriptorsToPreserve = kNumFileDescriptorsToDup;
+  DLog(@"Calling iTermPosixTTYReplacementForkPty");
+  int fd = -1;
+  assert([iTermAdvancedSettingsModel runJobsInServers]);
+  forkState->pid = iTermPosixTTYReplacementForkPty(
+      &fd, ttyState, serverConnectionFd, forkState->deadMansPipe[1]);
 
-    if (forkState->pid == (pid_t)0) {
-        // Child
-        iTermExec(argpath, argv, closeFileDescriptors, 1, forkState, initialPwd, newEnviron, 1);
-    }
+  if (forkState->pid == (pid_t)0) {
+    // Child
+    iTermExec(argpath, argv, closeFileDescriptors, 1, forkState, initialPwd,
+              newEnviron, 1);
+  }
 
-    return fd;
+  return fd;
 }
 
 int iTermForkAndExecToRunJobDirectly(iTermForkState *forkState,
                                      iTermTTYState *ttyState,
-                                     const char *argpath,
-                                     const char **argv,
+                                     const char *argpath, const char **argv,
                                      BOOL closeFileDescriptors,
                                      const char *initialPwd,
                                      const char **newEnviron) {
-    int fd;
-    forkState->numFileDescriptorsToPreserve = 3;
-    forkState->pid = forkpty(&fd, ttyState->tty, &ttyState->term, &ttyState->win);
-    if (forkState->pid == (pid_t)0) {
-        // Child
-        iTermExec(argpath, argv, closeFileDescriptors, 1, forkState, initialPwd, newEnviron, 1);
-    }
-    return fd;
+  int fd;
+  forkState->numFileDescriptorsToPreserve = 3;
+  forkState->pid = forkpty(&fd, ttyState->tty, &ttyState->term, &ttyState->win);
+  if (forkState->pid == (pid_t)0) {
+    // Child
+    iTermExec(argpath, argv, closeFileDescriptors, 1, forkState, initialPwd,
+              newEnviron, 1);
+  }
+  return fd;
 }
-

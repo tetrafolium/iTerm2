@@ -14,13 +14,13 @@
 @implementation iTermSavePanelFileFormatAccessory
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    [_popupButton setTarget:self];
-    [_popupButton setAction:@selector(popupButtonDidChange:)];
+  [super viewDidLoad];
+  [_popupButton setTarget:self];
+  [_popupButton setAction:@selector(popupButtonDidChange:)];
 }
 
 - (void)popupButtonDidChange:(id)sender {
-    self.onChange(_popupButton.selectedTag);
+  self.onChange(_popupButton.selectedTag);
 }
 
 @end

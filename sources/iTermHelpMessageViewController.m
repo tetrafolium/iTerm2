@@ -17,13 +17,13 @@
 @end
 
 @implementation iTermHelpMessageViewController {
-    IBOutlet NSTextField *_textField;
+  IBOutlet NSTextField *_textField;
 }
 
 - (void)setMessage:(NSString *)message {
-    [self view];
-    _textField.stringValue = message;
-    [_textField sizeToFit];
+  [self view];
+  _textField.stringValue = message;
+  [_textField sizeToFit];
 }
 
 @end

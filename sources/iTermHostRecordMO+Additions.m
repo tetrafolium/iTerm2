@@ -11,16 +11,16 @@
 @implementation iTermHostRecordMO (Additions)
 
 + (instancetype)hostRecordInContext:(NSManagedObjectContext *)context {
-    return [NSEntityDescription insertNewObjectForEntityForName:self.entityName
-                                inManagedObjectContext:context];
+  return [NSEntityDescription insertNewObjectForEntityForName:self.entityName
+                                       inManagedObjectContext:context];
 }
 
 + (NSString *)entityName {
-    return @"HostRecord";
+  return @"HostRecord";
 }
 
 - (NSString *)hostKey {
-    return [NSString stringWithFormat:@"%@@%@", self.username, self.hostname];
+  return [NSString stringWithFormat:@"%@@%@", self.username, self.hostname];
 }
 
 @end

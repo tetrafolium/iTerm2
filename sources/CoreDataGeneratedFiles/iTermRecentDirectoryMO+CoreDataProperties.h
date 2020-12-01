@@ -15,11 +15,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermRecentDirectoryMO (CoreDataProperties)
 
-@property (nullable, nonatomic, retain) NSString *path;
-@property (nullable, nonatomic, retain) NSNumber *useCount;
-@property (nullable, nonatomic, retain) NSNumber *lastUse;
-@property (nullable, nonatomic, retain) NSNumber *starred;
-@property (nullable, nonatomic, retain) iTermHostRecordMO *remoteHost;
+@property(nullable, nonatomic, retain) NSString *path;
+@property(nullable, nonatomic, retain) NSNumber *useCount;
+@property(nullable, nonatomic, retain) NSNumber *lastUse;
+@property(nullable, nonatomic, retain) NSNumber *starred;
+@property(nullable, nonatomic, retain) iTermHostRecordMO *remoteHost;
 
 @end
 

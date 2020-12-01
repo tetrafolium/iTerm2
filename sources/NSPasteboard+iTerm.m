@@ -12,40 +12,45 @@
 @implementation NSPasteboard (iTerm)
 
 - (NSArray *)filenamesOnPasteboardWithShellEscaping:(BOOL)escape {
-    NSMutableArray *results = [NSMutableArray array];
-    NSArray<NSURL *> *urls = [self readObjectsForClasses:@[ [NSURL class] ] options:0];
-    for (NSURL *url in urls) {
-        NSString *filename = url.path;
-        NSDictionary *filenamesAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filename
-                                                                            error:nil];
-        if (([filenamesAttributes fileHFSTypeCode] == 'clpt' &&
-                [filenamesAttributes fileHFSCreatorCode] == 'MACS') ||
-                [[filename pathExtension] isEqualToString:@"textClipping"] == YES) {
-            // Ignore text clippings
-            continue;
-        }
-
-        if (escape) {
-            filename = [filename stringWithEscapedShellCharactersIncludingNewlines:YES];
-        }
-        if (filename) {
-            [results addObject:filename];
-        }
+  NSMutableArray *results = [NSMutableArray array];
+  NSArray<NSURL *> *urls = [self readObjectsForClasses:@[ [NSURL class] ]
+                                               options:0];
+  for (NSURL *url in urls) {
+    NSString *filename = url.path;
+    NSDictionary *filenamesAttributes =
+        [[NSFileManager defaultManager] attributesOfItemAtPath:filename
+                                                         error:nil];
+    if (([filenamesAttributes fileHFSTypeCode] == 'clpt' &&
+         [filenamesAttributes fileHFSCreatorCode] == 'MACS') ||
+        [[filename pathExtension] isEqualToString:@"textClipping"] == YES) {
+      // Ignore text clippings
+      continue;
     }
-    return results;
+
+    if (escape) {
+      filename =
+          [filename stringWithEscapedShellCharactersIncludingNewlines:YES];
+    }
+    if (filename) {
+      [results addObject:filename];
+    }
+  }
+  return results;
 }
 
 - (NSData *)dataForFirstFile {
-    NSString *bestType = [self availableTypeFromArray:@[ NSPasteboardTypeFileURL ]];
+  NSString *bestType =
+      [self availableTypeFromArray:@[ NSPasteboardTypeFileURL ]];
 
-    if ([bestType isEqualToString:NSPasteboardTypeFileURL]) {
-        NSArray<NSURL *> *urls = [self readObjectsForClasses:@[ [NSURL class] ] options:0];
-        if (urls.count > 0) {
-            NSString *filename = urls.firstObject.path;
-            return [NSData dataWithContentsOfFile:filename];
-        }
+  if ([bestType isEqualToString:NSPasteboardTypeFileURL]) {
+    NSArray<NSURL *> *urls = [self readObjectsForClasses:@[ [NSURL class] ]
+                                                 options:0];
+    if (urls.count > 0) {
+      NSString *filename = urls.firstObject.path;
+      return [NSData dataWithContentsOfFile:filename];
     }
-    return nil;
+  }
+  return nil;
 }
 
 @end

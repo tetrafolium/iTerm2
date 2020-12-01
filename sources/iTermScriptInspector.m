@@ -6,26 +6,28 @@
 //
 
 #import "iTermScriptInspector.h"
-#import "iTermSessionTabWindowOutlineDelegate.h"
 #import "iTermRegisteredFunctionsTableViewDelegate.h"
+#import "iTermSessionTabWindowOutlineDelegate.h"
 
 @interface iTermScriptInspector ()
 
 @end
 
 @implementation iTermScriptInspector {
-    IBOutlet iTermSessionTabWindowOutlineDelegate *_sessionTabWindowOutlineDelegate;
-    IBOutlet iTermRegisteredFunctionsTableViewDelegate *_registeredFunctionTableViewDelegate;
-    IBOutlet NSSplitView *_splitView;
+  IBOutlet iTermSessionTabWindowOutlineDelegate
+      *_sessionTabWindowOutlineDelegate;
+  IBOutlet iTermRegisteredFunctionsTableViewDelegate
+      *_registeredFunctionTableViewDelegate;
+  IBOutlet NSSplitView *_splitView;
 }
 
 - (IBAction)reload:(id)sender {
-    [_sessionTabWindowOutlineDelegate reload];
-    [_registeredFunctionTableViewDelegate reload];
+  [_sessionTabWindowOutlineDelegate reload];
+  [_registeredFunctionTableViewDelegate reload];
 }
 
 - (IBAction)closeCurrentSession:(id)sender {
-    [self close];
+  [self close];
 }
 
 @end

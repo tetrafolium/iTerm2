@@ -14,31 +14,31 @@
 
 NS_CLASS_AVAILABLE(10_11, NA)
 @interface iTermMetalRowData : NSObject
-@property (nonatomic) int y;
+@property(nonatomic) int y;
 
 // iTermMetalGlyphKey
-@property (nonatomic, strong) iTermGlyphKeyData *keysData;
+@property(nonatomic, strong) iTermGlyphKeyData *keysData;
 
 // iTermMetalGlyphAttributes
-@property (nonatomic, strong) iTermAttributesData *attributesData;
+@property(nonatomic, strong) iTermAttributesData *attributesData;
 
 // iTermMetalBackgroundColorRLE
-@property (nonatomic, strong) iTermData *backgroundColorRLEData;
+@property(nonatomic, strong) iTermData *backgroundColorRLEData;
 
 // screen_char_t
-@property (nonatomic, strong) const iTermData *const lineData;
+@property(nonatomic, strong) const iTermData *const lineData;
 
-@property (nonatomic) int numberOfBackgroundRLEs;
+@property(nonatomic) int numberOfBackgroundRLEs;
 
 // Number of elements in preceding arrays to use.
-@property (nonatomic) int numberOfDrawableGlyphs;
+@property(nonatomic) int numberOfDrawableGlyphs;
 
-@property (nonatomic) iTermMarkStyle markStyle;
+@property(nonatomic) iTermMarkStyle markStyle;
 
 // Last-changed timestamp, if used.
-@property (nonatomic, strong) NSDate *date;
+@property(nonatomic, strong) NSDate *date;
 
-@property (nonatomic, readonly) NSMutableArray<iTermMetalImageRun *> *imageRuns;
+@property(nonatomic, readonly) NSMutableArray<iTermMetalImageRun *> *imageRuns;
 
 - (void)writeDebugInfoToFolder:(NSURL *)folder;
 

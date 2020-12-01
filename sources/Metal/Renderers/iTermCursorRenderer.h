@@ -6,13 +6,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class iTermCopyModeCursorRenderer;
 
-@interface iTermCursorRendererTransientState : iTermMetalCellRendererTransientState
-@property (nonatomic, strong) NSColor *color;
-@property (nonatomic) VT100GridCoord coord;
-@property (nonatomic) BOOL doubleWidth;
+@interface iTermCursorRendererTransientState
+    : iTermMetalCellRendererTransientState
+@property(nonatomic, strong) NSColor *color;
+@property(nonatomic) VT100GridCoord coord;
+@property(nonatomic) BOOL doubleWidth;
 @end
 
-@interface iTermCursorRenderer : NSObject<iTermMetalCellRenderer>
+@interface iTermCursorRenderer : NSObject <iTermMetalCellRenderer>
 
 + (instancetype)newUnderlineCursorRendererWithDevice:(id<MTLDevice>)device;
 + (instancetype)newBarCursorRendererWithDevice:(id<MTLDevice>)device;
@@ -21,14 +22,16 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)newFrameCursorRendererWithDevice:(id<MTLDevice>)device;
 + (instancetype)newKeyCursorRendererWithDevice:(id<MTLDevice>)device;
 
-+ (iTermCopyModeCursorRenderer *)newCopyModeCursorRendererWithDevice:(id<MTLDevice>)device;
++ (iTermCopyModeCursorRenderer *)newCopyModeCursorRendererWithDevice:
+    (id<MTLDevice>)device;
 
 - (instancetype)init NS_UNAVAILABLE;
 
 @end
 
-@interface iTermCopyModeCursorRendererTransientState : iTermCursorRendererTransientState
-@property (nonatomic) BOOL selecting;
+@interface iTermCopyModeCursorRendererTransientState
+    : iTermCursorRendererTransientState
+@property(nonatomic) BOOL selecting;
 @end
 
 @interface iTermCopyModeCursorRenderer : iTermCursorRenderer

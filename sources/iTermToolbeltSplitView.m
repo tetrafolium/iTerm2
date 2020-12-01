@@ -9,23 +9,22 @@
 #import "iTermToolbeltSplitView.h"
 
 @implementation iTermToolbeltSplitView {
-    NSColor *_dividerColor;
+  NSColor *_dividerColor;
 }
 
 - (void)dealloc {
-    [_dividerColor release];
-    [super dealloc];
+  [_dividerColor release];
+  [super dealloc];
 }
 
 - (void)setDividerColor:(NSColor *)dividerColor {
-    [_dividerColor autorelease];
-    _dividerColor = [dividerColor copy];
-    [self setNeedsDisplay:YES];
+  [_dividerColor autorelease];
+  _dividerColor = [dividerColor copy];
+  [self setNeedsDisplay:YES];
 }
 
 - (NSColor *)dividerColor {
-    return _dividerColor;
+  return _dividerColor;
 }
 
 @end
-

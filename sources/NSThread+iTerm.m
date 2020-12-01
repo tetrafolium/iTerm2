@@ -5,15 +5,16 @@
 //  Created by George Nachman on 4/15/18.
 //
 
-#import "NSThread+iTerm.h"
 #import "NSArray+iTerm.h"
+#import "NSThread+iTerm.h"
 
 @implementation NSThread (iTerm)
 
 + (NSArray<NSString *> *)trimCallStackSymbols {
-    return [[self callStackSymbols] filteredArrayUsingBlock:^BOOL(NSString *anObject) {
-                                return [anObject containsString:@" iTerm2 "];
-                            }];
+  return [[self callStackSymbols]
+      filteredArrayUsingBlock:^BOOL(NSString *anObject) {
+        return [anObject containsString:@" iTerm2 "];
+      }];
 }
 
 @end

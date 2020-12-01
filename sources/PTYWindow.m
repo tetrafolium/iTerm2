@@ -21,21 +21,23 @@
  **  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#import "PTYWindow.h"
 #import "DebugLogging.h"
 #import "FutureMethods.h"
-#import "iTermApplication.h"
+#import "NSArray+iTerm.h"
 #import "iTermAdvancedSettingsModel.h"
+#import "iTermApplication.h"
 #import "iTermApplicationDelegate.h"
 #import "iTermController.h"
-#import "iTermWindowOcclusionChangeMonitor.h"
 #import "iTermPreferences.h"
 #import "iTermSessionLauncher.h"
-#import "NSArray+iTerm.h"
-#import "PTYWindow.h"
+#import "iTermWindowOcclusionChangeMonitor.h"
 #import "objc/runtime.h"
 
-NSString *const kTerminalWindowStateRestorationWindowArrangementKey = @"ptyarrangement";
-NSString *const iTermWindowDocumentedEditedDidChange = @"iTermWindowDocumentedEditedDidChange";
+NSString *const kTerminalWindowStateRestorationWindowArrangementKey =
+    @"ptyarrangement";
+NSString *const iTermWindowDocumentedEditedDidChange =
+    @"iTermWindowDocumentedEditedDidChange";
 
 const NSTimeInterval iTermWindowTitleChangeMinimumInterval = 0.1;
 
@@ -74,30 +76,30 @@ const NSTimeInterval iTermWindowTitleChangeMinimumInterval = 0.1;
 
 // Height of built-in titlebar to create.
 - (CGFloat)_titlebarHeight {
-    switch ([self.window.ptyWindow.ptyDelegate ptyWindowTitleBarFlavor]) {
-    case PTYWindowTitleBarFlavorDefault:
-        if ([[[self class] superclass] instancesRespondToSelector:_cmd]) {
-            return [super _titlebarHeight];
-        }
-        return 1;
-    case PTYWindowTitleBarFlavorOnePoint:
-        return 1;
-    case PTYWindowTitleBarFlavorZeroPoints:
-        return 0;
+  switch ([self.window.ptyWindow.ptyDelegate ptyWindowTitleBarFlavor]) {
+  case PTYWindowTitleBarFlavorDefault:
+    if ([[[self class] superclass] instancesRespondToSelector:_cmd]) {
+      return [super _titlebarHeight];
     }
-    assert(NO);
+    return 1;
+  case PTYWindowTitleBarFlavorOnePoint:
+    return 1;
+  case PTYWindowTitleBarFlavorZeroPoints:
+    return 0;
+  }
+  assert(NO);
 }
 
 @end
 
-@implementation NSWindow(iTermWindow)
+@implementation NSWindow (iTermWindow)
 
 - (id<PTYWindow>)ptyWindow {
-    if ([self conformsToProtocol:@protocol(PTYWindow)]) {
-        return (id<PTYWindow>)self;
-    } else {
-        return nil;
-    }
+  if ([self conformsToProtocol:@protocol(PTYWindow)]) {
+    return (id<PTYWindow>)self;
+  } else {
+    return nil;
+  }
 }
 
 @end

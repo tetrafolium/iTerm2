@@ -10,17 +10,17 @@
 @implementation iTermTexturePageCollectionSharedPointer
 
 - (instancetype)initWithObject:(iTerm2::TexturePageCollection *)object {
-    self = [super init];
-    if (self) {
-        _object = object;
-    }
-    return self;
+  self = [super init];
+  if (self) {
+    _object = object;
+  }
+  return self;
 }
 
 - (void)dealloc {
-    if (_object) {
-        delete _object;
-    }
+  if (_object) {
+    delete _object;
+  }
 }
 
 @end

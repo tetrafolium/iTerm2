@@ -11,8 +11,8 @@
 @implementation iTermTouchBarButton
 
 - (void)dealloc {
-    [_keyBindingAction release];
-    [super dealloc];
+  [_keyBindingAction release];
+  [super dealloc];
 }
 
 @end

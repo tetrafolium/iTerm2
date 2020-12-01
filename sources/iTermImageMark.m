@@ -14,44 +14,45 @@
 @implementation iTermImageMark
 
 - (instancetype)init {
-    self = [super init];
-    DLog(@"New mage mark %@ created", self);
-    return self;
+  self = [super init];
+  DLog(@"New mage mark %@ created", self);
+  return self;
 }
 
 - (void)setImageCode:(NSNumber *)imageCode {
-    _imageCode = imageCode;
-    DLog(@"Update image code %@", self);
+  _imageCode = imageCode;
+  DLog(@"Update image code %@", self);
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@: %p %@>", self.class, self, self.imageCode];
+  return [NSString
+      stringWithFormat:@"<%@: %p %@>", self.class, self, self.imageCode];
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
-    self = [super init];
-    if (self) {
-        _imageCode = dict[@"imageCode"];
-        if (!_imageCode) {
-            return nil;
-        }
+  self = [super init];
+  if (self) {
+    _imageCode = dict[@"imageCode"];
+    if (!_imageCode) {
+      return nil;
     }
-    return self;
+  }
+  return self;
 }
 
 - (NSDictionary *)dictionaryValue {
-    if (_imageCode) {
-        return @ { @"imageCode": _imageCode };
-    } else {
-        return @ {};
-    }
+  if (_imageCode) {
+    return @{@"imageCode" : _imageCode};
+  } else {
+    return @{};
+  }
 }
 
 - (void)dealloc {
-    DLog(@"Deallocing %@", self);
-    if (_imageCode) {
-        ReleaseImage(_imageCode.integerValue);
-    }
+  DLog(@"Deallocing %@", self);
+  if (_imageCode) {
+    ReleaseImage(_imageCode.integerValue);
+  }
 }
 
 @end

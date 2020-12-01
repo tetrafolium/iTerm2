@@ -10,15 +10,14 @@
 @implementation iTermFocusablePanel
 
 - (BOOL)canBecomeKeyWindow {
-    return YES;
+  return YES;
 }
 
 - (BOOL)canBecomeMainWindow {
-    return YES;
+  return YES;
 }
 
 - (BOOL)acceptsFirstResponder {
-    return YES;
+  return YES;
 }
 @end
-

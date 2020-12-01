@@ -10,21 +10,21 @@
 @implementation iTermWeakProxy
 
 - (id)initWithObject:(id)object {
-    _object = object;
-    return self;
+  _object = object;
+  return self;
 }
 
 - (BOOL)isKindOfClass:(Class)aClass {
-    return [super isKindOfClass:aClass] || [_object isKindOfClass:aClass];
+  return [super isKindOfClass:aClass] || [_object isKindOfClass:aClass];
 }
 
 - (void)forwardInvocation:(NSInvocation *)invocation {
-    invocation.target = _object;
-    [invocation invoke];
+  invocation.target = _object;
+  [invocation invoke];
 }
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)sel {
-    return [_object methodSignatureForSelector:sel];
+  return [_object methodSignatureForSelector:sel];
 }
 
 @end

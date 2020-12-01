@@ -9,7 +9,7 @@
 #import "SplitPanel.h"
 #import "ProfileListView.h"
 
-@interface SplitPanel ()<ProfileListViewDelegate>
+@interface SplitPanel () <ProfileListViewDelegate>
 @end
 
 @implementation SplitPanel
@@ -19,90 +19,87 @@
 @synthesize label = label_;
 @synthesize guid = guid_;
 
-+ (NSString *)showPanelWithParent:(NSWindowController *)parent isVertical:(BOOL)vertical
-{
-    SplitPanel *splitPanel = [[[SplitPanel alloc] initWithWindowNibName:@"SplitPanel"] autorelease];
-    if (splitPanel) {
-        splitPanel.parent = parent;
-        splitPanel.isVertical = vertical;
-        if (vertical) {
-            [splitPanel.label setStringValue:@"Split current pane vertically with profile:"];
-        } else {
-            [splitPanel.label setStringValue:@"Split current pane horizontally with profile:"];
-        }
-        [parent.window beginSheet:splitPanel.window completionHandler:^(NSModalResponse returnCode) {
-                          [NSApp stopModal];
-                      }];
-
-        NSWindow *panel = [splitPanel window];
-        [NSApp runModalForWindow:panel];
-        [parent.window endSheet:splitPanel.window];
-        [panel orderOut:nil];
-        [splitPanel close];
-
-        return splitPanel.guid;
++ (NSString *)showPanelWithParent:(NSWindowController *)parent
+                       isVertical:(BOOL)vertical {
+  SplitPanel *splitPanel =
+      [[[SplitPanel alloc] initWithWindowNibName:@"SplitPanel"] autorelease];
+  if (splitPanel) {
+    splitPanel.parent = parent;
+    splitPanel.isVertical = vertical;
+    if (vertical) {
+      [splitPanel.label
+          setStringValue:@"Split current pane vertically with profile:"];
     } else {
-        return nil;
+      [splitPanel.label
+          setStringValue:@"Split current pane horizontally with profile:"];
     }
+    [parent.window beginSheet:splitPanel.window
+            completionHandler:^(NSModalResponse returnCode) {
+              [NSApp stopModal];
+            }];
+
+    NSWindow *panel = [splitPanel window];
+    [NSApp runModalForWindow:panel];
+    [parent.window endSheet:splitPanel.window];
+    [panel orderOut:nil];
+    [splitPanel close];
+
+    return splitPanel.guid;
+  } else {
+    return nil;
+  }
 }
 
 - (instancetype)initWithWindowNibName:(NSString *)windowNibName {
-    self = [super initWithWindowNibName:windowNibName];
-    if (self) {
-        [self window];
-        [splitButton_ setEnabled:NO];
-    }
-    return self;
+  self = [super initWithWindowNibName:windowNibName];
+  if (self) {
+    [self window];
+    [splitButton_ setEnabled:NO];
+  }
+  return self;
 }
 
 - (void)dealloc {
-    [guid_ release];
-    [parent_ release];
-    [super dealloc];
+  [guid_ release];
+  [parent_ release];
+  [super dealloc];
 }
 
-- (void)_close
-{
-    [NSApp stopModal];
+- (void)_close {
+  [NSApp stopModal];
 }
 
 - (void)sheetDidEnd:(NSWindow *)sheet
-    returnCode:(NSInteger)returnCode
-    contextInfo:(void *)contextInfo
-{
-    [self _close];
+         returnCode:(NSInteger)returnCode
+        contextInfo:(void *)contextInfo {
+  [self _close];
 }
 
-- (IBAction)cancel:(id)sender
-{
-    self.guid = nil;
-    [self _close];
+- (IBAction)cancel:(id)sender {
+  self.guid = nil;
+  [self _close];
 }
 
-- (IBAction)split:(id)sender
-{
-    self.guid = [bookmarks_ selectedGuid];
-    [self _close];
+- (IBAction)split:(id)sender {
+  self.guid = [bookmarks_ selectedGuid];
+  [self _close];
 }
 
 #pragma mark - ProfileListViewDelegate
 
-- (void)profileTableSelectionDidChange:(id)profileTable
-{
-    [splitButton_ setEnabled:([profileTable selectedGuid] != nil)];
+- (void)profileTableSelectionDidChange:(id)profileTable {
+  [splitButton_ setEnabled:([profileTable selectedGuid] != nil)];
 }
 
-- (void)profileTableSelectionWillChange:(id)profileTable
-{
+- (void)profileTableSelectionWillChange:(id)profileTable {
 }
 
-- (void)profileTableRowSelected:(id)profileTable
-{
-    NSString *guid = [bookmarks_ selectedGuid];
-    if (guid) {
-        self.guid = guid;
-        [self _close];
-    }
+- (void)profileTableRowSelected:(id)profileTable {
+  NSString *guid = [bookmarks_ selectedGuid];
+  if (guid) {
+    self.guid = guid;
+    [self _close];
+  }
 }
 
 @end

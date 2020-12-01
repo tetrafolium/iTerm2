@@ -7,60 +7,58 @@
 
 #import "iTermObject.h"
 
+#import "NSDictionary+iTerm.h"
 #import "iTermAPIHelper.h"
 #import "iTermBuiltInFunctions.h"
 #import "iTermVariablesIndex.h"
-#import "NSDictionary+iTerm.h"
 
-NSError *iTermMethodCallError(iTermAPIHelperErrorCode code,
-                              NSString *format,
+NSError *iTermMethodCallError(iTermAPIHelperErrorCode code, NSString *format,
                               ...) {
-    va_list args;
-    va_start(args, format);
-    NSString *reason = [[NSString alloc] initWithFormat:format arguments:args];
-    va_end(args);
+  va_list args;
+  va_start(args, format);
+  NSString *reason = [[NSString alloc] initWithFormat:format arguments:args];
+  va_end(args);
 
-    NSDictionary *userInfo = @ { NSLocalizedFailureReasonErrorKey: reason };
-    NSError *error = [NSError errorWithDomain:iTermAPIHelperErrorDomain
-                              code:code
-                              userInfo:userInfo];
-    return error;
+  NSDictionary *userInfo = @{NSLocalizedFailureReasonErrorKey : reason};
+  NSError *error = [NSError errorWithDomain:iTermAPIHelperErrorDomain
+                                       code:code
+                                   userInfo:userInfo];
+  return error;
 }
 
-void iTermCallMethodByIdentifier(NSString *identifier,
-                                 NSString *name,
+void iTermCallMethodByIdentifier(NSString *identifier, NSString *name,
                                  NSDictionary *args,
                                  void (^completion)(id, NSError *)) {
-    id<iTermObject> object = [[iTermVariablesIndex sharedInstance] variablesForKey:identifier].owner;
-    if (!object) {
-        completion(nil,
-                   iTermMethodCallError(iTermAPIHelperErrorCodeInvalidIdentifier,
-                                        @"No object with ID %@",
-                                        identifier));
-        return;
-    }
+  id<iTermObject> object =
+      [[iTermVariablesIndex sharedInstance] variablesForKey:identifier].owner;
+  if (!object) {
+    completion(nil,
+               iTermMethodCallError(iTermAPIHelperErrorCodeInvalidIdentifier,
+                                    @"No object with ID %@", identifier));
+    return;
+  }
 
-    iTermCallMethodOnObject(object,
-                            name,
-                            args,
-                            completion);
+  iTermCallMethodOnObject(object, name, args, completion);
 }
 
-void iTermCallMethodOnObject(id<iTermObject> object,
-                             NSString *name,
+void iTermCallMethodOnObject(id<iTermObject> object, NSString *name,
                              NSDictionary *args,
                              void (^completion)(id, NSError *)) {
-    NSString *const signature = iTermFunctionSignatureFromNamespaceAndNameAndArguments(nil, name, args.allKeys);
-    iTermBuiltInMethod *const method = [object.objectMethodRegistry methodWithSignature:signature];
-    if (!method) {
-        completion(nil,
-                   iTermMethodCallError(iTermAPIHelperErrorCodeUnregisteredFunction,
-                                        @"No method found on %@ with signature %@",
-                                        object,
-                                        signature));
-        return;
-    }
+  NSString *const signature =
+      iTermFunctionSignatureFromNamespaceAndNameAndArguments(nil, name,
+                                                             args.allKeys);
+  iTermBuiltInMethod *const method =
+      [object.objectMethodRegistry methodWithSignature:signature];
+  if (!method) {
+    completion(nil,
+               iTermMethodCallError(iTermAPIHelperErrorCodeUnregisteredFunction,
+                                    @"No method found on %@ with signature %@",
+                                    object, signature));
+    return;
+  }
 
-    [method callWithArguments:args completion:completion ?: ^(id result, NSError *error) {}];
+  [method callWithArguments:args
+                 completion:completion
+                                ?: ^(id result, NSError *error){
+                                   }];
 }
-

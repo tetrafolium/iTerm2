@@ -11,21 +11,23 @@
 @implementation iTermAdditionalHotKeyObjectValue
 
 + (instancetype)objectValueWithShortcut:(iTermShortcut *)shortcut
-    inUseDescriptors:(NSArray<iTermHotKeyDescriptor *> *)descriptors {
-    iTermAdditionalHotKeyObjectValue *objectValue = [[[iTermAdditionalHotKeyObjectValue alloc] init] autorelease];
-    objectValue.shortcut = shortcut;
-    objectValue.descriptorsInUseByOtherProfiles = descriptors;
-    return objectValue;
+                       inUseDescriptors:
+                           (NSArray<iTermHotKeyDescriptor *> *)descriptors {
+  iTermAdditionalHotKeyObjectValue *objectValue =
+      [[[iTermAdditionalHotKeyObjectValue alloc] init] autorelease];
+  objectValue.shortcut = shortcut;
+  objectValue.descriptorsInUseByOtherProfiles = descriptors;
+  return objectValue;
 }
 
 - (void)dealloc {
-    [_shortcut release];
-    [_descriptorsInUseByOtherProfiles release];
-    [super dealloc];
+  [_shortcut release];
+  [_descriptorsInUseByOtherProfiles release];
+  [super dealloc];
 }
 
 - (BOOL)isDuplicate {
-    return [_descriptorsInUseByOtherProfiles containsObject:_shortcut.descriptor];
+  return [_descriptorsInUseByOtherProfiles containsObject:_shortcut.descriptor];
 }
 
 @end

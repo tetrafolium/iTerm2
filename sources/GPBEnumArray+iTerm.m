@@ -10,13 +10,13 @@
 @implementation GPBEnumArray (iTerm)
 
 - (BOOL)it_contains:(int32_t)value {
-    const NSInteger count = [self count];
-    for (NSInteger i = 0; i < count; i++) {
-        if ([self valueAtIndex:i] == value) {
-            return YES;
-        }
+  const NSInteger count = [self count];
+  for (NSInteger i = 0; i < count; i++) {
+    if ([self valueAtIndex:i] == value) {
+      return YES;
     }
-    return NO;
+  }
+  return NO;
 }
 
 @end

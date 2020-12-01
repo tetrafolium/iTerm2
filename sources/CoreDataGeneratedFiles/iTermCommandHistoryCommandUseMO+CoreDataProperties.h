@@ -15,12 +15,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermCommandHistoryCommandUseMO (CoreDataProperties)
 
-@property (nullable, nonatomic, retain) NSNumber *code;
-@property (nullable, nonatomic, retain) NSString *command;
-@property (nullable, nonatomic, retain) NSString *directory;
-@property (nullable, nonatomic, retain) NSString *markGuid;
-@property (nullable, nonatomic, retain) NSNumber *time;
-@property (nullable, nonatomic, retain) iTermCommandHistoryEntryMO *entry;
+@property(nullable, nonatomic, retain) NSNumber *code;
+@property(nullable, nonatomic, retain) NSString *command;
+@property(nullable, nonatomic, retain) NSString *directory;
+@property(nullable, nonatomic, retain) NSString *markGuid;
+@property(nullable, nonatomic, retain) NSNumber *time;
+@property(nullable, nonatomic, retain) iTermCommandHistoryEntryMO *entry;
 
 @end
 

@@ -9,145 +9,167 @@
 
 #import "DebugLogging.h"
 #import "ITAddressBookMgr.h"
-#import "iTermOpenDirectory.h"
 #import "NSStringITerm.h"
 #import "ProfileModel.h"
+#import "iTermOpenDirectory.h"
 #import "pidinfo.h"
 #include <stdatomic.h>
 
-@interface iTermSlowOperationGateway()
-@property (nonatomic, readwrite) BOOL ready;
+@interface iTermSlowOperationGateway ()
+@property(nonatomic, readwrite) BOOL ready;
 @end
 
 @implementation iTermSlowOperationGateway {
-    NSXPCConnection *_connectionToService;
-    NSTimeInterval _timeout;
+  NSXPCConnection *_connectionToService;
+  NSTimeInterval _timeout;
 }
 
 + (instancetype)sharedInstance {
-    static dispatch_once_t onceToken;
-    static iTermSlowOperationGateway *instance;
-    dispatch_once(&onceToken, ^ {
-        instance = [[self alloc] initPrivate];
-    });
-    return instance;
+  static dispatch_once_t onceToken;
+  static iTermSlowOperationGateway *instance;
+  dispatch_once(&onceToken, ^{
+    instance = [[self alloc] initPrivate];
+  });
+  return instance;
 }
 
 - (instancetype)initPrivate {
-    self = [super init];
-    if (self) {
-        _timeout = 0.5;
-        [self connect];
-        __weak __typeof(self) weakSelf = self;
-        [_connectionToService.remoteObjectProxy handshakeWithReply:^ {
-                                                   weakSelf.ready = YES;
-                                               }];
-    }
-    return self;
+  self = [super init];
+  if (self) {
+    _timeout = 0.5;
+    [self connect];
+    __weak __typeof(self) weakSelf = self;
+    [_connectionToService.remoteObjectProxy handshakeWithReply:^{
+      weakSelf.ready = YES;
+    }];
+  }
+  return self;
 }
 
 - (void)didInvalidateConnection {
-    self.ready = NO;
-    [self connect];
+  self.ready = NO;
+  [self connect];
 }
 
 - (void)connect {
-    _connectionToService = [[NSXPCConnection alloc] initWithServiceName:@"com.iterm2.pidinfo"];
-    _connectionToService.remoteObjectInterface = [NSXPCInterface interfaceWithProtocol:@protocol(pidinfoProtocol)];
-    [_connectionToService resume];
+  _connectionToService =
+      [[NSXPCConnection alloc] initWithServiceName:@"com.iterm2.pidinfo"];
+  _connectionToService.remoteObjectInterface =
+      [NSXPCInterface interfaceWithProtocol:@protocol(pidinfoProtocol)];
+  [_connectionToService resume];
 
-    __weak __typeof(self) weakSelf = self;
-    _connectionToService.invalidationHandler = ^ {
-        // I can't manage to get this called. This project:
-        // https://github.com/brenwell/EvenBetterAuthorizationSample
-        // originally from:
-        // https://developer.apple.com/library/archive/samplecode/EvenBetterAuthorizationSample/Introduction/Intro.html
-        // seems to have been written carefully and states that you can retry creating the
-        // connection on the main thread.
-        DLog(@"Invalidated");
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf didInvalidateConnection];
-        });
-    };
+  __weak __typeof(self) weakSelf = self;
+  _connectionToService.invalidationHandler = ^{
+    // I can't manage to get this called. This project:
+    // https://github.com/brenwell/EvenBetterAuthorizationSample
+    // originally from:
+    // https://developer.apple.com/library/archive/samplecode/EvenBetterAuthorizationSample/Introduction/Intro.html
+    // seems to have been written carefully and states that you can retry
+    // creating the connection on the main thread.
+    DLog(@"Invalidated");
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [weakSelf didInvalidateConnection];
+    });
+  };
 }
 
 - (int)nextReqid {
-    static int next;
-    @synchronized(self) {
-        return next++;
-    }
+  static int next;
+  @synchronized(self) {
+    return next++;
+  }
 }
 
 - (void)checkIfDirectoryExists:(NSString *)directory
-    completion:(void (^)(BOOL))completion {
-    if (!self.ready) {
-        return;
-    }
-    [[_connectionToService remoteObjectProxy] checkIfDirectoryExists:directory
-                                             withReply:^(NSNumber * _Nullable exists) {
-                                                 if (!exists) {
-                                                     return;
-                                                 }
-                                                 dispatch_async(dispatch_get_main_queue(), ^ {
-            completion(exists.boolValue);
-        });
-    }];
+                    completion:(void (^)(BOOL))completion {
+  if (!self.ready) {
+    return;
+  }
+  [[_connectionToService remoteObjectProxy]
+      checkIfDirectoryExists:directory
+                   withReply:^(NSNumber *_Nullable exists) {
+                     if (!exists) {
+                       return;
+                     }
+                     dispatch_async(dispatch_get_main_queue(), ^{
+                       completion(exists.boolValue);
+                     });
+                   }];
 }
 
 - (void)exfiltrateEnvironmentVariableNamed:(NSString *)name
-    shell:(NSString *)shell
-    completion:(void (^)(NSString * _Nonnull))completion {
-    [[_connectionToService remoteObjectProxy] runShellScript:[NSString stringWithFormat:@"echo $%@", name]
-                                              shell:shell
-                                              withReply:^(NSData * _Nullable data,
-                                                          NSData * _Nullable error,
-                                             int status) {
-                                                 completion(status == 0 ? [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] stringByTrimmingTrailingCharactersFromCharacterSet:[NSCharacterSet newlineCharacterSet]] : nil);
-                                             }];
+                                     shell:(NSString *)shell
+                                completion:
+                                    (void (^)(NSString *_Nonnull))completion {
+  [[_connectionToService remoteObjectProxy]
+      runShellScript:[NSString stringWithFormat:@"echo $%@", name]
+               shell:shell
+           withReply:^(NSData *_Nullable data, NSData *_Nullable error,
+                       int status) {
+             completion(
+                 status == 0
+                     ? [[[NSString alloc] initWithData:data
+                                              encoding:NSUTF8StringEncoding]
+                           stringByTrimmingTrailingCharactersFromCharacterSet:
+                               [NSCharacterSet newlineCharacterSet]]
+                     : nil);
+           }];
 }
 
 - (void)asyncGetInfoForProcess:(int)pid
-    flavor:(int)flavor
-    arg:(uint64_t)arg
-    buffersize:(int)buffersize
-    reqid:(int)reqid
-    completion:(void (^)(int rc, NSData *buffer))completion {
-    __block atomic_flag finished = ATOMIC_FLAG_INIT;
-    [[_connectionToService remoteObjectProxy] getProcessInfoForProcessID:@(pid)
-                                              flavor:@(flavor)
-                                              arg:@(arg)
-                                              size:@(buffersize)
-                                              reqid:reqid
-                                             withReply:^(NSNumber *rc, NSData *buffer) {
-                                                 // Called on a private queue
-                                                 if (atomic_flag_test_and_set(&finished)) {
-                                                     DLog(@"Return early because already timed out for pid %@", @(pid));
-                                                     return;
-                                                 }
-                                                 DLog(@"Completed with rc=%@", rc);
-        if (buffer.length != buffersize) {
-            completion(-3, [NSData data]);
-            return;
-        }
-        completion(rc.intValue, buffer);
-    }];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_timeout * NSEC_PER_SEC)), dispatch_get_main_queue(), ^ {
+                        flavor:(int)flavor
+                           arg:(uint64_t)arg
+                    buffersize:(int)buffersize
+                         reqid:(int)reqid
+                    completion:(void (^)(int rc, NSData *buffer))completion {
+  __block atomic_flag finished = ATOMIC_FLAG_INIT;
+  [[_connectionToService remoteObjectProxy]
+      getProcessInfoForProcessID:@(pid)
+                          flavor:@(flavor)
+                             arg:@(arg)
+                            size:@(buffersize)
+                           reqid:reqid
+                       withReply:^(NSNumber *rc, NSData *buffer) {
+                         // Called on a private queue
+                         if (atomic_flag_test_and_set(&finished)) {
+                           DLog(@"Return early because already timed out for "
+                                @"pid %@",
+                                @(pid));
+                           return;
+                         }
+                         DLog(@"Completed with rc=%@", rc);
+                         if (buffer.length != buffersize) {
+                           completion(-3, [NSData data]);
+                           return;
+                         }
+                         completion(rc.intValue, buffer);
+                       }];
+  dispatch_after(
+      dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_timeout * NSEC_PER_SEC)),
+      dispatch_get_main_queue(), ^{
         if (atomic_flag_test_and_set(&finished)) {
-            return;
+          return;
         }
         DLog(@"Timed out");
         completion(-4, [NSData data]);
-    });
+      });
 }
 
-- (void)runCommandInUserShell:(NSString *)command completion:(void (^)(NSString *))completion {
-    [[_connectionToService remoteObjectProxy] runShellScript:command
-                                              shell:[iTermOpenDirectory userShell] ?: @"/bin/bash"
-                                              withReply:^(NSData * _Nullable data,
-                                                          NSData * _Nullable error,
-                                             int status) {
-                                                 completion(status == 0 ? [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] stringByTrimmingTrailingCharactersFromCharacterSet:[NSCharacterSet newlineCharacterSet]] : nil);
-                                             }];
+- (void)runCommandInUserShell:(NSString *)command
+                   completion:(void (^)(NSString *))completion {
+  [[_connectionToService remoteObjectProxy]
+      runShellScript:command
+               shell:[iTermOpenDirectory userShell] ?: @"/bin/bash"
+           withReply:^(NSData *_Nullable data, NSData *_Nullable error,
+                       int status) {
+             completion(
+                 status == 0
+                     ? [[[NSString alloc] initWithData:data
+                                              encoding:NSUTF8StringEncoding]
+                           stringByTrimmingTrailingCharactersFromCharacterSet:
+                               [NSCharacterSet newlineCharacterSet]]
+                     : nil);
+           }];
 }
 
 @end

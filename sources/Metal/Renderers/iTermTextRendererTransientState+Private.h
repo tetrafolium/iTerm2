@@ -11,25 +11,21 @@
 
 @interface iTermTextRendererTransientState ()
 
-@property (nonatomic, readonly) NSData *piuData;
-@property (nonatomic, strong) id<MTLDevice> device;
-@property (nonatomic, strong) iTermASCIITextureGroup *asciiTextureGroup;
-@property (nonatomic) iTermTexturePageCollectionSharedPointer *texturePageCollectionSharedPointer;
-@property (nonatomic) NSInteger numberOfCells;
-@property (nonatomic) CGSize asciiOffset;
+@property(nonatomic, readonly) NSData *piuData;
+@property(nonatomic, strong) id<MTLDevice> device;
+@property(nonatomic, strong) iTermASCIITextureGroup *asciiTextureGroup;
+@property(nonatomic)
+    iTermTexturePageCollectionSharedPointer *texturePageCollectionSharedPointer;
+@property(nonatomic) NSInteger numberOfCells;
+@property(nonatomic) CGSize asciiOffset;
 
 + (NSString *)formatTextPIU:(iTermTextPIU)a;
 
-- (void)enumerateDraws:(void (^)(const iTermTextPIU *,
-    NSInteger,
-    id<MTLTexture>,
-    vector_uint2,
-    vector_uint2,
-    iTermMetalUnderlineDescriptor,
-    iTermMetalUnderlineDescriptor,
-    BOOL underlined,
-    BOOL emoji))block
-    copyBlock:(void (^)(void))copyBlock;
+- (void)enumerateDraws:(void (^)(const iTermTextPIU *, NSInteger,
+                                 id<MTLTexture>, vector_uint2, vector_uint2,
+                                 iTermMetalUnderlineDescriptor,
+                                 iTermMetalUnderlineDescriptor, BOOL underlined,
+                                 BOOL emoji))block
+             copyBlock:(void (^)(void))copyBlock;
 
 @end
-

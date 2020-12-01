@@ -11,20 +11,20 @@
 @implementation iTermSetFindStringNotification
 
 + (instancetype)notificationWithString:(NSString *)string {
-    return [[self alloc] initWithString:string];
+  return [[self alloc] initWithString:string];
 }
 
 + (void)subscribe:(NSObject *)owner
-    block:(void (^)(iTermSetFindStringNotification * _Nonnull))block {
-    [self internalSubscribe:owner withBlock:block];
+            block:(void (^)(iTermSetFindStringNotification *_Nonnull))block {
+  [self internalSubscribe:owner withBlock:block];
 }
 
 - (instancetype)initWithString:(NSString *)string {
-    self = [super initPrivate];
-    if (self) {
-        _string = [string copy];
-    }
-    return self;
+  self = [super initPrivate];
+  if (self) {
+    _string = [string copy];
+  }
+  return self;
 }
 
 @end

@@ -26,9 +26,8 @@
  **  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <wctype.h>
-#import "DebugLogging.h"
 #import "PasteboardHistory.h"
+#import "DebugLogging.h"
 #import "NSDateFormatterExtras.h"
 #import "NSStringITerm.h"
 #import "PopupModel.h"
@@ -36,6 +35,7 @@
 #import "iTermController.h"
 #import "iTermPreferences.h"
 #import "iTermSecureKeyboardEntryController.h"
+#include <wctype.h>
 
 #define PBHKEY_ENTRIES @"Entries"
 #define PBHKEY_VALUE @"Value"
@@ -43,287 +43,315 @@
 
 @implementation PasteboardEntry
 
-+ (PasteboardEntry*)entryWithString:(NSString *)s score:(double)score
-{
-    PasteboardEntry *e = [[PasteboardEntry alloc] init];
-    [e setMainValue:s];
-    [e setScore:score];
-    [e setPrefix:@""];
-    return e;
++ (PasteboardEntry *)entryWithString:(NSString *)s score:(double)score {
+  PasteboardEntry *e = [[PasteboardEntry alloc] init];
+  [e setMainValue:s];
+  [e setScore:score];
+  [e setPrefix:@""];
+  return e;
 }
 
 @end
 
 @implementation PasteboardHistory {
-    NSMutableArray *entries_;
-    int maxEntries_;
-    NSString *path_;
+  NSMutableArray *entries_;
+  int maxEntries_;
+  NSString *path_;
 }
 
-+ (int)maxEntries
-{
-    return [iTermAdvancedSettingsModel pasteHistoryMaxOptions];
++ (int)maxEntries {
+  return [iTermAdvancedSettingsModel pasteHistoryMaxOptions];
 }
 
-+ (PasteboardHistory*)sharedInstance {
-    static PasteboardHistory *instance;
-    if (!instance) {
-        int maxEntries = [PasteboardHistory maxEntries];
-        // MaxPasteHistoryEntries is a legacy thing. I'm not removing it because it's a security
-        // issue for some people.
-        if ([[NSUserDefaults standardUserDefaults] objectForKey:@"MaxPasteHistoryEntries"]) {
-            maxEntries = [[NSUserDefaults standardUserDefaults] integerForKey:@"MaxPasteHistoryEntries"];
-            if (maxEntries < 0) {
-                maxEntries = 0;
-            }
-        }
-        instance = [[PasteboardHistory alloc] initWithMaxEntries:maxEntries];
++ (PasteboardHistory *)sharedInstance {
+  static PasteboardHistory *instance;
+  if (!instance) {
+    int maxEntries = [PasteboardHistory maxEntries];
+    // MaxPasteHistoryEntries is a legacy thing. I'm not removing it because
+    // it's a security issue for some people.
+    if ([[NSUserDefaults standardUserDefaults]
+            objectForKey:@"MaxPasteHistoryEntries"]) {
+      maxEntries = [[NSUserDefaults standardUserDefaults]
+          integerForKey:@"MaxPasteHistoryEntries"];
+      if (maxEntries < 0) {
+        maxEntries = 0;
+      }
     }
-    return instance;
+    instance = [[PasteboardHistory alloc] initWithMaxEntries:maxEntries];
+  }
+  return instance;
 }
 
 - (instancetype)initWithMaxEntries:(int)maxEntries {
-    self = [super init];
-    if (self) {
-        maxEntries_ = maxEntries;
-        entries_ = [[NSMutableArray alloc] init];
+  self = [super init];
+  if (self) {
+    maxEntries_ = maxEntries;
+    entries_ = [[NSMutableArray alloc] init];
 
+    path_ = [NSSearchPathForDirectoriesInDomains(
+        NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *appname = [[NSBundle mainBundle]
+        objectForInfoDictionaryKey:(NSString *)kCFBundleNameKey];
+    path_ = [path_ stringByAppendingPathComponent:appname];
+    [[NSFileManager defaultManager] createDirectoryAtPath:path_
+                              withIntermediateDirectories:YES
+                                               attributes:nil
+                                                    error:NULL];
+    path_ = [[path_ stringByAppendingPathComponent:@"pbhistory.plist"] copy];
 
-        path_ = [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject];
-        NSString *appname = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleNameKey];
-        path_ = [path_ stringByAppendingPathComponent:appname];
-        [[NSFileManager defaultManager] createDirectoryAtPath:path_ withIntermediateDirectories:YES attributes:nil error:NULL];
-        path_ = [[path_ stringByAppendingPathComponent:@"pbhistory.plist"] copy];
-
-        [self _loadHistoryFromDisk];
-    }
-    return self;
+    [self _loadHistoryFromDisk];
+  }
+  return self;
 }
 
-- (NSArray*)entries {
-    return entries_;
+- (NSArray *)entries {
+  return entries_;
 }
 
-- (NSDictionary*)_entriesToDict {
-    NSMutableArray *a = [NSMutableArray array];
+- (NSDictionary *)_entriesToDict {
+  NSMutableArray *a = [NSMutableArray array];
 
-    for (PasteboardEntry *entry in entries_) {
-        [a addObject:[NSDictionary dictionaryWithObjectsAndKeys:[entry mainValue], PBHKEY_VALUE,
-                      [NSNumber numberWithDouble:[entry.timestamp timeIntervalSinceReferenceDate]], PBHKEY_TIMESTAMP,
-                      nil]];
-    }
-    return [NSDictionary dictionaryWithObject:a forKey:PBHKEY_ENTRIES];
+  for (PasteboardEntry *entry in entries_) {
+    [a addObject:[NSDictionary
+                     dictionaryWithObjectsAndKeys:
+                         [entry mainValue], PBHKEY_VALUE,
+                         [NSNumber numberWithDouble:
+                                       [entry.timestamp
+                                               timeIntervalSinceReferenceDate]],
+                         PBHKEY_TIMESTAMP, nil]];
+  }
+  return [NSDictionary dictionaryWithObject:a forKey:PBHKEY_ENTRIES];
 }
 
-- (void)_addDictToEntries:(NSDictionary*)dict {
-    NSArray *a = [dict objectForKey:PBHKEY_ENTRIES];
-    for (NSDictionary *d in a) {
-        double timestamp = [[d objectForKey:PBHKEY_TIMESTAMP] doubleValue];
-        PasteboardEntry *entry = [PasteboardEntry entryWithString:[d objectForKey:PBHKEY_VALUE] score:timestamp];
-        entry.timestamp = [NSDate dateWithTimeIntervalSinceReferenceDate:timestamp];
-        [entries_ addObject:entry];
-    }
+- (void)_addDictToEntries:(NSDictionary *)dict {
+  NSArray *a = [dict objectForKey:PBHKEY_ENTRIES];
+  for (NSDictionary *d in a) {
+    double timestamp = [[d objectForKey:PBHKEY_TIMESTAMP] doubleValue];
+    PasteboardEntry *entry =
+        [PasteboardEntry entryWithString:[d objectForKey:PBHKEY_VALUE]
+                                   score:timestamp];
+    entry.timestamp = [NSDate dateWithTimeIntervalSinceReferenceDate:timestamp];
+    [entries_ addObject:entry];
+  }
 }
 
 - (void)clear {
-    [entries_ removeAllObjects];
+  [entries_ removeAllObjects];
 }
 
 - (void)eraseHistory {
-    [[NSFileManager defaultManager] removeItemAtPath:path_ error:NULL];
+  [[NSFileManager defaultManager] removeItemAtPath:path_ error:NULL];
 }
 
 - (void)_writeHistoryToDisk {
-    if ([iTermPreferences boolForKey:kPreferenceKeySavePasteAndCommandHistory]) {
-        NSError *error = nil;
-        NSData *data =
-            [NSKeyedArchiver archivedDataWithRootObject:[self _entriesToDict]
-                             requiringSecureCoding:NO
-                             error:&error];
-        if (error) {
-            DLog(@"Failed to archive command history: %@", error);
-            return;
-        }
-        [data writeToFile:path_ atomically:NO];
-        [[NSFileManager defaultManager] setAttributes:@ { NSFilePosixPermissions: @0600 }
-                                        ofItemAtPath:path_
-                                        error:nil];
+  if ([iTermPreferences boolForKey:kPreferenceKeySavePasteAndCommandHistory]) {
+    NSError *error = nil;
+    NSData *data =
+        [NSKeyedArchiver archivedDataWithRootObject:[self _entriesToDict]
+                              requiringSecureCoding:NO
+                                              error:&error];
+    if (error) {
+      DLog(@"Failed to archive command history: %@", error);
+      return;
     }
+    [data writeToFile:path_ atomically:NO];
+    [[NSFileManager defaultManager]
+        setAttributes:@{NSFilePosixPermissions : @0600}
+         ofItemAtPath:path_
+                error:nil];
+  }
 }
 
 - (void)_loadHistoryFromDisk {
-    [entries_ removeAllObjects];
+  [entries_ removeAllObjects];
 
-    NSData *data = [NSData dataWithContentsOfFile:path_];
-    if (!data) {
-        return;
-    }
-    NSError *error = nil;
-    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:&error];
-    if (!unarchiver || error) {
-        return;
-    }
-    unarchiver.requiresSecureCoding = NO;
-    NSDictionary *dict = [unarchiver decodeObjectForKey:NSKeyedArchiveRootObjectKey];
+  NSData *data = [NSData dataWithContentsOfFile:path_];
+  if (!data) {
+    return;
+  }
+  NSError *error = nil;
+  NSKeyedUnarchiver *unarchiver =
+      [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:&error];
+  if (!unarchiver || error) {
+    return;
+  }
+  unarchiver.requiresSecureCoding = NO;
+  NSDictionary *dict =
+      [unarchiver decodeObjectForKey:NSKeyedArchiveRootObjectKey];
 
-    [self _addDictToEntries:dict];
+  [self _addDictToEntries:dict];
 }
 
-- (void)save:(NSString*)value
-{
-    if (IsSecureEventInputEnabled() &&
-            ![iTermAdvancedSettingsModel saveToPasteHistoryWhenSecureInputEnabled]) {
-        DLog(@"Not saving paste history because secure keyboard entry is enabled");
-        return;
-    }
-    value = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    if (![value length]) {
-        return;
-    }
+- (void)save:(NSString *)value {
+  if (IsSecureEventInputEnabled() &&
+      ![iTermAdvancedSettingsModel saveToPasteHistoryWhenSecureInputEnabled]) {
+    DLog(@"Not saving paste history because secure keyboard entry is enabled");
+    return;
+  }
+  value = [value
+      stringByTrimmingCharactersInSet:[NSCharacterSet
+                                          whitespaceAndNewlineCharacterSet]];
+  if (![value length]) {
+    return;
+  }
 
-    // Remove existing duplicate value.
-    for (int i = 0; i < [entries_ count]; ++i) {
-        PasteboardEntry *entry = [entries_ objectAtIndex:i];
-        if ([[entry mainValue] isEqualToString:value]) {
-            [entries_ removeObjectAtIndex:i];
-            break;
-        }
+  // Remove existing duplicate value.
+  for (int i = 0; i < [entries_ count]; ++i) {
+    PasteboardEntry *entry = [entries_ objectAtIndex:i];
+    if ([[entry mainValue] isEqualToString:value]) {
+      [entries_ removeObjectAtIndex:i];
+      break;
     }
+  }
 
-    // If the last value is a prefix of this value then remove it. This prevents
-    // pressing tab in the findbar from filling the history with various
-    // versions of the same thing.
-    PasteboardEntry *lastEntry;
-    if ([entries_ count] > 0) {
-        lastEntry = [entries_ objectAtIndex:[entries_ count] - 1];
-        if ([value hasPrefix:[lastEntry mainValue]]) {
-            [entries_ removeObjectAtIndex:[entries_ count] - 1];
-        }
+  // If the last value is a prefix of this value then remove it. This prevents
+  // pressing tab in the findbar from filling the history with various
+  // versions of the same thing.
+  PasteboardEntry *lastEntry;
+  if ([entries_ count] > 0) {
+    lastEntry = [entries_ objectAtIndex:[entries_ count] - 1];
+    if ([value hasPrefix:[lastEntry mainValue]]) {
+      [entries_ removeObjectAtIndex:[entries_ count] - 1];
     }
+  }
 
-    // Append this value.
-    PasteboardEntry *entry = [PasteboardEntry entryWithString:value score:[[NSDate date] timeIntervalSince1970]];
-    entry.timestamp = [NSDate date];
-    [entries_ addObject:entry];
-    if ([entries_ count] > maxEntries_) {
-        [entries_ removeObjectAtIndex:0];
-    }
+  // Append this value.
+  PasteboardEntry *entry =
+      [PasteboardEntry entryWithString:value
+                                 score:[[NSDate date] timeIntervalSince1970]];
+  entry.timestamp = [NSDate date];
+  [entries_ addObject:entry];
+  if ([entries_ count] > maxEntries_) {
+    [entries_ removeObjectAtIndex:0];
+  }
 
-    [self _writeHistoryToDisk];
+  [self _writeHistoryToDisk];
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:kPasteboardHistoryDidChange
-                                          object:self];
+  [[NSNotificationCenter defaultCenter]
+      postNotificationName:kPasteboardHistoryDidChange
+                    object:self];
 }
 
 @end
 
 @implementation PasteboardHistoryWindowController {
-    IBOutlet NSTableView *table_;
-    NSTimer *minuteRefreshTimer_;
+  IBOutlet NSTableView *table_;
+  NSTimer *minuteRefreshTimer_;
 }
 
 - (instancetype)init {
-    self = [super initWithWindowNibName:@"PasteboardHistory" tablePtr:nil model:[[PopupModel alloc] init]];
-    if (!self) {
-        return nil;
-    }
+  self = [super initWithWindowNibName:@"PasteboardHistory"
+                             tablePtr:nil
+                                model:[[PopupModel alloc] init]];
+  if (!self) {
+    return nil;
+  }
 
-    [self window];
-    [self setTableView:table_];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                          selector:@selector(pasteboardHistoryDidChange:)
-                                          name:kPasteboardHistoryDidChange
-                                          object:nil];
+  [self window];
+  [self setTableView:table_];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(pasteboardHistoryDidChange:)
+             name:kPasteboardHistoryDidChange
+           object:nil];
 
-    return self;
+  return self;
 }
 
 - (NSString *)footerString {
-    if ([iTermAdvancedSettingsModel saveToPasteHistoryWhenSecureInputEnabled]) {
-        return nil;
-    }
-    if ([[iTermSecureKeyboardEntryController sharedInstance] isEnabled]) {
-        return @"⚠️ Secure keyboard entry disables paste history.";
-    }
+  if ([iTermAdvancedSettingsModel saveToPasteHistoryWhenSecureInputEnabled]) {
     return nil;
+  }
+  if ([[iTermSecureKeyboardEntryController sharedInstance] isEnabled]) {
+    return @"⚠️ Secure keyboard entry disables paste history.";
+  }
+  return nil;
 }
 
-- (void)pasteboardHistoryDidChange:(id)sender
-{
-    [self refresh];
+- (void)pasteboardHistoryDidChange:(id)sender {
+  [self refresh];
 }
 
 - (void)copyFromHistory {
-    [[self unfilteredModel] removeAllObjects];
-    for (PasteboardEntry *e in [[PasteboardHistory sharedInstance] entries]) {
-        [[self unfilteredModel] addObject:e];
-    }
+  [[self unfilteredModel] removeAllObjects];
+  for (PasteboardEntry *e in [[PasteboardHistory sharedInstance] entries]) {
+    [[self unfilteredModel] addObject:e];
+  }
 }
 
-- (void)refresh
-{
-    [self copyFromHistory];
-    [self reloadData:YES];
+- (void)refresh {
+  [self copyFromHistory];
+  [self reloadData:YES];
 }
 
-- (void)onOpen
-{
-    [self copyFromHistory];
-    if (!minuteRefreshTimer_) {
-        minuteRefreshTimer_ = [NSTimer scheduledTimerWithTimeInterval:61
-                                       target:self
-                                       selector:@selector(pasteboardHistoryDidChange:)
-                                       userInfo:nil
-                                       repeats:YES];
-    }
+- (void)onOpen {
+  [self copyFromHistory];
+  if (!minuteRefreshTimer_) {
+    minuteRefreshTimer_ = [NSTimer
+        scheduledTimerWithTimeInterval:61
+                                target:self
+                              selector:@selector(pasteboardHistoryDidChange:)
+                              userInfo:nil
+                               repeats:YES];
+  }
 }
 
-- (void)onClose
-{
-    if (minuteRefreshTimer_) {
-        [minuteRefreshTimer_ invalidate];
-        minuteRefreshTimer_ = nil;
-    }
-    [self.delegate popupWillClose:self];
-    [self setDelegate:nil];
+- (void)onClose {
+  if (minuteRefreshTimer_) {
+    [minuteRefreshTimer_ invalidate];
+    minuteRefreshTimer_ = nil;
+  }
+  [self.delegate popupWillClose:self];
+  [self setDelegate:nil];
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
-    PasteboardEntry *entry = [[self model] objectAtIndex:[self convertIndex:rowIndex]];
-    if ([[aTableColumn identifier] isEqualToString:@"date"]) {
-        // Date
-        NSString *formattedDate = [NSDateFormatter dateDifferenceStringFromDate:entry.timestamp];
-        int i = [self convertIndex:rowIndex];
-        PopupEntry* e = [[self model] objectAtIndex:i];
-        NSString *formattedLength = [NSString it_formatBytes:e.mainValue.length];
-        const NSUInteger maximumLengthToScan = 1024 * 50;
-        const NSInteger numberOfLines = [[e.mainValue substringToIndex:MIN(e.mainValue.length, maximumLengthToScan)] it_numberOfLines];
-        NSString *formattedNumberOfLines;
-        NSString *plus;
-        if (e.mainValue.length > maximumLengthToScan) {
-            plus = @"+";
-        } else {
-            plus = @"";
-        }
-        NSString *s = numberOfLines != 1 ? @"s": @"";
-        formattedNumberOfLines = [NSString stringWithFormat:@"%@%@ line%@", @(numberOfLines), plus, s];
-        return [NSString stringWithFormat:@"%@, %@, %@", formattedNumberOfLines, formattedLength, formattedDate];
+- (id)tableView:(NSTableView *)aTableView
+    objectValueForTableColumn:(NSTableColumn *)aTableColumn
+                          row:(NSInteger)rowIndex {
+  PasteboardEntry *entry =
+      [[self model] objectAtIndex:[self convertIndex:rowIndex]];
+  if ([[aTableColumn identifier] isEqualToString:@"date"]) {
+    // Date
+    NSString *formattedDate =
+        [NSDateFormatter dateDifferenceStringFromDate:entry.timestamp];
+    int i = [self convertIndex:rowIndex];
+    PopupEntry *e = [[self model] objectAtIndex:i];
+    NSString *formattedLength = [NSString it_formatBytes:e.mainValue.length];
+    const NSUInteger maximumLengthToScan = 1024 * 50;
+    const NSInteger numberOfLines = [[e.mainValue
+        substringToIndex:MIN(e.mainValue.length, maximumLengthToScan)]
+        it_numberOfLines];
+    NSString *formattedNumberOfLines;
+    NSString *plus;
+    if (e.mainValue.length > maximumLengthToScan) {
+      plus = @"+";
     } else {
-        // Contents
-        return [super tableView:aTableView objectValueForTableColumn:aTableColumn row:rowIndex];
+      plus = @"";
     }
+    NSString *s = numberOfLines != 1 ? @"s" : @"";
+    formattedNumberOfLines =
+        [NSString stringWithFormat:@"%@%@ line%@", @(numberOfLines), plus, s];
+    return [NSString stringWithFormat:@"%@, %@, %@", formattedNumberOfLines,
+                                      formattedLength, formattedDate];
+  } else {
+    // Contents
+    return [super tableView:aTableView
+        objectValueForTableColumn:aTableColumn
+                              row:rowIndex];
+  }
 }
 
 - (void)rowSelected:(id)sender {
-    if ([table_ selectedRow] >= 0) {
-        PasteboardEntry *entry = [[self model] objectAtIndex:[self convertIndex:[table_ selectedRow]]];
-        NSPasteboard *thePasteboard = [NSPasteboard generalPasteboard];
-        [thePasteboard declareTypes:[NSArray arrayWithObject:NSPasteboardTypeString] owner:nil];
-        [thePasteboard setString:[entry mainValue] forType:NSPasteboardTypeString];
-        [[[iTermController sharedInstance] frontTextView] paste:nil];
-        [super rowSelected:sender];
-    }
+  if ([table_ selectedRow] >= 0) {
+    PasteboardEntry *entry =
+        [[self model] objectAtIndex:[self convertIndex:[table_ selectedRow]]];
+    NSPasteboard *thePasteboard = [NSPasteboard generalPasteboard];
+    [thePasteboard declareTypes:[NSArray arrayWithObject:NSPasteboardTypeString]
+                          owner:nil];
+    [thePasteboard setString:[entry mainValue] forType:NSPasteboardTypeString];
+    [[[iTermController sharedInstance] frontTextView] paste:nil];
+    [super rowSelected:sender];
+  }
 }
 
 @end
-

@@ -7,10 +7,10 @@
 //
 
 #import "PasswordTrigger.h"
-#import "iTermApplicationDelegate.h"
-#import "iTermPasswordManagerWindowController.h"
 #import "NSArray+iTerm.h"
 #import "PTYSession.h"
+#import "iTermApplicationDelegate.h"
+#import "iTermPasswordManagerWindowController.h"
 
 @interface PasswordTrigger ()
 @property(nonatomic, copy) NSArray *accountNames;
@@ -19,95 +19,104 @@
 @implementation PasswordTrigger
 
 + (NSString *)title {
-    return @"Open Password Manager…";
+  return @"Open Password Manager…";
 }
 
 - (instancetype)init {
-    self = [super init];
-    if (self) {
-        [self reloadData];
-    }
-    return self;
+  self = [super init];
+  if (self) {
+    [self reloadData];
+  }
+  return self;
 }
 
 - (void)reloadData {
-    _accountNames = [[iTermPasswordManagerWindowController entriesWithFilter:nil] mapWithBlock:^id(iTermPasswordEntry *entry) {
-                                                                     return entry.combinedAccountNameUserName;
-                                                                 }];
-    if (!_accountNames.count) {
-        _accountNames = @[ @"" ];
-    }
+  _accountNames = [[iTermPasswordManagerWindowController entriesWithFilter:nil]
+      mapWithBlock:^id(iTermPasswordEntry *entry) {
+        return entry.combinedAccountNameUserName;
+      }];
+  if (!_accountNames.count) {
+    _accountNames = @[ @"" ];
+  }
 }
 
-- (NSString *)triggerOptionalParameterPlaceholderWithInterpolation:(BOOL)interpolation {
-    return @"";
+- (NSString *)triggerOptionalParameterPlaceholderWithInterpolation:
+    (BOOL)interpolation {
+  return @"";
 }
 
 - (BOOL)takesParameter {
-    return YES;
+  return YES;
 }
 
 - (BOOL)paramIsPopupButton {
-    return YES;
+  return YES;
 }
 
 - (NSArray *)sortedAccountNames {
-    return [_accountNames sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+  return [_accountNames
+      sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 }
 
 - (NSInteger)indexForObject:(id)object {
 
-    NSUInteger index = [[self sortedAccountNames] indexOfObject:object];
-    if (index == NSNotFound) {
-        return -1;
-    } else {
-        return index;
-    }
+  NSUInteger index = [[self sortedAccountNames] indexOfObject:object];
+  if (index == NSNotFound) {
+    return -1;
+  } else {
+    return index;
+  }
 }
 
 - (id)objectAtIndex:(NSInteger)index {
-    if (index < 0 || index >= _accountNames.count) {
-        return nil;
-    }
-    return [self sortedAccountNames][index];
+  if (index < 0 || index >= _accountNames.count) {
+    return nil;
+  }
+  return [self sortedAccountNames][index];
 }
 
 - (NSDictionary *)menuItemsForPoupupButton {
-    NSMutableDictionary *result = [NSMutableDictionary dictionary];
-    for (NSString *name in _accountNames) {
-        result[name] = name;
-    }
-    return result;
+  NSMutableDictionary *result = [NSMutableDictionary dictionary];
+  for (NSString *name in _accountNames) {
+    result[name] = name;
+  }
+  return result;
 }
 
 - (BOOL)performActionWithCapturedStrings:(NSString *const *)capturedStrings
-    capturedRanges:(const NSRange *)capturedRanges
-    captureCount:(NSInteger)captureCount
-    inSession:(PTYSession *)aSession
-    onString:(iTermStringLine *)stringLine
-    atAbsoluteLineNumber:(long long)lineNumber
-    useInterpolation:(BOOL)useInterpolation
-    stop:(BOOL *)stop {
-    [self paramWithBackreferencesReplacedWithValues:capturedStrings
-          count:captureCount
-          scope:aSession.variablesScope
-          useInterpolation:useInterpolation
-         completion:^(NSString *accountName) {
-             if (accountName) {
-                 iTermApplicationDelegate *itad = [iTermApplication.sharedApplication delegate];
-            [itad openPasswordManagerToAccountName:accountName
-                  inSession:aSession];
-        }
-    }];
-    return YES;
+                          capturedRanges:(const NSRange *)capturedRanges
+                            captureCount:(NSInteger)captureCount
+                               inSession:(PTYSession *)aSession
+                                onString:(iTermStringLine *)stringLine
+                    atAbsoluteLineNumber:(long long)lineNumber
+                        useInterpolation:(BOOL)useInterpolation
+                                    stop:(BOOL *)stop {
+  [self
+      paramWithBackreferencesReplacedWithValues:capturedStrings
+                                          count:captureCount
+                                          scope:aSession.variablesScope
+                               useInterpolation:useInterpolation
+                                     completion:^(NSString *accountName) {
+                                       if (accountName) {
+                                         iTermApplicationDelegate *itad =
+                                             [iTermApplication.sharedApplication
+                                                     delegate];
+                                         [itad
+                                             openPasswordManagerToAccountName:
+                                                 accountName
+                                                                    inSession:
+                                                                        aSession];
+                                       }
+                                     }];
+  return YES;
 }
 
 - (int)defaultIndex {
-    return 0;
+  return 0;
 }
 
 - (id)defaultPopupParameterObject {
-    return @"";
+  return @"";
 }
 
 @end
