@@ -48,7 +48,12 @@ inspecode:
     # fortify:
     #   thresholds: {num-issues: 999}
 
+    ### ERROR: Command errored out with exit status 1: python setup.py egg_info
+    ### Check the logs for full command output.
+    ### cannot resolve dependencies
     flake8:
+      options:
+        --ignore: [E501, E231, E302, E251, E111, E701, E221]
       thresholds: {num-issues: 999}
 
     fossology:
@@ -67,23 +72,36 @@ inspecode:
       auto-fix: true
       thresholds: {num-issues: 76}
 
-    nose2:
-      thresholds: {num-issues: 999}
+    ### ERROR: Command errored out with exit status 1: python setup.py egg_info
+    ### Check the logs for full command output.
+    ### cannot resolve dependencies
+    # nose2:
+    #   thresholds: {num-issues: 999}
 
     prospector:
+      options:
+        --without-tools: pylint
       thresholds: {num-issues: 999}
 
     pycodestyle:
+      options:
+        --ignore: [E501, E231, E302, E251, E111, E701, E221, E117, W293]
       thresholds: {num-issues: 999}
 
     pyflakes:
-      thresholds: {num-issues: 999}
+      thresholds: {num-issues: 199}
 
     pylint:
+      options:
+        --errors-only:
       thresholds: {num-issues: 999}
 
-    pytest:
-      thresholds: {num-issues: 999}
+    ### ERROR: Command errored out with exit status 1: python setup.py egg_info
+    ### Check the logs for full command output.
+    ### cannot resolve dependencies
+    ### found no input files
+    # pytest:
+    #   thresholds: {num-issues: 999}
 
     # scan-build:
     #   thresholds: {num-issues: 999}
@@ -102,4 +120,4 @@ inspecode:
 
     yapf:
       auto-fix: true
-      thresholds: {num-issues: 999}
+      thresholds: {num-issues: 156}
