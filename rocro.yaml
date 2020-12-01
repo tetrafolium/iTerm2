@@ -80,7 +80,7 @@ inspecode:
 
     prospector:
       options:
-        --without-tools: pylint
+        --without-tool: [pylint]
       thresholds: {num-issues: 999}
 
     pycodestyle:
