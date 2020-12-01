@@ -11,41 +11,41 @@
 #import "iTermRateLimitedUpdate.h"
 #import <MetalKit/MetalKit.h>
 
-@interface NSClipView(Private)
+@interface NSClipView (Private)
 - (BOOL)_shouldShowOverlayScrollersForScrollToPoint:(CGPoint)point;
 @end
 
 @implementation iTermMetalClipView {
-    NSInteger _disableShowingOverlayScrollers;
+  NSInteger _disableShowingOverlayScrollers;
 }
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
-    self = [super initWithFrame:frameRect];
-    if (self) {
-        self.copiesOnScroll = NO;
-    }
-    return self;
+  self = [super initWithFrame:frameRect];
+  if (self) {
+    self.copiesOnScroll = NO;
+  }
+  return self;
 }
 
 - (void)scrollToPoint:(NSPoint)newOrigin {
-    [super scrollToPoint:newOrigin];
-    if (_useMetal) {
-        [_metalView setNeedsDisplay:YES];
-    }
+  [super scrollToPoint:newOrigin];
+  if (_useMetal) {
+    [_metalView setNeedsDisplay:YES];
+  }
 }
 
-- (void)performBlockWithoutShowingOverlayScrollers:(void (^ NS_NOESCAPE)(void))block {
-    _disableShowingOverlayScrollers += 1;
-    block();
-    _disableShowingOverlayScrollers -= 1;
+- (void)performBlockWithoutShowingOverlayScrollers:
+    (void (^NS_NOESCAPE)(void))block {
+  _disableShowingOverlayScrollers += 1;
+  block();
+  _disableShowingOverlayScrollers -= 1;
 }
 
 - (BOOL)_shouldShowOverlayScrollersForScrollToPoint:(CGPoint)point {
-    if (_disableShowingOverlayScrollers) {
-        return NO;
-    }
-    return [super _shouldShowOverlayScrollersForScrollToPoint:point];
+  if (_disableShowingOverlayScrollers) {
+    return NO;
+  }
+  return [super _shouldShowOverlayScrollersForScrollToPoint:point];
 }
 
 @end
-

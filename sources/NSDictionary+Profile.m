@@ -6,8 +6,8 @@
 //
 //
 
-#import "NSDictionary+Profile.h"
 #import "ITAddressBookMgr.h"
+#import "NSDictionary+Profile.h"
 #import "NSObject+iTerm.h"
 
 NSString *const kProfileDynamicTag = @"Dynamic";
@@ -17,23 +17,23 @@ NSString *const kProfileLegacyDynamicTag = @"dynamic";
 @implementation NSDictionary (Profile)
 
 - (BOOL)profileIsDynamic {
-    NSArray *tags = [NSArray castFrom:self[KEY_TAGS]];
-    if ([tags containsObject:kProfileDynamicTag]) {
-        return YES;
+  NSArray *tags = [NSArray castFrom:self[KEY_TAGS]];
+  if ([tags containsObject:kProfileDynamicTag]) {
+    return YES;
+  }
+  if ([tags containsObject:kProfileLegacyDynamicTag]) {
+    return YES;
+  }
+  for (NSString *tag in tags) {
+    if ([tag hasPrefix:kProfileDynamicTagRoot]) {
+      return YES;
     }
-    if ([tags containsObject:kProfileLegacyDynamicTag]) {
-        return YES;
-    }
-    for (NSString *tag in tags) {
-        if ([tag hasPrefix:kProfileDynamicTagRoot]) {
-            return YES;
-        }
-    }
-    return NO;
+  }
+  return NO;
 }
 
 - (BOOL)isEqualToProfile:(NSDictionary *)other {
-    return [self[KEY_GUID] isEqualToString:other[KEY_GUID]];
+  return [self[KEY_GUID] isEqualToString:other[KEY_GUID]];
 }
 
 @end

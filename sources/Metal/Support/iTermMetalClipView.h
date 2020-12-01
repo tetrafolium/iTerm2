@@ -11,9 +11,10 @@
 
 @interface iTermMetalClipView : NSClipView
 
-@property (nonatomic, weak) MTKView *metalView NS_AVAILABLE_MAC(10_11);
-@property (nonatomic) BOOL useMetal;
+@property(nonatomic, weak) MTKView *metalView NS_AVAILABLE_MAC(10_11);
+@property(nonatomic) BOOL useMetal;
 
-- (void)performBlockWithoutShowingOverlayScrollers:(void (^ NS_NOESCAPE)(void))block;
+- (void)performBlockWithoutShowingOverlayScrollers:
+    (void (^NS_NOESCAPE)(void))block;
 
 @end

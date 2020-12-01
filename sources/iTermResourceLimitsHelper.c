@@ -13,16 +13,15 @@ static struct rlimit sSavedLimits[RLIM_NLIMITS];
 static int sGetRLimitStatus[RLIM_NLIMITS];
 
 void iTermResourceLimitsHelperSaveCurrentLimits(void) {
-    for (int i = 0; i < RLIM_NLIMITS; i++) {
-        sGetRLimitStatus[i] = getrlimit(i, &sSavedLimits[i]);
-    }
+  for (int i = 0; i < RLIM_NLIMITS; i++) {
+    sGetRLimitStatus[i] = getrlimit(i, &sSavedLimits[i]);
+  }
 }
 
 void iTermResourceLimitsHelperRestoreSavedLimits(void) {
-    for (int i = 0; i < RLIM_NLIMITS; i++) {
-        if (!sGetRLimitStatus[i]) {
-            setrlimit(i, &sSavedLimits[i]);
-        }
+  for (int i = 0; i < RLIM_NLIMITS; i++) {
+    if (!sGetRLimitStatus[i]) {
+      setrlimit(i, &sSavedLimits[i]);
     }
+  }
 }
-

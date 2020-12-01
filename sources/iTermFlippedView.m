@@ -11,15 +11,15 @@
 @implementation iTermFlippedView
 
 - (BOOL)isFlipped {
-    return YES;
+  return YES;
 }
 
 - (void)flipSubviews {
-    for (NSView *view in [self subviews]) {
-        NSRect frame = [view frame];
-        frame.origin.y = NSMaxY([self bounds]) - NSMaxY([view frame]);
-        [view setFrame:frame];
-    }
+  for (NSView *view in [self subviews]) {
+    NSRect frame = [view frame];
+    frame.origin.y = NSMaxY([self bounds]) - NSMaxY([view frame]);
+    [view setFrame:frame];
+  }
 }
 
 @end

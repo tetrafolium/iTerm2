@@ -5,8 +5,8 @@
 //  Created by George Nachman on 7/26/18.
 //
 
-#import <Foundation/Foundation.h>
 #import "PTYTextViewDataSource.h"
+#import <Foundation/Foundation.h>
 
 @implementation PTYTextViewSynchronousUpdateState
 @end

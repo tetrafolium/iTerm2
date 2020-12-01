@@ -9,20 +9,19 @@
 
 @implementation iTermCompetentTableRowView
 
-
 - (BOOL)it_dark {
-    return [self.window.appearance.name isEqual:NSAppearanceNameVibrantDark];
+  return [self.window.appearance.name isEqual:NSAppearanceNameVibrantDark];
 }
 
 - (void)drawSelectionInRect:(NSRect)dirtyRect {
-    if (self.selectionHighlightStyle != NSTableViewSelectionHighlightStyleNone) {
-        if ([self it_dark]) {
-            [[NSColor darkGrayColor] set];
-            NSRectFill(dirtyRect);
-            return;
-        }
+  if (self.selectionHighlightStyle != NSTableViewSelectionHighlightStyleNone) {
+    if ([self it_dark]) {
+      [[NSColor darkGrayColor] set];
+      NSRectFill(dirtyRect);
+      return;
     }
-    [super drawSelectionInRect:dirtyRect];
+  }
+  [super drawSelectionInRect:dirtyRect];
 }
 
 @end

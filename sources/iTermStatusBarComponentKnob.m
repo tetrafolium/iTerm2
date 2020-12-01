@@ -7,8 +7,8 @@
 
 #import "iTermStatusBarComponentKnob.h"
 
-#import "iTermDragHandleView.h"
 #import "NSObject+iTerm.h"
+#import "iTermDragHandleView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,32 +17,32 @@ NSString *const iTermStatusBarComponentKnobMinimumWidthKey = @"_minimumWidth";
 @implementation iTermStatusBarComponentKnob
 
 - (instancetype)initWithLabelText:(nullable NSString *)labelText
-    type:(iTermStatusBarComponentKnobType)type
-    placeholder:(nullable NSString *)placeholder
-    defaultValue:(nullable id)defaultValue
-    key:(NSString *)key {
-    self = [super init];
-    if (self) {
-        _labelText = [labelText copy];
-        _type = type;
-        _placeholder = [placeholder copy];
-        _value = defaultValue;
-        _key = [key copy];
-    }
-    return self;
+                             type:(iTermStatusBarComponentKnobType)type
+                      placeholder:(nullable NSString *)placeholder
+                     defaultValue:(nullable id)defaultValue
+                              key:(NSString *)key {
+  self = [super init];
+  if (self) {
+    _labelText = [labelText copy];
+    _type = type;
+    _placeholder = [placeholder copy];
+    _value = defaultValue;
+    _key = [key copy];
+  }
+  return self;
 }
 
 - (nullable NSView *)inputView {
-    [self doesNotRecognizeSelector:_cmd];
-    return nil;
+  [self doesNotRecognizeSelector:_cmd];
+  return nil;
 }
 
 - (nullable NSString *)stringValue {
-    return [NSString castFrom:_value];
+  return [NSString castFrom:_value];
 }
 
 - (nullable NSNumber *)numberValue {
-    return [NSNumber castFrom:_value];
+  return [NSNumber castFrom:_value];
 }
 
 @end

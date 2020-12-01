@@ -12,85 +12,86 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface iTermStatusBarProgressComponent()<PasteViewControllerDelegate>
+@interface iTermStatusBarProgressComponent () <PasteViewControllerDelegate>
 @end
 
 @implementation iTermStatusBarProgressComponent {
-    PasteViewController *_viewController;
+  PasteViewController *_viewController;
 }
 
 - (CGFloat)statusBarComponentMinimumWidth {
-    return 125;
+  return 125;
 }
 
 - (void)statusBarComponentSizeView:(NSView *)view toFitWidth:(CGFloat)width {
-    assert(view == _viewController.view);
-    NSRect rect = view.frame;
-    rect.size.width = width;
-    rect.size.height = 18;
-    view.frame = rect;
+  assert(view == _viewController.view);
+  NSRect rect = view.frame;
+  rect.size.width = width;
+  rect.size.height = 18;
+  view.frame = rect;
 }
 
 - (CGFloat)statusBarComponentPreferredWidth {
-    return 200;
+  return 200;
 }
 
 - (BOOL)statusBarComponentCanStretch {
-    return YES;
+  return YES;
 }
 
 #pragma mark - iTermStatusBarComponent
 
 - (nullable NSImage *)statusBarComponentIcon {
-    return [NSImage it_cacheableImageNamed:@"StatusBarIconPaste" forClass:[self class]];
+  return [NSImage it_cacheableImageNamed:@"StatusBarIconPaste"
+                                forClass:[self class]];
 }
 
-
 - (NSString *)statusBarComponentShortDescription {
-    return @"Progress Indicator";
+  return @"Progress Indicator";
 }
 
 - (NSString *)statusBarComponentDetailedDescription {
-    [self doesNotRecognizeSelector:_cmd];
-    return @"Generic progress indicator";
+  [self doesNotRecognizeSelector:_cmd];
+  return @"Generic progress indicator";
 }
 
 - (NSArray<iTermStatusBarComponentKnob *> *)statusBarComponentKnobs {
-    return @[];
+  return @[];
 }
 
 - (id)statusBarComponentExemplarWithBackgroundColor:(NSColor *)backgroundColor
-    textColor:(NSColor *)textColor {
-    [self doesNotRecognizeSelector:_cmd];
-    return @"[=== ]";
+                                          textColor:(NSColor *)textColor {
+  [self doesNotRecognizeSelector:_cmd];
+  return @"[=== ]";
 }
 
 - (NSView *)statusBarComponentView {
-    if (!_viewController) {
-        _viewController = [[PasteViewController alloc] initWithContext:self.pasteContext
-                                                       length:self.bufferLength
-                                                       mini:YES];
-        _viewController.delegate = self;
-    }
-    return _viewController.view;
+  if (!_viewController) {
+    _viewController =
+        [[PasteViewController alloc] initWithContext:self.pasteContext
+                                              length:self.bufferLength
+                                                mini:YES];
+    _viewController.delegate = self;
+  }
+  return _viewController.view;
 }
 
 - (void)statusBarDefaultTextColorDidChange {
-    [_viewController updateLabelColor];
+  [_viewController updateLabelColor];
 }
 
 - (void)setRemainingLength:(int)remainingLength {
-    _viewController.remainingLength = remainingLength;
+  _viewController.remainingLength = remainingLength;
 }
 
 - (int)remainingLength {
-    return _viewController.remainingLength;
+  return _viewController.remainingLength;
 }
 
 #pragma mark - PasteViewControllerDelegate
 
 - (void)pasteViewControllerDidCancel {
-    [self.progressDelegate statusBarProgressComponentDidCancel];
+  [self.progressDelegate statusBarProgressComponentDidCancel];
 }
 
 @end

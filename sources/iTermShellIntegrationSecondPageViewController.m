@@ -16,9 +16,9 @@
 }
 
 - (IBAction)downloadAndRun:(id)sender {
-    [self.shellInstallerDelegate shellIntegrationInstallerConfirmDownloadAndRun];
+  [self.shellInstallerDelegate shellIntegrationInstallerConfirmDownloadAndRun];
 }
 - (IBAction)sendShellCommands:(id)sender {
-    [self.shellInstallerDelegate shellIntegrationInstallerSendShellCommands:-1];
+  [self.shellInstallerDelegate shellIntegrationInstallerSendShellCommands:-1];
 }
 @end

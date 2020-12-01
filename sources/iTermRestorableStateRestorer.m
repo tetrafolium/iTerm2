@@ -10,35 +10,36 @@
 #import "DebugLogging.h"
 #import "NSObject+iTerm.h"
 #import "iTermRestorableStateRecord.h"
-#include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/types.h>
 
-@interface iTermRestorableStateRestorerIndex : NSObject<iTermRestorableStateIndex>
-@property (nonatomic, readonly) NSArray<NSDictionary *> *entries;
-@property (nonatomic, readonly) NSURL *url;
+@interface iTermRestorableStateRestorerIndex
+    : NSObject <iTermRestorableStateIndex>
+@property(nonatomic, readonly) NSArray<NSDictionary *> *entries;
+@property(nonatomic, readonly) NSURL *url;
 @end
 
 @implementation iTermRestorableStateRestorerIndex
 
 - (instancetype)initWithURL:(NSURL *)url {
-    self = [super init];
-    if (self) {
-        _url = url;
-        _entries = [NSArray arrayWithContentsOfURL:url];
-    }
-    return self;
+  self = [super init];
+  if (self) {
+    _url = url;
+    _entries = [NSArray arrayWithContentsOfURL:url];
+  }
+  return self;
 }
 
 - (NSUInteger)restorableStateIndexNumberOfWindows {
-    return _entries.count;
+  return _entries.count;
 }
 
 - (void)restorableStateIndexUnlink {
-    unlink(_url.path.UTF8String);
+  unlink(_url.path.UTF8String);
 }
 
 - (id<iTermRestorableStateRecord>)restorableStateRecordAtIndex:(NSUInteger)i {
-    return [[iTermRestorableStateRecord alloc] initWithIndexEntry:_entries[i]];
+  return [[iTermRestorableStateRecord alloc] initWithIndexEntry:_entries[i]];
 }
 
 @end
@@ -46,42 +47,48 @@
 @implementation iTermRestorableStateRestorer
 
 - (instancetype)initWithIndexURL:(NSURL *)indexURL erase:(BOOL)erase {
-    self = [super init];
-    if (self) {
-        _indexURL = [indexURL copy];
-        if (erase) {
-            [self eraseStateRestorationDataSynchronously:YES];
-        }
+  self = [super init];
+  if (self) {
+    _indexURL = [indexURL copy];
+    if (erase) {
+      [self eraseStateRestorationDataSynchronously:YES];
     }
-    return self;
+  }
+  return self;
 }
 
 #pragma mark - iTermRestorableStateRestorationImpl
 
-- (void)loadRestorableStateIndexWithCompletion:(void (^)(id<iTermRestorableStateIndex>))completion {
-    completion([[iTermRestorableStateRestorerIndex alloc] initWithURL:_indexURL]);
+- (void)loadRestorableStateIndexWithCompletion:
+    (void (^)(id<iTermRestorableStateIndex>))completion {
+  completion([[iTermRestorableStateRestorerIndex alloc] initWithURL:_indexURL]);
 }
 
 - (void)restoreWindowWithRecord:(id<iTermRestorableStateRecord>)record
-    completion:(void (^)(void))completion {
-    NSKeyedUnarchiver *unarchiver = record.unarchiver;
-    [self.delegate restorableStateRestoreWithCoder:unarchiver
-                   identifier:record.identifier
-                  completion:^(NSWindow * _Nonnull window, NSError * _Nonnull error) {
-                      if ([window.delegate respondsToSelector:@selector(window:didDecodeRestorableState:)]) {
-                          [window.delegate window:window didDecodeRestorableState:unarchiver];
-                      }
-        [unarchiver finishDecoding];
-        completion();
-    }];
+                     completion:(void (^)(void))completion {
+  NSKeyedUnarchiver *unarchiver = record.unarchiver;
+  [self.delegate
+      restorableStateRestoreWithCoder:unarchiver
+                           identifier:record.identifier
+                           completion:^(NSWindow *_Nonnull window,
+                                        NSError *_Nonnull error) {
+                             if ([window.delegate
+                                     respondsToSelector:@selector
+                                     (window:didDecodeRestorableState:)]) {
+                               [window.delegate window:window
+                                   didDecodeRestorableState:unarchiver];
+                             }
+                             [unarchiver finishDecoding];
+                             completion();
+                           }];
 }
 
 - (void)restoreApplicationState {
-    // This goes through the regular mechanism.
+  // This goes through the regular mechanism.
 }
 
 - (void)eraseStateRestorationDataSynchronously:(BOOL)sync {
-    [[NSFileManager defaultManager] removeItemAtURL:_indexURL error:nil];
+  [[NSFileManager defaultManager] removeItemAtURL:_indexURL error:nil];
 }
 
 @end

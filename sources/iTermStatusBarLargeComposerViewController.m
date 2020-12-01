@@ -17,79 +17,86 @@
 @implementation iTermComposerTextView
 
 - (BOOL)it_preferredFirstResponder {
-    return YES;
+  return YES;
 }
 
 - (void)keyDown:(NSEvent *)event {
-    const BOOL pressedEsc = ([event.characters isEqualToString:@"\x1b"]);
-    const BOOL pressedShiftEnter = ([event.characters isEqualToString:@"\r"] &&
-                                    (event.it_modifierFlags & NSEventModifierFlagShift) == NSEventModifierFlagShift);
-    if (pressedShiftEnter || pressedEsc) {
-        [self.composerDelegate composerTextViewDidFinishWithCancel:pressedEsc];
-        return;
-    }
-    [super keyDown:event];
+  const BOOL pressedEsc = ([event.characters isEqualToString:@"\x1b"]);
+  const BOOL pressedShiftEnter =
+      ([event.characters isEqualToString:@"\r"] &&
+       (event.it_modifierFlags & NSEventModifierFlagShift) ==
+           NSEventModifierFlagShift);
+  if (pressedShiftEnter || pressedEsc) {
+    [self.composerDelegate composerTextViewDidFinishWithCancel:pressedEsc];
+    return;
+  }
+  [super keyDown:event];
 }
 
 - (BOOL)resignFirstResponder {
-    if ([self.composerDelegate respondsToSelector:@selector(composerTextViewDidResignFirstResponder)]) {
-        [self.composerDelegate composerTextViewDidResignFirstResponder];
-    }
-    return [super resignFirstResponder];
+  if ([self.composerDelegate respondsToSelector:@selector
+                             (composerTextViewDidResignFirstResponder)]) {
+    [self.composerDelegate composerTextViewDidResignFirstResponder];
+  }
+  return [super resignFirstResponder];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
-    self = [super initWithCoder:coder];
-    if (self) {
-        self.continuousSpellCheckingEnabled = NO;
-        self.grammarCheckingEnabled = NO;
-        self.automaticLinkDetectionEnabled = NO;
-        self.automaticQuoteSubstitutionEnabled = NO;
-        self.automaticDashSubstitutionEnabled = NO;
-        self.automaticDataDetectionEnabled = NO;
-        self.automaticTextReplacementEnabled = NO;
-        self.smartInsertDeleteEnabled = NO;
-    }
-    return self;
+  self = [super initWithCoder:coder];
+  if (self) {
+    self.continuousSpellCheckingEnabled = NO;
+    self.grammarCheckingEnabled = NO;
+    self.automaticLinkDetectionEnabled = NO;
+    self.automaticQuoteSubstitutionEnabled = NO;
+    self.automaticDashSubstitutionEnabled = NO;
+    self.automaticDataDetectionEnabled = NO;
+    self.automaticTextReplacementEnabled = NO;
+    self.smartInsertDeleteEnabled = NO;
+  }
+  return self;
 }
 @end
 
 @implementation iTermComposerView {
-    NSView *_backgroundView;
+  NSView *_backgroundView;
 }
 
 - (NSView *)newBackgroundViewWithFrame:(NSRect)frame {
-    if (@available(macOS 10.14, *)) {
-        NSVisualEffectView *myView = [[NSVisualEffectView alloc] initWithFrame:frame];
-        myView.appearance = self.appearance;
-        return myView;
-    }
+  if (@available(macOS 10.14, *)) {
+    NSVisualEffectView *myView =
+        [[NSVisualEffectView alloc] initWithFrame:frame];
+    myView.appearance = self.appearance;
+    return myView;
+  }
 
-    SolidColorView *solidColorView = [[SolidColorView alloc] initWithFrame:frame
-                                                             color:[NSColor controlBackgroundColor]];
-    return solidColorView;
+  SolidColorView *solidColorView =
+      [[SolidColorView alloc] initWithFrame:frame
+                                      color:[NSColor controlBackgroundColor]];
+  return solidColorView;
 }
 
-- (void )viewDidMoveToWindow {
-    [self updateBackgroundView];
-    [super viewDidMoveToWindow];
+- (void)viewDidMoveToWindow {
+  [self updateBackgroundView];
+  [super viewDidMoveToWindow];
 }
 
 - (void)updateBackgroundView {
-    if ([NSStringFromClass(self.window.class) containsString:@"Popover"]) {
-        NSView *privateView = [[self.window contentView] superview];
-        [_backgroundView removeFromSuperview];
-        _backgroundView = [self newBackgroundViewWithFrame:privateView.bounds];
-        _backgroundView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-        [privateView addSubview:_backgroundView positioned:NSWindowBelow relativeTo:privateView];
-    }
+  if ([NSStringFromClass(self.window.class) containsString:@"Popover"]) {
+    NSView *privateView = [[self.window contentView] superview];
+    [_backgroundView removeFromSuperview];
+    _backgroundView = [self newBackgroundViewWithFrame:privateView.bounds];
+    _backgroundView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+    [privateView addSubview:_backgroundView
+                 positioned:NSWindowBelow
+                 relativeTo:privateView];
+  }
 }
 
 - (void)setAppearance:(NSAppearance *)appearance {
-    if (appearance != self.appearance) {
-        [super setAppearance:appearance];
-        [self updateBackgroundView];
-    }
+  if (appearance != self.appearance) {
+    [super setAppearance:appearance];
+    [self updateBackgroundView];
+  }
 }
 @end
 
@@ -100,9 +107,9 @@
 @implementation iTermStatusBarLargeComposerViewController
 
 - (void)awakeFromNib {
-    [super awakeFromNib];
-    self.textView.textColor = [NSColor textColor];
-    self.textView.font = [NSFont fontWithName:@"Menlo" size:11];
+  [super awakeFromNib];
+  self.textView.textColor = [NSColor textColor];
+  self.textView.font = [NSFont fontWithName:@"Menlo" size:11];
 }
 
 @end

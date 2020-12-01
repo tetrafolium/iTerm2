@@ -15,10 +15,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermHostRecordMO (CoreDataProperties)
 
-@property (nullable, nonatomic, retain) NSString *hostname;
-@property (nullable, nonatomic, retain) NSString *username;
-@property (nullable, nonatomic, retain) NSSet<iTermCommandHistoryEntryMO *> *entries;
-@property (nullable, nonatomic, retain) NSSet<iTermRecentDirectoryMO *> *directories;
+@property(nullable, nonatomic, retain) NSString *hostname;
+@property(nullable, nonatomic, retain) NSString *username;
+@property(nullable, nonatomic, retain)
+    NSSet<iTermCommandHistoryEntryMO *> *entries;
+@property(nullable, nonatomic, retain)
+    NSSet<iTermRecentDirectoryMO *> *directories;
 
 @end
 

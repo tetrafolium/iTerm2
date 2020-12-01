@@ -5,9 +5,11 @@
 //  Created by George Nachman on 6/29/18.
 //
 
-#import <Foundation/Foundation.h>
 #import "iTermStatusBarComponent.h"
+#import <Foundation/Foundation.h>
 
-iTermStatusBarComponentConfigurationKey iTermStatusBarComponentConfigurationKeyKnobValues = @"knobs";
-iTermStatusBarComponentConfigurationKey iTermStatusBarComponentConfigurationKeyLayoutAdvancedConfigurationDictionaryValue = @"layout advanced configuration dictionary value";
-
+iTermStatusBarComponentConfigurationKey
+    iTermStatusBarComponentConfigurationKeyKnobValues = @"knobs";
+iTermStatusBarComponentConfigurationKey
+    iTermStatusBarComponentConfigurationKeyLayoutAdvancedConfigurationDictionaryValue =
+        @"layout advanced configuration dictionary value";

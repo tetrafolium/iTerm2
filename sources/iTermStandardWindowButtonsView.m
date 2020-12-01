@@ -13,123 +13,129 @@
 @end
 
 @implementation iTermStandardWindowButtonsView {
-    BOOL _mouseInGroup;
-    BOOL _optionModifier;
-    NSTrackingArea *_trackingArea;
+  BOOL _mouseInGroup;
+  BOOL _optionModifier;
+  NSTrackingArea *_trackingArea;
 }
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
-    self = [super initWithFrame:frameRect];
-    if (self) {
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                              selector:@selector(redraw)
-                                              name:NSApplicationDidBecomeActiveNotification
-                                              object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                              selector:@selector(redraw)
-                                              name:NSApplicationDidResignActiveNotification
-                                              object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                              selector:@selector(redraw)
-                                              name:NSWindowDidBecomeKeyNotification
-                                              object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                              selector:@selector(redraw)
-                                              name:NSWindowDidResignKeyNotification
-                                              object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                              selector:@selector(documentEditedDidChange:)
-                                              name:iTermWindowDocumentedEditedDidChange
-                                              object:nil];
-    }
-    return self;
+  self = [super initWithFrame:frameRect];
+  if (self) {
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+           selector:@selector(redraw)
+               name:NSApplicationDidBecomeActiveNotification
+             object:nil];
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+           selector:@selector(redraw)
+               name:NSApplicationDidResignActiveNotification
+             object:nil];
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+           selector:@selector(redraw)
+               name:NSWindowDidBecomeKeyNotification
+             object:nil];
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+           selector:@selector(redraw)
+               name:NSWindowDidResignKeyNotification
+             object:nil];
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+           selector:@selector(documentEditedDidChange:)
+               name:iTermWindowDocumentedEditedDidChange
+             object:nil];
+  }
+  return self;
 }
 
 - (void)redraw {
-    for (NSView *subview in self.subviews) {
-        [subview setNeedsDisplay:YES];
-    }
+  for (NSView *subview in self.subviews) {
+    [subview setNeedsDisplay:YES];
+  }
 }
 
 - (NSButton *)closeButton {
-    for (NSView *view in self.subviews) {
-        if ([view respondsToSelector:@selector(setDocumentEdited:)]) {
-            return (NSButton *)view;
-        }
+  for (NSView *view in self.subviews) {
+    if ([view respondsToSelector:@selector(setDocumentEdited:)]) {
+      return (NSButton *)view;
     }
-    return nil;
+  }
+  return nil;
 }
 
 - (void)documentEditedDidChange:(NSNotification *)notification {
-    if (notification.object != self.window) {
-        return;
-    }
-    [self.closeButton setDocumentEdited:self.window.documentEdited];
+  if (notification.object != self.window) {
+    return;
+  }
+  [self.closeButton setDocumentEdited:self.window.documentEdited];
 }
 
 - (NSView *)hitTest:(NSPoint)point {
-    if (self.alphaValue == 0) {
-        return nil;
-    }
-    NSView *view = [super hitTest:point];
-    if (view == self) {
-        return nil;
-    } else {
-        return view;
-    }
+  if (self.alphaValue == 0) {
+    return nil;
+  }
+  NSView *view = [super hitTest:point];
+  if (view == self) {
+    return nil;
+  } else {
+    return view;
+  }
 }
 
 - (void)updateTrackingAreas {
-    [super updateTrackingAreas];
-    if (_trackingArea != nil) {
-        [self removeTrackingArea:_trackingArea];
-    }
+  [super updateTrackingAreas];
+  if (_trackingArea != nil) {
+    [self removeTrackingArea:_trackingArea];
+  }
 
-    _trackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds
-                                            options:(NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways)
-                                            owner:self
-                                            userInfo:nil];
-    [self addTrackingArea:_trackingArea];
+  _trackingArea = [[NSTrackingArea alloc]
+      initWithRect:self.bounds
+           options:(NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways)
+             owner:self
+          userInfo:nil];
+  [self addTrackingArea:_trackingArea];
 }
 
 - (void)mouseEntered:(NSEvent *)event {
-    [super mouseEntered:event];
-    [self setShowIcons:YES];
+  [super mouseEntered:event];
+  [self setShowIcons:YES];
 }
 
 - (void)mouseExited:(NSEvent *)event {
-    [super mouseExited:event];
-    [self setShowIcons:NO];
+  [super mouseExited:event];
+  [self setShowIcons:NO];
 }
 
 - (void)setShowIcons:(BOOL)mouseInGroup {
-    if (!!_mouseInGroup == !!mouseInGroup) {
-        return;
-    }
-    _mouseInGroup = mouseInGroup;
-    [self redraw];
+  if (!!_mouseInGroup == !!mouseInGroup) {
+    return;
+  }
+  _mouseInGroup = mouseInGroup;
+  [self redraw];
 }
 
 // Overrides a private method. Returns YES to show icons in the buttons.
-- (BOOL)_mouseInGroup:(NSButton*)button {
-    return _mouseInGroup;
+- (BOOL)_mouseInGroup:(NSButton *)button {
+  return _mouseInGroup;
 }
 
 #pragma mark - Option key handling
 
 - (void)setOptionModifier:(BOOL)optionModifier {
-    if (_mouseInGroup && optionModifier != _optionModifier) {
-        [self redraw];
-    }
-    _optionModifier = optionModifier;
+  if (_mouseInGroup && optionModifier != _optionModifier) {
+    [self redraw];
+  }
+  _optionModifier = optionModifier;
 }
 
 - (void)zoomButtonEvent {
-    if (_optionModifier) {
-        [self.window zoom:self];
-    } else {
-        [self.window toggleFullScreen:self];
-    }
+  if (_optionModifier) {
+    [self.window zoom:self];
+  } else {
+    [self.window toggleFullScreen:self];
+  }
 }
 
 @end

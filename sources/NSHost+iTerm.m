@@ -9,17 +9,16 @@
 
 #include <unistd.h>
 
-@implementation NSHost(iTerm)
+@implementation NSHost (iTerm)
 
 + (NSString *)fullyQualifiedDomainName {
-    char buffer[MAXHOSTNAMELEN];
-    const int rc = gethostname(buffer, sizeof(buffer));
-    NSString *name = nil;
-    if (rc == 0) {
-        name = [NSString stringWithUTF8String:buffer];
-    }
-    return name ?: @"localhost";
+  char buffer[MAXHOSTNAMELEN];
+  const int rc = gethostname(buffer, sizeof(buffer));
+  NSString *name = nil;
+  if (rc == 0) {
+    name = [NSString stringWithUTF8String:buffer];
+  }
+  return name ?: @"localhost";
 }
 
 @end
-

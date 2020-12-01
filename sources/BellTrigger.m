@@ -11,26 +11,24 @@
 
 @implementation BellTrigger
 
-+ (NSString *)title
-{
-    return @"Ring Bell";
++ (NSString *)title {
+  return @"Ring Bell";
 }
 
-- (BOOL)takesParameter
-{
-    return NO;
+- (BOOL)takesParameter {
+  return NO;
 }
 
 - (BOOL)performActionWithCapturedStrings:(NSString *const *)capturedStrings
-    capturedRanges:(const NSRange *)capturedRanges
-    captureCount:(NSInteger)captureCount
-    inSession:(PTYSession *)aSession
-    onString:(iTermStringLine *)stringLine
-    atAbsoluteLineNumber:(long long)lineNumber
-    useInterpolation:(BOOL)useInterpolation
-    stop:(BOOL *)stop {
-    [aSession.screen activateBell];
-    return YES;
+                          capturedRanges:(const NSRange *)capturedRanges
+                            captureCount:(NSInteger)captureCount
+                               inSession:(PTYSession *)aSession
+                                onString:(iTermStringLine *)stringLine
+                    atAbsoluteLineNumber:(long long)lineNumber
+                        useInterpolation:(BOOL)useInterpolation
+                                    stop:(BOOL *)stop {
+  [aSession.screen activateBell];
+  return YES;
 }
 
 @end

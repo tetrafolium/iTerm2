@@ -10,11 +10,12 @@
 @implementation NSAlert (iTerm)
 
 - (NSInteger)runSheetModalForWindow:(NSWindow *)window {
-    [NSApp activateIgnoringOtherApps:YES];
-    [self beginSheetModalForWindow:window completionHandler:^(NSModalResponse returnCode) {
-             [NSApp stopModalWithCode:returnCode];
-         }];
-    return [NSApp runModalForWindow:[self window]];
+  [NSApp activateIgnoringOtherApps:YES];
+  [self beginSheetModalForWindow:window
+               completionHandler:^(NSModalResponse returnCode) {
+                 [NSApp stopModalWithCode:returnCode];
+               }];
+  return [NSApp runModalForWindow:[self window]];
 }
 
 @end

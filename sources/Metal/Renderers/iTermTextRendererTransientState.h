@@ -17,22 +17,28 @@ extern const vector_float4 iTermIMEColor;
 @class iTermCharacterBitmap;
 
 NS_CLASS_AVAILABLE(10_11, NA)
-@interface iTermTextRendererTransientState : iTermMetalCellRendererTransientState
-@property (nonatomic, strong) NSMutableData *modelData;
-@property (nonatomic, strong) id<MTLTexture> backgroundTexture;
-@property (nonatomic) iTermMetalUnderlineDescriptor asciiUnderlineDescriptor;
-@property (nonatomic) iTermMetalUnderlineDescriptor nonAsciiUnderlineDescriptor;
-@property (nonatomic) iTermMetalUnderlineDescriptor strikethroughUnderlineDescriptor;
-@property (nonatomic) vector_float4 defaultBackgroundColor;
+@interface iTermTextRendererTransientState
+    : iTermMetalCellRendererTransientState
+@property(nonatomic, strong) NSMutableData *modelData;
+@property(nonatomic, strong) id<MTLTexture> backgroundTexture;
+@property(nonatomic) iTermMetalUnderlineDescriptor asciiUnderlineDescriptor;
+@property(nonatomic) iTermMetalUnderlineDescriptor nonAsciiUnderlineDescriptor;
+@property(nonatomic)
+    iTermMetalUnderlineDescriptor strikethroughUnderlineDescriptor;
+@property(nonatomic) vector_float4 defaultBackgroundColor;
 
-- (void)setGlyphKeysData:(iTermGlyphKeyData*)glyphKeysData
-    count:(int)count
-    attributesData:(iTermAttributesData *)attributesData
-    row:(int)row
-    backgroundColorRLEData:(iTermData *)backgroundColorData  // array of iTermMetalBackgroundColorRLE background colors.
-    markedRangeOnLine:(NSRange)markedRangeOnLine
-    context:(iTermMetalBufferPoolContext *)context
-    creation:(NSDictionary<NSNumber *, iTermCharacterBitmap *> *(NS_NOESCAPE ^)(int x, BOOL *emoji))creation;
+- (void)setGlyphKeysData:(iTermGlyphKeyData *)glyphKeysData
+                     count:(int)count
+            attributesData:(iTermAttributesData *)attributesData
+                       row:(int)row
+    backgroundColorRLEData:
+        (iTermData *)
+            backgroundColorData // array of iTermMetalBackgroundColorRLE
+                                // background colors.
+         markedRangeOnLine:(NSRange)markedRangeOnLine
+                   context:(iTermMetalBufferPoolContext *)context
+                  creation:(NSDictionary<NSNumber *, iTermCharacterBitmap *> *(
+                               NS_NOESCAPE ^)(int x, BOOL *emoji))creation;
 - (void)willDraw;
 - (void)didComplete;
 

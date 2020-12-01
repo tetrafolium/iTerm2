@@ -11,51 +11,51 @@
 @implementation iTermStatusBarView
 
 - (CGFloat)drawSeparatorsInRect:(NSRect)dirtyRect {
-    CGFloat x = 1;
-    const CGFloat separatorTopBottomInset = 3;
+  CGFloat x = 1;
+  const CGFloat separatorTopBottomInset = 3;
 
-    if (self.separatorColor) {
-        [self.separatorColor set];
-        for (NSNumber *offsetNumber in _separatorOffsets) {
-            CGFloat offset = offsetNumber.doubleValue;
-            NSRect rect = NSMakeRect(offset, separatorTopBottomInset, 1, dirtyRect.size.height - separatorTopBottomInset * 2);
-            NSRectFillUsingOperation(rect, NSCompositingOperationSourceOver);
-            x = offset + 1;
-        }
+  if (self.separatorColor) {
+    [self.separatorColor set];
+    for (NSNumber *offsetNumber in _separatorOffsets) {
+      CGFloat offset = offsetNumber.doubleValue;
+      NSRect rect =
+          NSMakeRect(offset, separatorTopBottomInset, 1,
+                     dirtyRect.size.height - separatorTopBottomInset * 2);
+      NSRectFillUsingOperation(rect, NSCompositingOperationSourceOver);
+      x = offset + 1;
     }
-    return x;
+  }
+  return x;
 }
 
 - (void)drawBackgroundColorsInRect:(NSRect)dirtyRect {
-    CGFloat lastX = 0;
-    CGFloat x = 0;
-    for (iTermTuple<NSColor *, NSNumber *> *tuple in self.backgroundColors) {
-        if (tuple == self.backgroundColors.lastObject) {
-            x = self.bounds.size.width;
-        } else {
-            x = tuple.secondObject.doubleValue;
-        }
-        if (tuple.firstObject) {
-            [tuple.firstObject set];
-            NSRectFill(NSMakeRect(lastX,
-                                  self.verticalOffset,
-                                  x - lastX,
-                                  dirtyRect.size.height - self.verticalOffset));
-        }
-        lastX = x;
+  CGFloat lastX = 0;
+  CGFloat x = 0;
+  for (iTermTuple<NSColor *, NSNumber *> *tuple in self.backgroundColors) {
+    if (tuple == self.backgroundColors.lastObject) {
+      x = self.bounds.size.width;
+    } else {
+      x = tuple.secondObject.doubleValue;
     }
+    if (tuple.firstObject) {
+      [tuple.firstObject set];
+      NSRectFill(NSMakeRect(lastX, self.verticalOffset, x - lastX,
+                            dirtyRect.size.height - self.verticalOffset));
+    }
+    lastX = x;
+  }
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
-    [super drawRect:dirtyRect];
+  [super drawRect:dirtyRect];
 
-    if (self.backgroundColor) {
-        [self.backgroundColor set];
-        NSRectFill(dirtyRect);
-    }
+  if (self.backgroundColor) {
+    [self.backgroundColor set];
+    NSRectFill(dirtyRect);
+  }
 
-    [self drawBackgroundColorsInRect:dirtyRect];
-    [self drawSeparatorsInRect:dirtyRect];
+  [self drawBackgroundColorsInRect:dirtyRect];
+  [self drawSeparatorsInRect:dirtyRect];
 }
 
 @end

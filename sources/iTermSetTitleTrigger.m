@@ -8,43 +8,43 @@
 
 #import "iTermSetTitleTrigger.h"
 
-#import "iTermSessionNameController.h"
 #import "PTYSession.h"
+#import "iTermSessionNameController.h"
 
 @implementation iTermSetTitleTrigger
 
-+ (NSString *)title
-{
-    return @"Set Title…";
++ (NSString *)title {
+  return @"Set Title…";
 }
 
-- (NSString *)triggerOptionalParameterPlaceholderWithInterpolation:(BOOL)interpolation {
-    return @"Enter new title";
+- (NSString *)triggerOptionalParameterPlaceholderWithInterpolation:
+    (BOOL)interpolation {
+  return @"Enter new title";
 }
 
-- (BOOL)takesParameter
-{
-    return YES;
+- (BOOL)takesParameter {
+  return YES;
 }
 
 - (BOOL)performActionWithCapturedStrings:(NSString *const *)capturedStrings
-    capturedRanges:(const NSRange *)capturedRanges
-    captureCount:(NSInteger)captureCount
-    inSession:(PTYSession *)aSession
-    onString:(iTermStringLine *)stringLine
-    atAbsoluteLineNumber:(long long)lineNumber
-    useInterpolation:(BOOL)useInterpolation
-    stop:(BOOL *)stop {
-    [self paramWithBackreferencesReplacedWithValues:capturedStrings
-          count:captureCount
-          scope:aSession.variablesScope
-          useInterpolation:useInterpolation
-         completion:^(NSString *newName) {
-             if (newName) {
-                 [aSession triggerDidChangeNameTo:newName];
-             }
-         }];
-    return YES;
+                          capturedRanges:(const NSRange *)capturedRanges
+                            captureCount:(NSInteger)captureCount
+                               inSession:(PTYSession *)aSession
+                                onString:(iTermStringLine *)stringLine
+                    atAbsoluteLineNumber:(long long)lineNumber
+                        useInterpolation:(BOOL)useInterpolation
+                                    stop:(BOOL *)stop {
+  [self paramWithBackreferencesReplacedWithValues:capturedStrings
+                                            count:captureCount
+                                            scope:aSession.variablesScope
+                                 useInterpolation:useInterpolation
+                                       completion:^(NSString *newName) {
+                                         if (newName) {
+                                           [aSession
+                                               triggerDidChangeNameTo:newName];
+                                         }
+                                       }];
+  return YES;
 }
 
 @end

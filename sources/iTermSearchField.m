@@ -33,43 +33,44 @@
 
 @implementation iTermSearchField
 
-- (void)setArrowHandler:(id)handler
-{
-    arrowHandler_ = handler;
+- (void)setArrowHandler:(id)handler {
+  arrowHandler_ = handler;
 }
 
-- (BOOL)performKeyEquivalent:(NSEvent *)theEvent
-{
-    unsigned int modflag;
-    unsigned short keycode;
-    modflag = [theEvent it_modifierFlags];
-    keycode = [theEvent keyCode];
+- (BOOL)performKeyEquivalent:(NSEvent *)theEvent {
+  unsigned int modflag;
+  unsigned short keycode;
+  modflag = [theEvent it_modifierFlags];
+  keycode = [theEvent keyCode];
 
-    if (![self textFieldIsFirstResponder]) {
-        return NO;
-    }
+  if (![self textFieldIsFirstResponder]) {
+    return NO;
+  }
 
-    const int mask = NSEventModifierFlagShift | NSEventModifierFlagControl | NSEventModifierFlagOption | NSEventModifierFlagCommand;
-    // TODO(georgen): Not getting normal keycodes here, but 125 and 126 are up and down arrows.
-    // This is a pretty ugly hack. Also, calling keyDown from here is probably not cool.
-    BOOL handled = NO;
-    if (arrowHandler_ && !(mask & modflag) && (keycode == 125 || keycode == 126)) {
-        static BOOL running;
-        if (!running) {
-            running = YES;
-            [arrowHandler_ keyDown:theEvent];
-            running = NO;
-        }
-        handled = YES;
-    } else {
-        handled = [super performKeyEquivalent:theEvent];
+  const int mask = NSEventModifierFlagShift | NSEventModifierFlagControl |
+                   NSEventModifierFlagOption | NSEventModifierFlagCommand;
+  // TODO(georgen): Not getting normal keycodes here, but 125 and 126 are up and
+  // down arrows. This is a pretty ugly hack. Also, calling keyDown from here is
+  // probably not cool.
+  BOOL handled = NO;
+  if (arrowHandler_ && !(mask & modflag) &&
+      (keycode == 125 || keycode == 126)) {
+    static BOOL running;
+    if (!running) {
+      running = YES;
+      [arrowHandler_ keyDown:theEvent];
+      running = NO;
     }
-    return handled;
+    handled = YES;
+  } else {
+    handled = [super performKeyEquivalent:theEvent];
+  }
+  return handled;
 }
 
 - (void)textDidEndEditing:(NSNotification *)notification {
-    DLog(@"iTermSearchField: textDidEndEditing: %@", notification.object);
-    [super textDidEndEditing:notification];
+  DLog(@"iTermSearchField: textDidEndEditing: %@", notification.object);
+  [super textDidEndEditing:notification];
 }
 
 @end

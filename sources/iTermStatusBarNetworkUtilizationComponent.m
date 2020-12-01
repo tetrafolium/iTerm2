@@ -20,144 +20,158 @@ static const CGFloat iTermNetworkUtilizationWidth = 170;
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation iTermStatusBarNetworkUtilizationComponent {
-    double _ceiling;
+  double _ceiling;
 }
 
-- (instancetype)initWithConfiguration:(NSDictionary<iTermStatusBarComponentConfigurationKey,id> *)configuration
-    scope:(nullable iTermVariableScope *)scope {
-    self = [super initWithConfiguration:configuration scope:scope];
-    if (self) {
-        _ceiling = 1;
-        __weak __typeof(self) weakSelf = self;
-        [[iTermNetworkUtilization sharedInstance] addSubscriber:self block:^(double down, double up) {
-                                                     [weakSelf updateWithDown:down up:up];
-                                                 }];
-    }
-    return self;
+- (instancetype)
+    initWithConfiguration:
+        (NSDictionary<iTermStatusBarComponentConfigurationKey, id> *)
+            configuration
+                    scope:(nullable iTermVariableScope *)scope {
+  self = [super initWithConfiguration:configuration scope:scope];
+  if (self) {
+    _ceiling = 1;
+    __weak __typeof(self) weakSelf = self;
+    [[iTermNetworkUtilization sharedInstance]
+        addSubscriber:self
+                block:^(double down, double up) {
+                  [weakSelf updateWithDown:down up:up];
+                }];
+  }
+  return self;
 }
 
 - (NSImage *)statusBarComponentIcon {
-    return [NSImage it_cacheableImageNamed:@"StatusBarIconNetwork" forClass:[self class]];
+  return [NSImage it_cacheableImageNamed:@"StatusBarIconNetwork"
+                                forClass:[self class]];
 }
 
 - (NSString *)statusBarComponentShortDescription {
-    return @"Network Throughput";
+  return @"Network Throughput";
 }
 
 - (NSString *)statusBarComponentDetailedDescription {
-    return @"Shows current network throughput.";
+  return @"Shows current network throughput.";
 }
 
 - (id)statusBarComponentExemplarWithBackgroundColor:(NSColor *)backgroundColor
-    textColor:(NSColor *)textColor {
-    return @"2 MB↓ ▃▃▅▂ 1 MB↑";
+                                          textColor:(NSColor *)textColor {
+  return @"2 MB↓ ▃▃▅▂ 1 MB↑";
 }
 
 - (BOOL)statusBarComponentCanStretch {
-    return NO;
+  return NO;
 }
 
 - (CGFloat)statusBarComponentMinimumWidth {
-    return iTermNetworkUtilizationWidth;
+  return iTermNetworkUtilizationWidth;
 }
 
 - (CGFloat)statusBarComponentPreferredWidth {
-    return iTermNetworkUtilizationWidth;
+  return iTermNetworkUtilizationWidth;
 }
 
 - (iTermStatusBarSparklinesModel *)sparklinesModel {
-    NSArray<iTermNetworkUtilizationSample *> *samples =
-        [[iTermNetworkUtilization sharedInstance] samples];
+  NSArray<iTermNetworkUtilizationSample *> *samples =
+      [[iTermNetworkUtilization sharedInstance] samples];
 
-    NSArray<NSNumber *> *readValues = [samples mapWithBlock:^id(iTermNetworkUtilizationSample *anObject) {
-                return @(anObject.bytesPerSecondRead);
-            }];
-    iTermStatusBarTimeSeries *readTimeSeries = [[iTermStatusBarTimeSeries alloc] initWithValues:readValues];
-    iTermStatusBarTimeSeriesRendition *readRendition =
-        [[iTermStatusBarTimeSeriesRendition alloc] initWithTimeSeries:readTimeSeries
-                                                   color:[NSColor blueColor]];
+  NSArray<NSNumber *> *readValues =
+      [samples mapWithBlock:^id(iTermNetworkUtilizationSample *anObject) {
+        return @(anObject.bytesPerSecondRead);
+      }];
+  iTermStatusBarTimeSeries *readTimeSeries =
+      [[iTermStatusBarTimeSeries alloc] initWithValues:readValues];
+  iTermStatusBarTimeSeriesRendition *readRendition =
+      [[iTermStatusBarTimeSeriesRendition alloc]
+          initWithTimeSeries:readTimeSeries
+                       color:[NSColor blueColor]];
 
-    NSArray<NSNumber *> *writeValues = [samples mapWithBlock:^id(iTermNetworkUtilizationSample *anObject) {
-                return @(anObject.bytesPerSecondWrite);
-            }];
-    iTermStatusBarTimeSeries *writeTimeSeries = [[iTermStatusBarTimeSeries alloc] initWithValues:writeValues];
-    iTermStatusBarTimeSeriesRendition *writeRendition =
-        [[iTermStatusBarTimeSeriesRendition alloc] initWithTimeSeries:writeTimeSeries
-                                                   color:[NSColor redColor]];
+  NSArray<NSNumber *> *writeValues =
+      [samples mapWithBlock:^id(iTermNetworkUtilizationSample *anObject) {
+        return @(anObject.bytesPerSecondWrite);
+      }];
+  iTermStatusBarTimeSeries *writeTimeSeries =
+      [[iTermStatusBarTimeSeries alloc] initWithValues:writeValues];
+  iTermStatusBarTimeSeriesRendition *writeRendition =
+      [[iTermStatusBarTimeSeriesRendition alloc]
+          initWithTimeSeries:writeTimeSeries
+                       color:[NSColor redColor]];
 
-    return [[iTermStatusBarSparklinesModel alloc] initWithDictionary:@ { @"read": readRendition,
-                                                  @"write": writeRendition
-                                                                       }];
+  return [[iTermStatusBarSparklinesModel alloc]
+      initWithDictionary:@{@"read" : readRendition, @"write" : writeRendition}];
 }
 
 - (double)ceiling {
-    return _ceiling;
+  return _ceiling;
 }
 
 - (double)downThroughput {
-    return [[[[iTermNetworkUtilization sharedInstance] samples] lastObject] bytesPerSecondRead];
+  return [[[[iTermNetworkUtilization sharedInstance] samples] lastObject]
+      bytesPerSecondRead];
 }
 
 - (double)upThroughput {
-    return [[[[iTermNetworkUtilization sharedInstance] samples] lastObject] bytesPerSecondWrite];
+  return [[[[iTermNetworkUtilization sharedInstance] samples] lastObject]
+      bytesPerSecondWrite];
 }
 
 - (NSFont *)font {
-    return self.advancedConfiguration.font ?: [iTermStatusBarAdvancedConfiguration defaultFont];
+  return self.advancedConfiguration.font
+             ?: [iTermStatusBarAdvancedConfiguration defaultFont];
 }
 
 - (NSDictionary *)leftAttributes {
-    NSMutableParagraphStyle *leftAlignStyle =
-        [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-    [leftAlignStyle setAlignment:NSTextAlignmentLeft];
-    [leftAlignStyle setLineBreakMode:NSLineBreakByTruncatingTail];
+  NSMutableParagraphStyle *leftAlignStyle =
+      [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+  [leftAlignStyle setAlignment:NSTextAlignmentLeft];
+  [leftAlignStyle setLineBreakMode:NSLineBreakByTruncatingTail];
 
-    return @ { NSParagraphStyleAttributeName:
-               leftAlignStyle,
-               NSFontAttributeName:
-               self.font,
-               NSForegroundColorAttributeName:
-               self.textColor
-             };
+  return @{
+    NSParagraphStyleAttributeName : leftAlignStyle,
+    NSFontAttributeName : self.font,
+    NSForegroundColorAttributeName : self.textColor
+  };
 }
 
 - (NSDictionary *)rightAttributes {
-    NSMutableParagraphStyle *rightAlignStyle =
-        [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-    [rightAlignStyle setAlignment:NSTextAlignmentRight];
-    [rightAlignStyle setLineBreakMode:NSLineBreakByTruncatingTail];
-    return @ { NSParagraphStyleAttributeName:
-               rightAlignStyle,
-               NSFontAttributeName:
-               self.font,
-               NSForegroundColorAttributeName:
-               self.textColor
-             };
+  NSMutableParagraphStyle *rightAlignStyle =
+      [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+  [rightAlignStyle setAlignment:NSTextAlignmentRight];
+  [rightAlignStyle setLineBreakMode:NSLineBreakByTruncatingTail];
+  return @{
+    NSParagraphStyleAttributeName : rightAlignStyle,
+    NSFontAttributeName : self.font,
+    NSForegroundColorAttributeName : self.textColor
+  };
 }
 
-- (NSString * _Nullable)leftText {
-    return [NSString stringWithFormat:@"%@↓", [NSString it_formatBytesCompact:self.downThroughput]];
+- (NSString *_Nullable)leftText {
+  return [NSString
+      stringWithFormat:@"%@↓",
+                       [NSString it_formatBytesCompact:self.downThroughput]];
 }
 
-- (NSString * _Nullable)rightText {
-    return [NSString stringWithFormat:@"%@↑", [NSString it_formatBytesCompact:self.upThroughput]];
+- (NSString *_Nullable)rightText {
+  return [NSString
+      stringWithFormat:@"%@↑",
+                       [NSString it_formatBytesCompact:self.upThroughput]];
 }
 
 - (CGSize)rightSize {
-    NSString *longest = @"123.0 TB↑";
-    return [longest sizeWithAttributes:self.rightAttributes];
+  NSString *longest = @"123.0 TB↑";
+  return [longest sizeWithAttributes:self.rightAttributes];
 }
 
 - (CGSize)leftSize {
-    NSString *longest = @"123.0 TB↓";
-    return [longest sizeWithAttributes:self.leftAttributes];
+  NSString *longest = @"123.0 TB↓";
+  return [longest sizeWithAttributes:self.leftAttributes];
 }
 
 #pragma mark - Private
 
 - (void)updateWithDown:(double)down up:(double)up {
-    _ceiling = self.sparklinesModel.maximumValue.doubleValue;
-    [self invalidate];
+  _ceiling = self.sparklinesModel.maximumValue.doubleValue;
+  [self invalidate];
 }
 
 @end

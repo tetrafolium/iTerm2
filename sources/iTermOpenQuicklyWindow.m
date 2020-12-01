@@ -11,19 +11,19 @@
 @implementation iTermOpenQuicklyWindow
 
 - (BOOL)canBecomeKeyWindow {
-    return YES;
+  return YES;
 }
 
 - (NSTimeInterval)animationResizeTime:(NSRect)newWindowFrame {
-    return 0.05;
+  return 0.05;
 }
 
 - (BOOL)autoHidesHotKeyWindow {
-    return NO;
+  return NO;
 }
 
 - (BOOL)disableFocusFollowsMouse {
-    return YES;
+  return YES;
 }
 
 @end

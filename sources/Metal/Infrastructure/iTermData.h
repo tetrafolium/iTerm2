@@ -7,12 +7,13 @@
 
 #import <Foundation/Foundation.h>
 
-// Like NSMutableData but quickly allocates uninitialized data without zeroing it. You can also
-// set the length to a smaller value safe in the knowledge that it won't get realloced.
+// Like NSMutableData but quickly allocates uninitialized data without zeroing
+// it. You can also set the length to a smaller value safe in the knowledge that
+// it won't get realloced.
 @interface iTermData : NSObject
-@property (nonatomic, readonly) void *mutableBytes;
-@property (nonatomic, readonly) const unsigned char *bytes;
-@property (nonatomic) NSUInteger length;
+@property(nonatomic, readonly) void *mutableBytes;
+@property(nonatomic, readonly) const unsigned char *bytes;
+@property(nonatomic) NSUInteger length;
 - (void)checkForOverrun;
 @end
 
@@ -45,4 +46,3 @@
 - (void)checkForOverrun;
 - (void)checkForOverrunWithInfo:(NSString *)info;
 @end
-

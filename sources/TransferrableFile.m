@@ -14,219 +14,234 @@
 #import "iTermWarning.h"
 
 @implementation TransferrableFile {
-    NSTimeInterval _timeOfLastStatusChange;
-    TransferrableFileStatus _status;
-    TransferrableFile *_successor;
+  NSTimeInterval _timeOfLastStatusChange;
+  TransferrableFileStatus _status;
+  TransferrableFile *_successor;
 }
 
 static NSMutableSet<NSString *> *iTermTransferrableFileLockedFileNames(void) {
-    static NSMutableSet<NSString *> *locks;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^ {
-        locks = [[NSMutableSet alloc] init];
-    });
-    return locks;
+  static NSMutableSet<NSString *> *locks;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    locks = [[NSMutableSet alloc] init];
+  });
+  return locks;
 }
 
 + (void)lockFileName:(NSString *)name {
-    [iTermTransferrableFileLockedFileNames() addObject:name];
+  [iTermTransferrableFileLockedFileNames() addObject:name];
 }
 
 + (void)unlockFileName:(NSString *)name {
-    [iTermTransferrableFileLockedFileNames() removeObject:name];
+  [iTermTransferrableFileLockedFileNames() removeObject:name];
 }
 
 + (BOOL)fileNameIsLocked:(NSString *)name {
-    return [iTermTransferrableFileLockedFileNames() containsObject:name];
+  return [iTermTransferrableFileLockedFileNames() containsObject:name];
 }
 
 - (instancetype)init {
-    self = [super init];
-    if (self) {
-        _status = kTransferrableFileStatusUnstarted;
-        _fileSize = -1;
-    }
-    return self;
+  self = [super init];
+  if (self) {
+    _status = kTransferrableFileStatusUnstarted;
+    _fileSize = -1;
+  }
+  return self;
 }
 
 - (NSString *)protocolName {
-    assert(false);
+  assert(false);
 }
 
 - (NSString *)authRequestor {
-    assert(false);
+  assert(false);
 }
 
 - (NSString *)displayName {
-    assert(false);
+  assert(false);
 }
 
 - (NSString *)shortName {
-    assert(false);
+  assert(false);
 }
 
 - (NSString *)subheading {
-    assert(false);
+  assert(false);
 }
 
 - (void)download {
-    assert(false);
+  assert(false);
 }
 
 - (void)upload {
-    assert(false);
+  assert(false);
 }
 
 - (void)stop {
-    assert(false);
+  assert(false);
 }
 
 - (NSString *)localPath {
-    assert(false);
+  assert(false);
 }
 
 - (NSString *)error {
-    assert(false);
+  assert(false);
 }
 
-- (NSString *)destination  {
-    assert(false);
+- (NSString *)destination {
+  assert(false);
 }
 
 - (BOOL)isDownloading {
-    assert(false);
+  assert(false);
 }
 
 - (NSString *)finalDestinationForPath:(NSString *)baseName
-    destinationDirectory:(NSString *)destinationDirectory {
-    NSString *name = baseName;
-    NSString *finalDestination = nil;
-    int retries = 0;
-    do {
-        finalDestination = [destinationDirectory stringByAppendingPathComponent:name];
-        ++retries;
-        NSRange rangeOfDot = [baseName rangeOfString:@"."];
-        NSString *prefix = baseName;
-        NSString *suffix = @"";
-        if (rangeOfDot.length > 0) {
-            prefix = [baseName substringToIndex:rangeOfDot.location];
-            suffix = [baseName substringFromIndex:rangeOfDot.location];
-        }
-        name = [NSString stringWithFormat:@"%@ (%d)%@", prefix, retries, suffix];
-    } while ([[NSFileManager defaultManager] fileExistsAtPath:finalDestination] ||
-             [TransferrableFile fileNameIsLocked:finalDestination]);
-    return finalDestination;
+                 destinationDirectory:(NSString *)destinationDirectory {
+  NSString *name = baseName;
+  NSString *finalDestination = nil;
+  int retries = 0;
+  do {
+    finalDestination =
+        [destinationDirectory stringByAppendingPathComponent:name];
+    ++retries;
+    NSRange rangeOfDot = [baseName rangeOfString:@"."];
+    NSString *prefix = baseName;
+    NSString *suffix = @"";
+    if (rangeOfDot.length > 0) {
+      prefix = [baseName substringToIndex:rangeOfDot.location];
+      suffix = [baseName substringFromIndex:rangeOfDot.location];
+    }
+    name = [NSString stringWithFormat:@"%@ (%d)%@", prefix, retries, suffix];
+  } while ([[NSFileManager defaultManager] fileExistsAtPath:finalDestination] ||
+           [TransferrableFile fileNameIsLocked:finalDestination]);
+  return finalDestination;
 }
 
 - (NSString *)downloadsDirectory {
-    return [[NSFileManager defaultManager] downloadsDirectory] ?: NSHomeDirectory();
+  return [[NSFileManager defaultManager] downloadsDirectory]
+             ?: NSHomeDirectory();
 }
 
 - (void)setSuccessor:(TransferrableFile *)successor {
-    @synchronized(self) {
-        [_successor autorelease];
-        _successor = [successor retain];
-        successor.hasPredecessor = YES;
-    }
+  @synchronized(self) {
+    [_successor autorelease];
+    _successor = [successor retain];
+    successor.hasPredecessor = YES;
+  }
 }
 
 - (TransferrableFile *)successor {
-    @synchronized(self) {
-        return _successor;
-    }
+  @synchronized(self) {
+    return _successor;
+  }
 }
 
 - (void)setStatus:(TransferrableFileStatus)status {
-    @synchronized(self) {
-        if (status != _status) {
-            _status = status;
-            _timeOfLastStatusChange = [NSDate timeIntervalSinceReferenceDate];
-            switch (status) {
-            case kTransferrableFileStatusUnstarted:
-            case kTransferrableFileStatusStarting:
-            case kTransferrableFileStatusTransferring:
-            case kTransferrableFileStatusCancelling:
-            case kTransferrableFileStatusCancelled:
-                break;
+  @synchronized(self) {
+    if (status != _status) {
+      _status = status;
+      _timeOfLastStatusChange = [NSDate timeIntervalSinceReferenceDate];
+      switch (status) {
+      case kTransferrableFileStatusUnstarted:
+      case kTransferrableFileStatusStarting:
+      case kTransferrableFileStatusTransferring:
+      case kTransferrableFileStatusCancelling:
+      case kTransferrableFileStatusCancelled:
+        break;
 
-            case kTransferrableFileStatusFinishedSuccessfully:
-                [[iTermNotificationController sharedInstance] notify:
-                                                              [NSString stringWithFormat:@"%@ finished for “%@”.",
-                                                               self.isDownloading ? @"Download" : @"Upload", [self shortName]]];
-                break;
+      case kTransferrableFileStatusFinishedSuccessfully:
+        [[iTermNotificationController sharedInstance]
+            notify:[NSString stringWithFormat:@"%@ finished for “%@”.",
+                                              self.isDownloading ? @"Download"
+                                                                 : @"Upload",
+                                              [self shortName]]];
+        break;
 
-            case kTransferrableFileStatusFinishedWithError:
-                [[iTermNotificationController sharedInstance] notify:
-                                                              [NSString stringWithFormat:@"%@ failed for “%@”.",
-                                                               self.isDownloading ? @"Download" : @"Upload", [self shortName]]];
-            }
-        }
+      case kTransferrableFileStatusFinishedWithError:
+        [[iTermNotificationController sharedInstance]
+            notify:[NSString stringWithFormat:@"%@ failed for “%@”.",
+                                              self.isDownloading ? @"Download"
+                                                                 : @"Upload",
+                                              [self shortName]]];
+      }
     }
+  }
 }
 
 - (TransferrableFileStatus)status {
-    @synchronized(self) {
-        return _status;
-    }
+  @synchronized(self) {
+    return _status;
+  }
 }
 
 - (NSTimeInterval)timeOfLastStatusChange {
-    return _timeOfLastStatusChange;
+  return _timeOfLastStatusChange;
 }
 
 - (void)failedToRemoveUnquarantinedFileAt:(NSString *)path {
-    [iTermWarning showWarningWithTitle:[NSString stringWithFormat:@"The file at “%@” could not be quarantined or deleted! It is dangerous and should be removed.", path]
-                  actions:@[ @"OK" ]
-                  accessory:nil
-                  identifier:nil
-                  silenceable:kiTermWarningTypePersistent
-                  heading:@"Danger!"
-                  window:nil];
+  [iTermWarning
+      showWarningWithTitle:
+          [NSString stringWithFormat:
+                        @"The file at “%@” could not be quarantined or "
+                        @"deleted! It is dangerous and should be removed.",
+                        path]
+                   actions:@[ @"OK" ]
+                 accessory:nil
+                identifier:nil
+               silenceable:kiTermWarningTypePersistent
+                   heading:@"Danger!"
+                    window:nil];
 }
 
 - (BOOL)quarantine:(NSString *)path sourceURL:(NSURL *)sourceURL {
-    NSURL *url = [NSURL fileURLWithPath:path];
+  NSURL *url = [NSURL fileURLWithPath:path];
 
-    NSMutableDictionary *properties = nil;
-    {
-        NSError *error = nil;
-        NSDictionary *temp;
-        const BOOL ok = [url getResourceValue:&temp
-                             forKey:NSURLQuarantinePropertiesKey
-                             error:&error];
-        if (!ok) {
-            XLog(@"Get quarantine of %@ failed: %@", path, error);
-            return NO;
-        }
-        if (temp && ![temp isKindOfClass:[NSDictionary class]]) {
-            XLog(@"Quarantine of wrong class: %@", NSStringFromClass([temp class]));
-            return NO;
-        }
-        properties = [[temp ?: @ {} mutableCopy] autorelease];
+  NSMutableDictionary *properties = nil;
+  {
+    NSError *error = nil;
+    NSDictionary *temp;
+    const BOOL ok = [url getResourceValue:&temp
+                                   forKey:NSURLQuarantinePropertiesKey
+                                    error:&error];
+    if (!ok) {
+      XLog(@"Get quarantine of %@ failed: %@", path, error);
+      return NO;
     }
+    if (temp && ![temp isKindOfClass:[NSDictionary class]]) {
+      XLog(@"Quarantine of wrong class: %@", NSStringFromClass([temp class]));
+      return NO;
+    }
+    properties = [[temp ?: @{} mutableCopy] autorelease];
+  }
 
-    NSBundle *bundle = [NSBundle mainBundle];
-    NSDictionary *info = bundle.infoDictionary;
-    properties[(__bridge NSString *)kLSQuarantineAgentNameKey] = info[(__bridge NSString *)kCFBundleNameKey] ?: @"iTerm2";
-    properties[(__bridge NSString *)kLSQuarantineAgentBundleIdentifierKey] = info[(__bridge NSString *)kCFBundleIdentifierKey] ?: @"com.googlecode.iterm2";
-    if (sourceURL.absoluteString) {
-        properties[(__bridge NSString *)kLSQuarantineDataURLKey] = sourceURL.absoluteString;
-    }
-    properties[(__bridge NSString *)kLSQuarantineTimeStampKey] = [NSDate date];
-    properties[(__bridge NSString *)kLSQuarantineTypeKey] = (__bridge NSString *)kLSQuarantineTypeOtherDownload;
+  NSBundle *bundle = [NSBundle mainBundle];
+  NSDictionary *info = bundle.infoDictionary;
+  properties[(__bridge NSString *)kLSQuarantineAgentNameKey] =
+      info[(__bridge NSString *)kCFBundleNameKey] ?: @"iTerm2";
+  properties[(__bridge NSString *)kLSQuarantineAgentBundleIdentifierKey] =
+      info[(__bridge NSString *)kCFBundleIdentifierKey]
+          ?: @"com.googlecode.iterm2";
+  if (sourceURL.absoluteString) {
+    properties[(__bridge NSString *)kLSQuarantineDataURLKey] =
+        sourceURL.absoluteString;
+  }
+  properties[(__bridge NSString *)kLSQuarantineTimeStampKey] = [NSDate date];
+  properties[(__bridge NSString *)kLSQuarantineTypeKey] =
+      (__bridge NSString *)kLSQuarantineTypeOtherDownload;
 
-    {
-        NSError *error = nil;
-        const BOOL ok = [url setResourceValue:properties
-                             forKey:NSURLQuarantinePropertiesKey
-                             error:&error];
-        if (!ok) {
-            XLog(@"Set quarantine of %@ failed: %@", path, error);
-            return NO;
-        }
+  {
+    NSError *error = nil;
+    const BOOL ok = [url setResourceValue:properties
+                                   forKey:NSURLQuarantinePropertiesKey
+                                    error:&error];
+    if (!ok) {
+      XLog(@"Set quarantine of %@ failed: %@", path, error);
+      return NO;
     }
-    return YES;
+  }
+  return YES;
 }
 
 @end
-

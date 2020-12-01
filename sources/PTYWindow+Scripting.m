@@ -1,13 +1,13 @@
-#import "PTYWindow+Scripting.h"
 #import "DebugLogging.h"
+#import "NSArray+iTerm.h"
+#import "PTYSession.h"
+#import "PTYTab.h"
+#import "PTYWindow+Scripting.h"
 #import "iTermApplication.h"
 #import "iTermController.h"
 #import "iTermHotKeyController.h"
 #import "iTermScriptingWindow.h"
 #import "iTermSessionLauncher.h"
-#import "NSArray+iTerm.h"
-#import "PTYSession.h"
-#import "PTYTab.h"
 
 #define THE_CLASS iTermWindow
 #include "iTermWindowScriptingImpl.m"

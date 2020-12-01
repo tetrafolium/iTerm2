@@ -10,34 +10,36 @@
 @implementation iTermVariableScope (Global)
 
 + (iTermVariableScope<iTermGlobalScope> *)globalsScope {
-    iTermVariableScope<iTermGlobalScope> *scope = (iTermVariableScope<iTermGlobalScope> *)[[iTermVariableScope alloc] init];
-    [scope addVariables:[iTermVariables globalInstance] toScopeNamed:nil];
-    return (iTermVariableScope<iTermGlobalScope> *)scope;
+  iTermVariableScope<iTermGlobalScope> *scope =
+      (iTermVariableScope<iTermGlobalScope> *)[[iTermVariableScope alloc] init];
+  [scope addVariables:[iTermVariables globalInstance] toScopeNamed:nil];
+  return (iTermVariableScope<iTermGlobalScope> *)scope;
 }
 
 - (NSNumber *)applicationPID {
-    return [self valueForVariableName:iTermVariableKeyApplicationPID];
+  return [self valueForVariableName:iTermVariableKeyApplicationPID];
 }
 
 - (void)setApplicationPID:(NSNumber *)newValue {
-    [self setValue:newValue forVariableNamed:iTermVariableKeyApplicationPID];
+  [self setValue:newValue forVariableNamed:iTermVariableKeyApplicationPID];
 }
 
 - (NSString *)localhostName {
-    return [self valueForVariableName:iTermVariableKeyApplicationLocalhostName];
+  return [self valueForVariableName:iTermVariableKeyApplicationLocalhostName];
 }
 
 - (void)setLocalhostName:(NSString *)newValue {
-    [self setValue:newValue forVariableNamed:iTermVariableKeyApplicationLocalhostName];
+  [self setValue:newValue
+      forVariableNamed:iTermVariableKeyApplicationLocalhostName];
 }
 
 - (NSString *)effectiveTheme {
-    return [self valueForVariableName:iTermVariableKeyApplicationEffectiveTheme];
+  return [self valueForVariableName:iTermVariableKeyApplicationEffectiveTheme];
 }
 
 - (void)setEffectiveTheme:(NSString *)newValue {
-    [self setValue:newValue forVariableNamed:iTermVariableKeyApplicationEffectiveTheme];
+  [self setValue:newValue
+      forVariableNamed:iTermVariableKeyApplicationEffectiveTheme];
 }
-
 
 @end

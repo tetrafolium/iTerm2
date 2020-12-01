@@ -9,25 +9,25 @@
 #import "iTermSizeRememberingView.h"
 
 @implementation iTermSizeRememberingView {
-    NSSize _originalSize;
+  NSSize _originalSize;
 }
 
 - (instancetype)initWithFrame:(NSRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        _originalSize = frame.size;
-    }
-    return self;
+  self = [super initWithFrame:frame];
+  if (self) {
+    _originalSize = frame.size;
+  }
+  return self;
 }
 
 - (void)awakeFromNib {
-    if (NSEqualSizes(NSZeroSize, _originalSize)) {
-        _originalSize = self.frame.size;
-    }
+  if (NSEqualSizes(NSZeroSize, _originalSize)) {
+    _originalSize = self.frame.size;
+  }
 }
 
 - (void)resetToOriginalSize {
-    [self setFrameSize:_originalSize];
+  [self setFrameSize:_originalSize];
 }
 
 @end

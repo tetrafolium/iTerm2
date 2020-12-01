@@ -11,10 +11,9 @@
 @implementation NSTableColumn (iTerm)
 
 - (CGFloat)suggestedRowHeight {
-    NSCell *cell = [self dataCell];
-    NSRect constrainedBounds = NSMakeRect(0, 0, self.width, CGFLOAT_MAX);
-    return [cell cellSizeForBounds:constrainedBounds].height;
+  NSCell *cell = [self dataCell];
+  NSRect constrainedBounds = NSMakeRect(0, 0, self.width, CGFLOAT_MAX);
+  return [cell cellSizeForBounds:constrainedBounds].height;
 }
-
 
 @end

@@ -15,19 +15,20 @@ extern const int iTermTextureMapMaxCharacterParts;
 extern const int iTermTextureMapMiddleCharacterPart;
 
 NS_INLINE int iTermImagePartDX(int part) {
-    return (part % iTermTextureMapMaxCharacterParts) - (iTermTextureMapMaxCharacterParts / 2);
+  return (part % iTermTextureMapMaxCharacterParts) -
+         (iTermTextureMapMaxCharacterParts / 2);
 }
 
 NS_INLINE int iTermImagePartDY(int part) {
-    return (part / iTermTextureMapMaxCharacterParts) - (iTermTextureMapMaxCharacterParts / 2);
+  return (part / iTermTextureMapMaxCharacterParts) -
+         (iTermTextureMapMaxCharacterParts / 2);
 }
 
 NS_INLINE int iTermImagePartFromDeltas(int dx, int dy) {
-    const int radius = iTermTextureMapMaxCharacterParts / 2;
-    return (dx + radius) + (dy + radius) * iTermTextureMapMaxCharacterParts;
+  const int radius = iTermTextureMapMaxCharacterParts / 2;
+  return (dx + radius) + (dy + radius) * iTermTextureMapMaxCharacterParts;
 }
 
 #if __cplusplus
 }
 #endif
-

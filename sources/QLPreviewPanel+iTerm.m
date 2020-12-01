@@ -11,11 +11,11 @@
 @implementation QLPreviewPanel (iTerm)
 
 + (instancetype)sharedPreviewPanelIfExists {
-    if ([QLPreviewPanel sharedPreviewPanelExists]) {
-        return [QLPreviewPanel sharedPreviewPanel];
-    } else {
-        return nil;
-    }
+  if ([QLPreviewPanel sharedPreviewPanelExists]) {
+    return [QLPreviewPanel sharedPreviewPanel];
+  } else {
+    return nil;
+  }
 }
 
 @end

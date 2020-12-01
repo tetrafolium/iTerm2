@@ -5,29 +5,31 @@
 //  Created by George Nachman on 11/4/17.
 //
 
-#import <Foundation/Foundation.h>
 #import "iTermMetalRenderer.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermCopyRendererTransientState : iTermMetalRendererTransientState
 
 // The texture to copy from.
-@property (nonatomic, strong) id<MTLTexture> sourceTexture;
+@property(nonatomic, strong) id<MTLTexture> sourceTexture;
 
 @end
 
 // Copies from one texture to another.
-@interface iTermCopyRenderer : NSObject<iTermMetalRenderer>
+@interface iTermCopyRenderer : NSObject <iTermMetalRenderer>
 
-@property (nonatomic) BOOL enabled;
+@property(nonatomic) BOOL enabled;
 
-- (nullable instancetype)initWithDevice:(id<MTLDevice>)device NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithDevice:(id<MTLDevice>)device
+    NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 @end
 
-@interface iTermCopyBackgroundRendererTransientState : iTermCopyRendererTransientState
+@interface iTermCopyBackgroundRendererTransientState
+    : iTermCopyRendererTransientState
 @end
 
 // The purpose of this renderer is to copy a texture to another texture. When
@@ -41,13 +43,15 @@ NS_ASSUME_NONNULL_BEGIN
 @interface iTermCopyBackgroundRenderer : iTermCopyRenderer
 @end
 
-@interface iTermCopyOffscreenRendererTransientState : iTermCopyRendererTransientState
+@interface iTermCopyOffscreenRendererTransientState
+    : iTermCopyRendererTransientState
 @end
 
 @interface iTermCopyOffscreenRenderer : iTermCopyRenderer
 @end
 
-@interface iTermCopyToDrawableRendererTransientState : iTermCopyRendererTransientState
+@interface iTermCopyToDrawableRendererTransientState
+    : iTermCopyRendererTransientState
 @end
 
 @interface iTermCopyToDrawableRenderer : iTermCopyRenderer

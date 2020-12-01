@@ -15,8 +15,8 @@
 
 // Called when the parameter panel should close.
 - (IBAction)parameterPanelEnd:(id)sender {
-    _canceled = ([sender tag] == 0);
-    [NSApp stopModal];
+  _canceled = ([sender tag] == 0);
+  [NSApp stopModal];
 }
 
 @end

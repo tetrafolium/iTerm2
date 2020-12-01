@@ -12,32 +12,33 @@
 #import <Cocoa/Cocoa.h>
 
 @implementation iTermSoundPlayer {
-    NSSound *_sound;
+  NSSound *_sound;
 }
 
 + (NSString *)keyClickPath {
-    return [[NSBundle bundleForClass:[self class]] pathForResource:@"keyclick" ofType:@"m4a"];
+  return [[NSBundle bundleForClass:[self class]] pathForResource:@"keyclick"
+                                                          ofType:@"m4a"];
 }
 
 + (instancetype)keyClick {
-    static iTermSoundPlayer *instance;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^ {
-        instance = [[self alloc] initWithPath:[self keyClickPath]];
-    });
-    return instance;
+  static iTermSoundPlayer *instance;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    instance = [[self alloc] initWithPath:[self keyClickPath]];
+  });
+  return instance;
 }
 
 - (instancetype)initWithPath:(NSString *)path {
-    self = [super init];
-    if (self) {
-        _sound = [[NSSound alloc] initWithContentsOfFile:path byReference:NO];
-    }
-    return self;
+  self = [super init];
+  if (self) {
+    _sound = [[NSSound alloc] initWithContentsOfFile:path byReference:NO];
+  }
+  return self;
 }
 
 - (void)play {
-    [_sound play];
+  [_sound play];
 }
 
 @end

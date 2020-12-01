@@ -16,21 +16,21 @@
 @implementation iTermAdvancedGPUSettingsViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+  [super viewDidLoad];
 
-    NSArray<id<MTLDevice>> *devices = MTLCopyAllDevices();
+  NSArray<id<MTLDevice>> *devices = MTLCopyAllDevices();
 
-    BOOL foundLowPower = NO;
-    BOOL foundHighPower = NO;
-    for (id<MTLDevice> device in devices) {
-        if (device.isLowPower) {
-            foundLowPower = YES;
-        } else {
-            foundHighPower = YES;
-        }
+  BOOL foundLowPower = NO;
+  BOOL foundHighPower = NO;
+  for (id<MTLDevice> device in devices) {
+    if (device.isLowPower) {
+      foundLowPower = YES;
+    } else {
+      foundHighPower = YES;
     }
+  }
 
-    self.preferIntegratedGPU.enabled = (foundLowPower && foundHighPower);
+  self.preferIntegratedGPU.enabled = (foundLowPower && foundHighPower);
 }
 
 @end
@@ -38,14 +38,12 @@
 @implementation iTermAdvancedGPUSettingsWindowController
 
 - (IBAction)ok:(id)sender {
-    [self.window.sheetParent endSheet:self.window
-                             returnCode:NSModalResponseOK];
+  [self.window.sheetParent endSheet:self.window returnCode:NSModalResponseOK];
 }
 
 - (IBAction)cancel:(id)sender {
-    [self.window.sheetParent endSheet:self.window
-                             returnCode:NSModalResponseCancel];
+  [self.window.sheetParent endSheet:self.window
+                         returnCode:NSModalResponseCancel];
 }
 
 @end
-

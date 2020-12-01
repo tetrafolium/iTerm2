@@ -26,184 +26,188 @@
 
 #import "PTYTabView.h"
 
-const NSUInteger kAllModifiers = (NSEventModifierFlagControl |
-                                  NSEventModifierFlagCommand |
-                                  NSEventModifierFlagOption |
-                                  NSEventModifierFlagShift);
+const NSUInteger kAllModifiers =
+    (NSEventModifierFlagControl | NSEventModifierFlagCommand |
+     NSEventModifierFlagOption | NSEventModifierFlagShift);
 
 @implementation PTYTabView {
-    // Holds references to tabs with the most recently used one at index 0 and least recently used
-    // in the last position.
-    NSMutableArray *_tabViewItemsInMRUOrder;
+  // Holds references to tabs with the most recently used one at index 0 and
+  // least recently used in the last position.
+  NSMutableArray *_tabViewItemsInMRUOrder;
 
-    // If set, then the user has cycled at least once and has not yet let up the modifier keys used
-    // to cycle. If the shortcut for cycling doesn't have modifiers, then this will always be NO.
-    BOOL _isCyclingWithModifierPressed;
+  // If set, then the user has cycled at least once and has not yet let up the
+  // modifier keys used to cycle. If the shortcut for cycling doesn't have
+  // modifiers, then this will always be NO.
+  BOOL _isCyclingWithModifierPressed;
 
-    // Modifiers that are being used for cycling tabs. Only valid if _isCyclingWithModifierPressed
-    // is YES.
-    NSUInteger _cycleModifierFlags;
+  // Modifiers that are being used for cycling tabs. Only valid if
+  // _isCyclingWithModifierPressed is YES.
+  NSUInteger _cycleModifierFlags;
 }
 
 @dynamic delegate;
 
 - (instancetype)initWithFrame:(NSRect)aRect {
-    self = [super initWithFrame:aRect];
-    if (self) {
-        _tabViewItemsInMRUOrder = [[NSMutableArray alloc] init];
-    }
+  self = [super initWithFrame:aRect];
+  if (self) {
+    _tabViewItemsInMRUOrder = [[NSMutableArray alloc] init];
+  }
 
-    return self;
+  return self;
 }
 
 - (void)dealloc {
-    [_tabViewItemsInMRUOrder release];
-    [super dealloc];
+  [_tabViewItemsInMRUOrder release];
+  [super dealloc];
 }
 
 #pragma mark - NSView
 
 - (BOOL)acceptsFirstResponder {
-    return NO;
+  return NO;
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
-    if (self.drawsBackground) {
-        if ([self.window.appearance.name isEqual:NSAppearanceNameVibrantDark]) {
-            [[NSColor blackColor] set];
-            NSRectFill(dirtyRect);
-        } else {
-            [super drawRect:dirtyRect];
-        }
+  if (self.drawsBackground) {
+    if ([self.window.appearance.name isEqual:NSAppearanceNameVibrantDark]) {
+      [[NSColor blackColor] set];
+      NSRectFill(dirtyRect);
+    } else {
+      [super drawRect:dirtyRect];
     }
+  }
 }
 
 #pragma mark - NSTabView
 
-- (void)addTabViewItem:(NSTabViewItem *) aTabViewItem {
-    // Let our delegate know
-    id<PSMTabViewDelegate> delegate = self.delegate;
+- (void)addTabViewItem:(NSTabViewItem *)aTabViewItem {
+  // Let our delegate know
+  id<PSMTabViewDelegate> delegate = self.delegate;
 
-    if ([delegate conformsToProtocol:@protocol(PSMTabViewDelegate)]) {
-        [delegate tabView:self willAddTabViewItem:aTabViewItem];
-    }
+  if ([delegate conformsToProtocol:@protocol(PSMTabViewDelegate)]) {
+    [delegate tabView:self willAddTabViewItem:aTabViewItem];
+  }
 
-    [_tabViewItemsInMRUOrder addObject:aTabViewItem];
-    [super addTabViewItem:aTabViewItem];
+  [_tabViewItemsInMRUOrder addObject:aTabViewItem];
+  [super addTabViewItem:aTabViewItem];
 }
 
 - (void)removeTabViewItem:(NSTabViewItem *)tabViewItemToRemove {
-    // Let our delegate know.
-    id<PSMTabViewDelegate> delegate = self.delegate;
-    if ([delegate conformsToProtocol:@protocol(PSMTabViewDelegate)]) {
-        [delegate tabView:self willRemoveTabViewItem:tabViewItemToRemove];
+  // Let our delegate know.
+  id<PSMTabViewDelegate> delegate = self.delegate;
+  if ([delegate conformsToProtocol:@protocol(PSMTabViewDelegate)]) {
+    [delegate tabView:self willRemoveTabViewItem:tabViewItemToRemove];
+  }
+
+  [_tabViewItemsInMRUOrder removeObject:tabViewItemToRemove];
+
+  if (self.selectedTabViewItem == tabViewItemToRemove) {
+    // Select the next tab to the right if possible
+    NSArray<NSTabViewItem *> *items = self.tabViewItems;
+    NSInteger index = [items indexOfObject:tabViewItemToRemove];
+    if (index != NSNotFound && index + 1 < items.count) {
+      [self selectTabViewItem:items[index + 1]];
     }
+  }
 
-    [_tabViewItemsInMRUOrder removeObject:tabViewItemToRemove];
-
-    if (self.selectedTabViewItem == tabViewItemToRemove) {
-        // Select the next tab to the right if possible
-        NSArray<NSTabViewItem *> *items = self.tabViewItems;
-        NSInteger index = [items indexOfObject:tabViewItemToRemove];
-        if (index != NSNotFound && index + 1 < items.count) {
-            [self selectTabViewItem:items[index + 1]];
-        }
-    }
-
-    // Remove the item.
-    [super removeTabViewItem:tabViewItemToRemove];
+  // Remove the item.
+  [super removeTabViewItem:tabViewItemToRemove];
 }
 
-- (void)insertTabViewItem:(NSTabViewItem *)tabViewItem atIndex:(NSInteger)theIndex {
-    // Let our delegate know
-    id<PSMTabViewDelegate> delegate = self.delegate;
+- (void)insertTabViewItem:(NSTabViewItem *)tabViewItem
+                  atIndex:(NSInteger)theIndex {
+  // Let our delegate know
+  id<PSMTabViewDelegate> delegate = self.delegate;
 
-    // Check the boundary
-    if (theIndex > [self numberOfTabViewItems]) {
-        theIndex = [self numberOfTabViewItems];
-    }
+  // Check the boundary
+  if (theIndex > [self numberOfTabViewItems]) {
+    theIndex = [self numberOfTabViewItems];
+  }
 
-    if ([delegate conformsToProtocol:@protocol(PSMTabViewDelegate)]) {
-        [delegate tabView:self willInsertTabViewItem:tabViewItem atIndex:theIndex];
-    }
-    [_tabViewItemsInMRUOrder addObject:tabViewItem];
+  if ([delegate conformsToProtocol:@protocol(PSMTabViewDelegate)]) {
+    [delegate tabView:self willInsertTabViewItem:tabViewItem atIndex:theIndex];
+  }
+  [_tabViewItemsInMRUOrder addObject:tabViewItem];
 
-    [super insertTabViewItem:tabViewItem atIndex:theIndex];
+  [super insertTabViewItem:tabViewItem atIndex:theIndex];
 }
 
 - (void)selectTabViewItem:(NSTabViewItem *)tabViewItem {
-    [super selectTabViewItem:tabViewItem];
+  [super selectTabViewItem:tabViewItem];
 
-    if (!_isCyclingWithModifierPressed) {
-        [_tabViewItemsInMRUOrder removeObject:tabViewItem];
-        [_tabViewItemsInMRUOrder insertObject:tabViewItem atIndex:0];
-    }
+  if (!_isCyclingWithModifierPressed) {
+    [_tabViewItemsInMRUOrder removeObject:tabViewItem];
+    [_tabViewItemsInMRUOrder insertObject:tabViewItem atIndex:0];
+  }
 }
 
 - (void)selectTab:(id)sender {
-    [self selectTabViewItemWithIdentifier:[sender representedObject]];
+  [self selectTabViewItemWithIdentifier:[sender representedObject]];
 }
 
 - (void)previousTab:(id)sender {
-    NSTabViewItem *tabViewItem = [self selectedTabViewItem];
-    [self selectPreviousTabViewItem:sender];
-    if (tabViewItem == [self selectedTabViewItem]) {
-        [self selectTabViewItemAtIndex:[self numberOfTabViewItems] - 1];
-    }
+  NSTabViewItem *tabViewItem = [self selectedTabViewItem];
+  [self selectPreviousTabViewItem:sender];
+  if (tabViewItem == [self selectedTabViewItem]) {
+    [self selectTabViewItemAtIndex:[self numberOfTabViewItems] - 1];
+  }
 }
 
 - (void)nextTab:(id)sender {
-    NSTabViewItem *tabViewItem = [self selectedTabViewItem];
-    [self selectNextTabViewItem:sender];
-    if (tabViewItem == [self selectedTabViewItem]) {
-        [self selectTabViewItemAtIndex:0];
-    }
+  NSTabViewItem *tabViewItem = [self selectedTabViewItem];
+  [self selectNextTabViewItem:sender];
+  if (tabViewItem == [self selectedTabViewItem]) {
+    [self selectTabViewItemAtIndex:0];
+  }
 }
 
 - (void)cycleForwards:(BOOL)forwards {
-    if ([_tabViewItemsInMRUOrder count] == 0) {
-        return;
+  if ([_tabViewItemsInMRUOrder count] == 0) {
+    return;
+  }
+  NSTabViewItem *tabViewItem = [self selectedTabViewItem];
+  NSUInteger theIndex = [_tabViewItemsInMRUOrder indexOfObject:tabViewItem];
+  if (theIndex == NSNotFound) {
+    theIndex = 0;
+  }
+  if (forwards) {
+    theIndex++;
+    if (theIndex >= [_tabViewItemsInMRUOrder count]) {
+      theIndex = 0;
     }
-    NSTabViewItem* tabViewItem = [self selectedTabViewItem];
-    NSUInteger theIndex = [_tabViewItemsInMRUOrder indexOfObject:tabViewItem];
-    if (theIndex == NSNotFound) {
-        theIndex = 0;
+  } else {
+    NSInteger temp = theIndex;
+    temp--;
+    if (temp < 0) {
+      temp = [_tabViewItemsInMRUOrder count] - 1;
     }
-    if (forwards) {
-        theIndex++;
-        if (theIndex >= [_tabViewItemsInMRUOrder count]) {
-            theIndex = 0;
-        }
-    } else {
-        NSInteger temp = theIndex;
-        temp--;
-        if (temp < 0) {
-            temp = [_tabViewItemsInMRUOrder count] - 1;
-        }
-        theIndex = temp;
-    }
-    NSTabViewItem* next = _tabViewItemsInMRUOrder[theIndex];
-    // The MRU order won't be changed by cycling until you let up the modifier key in
-    // cycleFlagsChanged:.
-    [self selectTabViewItem:next];
+    theIndex = temp;
+  }
+  NSTabViewItem *next = _tabViewItemsInMRUOrder[theIndex];
+  // The MRU order won't be changed by cycling until you let up the modifier key
+  // in cycleFlagsChanged:.
+  [self selectTabViewItem:next];
 }
 
-- (void)cycleKeyDownWithModifiers:(NSUInteger)modifierFlags forwards:(BOOL)forwards {
-    if (!_isCyclingWithModifierPressed) {
-        // Initial press; set modifier mask from current modifiers
-        _cycleModifierFlags = (modifierFlags & kAllModifiers);
-        _isCyclingWithModifierPressed = (_cycleModifierFlags != 0);
-    }
-    [self cycleForwards:forwards];
+- (void)cycleKeyDownWithModifiers:(NSUInteger)modifierFlags
+                         forwards:(BOOL)forwards {
+  if (!_isCyclingWithModifierPressed) {
+    // Initial press; set modifier mask from current modifiers
+    _cycleModifierFlags = (modifierFlags & kAllModifiers);
+    _isCyclingWithModifierPressed = (_cycleModifierFlags != 0);
+  }
+  [self cycleForwards:forwards];
 }
 
 - (void)cycleFlagsChanged:(NSUInteger)modifierFlags {
-    if (_isCyclingWithModifierPressed && ((modifierFlags & _cycleModifierFlags) == 0)) {
-        // Modifiers released while cycling.
-        _isCyclingWithModifierPressed = NO;
-        // While this looks like a no-op, it has the effect of re-ordering the MRU list.
-        [self selectTabViewItem:[self selectedTabViewItem]];
-    }
+  if (_isCyclingWithModifierPressed &&
+      ((modifierFlags & _cycleModifierFlags) == 0)) {
+    // Modifiers released while cycling.
+    _isCyclingWithModifierPressed = NO;
+    // While this looks like a no-op, it has the effect of re-ordering the MRU
+    // list.
+    [self selectTabViewItem:[self selectedTabViewItem]];
+  }
 }
 
 @end

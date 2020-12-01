@@ -9,13 +9,12 @@
 
 #import <AppKit/AppKit.h>
 
-
 @implementation NSTableView (iTerm)
 
 - (void)it_performUpdateBlock:(void (^NS_NOESCAPE)(void))block {
-    [self beginUpdates];
-    block();
-    [self endUpdates];
+  [self beginUpdates];
+  block();
+  [self endUpdates];
 }
 
 @end

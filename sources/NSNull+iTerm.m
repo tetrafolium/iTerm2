@@ -10,7 +10,7 @@
 @implementation NSNull (iTerm)
 
 - (id)it_jsonSafeValue {
-    return self;
+  return self;
 }
 
 @end

@@ -31,218 +31,195 @@
 #import "PTYTab.h"
 
 @implementation FakeWindow {
-    // FakeWindow always has exactly one session.
-    PTYSession* session;
+  // FakeWindow always has exactly one session.
+  PTYSession *session;
 
-    // Saved state from old window.
-    BOOL isFullScreen;
-    BOOL isLionFullScreen;
-    BOOL isMiniaturized;
-    NSRect frame;
-    NSScreen* screen;
-    NSWindowController<iTermWindowController> * realWindow;
+  // Saved state from old window.
+  BOOL isFullScreen;
+  BOOL isLionFullScreen;
+  BOOL isMiniaturized;
+  NSRect frame;
+  NSScreen *screen;
+  NSWindowController<iTermWindowController> *realWindow;
 
-    // Changes the session has initiated that will be delayed and performed
-    // in -[rejoin:].
-    BOOL hasPendingBlurChange;
-    double pendingBlurRadius;
-    BOOL pendingBlur;
-    BOOL hasPendingClose;
-    BOOL hasPendingFitWindowToTab;
-    BOOL hasPendingSizeChange;
-    int pendingW;
-    int pendingH;
-    BOOL hasPendingSetWindowTitle;
+  // Changes the session has initiated that will be delayed and performed
+  // in -[rejoin:].
+  BOOL hasPendingBlurChange;
+  double pendingBlurRadius;
+  BOOL pendingBlur;
+  BOOL hasPendingClose;
+  BOOL hasPendingFitWindowToTab;
+  BOOL hasPendingSizeChange;
+  int pendingW;
+  int pendingH;
+  BOOL hasPendingSetWindowTitle;
 
-    BOOL scrollbarShouldBeVisible;
+  BOOL scrollbarShouldBeVisible;
 }
 
-- (instancetype)initFromRealWindow:(NSWindowController<iTermWindowController> *)aTerm
-    session:(PTYSession*)aSession {
-    self = [super init];
-    if (!self) {
-        return nil;
-    }
+- (instancetype)initFromRealWindow:
+                    (NSWindowController<iTermWindowController> *)aTerm
+                           session:(PTYSession *)aSession {
+  self = [super init];
+  if (!self) {
+    return nil;
+  }
 
-    isFullScreen = [aTerm fullScreen];
-    isLionFullScreen = [aTerm lionFullScreen];
-    isMiniaturized = [[aTerm window] isMiniaturized];
-    frame = [[aTerm window] frame];
-    screen = [[aTerm window] screen];
-    session = [aSession retain];
-    realWindow = aTerm;
-    scrollbarShouldBeVisible = [aTerm scrollbarShouldBeVisible];
-    return self;
+  isFullScreen = [aTerm fullScreen];
+  isLionFullScreen = [aTerm lionFullScreen];
+  isMiniaturized = [[aTerm window] isMiniaturized];
+  frame = [[aTerm window] frame];
+  screen = [[aTerm window] screen];
+  session = [aSession retain];
+  realWindow = aTerm;
+  scrollbarShouldBeVisible = [aTerm scrollbarShouldBeVisible];
+  return self;
 }
 
 - (void)dealloc {
-    [session release];
-    [super dealloc];
+  [session release];
+  [super dealloc];
 }
 
-- (void)rejoin:(NSWindowController<iTermWindowController> *)aTerm
-{
-    if (hasPendingClose) {
-        // TODO(georgen): We don't honor pending closes. It's not safe to close right now because
-        // this may release aTerm, but aTerm may exist in the calling stack (in many places!).
-        // It might work to start a timer to close it, but that would have some serious unexpected
-        // side effects.
-        // [aTerm closeSession:session];
-        return;
+- (void)rejoin:(NSWindowController<iTermWindowController> *)aTerm {
+  if (hasPendingClose) {
+    // TODO(georgen): We don't honor pending closes. It's not safe to close
+    // right now because this may release aTerm, but aTerm may exist in the
+    // calling stack (in many places!). It might work to start a timer to close
+    // it, but that would have some serious unexpected side effects. [aTerm
+    // closeSession:session];
+    return;
+  }
+
+  if (hasPendingBlurChange) {
+    if (pendingBlur) {
+      [aTerm enableBlur:pendingBlurRadius];
+    } else {
+      [aTerm disableBlur];
     }
-
-    if (hasPendingBlurChange) {
-        if (pendingBlur) {
-            [aTerm enableBlur:pendingBlurRadius];
-        } else {
-            [aTerm disableBlur];
-        }
-    }
-    if (hasPendingSizeChange) {
-        [aTerm sessionInitiatedResize:session width:pendingW height:pendingH];
-    }
-    if (hasPendingFitWindowToTab) {
-        [aTerm fitWindowToTab:[aTerm tabForSession:session]];
-    }
-    if (hasPendingSetWindowTitle) {
-        [aTerm setWindowTitle];
-    }
-    [aTerm updateTabColors];
+  }
+  if (hasPendingSizeChange) {
+    [aTerm sessionInitiatedResize:session width:pendingW height:pendingH];
+  }
+  if (hasPendingFitWindowToTab) {
+    [aTerm fitWindowToTab:[aTerm tabForSession:session]];
+  }
+  if (hasPendingSetWindowTitle) {
+    [aTerm setWindowTitle];
+  }
+  [aTerm updateTabColors];
 }
 
-- (BOOL)sessionInitiatedResize:(PTYSession*)session width:(int)width height:(int)height {
-    hasPendingSizeChange = YES;
-    pendingW = width;
-    pendingH = height;
-    return YES;
+- (BOOL)sessionInitiatedResize:(PTYSession *)session
+                         width:(int)width
+                        height:(int)height {
+  hasPendingSizeChange = YES;
+  pendingW = width;
+  pendingH = height;
+  return YES;
 }
 
-- (BOOL)fullScreen
-{
-    return isFullScreen;
+- (BOOL)fullScreen {
+  return isFullScreen;
 }
 
-- (BOOL)anyFullScreen
-{
-    return isLionFullScreen || isFullScreen;
+- (BOOL)anyFullScreen {
+  return isLionFullScreen || isFullScreen;
 }
 
-- (PTYSession *)currentSession
-{
-    return session;
+- (PTYSession *)currentSession {
+  return session;
 }
 
-- (void)closeSession:(PTYSession*)aSession
-{
-    hasPendingClose = YES;  // TODO: This isn't right with panes.
+- (void)closeSession:(PTYSession *)aSession {
+  hasPendingClose = YES; // TODO: This isn't right with panes.
 }
 
-- (void)closeTab:(PTYTab*)theTab
-{
-    hasPendingClose = YES;
+- (void)closeTab:(PTYTab *)theTab {
+  hasPendingClose = YES;
 }
 
-- (void)nextTab:(id)sender
-{
+- (void)nextTab:(id)sender {
 }
 
-- (void)previousTab:(id)sender
-{
+- (void)previousTab:(id)sender {
 }
 
-- (void)enableBlur:(double)radius
-{
-    hasPendingBlurChange = YES;
-    pendingBlurRadius = radius;
-    pendingBlur = YES;
+- (void)enableBlur:(double)radius {
+  hasPendingBlurChange = YES;
+  pendingBlurRadius = radius;
+  pendingBlur = YES;
 }
 
-- (void)disableBlur
-{
-    hasPendingBlurChange = YES;
-    pendingBlur = NO;
+- (void)disableBlur {
+  hasPendingBlurChange = YES;
+  pendingBlur = NO;
 }
 
-- (void)fitWindowToTab:(PTYTab*)tab
-{
-    hasPendingFitWindowToTab = YES;
+- (void)fitWindowToTab:(PTYTab *)tab {
+  hasPendingFitWindowToTab = YES;
 }
 
-- (PTYTabView *)tabView
-{
-    return nil;
+- (PTYTabView *)tabView {
+  return nil;
 }
 
-- (void)setWindowTitle
-{
-    hasPendingSetWindowTitle = YES;
+- (void)setWindowTitle {
+  hasPendingSetWindowTitle = YES;
 }
 
-- (PTYTab*)currentTab
-{
-    return nil;
+- (PTYTab *)currentTab {
+  return nil;
 }
 
-
-- (void)windowSetFrameTopLeftPoint:(NSPoint)point
-{
+- (void)windowSetFrameTopLeftPoint:(NSPoint)point {
 }
 
-- (void)windowPerformMiniaturize:(id)sender
-{
+- (void)windowPerformMiniaturize:(id)sender {
 }
 
-- (void)windowDeminiaturize:(id)sender
-{
+- (void)windowDeminiaturize:(id)sender {
 }
 
-- (void)windowOrderFront:(id)sender
-{
+- (void)windowOrderFront:(id)sender {
 }
 
-- (void)windowOrderBack:(id)sender
-{
+- (void)windowOrderBack:(id)sender {
 }
 
-- (BOOL)windowIsMiniaturized
-{
-    return isMiniaturized;
+- (BOOL)windowIsMiniaturized {
+  return isMiniaturized;
 }
 
-- (NSRect)windowFrame
-{
-    return frame;
+- (NSRect)windowFrame {
+  return frame;
 }
 
-- (NSScreen*)windowScreen
-{
-    return screen;
+- (NSScreen *)windowScreen {
+  return screen;
 }
 
-- (BOOL)scrollbarShouldBeVisible
-{
-    return scrollbarShouldBeVisible;
+- (BOOL)scrollbarShouldBeVisible {
+  return scrollbarShouldBeVisible;
 }
 
-- (NSScrollerStyle)scrollerStyle
-{
-    return [self anyFullScreen] ? NSScrollerStyleOverlay : [NSScroller preferredScrollerStyle];
+- (NSScrollerStyle)scrollerStyle {
+  return [self anyFullScreen] ? NSScrollerStyleOverlay
+                              : [NSScroller preferredScrollerStyle];
 }
 
-- (void)updateTabColors
-{
+- (void)updateTabColors {
 }
 
 - (BOOL)movesWhenDraggedOntoSelf {
-    return NO;
+  return NO;
 }
 
 - (void)createDuplicateOfTab:(PTYTab *)theTab {
 }
 
 - (void)softCloseSession:(PTYSession *)aSession {
-    hasPendingClose = YES;  // TODO: This isn't right with panes.
+  hasPendingClose = YES; // TODO: This isn't right with panes.
 }
-
 
 @end

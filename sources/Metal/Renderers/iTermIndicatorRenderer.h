@@ -5,31 +5,33 @@
 //  Created by George Nachman on 12/30/17.
 //
 
-#import <Foundation/Foundation.h>
 #import "iTermMetalRenderer.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface iTermIndicatorDescriptor : NSObject
-@property (nonatomic, copy) NSString *identifier;
-@property (nonatomic, strong) NSImage *image;
-@property (nonatomic) NSRect frame;
-@property (nonatomic) CGFloat alpha;
+@property(nonatomic, copy) NSString *identifier;
+@property(nonatomic, strong) NSImage *image;
+@property(nonatomic) NSRect frame;
+@property(nonatomic) CGFloat alpha;
 @end
 
 NS_CLASS_AVAILABLE(10_11, NA)
-@interface iTermIndicatorRendererTransientState : iTermMetalRendererTransientState
+@interface iTermIndicatorRendererTransientState
+    : iTermMetalRendererTransientState
 @end
 
 NS_CLASS_AVAILABLE(10_11, NA)
-@interface iTermIndicatorRenderer : NSObject<iTermMetalRenderer>
+@interface iTermIndicatorRenderer : NSObject <iTermMetalRenderer>
 
-- (nullable instancetype)initWithDevice:(id<MTLDevice>)device NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithDevice:(id<MTLDevice>)device
+    NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (void)reset;
 - (void)addIndicator:(iTermIndicatorDescriptor *)indicator
-    context:(iTermMetalBufferPoolContext *)context;
+             context:(iTermMetalBufferPoolContext *)context;
 
 @end
 

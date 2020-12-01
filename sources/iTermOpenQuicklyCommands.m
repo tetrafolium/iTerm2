@@ -13,56 +13,58 @@
 @synthesize text = _text;
 
 - (void)dealloc {
-    [_text release];
-    [super dealloc];
+  [_text release];
+  [super dealloc];
 }
 + (NSString *)tipTitle {
 
-    return [NSString stringWithFormat:@"Tip: Start your query with “/%@”", [self command]];
+  return [NSString
+      stringWithFormat:@"Tip: Start your query with “/%@”", [self command]];
 }
 
 + (NSString *)tipDetail {
-    return [NSString stringWithFormat:@"Restricts results to %@", [self restrictionDescription]];
+  return [NSString stringWithFormat:@"Restricts results to %@",
+                                    [self restrictionDescription]];
 }
 
 + (NSString *)command {
-    return nil;
+  return nil;
 }
 
 + (NSString *)restrictionDescription {
-    return nil;
+  return nil;
 }
 
 - (BOOL)supportsSessionLocation {
-    return NO;
+  return NO;
 }
 
 - (BOOL)supportsCreateNewTab {
-    return NO;
+  return NO;
 }
 
 - (BOOL)supportsChangeProfile {
-    return NO;
+  return NO;
 }
 
 - (BOOL)supportsOpenArrangement {
-    return NO;
+  return NO;
 }
 
 - (BOOL)supportsScript {
-    return NO;
+  return NO;
 }
 
 - (BOOL)supportsColorPreset {
-    return NO;
+  return NO;
 }
 
 - (BOOL)supportsAction {
-    return NO;
+  return NO;
 }
 
 - (BOOL)supportsSnippet {
-    return NO;
+  return NO;
 }
 
 @end
@@ -70,15 +72,15 @@
 @implementation iTermOpenQuicklyWindowArrangementCommand
 
 + (NSString *)restrictionDescription {
-    return @"window arrangements";
+  return @"window arrangements";
 }
 
 + (NSString *)command {
-    return @"a";
+  return @"a";
 }
 
 - (BOOL)supportsOpenArrangement {
-    return YES;
+  return YES;
 }
 
 @end
@@ -86,15 +88,15 @@
 @implementation iTermOpenQuicklySearchSessionsCommand
 
 + (NSString *)restrictionDescription {
-    return @"existing sessions";
+  return @"existing sessions";
 }
 
 + (NSString *)command {
-    return @"f";
+  return @"f";
 }
 
 - (BOOL)supportsSessionLocation {
-    return YES;
+  return YES;
 }
 
 @end
@@ -102,15 +104,15 @@
 @implementation iTermOpenQuicklySwitchProfileCommand
 
 + (NSString *)restrictionDescription {
-    return @"switch profiles";
+  return @"switch profiles";
 }
 
 + (NSString *)command {
-    return @"p";
+  return @"p";
 }
 
 - (BOOL)supportsChangeProfile {
-    return YES;
+  return YES;
 }
 
 @end
@@ -118,15 +120,15 @@
 @implementation iTermOpenQuicklyCreateTabCommand
 
 + (NSString *)restrictionDescription {
-    return @"create tab";
+  return @"create tab";
 }
 
 + (NSString *)command {
-    return @"t";
+  return @"t";
 }
 
 - (BOOL)supportsCreateNewTab {
-    return YES;
+  return YES;
 }
 
 @end
@@ -134,15 +136,15 @@
 @implementation iTermOpenQuicklyScriptCommand
 
 + (NSString *)restrictionDescription {
-    return @"run script";
+  return @"run script";
 }
 
 + (NSString *)command {
-    return @"s";
+  return @"s";
 }
 
 - (BOOL)supportsScript {
-    return YES;
+  return YES;
 }
 
 @end
@@ -150,15 +152,15 @@
 @implementation iTermOpenQuicklyColorPresetCommand
 
 + (NSString *)restrictionDescription {
-    return @"load color preset";
+  return @"load color preset";
 }
 
 + (NSString *)command {
-    return @"c";
+  return @"c";
 }
 
 - (BOOL)supportsColorPreset {
-    return YES;
+  return YES;
 }
 
 @end
@@ -166,35 +168,35 @@
 @implementation iTermOpenQuicklyNoCommand
 
 - (BOOL)supportsSessionLocation {
-    return YES;
+  return YES;
 }
 
 - (BOOL)supportsCreateNewTab {
-    return YES;
+  return YES;
 }
 
 - (BOOL)supportsChangeProfile {
-    return YES;
+  return YES;
 }
 
 - (BOOL)supportsOpenArrangement {
-    return YES;
+  return YES;
 }
 
 - (BOOL)supportsScript {
-    return YES;
+  return YES;
 }
 
 - (BOOL)supportsColorPreset {
-    return YES;
+  return YES;
 }
 
 - (BOOL)supportsAction {
-    return YES;
+  return YES;
 }
 
 - (BOOL)supportsSnippet {
-    return YES;
+  return YES;
 }
 
 @end
@@ -202,15 +204,15 @@
 @implementation iTermOpenQuicklyActionCommand
 
 + (NSString *)restrictionDescription {
-    return @"perform action";
+  return @"perform action";
 }
 
 + (NSString *)command {
-    return @":";
+  return @":";
 }
 
 - (BOOL)supportsAction {
-    return YES;
+  return YES;
 }
 
 @end
@@ -218,15 +220,15 @@
 @implementation iTermOpenQuicklySnippetCommand
 
 + (NSString *)restrictionDescription {
-    return @"send snippet";
+  return @"send snippet";
 }
 
 + (NSString *)command {
-    return @".";
+  return @".";
 }
 
 - (BOOL)supportsSnippet {
-    return YES;
+  return YES;
 }
 
 @end

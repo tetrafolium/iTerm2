@@ -12,17 +12,19 @@
 @implementation iTermNoColorAccessoryButton
 
 - (instancetype)init {
-    NSImage *image = [NSImage it_imageNamed:@"NoColor" forClass:self.class];
-    static const CGFloat kTopBottomMargin = 8;
-    self = [super initWithFrame:NSMakeRect(0, 0, image.size.width, image.size.height + kTopBottomMargin * 2)];
-    [self setButtonType:NSButtonTypeMomentaryPushIn];
-    [self setImage:image];
-    [self setTarget:nil];
-    [self setAction:@selector(noColorChosen:)];
-    [self setBordered:NO];
-    [[self cell] setHighlightsBy:NSContentsCellMask];
-    [self setTitle:@""];
-    return self;
+  NSImage *image = [NSImage it_imageNamed:@"NoColor" forClass:self.class];
+  static const CGFloat kTopBottomMargin = 8;
+  self = [super
+      initWithFrame:NSMakeRect(0, 0, image.size.width,
+                               image.size.height + kTopBottomMargin * 2)];
+  [self setButtonType:NSButtonTypeMomentaryPushIn];
+  [self setImage:image];
+  [self setTarget:nil];
+  [self setAction:@selector(noColorChosen:)];
+  [self setBordered:NO];
+  [[self cell] setHighlightsBy:NSContentsCellMask];
+  [self setTitle:@""];
+  return self;
 }
 
 @end

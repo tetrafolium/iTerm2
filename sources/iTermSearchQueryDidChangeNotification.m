@@ -11,13 +11,14 @@
 @implementation iTermSearchQueryDidChangeNotification
 
 + (instancetype)notification {
-    return [[self alloc] initPrivate];
+  return [[self alloc] initPrivate];
 }
 
 + (void)subscribe:(NSObject *)owner block:(void (^)(void))block {
-    [self internalSubscribe:owner withBlock:^(id notification) {
-             block();
-         }];
+  [self internalSubscribe:owner
+                withBlock:^(id notification) {
+                  block();
+                }];
 }
 
 @end

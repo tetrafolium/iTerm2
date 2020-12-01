@@ -13,11 +13,14 @@
 @implementation iTermApplication (Scripting)
 
 - (id)valueForUndefinedKey:(NSString *)key {
-    return @[];
+  return @[];
 }
 
 - (id)currentScriptingWindow {
-    return [iTermScriptingWindow scriptingWindowWithWindow:[(NSWindowController *)[[iTermController sharedInstance] currentTerminal] window]];
+  return [iTermScriptingWindow
+      scriptingWindowWithWindow:[(NSWindowController *)
+                                        [[iTermController sharedInstance]
+                                            currentTerminal] window]];
 }
 
 @end

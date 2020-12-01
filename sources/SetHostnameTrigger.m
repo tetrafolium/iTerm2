@@ -13,36 +13,38 @@
 @implementation SetHostnameTrigger
 
 + (NSString *)title {
-    return @"Report User & Host";
+  return @"Report User & Host";
 }
 
 - (BOOL)takesParameter {
-    return YES;
+  return YES;
 }
 
-- (NSString *)triggerOptionalParameterPlaceholderWithInterpolation:(BOOL)interpolation {
-    return @"username@hostname";
+- (NSString *)triggerOptionalParameterPlaceholderWithInterpolation:
+    (BOOL)interpolation {
+  return @"username@hostname";
 }
-
 
 - (BOOL)performActionWithCapturedStrings:(NSString *const *)capturedStrings
-    capturedRanges:(const NSRange *)capturedRanges
-    captureCount:(NSInteger)captureCount
-    inSession:(PTYSession *)aSession
-    onString:(iTermStringLine *)stringLine
-    atAbsoluteLineNumber:(long long)lineNumber
-    useInterpolation:(BOOL)useInterpolation
-    stop:(BOOL *)stop {
-    [self paramWithBackreferencesReplacedWithValues:capturedStrings
-          count:captureCount
-          scope:aSession.variablesScope
-          useInterpolation:useInterpolation
-         completion:^(NSString *remoteHost) {
-             if (remoteHost.length) {
-                 [aSession.screen terminalSetRemoteHost:remoteHost];
-             }
-         }];
-    return YES;
+                          capturedRanges:(const NSRange *)capturedRanges
+                            captureCount:(NSInteger)captureCount
+                               inSession:(PTYSession *)aSession
+                                onString:(iTermStringLine *)stringLine
+                    atAbsoluteLineNumber:(long long)lineNumber
+                        useInterpolation:(BOOL)useInterpolation
+                                    stop:(BOOL *)stop {
+  [self
+      paramWithBackreferencesReplacedWithValues:capturedStrings
+                                          count:captureCount
+                                          scope:aSession.variablesScope
+                               useInterpolation:useInterpolation
+                                     completion:^(NSString *remoteHost) {
+                                       if (remoteHost.length) {
+                                         [aSession.screen
+                                             terminalSetRemoteHost:remoteHost];
+                                       }
+                                     }];
+  return YES;
 }
 
 @end

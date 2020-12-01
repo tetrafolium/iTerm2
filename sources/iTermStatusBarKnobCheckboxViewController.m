@@ -16,35 +16,36 @@
 @implementation iTermStatusBarKnobCheckboxViewController
 
 - (NSNumber *)value {
-    self.view.autoresizesSubviews = NO;
-    return @(_checkbox.state == NSControlStateValueOn);
+  self.view.autoresizesSubviews = NO;
+  return @(_checkbox.state == NSControlStateValueOn);
 }
 
-- (void)setDescription:(NSString *)description placeholder:(nonnull NSString *)placeholder {
-    _checkbox.title = description;
-    [self sizeToFit];
-    self.view.frame = _checkbox.frame;
+- (void)setDescription:(NSString *)description
+           placeholder:(nonnull NSString *)placeholder {
+  _checkbox.title = description;
+  [self sizeToFit];
+  self.view.frame = _checkbox.frame;
 }
 
 - (CGFloat)controlOffset {
-    return 0;
+  return 0;
 }
 
 - (void)setValue:(id)value {
-    _checkbox.state = [value boolValue] ? NSControlStateValueOn : NSControlStateValueOff;
+  _checkbox.state =
+      [value boolValue] ? NSControlStateValueOn : NSControlStateValueOff;
 }
 
 - (void)sizeToFit {
-    [_checkbox sizeToFit];
+  [_checkbox sizeToFit];
 }
 
-
 - (void)encodeWithCoder:(nonnull NSCoder *)aCoder {
-    [aCoder encodeObject:self.value forKey:@"value"];
+  [aCoder encodeObject:self.value forKey:@"value"];
 }
 
 - (void)setHelpURL:(NSURL *)url {
-    ITAssertWithMessage(NO, @"Not supported");
+  ITAssertWithMessage(NO, @"Not supported");
 }
 
 @end

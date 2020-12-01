@@ -7,94 +7,102 @@
 
 #import "iTermStatusBarSearchFieldComponent.h"
 
-#import "iTermMiniSearchFieldViewController.h"
-#import "iTermPreferences.h"
-#import "iTermStatusBarSetupKnobsViewController.h"
 #import "NSDictionary+iTerm.h"
 #import "NSImage+iTerm.h"
 #import "NSObject+iTerm.h"
+#import "iTermMiniSearchFieldViewController.h"
+#import "iTermPreferences.h"
+#import "iTermStatusBarSetupKnobsViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 NSString *iTermStatusBarSearchComponentIsTemporaryKey = @"search: temporary";
 
 @implementation iTermStatusBarSearchFieldComponent {
-    iTermMiniSearchFieldViewController *_viewController;
+  iTermMiniSearchFieldViewController *_viewController;
 }
 
 - (CGFloat)statusBarComponentMinimumWidth {
-    return 125;
+  return 125;
 }
 
 - (void)statusBarComponentSizeView:(NSView *)view toFitWidth:(CGFloat)width {
-    assert(view == _viewController.view);
-    [_viewController sizeToFitSize:NSMakeSize(width, view.frame.size.height)];
+  assert(view == _viewController.view);
+  [_viewController sizeToFitSize:NSMakeSize(width, view.frame.size.height)];
 }
 
 - (CGFloat)statusBarComponentPreferredWidth {
-    return 200;
+  return 200;
 }
 
 - (BOOL)statusBarComponentCanStretch {
-    return YES;
+  return YES;
 }
 
 #pragma mark - iTermStatusBarComponent
 
 - (NSString *)statusBarComponentShortDescription {
-    return @"Search Tool";
+  return @"Search Tool";
 }
 
 - (NSString *)statusBarComponentDetailedDescription {
-    return @"Search tool to find text in the terminal window.";
+  return @"Search tool to find text in the terminal window.";
 }
 
 - (NSArray<iTermStatusBarComponentKnob *> *)statusBarComponentKnobs {
-    return @[];
+  return @[];
 }
 
 - (id)statusBarComponentExemplarWithBackgroundColor:(NSColor *)backgroundColor
-    textColor:(NSColor *)textColor {
-    return @"🔎 Search";
+                                          textColor:(NSColor *)textColor {
+  return @"🔎 Search";
 }
 
 - (NSView *)statusBarComponentView {
-    [self updateForTerminalBackgroundColor];
-    return self.statusBarComponentSearchViewController.view;
+  [self updateForTerminalBackgroundColor];
+  return self.statusBarComponentSearchViewController.view;
 }
 
 - (void)statusBarTerminalBackgroundColorDidChange {
-    [self updateForTerminalBackgroundColor];
+  [self updateForTerminalBackgroundColor];
 }
 
 - (void)updateForTerminalBackgroundColor {
-    NSView *view = self.statusBarComponentSearchViewController.view;
-    const iTermPreferencesTabStyle tabStyle = [iTermPreferences intForKey:kPreferenceKeyTabStyle];
-    if (@available(macOS 10.14, *)) {
-        if (tabStyle == TAB_STYLE_MINIMAL) {
-            if ([self.delegate statusBarComponentTerminalBackgroundColorIsDark:self]) {
-                view.appearance = [NSAppearance appearanceNamed:NSAppearanceNameDarkAqua];
-            } else {
-                view.appearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
-            }
-        } else {
-            view.appearance = nil;
-        }
+  NSView *view = self.statusBarComponentSearchViewController.view;
+  const iTermPreferencesTabStyle tabStyle =
+      [iTermPreferences intForKey:kPreferenceKeyTabStyle];
+  if (@available(macOS 10.14, *)) {
+    if (tabStyle == TAB_STYLE_MINIMAL) {
+      if ([self.delegate
+              statusBarComponentTerminalBackgroundColorIsDark:self]) {
+        view.appearance =
+            [NSAppearance appearanceNamed:NSAppearanceNameDarkAqua];
+      } else {
+        view.appearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
+      }
+    } else {
+      view.appearance = nil;
     }
+  }
 }
 
-- (nullable NSViewController<iTermFindViewController> *)statusBarComponentSearchViewController {
-    if (!_viewController) {
-        _viewController = [[iTermMiniSearchFieldViewController alloc] initWithNibName:@"iTermMiniSearchFieldViewController"
-                                                                      bundle:[NSBundle bundleForClass:self.class]];
-        const BOOL canClose = [self.configuration[iTermStatusBarComponentConfigurationKeyKnobValues][iTermStatusBarSearchComponentIsTemporaryKey] boolValue];
-        _viewController.canClose = canClose;
-    }
-    return _viewController;
+- (nullable NSViewController<iTermFindViewController> *)
+    statusBarComponentSearchViewController {
+  if (!_viewController) {
+    _viewController = [[iTermMiniSearchFieldViewController alloc]
+        initWithNibName:@"iTermMiniSearchFieldViewController"
+                 bundle:[NSBundle bundleForClass:self.class]];
+    const BOOL canClose =
+        [self.configuration[iTermStatusBarComponentConfigurationKeyKnobValues]
+                           [iTermStatusBarSearchComponentIsTemporaryKey]
+            boolValue];
+    _viewController.canClose = canClose;
+  }
+  return _viewController;
 }
 
 - (CGFloat)statusBarComponentVerticalOffset {
-    return 0;
+  return 0;
 }
 
 @end
