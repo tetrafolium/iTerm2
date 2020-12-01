@@ -10,6 +10,7 @@ import iterm2.util
 
 class LineContents:
     """Describes the contents of a line."""
+
     def __init__(self, proto):
         self.__proto = proto
         self.__offset_of_cell = [0]
@@ -53,6 +54,7 @@ class LineContents:
 
 class ScreenContents:
     """Describes screen contents."""
+
     def __init__(self, proto):
         self.__proto = proto
 
@@ -112,6 +114,7 @@ class ScreenStreamer:
 
     Don't create this yourself. Use Session.get_screen_streamer() instead. See
     its docstring for more info."""
+
     def __init__(self, connection, session_id, want_contents=True):
         assert session_id != "all"
         self.connection = connection

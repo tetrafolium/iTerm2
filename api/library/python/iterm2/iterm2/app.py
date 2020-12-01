@@ -20,6 +20,7 @@ import iterm2.window
 # public API.
 CreateWindowException = iterm2.window.CreateWindowException
 
+
 async def async_get_app(
         connection: iterm2.connection.Connection,
         create_if_needed: bool = True) -> typing.Union[None, 'App']:
@@ -663,6 +664,7 @@ class App(
 
     def tmux_delegate_get_connection(self) -> iterm2.connection.Connection:
         return self.connection
+
 
 async def async_get_variable(
         connection: iterm2.connection.Connection, name: str) -> typing.Any:

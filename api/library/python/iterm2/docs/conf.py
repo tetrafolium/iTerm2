@@ -105,7 +105,6 @@ html_static_path = ['_static']
 # html_sidebars = { '**': ['globaltoc.html', 'sourcelink.html', 'searchbox.html'], 'using/windows': ['windowssidebar.html', 'searchbox.html'], }
 
 
-
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.

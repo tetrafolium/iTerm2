@@ -27,6 +27,7 @@ class Transaction:
       async with iterm2.Transaction():
         do stuff
     """
+
     def __init__(self, connection: iterm2.connection.Connection):
         self.connection = connection
 

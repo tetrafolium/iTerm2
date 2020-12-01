@@ -15,6 +15,7 @@ class BroadcastDomain:
 
     .. seealso:: Example ":ref:`enable_broadcasting_example`"
     """
+
     def __init__(self):
         self.__sessions = []
         self.__unresolved = []

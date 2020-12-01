@@ -44,6 +44,7 @@ class TmuxConnection:
     Do not create this yourself. Use :func:`async_get_tmux_connections`,
     instead.
     """
+
     def __init__(self, connection_id, owning_session_id, delegate):
         self.__connection_id = connection_id
         self.__owning_session_id = owning_session_id

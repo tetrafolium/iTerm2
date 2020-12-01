@@ -6,6 +6,8 @@ import typing
 import iterm2.api_pb2
 
 # pylint: disable=invalid-name
+
+
 class Size:
     """Describes a 2D size.
 
@@ -146,6 +148,7 @@ class Point:
 
 class Frame:
     """Describes a bounding rectangle. 0,0 is the bottom left coordinate."""
+
     def __init__(self, origin: Point = Point(0, 0), size: Size = Size(0, 0)):
         """Constructs a new frame."""
         self.__origin = origin
@@ -262,6 +265,7 @@ class CoordRange:
 
     :param start: The start point.
     :param end: The first point after the start point not in the range."""
+
     def __init__(self, start: Point, end: Point):
         self.__start = start
         self.__end = end
@@ -307,6 +311,7 @@ class Range:
 
     :param location: The first value in the range.
     :param length: The number of values in the range."""
+
     def __init__(self, location: int, length: int):
         self.__location = location
         self.__length = length
@@ -357,6 +362,7 @@ class WindowedCoordRange:
     :param columnRange: The range of columns to intersect with `coordRange` to
         get the described region, or `None` if unwindowed.
     """
+
     def __init__(
             self,
             coordRange: CoordRange,
@@ -430,7 +436,6 @@ class WindowedCoordRange:
     def has_window(self) -> bool:
         """Are the columns constrained?"""
         return self.__column_range.length > 0
-
 
 
 async def async_wait_forever():

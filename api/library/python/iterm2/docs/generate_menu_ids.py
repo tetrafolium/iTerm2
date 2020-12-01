@@ -3,6 +3,7 @@ import html
 import sys
 import xml.etree.ElementTree as ET
 
+
 def search_container(path, container, f):
     if container is None:
         return
@@ -24,10 +25,9 @@ def search_container(path, container, f):
                 raise
 
 
-
 def prologue():
     print(
-"""
+        """
 :orphan:
 
 Menu Item Identifiers
@@ -44,6 +44,7 @@ Identifiers
 
 """)
 
+
 def epilogue():
     print("""
 ----
@@ -54,6 +55,7 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`search`
 """)
+
 
 def make_rst(items, idname):
     """
@@ -70,6 +72,7 @@ def make_rst(items, idname):
     """
     longest_name = 0
     longest_identifier = 0
+
     def measure(_titlepath, name, identifier):
         nonlocal longest_name
         nonlocal longest_identifier
@@ -93,15 +96,18 @@ def make_rst(items, idname):
 
     print(divider)
 
+
 def items():
     tree = ET.parse(sys.argv[1])
     items = tree.getroot().find("objects").find("menu").find("items")
     return items
 
+
 def main():
     prologue()
     make_rst(items(), "Identifier")
     epilogue()
+
 
 if __name__ == "__main__":
     main()

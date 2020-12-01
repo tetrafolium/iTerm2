@@ -25,6 +25,7 @@ class ColorPreset:
 
         Note this is is an inner class of `ColorPreset`."""
         # pylint: disable=too-many-arguments
+
         def __init__(self, r, g, b, a, color_space, key):
             super().__init__(r, g, b, a, color_space)
             self.__key = key

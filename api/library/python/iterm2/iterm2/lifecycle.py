@@ -17,6 +17,7 @@ class EachSessionOnceMonitor:
     :param connection: The :class:`~iterm2.connection.Connection` to use.
     :param app: An instance of :class:`~iterm2.app.App`.
     """
+
     def __init__(self, app: 'iterm2.app.App'):
         self.__connection = app.connection
         self.__app = app
@@ -121,6 +122,7 @@ class SessionTerminationMonitor:
                   session_id = await mon.async_get()
                   print("Session {} closed".format(session_id))
     """
+
     def __init__(self, connection: iterm2.connection.Connection):
         self.__connection = connection
         self.__token = None
@@ -161,6 +163,7 @@ class LayoutChangeMonitor:
 
     :param connection: The :class:`~iterm2.connection.Connection` to use.
     """
+
     def __init__(self, connection: iterm2.Connection):
         self.__connection = connection
         self.__token = None
@@ -234,6 +237,7 @@ class NewSessionMonitor:
         .. seealso::
             * Example ":ref:`autoalert`"
       """
+
     def __init__(self, connection: iterm2.Connection):
         self.__connection = connection
         self.__token = None

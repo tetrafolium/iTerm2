@@ -21,6 +21,7 @@ class Color:
       :param color_space: The color space. Only sRGB is supported currently.
       """
     # pylint: disable=too-many-arguments
+
     def __init__(
             self,
             r: int = 0,
@@ -103,7 +104,7 @@ class Color:
             "Blue Component": self.blue / 255.0,
             "Alpha Component": self.alpha / 255.0,
             "Color Space": self.color_space.value
-            }
+        }
 
     def from_dict(self, input_dict):
         """Updates the color from the dictionary's contents."""

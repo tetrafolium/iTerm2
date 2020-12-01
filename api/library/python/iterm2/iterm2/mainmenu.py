@@ -9,6 +9,7 @@ class MenuItemException(Exception):
 
 class MenuItemState:
     """Describes the current state of a menu item."""
+
     def __init__(self, checked: bool, enabled: bool):
         self.__checked = checked
         self.__enabled = enabled

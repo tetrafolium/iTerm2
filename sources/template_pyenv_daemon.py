@@ -3,6 +3,7 @@
 import iterm2
 # To install, update, or remove packages from PyPI, use Scripts > Manage > Manage Dependencies...
 
+
 async def main(connection):
     # This is an example of using an asyncio context manager to register a custom control
     # sequence. You can send a custom control sequence by issuing this command in a

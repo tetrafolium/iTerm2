@@ -223,7 +223,7 @@ async def async_get_screen_contents(
 
 
 async def async_get_prompt(
-    connection, session=None, prompt_id=None):
+        connection, session=None, prompt_id=None):
     """
     Gets info about the last prompt in a session
 
@@ -243,7 +243,7 @@ async def async_get_prompt(
 
 
 async def async_list_prompts(
-    connection, session, first, last):
+        connection, session, first, last):
     """
     Fetches a list of prompts in a session.
 
@@ -524,6 +524,7 @@ async def async_restore_arrangement(connection, name, window_id=None):
         request.saved_arrangement_request.window_id = window_id
     return await _async_call(connection, request)
 
+
 async def async_list_arrangements(connection):
     """
     Fetch a list of window arrangement names.
@@ -532,6 +533,7 @@ async def async_list_arrangements(connection):
     request.saved_arrangement_request.action = (
         iterm2.api_pb2.SavedArrangementRequest.Action.Value("LIST"))
     return await _async_call(connection, request)
+
 
 async def async_get_focus_info(connection):
     """

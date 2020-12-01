@@ -11,6 +11,7 @@ import iterm2.notifications
 # pylint: disable=too-few-public-methods
 class FocusUpdateApplicationActive:
     """Describes a change in whether the application is active."""
+
     def __init__(self, active):
         self.__application_active = active
 
@@ -26,9 +27,12 @@ class FocusUpdateWindowChanged:
     class Reason(enum.Enum):
         """Gives the reason for the change"""
         # pylint: disable=line-too-long
-        TERMINAL_WINDOW_BECAME_KEY = 0  #: A terminal window received keyboard focus.
-        TERMINAL_WINDOW_IS_CURRENT = 1  #: A terminal window is current but some non-terminal window (such as Preferences) has keyboard focus.
-        TERMINAL_WINDOW_RESIGNED_KEY = 2  #: A terminal window no longer has keyboard focus.
+        #: A terminal window received keyboard focus.
+        TERMINAL_WINDOW_BECAME_KEY = 0
+        #: A terminal window is current but some non-terminal window (such as Preferences) has keyboard focus.
+        TERMINAL_WINDOW_IS_CURRENT = 1
+        #: A terminal window no longer has keyboard focus.
+        TERMINAL_WINDOW_RESIGNED_KEY = 2
         # pylint: enable=line-too-long
 
     def __init__(self, window_id: str, event: Reason):
@@ -56,6 +60,7 @@ class FocusUpdateWindowChanged:
 
 class FocusUpdateSelectedTabChanged:
     """Describes a change in the selected tab."""
+
     def __init__(self, tab_id: str):
         self.__tab_id = tab_id
 
@@ -72,6 +77,7 @@ class FocusUpdateSelectedTabChanged:
 
 class FocusUpdateActiveSessionChanged:
     """Describes a change to the active session within a tab."""
+
     def __init__(self, session_id: str):
         self.__session_id = session_id
 
@@ -92,6 +98,7 @@ class FocusUpdate:
 
     Up to one of `application_active`, `window_changed`,
     `selected_tab_changed`, or `active_session_changed` will not be `None`."""
+
     def __init__(
             self,
             application_active: FocusUpdateApplicationActive = None,
@@ -153,6 +160,7 @@ class FocusMonitor:
 
     .. seealso:: Example ":ref:`mrutabs_example`"
     """
+
     def __init__(self, connection: iterm2.connection.Connection):
         self.__connection = connection
         self.__queue: typing.List[iterm2.api_pb2.FocusChangedNotification] = []

@@ -19,8 +19,10 @@ class BackgroundImageMode(enum.Enum):
     """Describes how the background image should be accommodated to fit the window."""
     STRETCH = 0  #: Stretch to fit
     TILE = 1  #: Full size, undistorted, and tessellated if needed.
-    ASPECT_FILL = 2  #: Scale to fill the space, cropping if needed. Does not distort.
-    ASPECT_FIT = 3  #: Scale to fit the space, adding letterboxes or pillarboxes if needed. Does not distort.
+    #: Scale to fill the space, cropping if needed. Does not distort.
+    ASPECT_FILL = 2
+    #: Scale to fit the space, adding letterboxes or pillarboxes if needed. Does not distort.
+    ASPECT_FIT = 3
 
 
 class BadGUIDException(Exception):
@@ -37,10 +39,13 @@ class CursorType(enum.Enum):
 class ThinStrokes(enum.Enum):
     """When thin strokes should be used."""
     THIN_STROKES_SETTING_NEVER = 0  #: NEver
-    THIN_STROKES_SETTING_RETINA_DARK_BACKGROUNDS_ONLY = 1  #: When the background is dark and the display is a retina display.
-    THIN_STROKES_SETTING_DARK_BACKGROUNDS_ONLY = 2  #: When the background is dark.
+    #: When the background is dark and the display is a retina display.
+    THIN_STROKES_SETTING_RETINA_DARK_BACKGROUNDS_ONLY = 1
+    #: When the background is dark.
+    THIN_STROKES_SETTING_DARK_BACKGROUNDS_ONLY = 2
     THIN_STROKES_SETTING_ALWAYS = 3  #: Always.
-    THIN_STROKES_SETTING_RETINA_ONLY = 4  #: When the display is a retina display.
+    #: When the display is a retina display.
+    THIN_STROKES_SETTING_RETINA_ONLY = 4
 
 
 class UnicodeNormalization(enum.Enum):
@@ -67,10 +72,13 @@ class InitialWorkingDirectory(enum.Enum):
     """How should the initial working directory of a session be set?"""
     INITIAL_WORKING_DIRECTORY_CUSTOM = "Yes"  #: Custom directory, specified elsewhere
     INITIAL_WORKING_DIRECTORY_HOME = "No"  #: Use default of home directory
-    INITIAL_WORKING_DIRECTORY_RECYCLE = "Recycle"  #: Reuse the "current" directory, or home if there is no current.
-    INITIAL_WORKING_DIRECTORY_ADVANCED = "Advanced"  #: Use advanced settings, which specify more granular behavior depending on whether the new session is a new window, tab, or split pane.
+    #: Reuse the "current" directory, or home if there is no current.
+    INITIAL_WORKING_DIRECTORY_RECYCLE = "Recycle"
+    #: Use advanced settings, which specify more granular behavior depending on whether the new session is a new window, tab, or split pane.
+    INITIAL_WORKING_DIRECTORY_ADVANCED = "Advanced"
 
 # pylint: enable=line-too-long
+
 
 class IconMode(enum.Enum):
     """How should session icons be selected?"""
@@ -106,6 +114,7 @@ class LocalWriteOnlyProfile:
       * Example ":ref:`settabcolor_example`"
       * Example ":ref:`increase_font_size_example`"
     """
+
     def __init__(self, values=None):
         if not values:
             values = {}
@@ -978,6 +987,7 @@ class LocalWriteOnlyProfile:
 class WriteOnlyProfile:
     """A profile that can be modified but not read. Useful for changing many
     sessions' profiles at once without knowing what they are."""
+
     def __init__(self, session_id, connection, guid=None):
         assert session_id != "all"
         self.connection = connection
@@ -1372,12 +1382,12 @@ class WriteOnlyProfile:
         return await self._async_simple_set("Sync Title", value)
 
     async def async_set_use_built_in_powerline_glyphs(self, value: bool):
-      """
-      Sets whether powerline glyphs should be drawn by iTerm2 or left to the
-      font.
+        """
+        Sets whether powerline glyphs should be drawn by iTerm2 or left to the
+        font.
 
-      :param value: A bool"""
-      return await self._async_simple_set("Draw Powerline Glyphs", value)
+        :param value: A bool"""
+        return await self._async_simple_set("Draw Powerline Glyphs", value)
 
     async def async_set_disable_window_resizing(self, value: bool):
         """

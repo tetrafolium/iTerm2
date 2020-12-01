@@ -33,6 +33,7 @@ class CustomControlSequenceMonitor:
                   match = await mon.async_get()
                   await iterm2.Window.async_create(connection)
     """
+
     def __init__(
             self,
             connection: iterm2.connection.Connection,

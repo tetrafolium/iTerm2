@@ -51,6 +51,7 @@ class VariableMonitor:
                   new_value = await mon.async_get()
                   DoSomething(new_value)
         """
+
     def __init__(
             self,
             connection: iterm2.connection.Connection,

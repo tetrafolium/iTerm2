@@ -14,12 +14,17 @@ import iterm2.notifications
 # pylint: disable=line-too-long
 class Modifier(enum.Enum):
     """Enumerated list of modifier keys."""
-    CONTROL = iterm2.api_pb2.Modifiers.Value("CONTROL")  #: The control key modifier
-    OPTION = iterm2.api_pb2.Modifiers.Value("OPTION")  #: The option (or Alt) key modifier
-    COMMAND = iterm2.api_pb2.Modifiers.Value("COMMAND")  #: The command key modifier
+    CONTROL = iterm2.api_pb2.Modifiers.Value(
+        "CONTROL")  #: The control key modifier
+    OPTION = iterm2.api_pb2.Modifiers.Value(
+        "OPTION")  #: The option (or Alt) key modifier
+    COMMAND = iterm2.api_pb2.Modifiers.Value(
+        "COMMAND")  #: The command key modifier
     SHIFT = iterm2.api_pb2.Modifiers.Value("SHIFT")  #: The shift key modifier
-    FUNCTION = iterm2.api_pb2.Modifiers.Value("FUNCTION")  #: Indicates the key is a function key.
-    NUMPAD = iterm2.api_pb2.Modifiers.Value("NUMPAD")  #: Indicates the key is on the numeric keypad.
+    #: Indicates the key is a function key.
+    FUNCTION = iterm2.api_pb2.Modifiers.Value("FUNCTION")
+    #: Indicates the key is on the numeric keypad.
+    NUMPAD = iterm2.api_pb2.Modifiers.Value("NUMPAD")
 # pylint: enable=line-too-long
 
 
@@ -146,6 +151,7 @@ class Keystroke:
     Do not create instances of this class. They will be passed to you when you
     use a :class:`KeystrokeMonitor`.
     """
+
     def __init__(self, notification):
         self.__characters = notification.characters
         self.__characters_ignoring_modifiers = (
@@ -201,6 +207,7 @@ class KeystrokePattern:
     modifiers (what characters would be generated if no modifiers were pressed,
     excepting the shift key).
     """
+
     def __init__(self):
         self.__required_modifiers = []
         self.__forbidden_modifiers = []
@@ -315,6 +322,7 @@ class KeystrokeMonitor:
                   keystroke = await mon.async_get()
                   DoSomething(keystroke)
     """
+
     def __init__(
             self,
             connection: iterm2.connection.Connection,
@@ -378,6 +386,7 @@ class KeystrokeFilter:
         async with filter as mon:
             await iterm2.async_wait_forever()
     """
+
     def __init__(
             self,
             connection: iterm2.connection.Connection,

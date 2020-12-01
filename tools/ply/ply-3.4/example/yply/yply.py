@@ -20,13 +20,12 @@
 # states.
 #
 
-import sys
-sys.path.insert(0,"../..")
-
-import ylex
-import yparse
-
 from ply import *
+import yparse
+import ylex
+import sys
+sys.path.insert(0, "../..")
+
 
 if len(sys.argv) == 1:
     print "usage : yply.py [-nocode] inputfile"
@@ -34,10 +33,10 @@ if len(sys.argv) == 1:
 
 if len(sys.argv) == 3:
     if sys.argv[1] == '-nocode':
-         yparse.emit_code = 0
+        yparse.emit_code = 0
     else:
-         print "Unknown option '%s'" % sys.argv[1]
-         raise SystemExit
+        print "Unknown option '%s'" % sys.argv[1]
+        raise SystemExit
     filename = sys.argv[2]
 else:
     filename = sys.argv[1]
@@ -49,5 +48,3 @@ if __name__ == '__main__':
     from ply import *
     yacc.yacc()
 """
-
-

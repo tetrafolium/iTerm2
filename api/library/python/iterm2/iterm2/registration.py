@@ -42,6 +42,7 @@ async def generic_handle_rpc(coro, connection, notif):
         await iterm2.rpc.async_send_rpc_result(
             connection, rpc_notif.request_id, False, result)
 
+
 class Reference:  # pylint: disable=too-few-public-methods
     """Defines a reference to a variable for use in the @RPC decorator.
 
@@ -50,6 +51,7 @@ class Reference:  # pylint: disable=too-few-public-methods
         * Example ":ref:`mousemode_example`"
         * Example ":ref:`statusbar_example`"
     """
+
     def __init__(self, name):
         self.name = name
 
@@ -137,6 +139,7 @@ def RPC(func):  # pylint: disable=invalid-name
     func.async_register = async_register
     return func
 
+
 def ContextMenuProviderRPC(func):  # pylint: disable=invalid-name
     """
     A decorator that prepares a function for registration as a context menu
@@ -186,6 +189,7 @@ def ContextMenuProviderRPC(func):  # pylint: disable=invalid-name
 
     func.async_register = async_register
     return func
+
 
 def TitleProviderRPC(func):  # pylint: disable=invalid-name
     """

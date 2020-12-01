@@ -1,12 +1,14 @@
+import AppKit
+import iterm2
 .. _launch_and_run_example:
 
 Launch iTerm2 and Run Command
-=============================
+== == == == == == == == == == == == == == =
 
 This script demonstrates two concepts:
 
 1. Launching iTerm2 using PyObjC and running the script only
-   after it is launched.
+after it is launched.
 2. Creating a window that runs a command.
 
 Launching the app is useful when the script is run from the
@@ -16,18 +18,16 @@ dependencies first:
 
 .. code-block:: bash
 
-    brew install python3
-    pip3 install iterm2
-    pip3 install pyobjc
+brew install python3
+pip3 install iterm2
+pip3 install pyobjc
 
 Here's the code:
-#!/usr/bin/env python3
+    #!/usr/bin/env python3
 
-import iterm2
-import AppKit
-
-# Launch the app
+   # Launch the app
 AppKit.NSWorkspace.sharedWorkspace().launchApplication_("iTerm2")
+
 
 async def main(connection):
     app = await iterm2.async_get_app(connection)

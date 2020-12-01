@@ -36,13 +36,15 @@
 #  30 August - added link to CC license; removed the "swapcase" encoding
 
 # Modifications for inclusion in PLY distribution
-import sys
-sys.path.insert(0,"../..")
+from compiler import misc, syntax, pycodegen
+from compiler import ast
+import decimal
 from ply import *
+import sys
+sys.path.insert(0, "../..")
 
 ##### Lexer ######
 #import lex
-import decimal
 
 tokens = (
     'DEF',
@@ -69,19 +71,23 @@ tokens = (
     'INDENT',
     'DEDENT',
     'ENDMARKER',
-    )
+)
 
 #t_NUMBER = r'\d+'
 # taken from decmial.py but without the leading sign
+
+
 def t_NUMBER(t):
     r"""(\d+(\.\d*)?|\.\d+)([eE][-+]? \d+)?"""
     t.value = decimal.Decimal(t.value)
     return t
 
+
 def t_STRING(t):
     r"'([^\\']+|\\'|\\\\)*'"  # I think this is right ...
-    t.value=t.value[1:-1].decode("string-escape") # .swapcase() # for fun
+    t.value = t.value[1:-1].decode("string-escape")  # .swapcase() # for fun
     return t
+
 
 t_COLON = r':'
 t_EQ = r'=='
@@ -98,10 +104,11 @@ t_SEMICOLON = r';'
 # Ply nicely documented how to do this.
 
 RESERVED = {
-  "def": "DEF",
-  "if": "IF",
-  "return": "RETURN",
-  }
+    "def": "DEF",
+    "if": "IF",
+    "return": "RETURN",
+}
+
 
 def t_NAME(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
@@ -111,6 +118,8 @@ def t_NAME(t):
 # Putting this before t_WS let it consume lines with only comments in
 # them so the latter code never sees the WS part.  Not consuming the
 # newline.  Needed for "if 1: #comment"
+
+
 def t_comment(t):
     r"[ ]*\043[^\n]*"  # \043 is '#'
     pass
@@ -125,6 +134,8 @@ def t_WS(t):
 # Don't generate newline tokens when inside of parenthesis, eg
 #   a = (1,
 #        2, 3)
+
+
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
@@ -132,10 +143,12 @@ def t_newline(t):
     if t.lexer.paren_count == 0:
         return t
 
+
 def t_LPAR(t):
     r'\('
     t.lexer.paren_count += 1
     return t
+
 
 def t_RPAR(t):
     r'\)'
@@ -149,7 +162,7 @@ def t_error(t):
     print "Skipping", repr(t.value[0])
     t.lexer.skip(1)
 
-## I implemented INDENT / DEDENT generation as a post-processing filter
+# I implemented INDENT / DEDENT generation as a post-processing filter
 
 # The original lex token stream contains WS and NEWLINE characters.
 # WS will only occur before any other tokens on a line.
@@ -160,6 +173,7 @@ def t_error(t):
 # and the first non-WS/non-NEWLINE on a line.  It flags the check so
 # see if the new line has changed indication level.
 
+
 # Python's syntax has three INDENT states
 #  0) no colon hence no need to indent
 #  1) "if 1: go()" - simple statements have a COLON but no need for an indent
@@ -169,6 +183,8 @@ MAY_INDENT = 1
 MUST_INDENT = 2
 
 # only care about whitespace at the start of a line
+
+
 def track_tokens_filter(lexer, tokens):
     lexer.at_line_start = at_line_start = True
     indent = NO_INDENT
@@ -180,7 +196,7 @@ def track_tokens_filter(lexer, tokens):
             at_line_start = False
             indent = MAY_INDENT
             token.must_indent = False
-            
+
         elif token.type == "NEWLINE":
             at_line_start = True
             if indent == MAY_INDENT:
@@ -204,6 +220,7 @@ def track_tokens_filter(lexer, tokens):
         yield token
         lexer.at_line_start = at_line_start
 
+
 def _new_token(type, lineno):
     tok = lex.LexToken()
     tok.type = type
@@ -212,10 +229,14 @@ def _new_token(type, lineno):
     return tok
 
 # Synthesize a DEDENT tag
+
+
 def DEDENT(lineno):
     return _new_token("DEDENT", lineno)
 
 # Synthesize an INDENT tag
+
+
 def INDENT(lineno):
     return _new_token("INDENT", lineno)
 
@@ -228,14 +249,14 @@ def indentation_filter(tokens):
     depth = 0
     prev_was_ws = False
     for token in tokens:
-##        if 1:
-##            print "Process", token,
-##            if token.at_line_start:
-##                print "at_line_start",
-##            if token.must_indent:
-##                print "must_indent",
-##            print
-                
+        # if 1:
+        # print "Process", token,
+        # if token.at_line_start:
+        # print "at_line_start",
+        # if token.must_indent:
+        # print "must_indent",
+        # print
+
         # WS only occurs at the start of the line
         # There may be WS followed by NEWLINE so
         # only track the depth here.  Don't indent/dedent
@@ -274,7 +295,8 @@ def indentation_filter(tokens):
                 # At the same level
                 pass
             elif depth > levels[-1]:
-                raise IndentationError("indentation increase but not in new block")
+                raise IndentationError(
+                    "indentation increase but not in new block")
             else:
                 # Back up; but only if it matches a previous level
                 try:
@@ -294,11 +316,11 @@ def indentation_filter(tokens):
         assert token is not None
         for _ in range(1, len(levels)):
             yield DEDENT(token.lineno)
-    
+
 
 # The top-level filter adds an ENDMARKER, if requested.
 # Python's grammar uses it.
-def filter(lexer, add_endmarker = True):
+def filter(lexer, add_endmarker=True):
     token = None
     tokens = iter(lexer.token, None)
     tokens = track_tokens_filter(lexer, tokens)
@@ -313,14 +335,18 @@ def filter(lexer, add_endmarker = True):
 
 # Combine Ply and my filters into a new lexer
 
+
 class IndentLexer(object):
     def __init__(self, debug=0, optimize=0, lextab='lextab', reflags=0):
-        self.lexer = lex.lex(debug=debug, optimize=optimize, lextab=lextab, reflags=reflags)
+        self.lexer = lex.lex(debug=debug, optimize=optimize,
+                             lextab=lextab, reflags=reflags)
         self.token_stream = None
+
     def input(self, s, add_endmarker=True):
         self.lexer.paren_count = 0
         self.lexer.input(s)
         self.token_stream = filter(self.lexer, add_endmarker)
+
     def token(self):
         try:
             return self.token_stream.next()
@@ -332,10 +358,11 @@ class IndentLexer(object):
 # also part of Ply
 #import yacc
 
+
 # I use the Python AST
-from compiler import ast
 
 # Helper function
+
 def Assign(left, right):
     names = []
     if isinstance(left, ast.Name):
@@ -356,11 +383,13 @@ def Assign(left, right):
 
 # The grammar comments come from Python's Grammar/Grammar file
 
-## NB: compound_stmt in single_input is followed by extra NEWLINE!
+# NB: compound_stmt in single_input is followed by extra NEWLINE!
 # file_input: (NEWLINE | stmt)* ENDMARKER
 def p_file_input_end(p):
     """file_input_end : file_input ENDMARKER"""
     p[0] = ast.Stmt(p[1])
+
+
 def p_file_input(p):
     """file_input : file_input NEWLINE
                   | file_input stmt
@@ -370,21 +399,23 @@ def p_file_input(p):
         if len(p) == 3:
             p[0] = p[1]
         else:
-            p[0] = [] # p == 2 --> only a blank line
+            p[0] = []  # p == 2 --> only a blank line
     else:
         if len(p) == 3:
             p[0] = p[1] + p[2]
         else:
             p[0] = p[1]
-            
+
 
 # funcdef: [decorators] 'def' NAME parameters ':' suite
 # ignoring decorators
 def p_funcdef(p):
     "funcdef : DEF NAME parameters COLON suite"
     p[0] = ast.Function(None, p[2], tuple(p[3]), (), 0, None, p[5])
-    
+
 # parameters: '(' [varargslist] ')'
+
+
 def p_parameters(p):
     """parameters : LPAR RPAR
                   | LPAR varargslist RPAR"""
@@ -392,9 +423,9 @@ def p_parameters(p):
         p[0] = []
     else:
         p[0] = p[2]
-    
 
-# varargslist: (fpdef ['=' test] ',')* ('*' NAME [',' '**' NAME] | '**' NAME) | 
+
+# varargslist: (fpdef ['=' test] ',')* ('*' NAME [',' '**' NAME] | '**' NAME) |
 # highly simplified
 def p_varargslist(p):
     """varargslist : varargslist COMMA NAME
@@ -405,20 +436,26 @@ def p_varargslist(p):
         p[0] = [p[1]]
 
 # stmt: simple_stmt | compound_stmt
+
+
 def p_stmt_simple(p):
     """stmt : simple_stmt"""
     # simple_stmt is a list
     p[0] = p[1]
-    
+
+
 def p_stmt_compound(p):
     """stmt : compound_stmt"""
     p[0] = [p[1]]
 
 # simple_stmt: small_stmt (';' small_stmt)* [';'] NEWLINE
+
+
 def p_simple_stmt(p):
     """simple_stmt : small_stmts NEWLINE
                    | small_stmts SEMICOLON NEWLINE"""
     p[0] = p[1]
+
 
 def p_small_stmts(p):
     """small_stmts : small_stmts SEMICOLON small_stmt
@@ -430,6 +467,8 @@ def p_small_stmts(p):
 
 # small_stmt: expr_stmt | print_stmt  | del_stmt | pass_stmt | flow_stmt |
 #    import_stmt | global_stmt | exec_stmt | assert_stmt
+
+
 def p_small_stmt(p):
     """small_stmt : flow_stmt
                   | expr_stmt"""
@@ -439,6 +478,8 @@ def p_small_stmt(p):
 #                      ('=' (yield_expr|testlist))*)
 # augassign: ('+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '|=' | '^=' |
 #             '<<=' | '>>=' | '**=' | '//=')
+
+
 def p_expr_stmt(p):
     """expr_stmt : testlist ASSIGN testlist
                  | testlist """
@@ -448,11 +489,14 @@ def p_expr_stmt(p):
     else:
         p[0] = Assign(p[1], p[3])
 
+
 def p_flow_stmt(p):
     "flow_stmt : return_stmt"
     p[0] = p[1]
 
 # return_stmt: 'return' [testlist]
+
+
 def p_return_stmt(p):
     "return_stmt : RETURN testlist"
     p[0] = ast.Return(p[2])
@@ -463,9 +507,11 @@ def p_compound_stmt(p):
                      | funcdef"""
     p[0] = p[1]
 
+
 def p_if_stmt(p):
     'if_stmt : IF test COLON suite'
     p[0] = ast.If([(p[2], p[4])], None)
+
 
 def p_suite(p):
     """suite : simple_stmt
@@ -474,7 +520,7 @@ def p_suite(p):
         p[0] = ast.Stmt(p[1])
     else:
         p[0] = ast.Stmt(p[3])
-    
+
 
 def p_stmts(p):
     """stmts : stmts stmt
@@ -484,7 +530,7 @@ def p_stmts(p):
     else:
         p[0] = p[1]
 
-## No using Python's approach because Ply supports precedence
+# No using Python's approach because Ply supports precedence
 
 # comparison: expr (comp_op expr)*
 # arith_expr: term (('+'|'-') term)*
@@ -492,12 +538,17 @@ def p_stmts(p):
 # factor: ('+'|'-'|'~') factor | power
 # comp_op: '<'|'>'|'=='|'>='|'<='|'<>'|'!='|'in'|'not' 'in'|'is'|'is' 'not'
 
+
 def make_lt_compare((left, right)):
-    return ast.Compare(left, [('<', right),])
+    return ast.Compare(left, [('<', right), ])
+
+
 def make_gt_compare((left, right)):
-    return ast.Compare(left, [('>', right),])
+    return ast.Compare(left, [('>', right), ])
+
+
 def make_eq_compare((left, right)):
-    return ast.Compare(left, [('==', right),])
+    return ast.Compare(left, [('==', right), ])
 
 
 binary_ops = {
@@ -512,12 +563,13 @@ binary_ops = {
 unary_ops = {
     "+": ast.UnaryAdd,
     "-": ast.UnarySub,
-    }
+}
 precedence = (
     ("left", "EQ", "GT", "LT"),
     ("left", "PLUS", "MINUS"),
     ("left", "MULT", "DIV"),
-    )
+)
+
 
 def p_comparison(p):
     """comparison : comparison PLUS comparison
@@ -536,10 +588,12 @@ def p_comparison(p):
         p[0] = unary_ops[p[1]](p[2])
     else:
         p[0] = p[1]
-                  
+
 # power: atom trailer* ['**' factor]
 # trailers enables function calls.  I only allow one level of calls
 # so this is 'trailer'
+
+
 def p_power(p):
     """power : atom
              | atom trailer"""
@@ -551,26 +605,33 @@ def p_power(p):
         else:
             raise AssertionError("not implemented")
 
+
 def p_atom_name(p):
     """atom : NAME"""
     p[0] = ast.Name(p[1])
+
 
 def p_atom_number(p):
     """atom : NUMBER
             | STRING"""
     p[0] = ast.Const(p[1])
 
+
 def p_atom_tuple(p):
     """atom : LPAR testlist RPAR"""
     p[0] = p[2]
 
 # trailer: '(' [arglist] ')' | '[' subscriptlist ']' | '.' NAME
+
+
 def p_trailer(p):
     "trailer : LPAR arglist RPAR"
     p[0] = ("CALL", p[2])
 
 # testlist: test (',' test)* [',']
 # Contains shift/reduce error
+
+
 def p_testlist(p):
     """testlist : testlist_multi COMMA
                 | testlist_multi """
@@ -585,6 +646,7 @@ def p_testlist(p):
     # Convert into a tuple?
     if isinstance(p[0], list):
         p[0] = ast.Tuple(p[0])
+
 
 def p_testlist_multi(p):
     """testlist_multi : testlist_multi COMMA test
@@ -605,7 +667,6 @@ def p_testlist_multi(p):
 def p_test(p):
     "test : comparison"
     p[0] = p[1]
-    
 
 
 # arglist: (argument ',')* (argument [',']| '*' test [',' '**' test] | '**' test)
@@ -619,17 +680,20 @@ def p_arglist(p):
         p[0] = [p[1]]
 
 # argument: test [gen_for] | test '=' test  # Really [keyword '='] test
+
+
 def p_argument(p):
     "argument : test"
     p[0] = p[1]
 
+
 def p_error(p):
-    #print "Error!", repr(p)
+    # print "Error!", repr(p)
     raise SyntaxError(p)
 
 
 class GardenSnakeParser(object):
-    def __init__(self, lexer = None):
+    def __init__(self, lexer=None):
         if lexer is None:
             lexer = IndentLexer()
         self.lexer = lexer
@@ -637,20 +701,20 @@ class GardenSnakeParser(object):
 
     def parse(self, code):
         self.lexer.input(code)
-        result = self.parser.parse(lexer = self.lexer)
+        result = self.parser.parse(lexer=self.lexer)
         return ast.Module(None, result)
 
 
 ###### Code generation ######
-    
-from compiler import misc, syntax, pycodegen
+
 
 class GardenSnakeCompiler(object):
     def __init__(self):
         self.parser = GardenSnakeParser()
+
     def compile(self, code, filename="<string>"):
         tree = self.parser.parse(code)
-        #print  tree
+        # print  tree
         misc.set_filename(filename, tree)
         syntax.check(tree)
         gen = pycodegen.ModuleCodeGenerator(tree)
@@ -658,7 +722,8 @@ class GardenSnakeCompiler(object):
         return code
 
 ####### Test code #######
-    
+
+
 compile = GardenSnakeCompiler().compile
 
 code = r"""
@@ -698,8 +763,11 @@ print('BIG DECIMAL', 1.234567891234567e12345)
 """
 
 # Set up the GardenSnake run-time environment
+
+
 def print_(*args):
-    print "-->", " ".join(map(str,args))
+    print "-->", " ".join(map(str, args))
+
 
 globals()["print"] = print_
 

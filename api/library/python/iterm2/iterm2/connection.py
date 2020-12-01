@@ -7,14 +7,15 @@ import traceback
 import typing
 import websockets
 try:
-  import AppKit
-  import iterm2.auth
-  gAppKitAvailable = True
+    import AppKit
+    import iterm2.auth
+    gAppKitAvailable = True
 except:
-  gAppKitAvailable = False
+    gAppKitAvailable = False
 
 import iterm2.api_pb2
 from iterm2._version import __version__
+
 
 def _getenv(key):
     """Gets an environment variable safely.
@@ -120,7 +121,6 @@ class Connection:
                     raise
                 else:
                     raise
-
 
     def __init__(self):
         self.websocket = None
@@ -350,13 +350,12 @@ class Connection:
             extra_headers=_headers(),
             subprotocols=_subprotocols())
 
-
     def _get_tcp_connect_coro(self):
         """Legacy: connect with tcp socket."""
         return websockets.connect(_uri(),
-                                        ping_interval=None,
-                                        extra_headers=_headers(),
-                                        subprotocols=_subprotocols())
+                                  ping_interval=None,
+                                  extra_headers=_headers(),
+                                  subprotocols=_subprotocols())
 
     def authenticate(self, force):
         """
@@ -473,7 +472,8 @@ or run_forever()
                         path = self._unix_domain_socket_path()
                         exists = os.path.exists(path)
                         if exists:
-                            print(f"If you have downgraded from iTerm2 3.3.12+ to an older version, you must\nmanually delete the file at {path}.\n", file=sys.stderr)
+                            print(
+                                f"If you have downgraded from iTerm2 3.3.12+ to an older version, you must\nmanually delete the file at {path}.\n", file=sys.stderr)
                     done = True
                     raise
             finally:

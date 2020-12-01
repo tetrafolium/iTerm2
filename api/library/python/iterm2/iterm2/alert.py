@@ -16,6 +16,7 @@ class Alert:
 
     .. seealso:: Example ":ref:`oneshot_example`"
     """
+
     def __init__(
             self,
             title: str,
@@ -78,6 +79,7 @@ class TextInputAlert:
     :param window_id: Window ID to attach to, or None to make app-modal.
     """
     # pylint: disable=too-many-arguments
+
     def __init__(
             self,
             title: str,

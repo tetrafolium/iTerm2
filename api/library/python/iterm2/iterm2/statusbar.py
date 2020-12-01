@@ -18,6 +18,7 @@ import iterm2.util
 # pylint: disable=too-many-instance-attributes
 class Knob:
     """Represents a configuration setting on a status bar."""
+
     def __init__(self, knob_type, name, placeholder, json_default_value, key):
         self.__name = name
         self.__type = knob_type
@@ -44,6 +45,7 @@ class CheckboxKnob:
     :param default_value: Default value (Boolean).
     :param key: A unique string key identifying this knob.
     """
+
     def __init__(self, name: str, default_value: bool, key: str):
         self.__knob = Knob(
             (iterm2.api_pb2.RPCRegistrationRequest.
@@ -67,6 +69,7 @@ class StringKnob:
     :param default_value: Default value.
     :param key: A unique string key identifying this knob.
     """
+
     def __init__(
             self, name: str, placeholder: str, default_value: str, key: str):
         self.__knob = Knob(
@@ -91,6 +94,7 @@ class PositiveFloatingPointKnob:
     :param default_value: Default value.
     :param key: A unique string key identifying this knob.
     """
+
     def __init__(self, name: str, default_value: float, key: str):
         self.__knob = Knob(
             (iterm2.api_pb2.RPCRegistrationRequest.
@@ -112,6 +116,7 @@ class ColorKnob:
     :param default_value: Default value.
     :param key: A unique string key identifying this knob
     """
+
     def __init__(self, name: str, default_value: iterm2.color.Color, key: str):
         self.__knob = Knob(
             (iterm2.api_pb2.RPCRegistrationRequest.
@@ -166,6 +171,7 @@ class StatusBarComponent:
         :param base64_data: Base64-encoded data with the icon's image in PNG
             format.
         """
+
         def __init__(self, scale: float, base64_data: str):
             self.__scale = scale
             self.__data = base64.b64decode(base64_data)

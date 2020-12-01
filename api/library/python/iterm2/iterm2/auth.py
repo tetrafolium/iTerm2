@@ -7,24 +7,31 @@ import pathlib
 import sys
 import typing
 
+
 class AuthenticationException(Exception):
     pass
+
 
 def run_applescript(script):
     s = Foundation.NSAppleScript.alloc().initWithSource_(script)
     return s.executeAndReturnError_(None)
 
+
 def get_string(result):
     return result[0].stringValue()
+
 
 def get_error(result):
     return result[1]["NSAppleScriptErrorNumber"]
 
+
 def has_error(result):
     return result[0] is None
 
+
 def get_error_reason(result):
     return result[1]["NSAppleScriptErrorBriefMessage"]
+
 
 def get_script_name():
     name = None
@@ -38,6 +45,7 @@ def get_script_name():
     if not name:
         name = "Unknown"
     return name
+
 
 def request_cookie_and_key(
         launch_if_needed: bool, myname: typing.Optional[str]):
@@ -58,8 +66,8 @@ def request_cookie_and_key(
     if justName is None:
         justName = get_script_name()
     s = Foundation.NSAppleScript.alloc().initWithSource_(
-            'tell application "iTerm2" to request cookie and key ' +
-            f'for app named "{justName}"')
+        'tell application "iTerm2" to request cookie and key ' +
+        f'for app named "{justName}"')
     result = s.executeAndReturnError_(None)
     if has_error(result):
         if get_error(result) == -2740:
@@ -69,10 +77,11 @@ def request_cookie_and_key(
         raise AuthenticationException(reason)
     return get_string(result)
 
+
 class LSBackgroundContextManager():
     def __init__(self):
         self.__value = AppKit.NSBundle.mainBundle().infoDictionary().get(
-                "LSBackgroundOnly")
+            "LSBackgroundOnly")
 
     def __enter__(self):
         info = AppKit.NSBundle.mainBundle().infoDictionary()
@@ -85,8 +94,10 @@ class LSBackgroundContextManager():
         else:
             del info["LSBackgroundOnly"]
 
+
 def applescript_auth_disabled():
-    filename = os.path.expanduser("~/Library/Application Support/iTerm2/disable-automation-auth")
+    filename = os.path.expanduser(
+        "~/Library/Application Support/iTerm2/disable-automation-auth")
     try:
         magic = "61DF88DC-3423-4823-B725-22570E01C027"
         expected = filename.encode("utf-8").hex() + " " + magic
@@ -99,6 +110,7 @@ def applescript_auth_disabled():
             return f.read() == expected
     except:
         return False
+
 
 def authenticate(
         launch_if_needed: bool = False,

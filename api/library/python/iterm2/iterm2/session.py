@@ -149,6 +149,7 @@ class Splitter:
 
 class SessionLineInfo:
     """Describes a session's geometry."""
+
     def __init__(self, line_info):
         self.__line_info = line_info
 
@@ -988,7 +989,8 @@ class Session:
             "endX": range.end.x,
             "endY": range.end.y,
             "text": text}
-        invocation = iterm2.util.invocation_string("iterm2.add_annotation", args)
+        invocation = iterm2.util.invocation_string(
+            "iterm2.add_annotation", args)
         await iterm2.rpc.async_invoke_method(self.connection, self.session_id, invocation, -1)
 
     async def async_run_coprocess(self, command_line: str) -> bool:
@@ -1021,6 +1023,7 @@ class ProxySession(Session):
     functionality since it doesn't make sense to, for example, get the screen
     contents of "all" sessions.
     """
+
     def __init__(self, connection, session_id):
         super().__init__(connection, session_id)
         self.__session_id = session_id

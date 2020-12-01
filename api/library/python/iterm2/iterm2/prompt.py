@@ -9,12 +9,16 @@ import iterm2.connection
 import iterm2.notifications
 import iterm2.rpc
 
+
 class PromptState(enum.Enum):
     """Describes the states that a command prompt can take."""
-    UNKNOWN = -1  #: This version of iTerm2 does not report prompt state (you should upgrade)
+    UNKNOWN = - \
+        1  #: This version of iTerm2 does not report prompt state (you should upgrade)
     EDITING = 0  #: User is editing the command at the prompt
-    RUNNING = 1  #: The last entered command is still executing, and has not finished yet.
-    FINISHED = 3  #: The last entered command has finished but there hasn't been a new prompt yet (rare).
+    #: The last entered command is still executing, and has not finished yet.
+    RUNNING = 1
+    #: The last entered command has finished but there hasn't been a new prompt yet (rare).
+    FINISHED = 3
 
 
 class Prompt:
@@ -24,6 +28,7 @@ class Prompt:
     construct this object yourself. Use :func:`~async_get_last_prompt` to get
     an instance.
     """
+
     def __init__(self, proto):
         self.__proto = proto
 
@@ -75,6 +80,7 @@ class Prompt:
             return self.__proto.unique_prompt_id
         return None
 
+
 async def async_get_last_prompt(
         connection: iterm2.connection.Connection,
         session_id: str) -> typing.Union[None, Prompt]:
@@ -99,6 +105,7 @@ async def async_get_last_prompt(
         return None
     raise iterm2.rpc.RPCException(
         iterm2.api_pb2.GetPromptResponse.Status.Name(status))
+
 
 async def async_get_prompt_by_id(
         connection: iterm2.connection.Connection,
@@ -128,11 +135,12 @@ async def async_get_prompt_by_id(
     raise iterm2.rpc.RPCException(
         iterm2.api_pb2.GetPromptResponse.Status.Name(status))
 
+
 async def async_list_prompts(
-    connection: iterm2.connection.Connection,
-    session_id: str,
-    first: typing.Optional[str] = None,
-    last: typing.Optional[str] = None) -> typing.Optional[Prompt]:
+        connection: iterm2.connection.Connection,
+        session_id: str,
+        first: typing.Optional[str] = None,
+        last: typing.Optional[str] = None) -> typing.Optional[Prompt]:
     """
     Fetches a list of prompt unique IDs in a session.
 
@@ -156,6 +164,7 @@ async def async_list_prompts(
 
     raise iterm2.rpc.RPCException(
         iterm2.api_pb2.GetPromptResponse.Status.Name(status))
+
 
 class PromptMonitor:
     """
@@ -185,9 +194,12 @@ class PromptMonitor:
         """The mode for a prompt monitor."""
 
         # pylint: disable=line-too-long
-        PROMPT = iterm2.api_pb2.PromptMonitorMode.Value("PROMPT")  #: Notify when prompt detected
-        COMMAND_START = iterm2.api_pb2.PromptMonitorMode.Value("COMMAND_START")  #: Notify when a command begins execution
-        COMMAND_END = iterm2.api_pb2.PromptMonitorMode.Value("COMMAND_END")  #: Notify when a command finishes execution
+        PROMPT = iterm2.api_pb2.PromptMonitorMode.Value(
+            "PROMPT")  #: Notify when prompt detected
+        COMMAND_START = iterm2.api_pb2.PromptMonitorMode.Value(
+            "COMMAND_START")  #: Notify when a command begins execution
+        COMMAND_END = iterm2.api_pb2.PromptMonitorMode.Value(
+            "COMMAND_END")  #: Notify when a command finishes execution
         # pylint: enable=line-too-long
 
     def __init__(
@@ -259,7 +271,7 @@ class PromptMonitor:
                     message.command_start.command, message.unique_prompt_id)
         if which == 'command_end':
             return (PromptMonitor.Mode.COMMAND_END, message.command_end.status,
-                message.unique_prompt_id)
+                    message.unique_prompt_id)
         raise iterm2.rpc.RPCException(
             f'Unexpected oneof in prompt notification: {message}')
 

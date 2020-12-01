@@ -44,6 +44,7 @@ class SubSelection:
     :param connected: If true, no newline exists between this and the next
         sub-selection.
     """
+
     def __init__(
             self,
             windowed_coord_range: iterm2.util.WindowedCoordRange,
@@ -75,8 +76,10 @@ class SubSelection:
         """Creates a protobuf for this sub-selection."""
         # pylint: disable=no-member
         sub_selection = iterm2.api_pb2.SubSelection()
-        sub_selection.windowed_coord_range.CopyFrom(self.__windowed_coord_range.proto)
-        sub_selection.selection_mode = SelectionMode.to_proto_value(self.__mode)
+        sub_selection.windowed_coord_range.CopyFrom(
+            self.__windowed_coord_range.proto)
+        sub_selection.selection_mode = SelectionMode.to_proto_value(
+            self.__mode)
         return sub_selection
 
     @property
@@ -153,6 +156,7 @@ class Selection:
 
     :param sub_selections: An array of :class:`SubSelection` objects.
     """
+
     def __init__(self, sub_selections: typing.List[SubSelection]):
         self.__sub_selections = sub_selections
 

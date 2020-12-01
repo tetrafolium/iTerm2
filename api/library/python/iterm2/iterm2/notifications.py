@@ -12,11 +12,11 @@ import iterm2.rpc
 # pylint: disable=no-member
 RPC_ROLE_GENERIC = iterm2.api_pb2.RPCRegistrationRequest.Role.Value("GENERIC")
 RPC_ROLE_SESSION_TITLE = iterm2.api_pb2.RPCRegistrationRequest.Role.Value(
-        "SESSION_TITLE")
+    "SESSION_TITLE")
 RPC_ROLE_STATUS_BAR_COMPONENT = (
     iterm2.api_pb2.RPCRegistrationRequest.Role.Value("STATUS_BAR_COMPONENT"))
 RPC_ROLE_CONTEXT_MENU = iterm2.api_pb2.RPCRegistrationRequest.Role.Value(
-        "CONTEXT_MENU")
+    "CONTEXT_MENU")
 
 # pylint: enable=no-member
 
@@ -364,10 +364,10 @@ async def async_subscribe_to_server_originated_rpc_notification(
             rpc_registration_request.status_bar_component_attributes)
     elif context_menu_display_name is not None:
         (rpc_registration_request.context_menu_attributes.
-                display_name) = context_menu_display_name
+         display_name) = context_menu_display_name
         assert context_menu_unique_id
         (rpc_registration_request.context_menu_attributes.
-                unique_identifier) = context_menu_unique_id
+         unique_identifier) = context_menu_unique_id
 
     return await _async_subscribe(
         connection,

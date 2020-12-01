@@ -49,6 +49,7 @@ class Arrangement:
             raise SavedArrangementException(
                 iterm2.api_pb2.SavedArrangementResponse.Status.Name(
                     result.saved_arrangement_response.status))
+
     @staticmethod
     async def async_list(
             connection: iterm2.connection.Connection) -> typing.List[str]:
@@ -75,4 +76,3 @@ class Arrangement:
                 iterm2.api_pb2.SavedArrangementResponse.Status.Name(
                     result.saved_arrangement_response.status))
         return result.saved_arrangement_response.names
-

@@ -5,6 +5,7 @@ import iterm2
 # This script was created with the "basic" environment which does not support adding dependencies
 # with pip.
 
+
 async def main(connection):
     # This is an example of using an asyncio context manager to register a custom control
     # sequence. You can send a custom control sequence by issuing this command in a
