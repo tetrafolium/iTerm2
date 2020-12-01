@@ -8,26 +8,26 @@ inspecode:
     astyle:
     - input: sources/
       auto-fix: true
-      thresholds: {num-issues: 999}
+      thresholds: {num-issues: 997}
     - ignore: sources/
       auto-fix: true
-      thresholds: {num-issues: 999}
+      thresholds: {num-issues: 358}
 
     clang-format:
     - input:  sources/*.h
       auto-fix: true
-      thresholds: {num-issues: 999}
+      thresholds: {num-issues: 622}
     - ignore: sources/*.h
       input:  sources/
       auto-fix: true
-      thresholds: {num-issues: 999}
+      thresholds: {num-issues: 806}
     - ignore: sources/
       auto-fix: true
-      thresholds: {num-issues: 999}
+      thresholds: {num-issues: 459}
 
     cpd:
       options: [--skip-lexical-errors]
-      thresholds: {num-issues: 999}
+      thresholds: {num-issues: 342}
 
     cppcheck:
       thresholds: {num-issues: 3}
@@ -39,7 +39,7 @@ inspecode:
           - -readability/casting
           - -build/header_guard
           - -legal/copyright
-      thresholds: {num-issues: 999}
+      thresholds: {num-issues: 374}
 
     # fortify:
     #   thresholds: {num-issues: 999}
