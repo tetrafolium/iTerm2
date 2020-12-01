@@ -16,7 +16,7 @@
 /** Euclidean distance from self.key to |key| */
 - (double)distanceTo:(NSArray *)key;
 
-/** Returns this subtree in Graphviz's "dot" langauge format. */
+/** Returns this subtree in Graphviz's "dot" language format. */
 - (NSString *)dot;
 
 @end

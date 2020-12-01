@@ -14,7 +14,7 @@
  * CPTokenStreams store the output of a tokeniser ready for parsing.
  *
  * This class manages a thread safe buffer between tokenising and parsing
- * threads, blocking as apropriate to wait for new tokens. When a tokeniser has
+ * threads, blocking as appropriate to wait for new tokens. When a tokeniser has
  * consumed its entire input it should call -closeTokenStream to notify parsers
  * that no further input will be found. Tokenisers that consume their entire
  * input with no errors should produce a CPEOFToken at the end of the stream to

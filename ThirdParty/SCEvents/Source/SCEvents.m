@@ -338,7 +338,7 @@ static void _events_callback(ConstFSEventStreamRef streamRef,
     /* Please note that we are estimating the date for when the event occurred
      * because the FSEvents API does not provide us with it. This date however
      * should not be taken as the date the event actually occurred and more
-     * appropriatly the date for when it was delivered to this callback
+     * appropriately the date for when it was delivered to this callback
      * function. Depending on what the notification latency is set to, this
      * means that some events may have very close event dates because this
      * callback is only called once with events that occurred within the latency

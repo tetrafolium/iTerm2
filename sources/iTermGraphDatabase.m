@@ -273,7 +273,7 @@
   [state.db close];
   [state.db unlink];
   if (![self openAndInitializeDatabase:state]) {
-    DLog(@"Failed to open and initialize datbase after deleting it.");
+    DLog(@"Failed to open and initialize database after deleting it.");
     return NO;
   }
   if (!encoder) {

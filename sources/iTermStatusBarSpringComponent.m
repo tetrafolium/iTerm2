@@ -65,7 +65,7 @@ static NSString *const iTermStatusBarSpringComponentSizeMultipleKey =
     return @"Empty space that draws only a background color.";
   case iTermStatusBarLayoutAlgorithmSettingTightlyPacked:
     return @"Pushes items apart. Use one spring to right-align status bar "
-           @"elements that follow it. Use two to center those inbetween.";
+           @"elements that follow it. Use two to center those between.";
   }
 }
 

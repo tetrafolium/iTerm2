@@ -47,7 +47,7 @@
 
 @end
 
-// This outsources accessibilty methods for PTYTextView. It's useful to keep
+// This outsources accessibility methods for PTYTextView. It's useful to keep
 // separate because it operates on a subset of the lines of the terminal and
 // there's a clean interface here.
 @interface iTermTextViewAccessibilityHelper : NSObject

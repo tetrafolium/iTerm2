@@ -293,7 +293,7 @@ NSString *const kSemanticHistoryColumnNumberKey =
     return;
   }
 
-  // Find the regular emacs exectuable to fall back to
+  // Find the regular emacs executable to fall back to
   NSString *emacs = [self executableInApplicationBundle:bundle];
   if (!emacs) {
     DLog(@"No executable for emacs in %@", bundle);

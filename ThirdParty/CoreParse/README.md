@@ -111,7 +111,7 @@ else
 }
 ```
 
-When a rule is matched by the parser, the `initWithSyntaxTree:` method will be called on a new instance of the apropriate class.  If no such class exists the parser delegate's `parser:didProduceSyntaxTree:` method is called.  To deal with this cleanly, we implement 3 classes: Expression; Term; and Factor.  AddOp and MulOp non-terminals are dealt with by the parser delegate.  Here we see the initWithSyntaxTree: method for the Expression class, these methods are similar for Term and Factor:
+When a rule is matched by the parser, the `initWithSyntaxTree:` method will be called on a new instance of the appropriate class.  If no such class exists the parser delegate's `parser:didProduceSyntaxTree:` method is called.  To deal with this cleanly, we implement 3 classes: Expression; Term; and Factor.  AddOp and MulOp non-terminals are dealt with by the parser delegate.  Here we see the initWithSyntaxTree: method for the Expression class, these methods are similar for Term and Factor:
     
 ```objective-c
 - (id)initWithSyntaxTree:(CPSyntaxTree *)syntaxTree

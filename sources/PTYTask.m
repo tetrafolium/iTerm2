@@ -854,7 +854,7 @@ static void HandleSigChld(int n) {
   case iTermJobManagerForkAndExecStatusSuccess:
     // Parent
     [self setTty:self.jobManager.tty];
-    DLog(@"finished succesfully");
+    DLog(@"finished successfully");
     break;
 
   case iTermJobManagerForkAndExecStatusTempFileError:

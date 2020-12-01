@@ -187,7 +187,7 @@
   return _leftAlignedAttributedString;
 }
 
-// In the neverending saga of Cocoa embarassing itself, if there isn't enough
+// In the neverending saga of Cocoa embarrassing itself, if there isn't enough
 // space for a text attachment and the text that follows it, they are drawn
 // overlapping.
 - (NSAttributedString *)truncatedAttributedStringForWidth:(CGFloat)width

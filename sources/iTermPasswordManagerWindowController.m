@@ -284,7 +284,7 @@ static NSString *const iTermPasswordManagerAccountNameUserNameSeparator =
   [_searchField setArrowHandler:_tableView];
   __weak __typeof(self) weakSelf = self;
 
-  // Only create event monitor once. This is out of paranioa because there are
+  // Only create event monitor once. This is out of paranoia because there are
   // weird cases where awakeFromNib is called more than once.
   if (!_eventMonitor) {
     _eventMonitor = [NSEvent

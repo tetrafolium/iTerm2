@@ -181,7 +181,7 @@
              beforeRecogniser:(id<CPTokenRecogniser>)other;
 
 /**
- * Removes all occurances of recogniser in the tokeniser's priority list.
+ * Removes all occurrences of recogniser in the tokeniser's priority list.
  *
  * @param recogniser The token recogniser to remove.
  * @see addTokenRecogniser:

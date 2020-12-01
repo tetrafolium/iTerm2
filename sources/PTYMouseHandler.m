@@ -66,7 +66,7 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
   iTermImageInfo *_imageBeingClickedOn;
   NSEvent *_mouseDownEvent;
 
-  // Work around an embarassing macOS bug. Issue 8350.
+  // Work around an embarrassing macOS bug. Issue 8350.
   BOOL _makingThreeFingerSelection;
 
   iTermSelectionScrollHelper *_selectionScrollHelper;

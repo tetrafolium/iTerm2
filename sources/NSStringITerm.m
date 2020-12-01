@@ -215,7 +215,7 @@
   for (NSInteger i = 0; !stop && i < length; i++) {
     unichar c = [self characterAtIndex:i];
     if (IsHighSurrogate(c)) {
-      // If the previous character was also a high surrogate, quitely ignore it.
+      // If the previous character was also a high surrogate, quietly ignore it.
       expectingLowSurrogate = YES;
       highSurrogate = c;
       continue;
@@ -225,7 +225,7 @@
         block(DecodeSurrogatePair(highSurrogate, c), &stop);
         expectingLowSurrogate = NO;
       }
-      // If the previous character was not a high surrogate, quitely ignore this
+      // If the previous character was not a high surrogate, quietly ignore this
       // one.
       continue;
     }

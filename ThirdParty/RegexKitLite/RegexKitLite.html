@@ -2492,12 +2492,12 @@ shell% </span><span class="cursor" title="Shell cursor">&#9612;</span></div>
 <tr><td id="ICUSyntax_ICURegularExpressionSyntax_white_space"><span class="regex">\s</span></td><td>Match a <span class="regex-def">white space</span> character. White space is defined as <span class="regex">[\t\n\f\r\p{Z}]</span>.</td></tr>
 <tr><td><span class="regex">\S</span></td><td>Match a <span class="hardNobr">non-<span class="regex-def">white space</span></span> character.</td></tr>
 <tr><td><span class="regex">\t</span></td><td>Match a <span class="unicodeCharName" title="Unicode Character Name">HORIZONTAL TABULATION</span>, <span class="consoleText">\u0009</span>.</td></tr>
-<tr><td><span class="hardNobr"><span class="regex">\u</span><i>hhhh</i></span></td><td>Match the character with the hex value <i title="Hexidecimal Number">hhhh</i>.</td></tr>
-<tr><td><span class="hardNobr"><span class="regex">\U</span><i title="Hexidecimal Number">hhhhhhhh</i></span></td><td>Match the character with the hex value <i title="Hexidecimal Number">hhhhhhhh</i>. Exactly eight hex digits must be provided, even though the largest Unicode code point is <span class="consoleText">\U0010ffff</span>.</td></tr>
+<tr><td><span class="hardNobr"><span class="regex">\u</span><i>hhhh</i></span></td><td>Match the character with the hex value <i title="Hexadecimal Number">hhhh</i>.</td></tr>
+<tr><td><span class="hardNobr"><span class="regex">\U</span><i title="Hexadecimal Number">hhhhhhhh</i></span></td><td>Match the character with the hex value <i title="Hexadecimal Number">hhhhhhhh</i>. Exactly eight hex digits must be provided, even though the largest Unicode code point is <span class="consoleText">\U0010ffff</span>.</td></tr>
 <tr><td><span class="regex">\w</span></td><td>Match a word character. Word characters are <span class="regex">[\p{Ll}\p{Lu}\p{Lt}\p{Lo}\p{Nd}]</span>.</td></tr>
 <tr><td><span class="regex">\W</span></td><td>Match a <span class="hardNobr">non-word</span> character.</td></tr>
-<tr><td><span class="hardNobr"><span class="regex">\x{</span><i title="Hexidecimal Number">h</i>&hellip;<span class="regex">}</span></span></td><td>Match the character with hex value <i title="Hexidecimal Number">hhhh</i>. From one to six hex digits may be supplied.</td></tr>
-<tr><td><span class="hardNobr"><span class="regex">\x</span><i title="Hexidecimal Number">hh</i></span></td><td>Match the character with two digit hex value <i title="Hexidecimal Number">hh</i>.</td></tr>
+<tr><td><span class="hardNobr"><span class="regex">\x{</span><i title="Hexadecimal Number">h</i>&hellip;<span class="regex">}</span></span></td><td>Match the character with hex value <i title="Hexadecimal Number">hhhh</i>. From one to six hex digits may be supplied.</td></tr>
+<tr><td><span class="hardNobr"><span class="regex">\x</span><i title="Hexadecimal Number">hh</i></span></td><td>Match the character with two digit hex value <i title="Hexadecimal Number">hh</i>.</td></tr>
 <tr><td><span class="regex">\X</span></td><td>Match a <a href="http://www.unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries" class="section-link printURL_small">Grapheme Cluster</a>.</td></tr>
 <tr><td><span class="regex">\Z</span></td><td>Match if the current position is at the end of input, but before the final line terminator, if one exists.</td></tr>
 <tr><td><span class="regex">\z</span></td><td>Match if the current position is at the end of input.</td></tr>
@@ -2661,9 +2661,9 @@ shell% </span><span class="cursor" title="Shell cursor">&#9612;</span></div>
   
   <table class="regexSyntax">
     <tr><th>Pattern</th><th>Description</th></tr>
-    <tr><td><span class="regex">\u</span><i title="Hexidecimal Number">hhhh</i></td><td>Exactly 4 hex digits; <i>h</i> in <span class="regex">[0-9A-Fa-f]</span></td></tr>
-    <tr><td><span class="regex">\U</span><i title="Hexidecimal Number">hhhhhhhh</i></td><td>Exactly 8 hex digits</td></tr>
-    <tr><td><span class="regex">\x</span><i title="Hexidecimal Number">hh</i></td><td>1-2 hex digits</td></tr>
+    <tr><td><span class="regex">\u</span><i title="Hexadecimal Number">hhhh</i></td><td>Exactly 4 hex digits; <i>h</i> in <span class="regex">[0-9A-Fa-f]</span></td></tr>
+    <tr><td><span class="regex">\U</span><i title="Hexadecimal Number">hhhhhhhh</i></td><td>Exactly 8 hex digits</td></tr>
+    <tr><td><span class="regex">\x</span><i title="Hexadecimal Number">hh</i></td><td>1-2 hex digits</td></tr>
     <tr><td><span class="regex">\</span><i>ooo</i></td><td>1-3 octal digits; <i>o</i> in <span class="regex">[0-7]</span></td></tr>
     <tr><td><span class="regex">\a</span></td><td><span class="code">U+0007</span> <span class="unicodeCharName" title="Unicode Character Name">BELL</span></td></tr>
     <tr><td><span class="regex">\b</span></td><td><span class="code">U+0008</span> <span class="unicodeCharName" title="Unicode Character Name">BACKSPACE</span></td></tr>
