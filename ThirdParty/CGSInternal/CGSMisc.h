@@ -27,16 +27,21 @@
 CG_EXTERN_C_BEGIN
 
 /*! DOCUMENTATION PENDING */
-CG_EXTERN CGError CGSFetchDirtyScreenRegion(CGSConnectionID cid, CGSRegionObj *outDirtyRegion);
+CG_EXTERN CGError CGSFetchDirtyScreenRegion(CGSConnectionID cid,
+                                            CGSRegionObj *outDirtyRegion);
 
 /*! Is someone watching this screen? Applies to Apple's remote desktop only? */
 CG_EXTERN bool CGSIsScreenWatcherPresent(void);
 
-/*! Returns	`True` if the application has been deemed unresponsive for a certain amount of time. */
-CG_EXTERN bool CGSEventIsAppUnresponsive(CGSConnectionID cid, const ProcessSerialNumber *psn);
+/*! Returns	`True` if the application has been deemed unresponsive for a
+ * certain amount of time. */
+CG_EXTERN bool CGSEventIsAppUnresponsive(CGSConnectionID cid,
+                                         const ProcessSerialNumber *psn);
 
-/*! Sets the amount of time it takes for an application to be considered unresponsive. */
-CG_EXTERN CGError CGSEventSetAppIsUnresponsiveNotificationTimeout(CGSConnectionID cid, double theTime);
+/*! Sets the amount of time it takes for an application to be considered
+ * unresponsive. */
+CG_EXTERN CGError CGSEventSetAppIsUnresponsiveNotificationTimeout(
+    CGSConnectionID cid, double theTime);
 
 /*! Sets the cursor position. */
 CG_EXTERN CGError CGSWarpCursorPosition(CGSConnectionID cid, float x, float y);
@@ -45,13 +50,17 @@ CG_EXTERN CGError CGSWarpCursorPosition(CGSConnectionID cid, float x, float y);
 CG_EXTERN CGError CGSHideBackstopMenuBar(CGSConnectionID cid);
 CG_EXTERN CGError CGSShowBackstopMenuBar(CGSConnectionID cid);
 
-/*! Determines if this computer is portable. Internally this just checks to see if it has a battery. */
+/*! Determines if this computer is portable. Internally this just checks to see
+ * if it has a battery. */
 CG_EXTERN bool CGSIsPortableMachine(void);
 
-/*! Sets the area taken up by the dock. Requires the caller to be a universal owner. */
-CG_EXTERN CGError CGSSetDockRect(CGSConnectionID cid, float x, float y, float width, float height);
+/*! Sets the area taken up by the dock. Requires the caller to be a universal
+ * owner. */
+CG_EXTERN CGError CGSSetDockRect(CGSConnectionID cid, float x, float y,
+                                 float width, float height);
 
-/*! DOCUMENTATION PENDING - returns false. Perhaps related to the CGSTBE_QDACCEL env variable. */
+/*! DOCUMENTATION PENDING - returns false. Perhaps related to the CGSTBE_QDACCEL
+ * env variable. */
 CG_EXTERN bool CGSIsClassicBuffered(void);
 
 #pragma mark errors
@@ -65,8 +74,10 @@ CG_EXTERN CGError CGSGlobalErrorv(CGError err, const char *msg, ...);
 CG_EXTERN char *CGSErrorString(CGError error);
 
 #pragma mark input
-/*! Gets and sets the status of secure input. When secure input is enabled, keyloggers, etc are harder to do. */
+/*! Gets and sets the status of secure input. When secure input is enabled,
+ * keyloggers, etc are harder to do. */
 CG_EXTERN bool CGSIsSecureEventInputSet(void);
-CG_EXTERN CGError CGSSetSecureEventInput(CGSConnectionID cid, bool useSecureInput);
+CG_EXTERN CGError CGSSetSecureEventInput(CGSConnectionID cid,
+                                         bool useSecureInput);
 
 CG_EXTERN_C_END

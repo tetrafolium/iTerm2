@@ -37,13 +37,16 @@ typedef int CGSRegionEnumeratorObj;
 CG_EXTERN_C_BEGIN
 
 /*! Creates a region from a `CGRect`. */
-CG_EXTERN CGError CGSNewRegionWithRect(const CGRect *rect, CGSRegionObj *outRegion);
+CG_EXTERN CGError CGSNewRegionWithRect(const CGRect *rect,
+                                       CGSRegionObj *outRegion);
 
 /*! Creates a region from a list of `CGRect`s. */
-CG_EXTERN CGError CGSNewRegionWithRectList(const CGRect *rects, int rectCount, CGSRegionObj *outRegion);
+CG_EXTERN CGError CGSNewRegionWithRectList(const CGRect *rects, int rectCount,
+                                           CGSRegionObj *outRegion);
 
 /*! Creates a new region from a QuickDraw region. */
-CG_EXTERN CGError CGSNewRegionWithQDRgn(RgnHandle region, CGSRegionObj *outRegion);
+CG_EXTERN CGError CGSNewRegionWithQDRgn(RgnHandle region,
+                                        CGSRegionObj *outRegion);
 
 /*! Creates an empty region. */
 CG_EXTERN CGError CGSNewEmptyRegion(CGSRegionObj *outRegion);
@@ -58,19 +61,23 @@ CG_EXTERN CGError CGSGetRegionBounds(CGSRegionObj region, CGRect *outRect);
 CG_EXTERN bool CGSRegionsEqual(CGSRegionObj region1, CGSRegionObj region2);
 
 /* Created a new region by changing the origin an existing one. */
-CG_EXTERN CGError CGSOffsetRegion(CGSRegionObj region, float offsetLeft, float offsetTop, CGSRegionObj *outRegion);
+CG_EXTERN CGError CGSOffsetRegion(CGSRegionObj region, float offsetLeft,
+                                  float offsetTop, CGSRegionObj *outRegion);
 
 /*! Creates a new region by copying an existing one. */
 CG_EXTERN CGError CGSCopyRegion(CGSRegionObj region, CGSRegionObj *outRegion);
 
 /*! Creates a new region by combining two regions together. */
-CG_EXTERN CGError CGSUnionRegion(CGSRegionObj region1, CGSRegionObj region2, CGSRegionObj *outRegion);
+CG_EXTERN CGError CGSUnionRegion(CGSRegionObj region1, CGSRegionObj region2,
+                                 CGSRegionObj *outRegion);
 
 /*! Creates a new region by combining a region and a rect. */
-CG_EXTERN CGError CGSUnionRegionWithRect(CGSRegionObj region, CGRect *rect, CGSRegionObj *outRegion);
+CG_EXTERN CGError CGSUnionRegionWithRect(CGSRegionObj region, CGRect *rect,
+                                         CGSRegionObj *outRegion);
 
 /*! Creates a region by XORing two regions together. */
-CG_EXTERN CGError CGSXorRegion(CGSRegionObj region1, CGSRegionObj region2, CGSRegionObj *outRegion);
+CG_EXTERN CGError CGSXorRegion(CGSRegionObj region1, CGSRegionObj region2,
+                               CGSRegionObj *outRegion);
 
 /*! Determines if the region is empty. */
 CG_EXTERN bool CGSRegionIsEmpty(CGSRegionObj region);
@@ -91,11 +98,12 @@ CG_EXTERN bool CGSRegionInRegion(CGSRegionObj region1, CGSRegionObj region2);
 CG_EXTERN bool CGSRegionIntersectsRect(CGSRegionObj obj, const CGRect *rect);
 
 /*! Determines if a region intersects a region. */
-CG_EXTERN bool CGSRegionIntersectsRegion(CGSRegionObj region1, CGSRegionObj region2);
+CG_EXTERN bool CGSRegionIntersectsRegion(CGSRegionObj region1,
+                                         CGSRegionObj region2);
 
 /*! Creates a rect from the difference of two regions. */
-CG_EXTERN CGError CGSDiffRegion(CGSRegionObj region1, CGSRegionObj region2, CGSRegionObj *outRegion);
-
+CG_EXTERN CGError CGSDiffRegion(CGSRegionObj region1, CGSRegionObj region2,
+                                CGSRegionObj *outRegion);
 
 #pragma mark region enumerators
 /*! Gets the enumerator for a region. */
@@ -105,6 +113,6 @@ CG_EXTERN CGSRegionEnumeratorObj CGSRegionEnumerator(CGSRegionObj region);
 CG_EXTERN void CGSReleaseRegionEnumerator(CGSRegionEnumeratorObj enumerator);
 
 /*! Gets the next rect of a region. */
-CG_EXTERN CGRect* CGSNextRect(CGSRegionEnumeratorObj enumerator);
+CG_EXTERN CGRect *CGSNextRect(CGSRegionEnumeratorObj enumerator);
 
 CG_EXTERN_C_END

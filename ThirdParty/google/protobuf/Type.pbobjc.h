@@ -38,11 +38,11 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Enum GPBSyntax
 
 /** The syntax in which a protocol buffer element is defined. */
-typedef GPB_ENUM(GPBSyntax) {
+typedef GPB_ENUM(GPBSyntax){
     /**
      * Value used if any message's field encounters a value that is not defined
-     * by this enum. The message will also have C functions to get/set the rawValue
-     * of the field.
+     * by this enum. The message will also have C functions to get/set the
+     *rawValue of the field.
      **/
     GPBSyntax_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
     /** Syntax `proto2`. */
@@ -63,13 +63,14 @@ BOOL GPBSyntax_IsValidValue(int32_t value);
 #pragma mark - Enum GPBField_Kind
 
 /** Basic field types. */
-typedef GPB_ENUM(GPBField_Kind) {
+typedef GPB_ENUM(GPBField_Kind){
     /**
      * Value used if any message's field encounters a value that is not defined
-     * by this enum. The message will also have C functions to get/set the rawValue
-     * of the field.
+     * by this enum. The message will also have C functions to get/set the
+     *rawValue of the field.
      **/
-    GPBField_Kind_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+    GPBField_Kind_GPBUnrecognizedEnumeratorValue =
+        kGPBUnrecognizedEnumeratorValue,
     /** Field type unknown. */
     GPBField_Kind_TypeUnknown = 0,
 
@@ -139,13 +140,14 @@ BOOL GPBField_Kind_IsValidValue(int32_t value);
 #pragma mark - Enum GPBField_Cardinality
 
 /** Whether a field is optional, required, or repeated. */
-typedef GPB_ENUM(GPBField_Cardinality) {
+typedef GPB_ENUM(GPBField_Cardinality){
     /**
      * Value used if any message's field encounters a value that is not defined
-     * by this enum. The message will also have C functions to get/set the rawValue
-     * of the field.
+     * by this enum. The message will also have C functions to get/set the
+     *rawValue of the field.
      **/
-    GPBField_Cardinality_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+    GPBField_Cardinality_GPBUnrecognizedEnumeratorValue =
+        kGPBUnrecognizedEnumeratorValue,
     /** For fields with unknown cardinality. */
     GPBField_Cardinality_CardinalityUnknown = 0,
 
@@ -176,21 +178,18 @@ BOOL GPBField_Cardinality_IsValidValue(int32_t value);
  * @code
  *   + (GPBExtensionRegistry *)extensionRegistry;
  * @endcode
- * which is a @c GPBExtensionRegistry that includes all the extensions defined by
- * this file and all files that it depends on.
+ * which is a @c GPBExtensionRegistry that includes all the extensions defined
+ *by this file and all files that it depends on.
  **/
 @interface GPBTypeRoot : GPBRootObject
 @end
 
 #pragma mark - GPBType
 
-typedef GPB_ENUM(GPBType_FieldNumber) {
-    GPBType_FieldNumber_Name = 1,
-    GPBType_FieldNumber_FieldsArray = 2,
-    GPBType_FieldNumber_OneofsArray = 3,
-    GPBType_FieldNumber_OptionsArray = 4,
-    GPBType_FieldNumber_SourceContext = 5,
-    GPBType_FieldNumber_Syntax = 6,
+typedef GPB_ENUM(GPBType_FieldNumber){
+    GPBType_FieldNumber_Name = 1,          GPBType_FieldNumber_FieldsArray = 2,
+    GPBType_FieldNumber_OneofsArray = 3,   GPBType_FieldNumber_OptionsArray = 4,
+    GPBType_FieldNumber_SourceContext = 5, GPBType_FieldNumber_Syntax = 6,
 };
 
 /**
@@ -198,26 +197,33 @@ typedef GPB_ENUM(GPBType_FieldNumber) {
  **/
 @interface GPBType : GPBMessage
 
-    /** The fully qualified message name. */
+/** The fully qualified message name. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *name;
 
 /** The list of fields. */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<GPBField*> *fieldsArray;
-/** The number of items in @c fieldsArray without causing the array to be created. */
+@property(nonatomic, readwrite, strong, null_resettable)
+    NSMutableArray<GPBField *> *fieldsArray;
+/** The number of items in @c fieldsArray without causing the array to be
+ * created. */
 @property(nonatomic, readonly) NSUInteger fieldsArray_Count;
 
 /** The list of types appearing in `oneof` definitions in this type. */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<NSString*> *oneofsArray;
-/** The number of items in @c oneofsArray without causing the array to be created. */
+@property(nonatomic, readwrite, strong, null_resettable)
+    NSMutableArray<NSString *> *oneofsArray;
+/** The number of items in @c oneofsArray without causing the array to be
+ * created. */
 @property(nonatomic, readonly) NSUInteger oneofsArray_Count;
 
 /** The protocol buffer options. */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<GPBOption*> *optionsArray;
-/** The number of items in @c optionsArray without causing the array to be created. */
+@property(nonatomic, readwrite, strong, null_resettable)
+    NSMutableArray<GPBOption *> *optionsArray;
+/** The number of items in @c optionsArray without causing the array to be
+ * created. */
 @property(nonatomic, readonly) NSUInteger optionsArray_Count;
 
 /** The source context. */
-@property(nonatomic, readwrite, strong, null_resettable) GPBSourceContext *sourceContext;
+@property(nonatomic, readwrite, strong, null_resettable)
+    GPBSourceContext *sourceContext;
 /** Test to see if @c sourceContext has been set. */
 @property(nonatomic, readwrite) BOOL hasSourceContext;
 
@@ -240,17 +246,12 @@ void SetGPBType_Syntax_RawValue(GPBType *message, int32_t value);
 
 #pragma mark - GPBField
 
-typedef GPB_ENUM(GPBField_FieldNumber) {
-    GPBField_FieldNumber_Kind = 1,
-    GPBField_FieldNumber_Cardinality = 2,
-    GPBField_FieldNumber_Number = 3,
-    GPBField_FieldNumber_Name = 4,
-    GPBField_FieldNumber_TypeURL = 6,
-    GPBField_FieldNumber_OneofIndex = 7,
-    GPBField_FieldNumber_Packed = 8,
-    GPBField_FieldNumber_OptionsArray = 9,
-    GPBField_FieldNumber_JsonName = 10,
-    GPBField_FieldNumber_DefaultValue = 11,
+typedef GPB_ENUM(GPBField_FieldNumber){
+    GPBField_FieldNumber_Kind = 1,      GPBField_FieldNumber_Cardinality = 2,
+    GPBField_FieldNumber_Number = 3,    GPBField_FieldNumber_Name = 4,
+    GPBField_FieldNumber_TypeURL = 6,   GPBField_FieldNumber_OneofIndex = 7,
+    GPBField_FieldNumber_Packed = 8,    GPBField_FieldNumber_OptionsArray = 9,
+    GPBField_FieldNumber_JsonName = 10, GPBField_FieldNumber_DefaultValue = 11,
 };
 
 /**
@@ -258,7 +259,7 @@ typedef GPB_ENUM(GPBField_FieldNumber) {
  **/
 @interface GPBField : GPBMessage
 
-    /** The field type. */
+/** The field type. */
 @property(nonatomic, readwrite) GPBField_Kind kind;
 
 /** The field cardinality. */
@@ -286,8 +287,10 @@ typedef GPB_ENUM(GPBField_FieldNumber) {
 @property(nonatomic, readwrite) BOOL packed;
 
 /** The protocol buffer options. */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<GPBOption*> *optionsArray;
-/** The number of items in @c optionsArray without causing the array to be created. */
+@property(nonatomic, readwrite, strong, null_resettable)
+    NSMutableArray<GPBOption *> *optionsArray;
+/** The number of items in @c optionsArray without causing the array to be
+ * created. */
 @property(nonatomic, readonly) NSUInteger optionsArray_Count;
 
 /** The field JSON name. */
@@ -324,7 +327,7 @@ void SetGPBField_Cardinality_RawValue(GPBField *message, int32_t value);
 
 #pragma mark - GPBEnum
 
-typedef GPB_ENUM(GPBEnum_FieldNumber) {
+typedef GPB_ENUM(GPBEnum_FieldNumber){
     GPBEnum_FieldNumber_Name = 1,
     GPBEnum_FieldNumber_EnumvalueArray = 2,
     GPBEnum_FieldNumber_OptionsArray = 3,
@@ -337,21 +340,26 @@ typedef GPB_ENUM(GPBEnum_FieldNumber) {
  **/
 @interface GPBEnum : GPBMessage
 
-    /** Enum type name. */
+/** Enum type name. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *name;
 
 /** Enum value definitions. */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<GPBEnumValue*> *enumvalueArray;
-/** The number of items in @c enumvalueArray without causing the array to be created. */
+@property(nonatomic, readwrite, strong, null_resettable)
+    NSMutableArray<GPBEnumValue *> *enumvalueArray;
+/** The number of items in @c enumvalueArray without causing the array to be
+ * created. */
 @property(nonatomic, readonly) NSUInteger enumvalueArray_Count;
 
 /** Protocol buffer options. */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<GPBOption*> *optionsArray;
-/** The number of items in @c optionsArray without causing the array to be created. */
+@property(nonatomic, readwrite, strong, null_resettable)
+    NSMutableArray<GPBOption *> *optionsArray;
+/** The number of items in @c optionsArray without causing the array to be
+ * created. */
 @property(nonatomic, readonly) NSUInteger optionsArray_Count;
 
 /** The source context. */
-@property(nonatomic, readwrite, strong, null_resettable) GPBSourceContext *sourceContext;
+@property(nonatomic, readwrite, strong, null_resettable)
+    GPBSourceContext *sourceContext;
 /** Test to see if @c sourceContext has been set. */
 @property(nonatomic, readwrite) BOOL hasSourceContext;
 
@@ -374,7 +382,7 @@ void SetGPBEnum_Syntax_RawValue(GPBEnum *message, int32_t value);
 
 #pragma mark - GPBEnumValue
 
-typedef GPB_ENUM(GPBEnumValue_FieldNumber) {
+typedef GPB_ENUM(GPBEnumValue_FieldNumber){
     GPBEnumValue_FieldNumber_Name = 1,
     GPBEnumValue_FieldNumber_Number = 2,
     GPBEnumValue_FieldNumber_OptionsArray = 3,
@@ -385,22 +393,24 @@ typedef GPB_ENUM(GPBEnumValue_FieldNumber) {
  **/
 @interface GPBEnumValue : GPBMessage
 
-    /** Enum value name. */
+/** Enum value name. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *name;
 
 /** Enum value number. */
 @property(nonatomic, readwrite) int32_t number;
 
 /** Protocol buffer options. */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<GPBOption*> *optionsArray;
-/** The number of items in @c optionsArray without causing the array to be created. */
+@property(nonatomic, readwrite, strong, null_resettable)
+    NSMutableArray<GPBOption *> *optionsArray;
+/** The number of items in @c optionsArray without causing the array to be
+ * created. */
 @property(nonatomic, readonly) NSUInteger optionsArray_Count;
 
 @end
 
 #pragma mark - GPBOption
 
-typedef GPB_ENUM(GPBOption_FieldNumber) {
+typedef GPB_ENUM(GPBOption_FieldNumber){
     GPBOption_FieldNumber_Name = 1,
     GPBOption_FieldNumber_Value = 2,
 };
@@ -411,7 +421,7 @@ typedef GPB_ENUM(GPBOption_FieldNumber) {
  **/
 @interface GPBOption : GPBMessage
 
-    /** The option's name. For example, `"java_package"`. */
+/** The option's name. For example, `"java_package"`. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *name;
 
 /** The option's value. For example, `"com.google.protobuf"`. */

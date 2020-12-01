@@ -52,7 +52,9 @@
 // providing a local definition. The default case has to use NS_ENUM for the
 // magic that is Swift bridging of enums.
 #if (defined(__cplusplus) && __cplusplus && __cplusplus < 201103L)
-#define GPB_ENUM(X) enum X : int32_t X; enum X : int32_t
+#define GPB_ENUM(X)                                                            \
+  enum X : int32_t X;                                                          \
+  enum X : int32_t
 #else
 #define GPB_ENUM(X) NS_ENUM(int32_t, X)
 #endif
@@ -110,7 +112,6 @@
 // Minimum runtime version supported for compiling/running against.
 // - Gets changed when support for the older generated code is dropped.
 #define GOOGLE_PROTOBUF_OBJC_MIN_SUPPORTED_VERSION 30001
-
 
 // This is a legacy constant now frozen in time for old generated code. If
 // GOOGLE_PROTOBUF_OBJC_MIN_SUPPORTED_VERSION ever gets moved above 30001 then

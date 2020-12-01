@@ -6,8 +6,8 @@
 //  Copyright 2005 Flying Meat Inc.. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "FMDatabase.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -24,88 +24,93 @@ NS_ASSUME_NONNULL_BEGIN
 /// @name Return results of SQL to variable
 ///----------------------------------------
 
-    /** Return @c int  value for query
+/** Return @c int  value for query
 
-     @param query The SQL query to be performed, followed by a list of parameters that will be bound to the `?` placeholders in the SQL query.
+ @param query The SQL query to be performed, followed by a list of parameters
+ that will be bound to the `?` placeholders in the SQL query.
 
-     @return @c int  value.
+ @return @c int  value.
 
-     @note This is not available from Swift.
-     */
+ @note This is not available from Swift.
+ */
 
-- (int)intForQuery:(NSString*)query, ...;
+- (int)intForQuery:(NSString *)query, ...;
 
 /** Return @c long  value for query
 
- @param query The SQL query to be performed, followed by a list of parameters that will be bound to the `?` placeholders in the SQL query.
+ @param query The SQL query to be performed, followed by a list of parameters
+ that will be bound to the `?` placeholders in the SQL query.
 
  @return @c long  value.
 
  @note This is not available from Swift.
  */
 
-- (long)longForQuery:(NSString*)query, ...;
+- (long)longForQuery:(NSString *)query, ...;
 
 /** Return `BOOL` value for query
 
- @param query The SQL query to be performed, followed by a list of parameters that will be bound to the `?` placeholders in the SQL query.
+ @param query The SQL query to be performed, followed by a list of parameters
+ that will be bound to the `?` placeholders in the SQL query.
 
  @return `BOOL` value.
 
  @note This is not available from Swift.
  */
 
-- (BOOL)boolForQuery:(NSString*)query, ...;
+- (BOOL)boolForQuery:(NSString *)query, ...;
 
 /** Return `double` value for query
 
- @param query The SQL query to be performed, followed by a list of parameters that will be bound to the `?` placeholders in the SQL query.
+ @param query The SQL query to be performed, followed by a list of parameters
+ that will be bound to the `?` placeholders in the SQL query.
 
  @return `double` value.
 
  @note This is not available from Swift.
  */
 
-- (double)doubleForQuery:(NSString*)query, ...;
+- (double)doubleForQuery:(NSString *)query, ...;
 
 /** Return @c NSString  value for query
 
- @param query The SQL query to be performed, followed by a list of parameters that will be bound to the `?` placeholders in the SQL query.
+ @param query The SQL query to be performed, followed by a list of parameters
+ that will be bound to the `?` placeholders in the SQL query.
 
  @return @c NSString  value.
 
  @note This is not available from Swift.
  */
 
-- (NSString * _Nullable)stringForQuery:(NSString*)query, ...;
+- (NSString *_Nullable)stringForQuery:(NSString *)query, ...;
 
 /** Return @c NSData  value for query
 
- @param query The SQL query to be performed, followed by a list of parameters that will be bound to the `?` placeholders in the SQL query.
+ @param query The SQL query to be performed, followed by a list of parameters
+ that will be bound to the `?` placeholders in the SQL query.
 
  @return @c NSData  value.
 
  @note This is not available from Swift.
  */
 
-- (NSData * _Nullable)dataForQuery:(NSString*)query, ...;
+- (NSData *_Nullable)dataForQuery:(NSString *)query, ...;
 
 /** Return @c NSDate  value for query
 
- @param query The SQL query to be performed, followed by a list of parameters that will be bound to the `?` placeholders in the SQL query.
+ @param query The SQL query to be performed, followed by a list of parameters
+ that will be bound to the `?` placeholders in the SQL query.
 
  @return @c NSDate  value.
 
  @note This is not available from Swift.
  */
 
-- (NSDate * _Nullable)dateForQuery:(NSString*)query, ...;
-
+- (NSDate *_Nullable)dateForQuery:(NSString *)query, ...;
 
 // Notice that there's no dataNoCopyForQuery:.
 // That would be a bad idea, because we close out the result set, and then what
 // happens to the data that we just didn't copy?  Who knows, not I.
-
 
 ///--------------------------------
 /// @name Schema related operations
@@ -118,11 +123,12 @@ NS_ASSUME_NONNULL_BEGIN
  @return @c YES if table found; @c NO if not found.
  */
 
-- (BOOL)tableExists:(NSString*)tableName;
+- (BOOL)tableExists:(NSString *)tableName;
 
 /** The schema of the database.
 
- This will be the schema for the entire database. For each entity, each row of the result set will include the following fields:
+ This will be the schema for the entire database. For each entity, each row of
+ the result set will include the following fields:
 
  - `type` - The type of entity (e.g. table, index, view, or trigger)
  - `name` - The name of the object
@@ -135,11 +141,12 @@ NS_ASSUME_NONNULL_BEGIN
  @see [SQLite File Format](https://sqlite.org/fileformat.html)
  */
 
-- (FMResultSet * _Nullable)getSchema;
+- (FMResultSet *_Nullable)getSchema;
 
 /** The schema of the database.
 
- This will be the schema for a particular table as report by SQLite `PRAGMA`, for example:
+ This will be the schema for a particular table as report by SQLite `PRAGMA`,
+ for example:
 
     PRAGMA table_info('employees')
 
@@ -159,7 +166,7 @@ NS_ASSUME_NONNULL_BEGIN
  @see [table_info](https://sqlite.org/pragma.html#pragma_table_info)
  */
 
-- (FMResultSet * _Nullable)getTableSchema:(NSString*)tableName;
+- (FMResultSet *_Nullable)getTableSchema:(NSString *)tableName;
 
 /** Test to see if particular column exists for particular table in database
 
@@ -170,7 +177,8 @@ NS_ASSUME_NONNULL_BEGIN
  @return @c YES if column exists in table in question; @c NO otherwise.
  */
 
-- (BOOL)columnExists:(NSString*)columnName inTableWithName:(NSString*)tableName;
+- (BOOL)columnExists:(NSString *)columnName
+     inTableWithName:(NSString *)tableName;
 
 /** Test to see if particular column exists for particular table in database
 
@@ -185,23 +193,27 @@ NS_ASSUME_NONNULL_BEGIN
  @warning Deprecated - use `<columnExists:inTableWithName:>` instead.
  */
 
-- (BOOL)columnExists:(NSString*)tableName columnName:(NSString*)columnName __deprecated_msg("Use columnExists:inTableWithName: instead");
-
+- (BOOL)columnExists:(NSString *)tableName
+          columnName:(NSString *)columnName
+    __deprecated_msg("Use columnExists:inTableWithName: instead");
 
 /** Validate SQL statement
 
- This validates SQL statement by performing `sqlite3_prepare_v2`, but not returning the results, but instead immediately calling `sqlite3_finalize`.
+ This validates SQL statement by performing `sqlite3_prepare_v2`, but not
+ returning the results, but instead immediately calling `sqlite3_finalize`.
 
  @param sql The SQL statement being validated.
 
- @param error This is a pointer to a @c NSError  object that will receive the autoreleased @c NSError  object if there was any error. If this is @c nil , no @c NSError  result will be returned.
+ @param error This is a pointer to a @c NSError  object that will receive the
+ autoreleased @c NSError  object if there was any error. If this is @c nil , no
+ @c NSError  result will be returned.
 
  @return @c YES if validation succeeded without incident; @c NO otherwise.
 
  */
 
-- (BOOL)validateSQL:(NSString*)sql error:(NSError * _Nullable __autoreleasing *)error;
-
+- (BOOL)validateSQL:(NSString *)sql
+              error:(NSError *_Nullable __autoreleasing *)error;
 
 ///-----------------------------------
 /// @name Application identifier tasks
@@ -214,7 +226,7 @@ NS_ASSUME_NONNULL_BEGIN
  @see setApplicationID:
  */
 
-@property (nonatomic) uint32_t applicationID;
+@property(nonatomic) uint32_t applicationID;
 
 #if TARGET_OS_MAC && !TARGET_OS_IPHONE
 
@@ -223,7 +235,7 @@ NS_ASSUME_NONNULL_BEGIN
  @see setApplicationIDString:
  */
 
-@property (nonatomic, retain) NSString *applicationIDString;
+@property(nonatomic, retain) NSString *applicationIDString;
 
 #endif
 
@@ -236,7 +248,7 @@ NS_ASSUME_NONNULL_BEGIN
  @see setUserVersion:
  */
 
-@property (nonatomic) uint32_t userVersion;
+@property(nonatomic) uint32_t userVersion;
 
 @end
 

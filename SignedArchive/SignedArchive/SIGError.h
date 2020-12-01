@@ -13,51 +13,52 @@ NS_ASSUME_NONNULL_BEGIN
 extern NSString *const SIGErrorDomain;
 
 typedef NS_ENUM(NSUInteger, SIGErrorCode) {
-    // Container format errors
-    SIGErrorCodeInputFileMalformed,
-    SIGErrorCodeMalformedMetadata,
-    SIGErrorCodeVersionTooNew,
-    SIGErrorCodeMalformedHeader,
-    SIGErrorCodeInputMalformedCertificate,
-    SIGErrorCodeDeprecatedOldVersion,
+  // Container format errors
+  SIGErrorCodeInputFileMalformed,
+  SIGErrorCodeMalformedMetadata,
+  SIGErrorCodeVersionTooNew,
+  SIGErrorCodeMalformedHeader,
+  SIGErrorCodeInputMalformedCertificate,
+  SIGErrorCodeDeprecatedOldVersion,
 
-    // Missing container chunks
-    SIGErrorCodeNoPrivateKey,
-    SIGErrorCodeNoCertificate,
-    SIGErrorCodeNoMetadata,
-    SIGErrorCodeNoSignature,
-    SIGErrorCodeNoPayload,
-    SIGErrorCodeNoHeader,
+  // Missing container chunks
+  SIGErrorCodeNoPrivateKey,
+  SIGErrorCodeNoCertificate,
+  SIGErrorCodeNoMetadata,
+  SIGErrorCodeNoSignature,
+  SIGErrorCodeNoPayload,
+  SIGErrorCodeNoHeader,
 
-    // File errors
-    SIGErrorCodeIORead,
-    SIGErrorCodeIOWrite,
+  // File errors
+  SIGErrorCodeIORead,
+  SIGErrorCodeIOWrite,
 
-    // Internal errors
-    SIGErrorCodeConsistency,
-    SIGErrorCodeUnknown,
+  // Internal errors
+  SIGErrorCodeConsistency,
+  SIGErrorCodeUnknown,
 
-    // Algorithm errors
-    SIGErrorCodeAlgorithmCreationFailed,
-    SIGErrorCodeUnsupportedAlgorithm,
+  // Algorithm errors
+  SIGErrorCodeAlgorithmCreationFailed,
+  SIGErrorCodeUnsupportedAlgorithm,
 
-    // PKI errors
-    SIGErrorCodeTrust,
-    SIGErrorCodeTrustUserDeny,
-    SIGErrorCodeTrustMisconfiguration,
-    SIGErrorCodeTrustFailed,
+  // PKI errors
+  SIGErrorCodeTrust,
+  SIGErrorCodeTrustUserDeny,
+  SIGErrorCodeTrustMisconfiguration,
+  SIGErrorCodeTrustFailed,
 
-    // Signature validation
-    SIGErrorCodeSignatureDoesNotMatchPayload,
+  // Signature validation
+  SIGErrorCodeSignatureDoesNotMatchPayload,
 };
 
 @interface SIGError : NSError
 
 + (instancetype)errorWithCode:(SIGErrorCode)code;
-+ (instancetype)errorWithCode:(SIGErrorCode)code detail:(nullable NSString *)detail;
++ (instancetype)errorWithCode:(SIGErrorCode)code
+                       detail:(nullable NSString *)detail;
 + (instancetype)errorWrapping:(NSError *)otherError
-    code:(SIGErrorCode)code
-    detail:(nullable NSString *)detail;
+                         code:(SIGErrorCode)code
+                       detail:(nullable NSString *)detail;
 
 @end
 

@@ -28,8 +28,8 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <Foundation/Foundation.h>
 #import <CoreServices/CoreServices.h>
+#import <Foundation/Foundation.h>
 
 #import "SCEventListenerProtocol.h"
 
@@ -42,63 +42,76 @@
  *
  * An Objective-C wrapper for the FSEvents C API.
  */
-@interface SCEvents : NSObject
-{
-    id <NSObject, SCEventListenerProtocol> _delegate;
+@interface SCEvents : NSObject {
+  id<NSObject, SCEventListenerProtocol> _delegate;
 
-    BOOL                 _isWatchingPaths;
-    BOOL                 _ignoreEventsFromSubDirs;
-    CFRunLoopRef         _runLoop;
-    FSEventStreamRef     _eventStream;
-    CFTimeInterval       _notificationLatency;
-    FSEventStreamEventId _resumeFromEventId;
+  BOOL _isWatchingPaths;
+  BOOL _ignoreEventsFromSubDirs;
+  CFRunLoopRef _runLoop;
+  FSEventStreamRef _eventStream;
+  CFTimeInterval _notificationLatency;
+  FSEventStreamEventId _resumeFromEventId;
 
-    SCEvent              *_lastEvent;
-    NSArray              *_watchedPaths;
-    NSArray              *_excludedPaths;
+  SCEvent *_lastEvent;
+  NSArray *_watchedPaths;
+  NSArray *_excludedPaths;
 
-    pthread_mutex_t       _eventsLock;
+  pthread_mutex_t _eventsLock;
 }
 
 /**
  * @property _delegate The delegate that SCEvents is to notify when events occur
  */
-@property (readwrite, assign, getter=delegate, setter=setDelegate:) id <NSObject, SCEventListenerProtocol> _delegate;
+@property(readwrite, assign, getter=delegate, setter=setDelegate:)
+    id<NSObject, SCEventListenerProtocol>
+        _delegate;
 
 /**
- * @property _isWatchingPaths Indicates whether the events stream is currently running
+ * @property _isWatchingPaths Indicates whether the events stream is currently
+ * running
  */
-@property (readonly, getter=isWatchingPaths) BOOL _isWatchingPaths;
+@property(readonly, getter=isWatchingPaths) BOOL _isWatchingPaths;
 
 /**
- * @property _ignoreEventsFromSubDirs Indicates whether events from sub-directories of the excluded paths are ignored. Defaults to YES.
+ * @property _ignoreEventsFromSubDirs Indicates whether events from
+ * sub-directories of the excluded paths are ignored. Defaults to YES.
  */
-@property (readwrite, assign, getter=ignoreEventsFromSubDirs, setter=setIgnoreEventsFromSubDirs:) BOOL _ignoreEventsFromSubDirs;
+@property(readwrite, assign, getter=ignoreEventsFromSubDirs,
+          setter=setIgnoreEventsFromSubDirs:) BOOL _ignoreEventsFromSubDirs;
 
 /**
- * @property _lastEvent The last event that occurred and that was delivered to the delegate.
+ * @property _lastEvent The last event that occurred and that was delivered to
+ * the delegate.
  */
-@property (readwrite, retain, getter=lastEvent, setter=setLastEvent:) SCEvent *_lastEvent;
+@property(readwrite, retain, getter=lastEvent, setter=setLastEvent:)
+    SCEvent *_lastEvent;
 
 /**
- * @property _notificationLatency The latency time of which SCEvents is notified by FSEvents of events. Defaults to 3 seconds.
+ * @property _notificationLatency The latency time of which SCEvents is notified
+ * by FSEvents of events. Defaults to 3 seconds.
  */
-@property (readwrite, assign, getter=notificationLatency, setter=setNotificationLatency:) double _notificationLatency;
+@property(readwrite, assign, getter=notificationLatency,
+          setter=setNotificationLatency:) double _notificationLatency;
 
 /**
  * @property _watchedPaths The paths that are to be watched for events.
  */
-@property (readwrite, retain, getter=watchedPaths, setter=setWatchedPaths:) NSArray *_watchedPaths;
+@property(readwrite, retain, getter=watchedPaths, setter=setWatchedPaths:)
+    NSArray *_watchedPaths;
 
 /**
- * @property _excludedPaths The paths that SCEvents should ignore events from and not deliver to the delegate.
+ * @property _excludedPaths The paths that SCEvents should ignore events from
+ * and not deliver to the delegate.
  */
-@property (readwrite, retain, getter=excludedPaths, setter=setExcludedPaths:) NSArray *_excludedPaths;
+@property(readwrite, retain, getter=excludedPaths, setter=setExcludedPaths:)
+    NSArray *_excludedPaths;
 
 /**
- * @property _resumeFromEventId The event ID from which to resume from when the stream is started.
+ * @property _resumeFromEventId The event ID from which to resume from when the
+ * stream is started.
  */
-@property (readwrite, assign, getter=resumeFromEventId, setter=setResumeFromEventId:) FSEventStreamEventId _resumeFromEventId;
+@property(readwrite, assign, getter=resumeFromEventId,
+          setter=setResumeFromEventId:) FSEventStreamEventId _resumeFromEventId;
 
 - (BOOL)flushEventStreamSync;
 - (BOOL)flushEventStreamAsync;

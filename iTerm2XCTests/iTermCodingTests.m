@@ -13,9 +13,9 @@
 #import "NSStringITerm.h"
 #import "NSWorkspace+iTerm.h"
 #import "iTermEncoderAdapter.h"
-#import "iTermGraphEncoder.h"
 #import "iTermGraphDatabase.h"
 #import "iTermGraphDeltaEncoder.h"
+#import "iTermGraphEncoder.h"
 #import "iTermGraphTableTransformer.h"
 #import "iTermThreadSafety.h"
 

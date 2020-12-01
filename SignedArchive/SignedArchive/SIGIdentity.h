@@ -15,13 +15,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SIGIdentity : NSObject
 
-@property (nonatomic, readonly, nullable) SecIdentityRef secIdentity;
-@property (nonatomic, readonly, nullable) SIGKey *privateKey;
-@property (nonatomic, readonly, nullable) SIGCertificate *signingCertificate;
+@property(nonatomic, readonly, nullable) SecIdentityRef secIdentity;
+@property(nonatomic, readonly, nullable) SIGKey *privateKey;
+@property(nonatomic, readonly, nullable) SIGCertificate *signingCertificate;
 
 + (NSArray<SIGIdentity *> *)allSigningIdentities;
 
-- (nullable instancetype)initWithSecIdentity:(SecIdentityRef)secIdentity NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithSecIdentity:(SecIdentityRef)secIdentity
+    NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 @end

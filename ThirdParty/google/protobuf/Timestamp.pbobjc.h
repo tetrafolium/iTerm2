@@ -38,15 +38,15 @@ NS_ASSUME_NONNULL_BEGIN
  * @code
  *   + (GPBExtensionRegistry *)extensionRegistry;
  * @endcode
- * which is a @c GPBExtensionRegistry that includes all the extensions defined by
- * this file and all files that it depends on.
+ * which is a @c GPBExtensionRegistry that includes all the extensions defined
+ *by this file and all files that it depends on.
  **/
 @interface GPBTimestampRoot : GPBRootObject
 @end
 
 #pragma mark - GPBTimestamp
 
-typedef GPB_ENUM(GPBTimestamp_FieldNumber) {
+typedef GPB_ENUM(GPBTimestamp_FieldNumber){
     GPBTimestamp_FieldNumber_Seconds = 1,
     GPBTimestamp_FieldNumber_Nanos = 2,
 };
@@ -62,7 +62,8 @@ typedef GPB_ENUM(GPBTimestamp_FieldNumber) {
  * 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z.
  * By restricting to that range, we ensure that we can convert to
  * and from  RFC 3339 date strings.
- * See [https://www.ietf.org/rfc/rfc3339.txt](https://www.ietf.org/rfc/rfc3339.txt).
+ * See
+ *[https://www.ietf.org/rfc/rfc3339.txt](https://www.ietf.org/rfc/rfc3339.txt).
  *
  * Example 1: Compute Timestamp from POSIX `time()`.
  *
@@ -106,11 +107,11 @@ typedef GPB_ENUM(GPBTimestamp_FieldNumber) {
  **/
 @interface GPBTimestamp : GPBMessage
 
-    /**
-     * Represents seconds of UTC time since Unix epoch
-     * 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to
-     * 9999-12-31T23:59:59Z inclusive.
-     **/
+/**
+ * Represents seconds of UTC time since Unix epoch
+ * 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to
+ * 9999-12-31T23:59:59Z inclusive.
+ **/
 @property(nonatomic, readwrite) int64_t seconds;
 
 /**

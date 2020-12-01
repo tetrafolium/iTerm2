@@ -6,12 +6,12 @@
 //  Copyright © 2018 George Nachman. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "SIGVerificationAlgorithm.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SIGSHA2VerificationAlgorithm : NSObject<SIGVerificationAlgorithm>
+@interface SIGSHA2VerificationAlgorithm : NSObject <SIGVerificationAlgorithm>
 @end
 
 NS_ASSUME_NONNULL_END

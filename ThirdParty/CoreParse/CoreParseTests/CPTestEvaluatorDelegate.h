@@ -10,7 +10,7 @@
 
 #import "CoreParse.h"
 
-@interface CPTestEvaluatorDelegate : NSObject <CPParserDelegate>
-{}
+@interface CPTestEvaluatorDelegate : NSObject <CPParserDelegate> {
+}
 
 @end

@@ -1,15 +1,15 @@
 /* =============================================================================
-	FILE:		UKNibOwner.m
-	PROJECT:	CocoaTADS
+        FILE:		UKNibOwner.m
+        PROJECT:	CocoaTADS
 
     COPYRIGHT:  (c) 2004 M. Uli Kusterer, all rights reserved.
 
-	AUTHORS:	M. Uli Kusterer - UK
+        AUTHORS:	M. Uli Kusterer - UK
 
     LICENSES:   GPL, Modified BSD
 
-	REVISIONS:
-		2004-11-13	UK	Created.
+        REVISIONS:
+                2004-11-13	UK	Created.
    ========================================================================== */
 
 // -----------------------------------------------------------------------------
@@ -17,7 +17,6 @@
 // -----------------------------------------------------------------------------
 
 #import "UKNibOwner.h"
-
 
 @implementation UKNibOwner
 
@@ -32,40 +31,32 @@
 //      2004-12-23  UK  Documented.
 // -----------------------------------------------------------------------------
 
--(id)	init
-{
-    if( (self = [super init]) )
-    {
-        NSBundle*		mainB = [NSBundle mainBundle];
-        NSArray *temp = nil;
-        [mainB loadNibNamed:[self nibFilename]
-               owner:self
-               topLevelObjects:&temp];
-        topLevelObjects = [[NSMutableArray alloc] init];
-        if (temp) {
-            [topLevelObjects addObjectsFromArray:temp];
-        }
-        if( [topLevelObjects count] == 0 )
-        {
-            NSLog(@"%@: Couldn't find NIB file \"%@.nib\".", NSStringFromClass([self class]),[self nibFilename]);
-            [self autorelease];
-            return nil;
-        }
+- (id)init {
+  if ((self = [super init])) {
+    NSBundle *mainB = [NSBundle mainBundle];
+    NSArray *temp = nil;
+    [mainB loadNibNamed:[self nibFilename] owner:self topLevelObjects:&temp];
+    topLevelObjects = [[NSMutableArray alloc] init];
+    if (temp) {
+      [topLevelObjects addObjectsFromArray:temp];
     }
+    if ([topLevelObjects count] == 0) {
+      NSLog(@"%@: Couldn't find NIB file \"%@.nib\".",
+            NSStringFromClass([self class]), [self nibFilename]);
+      [self autorelease];
+      return nil;
+    }
+  }
 
-    return self;
+  return self;
 }
 
+- (void)dealloc {
+  [topLevelObjects release];
+  topLevelObjects = nil;
 
--(void)	dealloc
-{
-    [topLevelObjects release];
-    topLevelObjects = nil;
-
-    [super dealloc];
+  [super dealloc];
 }
-
-
 
 // -----------------------------------------------------------------------------
 //  nibFilename:
@@ -79,9 +70,8 @@
 //      2004-12-23  UK  Documented.
 // -----------------------------------------------------------------------------
 
--(NSString*)    nibFilename
-{
-    return NSStringFromClass([self class]);
+- (NSString *)nibFilename {
+  return NSStringFromClass([self class]);
 }
 
 @end

@@ -4,7 +4,8 @@
 extern NSString *const kCPKFavoriteUTI;
 
 /** Represents a saved color. */
-@interface CPKFavorite : NSObject <NSPasteboardReading, NSPasteboardWriting, NSSecureCoding>
+@interface CPKFavorite
+    : NSObject <NSPasteboardReading, NSPasteboardWriting, NSSecureCoding>
 
 + (instancetype)favoriteWithColor:(NSColor *)color name:(NSString *)name;
 

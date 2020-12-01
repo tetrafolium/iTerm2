@@ -31,7 +31,8 @@
 
 - (NSArray *)tidyRightHandSides:(NSArray *)oldRules error:(NSError **)error;
 - (NSSet *)collectRHSElementsForNewRules:(NSArray *)rightHandSide;
-- (NSDictionary *)nameNewRules:(NSSet *)rhsElements withRules:(NSArray *)oldRules;
+- (NSDictionary *)nameNewRules:(NSSet *)rhsElements
+                     withRules:(NSArray *)oldRules;
 - (NSArray *)addRHSRules:(NSDictionary *)rules toRules:(NSArray *)oldRules;
 
 @end

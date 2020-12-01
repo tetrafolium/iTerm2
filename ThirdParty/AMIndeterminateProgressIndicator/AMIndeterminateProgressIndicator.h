@@ -7,13 +7,11 @@
 
 #import <Cocoa/Cocoa.h>
 
-
 @interface AMIndeterminateProgressIndicator : NSView
 
 @property(nonatomic, retain) NSColor *color;
 
 - (void)startAnimation:(id)sender;
 - (void)stopAnimation:(id)sender;
-
 
 @end

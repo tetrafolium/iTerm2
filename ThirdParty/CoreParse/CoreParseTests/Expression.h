@@ -12,6 +12,6 @@
 
 @interface Expression : NSObject <CPParseResult>
 
-@property (readwrite,assign) float value;
+@property(readwrite, assign) float value;
 
 @end

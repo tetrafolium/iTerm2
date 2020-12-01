@@ -12,57 +12,48 @@
 
 @synthesize errorMessage;
 
-+ (id)errorWithMessage:(NSString *)errorMessage
-{
-    return [[[self alloc] initWithMesage:errorMessage] autorelease];
++ (id)errorWithMessage:(NSString *)errorMessage {
+  return [[[self alloc] initWithMesage:errorMessage] autorelease];
 }
 
-- (id)initWithMesage:(NSString *)initErrorMessage
-{
-    self = [super init];
+- (id)initWithMesage:(NSString *)initErrorMessage {
+  self = [super init];
 
-    if (nil != self)
-    {
-        [self setErrorMessage:initErrorMessage];
-    }
+  if (nil != self) {
+    [self setErrorMessage:initErrorMessage];
+  }
 
-    return self;
+  return self;
 }
 
-- (void)dealloc
-{
-    [errorMessage release];
+- (void)dealloc {
+  [errorMessage release];
 
-    [super dealloc];
+  [super dealloc];
 }
 
-- (NSString *)name
-{
-    return @"Error";
+- (NSString *)name {
+  return @"Error";
 }
 
-- (NSUInteger)hash
-{
-    return 0;
+- (NSUInteger)hash {
+  return 0;
 }
 
-- (BOOL)isErrorToken
-{
-    return YES;
+- (BOOL)isErrorToken {
+  return YES;
 }
 
-- (BOOL)isEqual:(id)object
-{
-    return [object isErrorToken];
+- (BOOL)isEqual:(id)object {
+  return [object isErrorToken];
 }
 
 @end
 
 @implementation NSObject (CPIsErrorToken)
 
-- (BOOL)isErrorToken
-{
-    return NO;
+- (BOOL)isErrorToken {
+  return NO;
 }
 
 @end

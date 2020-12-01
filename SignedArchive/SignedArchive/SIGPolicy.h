@@ -10,14 +10,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol SIGPolicy<NSObject>
+@protocol SIGPolicy <NSObject>
 - (nonnull SecPolicyRef)secPolicy;
 @end
 
-@interface SIGX509Policy : NSObject<SIGPolicy>
+@interface SIGX509Policy : NSObject <SIGPolicy>
 @end
 
-@interface SIGCRLPolicy : NSObject<SIGPolicy>
+@interface SIGCRLPolicy : NSObject <SIGPolicy>
 @end
 
 NS_ASSUME_NONNULL_END

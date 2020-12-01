@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SIGPartialInputStream : NSInputStream
 
 - (instancetype)initWithURL:(NSURL *)URL
-    range:(NSRange)range NS_DESIGNATED_INITIALIZER;
+                      range:(NSRange)range NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithURL:(NSURL *)url NS_UNAVAILABLE;

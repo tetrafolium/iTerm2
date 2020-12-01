@@ -38,15 +38,15 @@ NS_ASSUME_NONNULL_BEGIN
  * @code
  *   + (GPBExtensionRegistry *)extensionRegistry;
  * @endcode
- * which is a @c GPBExtensionRegistry that includes all the extensions defined by
- * this file and all files that it depends on.
+ * which is a @c GPBExtensionRegistry that includes all the extensions defined
+ *by this file and all files that it depends on.
  **/
 @interface GPBDurationRoot : GPBRootObject
 @end
 
 #pragma mark - GPBDuration
 
-typedef GPB_ENUM(GPBDuration_FieldNumber) {
+typedef GPB_ENUM(GPBDuration_FieldNumber){
     GPBDuration_FieldNumber_Seconds = 1,
     GPBDuration_FieldNumber_Nanos = 2,
 };
@@ -101,10 +101,10 @@ typedef GPB_ENUM(GPBDuration_FieldNumber) {
  **/
 @interface GPBDuration : GPBMessage
 
-    /**
-     * Signed seconds of the span of time. Must be from -315,576,000,000
-     * to +315,576,000,000 inclusive.
-     **/
+/**
+ * Signed seconds of the span of time. Must be from -315,576,000,000
+ * to +315,576,000,000 inclusive.
+ **/
 @property(nonatomic, readwrite) int64_t seconds;
 
 /**

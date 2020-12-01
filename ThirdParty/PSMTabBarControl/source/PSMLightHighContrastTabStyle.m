@@ -13,55 +13,58 @@
 @implementation PSMLightHighContrastTabStyle
 
 - (NSString *)name {
-    return @"Light High Contrast";
+  return @"Light High Contrast";
 }
 
-- (NSColor *)textColorDefaultSelected:(BOOL)selected backgroundColor:(NSColor *)backgroundColor windowIsMainAndAppIsActive:(BOOL)mainAndActive {
-    return [NSColor blackColor];
+- (NSColor *)textColorDefaultSelected:(BOOL)selected
+                      backgroundColor:(NSColor *)backgroundColor
+           windowIsMainAndAppIsActive:(BOOL)mainAndActive {
+  return [NSColor blackColor];
 }
 
 - (NSColor *)accessoryTextColor {
-    return [NSColor blackColor];
+  return [NSColor blackColor];
 }
 
-- (NSColor *)backgroundColorSelected:(BOOL)selected highlightAmount:(CGFloat)highlightAmount {
-    if (selected) {
-        if (@available(macOS 10.14, *)) {
-            return [NSColor windowBackgroundColor];
-        }
-        if (self.tabBar.window.backgroundColor) {
-            return self.tabBar.window.backgroundColor;
-        } else {
-            return [NSColor windowBackgroundColor];
-        }
-    } else {
-        CGFloat value = 180 / 255.0 - highlightAmount * 0.1;
-        return [NSColor colorWithSRGBRed:value green:value blue:value alpha:1];
+- (NSColor *)backgroundColorSelected:(BOOL)selected
+                     highlightAmount:(CGFloat)highlightAmount {
+  if (selected) {
+    if (@available(macOS 10.14, *)) {
+      return [NSColor windowBackgroundColor];
     }
+    if (self.tabBar.window.backgroundColor) {
+      return self.tabBar.window.backgroundColor;
+    } else {
+      return [NSColor windowBackgroundColor];
+    }
+  } else {
+    CGFloat value = 180 / 255.0 - highlightAmount * 0.1;
+    return [NSColor colorWithSRGBRed:value green:value blue:value alpha:1];
+  }
 }
 
 - (NSColor *)verticalLineColor {
-    return [NSColor colorWithWhite:140.0 / 255.0 alpha:1];
+  return [NSColor colorWithWhite:140.0 / 255.0 alpha:1];
 }
 
 - (NSColor *)topLineColorSelected:(BOOL)selected {
-    if (selected) {
-        return [super topLineColorSelected:selected];
-    } else {
-        return [self verticalLineColor];
-    }
+  if (selected) {
+    return [super topLineColorSelected:selected];
+  } else {
+    return [self verticalLineColor];
+  }
 }
 
 - (NSColor *)bottomLineColorSelected:(BOOL)selected {
-    return [self verticalLineColor];
+  return [self verticalLineColor];
 }
 
 - (NSColor *)tabBarColor {
-    return [NSColor colorWithCalibratedWhite:0 alpha:0.3];
+  return [NSColor colorWithCalibratedWhite:0 alpha:0.3];
 }
 
 - (CGFloat)fontSize {
-    return 12.0;
+  return 12.0;
 }
 
 @end

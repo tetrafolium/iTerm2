@@ -5,9 +5,9 @@
  */
 @interface NMSSHHostConfig : NSObject
 
-    /**
-     Patterns specified in the config file.
-     */
+/**
+ Patterns specified in the config file.
+ */
 @property(nonatomic, strong) NSArray *hostPatterns;
 
 /**

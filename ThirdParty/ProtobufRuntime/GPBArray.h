@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBInt32Array : NSObject <NSCopying>
 
-    /** The number of elements contained in the array. */
+/** The number of elements contained in the array. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -96,8 +96,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized GPBInt32Array with a copy of the values.
  **/
-- (instancetype)initWithValues:(const int32_t [_Nullable])values
-    count:(NSUInteger)count;
+- (instancetype)initWithValues:(const int32_t[_Nullable])values
+                         count:(NSUInteger)count;
 
 /**
  * Initializes the array, copying the given values.
@@ -134,7 +134,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **idx**:   The index of the current value.
  *   **stop**:  A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateValuesWithBlock:(void (^)(int32_t value, NSUInteger idx, BOOL *stop))block;
+- (void)enumerateValuesWithBlock:(void (^)(int32_t value, NSUInteger idx,
+                                           BOOL *stop))block;
 
 /**
  * Enumerates the values on this array with the given block.
@@ -146,7 +147,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **stop**:  A pointer to a boolean that when set stops the enumeration.
  **/
 - (void)enumerateValuesWithOptions:(NSEnumerationOptions)opts
-    usingBlock:(void (^)(int32_t value, NSUInteger idx, BOOL *stop))block;
+                        usingBlock:(void (^)(int32_t value, NSUInteger idx,
+                                             BOOL *stop))block;
 
 /**
  * Adds a value to this array.
@@ -161,7 +163,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param values The values to add to this array.
  * @param count  The number of elements to add.
  **/
-- (void)addValues:(const int32_t [_Nullable])values count:(NSUInteger)count;
+- (void)addValues:(const int32_t[_Nullable])values count:(NSUInteger)count;
 
 /**
  * Adds the values from the given array to this array.
@@ -204,8 +206,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param idx1 The index of the first element to exchange.
  * @param idx2 The index of the second element to exchange.
  **/
-- (void)exchangeValueAtIndex:(NSUInteger)idx1
-    withValueAtIndex:(NSUInteger)idx2;
+- (void)exchangeValueAtIndex:(NSUInteger)idx1 withValueAtIndex:(NSUInteger)idx2;
 
 @end
 
@@ -219,7 +220,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBUInt32Array : NSObject <NSCopying>
 
-    /** The number of elements contained in the array. */
+/** The number of elements contained in the array. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -268,8 +269,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized GPBUInt32Array with a copy of the values.
  **/
-- (instancetype)initWithValues:(const uint32_t [_Nullable])values
-    count:(NSUInteger)count;
+- (instancetype)initWithValues:(const uint32_t[_Nullable])values
+                         count:(NSUInteger)count;
 
 /**
  * Initializes the array, copying the given values.
@@ -306,7 +307,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **idx**:   The index of the current value.
  *   **stop**:  A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateValuesWithBlock:(void (^)(uint32_t value, NSUInteger idx, BOOL *stop))block;
+- (void)enumerateValuesWithBlock:(void (^)(uint32_t value, NSUInteger idx,
+                                           BOOL *stop))block;
 
 /**
  * Enumerates the values on this array with the given block.
@@ -318,7 +320,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **stop**:  A pointer to a boolean that when set stops the enumeration.
  **/
 - (void)enumerateValuesWithOptions:(NSEnumerationOptions)opts
-    usingBlock:(void (^)(uint32_t value, NSUInteger idx, BOOL *stop))block;
+                        usingBlock:(void (^)(uint32_t value, NSUInteger idx,
+                                             BOOL *stop))block;
 
 /**
  * Adds a value to this array.
@@ -333,7 +336,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param values The values to add to this array.
  * @param count  The number of elements to add.
  **/
-- (void)addValues:(const uint32_t [_Nullable])values count:(NSUInteger)count;
+- (void)addValues:(const uint32_t[_Nullable])values count:(NSUInteger)count;
 
 /**
  * Adds the values from the given array to this array.
@@ -376,8 +379,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param idx1 The index of the first element to exchange.
  * @param idx2 The index of the second element to exchange.
  **/
-- (void)exchangeValueAtIndex:(NSUInteger)idx1
-    withValueAtIndex:(NSUInteger)idx2;
+- (void)exchangeValueAtIndex:(NSUInteger)idx1 withValueAtIndex:(NSUInteger)idx2;
 
 @end
 
@@ -391,7 +393,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBInt64Array : NSObject <NSCopying>
 
-    /** The number of elements contained in the array. */
+/** The number of elements contained in the array. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -440,8 +442,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized GPBInt64Array with a copy of the values.
  **/
-- (instancetype)initWithValues:(const int64_t [_Nullable])values
-    count:(NSUInteger)count;
+- (instancetype)initWithValues:(const int64_t[_Nullable])values
+                         count:(NSUInteger)count;
 
 /**
  * Initializes the array, copying the given values.
@@ -478,7 +480,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **idx**:   The index of the current value.
  *   **stop**:  A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateValuesWithBlock:(void (^)(int64_t value, NSUInteger idx, BOOL *stop))block;
+- (void)enumerateValuesWithBlock:(void (^)(int64_t value, NSUInteger idx,
+                                           BOOL *stop))block;
 
 /**
  * Enumerates the values on this array with the given block.
@@ -490,7 +493,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **stop**:  A pointer to a boolean that when set stops the enumeration.
  **/
 - (void)enumerateValuesWithOptions:(NSEnumerationOptions)opts
-    usingBlock:(void (^)(int64_t value, NSUInteger idx, BOOL *stop))block;
+                        usingBlock:(void (^)(int64_t value, NSUInteger idx,
+                                             BOOL *stop))block;
 
 /**
  * Adds a value to this array.
@@ -505,7 +509,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param values The values to add to this array.
  * @param count  The number of elements to add.
  **/
-- (void)addValues:(const int64_t [_Nullable])values count:(NSUInteger)count;
+- (void)addValues:(const int64_t[_Nullable])values count:(NSUInteger)count;
 
 /**
  * Adds the values from the given array to this array.
@@ -548,8 +552,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param idx1 The index of the first element to exchange.
  * @param idx2 The index of the second element to exchange.
  **/
-- (void)exchangeValueAtIndex:(NSUInteger)idx1
-    withValueAtIndex:(NSUInteger)idx2;
+- (void)exchangeValueAtIndex:(NSUInteger)idx1 withValueAtIndex:(NSUInteger)idx2;
 
 @end
 
@@ -563,7 +566,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBUInt64Array : NSObject <NSCopying>
 
-    /** The number of elements contained in the array. */
+/** The number of elements contained in the array. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -612,8 +615,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized GPBUInt64Array with a copy of the values.
  **/
-- (instancetype)initWithValues:(const uint64_t [_Nullable])values
-    count:(NSUInteger)count;
+- (instancetype)initWithValues:(const uint64_t[_Nullable])values
+                         count:(NSUInteger)count;
 
 /**
  * Initializes the array, copying the given values.
@@ -650,7 +653,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **idx**:   The index of the current value.
  *   **stop**:  A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateValuesWithBlock:(void (^)(uint64_t value, NSUInteger idx, BOOL *stop))block;
+- (void)enumerateValuesWithBlock:(void (^)(uint64_t value, NSUInteger idx,
+                                           BOOL *stop))block;
 
 /**
  * Enumerates the values on this array with the given block.
@@ -662,7 +666,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **stop**:  A pointer to a boolean that when set stops the enumeration.
  **/
 - (void)enumerateValuesWithOptions:(NSEnumerationOptions)opts
-    usingBlock:(void (^)(uint64_t value, NSUInteger idx, BOOL *stop))block;
+                        usingBlock:(void (^)(uint64_t value, NSUInteger idx,
+                                             BOOL *stop))block;
 
 /**
  * Adds a value to this array.
@@ -677,7 +682,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param values The values to add to this array.
  * @param count  The number of elements to add.
  **/
-- (void)addValues:(const uint64_t [_Nullable])values count:(NSUInteger)count;
+- (void)addValues:(const uint64_t[_Nullable])values count:(NSUInteger)count;
 
 /**
  * Adds the values from the given array to this array.
@@ -720,8 +725,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param idx1 The index of the first element to exchange.
  * @param idx2 The index of the second element to exchange.
  **/
-- (void)exchangeValueAtIndex:(NSUInteger)idx1
-    withValueAtIndex:(NSUInteger)idx2;
+- (void)exchangeValueAtIndex:(NSUInteger)idx1 withValueAtIndex:(NSUInteger)idx2;
 
 @end
 
@@ -735,7 +739,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBFloatArray : NSObject <NSCopying>
 
-    /** The number of elements contained in the array. */
+/** The number of elements contained in the array. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -784,8 +788,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized GPBFloatArray with a copy of the values.
  **/
-- (instancetype)initWithValues:(const float [_Nullable])values
-    count:(NSUInteger)count;
+- (instancetype)initWithValues:(const float[_Nullable])values
+                         count:(NSUInteger)count;
 
 /**
  * Initializes the array, copying the given values.
@@ -822,7 +826,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **idx**:   The index of the current value.
  *   **stop**:  A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateValuesWithBlock:(void (^)(float value, NSUInteger idx, BOOL *stop))block;
+- (void)enumerateValuesWithBlock:(void (^)(float value, NSUInteger idx,
+                                           BOOL *stop))block;
 
 /**
  * Enumerates the values on this array with the given block.
@@ -834,7 +839,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **stop**:  A pointer to a boolean that when set stops the enumeration.
  **/
 - (void)enumerateValuesWithOptions:(NSEnumerationOptions)opts
-    usingBlock:(void (^)(float value, NSUInteger idx, BOOL *stop))block;
+                        usingBlock:(void (^)(float value, NSUInteger idx,
+                                             BOOL *stop))block;
 
 /**
  * Adds a value to this array.
@@ -849,7 +855,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param values The values to add to this array.
  * @param count  The number of elements to add.
  **/
-- (void)addValues:(const float [_Nullable])values count:(NSUInteger)count;
+- (void)addValues:(const float[_Nullable])values count:(NSUInteger)count;
 
 /**
  * Adds the values from the given array to this array.
@@ -892,8 +898,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param idx1 The index of the first element to exchange.
  * @param idx2 The index of the second element to exchange.
  **/
-- (void)exchangeValueAtIndex:(NSUInteger)idx1
-    withValueAtIndex:(NSUInteger)idx2;
+- (void)exchangeValueAtIndex:(NSUInteger)idx1 withValueAtIndex:(NSUInteger)idx2;
 
 @end
 
@@ -907,7 +912,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBDoubleArray : NSObject <NSCopying>
 
-    /** The number of elements contained in the array. */
+/** The number of elements contained in the array. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -956,8 +961,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized GPBDoubleArray with a copy of the values.
  **/
-- (instancetype)initWithValues:(const double [_Nullable])values
-    count:(NSUInteger)count;
+- (instancetype)initWithValues:(const double[_Nullable])values
+                         count:(NSUInteger)count;
 
 /**
  * Initializes the array, copying the given values.
@@ -994,7 +999,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **idx**:   The index of the current value.
  *   **stop**:  A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateValuesWithBlock:(void (^)(double value, NSUInteger idx, BOOL *stop))block;
+- (void)enumerateValuesWithBlock:(void (^)(double value, NSUInteger idx,
+                                           BOOL *stop))block;
 
 /**
  * Enumerates the values on this array with the given block.
@@ -1006,7 +1012,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **stop**:  A pointer to a boolean that when set stops the enumeration.
  **/
 - (void)enumerateValuesWithOptions:(NSEnumerationOptions)opts
-    usingBlock:(void (^)(double value, NSUInteger idx, BOOL *stop))block;
+                        usingBlock:(void (^)(double value, NSUInteger idx,
+                                             BOOL *stop))block;
 
 /**
  * Adds a value to this array.
@@ -1021,7 +1028,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param values The values to add to this array.
  * @param count  The number of elements to add.
  **/
-- (void)addValues:(const double [_Nullable])values count:(NSUInteger)count;
+- (void)addValues:(const double[_Nullable])values count:(NSUInteger)count;
 
 /**
  * Adds the values from the given array to this array.
@@ -1064,8 +1071,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param idx1 The index of the first element to exchange.
  * @param idx2 The index of the second element to exchange.
  **/
-- (void)exchangeValueAtIndex:(NSUInteger)idx1
-    withValueAtIndex:(NSUInteger)idx2;
+- (void)exchangeValueAtIndex:(NSUInteger)idx1 withValueAtIndex:(NSUInteger)idx2;
 
 @end
 
@@ -1079,7 +1085,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBBoolArray : NSObject <NSCopying>
 
-    /** The number of elements contained in the array. */
+/** The number of elements contained in the array. */
 @property(nonatomic, readonly) NSUInteger count;
 
 /**
@@ -1128,8 +1134,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly initialized GPBBoolArray with a copy of the values.
  **/
-- (instancetype)initWithValues:(const BOOL [_Nullable])values
-    count:(NSUInteger)count;
+- (instancetype)initWithValues:(const BOOL[_Nullable])values
+                         count:(NSUInteger)count;
 
 /**
  * Initializes the array, copying the given values.
@@ -1166,7 +1172,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **idx**:   The index of the current value.
  *   **stop**:  A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateValuesWithBlock:(void (^)(BOOL value, NSUInteger idx, BOOL *stop))block;
+- (void)enumerateValuesWithBlock:(void (^)(BOOL value, NSUInteger idx,
+                                           BOOL *stop))block;
 
 /**
  * Enumerates the values on this array with the given block.
@@ -1178,7 +1185,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **stop**:  A pointer to a boolean that when set stops the enumeration.
  **/
 - (void)enumerateValuesWithOptions:(NSEnumerationOptions)opts
-    usingBlock:(void (^)(BOOL value, NSUInteger idx, BOOL *stop))block;
+                        usingBlock:(void (^)(BOOL value, NSUInteger idx,
+                                             BOOL *stop))block;
 
 /**
  * Adds a value to this array.
@@ -1193,7 +1201,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param values The values to add to this array.
  * @param count  The number of elements to add.
  **/
-- (void)addValues:(const BOOL [_Nullable])values count:(NSUInteger)count;
+- (void)addValues:(const BOOL[_Nullable])values count:(NSUInteger)count;
 
 /**
  * Adds the values from the given array to this array.
@@ -1236,8 +1244,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param idx1 The index of the first element to exchange.
  * @param idx2 The index of the second element to exchange.
  **/
-- (void)exchangeValueAtIndex:(NSUInteger)idx1
-    withValueAtIndex:(NSUInteger)idx2;
+- (void)exchangeValueAtIndex:(NSUInteger)idx1 withValueAtIndex:(NSUInteger)idx2;
 
 @end
 
@@ -1251,7 +1258,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBEnumArray : NSObject <NSCopying>
 
-    /** The number of elements contained in the array. */
+/** The number of elements contained in the array. */
 @property(nonatomic, readonly) NSUInteger count;
 /** The validation function to check if the enums are valid. */
 @property(nonatomic, readonly) GPBEnumValidationFunc validationFunc;
@@ -1269,7 +1276,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A newly instanced GPBEnumArray.
  **/
-+ (instancetype)arrayWithValidationFunction:(nullable GPBEnumValidationFunc)func;
++ (instancetype)arrayWithValidationFunction:
+    (nullable GPBEnumValidationFunc)func;
 
 /**
  * Creates and initializes a GPBEnumArray with the enum validation function
@@ -1281,7 +1289,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A newly instanced GPBEnumArray.
  **/
 + (instancetype)arrayWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    rawValue:(int32_t)value;
+                                   rawValue:(int32_t)value;
 
 /**
  * Creates and initializes a GPBEnumArray that adds the elements from the
@@ -1303,7 +1311,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A newly instanced GPBEnumArray with a capacity of count.
  **/
 + (instancetype)arrayWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    capacity:(NSUInteger)count;
+                                   capacity:(NSUInteger)count;
 
 /**
  * Initializes the array with the given enum validation function.
@@ -1325,8 +1333,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A newly initialized GPBEnumArray with a copy of the values.
  **/
 - (instancetype)initWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    rawValues:(const int32_t [_Nullable])values
-    count:(NSUInteger)count;
+                                 rawValues:(const int32_t[_Nullable])values
+                                     count:(NSUInteger)count;
 
 /**
  * Initializes the array, copying the given values.
@@ -1346,10 +1354,10 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A newly initialized GPBEnumArray with a capacity of count.
  **/
 - (instancetype)initWithValidationFunction:(nullable GPBEnumValidationFunc)func
-    capacity:(NSUInteger)count;
+                                  capacity:(NSUInteger)count;
 
-// These will return kGPBUnrecognizedEnumeratorValue if the value at index is not a
-// valid enumerator as defined by validationFunc. If the actual value is
+// These will return kGPBUnrecognizedEnumeratorValue if the value at index is
+// not a valid enumerator as defined by validationFunc. If the actual value is
 // desired, use "raw" version of the method.
 
 /**
@@ -1369,7 +1377,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **idx**:   The index of the current value.
  *   **stop**:  A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateValuesWithBlock:(void (^)(int32_t value, NSUInteger idx, BOOL *stop))block;
+- (void)enumerateValuesWithBlock:(void (^)(int32_t value, NSUInteger idx,
+                                           BOOL *stop))block;
 
 /**
  * Enumerates the values on this array with the given block.
@@ -1381,10 +1390,11 @@ NS_ASSUME_NONNULL_BEGIN
  *   **stop**:  A pointer to a boolean that when set stops the enumeration.
  **/
 - (void)enumerateValuesWithOptions:(NSEnumerationOptions)opts
-    usingBlock:(void (^)(int32_t value, NSUInteger idx, BOOL *stop))block;
+                        usingBlock:(void (^)(int32_t value, NSUInteger idx,
+                                             BOOL *stop))block;
 
-// These methods bypass the validationFunc to provide access to values that were not
-// known at the time the binary was compiled.
+// These methods bypass the validationFunc to provide access to values that were
+// not known at the time the binary was compiled.
 
 /**
  * Gets the raw enum value at the given index.
@@ -1403,7 +1413,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **idx**:   The index of the current value.
  *   **stop**:  A pointer to a boolean that when set stops the enumeration.
  **/
-- (void)enumerateRawValuesWithBlock:(void (^)(int32_t value, NSUInteger idx, BOOL *stop))block;
+- (void)enumerateRawValuesWithBlock:(void (^)(int32_t value, NSUInteger idx,
+                                              BOOL *stop))block;
 
 /**
  * Enumerates the values on this array with the given block.
@@ -1415,7 +1426,8 @@ NS_ASSUME_NONNULL_BEGIN
  *   **stop**:  A pointer to a boolean that when set stops the enumeration.
  **/
 - (void)enumerateRawValuesWithOptions:(NSEnumerationOptions)opts
-    usingBlock:(void (^)(int32_t value, NSUInteger idx, BOOL *stop))block;
+                           usingBlock:(void (^)(int32_t value, NSUInteger idx,
+                                                BOOL *stop))block;
 
 // If value is not a valid enumerator as defined by validationFunc, these
 // methods will assert in debug, and will log in release and assign the value
@@ -1435,8 +1447,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param values The values to add to this array.
  * @param count  The number of elements to add.
  **/
-- (void)addValues:(const int32_t [_Nullable])values count:(NSUInteger)count;
-
+- (void)addValues:(const int32_t[_Nullable])values count:(NSUInteger)count;
 
 /**
  * Inserts a value into the given position.
@@ -1454,14 +1465,14 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 - (void)replaceValueAtIndex:(NSUInteger)index withValue:(int32_t)value;
 
-// These methods bypass the validationFunc to provide setting of values that were not
-// known at the time the binary was compiled.
+// These methods bypass the validationFunc to provide setting of values that
+// were not known at the time the binary was compiled.
 
 /**
  * Adds a raw enum value to this array.
  *
- * @note This method bypass the validationFunc to enable the setting of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the setting of values
+ *that were not known at the time the binary was compiled.
  *
  * @param value The raw enum value to add to the array.
  **/
@@ -1470,8 +1481,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Adds raw enum values to this array.
  *
- * @note This method bypass the validationFunc to enable the setting of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the setting of values
+ *that were not known at the time the binary was compiled.
  *
  * @param array Array containing the raw enum values to add to this array.
  **/
@@ -1480,19 +1491,19 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Adds raw enum values to this array.
  *
- * @note This method bypass the validationFunc to enable the setting of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the setting of values
+ *that were not known at the time the binary was compiled.
  *
  * @param values Array containing the raw enum values to add to this array.
  * @param count  The number of raw values to add.
  **/
-- (void)addRawValues:(const int32_t [_Nullable])values count:(NSUInteger)count;
+- (void)addRawValues:(const int32_t[_Nullable])values count:(NSUInteger)count;
 
 /**
  * Inserts a raw enum value at the given index.
  *
- * @note This method bypass the validationFunc to enable the setting of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the setting of values
+ *that were not known at the time the binary was compiled.
  *
  * @param value Raw enum value to add.
  * @param index The index into which to insert the value.
@@ -1502,8 +1513,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Replaces the raw enum value at the given index with the given value.
  *
- * @note This method bypass the validationFunc to enable the setting of values that
- *       were not known at the time the binary was compiled.
+ * @note This method bypass the validationFunc to enable the setting of values
+ *that were not known at the time the binary was compiled.
  *
  * @param index The index for which to replace the value.
  * @param value The raw enum value to replace with.
@@ -1530,8 +1541,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param idx1 The index of the first element to exchange.
  * @param idx2 The index of the second element to exchange.
  **/
-- (void)exchangeValueAtIndex:(NSUInteger)idx1
-    withValueAtIndex:(NSUInteger)idx2;
+- (void)exchangeValueAtIndex:(NSUInteger)idx1 withValueAtIndex:(NSUInteger)idx2;
 
 @end
 
@@ -1557,11 +1567,9 @@ NS_ASSUME_NONNULL_END
 //%#pragma mark - NAME
 //%
 //%/**
-//% * Class used for repeated fields of ##TYPE## values. This performs better than
-//% * boxing into NSNumbers in NSArrays.
-//% *
-//% * @note This class is not meant to be subclassed.
-//% **/
+//% * Class used for repeated fields of ##TYPE## values. This performs better
+//than % * boxing into NSNumbers in NSArrays. % * % * @note This class is not
+//meant to be subclassed. % **/
 //%@interface GPB##NAME##Array : NSObject <NSCopying>
 //%
 //%/** The number of elements contained in the array. */
@@ -1667,26 +1675,19 @@ NS_ASSUME_NONNULL_END
 //%+ (instancetype)array;
 //%
 //%/**
-//% * Creates and initializes a GPB##NAME##Array with the enum validation function
-//% * given.
-//% *
-//% * @param func The enum validation function for the array.
-//% *
-//% * @return A newly instanced GPB##NAME##Array.
-//% **/
-//%+ (instancetype)arrayWithValidationFunction:(nullable GPBEnumValidationFunc)func;
+//% * Creates and initializes a GPB##NAME##Array with the enum validation
+//function % * given. % * % * @param func The enum validation function for the
+//array. % * % * @return A newly instanced GPB##NAME##Array. % **/
+//%+ (instancetype)arrayWithValidationFunction:(nullable
+//GPBEnumValidationFunc)func;
 //%
 //%/**
-//% * Creates and initializes a GPB##NAME##Array with the enum validation function
-//% * given and the single raw value given.
-//% *
-//% * @param func  The enum validation function for the array.
-//% * @param value The raw value to add to this array.
-//% *
-//% * @return A newly instanced GPB##NAME##Array.
-//% **/
-//%+ (instancetype)arrayWithValidationFunction:(nullable GPBEnumValidationFunc)func
-//%                                   rawValue:(TYPE)value;
+//% * Creates and initializes a GPB##NAME##Array with the enum validation
+//function % * given and the single raw value given. % * % * @param func  The
+//enum validation function for the array. % * @param value The raw value to add
+//to this array. % * % * @return A newly instanced GPB##NAME##Array. % **/
+//%+ (instancetype)arrayWithValidationFunction:(nullable
+//GPBEnumValidationFunc)func % rawValue:(TYPE)value;
 //%
 //%/**
 //% * Creates and initializes a GPB##NAME##Array that adds the elements from the
@@ -1707,8 +1708,8 @@ NS_ASSUME_NONNULL_END
 //% *
 //% * @return A newly instanced GPB##NAME##Array with a capacity of count.
 //% **/
-//%+ (instancetype)arrayWithValidationFunction:(nullable GPBEnumValidationFunc)func
-//%                                   capacity:(NSUInteger)count;
+//%+ (instancetype)arrayWithValidationFunction:(nullable
+//GPBEnumValidationFunc)func % capacity:(NSUInteger)count;
 //%
 //%/**
 //% * Initializes the array with the given enum validation function.
@@ -1717,8 +1718,8 @@ NS_ASSUME_NONNULL_END
 //% *
 //% * @return A newly initialized GPB##NAME##Array with a copy of the values.
 //% **/
-//%- (instancetype)initWithValidationFunction:(nullable GPBEnumValidationFunc)func
-//%    NS_DESIGNATED_INITIALIZER;
+//%- (instancetype)initWithValidationFunction:(nullable
+//GPBEnumValidationFunc)func %    NS_DESIGNATED_INITIALIZER;
 //%
 //%/**
 //% * Initializes the array, copying the given values.
@@ -1729,9 +1730,9 @@ NS_ASSUME_NONNULL_END
 //% *
 //% * @return A newly initialized GPB##NAME##Array with a copy of the values.
 //% **/
-//%- (instancetype)initWithValidationFunction:(nullable GPBEnumValidationFunc)func
-//%                                 rawValues:(const TYPE [])values
-//%                                     count:(NSUInteger)count;
+//%- (instancetype)initWithValidationFunction:(nullable
+//GPBEnumValidationFunc)func %                                 rawValues:(const
+//TYPE [])values %                                     count:(NSUInteger)count;
 //%
 //%/**
 //% * Initializes the array, copying the given values.
@@ -1750,16 +1751,18 @@ NS_ASSUME_NONNULL_END
 //% *
 //% * @return A newly initialized GPB##NAME##Array with a capacity of count.
 //% **/
-//%- (instancetype)initWithValidationFunction:(nullable GPBEnumValidationFunc)func
-//%                                  capacity:(NSUInteger)count;
+//%- (instancetype)initWithValidationFunction:(nullable
+//GPBEnumValidationFunc)func % capacity:(NSUInteger)count;
 //%
-//%// These will return kGPBUnrecognizedEnumeratorValue if the value at index is not a
+//%// These will return kGPBUnrecognizedEnumeratorValue if the value at index is
+//not a
 //%// valid enumerator as defined by validationFunc. If the actual value is
 //%// desired, use "raw" version of the method.
 //%
 //%ARRAY_IMMUTABLE_INTERFACE(NAME, TYPE, NAME)
 //%
-//%// These methods bypass the validationFunc to provide access to values that were not
+//%// These methods bypass the validationFunc to provide access to values that
+//were not
 //%// known at the time the binary was compiled.
 //%
 //%/**
@@ -1779,7 +1782,8 @@ NS_ASSUME_NONNULL_END
 //% *   **idx**:   The index of the current value.
 //% *   **stop**:  A pointer to a boolean that when set stops the enumeration.
 //% **/
-//%- (void)enumerateRawValuesWithBlock:(void (^)(TYPE value, NSUInteger idx, BOOL *stop))block;
+//%- (void)enumerateRawValuesWithBlock:(void (^)(TYPE value, NSUInteger idx,
+//BOOL *stop))block;
 //%
 //%/**
 //% * Enumerates the values on this array with the given block.
@@ -1791,11 +1795,13 @@ NS_ASSUME_NONNULL_END
 //% *   **stop**:  A pointer to a boolean that when set stops the enumeration.
 //% **/
 //%- (void)enumerateRawValuesWithOptions:(NSEnumerationOptions)opts
-//%                           usingBlock:(void (^)(TYPE value, NSUInteger idx, BOOL *stop))block;
+//%                           usingBlock:(void (^)(TYPE value, NSUInteger idx,
+//BOOL *stop))block;
 //%
 //%// If value is not a valid enumerator as defined by validationFunc, these
 //%// methods will assert in debug, and will log in release and assign the value
-//%// to the default value. Use the rawValue methods below to assign non enumerator
+//%// to the default value. Use the rawValue methods below to assign non
+//enumerator
 //%// values.
 //%
 //%ARRAY_MUTABLE_INTERFACE(NAME, TYPE, NAME)
@@ -1821,7 +1827,8 @@ NS_ASSUME_NONNULL_END
 //% *   **idx**:   The index of the current value.
 //% *   **stop**:  A pointer to a boolean that when set stops the enumeration.
 //% **/
-//%- (void)enumerateValuesWithBlock:(void (^)(TYPE value, NSUInteger idx, BOOL *stop))block;
+//%- (void)enumerateValuesWithBlock:(void (^)(TYPE value, NSUInteger idx, BOOL
+//*stop))block;
 //%
 //%/**
 //% * Enumerates the values on this array with the given block.
@@ -1833,7 +1840,8 @@ NS_ASSUME_NONNULL_END
 //% *   **stop**:  A pointer to a boolean that when set stops the enumeration.
 //% **/
 //%- (void)enumerateValuesWithOptions:(NSEnumerationOptions)opts
-//%                        usingBlock:(void (^)(TYPE value, NSUInteger idx, BOOL *stop))block;
+//%                        usingBlock:(void (^)(TYPE value, NSUInteger idx, BOOL
+//*stop))block;
 
 //%PDDM-DEFINE ARRAY_MUTABLE_INTERFACE(NAME, TYPE, HELPER_NAME)
 //%/**
@@ -1907,15 +1915,15 @@ NS_ASSUME_NONNULL_END
 // Empty
 //%PDDM-DEFINE ARRAY_EXTRA_MUTABLE_METHODS2_Enum(NAME, TYPE)
 //%
-//%// These methods bypass the validationFunc to provide setting of values that were not
+//%// These methods bypass the validationFunc to provide setting of values that
+//were not
 //%// known at the time the binary was compiled.
 //%
 //%/**
 //% * Adds a raw enum value to this array.
 //% *
-//% * @note This method bypass the validationFunc to enable the setting of values that
-//% *       were not known at the time the binary was compiled.
-//% *
+//% * @note This method bypass the validationFunc to enable the setting of
+//values that % *       were not known at the time the binary was compiled. % *
 //% * @param value The raw enum value to add to the array.
 //% **/
 //%- (void)addRawValue:(TYPE)value;
@@ -1923,9 +1931,8 @@ NS_ASSUME_NONNULL_END
 //%/**
 //% * Adds raw enum values to this array.
 //% *
-//% * @note This method bypass the validationFunc to enable the setting of values that
-//% *       were not known at the time the binary was compiled.
-//% *
+//% * @note This method bypass the validationFunc to enable the setting of
+//values that % *       were not known at the time the binary was compiled. % *
 //% * @param array Array containing the raw enum values to add to this array.
 //% **/
 //%- (void)addRawValuesFromArray:(GPB##NAME##Array *)array;
@@ -1933,9 +1940,8 @@ NS_ASSUME_NONNULL_END
 //%/**
 //% * Adds raw enum values to this array.
 //% *
-//% * @note This method bypass the validationFunc to enable the setting of values that
-//% *       were not known at the time the binary was compiled.
-//% *
+//% * @note This method bypass the validationFunc to enable the setting of
+//values that % *       were not known at the time the binary was compiled. % *
 //% * @param values Array containing the raw enum values to add to this array.
 //% * @param count  The number of raw values to add.
 //% **/
@@ -1944,9 +1950,8 @@ NS_ASSUME_NONNULL_END
 //%/**
 //% * Inserts a raw enum value at the given index.
 //% *
-//% * @note This method bypass the validationFunc to enable the setting of values that
-//% *       were not known at the time the binary was compiled.
-//% *
+//% * @note This method bypass the validationFunc to enable the setting of
+//values that % *       were not known at the time the binary was compiled. % *
 //% * @param value Raw enum value to add.
 //% * @param index The index into which to insert the value.
 //% **/
@@ -1955,9 +1960,8 @@ NS_ASSUME_NONNULL_END
 //%/**
 //% * Replaces the raw enum value at the given index with the given value.
 //% *
-//% * @note This method bypass the validationFunc to enable the setting of values that
-//% *       were not known at the time the binary was compiled.
-//% *
+//% * @note This method bypass the validationFunc to enable the setting of
+//values that % *       were not known at the time the binary was compiled. % *
 //% * @param index The index for which to replace the value.
 //% * @param value The raw enum value to replace with.
 //% **/

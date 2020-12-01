@@ -6,7 +6,8 @@
 // Accept archives from older versions?
 #define ENABLE_SIGARCHIVE_MIGRATION_VALIDATION 0
 
-#if ENABLE_SIGARCHIVE_MIGRATION_CREATION || ENABLE_SIGARCHIVE_MIGRATION_VALIDATION
+#if ENABLE_SIGARCHIVE_MIGRATION_CREATION ||                                    \
+    ENABLE_SIGARCHIVE_MIGRATION_VALIDATION
 #warning NOTE: SIGArchive migration flags enabled
 #endif
 

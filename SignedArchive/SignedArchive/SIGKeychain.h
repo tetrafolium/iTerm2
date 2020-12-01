@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SIGKeychain : NSObject
 
-@property (nonatomic, readonly) SecKeychainRef secKeychain;
+@property(nonatomic, readonly) SecKeychainRef secKeychain;
 
 + (instancetype)sharedInstance;
 

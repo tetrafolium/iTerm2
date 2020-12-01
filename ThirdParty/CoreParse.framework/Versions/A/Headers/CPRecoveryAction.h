@@ -10,11 +10,10 @@
 
 #import "CPToken.h"
 
-typedef enum
-{
-    CPRecoveryTypeAddToken    = 0,
-    CPRecoveryTypeRemoveToken,
-    CPRecoveryTypeBail
+typedef enum {
+  CPRecoveryTypeAddToken = 0,
+  CPRecoveryTypeRemoveToken,
+  CPRecoveryTypeBail
 } CPRecoveryType;
 
 /**
@@ -22,18 +21,21 @@ typedef enum
  */
 @interface CPRecoveryAction : NSObject
 
-    /**
-     * The type of recovery action to take.  May be CPRecoveryTypeAddToken or CPRecoveryTypeRemoveToken.
-     */
-@property (readwrite, assign) CPRecoveryType recoveryType;
-
 /**
- * The token to insert in the token streem if a CPRecoveryTypeAddToken action is taken.
+ * The type of recovery action to take.  May be CPRecoveryTypeAddToken or
+ * CPRecoveryTypeRemoveToken.
  */
-@property (readwrite, retain) CPToken *additionalToken;
+@property(readwrite, assign) CPRecoveryType recoveryType;
 
 /**
- * Allocates an initialises a new CPRecoveryAction asking the parser to add a new token to the token stream.
+ * The token to insert in the token streem if a CPRecoveryTypeAddToken action is
+ * taken.
+ */
+@property(readwrite, retain) CPToken *additionalToken;
+
+/**
+ * Allocates an initialises a new CPRecoveryAction asking the parser to add a
+ * new token to the token stream.
  *
  * @param token The token to add to the stream.
  * @return A new recovery action.
@@ -41,19 +43,22 @@ typedef enum
 + (id)recoveryActionWithAdditionalToken:(CPToken *)token;
 
 /**
- * Allocates an initialises a new CPRecoveryAction asking the parser to delete an offending token from the token stream.
+ * Allocates an initialises a new CPRecoveryAction asking the parser to delete
+ * an offending token from the token stream.
  *
  * @return A new recovery action.
  */
 + (id)recoveryActionDeletingCurrentToken;
 
 /**
- * Allocates and initialise a new CPRecovery action asking the parser to stop immediately.
+ * Allocates and initialise a new CPRecovery action asking the parser to stop
+ * immediately.
  */
 + (id)recoveryActionStop;
 
 /**
- * Initialises a CPRecoveryAction asking the parser to add a new token to the token stream.
+ * Initialises a CPRecoveryAction asking the parser to add a new token to the
+ * token stream.
  *
  * @param token The token to add to the stream.
  * @return An initialised recovery action.
@@ -61,7 +66,8 @@ typedef enum
 - (id)initWithAdditionalToken:(CPToken *)token;
 
 /**
- * Initialises a CPRecoveryAction asking the parser to delete an offending token from the token stream.
+ * Initialises a CPRecoveryAction asking the parser to delete an offending token
+ * from the token stream.
  *
  * @return An initialised recovery action.
  */

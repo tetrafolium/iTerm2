@@ -11,11 +11,11 @@
 @implementation RuleBase
 
 - (id)initWithSyntaxTree:(CPSyntaxTree *)syntaxTree {
-    self = [super init];
-    if (nil != self) {
-    }
+  self = [super init];
+  if (nil != self) {
+  }
 
-    return self;
+  return self;
 }
 
 @end

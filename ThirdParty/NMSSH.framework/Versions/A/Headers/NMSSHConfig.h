@@ -8,8 +8,8 @@
  */
 @interface NMSSHConfig : NSObject
 
-    /** The array of parsed NMSSHHostConfig objects. */
-@property (nonatomic, nonnull, readonly) NSArray<NMSSHHostConfig *> *hostConfigs;
+/** The array of parsed NMSSHHostConfig objects. */
+@property(nonatomic, nonnull, readonly) NSArray<NMSSHHostConfig *> *hostConfigs;
 
 /**
  Creates a new NMSSHConfig, reads the given {filename} and parses it.

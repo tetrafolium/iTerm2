@@ -5,7 +5,7 @@
  */
 @interface CPKKDTreeNode : NSObject
 
-    /** The associated object. */
+/** The associated object. */
 @property(nonatomic) id object;
 
 /** Array of NSNumber objects. */

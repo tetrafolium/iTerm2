@@ -14,28 +14,29 @@
 @synthesize value;
 
 - (id)initWithSyntaxTree:(CPSyntaxTree *)syntaxTree {
-    self = [self init];
+  self = [self init];
 
-    if (nil != self) {
-        NSArray *components = [syntaxTree children];
-        if ([components count] == 1) {
-            NSObject *term2 = [components objectAtIndex:0];
-            if ([term2 isMemberOfClass:[Term2 class]]) {
-                self.value = [(Term2 *)term2 value];
-            } else {
-                self.value = -1;
-            }
-        } else {
-            NSObject *term2 = [components objectAtIndex:2];
-            if ([term2 isMemberOfClass:[Term2 class]]) {
-                self.value = [(Expression2 *)[components objectAtIndex:0] value] + [(Term2 *)term2 value];
-            } else {
-                self.value = -1;
-            }
-        }
+  if (nil != self) {
+    NSArray *components = [syntaxTree children];
+    if ([components count] == 1) {
+      NSObject *term2 = [components objectAtIndex:0];
+      if ([term2 isMemberOfClass:[Term2 class]]) {
+        self.value = [(Term2 *)term2 value];
+      } else {
+        self.value = -1;
+      }
+    } else {
+      NSObject *term2 = [components objectAtIndex:2];
+      if ([term2 isMemberOfClass:[Term2 class]]) {
+        self.value = [(Expression2 *)[components objectAtIndex:0] value] +
+                     [(Term2 *)term2 value];
+      } else {
+        self.value = -1;
+      }
     }
+  }
 
-    return self;
+  return self;
 }
 
 @end

@@ -3,7 +3,7 @@
 @implementation CPKFlippedView
 
 - (BOOL)isFlipped {
-    return YES;
+  return YES;
 }
 
 @end

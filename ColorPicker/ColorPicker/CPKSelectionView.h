@@ -6,12 +6,14 @@
 @end
 
 /**
- * A collection of views to facilitate selecting a color. Shows a 2-D gradient, a slider, a hex RGB
- * text field, and separate red, green, and blue text fields.
+ * A collection of views to facilitate selecting a color. Shows a 2-D gradient,
+ * a slider, a hex RGB text field, and separate red, green, and blue text
+ * fields.
  */
 @interface CPKSelectionView : NSView
 
-    /** Assign to this to programatically change the color. Will invoke the callback block. */
+/** Assign to this to programatically change the color. Will invoke the callback
+ * block. */
 @property(nonatomic) CPKColor *selectedColor;
 
 /**
@@ -22,9 +24,9 @@
  * @param color The initial selected color
  */
 - (instancetype)initWithFrame:(NSRect)frameRect
-    block:(void (^)(CPKColor *))block
-    color:(CPKColor *)color
-    alphaAllowed:(BOOL)alphaAllowed;
+                        block:(void (^)(CPKColor *))block
+                        color:(CPKColor *)color
+                 alphaAllowed:(BOOL)alphaAllowed;
 
 @property(nonatomic, weak) id<CPKSelectionViewDelegate> delegate;
 

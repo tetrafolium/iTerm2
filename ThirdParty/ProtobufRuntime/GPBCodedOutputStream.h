@@ -56,14 +56,14 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBCodedOutputStream : NSObject
 
-    /**
-     * Creates a stream to fill in the given data. Data must be sized to fit or
-     * an error will be raised when out of space.
-     *
-     * @param data The data where the stream will be written to.
-     *
-     * @return A newly instanced GPBCodedOutputStream.
-     **/
+/**
+ * Creates a stream to fill in the given data. Data must be sized to fit or
+ * an error will be raised when out of space.
+ *
+ * @param data The data where the stream will be written to.
+ *
+ * @return A newly instanced GPBCodedOutputStream.
+ **/
 + (instancetype)streamWithData:(NSMutableData *)data;
 
 /**
@@ -163,8 +163,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param length The number of bytes from the blob to write out.
  **/
 - (void)writeRawPtr:(const void *)data
-    offset:(size_t)offset
-    length:(size_t)length;
+             offset:(size_t)offset
+             length:(size_t)length;
 
 //%PDDM-EXPAND _WRITE_DECLS()
 // This block of code is generated, do not edit it directly.
@@ -184,8 +184,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param tag         The tag assigned to the values.
  **/
 - (void)writeDoubleArray:(int32_t)fieldNumber
-    values:(GPBDoubleArray *)values
-    tag:(uint32_t)tag;
+                  values:(GPBDoubleArray *)values
+                     tag:(uint32_t)tag;
 /**
  * Write a double without any tag.
  *
@@ -208,8 +208,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param tag         The tag assigned to the values.
  **/
 - (void)writeFloatArray:(int32_t)fieldNumber
-    values:(GPBFloatArray *)values
-    tag:(uint32_t)tag;
+                 values:(GPBFloatArray *)values
+                    tag:(uint32_t)tag;
 /**
  * Write a float without any tag.
  *
@@ -232,8 +232,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param tag         The tag assigned to the values.
  **/
 - (void)writeUInt64Array:(int32_t)fieldNumber
-    values:(GPBUInt64Array *)values
-    tag:(uint32_t)tag;
+                  values:(GPBUInt64Array *)values
+                     tag:(uint32_t)tag;
 /**
  * Write a uint64_t without any tag.
  *
@@ -256,8 +256,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param tag         The tag assigned to the values.
  **/
 - (void)writeInt64Array:(int32_t)fieldNumber
-    values:(GPBInt64Array *)values
-    tag:(uint32_t)tag;
+                 values:(GPBInt64Array *)values
+                    tag:(uint32_t)tag;
 /**
  * Write a int64_t without any tag.
  *
@@ -280,8 +280,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param tag         The tag assigned to the values.
  **/
 - (void)writeInt32Array:(int32_t)fieldNumber
-    values:(GPBInt32Array *)values
-    tag:(uint32_t)tag;
+                 values:(GPBInt32Array *)values
+                    tag:(uint32_t)tag;
 /**
  * Write a int32_t without any tag.
  *
@@ -304,8 +304,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param tag         The tag assigned to the values.
  **/
 - (void)writeUInt32Array:(int32_t)fieldNumber
-    values:(GPBUInt32Array *)values
-    tag:(uint32_t)tag;
+                  values:(GPBUInt32Array *)values
+                     tag:(uint32_t)tag;
 /**
  * Write a uint32_t without any tag.
  *
@@ -328,8 +328,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param tag         The tag assigned to the values.
  **/
 - (void)writeFixed64Array:(int32_t)fieldNumber
-    values:(GPBUInt64Array *)values
-    tag:(uint32_t)tag;
+                   values:(GPBUInt64Array *)values
+                      tag:(uint32_t)tag;
 /**
  * Write a uint64_t without any tag.
  *
@@ -352,8 +352,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param tag         The tag assigned to the values.
  **/
 - (void)writeFixed32Array:(int32_t)fieldNumber
-    values:(GPBUInt32Array *)values
-    tag:(uint32_t)tag;
+                   values:(GPBUInt32Array *)values
+                      tag:(uint32_t)tag;
 /**
  * Write a uint32_t without any tag.
  *
@@ -376,8 +376,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param tag         The tag assigned to the values.
  **/
 - (void)writeSInt32Array:(int32_t)fieldNumber
-    values:(GPBInt32Array *)values
-    tag:(uint32_t)tag;
+                  values:(GPBInt32Array *)values
+                     tag:(uint32_t)tag;
 /**
  * Write a int32_t without any tag.
  *
@@ -400,8 +400,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param tag         The tag assigned to the values.
  **/
 - (void)writeSInt64Array:(int32_t)fieldNumber
-    values:(GPBInt64Array *)values
-    tag:(uint32_t)tag;
+                  values:(GPBInt64Array *)values
+                     tag:(uint32_t)tag;
 /**
  * Write a int64_t without any tag.
  *
@@ -424,8 +424,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param tag         The tag assigned to the values.
  **/
 - (void)writeSFixed64Array:(int32_t)fieldNumber
-    values:(GPBInt64Array *)values
-    tag:(uint32_t)tag;
+                    values:(GPBInt64Array *)values
+                       tag:(uint32_t)tag;
 /**
  * Write a int64_t without any tag.
  *
@@ -448,8 +448,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param tag         The tag assigned to the values.
  **/
 - (void)writeSFixed32Array:(int32_t)fieldNumber
-    values:(GPBInt32Array *)values
-    tag:(uint32_t)tag;
+                    values:(GPBInt32Array *)values
+                       tag:(uint32_t)tag;
 /**
  * Write a int32_t without any tag.
  *
@@ -472,8 +472,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param tag         The tag assigned to the values.
  **/
 - (void)writeBoolArray:(int32_t)fieldNumber
-    values:(GPBBoolArray *)values
-    tag:(uint32_t)tag;
+                values:(GPBBoolArray *)values
+                   tag:(uint32_t)tag;
 /**
  * Write a BOOL without any tag.
  *
@@ -496,8 +496,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param tag         The tag assigned to the values.
  **/
 - (void)writeEnumArray:(int32_t)fieldNumber
-    values:(GPBEnumArray *)values
-    tag:(uint32_t)tag;
+                values:(GPBEnumArray *)values
+                   tag:(uint32_t)tag;
 /**
  * Write a int32_t without any tag.
  *
@@ -518,7 +518,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param fieldNumber The field number assigned to the values.
  * @param values      The values to write out.
  **/
-- (void)writeStringArray:(int32_t)fieldNumber values:(NSArray<NSString*> *)values;
+- (void)writeStringArray:(int32_t)fieldNumber
+                  values:(NSArray<NSString *> *)values;
 /**
  * Write a NSString without any tag.
  *
@@ -539,7 +540,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param fieldNumber The field number assigned to the values.
  * @param values      The values to write out.
  **/
-- (void)writeMessageArray:(int32_t)fieldNumber values:(NSArray<GPBMessage*> *)values;
+- (void)writeMessageArray:(int32_t)fieldNumber
+                   values:(NSArray<GPBMessage *> *)values;
 /**
  * Write a GPBMessage without any tag.
  *
@@ -560,7 +562,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param fieldNumber The field number assigned to the values.
  * @param values      The values to write out.
  **/
-- (void)writeBytesArray:(int32_t)fieldNumber values:(NSArray<NSData*> *)values;
+- (void)writeBytesArray:(int32_t)fieldNumber values:(NSArray<NSData *> *)values;
 /**
  * Write a NSData without any tag.
  *
@@ -574,23 +576,22 @@ NS_ASSUME_NONNULL_BEGIN
  * @param fieldNumber The field number assigned to the value.
  * @param value       The value to write out.
  **/
-- (void)writeGroup:(int32_t)fieldNumber
-    value:(GPBMessage *)value;
+- (void)writeGroup:(int32_t)fieldNumber value:(GPBMessage *)value;
 /**
  * Write an array of GPBMessage for the given field number.
  *
  * @param fieldNumber The field number assigned to the values.
  * @param values      The values to write out.
  **/
-- (void)writeGroupArray:(int32_t)fieldNumber values:(NSArray<GPBMessage*> *)values;
+- (void)writeGroupArray:(int32_t)fieldNumber
+                 values:(NSArray<GPBMessage *> *)values;
 /**
  * Write a GPBMessage without any tag (but does write the endGroup tag).
  *
  * @param fieldNumber The field number assigned to the value.
  * @param value       The value to write out.
  **/
-- (void)writeGroupNoTag:(int32_t)fieldNumber
-    value:(GPBMessage *)value;
+- (void)writeGroupNoTag:(int32_t)fieldNumber value:(GPBMessage *)value;
 
 /**
  * Write a GPBUnknownFieldSet for the given field number.
@@ -599,14 +600,15 @@ NS_ASSUME_NONNULL_BEGIN
  * @param value       The value to write out.
  **/
 - (void)writeUnknownGroup:(int32_t)fieldNumber
-    value:(GPBUnknownFieldSet *)value;
+                    value:(GPBUnknownFieldSet *)value;
 /**
  * Write an array of GPBUnknownFieldSet for the given field number.
  *
  * @param fieldNumber The field number assigned to the values.
  * @param values      The values to write out.
  **/
-- (void)writeUnknownGroupArray:(int32_t)fieldNumber values:(NSArray<GPBUnknownFieldSet*> *)values;
+- (void)writeUnknownGroupArray:(int32_t)fieldNumber
+                        values:(NSArray<GPBUnknownFieldSet *> *)values;
 /**
  * Write a GPBUnknownFieldSet without any tag (but does write the endGroup tag).
  *
@@ -614,7 +616,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param value       The value to write out.
  **/
 - (void)writeUnknownGroupNoTag:(int32_t)fieldNumber
-    value:(GPBUnknownFieldSet *)value;
+                         value:(GPBUnknownFieldSet *)value;
 
 //%PDDM-EXPAND-END _WRITE_DECLS()
 
@@ -681,7 +683,8 @@ NS_ASSUME_NONNULL_END
 //% * @param fieldNumber The field number assigned to the values.
 //% * @param values      The values to write out.
 //% **/
-//%- (void)write##NAME##Array:(int32_t)fieldNumber values:(NSArray<##TYPE##*> *)values;
+//%- (void)write##NAME##Array:(int32_t)fieldNumber values:(NSArray<##TYPE##*>
+//*)values;
 //%/**
 //% * Write a TYPE without any tag.
 //% *
@@ -705,7 +708,8 @@ NS_ASSUME_NONNULL_END
 //% * @param fieldNumber The field number assigned to the values.
 //% * @param values      The values to write out.
 //% **/
-//%- (void)write##NAME##Array:(int32_t)fieldNumber values:(NSArray<##TYPE##*> *)values;
+//%- (void)write##NAME##Array:(int32_t)fieldNumber values:(NSArray<##TYPE##*>
+//*)values;
 //%/**
 //% * Write a TYPE without any tag (but does write the endGroup tag).
 //% *

@@ -41,37 +41,40 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** Syntax used in the proto file. */
 typedef NS_ENUM(uint8_t, GPBFileSyntax) {
-    /** Unknown syntax. */
-    GPBFileSyntaxUnknown = 0,
-    /** Proto2 syntax. */
-    GPBFileSyntaxProto2 = 2,
-    /** Proto3 syntax. */
-    GPBFileSyntaxProto3 = 3,
+  /** Unknown syntax. */
+  GPBFileSyntaxUnknown = 0,
+  /** Proto2 syntax. */
+  GPBFileSyntaxProto2 = 2,
+  /** Proto3 syntax. */
+  GPBFileSyntaxProto3 = 3,
 };
 
 /** Type of proto field. */
 typedef NS_ENUM(uint8_t, GPBFieldType) {
-    /** Optional/required field. Only valid for proto2 fields. */
-    GPBFieldTypeSingle,
-    /** Repeated field. */
-    GPBFieldTypeRepeated,
-    /** Map field. */
-    GPBFieldTypeMap,
+  /** Optional/required field. Only valid for proto2 fields. */
+  GPBFieldTypeSingle,
+  /** Repeated field. */
+  GPBFieldTypeRepeated,
+  /** Map field. */
+  GPBFieldTypeMap,
 };
 
 /**
  * Describes a proto message.
  **/
-@interface GPBDescriptor : NSObject<NSCopying>
+@interface GPBDescriptor : NSObject <NSCopying>
 
-    /** Name of the message. */
+/** Name of the message. */
 @property(nonatomic, readonly, copy) NSString *name;
 /** Fields declared in the message. */
-@property(nonatomic, readonly, strong, nullable) NSArray<GPBFieldDescriptor*> *fields;
+@property(nonatomic, readonly, strong, nullable)
+    NSArray<GPBFieldDescriptor *> *fields;
 /** Oneofs declared in the message. */
-@property(nonatomic, readonly, strong, nullable) NSArray<GPBOneofDescriptor*> *oneofs;
+@property(nonatomic, readonly, strong, nullable)
+    NSArray<GPBOneofDescriptor *> *oneofs;
 /** Extension range declared for the message. */
-@property(nonatomic, readonly, nullable) const GPBExtensionRange *extensionRanges;
+@property(nonatomic, readonly, nullable)
+    const GPBExtensionRange *extensionRanges;
 /** Number of extension ranges declared for the message. */
 @property(nonatomic, readonly) uint32_t extensionRangesCount;
 /** Descriptor for the file where the message was defined. */
@@ -81,7 +84,8 @@ typedef NS_ENUM(uint8_t, GPBFieldType) {
 @property(nonatomic, readonly, getter=isWireFormat) BOOL wireFormat;
 /** The class of this message. */
 @property(nonatomic, readonly) Class messageClass;
-/** Containing message descriptor if this message is nested, or nil otherwise. */
+/** Containing message descriptor if this message is nested, or nil otherwise.
+ */
 @property(readonly, nullable) GPBDescriptor *containingType;
 /**
  * Fully qualified name for this message (package.message). Can be nil if the
@@ -123,7 +127,7 @@ typedef NS_ENUM(uint8_t, GPBFieldType) {
  **/
 @interface GPBFileDescriptor : NSObject
 
-    /** The package declared in the proto file. */
+/** The package declared in the proto file. */
 @property(nonatomic, readonly, copy) NSString *package;
 /** The objc prefix declared in the proto file. */
 @property(nonatomic, readonly, copy, nullable) NSString *objcPrefix;
@@ -136,10 +140,10 @@ typedef NS_ENUM(uint8_t, GPBFieldType) {
  * Describes a oneof field.
  **/
 @interface GPBOneofDescriptor : NSObject
-    /** Name of the oneof field. */
+/** Name of the oneof field. */
 @property(nonatomic, readonly) NSString *name;
 /** Fields declared in the oneof. */
-@property(nonatomic, readonly) NSArray<GPBFieldDescriptor*> *fields;
+@property(nonatomic, readonly) NSArray<GPBFieldDescriptor *> *fields;
 
 /**
  * Gets the field for the given number.
@@ -166,7 +170,7 @@ typedef NS_ENUM(uint8_t, GPBFieldType) {
  **/
 @interface GPBFieldDescriptor : NSObject
 
-    /** Name of the field. */
+/** Name of the field. */
 @property(nonatomic, readonly, copy) NSString *name;
 /** Number associated with the field. */
 @property(nonatomic, readonly) uint32_t number;
@@ -188,13 +192,15 @@ typedef NS_ENUM(uint8_t, GPBFieldType) {
 @property(nonatomic, readonly, getter=isPackable) BOOL packable;
 
 /** The containing oneof if this field is part of one, nil otherwise. */
-@property(nonatomic, readonly, assign, nullable) GPBOneofDescriptor *containingOneof;
+@property(nonatomic, readonly, assign, nullable)
+    GPBOneofDescriptor *containingOneof;
 
 /** Class of the message if the field is of message type. */
 @property(nonatomic, readonly, assign, nullable) Class msgClass;
 
 /** Descriptor for the enum if this field is an enum. */
-@property(nonatomic, readonly, strong, nullable) GPBEnumDescriptor *enumDescriptor;
+@property(nonatomic, readonly, strong, nullable)
+    GPBEnumDescriptor *enumDescriptor;
 
 /**
  * Checks whether the given enum raw value is a valid enum value.
@@ -215,7 +221,7 @@ typedef NS_ENUM(uint8_t, GPBFieldType) {
  **/
 @interface GPBEnumDescriptor : NSObject
 
-    /** Name of the enum. */
+/** Name of the enum. */
 @property(nonatomic, readonly, copy) NSString *name;
 /** Function that validates that raw values are valid enum values. */
 @property(nonatomic, readonly) GPBEnumValidationFunc enumVerifier;
@@ -256,15 +262,16 @@ typedef NS_ENUM(uint8_t, GPBFieldType) {
  *
  * @return YES if a value was copied into the pointer, NO otherwise.
  **/
-- (BOOL)getValue:(nullable int32_t *)outValue forEnumTextFormatName:(NSString *)textFormatName;
+- (BOOL)getValue:(nullable int32_t *)outValue
+    forEnumTextFormatName:(NSString *)textFormatName;
 
 @end
 
 /**
  * Describes a proto extension.
  **/
-@interface GPBExtensionDescriptor : NSObject<NSCopying>
-    /** Field number under which the extension is stored. */
+@interface GPBExtensionDescriptor : NSObject <NSCopying>
+/** Field number under which the extension is stored. */
 @property(nonatomic, readonly) uint32_t fieldNumber;
 /** The containing message class, i.e. the class extended by this extension. */
 @property(nonatomic, readonly) Class containingMessageClass;
@@ -279,7 +286,8 @@ typedef NS_ENUM(uint8_t, GPBFieldType) {
 /** The singleton name for the extension. */
 @property(nonatomic, readonly) NSString *singletonName;
 /** The enum descriptor if the extension is of enum type. */
-@property(nonatomic, readonly, strong, nullable) GPBEnumDescriptor *enumDescriptor;
+@property(nonatomic, readonly, strong, nullable)
+    GPBEnumDescriptor *enumDescriptor;
 /** The default value for the extension. */
 @property(nonatomic, readonly, nullable) id defaultValue;
 

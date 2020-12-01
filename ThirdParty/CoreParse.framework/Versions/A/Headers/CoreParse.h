@@ -10,33 +10,32 @@
 
 #import "CPTokenStream.h"
 
-#import "CPTokenRecogniser.h"
+#import "CPIdentifierRecogniser.h"
 #import "CPKeywordRecogniser.h"
 #import "CPNumberRecogniser.h"
-#import "CPWhiteSpaceRecogniser.h"
-#import "CPIdentifierRecogniser.h"
 #import "CPQuotedRecogniser.h"
 #import "CPRegexpRecogniser.h"
+#import "CPTokenRecogniser.h"
+#import "CPWhiteSpaceRecogniser.h"
 
-#import "CPToken.h"
-#import "CPErrorToken.h"
 #import "CPEOFToken.h"
+#import "CPErrorToken.h"
+#import "CPIdentifierToken.h"
 #import "CPKeywordToken.h"
 #import "CPNumberToken.h"
-#import "CPWhiteSpaceToken.h"
 #import "CPQuotedToken.h"
-#import "CPIdentifierToken.h"
+#import "CPToken.h"
+#import "CPWhiteSpaceToken.h"
 
-#import "CPGrammarSymbol.h"
+#import "CPGrammar.h"
 #import "CPGrammarSymbol.h"
 #import "CPRule.h"
-#import "CPGrammar.h"
 
 #import "CPRecoveryAction.h"
 
+#import "CPLALR1Parser.h"
+#import "CPLR1Parser.h"
 #import "CPParser.h"
 #import "CPSLRParser.h"
-#import "CPLR1Parser.h"
-#import "CPLALR1Parser.h"
 
 #import "CPJSONParser.h"

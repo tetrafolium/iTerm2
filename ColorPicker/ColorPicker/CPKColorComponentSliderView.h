@@ -1,24 +1,25 @@
-#import <Cocoa/Cocoa.h>
 #import "CPKSliderView.h"
+#import <Cocoa/Cocoa.h>
 
 @class CPKColor;
 
 typedef NS_ENUM(NSInteger, CPKColorComponentSliderType) {
-    kCPKColorComponentSliderTypeHue,
-    kCPKColorComponentSliderTypeSaturation,
-    kCPKColorComponentSliderTypeBrightness,
-    kCPKColorComponentSliderTypeRed,
-    kCPKColorComponentSliderTypeGreen,
-    kCPKColorComponentSliderTypeBlue,
+  kCPKColorComponentSliderTypeHue,
+  kCPKColorComponentSliderTypeSaturation,
+  kCPKColorComponentSliderTypeBrightness,
+  kCPKColorComponentSliderTypeRed,
+  kCPKColorComponentSliderTypeGreen,
+  kCPKColorComponentSliderTypeBlue,
 };
 
 /**
- * A view that shows a rainbow of color component (hue, saturation, brightness, red, green, or blue)
- * values and allows the user to select one.
+ * A view that shows a rainbow of color component (hue, saturation, brightness,
+ * red, green, or blue) values and allows the user to select one.
  */
 @interface CPKColorComponentSliderView : CPKSliderView
 
-    /** The selected color. Setting this sets the selectedValue and updates the gradient. */
+/** The selected color. Setting this sets the selectedValue and updates the
+ * gradient. */
 @property(nonatomic) CPKColor *color;
 
 /** The slider type. */
@@ -35,11 +36,12 @@ typedef NS_ENUM(NSInteger, CPKColorComponentSliderType) {
  * @return An initialized instance.
  */
 - (instancetype)initWithFrame:(NSRect)frame
-    color:(CPKColor *)color
-    type:(CPKColorComponentSliderType)type
-    block:(void (^)(CGFloat))block;
+                        color:(CPKColor *)color
+                         type:(CPKColorComponentSliderType)type
+                        block:(void (^)(CGFloat))block;
 
-/** Changes the colors in the slider's gradient but does not update the selection. */
+/** Changes the colors in the slider's gradient but does not update the
+ * selection. */
 - (void)setGradientColor:(CPKColor *)color;
 
 @end

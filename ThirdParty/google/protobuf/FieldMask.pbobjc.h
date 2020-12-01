@@ -38,15 +38,15 @@ NS_ASSUME_NONNULL_BEGIN
  * @code
  *   + (GPBExtensionRegistry *)extensionRegistry;
  * @endcode
- * which is a @c GPBExtensionRegistry that includes all the extensions defined by
- * this file and all files that it depends on.
+ * which is a @c GPBExtensionRegistry that includes all the extensions defined
+ *by this file and all files that it depends on.
  **/
 @interface GPBFieldMaskRoot : GPBRootObject
 @end
 
 #pragma mark - GPBFieldMask
 
-typedef GPB_ENUM(GPBFieldMask_FieldNumber) {
+typedef GPB_ENUM(GPBFieldMask_FieldNumber){
     GPBFieldMask_FieldNumber_PathsArray = 1,
 };
 
@@ -255,9 +255,11 @@ typedef GPB_ENUM(GPBFieldMask_FieldNumber) {
  **/
 @interface GPBFieldMask : GPBMessage
 
-    /** The set of field mask paths. */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<NSString*> *pathsArray;
-/** The number of items in @c pathsArray without causing the array to be created. */
+/** The set of field mask paths. */
+@property(nonatomic, readwrite, strong, null_resettable)
+    NSMutableArray<NSString *> *pathsArray;
+/** The number of items in @c pathsArray without causing the array to be
+ * created. */
 @property(nonatomic, readonly) NSUInteger pathsArray_Count;
 
 @end

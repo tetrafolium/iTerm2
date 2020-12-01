@@ -49,10 +49,10 @@ extern NSString *const GPBMessageErrorDomain;
 
 /** Error codes for NSErrors originated in GPBMessage. */
 typedef NS_ENUM(NSInteger, GPBMessageErrorCode) {
-    /** Uncategorized error. */
-    GPBMessageErrorCodeOther = -100,
-    /** Message couldn't be serialized because it is missing required fields. */
-    GPBMessageErrorCodeMissingRequiredField = -101,
+  /** Uncategorized error. */
+  GPBMessageErrorCodeOther = -100,
+  /** Message couldn't be serialized because it is missing required fields. */
+  GPBMessageErrorCodeMissingRequiredField = -101,
 };
 
 /**
@@ -75,19 +75,19 @@ CF_EXTERN_C_END
  *       @c +parseFromData:extensionRegistry:error: to provide an extension
  *       registry.
  **/
-@interface GPBMessage : NSObject<NSSecureCoding, NSCopying>
+@interface GPBMessage : NSObject <NSSecureCoding, NSCopying>
 
 // If you add an instance method/property to this class that may conflict with
 // fields declared in protos, you need to update objective_helpers.cc. The main
 // cases are methods that take no arguments, or setFoo:/hasFoo: type methods.
 
-    /**
-     * The set of unknown fields for this message.
-     *
-     * Only messages from proto files declared with "proto2" syntax support unknown
-     * fields. For "proto3" syntax, any unknown fields found while parsing are
-     * dropped.
-     **/
+/**
+ * The set of unknown fields for this message.
+ *
+ * Only messages from proto files declared with "proto2" syntax support unknown
+ * fields. For "proto3" syntax, any unknown fields found while parsing are
+ * dropped.
+ **/
 @property(nonatomic, copy, nullable) GPBUnknownFieldSet *unknownFields;
 
 /**
@@ -120,7 +120,8 @@ CF_EXTERN_C_END
  *
  * @return A new instance of the generated class.
  **/
-+ (nullable instancetype)parseFromData:(NSData *)data error:(NSError **)errorPtr;
++ (nullable instancetype)parseFromData:(NSData *)data
+                                 error:(NSError **)errorPtr;
 
 /**
  * Creates a new instance by parsing the data. This method should be sent to
@@ -142,8 +143,9 @@ CF_EXTERN_C_END
  * @return A new instance of the generated class.
  **/
 + (nullable instancetype)parseFromData:(NSData *)data
-    extensionRegistry:(nullable GPBExtensionRegistry *)extensionRegistry
-    error:(NSError **)errorPtr;
+                     extensionRegistry:
+                         (nullable GPBExtensionRegistry *)extensionRegistry
+                                 error:(NSError **)errorPtr;
 
 /**
  * Creates a new instance by parsing the data from the given input stream. This
@@ -164,10 +166,10 @@ CF_EXTERN_C_END
  *
  * @return A new instance of the generated class.
  **/
-+ (nullable instancetype)parseFromCodedInputStream:(GPBCodedInputStream *)input
-    extensionRegistry:
-    (nullable GPBExtensionRegistry *)extensionRegistry
-    error:(NSError **)errorPtr;
++ (nullable instancetype)
+    parseFromCodedInputStream:(GPBCodedInputStream *)input
+            extensionRegistry:(nullable GPBExtensionRegistry *)extensionRegistry
+                        error:(NSError **)errorPtr;
 
 /**
  * Creates a new instance by parsing the data from the given input stream. This
@@ -189,10 +191,11 @@ CF_EXTERN_C_END
  *
  * @return A new instance of the generated class.
  **/
-+ (nullable instancetype)parseDelimitedFromCodedInputStream:(GPBCodedInputStream *)input
-    extensionRegistry:
-    (nullable GPBExtensionRegistry *)extensionRegistry
-    error:(NSError **)errorPtr;
++ (nullable instancetype)
+    parseDelimitedFromCodedInputStream:(GPBCodedInputStream *)input
+                     extensionRegistry:
+                         (nullable GPBExtensionRegistry *)extensionRegistry
+                                 error:(NSError **)errorPtr;
 
 /**
  * Initializes an instance by parsing the data. This method should be sent to
@@ -234,8 +237,9 @@ CF_EXTERN_C_END
  * @return An initialized instance of the generated class.
  **/
 - (nullable instancetype)initWithData:(NSData *)data
-    extensionRegistry:(nullable GPBExtensionRegistry *)extensionRegistry
-    error:(NSError **)errorPtr;
+                    extensionRegistry:
+                        (nullable GPBExtensionRegistry *)extensionRegistry
+                                error:(NSError **)errorPtr;
 
 /**
  * Initializes an instance by parsing the data from the given input stream. This
@@ -257,10 +261,10 @@ CF_EXTERN_C_END
  *
  * @return An initialized instance of the generated class.
  **/
-- (nullable instancetype)initWithCodedInputStream:(GPBCodedInputStream *)input
-    extensionRegistry:
-    (nullable GPBExtensionRegistry *)extensionRegistry
-    error:(NSError **)errorPtr;
+- (nullable instancetype)
+    initWithCodedInputStream:(GPBCodedInputStream *)input
+           extensionRegistry:(nullable GPBExtensionRegistry *)extensionRegistry
+                       error:(NSError **)errorPtr;
 
 /**
  * Parses the given data as this message's class, and merges those values into
@@ -414,7 +418,7 @@ CF_EXTERN_C_END
  * @param value     The value to be set as the extension.
  **/
 - (void)setExtension:(GPBExtensionDescriptor *)extension
-    value:(nullable id)value;
+               value:(nullable id)value;
 
 /**
  * Adds the given value to the extension for this message. This only applies
@@ -436,8 +440,8 @@ CF_EXTERN_C_END
  * @param value     The value to be replaced in the repeated extension.
  **/
 - (void)setExtension:(GPBExtensionDescriptor *)extension
-    index:(NSUInteger)index
-    value:(id)value;
+               index:(NSUInteger)index
+               value:(id)value;
 
 /**
  * Clears the given extension for this message.

@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 In The Beginning... All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import <CoreParse/CoreParse.h>
+#import <Foundation/Foundation.h>
 
 @interface RuleBase : NSObject <CPParseResult>
 

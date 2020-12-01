@@ -38,15 +38,15 @@ NS_ASSUME_NONNULL_BEGIN
  * @code
  *   + (GPBExtensionRegistry *)extensionRegistry;
  * @endcode
- * which is a @c GPBExtensionRegistry that includes all the extensions defined by
- * this file and all files that it depends on.
+ * which is a @c GPBExtensionRegistry that includes all the extensions defined
+ *by this file and all files that it depends on.
  **/
 @interface GPBAnyRoot : GPBRootObject
 @end
 
 #pragma mark - GPBAny
 
-typedef GPB_ENUM(GPBAny_FieldNumber) {
+typedef GPB_ENUM(GPBAny_FieldNumber){
     GPBAny_FieldNumber_TypeURL = 1,
     GPBAny_FieldNumber_Value = 2,
 };
@@ -124,29 +124,29 @@ typedef GPB_ENUM(GPBAny_FieldNumber) {
  **/
 @interface GPBAny : GPBMessage
 
-    /**
-     * A URL/resource name whose content describes the type of the
-     * serialized protocol buffer message.
-     *
-     * For URLs which use the scheme `http`, `https`, or no scheme, the
-     * following restrictions and interpretations apply:
-     *
-     * * If no scheme is provided, `https` is assumed.
-     * * The last segment of the URL's path must represent the fully
-     *   qualified name of the type (as in `path/google.protobuf.Duration`).
-     *   The name should be in a canonical form (e.g., leading "." is
-     *   not accepted).
-     * * An HTTP GET on the URL must yield a [google.protobuf.Type][]
-     *   value in binary format, or produce an error.
-     * * Applications are allowed to cache lookup results based on the
-     *   URL, or have them precompiled into a binary to avoid any
-     *   lookup. Therefore, binary compatibility needs to be preserved
-     *   on changes to types. (Use versioned type names to manage
-     *   breaking changes.)
-     *
-     * Schemes other than `http`, `https` (or the empty scheme) might be
-     * used with implementation specific semantics.
-     **/
+/**
+ * A URL/resource name whose content describes the type of the
+ * serialized protocol buffer message.
+ *
+ * For URLs which use the scheme `http`, `https`, or no scheme, the
+ * following restrictions and interpretations apply:
+ *
+ * * If no scheme is provided, `https` is assumed.
+ * * The last segment of the URL's path must represent the fully
+ *   qualified name of the type (as in `path/google.protobuf.Duration`).
+ *   The name should be in a canonical form (e.g., leading "." is
+ *   not accepted).
+ * * An HTTP GET on the URL must yield a [google.protobuf.Type][]
+ *   value in binary format, or produce an error.
+ * * Applications are allowed to cache lookup results based on the
+ *   URL, or have them precompiled into a binary to avoid any
+ *   lookup. Therefore, binary compatibility needs to be preserved
+ *   on changes to types. (Use versioned type names to manage
+ *   breaking changes.)
+ *
+ * Schemes other than `http`, `https` (or the empty scheme) might be
+ * used with implementation specific semantics.
+ **/
 @property(nonatomic, readwrite, copy, null_resettable) NSString *typeURL;
 
 /** Must be a valid serialized protocol buffer of the above specified type. */

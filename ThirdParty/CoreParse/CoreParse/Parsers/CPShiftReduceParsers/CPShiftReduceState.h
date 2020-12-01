@@ -10,8 +10,8 @@
 
 @interface CPShiftReduceState : NSObject
 
-@property (readonly,retain) NSObject *object;
-@property (readonly,assign) NSUInteger state;
+@property(readonly, retain) NSObject *object;
+@property(readonly, assign) NSUInteger state;
 
 + (id)shiftReduceStateWithObject:(NSObject *)object state:(NSUInteger)state;
 - (id)initWithObject:(NSObject *)initObject state:(NSUInteger)initState;

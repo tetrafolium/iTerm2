@@ -8,86 +8,79 @@
 
 #import "CPQuotedToken.h"
 
-
-@implementation CPQuotedToken
-{
+@implementation CPQuotedToken {
 @private
-    NSString *content;
-    NSString *quoteType;
-    NSString *name;
+  NSString *content;
+  NSString *quoteType;
+  NSString *name;
 }
 
 @synthesize content;
 @synthesize quoteType;
 
-+ (id)content:(NSString *)content quotedWith:(NSString *)quoteType name:(NSString *)name
-{
-    return [[[CPQuotedToken alloc] initWithContent:content quoteType:quoteType name:name] autorelease];
++ (id)content:(NSString *)content
+    quotedWith:(NSString *)quoteType
+          name:(NSString *)name {
+  return [[[CPQuotedToken alloc] initWithContent:content
+                                       quoteType:quoteType
+                                            name:name] autorelease];
 }
 
-- (id)initWithContent:(NSString *)initContent quoteType:(NSString *)initQuoteType name:(NSString *)initName
-{
-    self = [super init];
+- (id)initWithContent:(NSString *)initContent
+            quoteType:(NSString *)initQuoteType
+                 name:(NSString *)initName {
+  self = [super init];
 
-    if (nil != self)
-    {
-        [self setContent:initContent];
-        [self setQuoteType:initQuoteType];
-        name = [initName copy];
-    }
+  if (nil != self) {
+    [self setContent:initContent];
+    [self setQuoteType:initQuoteType];
+    name = [initName copy];
+  }
 
-    return self;
+  return self;
 }
 
-- (id)init
-{
-    return [self initWithContent:@"" quoteType:@"" name:@""];
+- (id)init {
+  return [self initWithContent:@"" quoteType:@"" name:@""];
 }
 
-- (void)dealloc
-{
-    [content release];
-    [quoteType release];
-    [name release];
+- (void)dealloc {
+  [content release];
+  [quoteType release];
+  [name release];
 
-    [super dealloc];
+  [super dealloc];
 }
 
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"<%@: %@>", [self name], [self content]];
+- (NSString *)description {
+  return [NSString stringWithFormat:@"<%@: %@>", [self name], [self content]];
 }
 
-- (NSString *)name
-{
-    return name;
+- (NSString *)name {
+  return name;
 }
 
-- (NSUInteger)hash
-{
-    return [[self content] hash];
+- (NSUInteger)hash {
+  return [[self content] hash];
 }
 
-- (BOOL)isQuotedToken
-{
-    return YES;
+- (BOOL)isQuotedToken {
+  return YES;
 }
 
-- (BOOL)isEqual:(id)object
-{
-    return ([object isQuotedToken] &&
-            [((CPQuotedToken *)object)->content isEqualToString:content] &&
-            [((CPQuotedToken *)object)->name isEqualToString:name] &&
-            [((CPQuotedToken *)object)->quoteType isEqualToString:quoteType]);
+- (BOOL)isEqual:(id)object {
+  return ([object isQuotedToken] &&
+          [((CPQuotedToken *)object)->content isEqualToString:content] &&
+          [((CPQuotedToken *)object)->name isEqualToString:name] &&
+          [((CPQuotedToken *)object)->quoteType isEqualToString:quoteType]);
 }
 
 @end
 
 @implementation NSObject (CPIsQuotedToken)
 
-- (BOOL)isQuotedToken
-{
-    return NO;
+- (BOOL)isQuotedToken {
+  return NO;
 }
 
 @end

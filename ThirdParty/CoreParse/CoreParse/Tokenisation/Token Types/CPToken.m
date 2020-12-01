@@ -15,35 +15,31 @@
 @synthesize characterNumber;
 @synthesize length;
 
-- (NSString *)name
-{
-    [NSException raise:@"Abstract method called exception" format:@"CPToken is abstract, and should not have name called."];
-    return @"";
+- (NSString *)name {
+  [NSException raise:@"Abstract method called exception"
+              format:@"CPToken is abstract, and should not have name called."];
+  return @"";
 }
 
-- (NSUInteger)hash
-{
-    return [[self name] hash];
+- (NSUInteger)hash {
+  return [[self name] hash];
 }
 
-- (BOOL)isEqual:(id)object
-{
-    return ([object isToken] &&
-            [[self name] isEqualToString:[(CPToken *)object name]]);
+- (BOOL)isEqual:(id)object {
+  return ([object isToken] &&
+          [[self name] isEqualToString:[(CPToken *)object name]]);
 }
 
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"<%@>", [self name]];
+- (NSString *)description {
+  return [NSString stringWithFormat:@"<%@>", [self name]];
 }
 
 @end
 
 @implementation NSObject (CPIsToken)
 
-- (BOOL)isToken
-{
-    return NO;
+- (BOOL)isToken {
+  return NO;
 }
 
 @end

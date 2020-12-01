@@ -7,7 +7,11 @@
 //
 
 /*
-Protocol to be observed by all style delegate objects.  These objects handle the drawing responsibilities for PSMTabBarCell; once the control has been assigned a style, the background and cells draw consistent with that style.  Design pattern and implementation by David Smith, Seth Willits, and Chris Forsythe, all touch up and errors by John P. :-)
+Protocol to be observed by all style delegate objects.  These objects handle the
+drawing responsibilities for PSMTabBarCell; once the control has been assigned a
+style, the background and cells draw consistent with that style.  Design pattern
+and implementation by David Smith, Seth Willits, and Chris Forsythe, all touch
+up and errors by John P. :-)
 */
 
 #import "PSMTabBarCell.h"
@@ -16,7 +20,8 @@ Protocol to be observed by all style delegate objects.  These objects handle the
 @protocol PSMTabStyle <NSObject>
 
 @property(nonatomic, weak) PSMTabBarControl *tabBar;
-@property(nonatomic, readonly) NSAppearance *accessoryAppearance NS_AVAILABLE_MAC(10_14);
+@property(nonatomic, readonly)
+    NSAppearance *accessoryAppearance NS_AVAILABLE_MAC(10_14);
 @property(nonatomic, readonly) CGFloat edgeDragHeight;
 
 // identity
@@ -25,7 +30,7 @@ Protocol to be observed by all style delegate objects.  These objects handle the
 // control specific parameters
 - (float)leftMarginForTabBarControl;
 - (float)rightMarginForTabBarControlWithOverflow:(BOOL)withOverflow
-    addTabButton:(BOOL)withAddTabButton;
+                                    addTabButton:(BOOL)withAddTabButton;
 - (float)topMarginForTabBarControl;
 
 // add tab button
@@ -34,7 +39,8 @@ Protocol to be observed by all style delegate objects.  These objects handle the
 - (NSImage *)addTabButtonRolloverImage;
 
 // cell specific parameters
-- (NSRect)dragRectForTabCell:(PSMTabBarCell *)cell orientation:(PSMTabBarOrientation)orientation;
+- (NSRect)dragRectForTabCell:(PSMTabBarCell *)cell
+                 orientation:(PSMTabBarOrientation)orientation;
 - (NSRect)closeButtonRectForTabCell:(PSMTabBarCell *)cell;
 - (NSRect)iconRectForTabCell:(PSMTabBarCell *)cell;
 - (NSRect)indicatorRectForTabCell:(PSMTabBarCell *)cell;
@@ -43,21 +49,25 @@ Protocol to be observed by all style delegate objects.  These objects handle the
 - (float)desiredWidthOfTabCell:(PSMTabBarCell *)cell;
 
 // cell values
-- (NSAttributedString *)attributedObjectCountValueForTabCell:(PSMTabBarCell *)cell;
+- (NSAttributedString *)attributedObjectCountValueForTabCell:
+    (PSMTabBarCell *)cell;
 - (PSMCachedTitleInputs *)cachedTitleInputsForTabCell:(PSMTabBarCell *)cell;
 
 // drawing
-- (void)drawTabCell:(PSMTabBarCell *)cell highlightAmount:(CGFloat)highlightAmount;
-- (void)drawBackgroundInRect:(NSRect)rect color:(NSColor*)color horizontal:(BOOL)horizontal;
+- (void)drawTabCell:(PSMTabBarCell *)cell
+    highlightAmount:(CGFloat)highlightAmount;
+- (void)drawBackgroundInRect:(NSRect)rect
+                       color:(NSColor *)color
+                  horizontal:(BOOL)horizontal;
 - (void)drawTabBar:(PSMTabBarControl *)bar
-    inRect:(NSRect)rect
-    clipRect:(NSRect)clipRect
-    horizontal:(BOOL)horizontal
-    withOverflow:(BOOL)withOverflow;
+            inRect:(NSRect)rect
+          clipRect:(NSRect)clipRect
+        horizontal:(BOOL)horizontal
+      withOverflow:(BOOL)withOverflow;
 
 - (NSColor *)accessoryFillColor;
 - (NSColor *)accessoryStrokeColor;
-- (void)fillPath:(NSBezierPath*)path;
+- (void)fillPath:(NSBezierPath *)path;
 - (NSColor *)accessoryTextColor;
 
 // Should light-tinted controls be used?
@@ -65,11 +75,12 @@ Protocol to be observed by all style delegate objects.  These objects handle the
 
 - (NSColor *)verticalLineColorSelected:(BOOL)selected;
 - (NSColor *)textColorDefaultSelected:(BOOL)selected
-    backgroundColor:(NSColor *)backgroundColor
-    windowIsMainAndAppIsActive:(BOOL)mainAndActive;
-- (NSColor *)backgroundColorSelected:(BOOL)selected highlightAmount:(CGFloat)highlightAmount;
+                      backgroundColor:(NSColor *)backgroundColor
+           windowIsMainAndAppIsActive:(BOOL)mainAndActive;
+- (NSColor *)backgroundColorSelected:(BOOL)selected
+                     highlightAmount:(CGFloat)highlightAmount;
 - (void)drawPostHocDecorationsOnSelectedCell:(PSMTabBarCell *)cell
-    tabBarControl:(PSMTabBarControl *)bar;
+                               tabBarControl:(PSMTabBarControl *)bar;
 - (NSColor *)textColorForCell:(PSMTabBarCell *)cell;
 
 @end

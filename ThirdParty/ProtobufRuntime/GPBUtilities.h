@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @return An NSString with the TextFormat of the message.
  **/
 NSString *GPBTextFormatForMessage(GPBMessage *message,
-                                  NSString * __nullable lineIndent);
+                                  NSString *__nullable lineIndent);
 
 /**
  * Generates a string that should be a valid "TextFormat" for the C++ version
@@ -61,8 +61,9 @@ NSString *GPBTextFormatForMessage(GPBMessage *message,
  *
  * @return An NSString with the TextFormat of the unknown field set.
  **/
-NSString *GPBTextFormatForUnknownFieldSet(GPBUnknownFieldSet * __nullable unknownSet,
-        NSString * __nullable lineIndent);
+NSString *
+GPBTextFormatForUnknownFieldSet(GPBUnknownFieldSet *__nullable unknownSet,
+                                NSString *__nullable lineIndent);
 
 /**
  * Checks if the given field number is set on a message.
@@ -95,7 +96,6 @@ void GPBClearMessageField(GPBMessage *self, GPBFieldDescriptor *field);
 //%PDDM-EXPAND GPB_ACCESSORS()
 // This block of code is generated, do not edit it directly.
 
-
 //
 // Get/Set a given field from/to a message.
 //
@@ -117,7 +117,8 @@ NSData *GPBGetMessageBytesField(GPBMessage *self, GPBFieldDescriptor *field);
  * @param field The field to set.
  * @param value The to set in the field.
  **/
-void GPBSetMessageBytesField(GPBMessage *self, GPBFieldDescriptor *field, NSData *value);
+void GPBSetMessageBytesField(GPBMessage *self, GPBFieldDescriptor *field,
+                             NSData *value);
 
 /**
  * Gets the value of a string field.
@@ -134,7 +135,8 @@ NSString *GPBGetMessageStringField(GPBMessage *self, GPBFieldDescriptor *field);
  * @param field The field to set.
  * @param value The to set in the field.
  **/
-void GPBSetMessageStringField(GPBMessage *self, GPBFieldDescriptor *field, NSString *value);
+void GPBSetMessageStringField(GPBMessage *self, GPBFieldDescriptor *field,
+                              NSString *value);
 
 /**
  * Gets the value of a message field.
@@ -142,7 +144,8 @@ void GPBSetMessageStringField(GPBMessage *self, GPBFieldDescriptor *field, NSStr
  * @param self  The message from which to get the field.
  * @param field The field to get.
  **/
-GPBMessage *GPBGetMessageMessageField(GPBMessage *self, GPBFieldDescriptor *field);
+GPBMessage *GPBGetMessageMessageField(GPBMessage *self,
+                                      GPBFieldDescriptor *field);
 
 /**
  * Sets the value of a message field.
@@ -151,7 +154,8 @@ GPBMessage *GPBGetMessageMessageField(GPBMessage *self, GPBFieldDescriptor *fiel
  * @param field The field to set.
  * @param value The to set in the field.
  **/
-void GPBSetMessageMessageField(GPBMessage *self, GPBFieldDescriptor *field, GPBMessage *value);
+void GPBSetMessageMessageField(GPBMessage *self, GPBFieldDescriptor *field,
+                               GPBMessage *value);
 
 /**
  * Gets the value of a group field.
@@ -159,7 +163,8 @@ void GPBSetMessageMessageField(GPBMessage *self, GPBFieldDescriptor *field, GPBM
  * @param self  The message from which to get the field.
  * @param field The field to get.
  **/
-GPBMessage *GPBGetMessageGroupField(GPBMessage *self, GPBFieldDescriptor *field);
+GPBMessage *GPBGetMessageGroupField(GPBMessage *self,
+                                    GPBFieldDescriptor *field);
 
 /**
  * Sets the value of a group field.
@@ -168,7 +173,8 @@ GPBMessage *GPBGetMessageGroupField(GPBMessage *self, GPBFieldDescriptor *field)
  * @param field The field to set.
  * @param value The to set in the field.
  **/
-void GPBSetMessageGroupField(GPBMessage *self, GPBFieldDescriptor *field, GPBMessage *value);
+void GPBSetMessageGroupField(GPBMessage *self, GPBFieldDescriptor *field,
+                             GPBMessage *value);
 
 /**
  * Gets the value of a bool field.
@@ -185,7 +191,8 @@ BOOL GPBGetMessageBoolField(GPBMessage *self, GPBFieldDescriptor *field);
  * @param field The field to set.
  * @param value The to set in the field.
  **/
-void GPBSetMessageBoolField(GPBMessage *self, GPBFieldDescriptor *field, BOOL value);
+void GPBSetMessageBoolField(GPBMessage *self, GPBFieldDescriptor *field,
+                            BOOL value);
 
 /**
  * Gets the value of an int32 field.
@@ -202,7 +209,8 @@ int32_t GPBGetMessageInt32Field(GPBMessage *self, GPBFieldDescriptor *field);
  * @param field The field to set.
  * @param value The to set in the field.
  **/
-void GPBSetMessageInt32Field(GPBMessage *self, GPBFieldDescriptor *field, int32_t value);
+void GPBSetMessageInt32Field(GPBMessage *self, GPBFieldDescriptor *field,
+                             int32_t value);
 
 /**
  * Gets the value of an uint32 field.
@@ -219,7 +227,8 @@ uint32_t GPBGetMessageUInt32Field(GPBMessage *self, GPBFieldDescriptor *field);
  * @param field The field to set.
  * @param value The to set in the field.
  **/
-void GPBSetMessageUInt32Field(GPBMessage *self, GPBFieldDescriptor *field, uint32_t value);
+void GPBSetMessageUInt32Field(GPBMessage *self, GPBFieldDescriptor *field,
+                              uint32_t value);
 
 /**
  * Gets the value of an int64 field.
@@ -236,7 +245,8 @@ int64_t GPBGetMessageInt64Field(GPBMessage *self, GPBFieldDescriptor *field);
  * @param field The field to set.
  * @param value The to set in the field.
  **/
-void GPBSetMessageInt64Field(GPBMessage *self, GPBFieldDescriptor *field, int64_t value);
+void GPBSetMessageInt64Field(GPBMessage *self, GPBFieldDescriptor *field,
+                             int64_t value);
 
 /**
  * Gets the value of an uint64 field.
@@ -253,7 +263,8 @@ uint64_t GPBGetMessageUInt64Field(GPBMessage *self, GPBFieldDescriptor *field);
  * @param field The field to set.
  * @param value The to set in the field.
  **/
-void GPBSetMessageUInt64Field(GPBMessage *self, GPBFieldDescriptor *field, uint64_t value);
+void GPBSetMessageUInt64Field(GPBMessage *self, GPBFieldDescriptor *field,
+                              uint64_t value);
 
 /**
  * Gets the value of a float field.
@@ -270,7 +281,8 @@ float GPBGetMessageFloatField(GPBMessage *self, GPBFieldDescriptor *field);
  * @param field The field to set.
  * @param value The to set in the field.
  **/
-void GPBSetMessageFloatField(GPBMessage *self, GPBFieldDescriptor *field, float value);
+void GPBSetMessageFloatField(GPBMessage *self, GPBFieldDescriptor *field,
+                             float value);
 
 /**
  * Gets the value of a double field.
@@ -287,7 +299,8 @@ double GPBGetMessageDoubleField(GPBMessage *self, GPBFieldDescriptor *field);
  * @param field The field to set.
  * @param value The to set in the field.
  **/
-void GPBSetMessageDoubleField(GPBMessage *self, GPBFieldDescriptor *field, double value);
+void GPBSetMessageDoubleField(GPBMessage *self, GPBFieldDescriptor *field,
+                              double value);
 
 /**
  * Gets the given enum field of a message. For proto3, if the value isn't a
@@ -310,8 +323,7 @@ int32_t GPBGetMessageEnumField(GPBMessage *self, GPBFieldDescriptor *field);
  * @param field The field to set.
  * @param value The enum value to set in the field.
  **/
-void GPBSetMessageEnumField(GPBMessage *self,
-                            GPBFieldDescriptor *field,
+void GPBSetMessageEnumField(GPBMessage *self, GPBFieldDescriptor *field,
                             int32_t value);
 
 /**
@@ -333,8 +345,7 @@ int32_t GPBGetMessageRawEnumField(GPBMessage *self, GPBFieldDescriptor *field);
  * @param field The field to set.
  * @param value The raw enum value to set in the field.
  **/
-void GPBSetMessageRawEnumField(GPBMessage *self,
-                               GPBFieldDescriptor *field,
+void GPBSetMessageRawEnumField(GPBMessage *self, GPBFieldDescriptor *field,
                                int32_t value);
 
 // Repeated Fields
@@ -356,8 +367,7 @@ id GPBGetMessageRepeatedField(GPBMessage *self, GPBFieldDescriptor *field);
  * @param field The field to set.
  * @param array A GPB*Array or NSMutableArray based on the field's type.
  **/
-void GPBSetMessageRepeatedField(GPBMessage *self,
-                                GPBFieldDescriptor *field,
+void GPBSetMessageRepeatedField(GPBMessage *self, GPBFieldDescriptor *field,
                                 id array);
 
 // Map Fields
@@ -380,8 +390,7 @@ id GPBGetMessageMapField(GPBMessage *self, GPBFieldDescriptor *field);
  * @param dictionary A GPB*Dictionary or NSMutableDictionary based on the
  *                   field's type.
  **/
-void GPBSetMessageMapField(GPBMessage *self,
-                           GPBFieldDescriptor *field,
+void GPBSetMessageMapField(GPBMessage *self, GPBFieldDescriptor *field,
                            id dictionary);
 
 //%PDDM-EXPAND-END GPB_ACCESSORS()
@@ -395,7 +404,6 @@ NSData *GPBEmptyNSData(void) __attribute__((pure));
 NS_ASSUME_NONNULL_END
 
 CF_EXTERN_C_END
-
 
 //%PDDM-DEFINE GPB_ACCESSORS()
 //%
@@ -442,15 +450,11 @@ CF_EXTERN_C_END
 //%                            int32_t value);
 //%
 //%/**
-//% * Get the given enum field of a message. No check is done to ensure the value
-//% * was defined in the enum.
-//% *
-//% * @param self  The message from which to get the field.
-//% * @param field The field to get.
-//% *
-//% * @return The raw enum value for the given field.
-//% **/
-//%int32_t GPBGetMessageRawEnumField(GPBMessage *self, GPBFieldDescriptor *field);
+//% * Get the given enum field of a message. No check is done to ensure the
+//value % * was defined in the enum. % * % * @param self  The message from which
+//to get the field. % * @param field The field to get. % * % * @return The raw
+//enum value for the given field. % **/ %int32_t
+//GPBGetMessageRawEnumField(GPBMessage *self, GPBFieldDescriptor *field);
 //%
 //%/**
 //% * Set the given enum field of a message. You can set the value to anything,
@@ -521,7 +525,8 @@ CF_EXTERN_C_END
 //% * @param self  The message from which to get the field.
 //% * @param field The field to get.
 //% **/
-//%TYPE TisP##GPBGetMessage##NAME##Field(GPBMessage *self, GPBFieldDescriptor *field);
+//%TYPE TisP##GPBGetMessage##NAME##Field(GPBMessage *self, GPBFieldDescriptor
+//*field);
 //%
 //%/**
 //% * Sets the value of a##AN NAME$L field.
@@ -530,5 +535,6 @@ CF_EXTERN_C_END
 //% * @param field The field to set.
 //% * @param value The to set in the field.
 //% **/
-//%void GPBSetMessage##NAME##Field(GPBMessage *self, GPBFieldDescriptor *field, TYPE TisP##value);
+//%void GPBSetMessage##NAME##Field(GPBMessage *self, GPBFieldDescriptor *field,
+//TYPE TisP##value);
 //%

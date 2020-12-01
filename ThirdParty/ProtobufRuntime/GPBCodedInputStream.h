@@ -54,20 +54,20 @@ extern NSString *const GPBCodedInputStreamErrorDomain;
  * Error code for NSError with @c GPBCodedInputStreamErrorDomain.
  **/
 typedef NS_ENUM(NSInteger, GPBCodedInputStreamErrorCode) {
-    /** The size does not fit in the remaining bytes to be read. */
-    GPBCodedInputStreamErrorInvalidSize = -100,
-    /** Attempted to read beyond the subsection limit. */
-    GPBCodedInputStreamErrorSubsectionLimitReached = -101,
-    /** The requested subsection limit is invalid. */
-    GPBCodedInputStreamErrorInvalidSubsectionLimit = -102,
-    /** Invalid tag read. */
-    GPBCodedInputStreamErrorInvalidTag = -103,
-    /** Invalid UTF-8 character in a string. */
-    GPBCodedInputStreamErrorInvalidUTF8 = -104,
-    /** Invalid VarInt read. */
-    GPBCodedInputStreamErrorInvalidVarInt = -105,
-    /** The maximum recursion depth of messages was exceeded. */
-    GPBCodedInputStreamErrorRecursionDepthExceeded = -106,
+  /** The size does not fit in the remaining bytes to be read. */
+  GPBCodedInputStreamErrorInvalidSize = -100,
+  /** Attempted to read beyond the subsection limit. */
+  GPBCodedInputStreamErrorSubsectionLimitReached = -101,
+  /** The requested subsection limit is invalid. */
+  GPBCodedInputStreamErrorInvalidSubsectionLimit = -102,
+  /** Invalid tag read. */
+  GPBCodedInputStreamErrorInvalidTag = -103,
+  /** Invalid UTF-8 character in a string. */
+  GPBCodedInputStreamErrorInvalidUTF8 = -104,
+  /** Invalid VarInt read. */
+  GPBCodedInputStreamErrorInvalidVarInt = -105,
+  /** The maximum recursion depth of messages was exceeded. */
+  GPBCodedInputStreamErrorRecursionDepthExceeded = -106,
 };
 
 CF_EXTERN_C_END
@@ -84,13 +84,13 @@ CF_EXTERN_C_END
  **/
 @interface GPBCodedInputStream : NSObject
 
-    /**
-     * Creates a new stream wrapping some data.
-     *
-     * @param data The data to wrap inside the stream.
-     *
-     * @return A newly instanced GPBCodedInputStream.
-     **/
+/**
+ * Creates a new stream wrapping some data.
+ *
+ * @param data The data to wrap inside the stream.
+ *
+ * @return A newly instanced GPBCodedInputStream.
+ **/
 + (instancetype)streamWithData:(NSData *)data;
 
 /**

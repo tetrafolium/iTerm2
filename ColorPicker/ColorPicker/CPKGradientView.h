@@ -1,32 +1,35 @@
 #import <Cocoa/Cocoa.h>
 
 typedef NS_ENUM(NSInteger, CPKGradientViewType) {
-    kCPKGradientViewTypeSaturationBrightness,
-    kCPKGradientViewTypeBrightnessHue,
-    kCPKGradientViewTypeHueSaturation,
-    kCPKGradientViewTypeRedGreen,
-    kCPKGradientViewTypeGreenBlue,
-    kCPKGradientViewTypeBlueRed,
+  kCPKGradientViewTypeSaturationBrightness,
+  kCPKGradientViewTypeBrightnessHue,
+  kCPKGradientViewTypeHueSaturation,
+  kCPKGradientViewTypeRedGreen,
+  kCPKGradientViewTypeGreenBlue,
+  kCPKGradientViewTypeBlueRed,
 };
 
 @class CPKColor;
 
 /**
- * A view showing a 2-d gradient with saturation across the X axis and brightness across the Y
- * axis.
+ * A view showing a 2-d gradient with saturation across the X axis and
+ * brightness across the Y axis.
  */
 @interface CPKGradientView : NSView
 
-    /** Set this to move the selected color indicator. When the user drags it, this updates. */
+/** Set this to move the selected color indicator. When the user drags it, this
+ * updates. */
 @property(nonatomic) CPKColor *selectedColor;
 
 /** To change the hue without affecting other components, assign to this. */
 @property(nonatomic) CGFloat hue;
 
-/** To change the saturation without affecting other components, assign to this. */
+/** To change the saturation without affecting other components, assign to this.
+ */
 @property(nonatomic) CGFloat saturation;
 
-/** To change the brightness without affecting other components, assign to this. */
+/** To change the brightness without affecting other components, assign to this.
+ */
 @property(nonatomic) CGFloat brightness;
 
 /** To change the red without affecting other components, assign to this. */
@@ -50,7 +53,7 @@ typedef NS_ENUM(NSInteger, CPKGradientViewType) {
  * @return An initialized instance or nil.
  */
 - (instancetype)initWithFrame:(NSRect)frameRect
-    type:(CPKGradientViewType)type
-    block:(void (^)(CPKColor *))block;
+                         type:(CPKGradientViewType)type
+                        block:(void (^)(CPKColor *))block;
 
 @end

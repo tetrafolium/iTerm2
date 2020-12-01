@@ -11,10 +11,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSAttributedString (PSM)
 
-- (NSAttributedString *)attributedStringWithTextAlignment:(NSTextAlignment)textAlignment;
+- (NSAttributedString *)attributedStringWithTextAlignment:
+    (NSTextAlignment)textAlignment;
 
 + (instancetype)newAttributedStringWithHTML:(NSString *)html
-    attributes:(NSDictionary *)attributes;
+                                 attributes:(NSDictionary *)attributes;
 
 @end
 

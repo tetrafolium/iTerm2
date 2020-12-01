@@ -51,16 +51,17 @@ NS_ASSUME_NONNULL_BEGIN
  * GPBExtensionRegistry *registry = [[MyProtoFileRoot extensionRegistry] copy];
  * [registry addExtension:[OtherMessage neededExtension]]; // Not in MyProtoFile
  * NSError *parseError;
- * MyMessage *msg = [MyMessage parseData:data extensionRegistry:registry error:&parseError];
+ * MyMessage *msg = [MyMessage parseData:data extensionRegistry:registry
+ *error:&parseError];
  * ```
  **/
-@interface GPBExtensionRegistry : NSObject<NSCopying>
+@interface GPBExtensionRegistry : NSObject <NSCopying>
 
-    /**
-     * Adds the given GPBExtensionDescriptor to this registry.
-     *
-     * @param extension The extension description to add.
-     **/
+/**
+ * Adds the given GPBExtensionDescriptor to this registry.
+ *
+ * @param extension The extension description to add.
+ **/
 - (void)addExtension:(GPBExtensionDescriptor *)extension;
 
 /**
@@ -79,8 +80,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return The registered GPBExtensionDescriptor or nil if none was found.
  **/
-- (nullable GPBExtensionDescriptor *)extensionForDescriptor:(GPBDescriptor *)descriptor
-    fieldNumber:(NSInteger)fieldNumber;
+- (nullable GPBExtensionDescriptor *)
+    extensionForDescriptor:(GPBDescriptor *)descriptor
+               fieldNumber:(NSInteger)fieldNumber;
 
 @end
 

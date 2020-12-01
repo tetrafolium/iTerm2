@@ -15,8 +15,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 // A class that wraps NSURLRequest and implements NSSecureCoding
-// This class exists because NSURLRequest did not support NSSecureCoding in macOS 10.8
-// I have not verified if NSURLRequest in 10.9 implements NSSecureCoding or not
+// This class exists because NSURLRequest did not support NSSecureCoding in
+// macOS 10.8 I have not verified if NSURLRequest in 10.9 implements
+// NSSecureCoding or not
 @interface SPUURLRequest : NSObject <NSSecureCoding>
 
 // Creates a new URL request
@@ -28,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 // * networkServiceType
 + (instancetype)URLRequestWithRequest:(NSURLRequest *)request;
 
-@property (nonatomic, readonly) NSURLRequest *request;
+@property(nonatomic, readonly) NSURLRequest *request;
 
 @end
 

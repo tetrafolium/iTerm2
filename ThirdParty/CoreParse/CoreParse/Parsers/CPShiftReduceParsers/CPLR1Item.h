@@ -8,16 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
-#import "CPItem.h"
 #import "CPGrammarSymbol.h"
+#import "CPItem.h"
 
-@interface CPLR1Item : CPItem
-{}
+@interface CPLR1Item : CPItem {
+}
 
-@property (readonly,retain) CPGrammarSymbol *terminal;
+@property(readonly, retain) CPGrammarSymbol *terminal;
 
-+ (id)lr1ItemWithRule:(CPRule *)rule position:(NSUInteger)position terminal:(CPGrammarSymbol *)terminal;
-- (id)initWithRule:(CPRule *)rule position:(NSUInteger)position terminal:(CPGrammarSymbol *)terminal;
++ (id)lr1ItemWithRule:(CPRule *)rule
+             position:(NSUInteger)position
+             terminal:(CPGrammarSymbol *)terminal;
+- (id)initWithRule:(CPRule *)rule
+          position:(NSUInteger)position
+          terminal:(CPGrammarSymbol *)terminal;
 
 @end
 

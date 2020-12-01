@@ -11,14 +11,15 @@
 /**
  * The CPErrorToken class reperesents an error during tokenisation.
  *
- * These tokens return `@"Error"` as their name.  They may carry an error message with them.
+ * These tokens return `@"Error"` as their name.  They may carry an error
+ * message with them.
  */
 @interface CPErrorToken : CPToken
 
-    /**
-     * The error message generated when the tokeniser failed.
-     */
-@property (readwrite, copy) NSString *errorMessage;
+/**
+ * The error message generated when the tokeniser failed.
+ */
+@property(readwrite, copy) NSString *errorMessage;
 
 /**
  * Creates and initializes a new CPErrorToken with a given message.

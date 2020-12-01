@@ -6,9 +6,9 @@
 //
 //
 
-#import <Foundation/Foundation.h>
-#import "PSMTabStyle.h"
 #import "PSMDarkTabStyle.h"
+#import "PSMTabStyle.h"
+#import <Foundation/Foundation.h>
 
 @interface PSMDarkHighContrastTabStyle : PSMDarkTabStyle
 

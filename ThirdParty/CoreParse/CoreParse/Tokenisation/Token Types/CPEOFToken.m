@@ -10,38 +10,32 @@
 
 @implementation CPEOFToken
 
-+ (id)eof
-{
-    return [[[CPEOFToken alloc] init] autorelease];
++ (id)eof {
+  return [[[CPEOFToken alloc] init] autorelease];
 }
 
-- (NSString *)name
-{
-    return @"EOF";
+- (NSString *)name {
+  return @"EOF";
 }
 
-- (NSUInteger)hash
-{
-    return 0;
+- (NSUInteger)hash {
+  return 0;
 }
 
-- (BOOL)isEOFToken
-{
-    return YES;
+- (BOOL)isEOFToken {
+  return YES;
 }
 
-- (BOOL)isEqual:(id)object
-{
-    return [object isEOFToken];
+- (BOOL)isEqual:(id)object {
+  return [object isEOFToken];
 }
 
 @end
 
 @implementation NSObject (CPIsEOFToken)
 
-- (BOOL)isEOFToken
-{
-    return NO;
+- (BOOL)isEOFToken {
+  return NO;
 }
 
 @end

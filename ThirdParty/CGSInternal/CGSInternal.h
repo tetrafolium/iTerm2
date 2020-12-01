@@ -22,12 +22,12 @@
  */
 
 #pragma once
-#include <Carbon/Carbon.h>
 #include <ApplicationServices/ApplicationServices.h>
+#include <Carbon/Carbon.h>
 
-// WARNING: CGSInternal contains PRIVATE FUNCTIONS and should NOT BE USED in shipping applications!
+// WARNING: CGSInternal contains PRIVATE FUNCTIONS and should NOT BE USED in
+// shipping applications!
 
-#include "CarbonHelpers.h"
 #include "CGSAccessibility.h"
 #include "CGSCIFilter.h"
 #include "CGSConnection.h"
@@ -35,10 +35,11 @@
 #include "CGSDebug.h"
 #include "CGSDisplays.h"
 #include "CGSHotKeys.h"
-#include "CGSNotifications.h"
 #include "CGSMisc.h"
+#include "CGSNotifications.h"
 #include "CGSRegion.h"
 #include "CGSSession.h"
 #include "CGSTransitions.h"
 #include "CGSWindow.h"
 #include "CGSWorkspace.h"
+#include "CarbonHelpers.h"

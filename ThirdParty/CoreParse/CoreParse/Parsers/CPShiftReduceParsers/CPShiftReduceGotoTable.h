@@ -10,12 +10,14 @@
 
 @class CPRule;
 
-@interface CPShiftReduceGotoTable : NSObject <NSCoding>
-{}
+@interface CPShiftReduceGotoTable : NSObject <NSCoding> {
+}
 
 - (id)initWithCapacity:(NSUInteger)capacity;
 
-- (BOOL)setGoto:(NSUInteger)gotoIndex forState:(NSUInteger)state nonTerminalNamed:(NSString *)nonTerminalName;
+- (BOOL)setGoto:(NSUInteger)gotoIndex
+            forState:(NSUInteger)state
+    nonTerminalNamed:(NSString *)nonTerminalName;
 
 - (NSUInteger)gotoForState:(NSUInteger)state rule:(CPRule *)rule;
 

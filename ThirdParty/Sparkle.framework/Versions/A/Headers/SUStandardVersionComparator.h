@@ -26,11 +26,11 @@ NS_ASSUME_NONNULL_BEGIN
     It's "dumb" in that it does essentially string comparison,
     in components split by character type.
 */
-SU_EXPORT @interface SUStandardVersionComparator : NSObject <SUVersionComparison>
+SU_EXPORT @interface SUStandardVersionComparator : NSObject<SUVersionComparison>
 
-    /*!
-        Initializes a new instance of the standard version comparator.
-     */
+/*!
+    Initializes a new instance of the standard version comparator.
+ */
 - (instancetype)init;
 
 /*!
@@ -45,7 +45,8 @@ SU_EXPORT @interface SUStandardVersionComparator : NSObject <SUVersionComparison
 
     See the implementation for more details.
 */
-- (NSComparisonResult)compareVersion:(NSString *)versionA toVersion:(NSString *)versionB;
+- (NSComparisonResult)compareVersion:(NSString *)versionA
+                           toVersion:(NSString *)versionB;
 @end
 
 NS_ASSUME_NONNULL_END

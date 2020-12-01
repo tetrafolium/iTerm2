@@ -6,11 +6,11 @@
 //  Copyright (c) 2012 In The Beginning... All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import <CoreParse/CoreParse.h>
+#import <Foundation/Foundation.h>
 
 @interface Expression2 : NSObject <CPParseResult>
 
-@property (readwrite,assign) float value;
+@property(readwrite, assign) float value;
 
 @end
