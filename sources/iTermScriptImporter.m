@@ -182,14 +182,14 @@ static BOOL sInstallingScript;
     NSData *data = [[verifier.reader signingCertificates:nil] firstObject];
     if (!data) {
       completion(nil,
-                 @"Could not find certificate after verficiation (nil data)",
+                 @"Could not find certificate after verification (nil data)",
                  NO, NO, NO);
       return;
     }
     SIGCertificate *cert = [[SIGCertificate alloc] initWithData:data];
     if (!cert) {
       completion(nil,
-                 @"Could not find certificate after verficiation (bad data)",
+                 @"Could not find certificate after verification (bad data)",
                  NO, NO, NO);
       return;
     }

@@ -1622,7 +1622,7 @@ static BOOL hasBecomeActive = NO;
                  0 &&
              ![[NSApplication sharedApplication] isRunningUnitTests]) {
     // Over time logic has shifted into -applicationOpenUntitledFile:, and for
-    // most users I beleive this is a no-op. However, it is complex enough that
+    // most users I believe this is a no-op. However, it is complex enough that
     // there might be a baby in this bathwater so I'm disinclined to remove it
     // until I understand when it would be used. For now I will leave it in to
     // avoid adding risk to 3.4.0.

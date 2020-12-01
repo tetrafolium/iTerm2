@@ -345,7 +345,7 @@
     // We never generate a CPRHSItem which both repeats/mayNotExist, and has
     // alternatives Cases where this happens are represented as two CPRHSItems,
     // one inside another Because of this, we can deal with the two cases
-    // completely seperately.
+    // completely separately.
 
     if ([[item alternatives] count] == 1) {
       CPRule *rule;

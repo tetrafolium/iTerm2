@@ -127,7 +127,7 @@
   }
   const BOOL escPlus = [self optionSendsEscPlusForEvent:event];
   if (event.it_modifierFlags & NSEventModifierFlagFunction) {
-    // TOOD: Make sure this covers delete, F keys, arrow keys, page up, page
+    // TODO: Make sure this covers delete, F keys, arrow keys, page up, page
     // down, home, and end. If so delete the next if statement.
     return NO;
   }

@@ -215,7 +215,7 @@ though you are passing along blocks, they will **not** be run on another thread.
 
 - (void)close;
 
-/** Interupt pending database operation. */
+/** Interrupt pending database operation. */
 
 - (void)interrupt;
 

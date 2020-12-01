@@ -4584,10 +4584,10 @@ typedef struct {
 
 - (int)nodeSize:(ITMSplitTreeNode *)node width:(BOOL)sumWidths {
   int sum = 0;
-  // Perpindicular is true if we're summing widths with a horizontal divider
+  // Perpendicular is true if we're summing widths with a horizontal divider
   // or summing heights with a vertical divider. The size of the first child
   // is the result in this case.
-  const BOOL perpindicular =
+  const BOOL perpendicular =
       ((sumWidths && !node.vertical) || (!sumWidths && node.vertical));
   for (ITMSplitTreeNode_SplitTreeLink *link in node.linksArray) {
     switch (link.childOneOfCase) {
@@ -4600,7 +4600,7 @@ typedef struct {
     case ITMSplitTreeNode_SplitTreeLink_Child_OneOfCase_GPBUnsetOneOfCase:
       assert(NO);
     }
-    if (perpindicular) {
+    if (perpendicular) {
       return sum;
     }
   }

@@ -439,7 +439,7 @@ unset -f _install_bash_preexec
 # -- BEGIN ITERM2 CUSTOMIZATIONS --
 
 # We don't care about whitespace, but users care about not changing their histcontrol variables.
-# We overwrite the upstream __bp_adjust_histcontrol function whcih gets called from the next
+# We overwrite the upstream __bp_adjust_histcontrol function which gets called from the next
 # PROMPT_COMMAND invocation.
 function __bp_adjust_histcontrol() {
   true

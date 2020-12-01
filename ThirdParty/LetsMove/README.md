@@ -59,7 +59,7 @@ Version History
 	- Catalan localization added
 
 * 1.17
-	- Tranditional Chinese localization added.
+	- Transitional Chinese localization added.
 
 * 1.16
 	- Deprecation warning that appears when minimum deployment target is set to OS X 10.10 taken care of
@@ -135,7 +135,7 @@ Version History
 * 1.3
 	- Fixed a rare bug in the shell script that checks to see if the app is already running
 	- Clear quarantine flag after copying
-	- Compile time option to show normal sized alert supress checkbox button
+	- Compile time option to show normal sized alert suppress checkbox button
 	- German, Danish, and Norwegian localizations added
 
 * 1.2

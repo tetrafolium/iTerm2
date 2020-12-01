@@ -761,7 +761,7 @@ DEFINE_FLOAT(
     statusBarHeight, 21,
     SECTION_GENERAL
     @"Height of the status bar in points.\nThis will also affect the height of "
-    @"per-pane title bars becuase the status bar may be embedded in it. You "
+    @"per-pane title bars because the status bar may be embedded in it. You "
     @"must restart iTerm2 after changing this setting for it to take effect.");
 DEFINE_BOOL(wrapFocus, YES,
             SECTION_GENERAL

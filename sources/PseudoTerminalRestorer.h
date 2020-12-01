@@ -37,7 +37,7 @@
                       (void (^)(NSWindow *, NSError *))completionHandler;
 + (BOOL)shouldIgnoreOpenUntitledFile;
 
-// The db-backed restoration mechansim has completed and the post-restoration
+// The db-backed restoration mechanism has completed and the post-restoration
 // callback is now safe to run.
 + (void)externalRestorationDidComplete;
 

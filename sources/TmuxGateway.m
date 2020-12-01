@@ -1074,7 +1074,7 @@ error:
 - (void)sendCommand:(NSString *)command
       responseTarget:(id)target
     responseSelector:(SEL)selector {
-  // We tolerate errors when no target is specifed for bugward compatibility
+  // We tolerate errors when no target is specified for bugward compatibility
   // because such errors used to be ignored purely by accident.
   [self sendCommand:command
         responseTarget:target

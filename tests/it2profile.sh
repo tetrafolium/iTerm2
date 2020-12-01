@@ -88,7 +88,7 @@ function string_to_hex() {
 # Request a report with the profile name
 send_terminfo_string_request iTerm2Profile
 
-# Read teh response
+# Read the response
 value=$(read_terminfo_string_response)
 
 # Restore the terminal to cooked mode.

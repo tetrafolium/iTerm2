@@ -8214,7 +8214,7 @@ ITERM_WEAKLY_REFERENCEABLE
     }
   }
 
-  // All necessary conditions are satisifed. Now find one that is sufficient.
+  // All necessary conditions are satisfied. Now find one that is sufficient.
   for (NSInteger i = 0; i < pattern.keycodesArray_Count; i++) {
     if (event.keyCode == [pattern.keycodesArray valueAtIndex:i]) {
       return YES;
@@ -13545,7 +13545,7 @@ ITERM_WEAKLY_REFERENCEABLE
       drawAsynchronouslyInView:_view.metalView
                     completion:^(BOOL ok) {
                       DLog(@"drawFrameAndRemoveTemporarilyDisablementOfMetal "
-                           @"drawAsynchronouslyInView finished wtih ok=%@",
+                           @"drawAsynchronouslyInView finished with ok=%@",
                            @(ok));
                       if (![_metalDisabledTokens containsObject:token]) {
                         DLog(@"drawFrameAndRemoveTemporarilyDisablementOfMetal:"

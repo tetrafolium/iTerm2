@@ -109,7 +109,7 @@ typedef NS_ENUM(NSInteger, iTermSelectionMode) {
 @property(nonatomic, readonly) VT100GridAbsWindowedRange lastAbsRange;
 
 // The first range, including the live one if applicable. Ranges are ordered by
-// startpoint. The range will be -1,-1,-1,-1 if ther are none.
+// startpoint. The range will be -1,-1,-1,-1 if there are none.
 @property(nonatomic, readonly) VT100GridAbsWindowedRange firstAbsRange;
 
 // If set, then the current live selection can be resumed in a different mode.

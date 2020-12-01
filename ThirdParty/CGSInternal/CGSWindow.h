@@ -256,8 +256,8 @@ CG_EXTERN CGError CGSWindowAnimationSetParent(CGSAnimationObj animation,
 /*! Releases a window animation. */
 CG_EXTERN CGError CGSReleaseWindowAnimation(CGSAnimationObj animation);
 
-#pragma mark window accelleration
-/*! Gets the state of accelleration for the window. */
+#pragma mark window acceleration
+/*! Gets the state of acceleration for the window. */
 CG_EXTERN CGError CGSWindowIsAccelerated(CGSConnectionID cid, CGSWindowID wid,
                                          bool *outIsAccelerated);
 

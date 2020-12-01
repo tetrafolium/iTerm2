@@ -68,7 +68,7 @@ init
 # Request a report with the profile name
 send_title_request
 
-# Read teh response
+# Read the response
 value=$(read_title_report)
 
 # Restore the terminal to cooked mode.

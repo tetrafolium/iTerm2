@@ -1117,7 +1117,7 @@ name=%@`.
 
 @property(nonatomic) BOOL shouldCacheStatements;
 
-/** Interupt pending database operation
+/** Interrupt pending database operation
 
  This method causes any pending database operation to abort and return at its
  earliest opportunity

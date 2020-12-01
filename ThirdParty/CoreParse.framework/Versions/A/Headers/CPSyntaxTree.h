@@ -28,7 +28,7 @@
  * @param nonTerminal The rule that was matched to create this tree node.
  * @param children    The child trees that represent the components of the right
  * hand side of the rule.
- * @return Returns a syntax tree with apropriate children, and matching a
+ * @return Returns a syntax tree with appropriate children, and matching a
  * specified rule.
  *
  * @bug Warning this method is deprecated, use
@@ -46,7 +46,7 @@
  * @param nonTerminal The rule that was matched to create this tree node.
  * @param children    The child trees that represent the components of the right
  * hand side of the rule.
- * @return Returns a syntax tree with apropriate children, and matching a
+ * @return Returns a syntax tree with appropriate children, and matching a
  * specified rule.
  *
  * @bug Warning this method is deprecated, use -initWithRule:children:tagValues:
@@ -64,7 +64,7 @@
  * @param children    The child trees that represent the components of the right
  * hand side of the rule.
  * @param tagValues   The values of each tag beneath the rule.
- * @return Returns a syntax tree with apropriate children, and matching a
+ * @return Returns a syntax tree with appropriate children, and matching a
  * specified rule.
  *
  * @see initWithRule:children:tagValues:
@@ -80,7 +80,7 @@
  * @param children    The child trees that represent the components of the right
  * hand side of the rule.
  * @param tagValues   The values of each tag beneath the rule.
- * @return Returns a syntax tree with apropriate children, and matching a
+ * @return Returns a syntax tree with appropriate children, and matching a
  * specified rule.
  *
  * @see syntaxTreeWithRule:children:tagValues

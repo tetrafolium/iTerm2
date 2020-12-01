@@ -5,7 +5,7 @@
 #  - 'if' only has 'then' clause (no elif nor else)
 #  - single-quoted strings only, content in raw format
 #  - numbers are decimal.Decimal instances (not integers or floats)
-#  - no print statment; use the built-in 'print' function
+#  - no print statement; use the built-in 'print' function
 #  - only < > == + - / * implemented (and unary + -)
 #  - assignment and tuple assignment work
 #  - no generators of any sort

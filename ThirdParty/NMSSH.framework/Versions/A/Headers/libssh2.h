@@ -55,7 +55,7 @@
 #define LIBSSH2_VERSION_PATCH 0
 
 /* This is the numeric version of the libssh2 version number, meant for easier
-   parsing and comparions by programs. The LIBSSH2_VERSION_NUM define will
+   parsing and comparison by programs. The LIBSSH2_VERSION_NUM define will
    always follow this syntax:
 
          0xXXYYZZ
@@ -521,7 +521,7 @@ typedef struct _LIBSSH2_POLLFD {
  * Flags can be:
  * 0:                              Normal initialize
  * LIBSSH2_INIT_NO_CRYPTO:         Do not initialize the crypto library (ie.
- *                                 OPENSSL_add_cipher_algoritms() for OpenSSL
+ *                                 OPENSSL_add_cipher_algorithms() for OpenSSL
  *
  * Returns 0 if succeeded, or a negative value for error.
  */

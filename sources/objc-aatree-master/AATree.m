@@ -18,7 +18,7 @@
  *key.
  * @discussion				The node is deleted by looking up the node
  *with the specified key. The node is removed as in any binary search tree, with
- *the added functionallity that the difference in levels between parent and
+ *the added functionality that the difference in levels between parent and
  *child should be at most one. If it is more, this is fixed, which may lead to
  *skew and split operations.
  */

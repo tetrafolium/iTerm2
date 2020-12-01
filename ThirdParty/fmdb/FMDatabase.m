@@ -356,7 +356,7 @@ static int FMDBDatabaseBusyHandler(void *f, int count) {
 
 // we no longer make busyRetryTimeout public
 // but for folks who don't bother noticing that the interface to FMDatabase
-// changed, we'll still implement the method so they don't get suprise crashes
+// changed, we'll still implement the method so they don't get surprise crashes
 - (int)busyRetryTimeout {
   NSLog(@"%s:%d", __FUNCTION__, __LINE__);
   NSLog(@"FMDB: busyRetryTimeout no longer works, please use "
@@ -536,7 +536,7 @@ static int FMDBDatabaseBusyHandler(void *f, int count) {
 
 #ifdef SQLCIPHER_CRYPTO
   // Starting with Xcode8 / iOS 10 we check to make sure we really are linked
-  // with SQLCipher because there is no longer a linker error if we accidently
+  // with SQLCipher because there is no longer a linker error if we accidentally
   // link with unencrypted sqlite library.
   //
   // https://discuss.zetetic.net/t/important-advisory-sqlcipher-with-xcode-8-and-new-sdks/1688
