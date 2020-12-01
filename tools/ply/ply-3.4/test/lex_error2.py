@@ -20,5 +20,4 @@ t_NUMBER = r'\d+'
 
 t_error = "foo"
 
-
 lex.lex()

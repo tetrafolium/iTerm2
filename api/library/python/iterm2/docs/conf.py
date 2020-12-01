@@ -16,7 +16,6 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
 
-
 # -- Project information -----------------------------------------------------
 
 project = u'iTerm2 Python API'
@@ -27,7 +26,6 @@ author = u'George Nachman'
 version = u''
 # The full version, including alpha/beta/rc tags
 release = u'0.26'
-
 
 # -- General configuration ---------------------------------------------------
 
@@ -46,7 +44,6 @@ extensions = [
 ]
 
 intersphinx_mapping = {'http://docs.python.org/dev': None}
-
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -74,7 +71,6 @@ exclude_patterns = [u'_build', 'Thumbs.db', '.DS_Store']
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
-
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -104,12 +100,10 @@ html_static_path = ['_static']
 #
 # html_sidebars = { '**': ['globaltoc.html', 'sourcelink.html', 'searchbox.html'], 'using/windows': ['windowssidebar.html', 'searchbox.html'], }
 
-
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'iTerm2PythonAPIdoc'
-
 
 # -- Options for LaTeX output ------------------------------------------------
 
@@ -139,16 +133,12 @@ latex_documents = [
      u'George Nachman', 'manual'),
 ]
 
-
 # -- Options for manual page output ------------------------------------------
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [
-    (master_doc, 'iterm2pythonapi', u'iTerm2 Python API Documentation',
-     [author], 1)
-]
-
+man_pages = [(master_doc, 'iterm2pythonapi',
+              u'iTerm2 Python API Documentation', [author], 1)]
 
 # -- Options for Texinfo output ----------------------------------------------
 
@@ -156,11 +146,9 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'iTerm2PythonAPI', u'iTerm2 Python API Documentation',
-     author, 'iTerm2PythonAPI', 'One line description of project.',
-     'Miscellaneous'),
+    (master_doc, 'iTerm2PythonAPI', u'iTerm2 Python API Documentation', author,
+     'iTerm2PythonAPI', 'One line description of project.', 'Miscellaneous'),
 ]
-
 
 # -- Extension configuration -------------------------------------------------
 add_module_names = False

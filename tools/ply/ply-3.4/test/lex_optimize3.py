@@ -10,9 +10,15 @@ if ".." not in sys.path:
 import ply.lex as lex
 
 tokens = (
-    'NAME', 'NUMBER',
-    'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'EQUALS',
-    'LPAREN', 'RPAREN',
+    'NAME',
+    'NUMBER',
+    'PLUS',
+    'MINUS',
+    'TIMES',
+    'DIVIDE',
+    'EQUALS',
+    'LPAREN',
+    'RPAREN',
 )
 
 # Tokens

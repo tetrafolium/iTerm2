@@ -25,6 +25,8 @@ class Modifier(enum.Enum):
     FUNCTION = iterm2.api_pb2.Modifiers.Value("FUNCTION")
     #: Indicates the key is on the numeric keypad.
     NUMPAD = iterm2.api_pb2.Modifiers.Value("NUMPAD")
+
+
 # pylint: enable=line-too-long
 
 
@@ -151,7 +153,6 @@ class Keystroke:
     Do not create instances of this class. They will be passed to you when you
     use a :class:`KeystrokeMonitor`.
     """
-
     def __init__(self, notification):
         self.__characters = notification.characters
         self.__characters_ignoring_modifiers = (
@@ -160,13 +161,10 @@ class Keystroke:
         self.__key_code = notification.keyCode
 
     def __repr__(self):
-        return (
-            "Keystroke(chars={}, charsIgnoringModifiers={}, " +
-            "modifiers={}, keyCode={})").format(
-                self.characters,
-                self.characters_ignoring_modifiers,
-                self.modifiers,
-                self.keycode)
+        return ("Keystroke(chars={}, charsIgnoringModifiers={}, " +
+                "modifiers={}, keyCode={})").format(
+                    self.characters, self.characters_ignoring_modifiers,
+                    self.modifiers, self.keycode)
 
     @property
     def characters(self) -> str:
@@ -207,7 +205,6 @@ class KeystrokePattern:
     modifiers (what characters would be generated if no modifiers were pressed,
     excepting the shift key).
     """
-
     def __init__(self):
         self.__required_modifiers = []
         self.__forbidden_modifiers = []
@@ -290,11 +287,9 @@ class KeystrokePattern:
         # pylint: disable=no-member
         proto = iterm2.api_pb2.KeystrokePattern()
         proto.required_modifiers.extend(
-            list(
-                map(lambda x: x.value, self.__required_modifiers)))
+            list(map(lambda x: x.value, self.__required_modifiers)))
         proto.forbidden_modifiers.extend(
-            list(
-                map(lambda x: x.value, self.__forbidden_modifiers)))
+            list(map(lambda x: x.value, self.__forbidden_modifiers)))
         proto.keycodes.extend(list(map(lambda x: x.value, self.__keycodes)))
         proto.characters.extend(self.__characters)
         proto.characters_ignoring_modifiers.extend(
@@ -322,11 +317,9 @@ class KeystrokeMonitor:
                   keystroke = await mon.async_get()
                   DoSomething(keystroke)
     """
-
-    def __init__(
-            self,
-            connection: iterm2.connection.Connection,
-            session: typing.Union[None, str] = None):
+    def __init__(self,
+                 connection: iterm2.connection.Connection,
+                 session: typing.Union[None, str] = None):
         self.__connection = connection
         self.__session = session
         self.__token = None
@@ -337,13 +330,12 @@ class KeystrokeMonitor:
         # pylint: disable=unused-argument
         async def callback(connection, notification):
             await self.__queue.put(notification)
+
         # pylint: enable=unused-argument
         self.__token = (
-            await iterm2.notifications.
-            async_subscribe_to_keystroke_notification(
-                self.__connection,
-                callback,
-                self.__session))
+            await
+            iterm2.notifications.async_subscribe_to_keystroke_notification(
+                self.__connection, callback, self.__session))
         return self
 
     async def async_get(self) -> Keystroke:
@@ -386,12 +378,10 @@ class KeystrokeFilter:
         async with filter as mon:
             await iterm2.async_wait_forever()
     """
-
-    def __init__(
-            self,
-            connection: iterm2.connection.Connection,
-            patterns: typing.List[KeystrokePattern],
-            session: typing.Union[None, str] = None):
+    def __init__(self,
+                 connection: iterm2.connection.Connection,
+                 patterns: typing.List[KeystrokePattern],
+                 session: typing.Union[None, str] = None):
         self.__connection = connection
         self.__session = session
         self.__patterns = patterns
@@ -399,9 +389,7 @@ class KeystrokeFilter:
 
     async def __aenter__(self):
         self.__token = await iterm2.notifications.async_filter_keystrokes(
-            self.__connection,
-            self.__patterns,
-            self.__session)
+            self.__connection, self.__patterns, self.__session)
         return self
 
     async def __aexit__(self, exc_type, exc, _tb):

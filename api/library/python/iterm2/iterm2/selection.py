@@ -44,12 +44,8 @@ class SubSelection:
     :param connected: If true, no newline exists between this and the next
         sub-selection.
     """
-
-    def __init__(
-            self,
-            windowed_coord_range: iterm2.util.WindowedCoordRange,
-            mode: SelectionMode,
-            connected: bool):
+    def __init__(self, windowed_coord_range: iterm2.util.WindowedCoordRange,
+                 mode: SelectionMode, connected: bool):
         self.__windowed_coord_range = windowed_coord_range
         self.__mode = mode
         self.__connected = connected
@@ -59,6 +55,7 @@ class SubSelection:
     def windowedCoordRange(self) -> iterm2.util.WindowedCoordRange:
         """Deprecated in favor of windowed_coord_range"""
         return self.windowed_coord_range
+
     # pylint: enable=invalid-name
 
     @property
@@ -90,10 +87,8 @@ class SubSelection:
         """
         return self.__connected
 
-    async def async_get_string(
-            self,
-            connection: iterm2.connection.Connection,
-            session_id: str) -> str:
+    async def async_get_string(self, connection: iterm2.connection.Connection,
+                               session_id: str) -> str:
         """Gets the text belonging to this subselection.
 
         :param connection: The connection to iTerm2.
@@ -101,12 +96,10 @@ class SubSelection:
             selected text.
         """
         result = await iterm2.rpc.async_get_screen_contents(
-            connection,
-            session_id,
-            self.__windowed_coord_range)
+            connection, session_id, self.__windowed_coord_range)
         # pylint: disable=no-member
-        if (result.get_buffer_response.status == iterm2.
-                api_pb2.GetBufferResponse.Status.Value("OK")):
+        if (result.get_buffer_response.status ==
+                iterm2.api_pb2.GetBufferResponse.Status.Value("OK")):
             screen_contents = iterm2.screen.ScreenContents(
                 result.get_buffer_response)
             built_string = ""
@@ -130,22 +123,23 @@ class SubSelection:
             start_x = self.__windowed_coord_range.start.x
             y = self.__windowed_coord_range.coordRange.start.y
             while y < self.__windowed_coord_range.coordRange.end.y:
-                callback(iterm2.util.CoordRange(
-                    iterm2.util.Point(start_x, y),
-                    iterm2.util.Point(right, y)))
+                callback(
+                    iterm2.util.CoordRange(iterm2.util.Point(start_x, y),
+                                           iterm2.util.Point(right, y)))
                 start_x = self.__windowed_coord_range.left
 
                 y += 1
 
-            callback(iterm2.util.CoordRange(
-                iterm2.util.Point(
-                    start_x,
-                    self.__windowed_coord_range.coordRange.end.y),
-                iterm2.util.Point(
-                    self.__windowed_coord_range.end.x,
-                    self.__windowed_coord_range.coordRange.end.y)))
+            callback(
+                iterm2.util.CoordRange(
+                    iterm2.util.Point(
+                        start_x, self.__windowed_coord_range.coordRange.end.y),
+                    iterm2.util.Point(
+                        self.__windowed_coord_range.end.x,
+                        self.__windowed_coord_range.coordRange.end.y)))
         else:
             callback(self.__windowed_coord_range.coordRange, self)
+
     # pylint: enable=invalid-name
 
 
@@ -156,7 +150,6 @@ class Selection:
 
     :param sub_selections: An array of :class:`SubSelection` objects.
     """
-
     def __init__(self, sub_selections: typing.List[SubSelection]):
         self.__sub_selections = sub_selections
 
@@ -165,6 +158,7 @@ class Selection:
     def subSelections(self) -> typing.List[SubSelection]:
         """Deprecated in favore of sub_selections."""
         return self.sub_selections
+
     # pylint: enable=invalid-name
 
     @property
@@ -172,16 +166,14 @@ class Selection:
         """Returns the set of subselections."""
         return self.__sub_selections
 
-    async def _async_get_content_in_range(
-            self, connection, session_id, coord_range):
+    async def _async_get_content_in_range(self, connection, session_id,
+                                          coord_range):
         """Returns the string in the given range."""
         result = await iterm2.rpc.async_get_screen_contents(
-            connection,
-            session_id,
-            coord_range)
+            connection, session_id, coord_range)
         # pylint: disable=no-member
-        if (result.get_buffer_response.status == iterm2.
-                api_pb2.GetBufferResponse.Status.Value("OK")):
+        if (result.get_buffer_response.status ==
+                iterm2.api_pb2.GetBufferResponse.Status.Value("OK")):
             screen_contents = iterm2.screen.ScreenContents(
                 result.get_buffer_response)
             built_string = ""
@@ -194,11 +186,8 @@ class Selection:
                     built_string += "\n"
             return built_string
 
-    async def async_get_string(
-            self,
-            connection: iterm2.connection.Connection,
-            session_id: str,
-            width: int) -> str:
+    async def async_get_string(self, connection: iterm2.connection.Connection,
+                               session_id: str, width: int) -> str:
         """Returns the selected text.
 
         :param connection: The connection to iTerm2.
@@ -268,7 +257,7 @@ class Selection:
 
                 def f(values):
                     i, x = values
-                    return i-x
+                    return i - x
 
                 # Iterate contiguous ranges
                 indexes_of_interest = indexes.intersection(indexes_to_add)
@@ -285,10 +274,9 @@ class Selection:
                 # In multipart windowed ranges, add connectors for the endpoint
                 # of all but the last # range. Each enumerated range is on its
                 # own line.
-                if (outer.windowed_coord_range.hasWindow and
-                        outer_range.end == outer.windowed_coord_range.
-                        coordRange.end and
-                        the_range.length > 0):
+                if (outer.windowed_coord_range.hasWindow and outer_range.end ==
+                        outer.windowed_coord_range.coordRange.end
+                        and the_range.length > 0):
                     connectors |= {the_range.max}
 
             outer.enumerate_ranges(handle_range)
@@ -301,6 +289,7 @@ class Selection:
         def f(values):
             i, x = values
             return i - x
+
         # pylint: enable=invalid-name
 
         # Iterate contiguous ranges
@@ -322,27 +311,24 @@ class Selection:
 
         sorted_ranges = sorted(all_ranges, key=range_key)
         for idx, the_range in enumerate(sorted_ranges):
-            end_index = (
-                the_range.start.x +
-                the_range.start.y * width +
-                the_range.length(width))
-            eol = (end_index not in connectors) and idx + 1 < len(
-                sorted_ranges)
+            end_index = (the_range.start.x + the_range.start.y * width +
+                         the_range.length(width))
+            eol = (
+                end_index not in connectors) and idx + 1 < len(sorted_ranges)
             the_range.end.x += 1
-            stop = await callback(
-                iterm2.util.WindowedCoordRange(the_range), eol)
+            stop = await callback(iterm2.util.WindowedCoordRange(the_range),
+                                  eol)
             if stop:
                 break
 
 
 MODE_MAP = {
-    iterm2.api_pb2.SelectionMode.Value("CHARACTER"):
-        SelectionMode.CHARACTER,
+    iterm2.api_pb2.SelectionMode.Value("CHARACTER"): SelectionMode.CHARACTER,
     iterm2.api_pb2.SelectionMode.Value("WORD"): SelectionMode.WORD,
     iterm2.api_pb2.SelectionMode.Value("LINE"): SelectionMode.LINE,
     iterm2.api_pb2.SelectionMode.Value("SMART"): SelectionMode.SMART,
     iterm2.api_pb2.SelectionMode.Value("BOX"): SelectionMode.BOX,
-    iterm2.api_pb2.SelectionMode.Value("WHOLE_LINE"):
-        SelectionMode.WHOLE_LINE}
+    iterm2.api_pb2.SelectionMode.Value("WHOLE_LINE"): SelectionMode.WHOLE_LINE
+}
 
 INVERSE_MODE_MAP = {v: k for k, v in MODE_MAP.items()}

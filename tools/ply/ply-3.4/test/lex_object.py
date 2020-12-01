@@ -10,9 +10,15 @@ import ply.lex as lex
 
 class CalcLexer:
     tokens = (
-        'NAME', 'NUMBER',
-        'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'EQUALS',
-        'LPAREN', 'RPAREN',
+        'NAME',
+        'NUMBER',
+        'PLUS',
+        'MINUS',
+        'TIMES',
+        'DIVIDE',
+        'EQUALS',
+        'LPAREN',
+        'RPAREN',
     )
 
     # Tokens

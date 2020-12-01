@@ -19,4 +19,5 @@ while True:
 
 numbers = map(lambda x: int(x, 16), contents)
 for x in get_ranges(numbers):
-    print "[set addCharactersInRange:NSMakeRange(%s, %s)];" % (hex(x[0]), str(x[1] - x[0] + 1))
+    print "[set addCharactersInRange:NSMakeRange(%s, %s)];" % (hex(
+        x[0]), str(x[1] - x[0] + 1))

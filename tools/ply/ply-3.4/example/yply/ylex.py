@@ -7,13 +7,24 @@ from ply import *
 import sys
 sys.path.append("../..")
 
-
 tokens = (
-    'LITERAL', 'SECTION', 'TOKEN', 'LEFT', 'RIGHT', 'PREC', 'START', 'TYPE', 'NONASSOC', 'UNION', 'CODE',
-    'ID', 'QLITERAL', 'NUMBER',
+    'LITERAL',
+    'SECTION',
+    'TOKEN',
+    'LEFT',
+    'RIGHT',
+    'PREC',
+    'START',
+    'TYPE',
+    'NONASSOC',
+    'UNION',
+    'CODE',
+    'ID',
+    'QLITERAL',
+    'NUMBER',
 )
 
-states = (('code', 'exclusive'),)
+states = (('code', 'exclusive'), )
 
 literals = [';', ',', '<', '>', '|', ':']
 t_ignore = ' \t'
@@ -34,11 +45,12 @@ t_NUMBER = r'\d+'
 def t_SECTION(t):
     r'%%'
     if getattr(t.lexer, "lastsection", 0):
-        t.value = t.lexer.lexdata[t.lexpos+2:]
+        t.value = t.lexer.lexdata[t.lexpos + 2:]
         t.lexer.lexpos = len(t.lexer.lexdata)
     else:
         t.lexer.lastsection = 0
     return t
+
 
 # Comments
 
@@ -95,7 +107,7 @@ def t_code_rbrace(t):
     t.lexer.level -= 1
     if t.lexer.level == 0:
         t.type = 'CODE'
-        t.value = t.lexer.lexdata[t.lexer.codestart:t.lexpos+1]
+        t.value = t.lexer.lexdata[t.lexer.codestart:t.lexpos + 1]
         t.lexer.begin('INITIAL')
         t.lexer.lineno += t.value.count('\n')
         return t

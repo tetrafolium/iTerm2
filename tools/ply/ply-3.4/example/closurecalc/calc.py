@@ -21,12 +21,13 @@ def make_calculator():
 
     # ------- Internal calculator state
 
-    variables = {}       # Dictionary of stored variables
+    variables = {}  # Dictionary of stored variables
 
     # ------- Calculator tokenizing rules
 
     tokens = (
-        'NAME', 'NUMBER',
+        'NAME',
+        'NUMBER',
     )
 
     literals = ['=', '+', '-', '*', '/', '(', ')']

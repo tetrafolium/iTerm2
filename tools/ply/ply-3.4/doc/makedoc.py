@@ -39,10 +39,10 @@ def getheadingname(m):
         headingname = "%s_nn%d" % (filenamebase, nameindex)
     return headingname
 
+
 ###############################################################################
 # Main program
 ###############################################################################
-
 
 if len(sys.argv) != 2:
     print "usage: makedoc.py filename"
@@ -67,8 +67,8 @@ h3 = re.compile(r".*?<H3>(<a.*a>)*[\d\.\s]*(.*?)</H3>", re.IGNORECASE)
 h4 = re.compile(r".*?<H4>(<a.*a>)*[\d\.\s]*(.*?)</H4>", re.IGNORECASE)
 h5 = re.compile(r".*?<H5>(<a.*a>)*[\d\.\s]*(.*?)</H5>", re.IGNORECASE)
 
-data = open(filename).read()            # Read data
-open(filename+".bak", "w").write(data)   # Make backup
+data = open(filename).read()  # Read data
+open(filename + ".bak", "w").write(data)  # Make backup
 
 lines = data.splitlines()
 result = []  # This is the result of postprocessing the file
@@ -115,8 +115,8 @@ for s in lines:
         if section == 1:
             index += "<ul>\n"
 
-        index += """<li><a href="#%s">%s</a>\n""" % (
-            headingname, prevheadingtext)
+        index += """<li><a href="#%s">%s</a>\n""" % (headingname,
+                                                     prevheadingtext)
         subsection = 0
         subsubsection = 0
         subsubsubsection = 0
@@ -138,8 +138,8 @@ for s in lines:
         if subsection == 1:
             index += "<ul>\n"
 
-        index += """<li><a href="#%s">%s</a>\n""" % (
-            headingname, prevheadingtext)
+        index += """<li><a href="#%s">%s</a>\n""" % (headingname,
+                                                     prevheadingtext)
         subsubsection = 0
         skipspace = 1
         continue
@@ -150,16 +150,17 @@ for s in lines:
         subsubsection += 1
         subsubsubsection = 0
         headingname = getheadingname(m)
-        result.append("""<H4><a name="%s"></a>%d.%d.%d %s</H4>""" %
-                      (headingname, section, subsection, subsubsection, prevheadingtext))
+        result.append(
+            """<H4><a name="%s"></a>%d.%d.%d %s</H4>""" %
+            (headingname, section, subsection, subsubsection, prevheadingtext))
 
         if subsubsubsection:
             index += "</ul>\n"
         if subsubsection == 1:
             index += "<ul>\n"
 
-        index += """<li><a href="#%s">%s</a>\n""" % (
-            headingname, prevheadingtext)
+        index += """<li><a href="#%s">%s</a>\n""" % (headingname,
+                                                     prevheadingtext)
         skipspace = 1
         continue
     m = h5.match(s)
@@ -168,14 +169,15 @@ for s in lines:
         nameindex += 1
         subsubsubsection += 1
         headingname = getheadingname(m)
-        result.append("""<H5><a name="%s"></a>%d.%d.%d.%d %s</H5>""" % (headingname,
-                                                                        section, subsection, subsubsection, subsubsubsection, prevheadingtext))
+        result.append("""<H5><a name="%s"></a>%d.%d.%d.%d %s</H5>""" %
+                      (headingname, section, subsection, subsubsection,
+                       subsubsubsection, prevheadingtext))
 
         if subsubsubsection == 1:
             index += "<ul>\n"
 
-        index += """<li><a href="#%s">%s</a>\n""" % (
-            headingname, prevheadingtext)
+        index += """<li><a href="#%s">%s</a>\n""" % (headingname,
+                                                     prevheadingtext)
         skipspace = 1
         continue
 

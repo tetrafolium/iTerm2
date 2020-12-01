@@ -7,7 +7,6 @@ from ply import *
 import ylex
 tokens = ylex.tokens
 
-
 tokenlist = []
 preclist = []
 
@@ -58,11 +57,11 @@ def p_definition_token(p):
         if i[0] not in "'\"":
             tokenlist.append(i)
     if p[1] == '%left':
-        preclist.append(('left',) + tuple(p[3]))
+        preclist.append(('left', ) + tuple(p[3]))
     elif p[1] == '%right':
-        preclist.append(('right',) + tuple(p[3]))
+        preclist.append(('right', ) + tuple(p[3]))
     elif p[1] == '%nonassoc':
-        preclist.append(('nonassoc',) + tuple(p[3]))
+        preclist.append(('nonassoc', ) + tuple(p[3]))
 
 
 def p_toktype(p):
@@ -131,7 +130,7 @@ def p_rules(p):
 
     # Print out a Python equivalent of this rule
 
-    embedded = []      # Embedded actions (a mess)
+    embedded = []  # Embedded actions (a mess)
     embed_count = 0
 
     rulename = rule[0]
@@ -143,7 +142,7 @@ def p_rules(p):
         prodcode = ""
         for i in range(len(r)):
             item = r[i]
-            if item[0] == '{':    # A code block
+            if item[0] == '{':  # A code block
                 if i == len(r) - 1:
                     prodcode = item
                     break
@@ -204,6 +203,7 @@ def p_morerules(p):
         p[0] = p[1]
         p[0].append(p[3])
 
+
 #   print "morerules", len(p), p[0]
 
 
@@ -242,4 +242,4 @@ def print_code(code, indent):
         return
     codelines = code.splitlines()
     for c in codelines:
-        print "%s# %s" % (" "*indent, c)
+        print "%s# %s" % (" " * indent, c)

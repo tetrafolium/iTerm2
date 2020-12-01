@@ -33,8 +33,8 @@ class Arrangement:
                     result.saved_arrangement_response.status))
 
     @staticmethod
-    async def async_restore(
-            connection: iterm2.connection.Connection, name: str):
+    async def async_restore(connection: iterm2.connection.Connection,
+                            name: str):
         """Restore a saved window arrangement.
 
         :param connection: The name of the arrangement.

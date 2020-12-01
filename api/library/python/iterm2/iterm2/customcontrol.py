@@ -33,13 +33,11 @@ class CustomControlSequenceMonitor:
                   match = await mon.async_get()
                   await iterm2.Window.async_create(connection)
     """
-
-    def __init__(
-            self,
-            connection: iterm2.connection.Connection,
-            identity: str,
-            regex: str,
-            session_id: str = None):
+    def __init__(self,
+                 connection: iterm2.connection.Connection,
+                 identity: str,
+                 regex: str,
+                 session_id: str = None):
         self.__connection = connection
         self.__regex = regex
         self.__identity = identity
@@ -60,9 +58,7 @@ class CustomControlSequenceMonitor:
         self.__token = await (
             iterm2.notifications.
             async_subscribe_to_custom_escape_sequence_notification(
-                self.__connection,
-                internal_callback,
-                self.__session_id))
+                self.__connection, internal_callback, self.__session_id))
         return self
 
     async def async_get(self) -> typing.Match:
@@ -78,7 +74,6 @@ class CustomControlSequenceMonitor:
     async def __aexit__(self, exc_type, exc, _tb):
         try:
             await iterm2.notifications.async_unsubscribe(
-                self.__connection,
-                self.__token)
+                self.__connection, self.__token)
         except iterm2.notifications.SubscriptionException:
             pass

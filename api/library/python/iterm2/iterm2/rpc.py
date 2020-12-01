@@ -7,7 +7,6 @@ import iterm2.connection
 ACTIVATE_RAISE_ALL_WINDOWS = 1
 ACTIVATE_IGNORING_OTHER_APPS = 2
 
-
 # pylint and protobufs can't be friends so disable a bunch of stuff.
 # pylint: disable=no-member
 # pylint: disable=too-many-arguments
@@ -16,6 +15,7 @@ ACTIVATE_IGNORING_OTHER_APPS = 2
 class RPCException(Exception):
     """
     Raised when a response contains an error signaling a malformed request."""
+
 
 # APIs -----------------------------------------------------------------------
 
@@ -33,16 +33,15 @@ async def async_list_sessions(connection):
     return await _async_call(connection, request)
 
 
-async def async_notification_request(
-        connection,
-        subscribe,
-        notification_type,
-        session=None,
-        rpc_registration_request=None,
-        keystroke_monitor_request=None,
-        variable_monitor_request=None,
-        profile_change_request=None,
-        prompt_monitor_modes=None):
+async def async_notification_request(connection,
+                                     subscribe,
+                                     notification_type,
+                                     session=None,
+                                     rpc_registration_request=None,
+                                     keystroke_monitor_request=None,
+                                     variable_monitor_request=None,
+                                     profile_change_request=None,
+                                     prompt_monitor_modes=None):
     """
     Requests a change to a notification subscription.
 
@@ -108,13 +107,12 @@ async def async_send_text(connection, session, text, suppress_broadcast):
     return await _async_call(connection, request)
 
 
-async def async_split_pane(
-        connection,
-        session,
-        vertical,
-        before,
-        profile=None,
-        profile_customizations=None):
+async def async_split_pane(connection,
+                           session,
+                           vertical,
+                           before,
+                           profile=None,
+                           profile_customizations=None):
     """
     Splits a session into two.
 
@@ -159,13 +157,12 @@ def _profile_properties_from_dict(profile_customizations):
     return props
 
 
-async def async_create_tab(
-        connection,
-        profile=None,
-        window=None,
-        index=None,
-        command=None,
-        profile_customizations=None):
+async def async_create_tab(connection,
+                           profile=None,
+                           window=None,
+                           index=None,
+                           command=None,
+                           profile_customizations=None):
     """
     Creates a new tab or window.
 
@@ -198,10 +195,9 @@ async def async_create_tab(
     return await _async_call(connection, request)
 
 
-async def async_get_screen_contents(
-        connection,
-        session,
-        windowed_coord_range=None):
+async def async_get_screen_contents(connection,
+                                    session,
+                                    windowed_coord_range=None):
     """
     Gets screen contents, including both the mutable area and history.
 
@@ -222,8 +218,7 @@ async def async_get_screen_contents(
     return await _async_call(connection, request)
 
 
-async def async_get_prompt(
-        connection, session=None, prompt_id=None):
+async def async_get_prompt(connection, session=None, prompt_id=None):
     """
     Gets info about the last prompt in a session
 
@@ -242,8 +237,7 @@ async def async_get_prompt(
     return await _async_call(connection, request)
 
 
-async def async_list_prompts(
-        connection, session, first, last):
+async def async_list_prompts(connection, session, first, last):
     """
     Fetches a list of prompts in a session.
 
@@ -291,11 +285,8 @@ async def async_end_transaction(connection):
     return await _async_call(connection, request)
 
 
-async def async_register_web_view_tool(connection,
-                                       display_name,
-                                       identifier,
-                                       reveal_if_already_registered,
-                                       url):
+async def async_register_web_view_tool(connection, display_name, identifier,
+                                       reveal_if_already_registered, url):
     """
     Registers a toolbelt tool showing a webview.
 
@@ -319,8 +310,11 @@ async def async_register_web_view_tool(connection,
     return await _async_call(connection, request)
 
 
-async def async_set_profile_property(
-        connection, session_id, key, value, guids=None):
+async def async_set_profile_property(connection,
+                                     session_id,
+                                     key,
+                                     value,
+                                     guids=None):
     """
     Sets a property of a session's profile.
     TODO: Add async_set_profile_properties and deprecate this.
@@ -335,12 +329,15 @@ async def async_set_profile_property(
 
     :returns: iterm2.api_pb2.ServerOriginatedMessage
     """
-    return await async_set_profile_property_json(
-        connection, session_id, key, json.dumps(value), guids)
+    return await async_set_profile_property_json(connection, session_id, key,
+                                                 json.dumps(value), guids)
 
 
-async def async_set_profile_property_json(
-        connection, session_id, key, json_value, guids=None):
+async def async_set_profile_property_json(connection,
+                                          session_id,
+                                          key,
+                                          json_value,
+                                          guids=None):
     """Like async_set_profile_property but takes a json-encoded value.
     DEPRECATED. Prefer async_set_profile_properties_json."""
     request = _alloc_request()
@@ -353,8 +350,10 @@ async def async_set_profile_property_json(
     return await _async_call(connection, request)
 
 
-async def async_set_profile_properties_json(
-        connection, session_id, assignments, guids=None):
+async def async_set_profile_properties_json(connection,
+                                            session_id,
+                                            assignments,
+                                            guids=None):
     """Like async_set_profile_properties but takes a json-encoded value."""
     request = _alloc_request()
     if session_id is None:
@@ -391,8 +390,11 @@ async def async_get_profile(connection, session=None, keys=None):
     return await _async_call(connection, request)
 
 
-async def async_set_property(
-        connection, name, json_value, window_id=None, session_id=None):
+async def async_set_property(connection,
+                             name,
+                             json_value,
+                             window_id=None,
+                             session_id=None):
     """
     Sets a property of an object (currently only of a window).
     """
@@ -408,8 +410,10 @@ async def async_set_property(
     return await _async_call(connection, request)
 
 
-async def async_get_property(
-        connection, name, window_id=None, session_id=None):
+async def async_get_property(connection,
+                             name,
+                             window_id=None,
+                             session_id=None):
     """
     Gets a property of a window or session.
     """
@@ -464,13 +468,12 @@ async def async_activate(connection,
     return await _async_call(connection, request)
 
 
-async def async_variable(
-        connection,
-        session_id=None,
-        sets=None,
-        gets=None,
-        tab_id=None,
-        window_id=None):
+async def async_variable(connection,
+                         session_id=None,
+                         sets=None,
+                         gets=None,
+                         tab_id=None,
+                         window_id=None):
     """
     Gets or sets session variables.
 
@@ -567,8 +570,8 @@ async def async_send_rpc_result(connection, request_id, is_exception, value):
     request = _alloc_request()
     request.server_originated_rpc_result_request.request_id = request_id
     if is_exception:
-        (request.server_originated_rpc_result_request.
-         json_exception) = json.dumps(value)
+        (request.server_originated_rpc_result_request.json_exception
+         ) = json.dumps(value)
     else:
         request.server_originated_rpc_result_request.json_value = json.dumps(
             value)
@@ -632,8 +635,8 @@ async def async_rpc_send_tmux_command(connection, tmux_connection_id, command):
     return await _async_call(connection, request)
 
 
-async def async_rpc_set_tmux_window_visible(
-        connection, tmux_connection_id, window_id, visible):
+async def async_rpc_set_tmux_window_visible(connection, tmux_connection_id,
+                                            window_id, visible):
     """Hides/shows a tmux window (which is an iTerm2 tab)"""
     _assert_not_in_transaction()
     request = _alloc_request()
@@ -645,8 +648,9 @@ async def async_rpc_set_tmux_window_visible(
     return await _async_call(connection, request)
 
 
-async def async_rpc_create_tmux_window(
-        connection, tmux_connection_id, affinity=None):
+async def async_rpc_create_tmux_window(connection,
+                                       tmux_connection_id,
+                                       affinity=None):
     """Creates a new tmux window."""
     _assert_not_in_transaction()
     request = _alloc_request()
@@ -745,14 +749,13 @@ async def async_set_selection(connection, session_id, selection):
     request.selection_request.set_selection_request.session_id = session_id
     request.selection_request.set_selection_request.selection.SetInParent()
     for sub in selection.subSelections:
-        (request.selection_request.
-         set_selection_request.selection.sub_selections.extend(
-             [sub.proto]))
+        (request.selection_request.set_selection_request.selection.
+         sub_selections.extend([sub.proto]))
     return await _async_call(connection, request)
 
 
-async def async_open_status_bar_component_popover(
-        connection, identifier, session_id, html, size):
+async def async_open_status_bar_component_popover(connection, identifier,
+                                                  session_id, html, size):
     """
     Send a request to open a popover.
     """
@@ -781,8 +784,11 @@ async def async_set_broadcast_domains(connection, list_of_list_of_session_ids):
     return await _async_call(connection, request)
 
 
-async def async_close(
-        connection, sessions=None, tabs=None, windows=None, force=False):
+async def async_close(connection,
+                      sessions=None,
+                      tabs=None,
+                      windows=None,
+                      force=False):
     """
     Send a close request.
     """
@@ -802,14 +808,13 @@ async def async_close(
     return await _async_call(connection, request)
 
 
-async def async_invoke_function(
-        connection,
-        invocation,
-        session_id=None,
-        tab_id=None,
-        window_id=None,
-        timeout=-1,
-        receiver=None):
+async def async_invoke_function(connection,
+                                invocation,
+                                session_id=None,
+                                tab_id=None,
+                                window_id=None,
+                                timeout=-1,
+                                receiver=None):
     """
     Invoke a function in iTerm2, possibly as a method call on an object.
     """
@@ -833,11 +838,10 @@ async def async_invoke_function(
 async def async_invoke_method(connection, receiver, invocation, timeout):
     """Convenience wrapper around async_invoke_function for methods."""
     assert receiver
-    response = await iterm2.rpc.async_invoke_function(
-        connection,
-        invocation,
-        receiver=receiver,
-        timeout=timeout)
+    response = await iterm2.rpc.async_invoke_function(connection,
+                                                      invocation,
+                                                      receiver=receiver,
+                                                      timeout=timeout)
     which = response.invoke_function_response.WhichOneof('disposition')
     if which == 'error':
         if (response.invoke_function_response.error.status ==
@@ -848,6 +852,7 @@ async def async_invoke_method(connection, receiver, invocation, timeout):
                 response.invoke_function_response.error.status),
             response.invoke_function_response.error.error_reason))
     return json.loads(response.invoke_function_response.success.json_result)
+
 
 # Private --------------------------------------------------------------------
 

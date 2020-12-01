@@ -20,15 +20,15 @@ class Color:
       :param a: Alpha, in 0-255
       :param color_space: The color space. Only sRGB is supported currently.
       """
+
     # pylint: disable=too-many-arguments
 
-    def __init__(
-            self,
-            r: int = 0,
-            g: int = 0,
-            b: int = 0,
-            a: int = 255,
-            color_space: ColorSpace = ColorSpace.SRGB):
+    def __init__(self,
+                 r: int = 0,
+                 g: int = 0,
+                 b: int = 0,
+                 a: int = 255,
+                 color_space: ColorSpace = ColorSpace.SRGB):
         """Create a color."""
         self.__red = r
         self.__green = g
@@ -37,12 +37,9 @@ class Color:
         self.__color_space = color_space
 
     def __repr__(self):
-        return "({},{},{},{} {})".format(
-            round(self.red),
-            round(self.green),
-            round(self.blue),
-            round(self.alpha),
-            self.color_space)
+        return "({},{},{},{} {})".format(round(self.red), round(self.green),
+                                         round(self.blue), round(self.alpha),
+                                         self.color_space)
 
     @property
     def red(self) -> int:

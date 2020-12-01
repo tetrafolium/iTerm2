@@ -9,20 +9,51 @@
 
 tokens = [
     # Literals (identifier, integer constant, float constant, string constant, char const)
-    'ID', 'TYPEID', 'ICONST', 'FCONST', 'SCONST', 'CCONST',
+    'ID',
+    'TYPEID',
+    'ICONST',
+    'FCONST',
+    'SCONST',
+    'CCONST',
 
     # Operators (+,-,*,/,%,|,&,~,^,<<,>>, ||, &&, !, <, <=, >, >=, ==, !=)
-    'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'MOD',
-    'OR', 'AND', 'NOT', 'XOR', 'LSHIFT', 'RSHIFT',
-    'LOR', 'LAND', 'LNOT',
-    'LT', 'LE', 'GT', 'GE', 'EQ', 'NE',
+    'PLUS',
+    'MINUS',
+    'TIMES',
+    'DIVIDE',
+    'MOD',
+    'OR',
+    'AND',
+    'NOT',
+    'XOR',
+    'LSHIFT',
+    'RSHIFT',
+    'LOR',
+    'LAND',
+    'LNOT',
+    'LT',
+    'LE',
+    'GT',
+    'GE',
+    'EQ',
+    'NE',
 
     # Assignment (=, *=, /=, %=, +=, -=, <<=, >>=, &=, ^=, |=)
-    'EQUALS', 'TIMESEQUAL', 'DIVEQUAL', 'MODEQUAL', 'PLUSEQUAL', 'MINUSEQUAL',
-    'LSHIFTEQUAL', 'RSHIFTEQUAL', 'ANDEQUAL', 'XOREQUAL', 'OREQUAL',
+    'EQUALS',
+    'TIMESEQUAL',
+    'DIVEQUAL',
+    'MODEQUAL',
+    'PLUSEQUAL',
+    'MINUSEQUAL',
+    'LSHIFTEQUAL',
+    'RSHIFTEQUAL',
+    'ANDEQUAL',
+    'XOREQUAL',
+    'OREQUAL',
 
     # Increment/decrement (++,--)
-    'PLUSPLUS', 'MINUSMINUS',
+    'PLUSPLUS',
+    'MINUSMINUS',
 
     # Structure dereference (->)
     'ARROW',
@@ -31,10 +62,16 @@ tokens = [
     'TERNARY',
 
     # Delimeters ( ) [ ] { } , . ; :
-    'LPAREN', 'RPAREN',
-    'LBRACKET', 'RBRACKET',
-    'LBRACE', 'RBRACE',
-    'COMMA', 'PERIOD', 'SEMI', 'COLON',
+    'LPAREN',
+    'RPAREN',
+    'LBRACKET',
+    'RBRACKET',
+    'LBRACE',
+    'RBRACE',
+    'COMMA',
+    'PERIOD',
+    'SEMI',
+    'COLON',
 
     # Ellipsis (...)
     'ELLIPSIS',
@@ -121,6 +158,7 @@ def t_COMMENT(t):
     r'/\*(.|\n)*?\*/'
     t.lexer.lineno += t.value.count('\n')
     return t
+
 
 # Comment (C++-Style)
 

@@ -26,8 +26,7 @@ def search_container(path, container, f):
 
 
 def prologue():
-    print(
-        """
+    print("""
 :orphan:
 
 Menu Item Identifiers
@@ -78,6 +77,7 @@ def make_rst(items, idname):
         nonlocal longest_identifier
         longest_name = max(longest_name, len(name))
         longest_identifier = max(longest_identifier, len(identifier))
+
     search_container([], items, measure)
 
     divider = "{} {}".format("=" * longest_name, "=" * longest_identifier)
@@ -92,6 +92,7 @@ def make_rst(items, idname):
     def rst(_titlepath, name, identifier):
         ticked_identifier = "`{}`".format(escape(identifier))
         print(fmt % (escape(name), ticked_identifier))
+
     search_container([], items, rst)
 
     print(divider)

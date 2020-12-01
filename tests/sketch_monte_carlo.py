@@ -19,4 +19,5 @@ for i in xrange(1024):
         s += x
         if smallest is None or x < smallest:
             smallest = x
-    print "With %d unique values, num bits averages %d; min is %d" % (i, s / N, x)
+    print "With %d unique values, num bits averages %d; min is %d" % (i, s / N,
+                                                                      x)

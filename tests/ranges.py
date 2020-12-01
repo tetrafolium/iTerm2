@@ -26,7 +26,7 @@ for line in f:
     if len(parts) > 1:
         p1 = int(parts[0], 16)
         p2 = int(parts[1], 16)
-        for i in range(p2-p1+1):
+        for i in range(p2 - p1 + 1):
             n = p1 + i
             assert n >= p1 and n <= p2
             values.append(n)

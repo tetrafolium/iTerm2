@@ -16,49 +16,26 @@ def PrintRowLabel(index, bg):
 
 
 def PrintCell(fi, bi, fg, bg):
-    print("%c[%d;%dm%-9s " % (27, bg[bi][0], fg[fi]
-                              [0], u"Abc\u2605".encode('utf-8')), end="")
+    print("%c[%d;%dm%-9s " %
+          (27, bg[bi][0], fg[fi][0], u"Abc\u2605".encode('utf-8')),
+          end="")
 
 
 def PrintMargin():
     print("    ", end="")
 
 
-dfg = [(30, "black"),
-       (31, "red"),
-       (32, "green"),
-       (33, "yellow"),
-       (34, "blue"),
-       (35, "magenta"),
-       (36, "cyan"),
-       (37, "white")]
+dfg = [(30, "black"), (31, "red"), (32, "green"), (33, "yellow"), (34, "blue"),
+       (35, "magenta"), (36, "cyan"), (37, "white")]
 
-lfg = [(90, "black"),
-       (91, "red"),
-       (92, "green"),
-       (93, "yellow"),
-       (94, "blue"),
-       (95, "magenta"),
-       (96, "cyan"),
-       (97, "white")]
+lfg = [(90, "black"), (91, "red"), (92, "green"), (93, "yellow"), (94, "blue"),
+       (95, "magenta"), (96, "cyan"), (97, "white")]
 
-dbg = [(40, "black"),
-       (41, "red"),
-       (42, "green"),
-       (43, "yellow"),
-       (44, "blue"),
-       (45, "magenta"),
-       (46, "cyan"),
-       (47, "white")]
+dbg = [(40, "black"), (41, "red"), (42, "green"), (43, "yellow"), (44, "blue"),
+       (45, "magenta"), (46, "cyan"), (47, "white")]
 
-lbg = [(100, "black"),
-       (101, "red"),
-       (102, "green"),
-       (103, "yellow"),
-       (104, "blue"),
-       (105, "magenta"),
-       (106, "cyan"),
-       (107, "white")]
+lbg = [(100, "black"), (101, "red"), (102, "green"), (103, "yellow"),
+       (104, "blue"), (105, "magenta"), (106, "cyan"), (107, "white")]
 
 titles = ["Dark on Dark", "Light on Dark", "Dark on Light", "Light on Light"]
 t = 0

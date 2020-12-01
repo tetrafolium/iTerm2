@@ -9,7 +9,6 @@ class MenuItemException(Exception):
 
 class MenuItemState:
     """Describes the current state of a menu item."""
-
     def __init__(self, checked: bool, enabled: bool):
         self.__checked = checked
         self.__enabled = enabled
@@ -30,7 +29,6 @@ class MenuItemState:
 
 class MainMenu:
     """Represents the app's main menu."""
-
     @staticmethod
     async def async_select_menu_item(connection, identifier: str):
         """Selects a menu item.
@@ -41,8 +39,8 @@ class MainMenu:
 
         .. seealso:: Example ":ref:`zoom_on_screen_example`"
         """
-        response = await iterm2.rpc.async_menu_item(
-            connection, identifier, False)
+        response = await iterm2.rpc.async_menu_item(connection, identifier,
+                                                    False)
         status = response.menu_item_response.status
         # pylint: disable=no-member
         if status != iterm2.api_pb2.MenuItemResponse.Status.Value("OK"):
@@ -50,21 +48,20 @@ class MainMenu:
                 iterm2.api_pb2.MenuItemResponse.Status.Name(status))
 
     @staticmethod
-    async def async_get_menu_item_state(
-            connection, identifier: str) -> MenuItemState:
+    async def async_get_menu_item_state(connection,
+                                        identifier: str) -> MenuItemState:
         """Queries a menu item for its state.
 
         :param identifier: A string. See list of identifiers in :doc:`menu_ids`
 
         :throws MenuItemException: if something goes wrong.
         """
-        response = await iterm2.rpc.async_menu_item(
-            connection, identifier, True)
+        response = await iterm2.rpc.async_menu_item(connection, identifier,
+                                                    True)
         status = response.menu_item_response.status
         # pylint: disable=no-member
         if status != iterm2.api_pb2.MenuItemResponse.Status.Value("OK"):
             raise MenuItemException(
                 iterm2.api_pb2.MenuItemResponse.Status.Name(status))
-        return iterm2.MenuItemState(
-            response.menu_item_response.checked,
-            response.menu_item_response.enabled)
+        return iterm2.MenuItemState(response.menu_item_response.checked,
+                                    response.menu_item_response.enabled)

@@ -192,6 +192,7 @@ class PreferenceKey(enum.Enum):
     ACTIONS = "Actions"  #: Array of dictionaries defining actions.
     HTML_TAB_TITLES = "HTMLTabTitles"  #: Support basic HTML tags in tab titles
 
+
 # pylint: enable=line-too-long
 
 

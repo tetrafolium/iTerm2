@@ -51,13 +51,9 @@ class VariableMonitor:
                   new_value = await mon.async_get()
                   DoSomething(new_value)
         """
-
-    def __init__(
-            self,
-            connection: iterm2.connection.Connection,
-            scope: VariableScopes,
-            name: str,
-            identifier: typing.Optional[str]):
+    def __init__(self, connection: iterm2.connection.Connection,
+                 scope: VariableScopes, name: str,
+                 identifier: typing.Optional[str]):
         self.__connection = connection
         self.__scope = scope
         self.__name = name
@@ -71,14 +67,11 @@ class VariableMonitor:
             """Called when a variable changes."""
             await self.__queue.put(message)
 
-        self.__token = await (
-            iterm2.notifications.
-            async_subscribe_to_variable_change_notification(
-                self.__connection,
-                callback,
-                self.__scope.value,
-                self.__name,
-                self.__identifier))
+        self.__token = await (iterm2.notifications.
+                              async_subscribe_to_variable_change_notification(
+                                  self.__connection, callback,
+                                  self.__scope.value, self.__name,
+                                  self.__identifier))
         return self
 
     async def async_get(self) -> typing.Any:

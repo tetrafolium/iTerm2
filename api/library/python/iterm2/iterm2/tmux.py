@@ -27,10 +27,8 @@ class Delegate:
 
 
 DELEGATE: typing.Optional[Delegate] = None
-DELEGATE_FACTORY: typing.Optional[
-    typing.Callable[
-        [iterm2.connection.Connection],
-        typing.Awaitable[Delegate]]] = None
+DELEGATE_FACTORY: typing.Optional[typing.Callable[
+    [iterm2.connection.Connection], typing.Awaitable[Delegate]]] = None
 
 
 class TmuxException(Exception):
@@ -44,7 +42,6 @@ class TmuxConnection:
     Do not create this yourself. Use :func:`async_get_tmux_connections`,
     instead.
     """
-
     def __init__(self, connection_id, owning_session_id, delegate):
         self.__connection_id = connection_id
         self.__owning_session_id = owning_session_id
@@ -84,11 +81,10 @@ class TmuxConnection:
         """
         response = await iterm2.rpc.async_rpc_send_tmux_command(
             self.__delegate.tmux_delegate_get_connection(),
-            self.__connection_id,
-            command)
+            self.__connection_id, command)
         # pylint: disable=no-member
-        if (response.tmux_response.status == iterm2.api_pb2.TmuxResponse.
-                Status.Value("OK")):
+        if (response.tmux_response.status ==
+                iterm2.api_pb2.TmuxResponse.Status.Value("OK")):
             if response.tmux_response.send_command.HasField("output"):
                 return response.tmux_response.send_command.output
             raise TmuxException("Tmux reported an error")
@@ -96,8 +92,8 @@ class TmuxConnection:
             iterm2.api_pb2.TmuxResponse.Status.Name(
                 response.tmux_response.status))
 
-    async def async_set_tmux_window_visible(
-            self, tmux_window_id: str, visible: bool) -> None:
+    async def async_set_tmux_window_visible(self, tmux_window_id: str,
+                                            visible: bool) -> None:
         """Hides or shows a tmux window.
 
         Tmux windows are represented as tabs in iTerm2. You can get a
@@ -111,12 +107,10 @@ class TmuxConnection:
         """
         response = await iterm2.rpc.async_rpc_set_tmux_window_visible(
             self.__delegate.tmux_delegate_get_connection(),
-            self.__connection_id,
-            tmux_window_id,
-            visible)
+            self.__connection_id, tmux_window_id, visible)
         # pylint: disable=no-member
-        if (response.tmux_response.status != iterm2.api_pb2.TmuxResponse.
-                Status.Value("OK")):
+        if (response.tmux_response.status !=
+                iterm2.api_pb2.TmuxResponse.Status.Value("OK")):
             raise TmuxException(
                 iterm2.api_pb2.TmuxResponse.Status.Name(
                     response.tmux_response.status))
@@ -134,8 +128,8 @@ class TmuxConnection:
             self.__delegate.tmux_delegate_get_connection(),
             self.__connection_id)
         # pylint: disable=no-member
-        if (response.tmux_response.status != iterm2.api_pb2.TmuxResponse.
-                Status.Value("OK")):
+        if (response.tmux_response.status !=
+                iterm2.api_pb2.TmuxResponse.Status.Value("OK")):
             raise TmuxException(
                 iterm2.api_pb2.TmuxResponse.Status.Name(
                     response.tmux_response.status))
@@ -145,8 +139,8 @@ class TmuxConnection:
 
 
 async def async_get_tmux_connections(
-        connection: iterm2.connection.Connection) -> typing.List[
-            TmuxConnection]:
+    connection: iterm2.connection.Connection
+) -> typing.List[TmuxConnection]:
     """Fetches a list of tmux connections.
 
     This may not be called from within a :class:`~iterm2.Transaction`.
@@ -170,15 +164,16 @@ async def async_get_tmux_connections(
     # pylint: disable=no-member
     if (response.tmux_response.status ==
             iterm2.api_pb2.TmuxResponse.Status.Value("OK")):
+
         def make_connection(proto):
-            return TmuxConnection(proto.connection_id,
-                                  proto.owning_session_id,
+            return TmuxConnection(proto.connection_id, proto.owning_session_id,
                                   DELEGATE)
-        return list(map(make_connection,
-                        response.tmux_response.list_connections.connections))
+
+        return list(
+            map(make_connection,
+                response.tmux_response.list_connections.connections))
     raise TmuxException(
-        iterm2.api_pb2.TmuxResponse.Status.Name(
-            response.tmux_response.status))
+        iterm2.api_pb2.TmuxResponse.Status.Name(response.tmux_response.status))
 
 
 async def async_get_tmux_connection_by_connection_id(

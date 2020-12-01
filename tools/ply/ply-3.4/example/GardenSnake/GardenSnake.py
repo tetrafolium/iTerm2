@@ -115,6 +115,7 @@ def t_NAME(t):
     t.type = RESERVED.get(t.value, "NAME")
     return t
 
+
 # Putting this before t_WS let it consume lines with only comments in
 # them so the latter code never sees the WS part.  Not consuming the
 # newline.  Needed for "if 1: #comment"
@@ -130,6 +131,7 @@ def t_WS(t):
     r' [ ]+ '
     if t.lexer.at_line_start and t.lexer.paren_count == 0:
         return t
+
 
 # Don't generate newline tokens when inside of parenthesis, eg
 #   a = (1,
@@ -158,9 +160,10 @@ def t_RPAR(t):
 
 
 def t_error(t):
-    raise SyntaxError("Unknown symbol %r" % (t.value[0],))
+    raise SyntaxError("Unknown symbol %r" % (t.value[0], ))
     print "Skipping", repr(t.value[0])
     t.lexer.skip(1)
+
 
 # I implemented INDENT / DEDENT generation as a post-processing filter
 
@@ -172,7 +175,6 @@ def t_error(t):
 # previous code.  The other is "at_line_start" which is True for WS
 # and the first non-WS/non-NEWLINE on a line.  It flags the check so
 # see if the new line has changed indication level.
-
 
 # Python's syntax has three INDENT states
 #  0) no colon hence no need to indent
@@ -228,11 +230,13 @@ def _new_token(type, lineno):
     tok.lineno = lineno
     return tok
 
+
 # Synthesize a DEDENT tag
 
 
 def DEDENT(lineno):
     return _new_token("DEDENT", lineno)
+
 
 # Synthesize an INDENT tag
 
@@ -303,7 +307,7 @@ def indentation_filter(tokens):
                     i = levels.index(depth)
                 except ValueError:
                     raise IndentationError("inconsistent indentation")
-                for _ in range(i+1, len(levels)):
+                for _ in range(i + 1, len(levels)):
                     yield DEDENT(token.lineno)
                     levels.pop()
 
@@ -333,13 +337,16 @@ def filter(lexer, add_endmarker=True):
             lineno = token.lineno
         yield _new_token("ENDMARKER", lineno)
 
+
 # Combine Ply and my filters into a new lexer
 
 
 class IndentLexer(object):
     def __init__(self, debug=0, optimize=0, lextab='lextab', reflags=0):
-        self.lexer = lex.lex(debug=debug, optimize=optimize,
-                             lextab=lextab, reflags=reflags)
+        self.lexer = lex.lex(debug=debug,
+                             optimize=optimize,
+                             lextab=lextab,
+                             reflags=reflags)
         self.token_stream = None
 
     def input(self, s, add_endmarker=True):
@@ -353,15 +360,16 @@ class IndentLexer(object):
         except StopIteration:
             return None
 
+
 ##########   Parser (tokens -> AST) ######
 
 # also part of Ply
 #import yacc
 
-
 # I use the Python AST
 
 # Helper function
+
 
 def Assign(left, right):
     names = []
@@ -383,6 +391,7 @@ def Assign(left, right):
 
 # The grammar comments come from Python's Grammar/Grammar file
 
+
 # NB: compound_stmt in single_input is followed by extra NEWLINE!
 # file_input: (NEWLINE | stmt)* ENDMARKER
 def p_file_input_end(p):
@@ -395,7 +404,7 @@ def p_file_input(p):
                   | file_input stmt
                   | NEWLINE
                   | stmt"""
-    if isinstance(p[len(p)-1], basestring):
+    if isinstance(p[len(p) - 1], basestring):
         if len(p) == 3:
             p[0] = p[1]
         else:
@@ -412,6 +421,7 @@ def p_file_input(p):
 def p_funcdef(p):
     "funcdef : DEF NAME parameters COLON suite"
     p[0] = ast.Function(None, p[2], tuple(p[3]), (), 0, None, p[5])
+
 
 # parameters: '(' [varargslist] ')'
 
@@ -435,6 +445,7 @@ def p_varargslist(p):
     else:
         p[0] = [p[1]]
 
+
 # stmt: simple_stmt | compound_stmt
 
 
@@ -447,6 +458,7 @@ def p_stmt_simple(p):
 def p_stmt_compound(p):
     """stmt : compound_stmt"""
     p[0] = [p[1]]
+
 
 # simple_stmt: small_stmt (';' small_stmt)* [';'] NEWLINE
 
@@ -465,6 +477,7 @@ def p_small_stmts(p):
     else:
         p[0] = [p[1]]
 
+
 # small_stmt: expr_stmt | print_stmt  | del_stmt | pass_stmt | flow_stmt |
 #    import_stmt | global_stmt | exec_stmt | assert_stmt
 
@@ -473,6 +486,7 @@ def p_small_stmt(p):
     """small_stmt : flow_stmt
                   | expr_stmt"""
     p[0] = p[1]
+
 
 # expr_stmt: testlist (augassign (yield_expr|testlist) |
 #                      ('=' (yield_expr|testlist))*)
@@ -493,6 +507,7 @@ def p_expr_stmt(p):
 def p_flow_stmt(p):
     "flow_stmt : return_stmt"
     p[0] = p[1]
+
 
 # return_stmt: 'return' [testlist]
 
@@ -530,6 +545,7 @@ def p_stmts(p):
     else:
         p[0] = p[1]
 
+
 # No using Python's approach because Ply supports precedence
 
 # comparison: expr (comp_op expr)*
@@ -540,15 +556,21 @@ def p_stmts(p):
 
 
 def make_lt_compare((left, right)):
-    return ast.Compare(left, [('<', right), ])
+    return ast.Compare(left, [
+        ('<', right),
+    ])
 
 
 def make_gt_compare((left, right)):
-    return ast.Compare(left, [('>', right), ])
+    return ast.Compare(left, [
+        ('>', right),
+    ])
 
 
 def make_eq_compare((left, right)):
-    return ast.Compare(left, [('==', right), ])
+    return ast.Compare(left, [
+        ('==', right),
+    ])
 
 
 binary_ops = {
@@ -589,6 +611,7 @@ def p_comparison(p):
     else:
         p[0] = p[1]
 
+
 # power: atom trailer* ['**' factor]
 # trailers enables function calls.  I only allow one level of calls
 # so this is 'trailer'
@@ -621,12 +644,14 @@ def p_atom_tuple(p):
     """atom : LPAR testlist RPAR"""
     p[0] = p[2]
 
+
 # trailer: '(' [arglist] ')' | '[' subscriptlist ']' | '.' NAME
 
 
 def p_trailer(p):
     "trailer : LPAR arglist RPAR"
     p[0] = ("CALL", p[2])
+
 
 # testlist: test (',' test)* [',']
 # Contains shift/reduce error
@@ -679,6 +704,7 @@ def p_arglist(p):
     else:
         p[0] = [p[1]]
 
+
 # argument: test [gen_for] | test '=' test  # Really [keyword '='] test
 
 
@@ -721,8 +747,8 @@ class GardenSnakeCompiler(object):
         code = gen.getCode()
         return code
 
-####### Test code #######
 
+####### Test code #######
 
 compile = GardenSnakeCompiler().compile
 

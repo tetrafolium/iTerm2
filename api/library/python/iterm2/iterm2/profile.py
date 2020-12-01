@@ -77,6 +77,7 @@ class InitialWorkingDirectory(enum.Enum):
     #: Use advanced settings, which specify more granular behavior depending on whether the new session is a new window, tab, or split pane.
     INITIAL_WORKING_DIRECTORY_ADVANCED = "Advanced"
 
+
 # pylint: enable=line-too-long
 
 
@@ -114,7 +115,6 @@ class LocalWriteOnlyProfile:
       * Example ":ref:`settabcolor_example`"
       * Example ":ref:`increase_font_size_example`"
     """
-
     def __init__(self, values=None):
         if not values:
             values = {}
@@ -490,8 +490,8 @@ class LocalWriteOnlyProfile:
         colors.
 
         :param value: A bool"""
-        return self._simple_set(
-            "Only The Default BG Color Uses Transparency", value)
+        return self._simple_set("Only The Default BG Color Uses Transparency",
+                                value)
 
     def set_ascii_anti_aliased(self, value: bool):
         """Sets whether ASCII text is anti-aliased.
@@ -734,8 +734,9 @@ class LocalWriteOnlyProfile:
         :param value: A list of dicts of trigger definitions."""
         return self._simple_set("Triggers", value)
 
-    def set_smart_selection_rules(
-            self, value: typing.List[typing.Dict[str, typing.Any]]):
+    def set_smart_selection_rules(self,
+                                  value: typing.List[typing.Dict[str,
+                                                                 typing.Any]]):
         """Sets the smart selection rules.
 
         :param value: A list of dicts of smart selection rules"""
@@ -754,7 +755,7 @@ class LocalWriteOnlyProfile:
         return self._simple_set("Bound Hosts", value)
 
     def set_advanced_working_directory_window_setting(
-            self, value: InitialWorkingDirectory):
+        self, value: InitialWorkingDirectory):
         """Sets the advanced working directory window setting.
 
         :param value: The new value. Excludes Advanced."""
@@ -767,7 +768,7 @@ class LocalWriteOnlyProfile:
         return self._simple_set("AWDS Window Directory", value)
 
     def set_advanced_working_directory_tab_setting(
-            self, value: InitialWorkingDirectory):
+        self, value: InitialWorkingDirectory):
         """Sets the advanced working directory tab setting.
 
         :param value: The new value. Excludes Advanced."""
@@ -780,7 +781,7 @@ class LocalWriteOnlyProfile:
         return self._simple_set("AWDS Tab Directory", value)
 
     def set_advanced_working_directory_pane_setting(
-            self, value: InitialWorkingDirectory):
+        self, value: InitialWorkingDirectory):
         """Sets the advanced working directory pane setting.
 
         :param value: The new value. Excludes Advanced."""
@@ -987,7 +988,6 @@ class LocalWriteOnlyProfile:
 class WriteOnlyProfile:
     """A profile that can be modified but not read. Useful for changing many
     sessions' profiles at once without knowing what they are."""
-
     def __init__(self, session_id, connection, guid=None):
         assert session_id != "all"
         self.connection = connection
@@ -996,27 +996,19 @@ class WriteOnlyProfile:
 
     async def _async_simple_set(self, key: str, value: typing.Any):
         """value is a json type"""
-        await iterm2.rpc.async_set_profile_property(
-            self.connection,
-            self.session_id,
-            key,
-            value,
-            self._guids_for_set())
+        await iterm2.rpc.async_set_profile_property(self.connection,
+                                                    self.session_id,
+                                                    key, value,
+                                                    self._guids_for_set())
 
     async def _async_color_set(self, key, value):
         if value is None:
             await iterm2.rpc.async_set_profile_property(
-                self.connection,
-                self.session_id,
-                key,
-                "null",
+                self.connection, self.session_id, key, "null",
                 self._guids_for_set())
         else:
             await iterm2.rpc.async_set_profile_property(
-                self.connection,
-                self.session_id,
-                key,
-                value.get_dict(),
+                self.connection, self.session_id, key, value.get_dict(),
                 self._guids_for_set())
 
     def _guids_for_set(self):
@@ -1025,8 +1017,8 @@ class WriteOnlyProfile:
             return [self.__guid]
         return self.session_id
 
-    async def async_set_color_preset(
-            self, preset: iterm2.colorpresets.ColorPreset):
+    async def async_set_color_preset(self,
+                                     preset: iterm2.colorpresets.ColorPreset):
         """Sets the color preset.
 
         :param preset: The new value.
@@ -1041,12 +1033,8 @@ class WriteOnlyProfile:
         for value in preset.values:
             coro = self._async_color_set(
                 value.key,
-                iterm2.color.Color(
-                    value.red,
-                    value.green,
-                    value.blue,
-                    value.alpha,
-                    value.color_space))
+                iterm2.color.Color(value.red, value.green, value.blue,
+                                   value.alpha, value.color_space))
             coros.append(coro)
         await asyncio.gather(*coros)
 
@@ -1356,8 +1344,8 @@ class WriteOnlyProfile:
         :param value: A float between 0 and 30"""
         return await self._async_simple_set("Blur Radius", value)
 
-    async def async_set_background_image_mode(
-            self, value: BackgroundImageMode):
+    async def async_set_background_image_mode(self,
+                                              value: BackgroundImageMode):
         """Sets how the background image is draw.
 
         :param value: The new value."""
@@ -1398,7 +1386,7 @@ class WriteOnlyProfile:
         return await self._async_simple_set("Disable Window Resizing", value)
 
     async def async_set_only_the_default_bg_color_uses_transparency(
-            self, value: bool):
+        self, value: bool):
         """
         Sets whether window transparency shows through non-default background
         colors.
@@ -1437,16 +1425,16 @@ class WriteOnlyProfile:
         status bar
 
         :param value: A bool"""
-        return await self._async_simple_set(
-            "Scrollback With Status Bar", value)
+        return await self._async_simple_set("Scrollback With Status Bar",
+                                            value)
 
     async def async_set_scrollback_in_alternate_screen(self, value: bool):
         """
         Sets whether text gets appended to scrollback in alternate screen mode.
 
         :param value: A bool"""
-        return await self._async_simple_set(
-            "Scrollback in Alternate Screen", value)
+        return await self._async_simple_set("Scrollback in Alternate Screen",
+                                            value)
 
     async def async_set_mouse_reporting(self, value: bool):
         """Sets whether mouse reporting is allowed
@@ -1527,8 +1515,8 @@ class WriteOnlyProfile:
         originated notifications
 
         :param value: A bool"""
-        return await self._async_simple_set(
-            "Send Terminal Generated Alerts", value)
+        return await self._async_simple_set("Send Terminal Generated Alerts",
+                                            value)
 
     async def async_set_flashing_bell(self, value: bool):
         """Sets whether the bell should flash the screen
@@ -1558,8 +1546,8 @@ class WriteOnlyProfile:
         """Sets amount of time you can undo closing a session
 
         :param value: A float at least 0"""
-        return await self._async_simple_set(
-            "Session Close Undo Timeout", value)
+        return await self._async_simple_set("Session Close Undo Timeout",
+                                            value)
 
     async def async_set_reduce_flicker(self, value: bool):
         """Sets whether the flicker fixer is on.
@@ -1577,8 +1565,8 @@ class WriteOnlyProfile:
         """Sets whether the terminal may be placed in application keypad mode
 
         :param value: A bool"""
-        return await self._async_simple_set(
-            "Application Keypad Allowed", value)
+        return await self._async_simple_set("Application Keypad Allowed",
+                                            value)
 
     async def async_set_place_prompt_at_first_column(self, value: bool):
         """
@@ -1586,8 +1574,8 @@ class WriteOnlyProfile:
         (requires shell integration)
 
         :param value: A bool"""
-        return await self._async_simple_set(
-            "Place Prompt at First Column", value)
+        return await self._async_simple_set("Place Prompt at First Column",
+                                            value)
 
     async def async_set_show_mark_indicators(self, value: bool):
         """Sets whether mark indicators should be visible
@@ -1625,8 +1613,8 @@ class WriteOnlyProfile:
         :param value: The new value."""
         return await self._async_simple_set("Thin Strokes", value)
 
-    async def async_set_unicode_normalization(
-            self, value: UnicodeNormalization):
+    async def async_set_unicode_normalization(self,
+                                              value: UnicodeNormalization):
         """Sets the unicode normalization form to use
 
         :param value: The new value."""
@@ -1650,71 +1638,72 @@ class WriteOnlyProfile:
         :param value: The new value."""
         return await self._async_simple_set("Right Option Key Sends", value)
 
-    async def async_set_triggers(
-            self, value: typing.List[typing.Dict[str, typing.Any]]):
+    async def async_set_triggers(self,
+                                 value: typing.List[typing.Dict[str,
+                                                                typing.Any]]):
         """Sets the triggers.
 
         :param value: A list of dicts of trigger definitions."""
         return await self._async_simple_set("Triggers", value)
 
     async def async_set_smart_selection_rules(
-            self, value: typing.List[typing.Dict[str, typing.Any]]):
+        self, value: typing.List[typing.Dict[str, typing.Any]]):
         """Sets the smart selection rules.
 
         :param value: A list of dicts of smart selection rules"""
         return await self._async_simple_set("Smart Selection Rules", value)
 
-    async def async_set_semantic_history(
-            self, value: typing.Dict[str, typing.Any]):
+    async def async_set_semantic_history(self, value: typing.Dict[str,
+                                                                  typing.Any]):
         """Sets the semantic history prefs.
 
         :param value: Semantic history settings dict."""
         return await self._async_simple_set("Semantic History", value)
 
     async def async_set_automatic_profile_switching_rules(
-            self, value: typing.List[str]):
+        self, value: typing.List[str]):
         """Sets the automatic profile switching rules.
 
         :param value: A list of rules (strings)."""
         return await self._async_simple_set("Bound Hosts", value)
 
     async def async_set_advanced_working_directory_window_setting(
-            self, value: InitialWorkingDirectory):
+        self, value: InitialWorkingDirectory):
         """Sets the advanced working directory window setting.
 
         :param value: New value. Excludes Advanced."""
         return await self._async_simple_set("AWDS Window Option", value)
 
     async def async_set_advanced_working_directory_window_directory(
-            self, value: str):
+        self, value: str):
         """Sets the advanced working directory window directory.
 
         :param value: Path."""
         return await self._async_simple_set("AWDS Window Directory", value)
 
     async def async_set_advanced_working_directory_tab_setting(
-            self, value: InitialWorkingDirectory):
+        self, value: InitialWorkingDirectory):
         """Sets the advanced working directory tab setting.
 
         :param value: New value. Excludes Advanced."""
         return await self._async_simple_set("AWDS Tab Option", value)
 
     async def async_set_advanced_working_directory_tab_directory(
-            self, value: str):
+        self, value: str):
         """Sets the advanced working directory tab directory.
 
         :param value: Path."""
         return await self._async_simple_set("AWDS Tab Directory", value)
 
     async def async_set_advanced_working_directory_pane_setting(
-            self, value: InitialWorkingDirectory):
+        self, value: InitialWorkingDirectory):
         """Sets the advanced working directory pane setting.
 
         :param value: New value. Excludes Advanced."""
         return await self._async_simple_set("AWDS Pane Option", value)
 
     async def async_set_advanced_working_directory_pane_directory(
-            self, value: str):
+        self, value: str):
         """Sets the advanced working directory pane directory.
 
         :param value: Path."""
@@ -1743,15 +1732,15 @@ class WriteOnlyProfile:
         :param value: Path."""
         return await self._async_simple_set("Background Image Location", value)
 
-    async def async_set_key_mappings(
-            self, value: typing.Dict[str, typing.Any]):
+    async def async_set_key_mappings(self, value: typing.Dict[str,
+                                                              typing.Any]):
         """Sets the keyboard shortcuts.
 
         :param value: Dictionary mapping keystroke to action."""
         return await self._async_simple_set("Keyboard Map", value)
 
-    async def async_set_touchbar_mappings(
-            self, value: typing.Dict[str, typing.Any]):
+    async def async_set_touchbar_mappings(self,
+                                          value: typing.Dict[str, typing.Any]):
         """Sets the touchbar actions.
 
         :param value: Dictionary mapping touch bar item to action."""
@@ -1773,8 +1762,8 @@ class WriteOnlyProfile:
         """
         return await self._async_simple_set("Command", value)
 
-    async def async_set_initial_directory_mode(
-            self, value: InitialWorkingDirectory):
+    async def async_set_initial_directory_mode(self,
+                                               value: InitialWorkingDirectory):
         """Sets whether to use a custom (not home) initial working directory.
 
         :param value: The new value.
@@ -1806,8 +1795,8 @@ class WriteOnlyProfile:
         """
         return await self._async_simple_set("Custom Icon Path", value)
 
-    async def async_set_title_components(
-            self, value: typing.List[TitleComponents]):
+    async def async_set_title_components(self,
+                                         value: typing.List[TitleComponents]):
         """
         Sets which components are visible in the session's title, or selects a
         custom component.
@@ -1819,8 +1808,8 @@ class WriteOnlyProfile:
             bitmask += component.value
         return await self._async_simple_set("Title Components", bitmask)
 
-    async def async_set_title_function(
-            self, display_name: str, identifier: str):
+    async def async_set_title_function(self, display_name: str,
+                                       identifier: str):
         """
         Sets the function call for the session title provider and its display
         name for the UI.
@@ -1832,8 +1821,8 @@ class WriteOnlyProfile:
         This takes effect only when the title_components property is set to
         `CUSTOM`.
         """
-        return await self._async_simple_set(
-            "Title Function", [display_name, identifier])
+        return await self._async_simple_set("Title Function",
+                                            [display_name, identifier])
 
     async def async_set_badge_top_margin(self, value: int):
         """Sets the top margin of the badge.
@@ -2705,8 +2694,8 @@ class Profile(WriteOnlyProfile):
         return self._simple_get("Triggers")
 
     @property
-    def smart_selection_rules(self) -> typing.List[
-            typing.Dict[str, typing.Any]]:
+    def smart_selection_rules(
+            self) -> typing.List[typing.Dict[str, typing.Any]]:
         """The smart selection rules.
 
         :returns: A list of dicts of smart selection rules"""
@@ -3027,10 +3016,10 @@ class PartialProfile(Profile):
     # pylint: disable=dangerous-default-value
     @staticmethod
     async def async_query(
-            connection: iterm2.connection.Connection,
-            guids: typing.Optional[typing.List[str]] = None,
-            properties: typing.List[str] = [
-                "Guid", "Name"]) -> typing.List['PartialProfile']:
+        connection: iterm2.connection.Connection,
+        guids: typing.Optional[typing.List[str]] = None,
+        properties: typing.List[str] = ["Guid", "Name"]
+    ) -> typing.List['PartialProfile']:
         """
         Fetches a list of profiles by guid, populating the requested
         properties.
@@ -3052,8 +3041,8 @@ class PartialProfile(Profile):
             connection, guids, properties)
         profiles = []
         for response_profile in response.list_profiles_response.profiles:
-            profile = PartialProfile(
-                None, connection, response_profile.properties)
+            profile = PartialProfile(None, connection,
+                                     response_profile.properties)
             profiles.append(profile)
         return profiles
 
@@ -3061,17 +3050,18 @@ class PartialProfile(Profile):
     # pylint: disable=arguments-differ
     @staticmethod
     async def async_get_default(
-            connection: iterm2.connection.Connection,
-            properties: typing.List[str] = [
-                "Guid", "Name"]) -> 'PartialProfile':
+        connection: iterm2.connection.Connection,
+        properties: typing.List[str] = ["Guid", "Name"]
+    ) -> 'PartialProfile':
         """Returns the default profile."""
         iterm2.capabilities.check_supports_get_default_profile(connection)
         result = await iterm2.rpc.async_get_default_profile(connection)
         guid = (result.preferences_response.results[0].
                 get_default_profile_result.guid)
-        profiles = await PartialProfile.async_query(
-            connection, [guid], properties)
+        profiles = await PartialProfile.async_query(connection, [guid],
+                                                    properties)
         return profiles[0]
+
     # pylint: enable=dangerous-default-value
 
     async def async_get_full_profile(self) -> Profile:
@@ -3090,10 +3080,8 @@ class PartialProfile(Profile):
             self.connection, [self.guid], None)
         if len(response.list_profiles_response.profiles) != 1:
             raise BadGUIDException()
-        return Profile(
-            None,
-            self.connection,
-            response.list_profiles_response.profiles[0].properties)
+        return Profile(None, self.connection,
+                       response.list_profiles_response.profiles[0].properties)
 
     async def async_make_default(self):
         """Makes this profile the default profile."""

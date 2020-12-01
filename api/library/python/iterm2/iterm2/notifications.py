@@ -30,6 +30,7 @@ def _get_handlers():
         _get_handlers.handlers = {}
     return _get_handlers.handlers
 
+
 # APIs -----------------------------------------------------------------------
 
 
@@ -53,12 +54,11 @@ async def async_unsubscribe(connection, token):
         del _get_handlers()[key]
         if len(key) == 2:
             session, notification_type = key
-            await _async_subscribe(
-                connection,
-                False,
-                notification_type,
-                coro,
-                session=session)
+            await _async_subscribe(connection,
+                                   False,
+                                   notification_type,
+                                   coro,
+                                   session=session)
         else:
             if key[-1] == iterm2.api_pb2.NOTIFY_ON_VARIABLE_CHANGE:
                 scope, identifier, name, notification_type = key
@@ -66,13 +66,12 @@ async def async_unsubscribe(connection, token):
                 request.name = name
                 request.scope = scope
                 request.identifier = identifier
-                await _async_subscribe(
-                    connection,
-                    False,
-                    notification_type,
-                    coro,
-                    key=key,
-                    variable_monitor_request=request)
+                await _async_subscribe(connection,
+                                       False,
+                                       notification_type,
+                                       coro,
+                                       key=key,
+                                       variable_monitor_request=request)
             else:
                 # The key is custom and there should be code to handle
                 # unsubscribing as an elif clause here.
@@ -89,12 +88,14 @@ async def async_subscribe_to_new_session_notification(connection, callback):
 
     :returns: A token that can be passed to unsubscribe.
     """
-    return await _async_subscribe(
-        connection, True, iterm2.api_pb2.NOTIFY_ON_NEW_SESSION, callback)
+    return await _async_subscribe(connection, True,
+                                  iterm2.api_pb2.NOTIFY_ON_NEW_SESSION,
+                                  callback)
 
 
-async def async_subscribe_to_keystroke_notification(
-        connection, callback, session=None):
+async def async_subscribe_to_keystroke_notification(connection,
+                                                    callback,
+                                                    session=None):
     """
     Registers a callback to be run when a key is pressed.
 
@@ -105,17 +106,17 @@ async def async_subscribe_to_keystroke_notification(
 
     Returns: A token that can be passed to unsubscribe.
     """
-    return await _async_subscribe(
-        connection,
-        True,
-        iterm2.api_pb2.NOTIFY_ON_KEYSTROKE,
-        callback,
-        session=session,
-        keystroke_monitor_request=None)
+    return await _async_subscribe(connection,
+                                  True,
+                                  iterm2.api_pb2.NOTIFY_ON_KEYSTROKE,
+                                  callback,
+                                  session=session,
+                                  keystroke_monitor_request=None)
 
 
-async def async_filter_keystrokes(
-        connection, patterns_to_ignore, session=None):
+async def async_filter_keystrokes(connection,
+                                  patterns_to_ignore,
+                                  session=None):
     """
     Subscribe to a pseudo-notification that causes keystrokes matching patterns
     to be ignored.
@@ -136,17 +137,16 @@ async def async_filter_keystrokes(
     async def callback(connection, notif):  # pylint: disable=unused-argument
         pass
 
-    return await _async_subscribe(
-        connection,
-        True,
-        iterm2.api_pb2.KEYSTROKE_FILTER,
-        callback,
-        session=session,
-        keystroke_monitor_request=kmr)
+    return await _async_subscribe(connection,
+                                  True,
+                                  iterm2.api_pb2.KEYSTROKE_FILTER,
+                                  callback,
+                                  session=session,
+                                  keystroke_monitor_request=kmr)
 
 
 async def async_subscribe_to_screen_update_notification(
-        connection, callback, session=None):
+    connection, callback, session=None):
     """
     Registers a callback to be run when the screen contents change.
 
@@ -157,16 +157,15 @@ async def async_subscribe_to_screen_update_notification(
 
     :returns: A token that can be passed to unsubscribe.
     """
-    return await _async_subscribe(
-        connection,
-        True,
-        iterm2.api_pb2.NOTIFY_ON_SCREEN_UPDATE,
-        callback,
-        session=session)
+    return await _async_subscribe(connection,
+                                  True,
+                                  iterm2.api_pb2.NOTIFY_ON_SCREEN_UPDATE,
+                                  callback,
+                                  session=session)
 
 
-async def async_subscribe_to_prompt_notification(
-        connection, callback, session, modes):
+async def async_subscribe_to_prompt_notification(connection, callback, session,
+                                                 modes):
     """
     Registers a callback to be run when a shell prompt is received.
 
@@ -178,18 +177,16 @@ async def async_subscribe_to_prompt_notification(
 
     :returns: A token that can be passed to unsubscribe.
     """
-    return await _async_subscribe(
-        connection,
-        True,
-        iterm2.api_pb2.NOTIFY_ON_PROMPT,
-        callback,
-        session=session,
-        prompt_monitor_modes=modes)
+    return await _async_subscribe(connection,
+                                  True,
+                                  iterm2.api_pb2.NOTIFY_ON_PROMPT,
+                                  callback,
+                                  session=session,
+                                  prompt_monitor_modes=modes)
 
 
-async def async_subscribe_to_custom_escape_sequence_notification(connection,
-                                                                 callback,
-                                                                 session=None):
+async def async_subscribe_to_custom_escape_sequence_notification(
+    connection, callback, session=None):
     """
     Registers a callback to be run when a custom escape sequence is received.
 
@@ -211,7 +208,7 @@ async def async_subscribe_to_custom_escape_sequence_notification(connection,
 
 
 async def async_subscribe_to_terminate_session_notification(
-        connection, callback):
+    connection, callback):
     """
     Registers a callback to be run when a session terminates.
 
@@ -221,12 +218,11 @@ async def async_subscribe_to_terminate_session_notification(
 
     :returns: A token that can be passed to unsubscribe.
     """
-    return await _async_subscribe(
-        connection,
-        True,
-        iterm2.api_pb2.NOTIFY_ON_TERMINATE_SESSION,
-        callback,
-        session=None)
+    return await _async_subscribe(connection,
+                                  True,
+                                  iterm2.api_pb2.NOTIFY_ON_TERMINATE_SESSION,
+                                  callback,
+                                  session=None)
 
 
 async def async_subscribe_to_layout_change_notification(connection, callback):
@@ -240,12 +236,11 @@ async def async_subscribe_to_layout_change_notification(connection, callback):
 
     :returns: A token that can be passed to unsubscribe.
     """
-    return await _async_subscribe(
-        connection,
-        True,
-        iterm2.api_pb2.NOTIFY_ON_LAYOUT_CHANGE,
-        callback,
-        session=None)
+    return await _async_subscribe(connection,
+                                  True,
+                                  iterm2.api_pb2.NOTIFY_ON_LAYOUT_CHANGE,
+                                  callback,
+                                  session=None)
 
 
 async def async_subscribe_to_focus_change_notification(connection, callback):
@@ -258,16 +253,15 @@ async def async_subscribe_to_focus_change_notification(connection, callback):
 
     :returns: A token that can be passed to unsubscribe.
     """
-    return await _async_subscribe(
-        connection,
-        True,
-        iterm2.api_pb2.NOTIFY_ON_FOCUS_CHANGE,
-        callback,
-        session=None)
+    return await _async_subscribe(connection,
+                                  True,
+                                  iterm2.api_pb2.NOTIFY_ON_FOCUS_CHANGE,
+                                  callback,
+                                  session=None)
 
 
 async def async_subscribe_to_broadcast_domains_change_notification(
-        connection, callback):
+    connection, callback):
     """
     Registers a callback to be run when the current broadcast domains change.
 
@@ -278,30 +272,29 @@ async def async_subscribe_to_broadcast_domains_change_notification(
     :param callback: A coroutine taking two arguments: an :class:`Connection`
         and iterm2.api_pb2.BroadcastDomainsChangedNotification.
     """
-    return await _async_subscribe(
-        connection,
-        True,
-        iterm2.api_pb2.NOTIFY_ON_BROADCAST_CHANGE,
-        callback,
-        session=None)
+    return await _async_subscribe(connection,
+                                  True,
+                                  iterm2.api_pb2.NOTIFY_ON_BROADCAST_CHANGE,
+                                  callback,
+                                  session=None)
 
 
 # pylint: disable=dangerous-default-value
 # pylint: disable=too-many-arguments
 # pylint: disable=too-many-locals
 async def async_subscribe_to_server_originated_rpc_notification(
-        connection,
-        callback,
-        name,
-        arguments=[],
-        timeout_seconds=5,
-        defaults={},
-        role=RPC_ROLE_GENERIC,
-        session_title_display_name=None,
-        session_title_unique_id=None,
-        status_bar_component=None,
-        context_menu_display_name=None,
-        context_menu_unique_id=None):
+    connection,
+    callback,
+    name,
+    arguments=[],
+    timeout_seconds=5,
+    defaults={},
+    role=RPC_ROLE_GENERIC,
+    session_title_display_name=None,
+    session_title_unique_id=None,
+    status_bar_component=None,
+    context_menu_display_name=None,
+    context_menu_unique_id=None):
     """
     Registers a callback to be run when the server wants to invoke an RPC.
 
@@ -354,8 +347,8 @@ async def async_subscribe_to_server_originated_rpc_notification(
         rpc_registration_request.defaults.extend(protos)
 
     if session_title_display_name is not None:
-        (rpc_registration_request.session_title_attributes.
-         display_name) = session_title_display_name
+        (rpc_registration_request.session_title_attributes.display_name
+         ) = session_title_display_name
         assert session_title_unique_id
         rpc_registration_request.session_title_attributes.unique_identifier = (
             session_title_unique_id)
@@ -363,11 +356,11 @@ async def async_subscribe_to_server_originated_rpc_notification(
         status_bar_component.set_fields_in_proto(
             rpc_registration_request.status_bar_component_attributes)
     elif context_menu_display_name is not None:
-        (rpc_registration_request.context_menu_attributes.
-         display_name) = context_menu_display_name
+        (rpc_registration_request.context_menu_attributes.display_name
+         ) = context_menu_display_name
         assert context_menu_unique_id
-        (rpc_registration_request.context_menu_attributes.
-         unique_identifier) = context_menu_unique_id
+        (rpc_registration_request.context_menu_attributes.unique_identifier
+         ) = context_menu_unique_id
 
     return await _async_subscribe(
         connection,
@@ -375,13 +368,15 @@ async def async_subscribe_to_server_originated_rpc_notification(
         iterm2.api_pb2.NOTIFY_ON_SERVER_ORIGINATED_RPC,
         callback,
         rpc_registration_request=rpc_registration_request)
+
+
 # pylint: enable=dangerous-default-value
 # pylint: enable=too-many-arguments
 # pylint: enable=too-many-locals
 
 
 async def async_subscribe_to_variable_change_notification(
-        connection, callback, scope, name, identifier):
+    connection, callback, scope, name, identifier):
     """
     Registers a callback to be invoked when a variable changes.
 
@@ -402,22 +397,19 @@ async def async_subscribe_to_variable_change_notification(
         request.identifier = identifier
     else:
         request.identifier = ""
-    key = (request.scope,
-           request.identifier,
-           request.name,
+    key = (request.scope, request.identifier, request.name,
            iterm2.api_pb2.NOTIFY_ON_VARIABLE_CHANGE)
-    return await _async_subscribe(
-        connection,
-        True,
-        iterm2.api_pb2.NOTIFY_ON_VARIABLE_CHANGE,
-        callback,
-        session=None,
-        variable_monitor_request=request,
-        key=key)
+    return await _async_subscribe(connection,
+                                  True,
+                                  iterm2.api_pb2.NOTIFY_ON_VARIABLE_CHANGE,
+                                  callback,
+                                  session=None,
+                                  variable_monitor_request=request,
+                                  key=key)
 
 
 async def async_subscribe_to_profile_change_notification(
-        connection, callback, guid):
+    connection, callback, guid):
     """
     Register a callback to be invoked when a profile changes.
 
@@ -429,17 +421,17 @@ async def async_subscribe_to_profile_change_notification(
     request = iterm2.api_pb2.ProfileChangeRequest()
     request.guid = guid
     key = (guid, iterm2.api_PB2.NOTIFY_ON_PROFILE_CHANGE)
-    return await _async_subscribe(
-        connection,
-        True,
-        iterm2.api_PB2.NOTIFY_ON_PROFILE_CHANGE,
-        callback,
-        session=None,
-        profile_change_request=request,
-        key=key)
+    return await _async_subscribe(connection,
+                                  True,
+                                  iterm2.api_PB2.NOTIFY_ON_PROFILE_CHANGE,
+                                  callback,
+                                  session=None,
+                                  profile_change_request=request,
+                                  key=key)
 
 
 # Private --------------------------------------------------------------------
+
 
 def _string_rpc_registration_request(rpc):
     """Converts ServerOriginatedRPC or RPCSignature to a string."""
@@ -451,18 +443,17 @@ def _string_rpc_registration_request(rpc):
 
 # pylint: disable=too-many-arguments
 # pylint: disable=too-many-locals
-async def _async_subscribe(
-        connection,
-        subscribe,
-        notification_type,
-        callback,
-        session=None,
-        rpc_registration_request=None,
-        keystroke_monitor_request=None,
-        variable_monitor_request=None,
-        key=None,
-        profile_change_request=None,
-        prompt_monitor_modes=None):
+async def _async_subscribe(connection,
+                           subscribe,
+                           notification_type,
+                           callback,
+                           session=None,
+                           rpc_registration_request=None,
+                           keystroke_monitor_request=None,
+                           variable_monitor_request=None,
+                           key=None,
+                           profile_change_request=None,
+                           prompt_monitor_modes=None):
     """Note: session argument is ignored for variable-change notifications."""
     _register_helper_if_needed()
     transformed_session = session if session is not None else "all"
@@ -477,19 +468,12 @@ async def _async_subscribe(
             _register_notification_handler(
                 session,
                 _string_rpc_registration_request(rpc_registration_request),
-                notification_type,
-                callback)
+                notification_type, callback)
 
     response = await iterm2.rpc.async_notification_request(
-        connection,
-        subscribe,
-        notification_type,
-        transformed_session,
-        rpc_registration_request,
-        keystroke_monitor_request,
-        variable_monitor_request,
-        profile_change_request,
-        prompt_monitor_modes)
+        connection, subscribe, notification_type, transformed_session,
+        rpc_registration_request, keystroke_monitor_request,
+        variable_monitor_request, profile_change_request, prompt_monitor_modes)
     status = response.notification_response.status
     # pylint: disable=no-member
     status_ok = (
@@ -497,9 +481,8 @@ async def _async_subscribe(
 
     unregister = False
     if subscribe:
-        already = (
-            status == iterm2.api_pb2.NotificationResponse.Status.Value(
-                "ALREADY_SUBSCRIBED"))
+        already = (status == iterm2.api_pb2.NotificationResponse.Status.Value(
+            "ALREADY_SUBSCRIBED"))
         if status_ok or already:
             if key:
                 return (key, callback)
@@ -518,8 +501,7 @@ async def _async_subscribe(
             _unregister_notification_handler(
                 session,
                 _string_rpc_registration_request(rpc_registration_request),
-                notification_type,
-                callback)
+                notification_type, callback)
 
         if not subscribe and status_ok:
             # Normal code path for unsubscribe
@@ -528,6 +510,8 @@ async def _async_subscribe(
     # pylint: disable=no-member
     raise SubscriptionException(
         iterm2.api_pb2.NotificationResponse.Status.Name(status))
+
+
 # pylint: enable=too-many-arguments
 # pylint: enable=too-many-locals
 
@@ -544,24 +528,24 @@ async def _async_dispatch_helper(connection, message):
         assert handler is not None
         await handler(connection, sub_notification)
 
-    if (not handlers and
-            message.notification.HasField(
-                'server_originated_rpc_notification')):
+    if (not handlers and message.notification.HasField(
+            'server_originated_rpc_notification')):
         # If we get an RPC we haven't registered for handle the error because
         # otherwise it has to time out. If you get here there is probably a
         # bug.
         key, _sub_notification = _get_handler_key_from_notification(
             message.notification)
-        exception = {"reason": "No such function: {} (key was {})".format(
-            _string_rpc_registration_request(
-                message.notification.server_originated_rpc_notification.rpc),
-            key)}
+        exception = {
+            "reason":
+            "No such function: {} (key was {})".format(
+                _string_rpc_registration_request(
+                    message.notification.server_originated_rpc_notification.rpc
+                ), key)
+        }
         await iterm2.rpc.async_send_rpc_result(
             connection,
-            (message.notification.server_originated_rpc_notification.
-             request_id),
-            True,
-            exception)
+            (message.notification.server_originated_rpc_notification.request_id
+             ), True, exception)
 
     return bool(handlers)
 
@@ -570,13 +554,10 @@ def _get_all_sessions_handler_keys_from_notification(notification):
     """Returns keys into _get_handlers() for a notification for the caller may
     have registered for all sessions/windows."""
     if notification.HasField('variable_changed_notification'):
-        return [(iterm2.api_pb2.VariableScope.Value("SESSION"),
-                 "all",
+        return [(iterm2.api_pb2.VariableScope.Value("SESSION"), "all",
                  notification.variable_changed_notification.name,
                  iterm2.api_pb2.NOTIFY_ON_VARIABLE_CHANGE),
-
-                (iterm2.api_pb2.VariableScope.Value("WINDOW"),
-                 "all",
+                (iterm2.api_pb2.VariableScope.Value("WINDOW"), "all",
                  notification.variable_changed_notification.name,
                  iterm2.api_pb2.NOTIFY_ON_VARIABLE_CHANGE)]
     # Convert a session-specific key into an all-sessions key.
@@ -621,8 +602,7 @@ def _get_handler_key_from_notification(notification):
         key = (None, iterm2.api_pb2.NOTIFY_ON_FOCUS_CHANGE)
         notification = notification.focus_changed_notification
     elif notification.HasField('server_originated_rpc_notification'):
-        key = (None,
-               iterm2.api_pb2.NOTIFY_ON_SERVER_ORIGINATED_RPC,
+        key = (None, iterm2.api_pb2.NOTIFY_ON_SERVER_ORIGINATED_RPC,
                _string_rpc_registration_request(
                    notification.server_originated_rpc_notification.rpc))
     elif notification.HasField('broadcast_domains_changed'):
@@ -637,6 +617,8 @@ def _get_handler_key_from_notification(notification):
         key = (notification.profile_changed_notification.guid,
                iterm2.api_pb2.NOTIFY_ON_PROFILE_CHANGE)
     return key, notification
+
+
 # pylint: enable=too-many-branches
 
 
@@ -659,8 +641,8 @@ def _get_notification_handlers(message):
     return ([], None)
 
 
-def _register_notification_handler(
-        session, rpc_registration_request, notification_type, coro):
+def _register_notification_handler(session, rpc_registration_request,
+                                   notification_type, coro):
     assert coro is not None
 
     if rpc_registration_request is None:
@@ -677,8 +659,8 @@ def _register_notification_handler_impl(key, coro):
         _get_handlers()[key] = [coro]
 
 
-def _unregister_notification_handler(
-        session, rpc_registration_request, notification_type, coro):
+def _unregister_notification_handler(session, rpc_registration_request,
+                                     notification_type, coro):
     assert coro is not None
 
     if rpc_registration_request is None:

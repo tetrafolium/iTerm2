@@ -13,7 +13,7 @@ class BasicInterpreter:
     def __init__(self, prog):
         self.prog = prog
 
-        self.functions = {           # Built-in function table
+        self.functions = {  # Built-in function table
             'SIN': lambda z: math.sin(self.eval(z)),
             'COS': lambda z: math.cos(self.eval(z)),
             'TAN': lambda z: math.tan(self.eval(z)),
@@ -32,7 +32,7 @@ class BasicInterpreter:
         for lineno in self.stat:
             if self.prog[lineno][0] == 'DATA':
                 self.data = self.data + self.prog[lineno][1]
-        self.dc = 0                  # Initialize the data counter
+        self.dc = 0  # Initialize the data counter
 
     # Check for end statements
     def check_end(self):
@@ -55,7 +55,7 @@ class BasicInterpreter:
             if self.prog[lineno][0] == 'FOR':
                 forinst = self.prog[lineno]
                 loopvar = forinst[1]
-                for i in range(pc+1, len(self.stat)):
+                for i in range(pc + 1, len(self.stat)):
                     if self.prog[self.stat[i]][0] == 'NEXT':
                         nextvar = self.prog[self.stat[i]][1]
                         if nextvar != loopvar:
@@ -78,13 +78,13 @@ class BasicInterpreter:
                 return -self.eval(expr[2])
         elif etype == 'BINOP':
             if expr[1] == '+':
-                return self.eval(expr[2])+self.eval(expr[3])
+                return self.eval(expr[2]) + self.eval(expr[3])
             elif expr[1] == '-':
-                return self.eval(expr[2])-self.eval(expr[3])
+                return self.eval(expr[2]) - self.eval(expr[3])
             elif expr[1] == '*':
-                return self.eval(expr[2])*self.eval(expr[3])
+                return self.eval(expr[2]) * self.eval(expr[3])
             elif expr[1] == '/':
-                return float(self.eval(expr[2]))/self.eval(expr[3])
+                return float(self.eval(expr[2])) / self.eval(expr[3])
             elif expr[1] == '^':
                 return abs(self.eval(expr[2]))**self.eval(expr[3])
         elif etype == 'VAR':
@@ -109,16 +109,18 @@ class BasicInterpreter:
                             print("LIST INDEX OUT OF BOUNDS AT LINE %s" %
                                   self.stat[self.pc])
                             raise RuntimeError
-                        return self.lists[var][dim1val-1]
+                        return self.lists[var][dim1val - 1]
             if dim1 and dim2:
                 if var in self.tables:
                     dim1val = self.eval(dim1)
                     dim2val = self.eval(dim2)
-                    if dim1val < 1 or dim1val > len(self.tables[var]) or dim2val < 1 or dim2val > len(self.tables[var][0]):
+                    if dim1val < 1 or dim1val > len(
+                            self.tables[var]) or dim2val < 1 or dim2val > len(
+                                self.tables[var][0]):
                         print("TABLE INDEX OUT OUT BOUNDS AT LINE %s" %
                               self.stat[self.pc])
                         raise RuntimeError
-                    return self.tables[var][dim1val-1][dim2val-1]
+                    return self.tables[var][dim1val - 1][dim2val - 1]
             print("UNDEFINED VARIABLE %s AT LINE %s" %
                   (var, self.stat[self.pc]))
             raise RuntimeError
@@ -173,26 +175,27 @@ class BasicInterpreter:
             # List assignment
             dim1val = self.eval(dim1)
             if not var in self.lists:
-                self.lists[var] = [0]*10
+                self.lists[var] = [0] * 10
 
             if dim1val > len(self.lists[var]):
                 print("DIMENSION TOO LARGE AT LINE %s" % self.stat[self.pc])
                 raise RuntimeError
-            self.lists[var][dim1val-1] = self.eval(value)
+            self.lists[var][dim1val - 1] = self.eval(value)
         elif dim1 and dim2:
             dim1val = self.eval(dim1)
             dim2val = self.eval(dim2)
             if not var in self.tables:
-                temp = [0]*10
+                temp = [0] * 10
                 v = []
                 for i in range(10):
                     v.append(temp[:])
                 self.tables[var] = v
             # Variable already exists
-            if dim1val > len(self.tables[var]) or dim2val > len(self.tables[var][0]):
+            if dim1val > len(self.tables[var]) or dim2val > len(
+                    self.tables[var][0]):
                 print("DIMENSION TOO LARGE AT LINE %s" % self.stat[self.pc])
                 raise RuntimeError
-            self.tables[var][dim1val-1][dim2val-1] = self.eval(value)
+            self.tables[var][dim1val - 1][dim2val - 1] = self.eval(value)
 
     # Change the current line number
     def goto(self, linenum):
@@ -204,21 +207,21 @@ class BasicInterpreter:
 
     # Run it
     def run(self):
-        self.vars = {}            # All variables
-        self.lists = {}            # List variables
-        self.tables = {}            # Tables
-        self.loops = []            # Currently active loops
-        self.loopend = {}            # Mapping saying where loops end
-        self.gosub = None           # Gosub return point (if any)
-        self.error = 0              # Indicates program error
+        self.vars = {}  # All variables
+        self.lists = {}  # List variables
+        self.tables = {}  # Tables
+        self.loops = []  # Currently active loops
+        self.loopend = {}  # Mapping saying where loops end
+        self.gosub = None  # Gosub return point (if any)
+        self.error = 0  # Indicates program error
 
         self.stat = list(self.prog)  # Ordered list of all line numbers
         self.stat.sort()
-        self.pc = 0                  # Current program counter
+        self.pc = 0  # Current program counter
 
         # Processing prior to running
 
-        self.collect_data()          # Collect all of the data statements
+        self.collect_data()  # Collect all of the data statements
         self.check_end()
         self.check_loops()
 
@@ -233,7 +236,7 @@ class BasicInterpreter:
 
             # END and STOP statements
             if op == 'END' or op == 'STOP':
-                break           # We're done
+                break  # We're done
 
             # GOTO statement
             elif op == 'GOTO':
@@ -247,7 +250,7 @@ class BasicInterpreter:
                 out = ""
                 for label, val in plist:
                     if out:
-                        out += ' '*(15 - (len(out) % 15))
+                        out += ' ' * (15 - (len(out) % 15))
                     out += label
                     if val:
                         if label:
@@ -259,9 +262,9 @@ class BasicInterpreter:
                 if not (end == ',' or end == ';'):
                     sys.stdout.write("\n")
                 if end == ',':
-                    sys.stdout.write(" "*(15-(len(out) % 15)))
+                    sys.stdout.write(" " * (15 - (len(out) % 15)))
                 if end == ';':
-                    sys.stdout.write(" "*(3-(len(out) % 3)))
+                    sys.stdout.write(" " * (3 - (len(out) % 3)))
 
             # LET statement
             elif op == 'LET':
@@ -299,14 +302,14 @@ class BasicInterpreter:
                     self.assign((loopvar, None, None), initval)
                     if not stepval:
                         stepval = ('NUM', 1)
-                    stepval = self.eval(stepval)    # Evaluate step here
+                    stepval = self.eval(stepval)  # Evaluate step here
                     self.loops.append((self.pc, stepval))
                 else:
                     # It's a repeat of the previous loop
                     # Update the value of the loop variable according to the step
                     stepval = ('NUM', self.loops[-1][1])
-                    newvalue = (
-                        'BINOP', '+', ('VAR', (loopvar, None, None)), stepval)
+                    newvalue = ('BINOP', '+', ('VAR', (loopvar, None, None)),
+                                stepval)
 
                 if self.loops[-1][1] < 0:
                     relop = '>='
@@ -356,16 +359,17 @@ class BasicInterpreter:
                 def eval_func(pvalue, name=pname, self=self, expr=expr):
                     self.assign((pname, None, None), pvalue)
                     return self.eval(expr)
+
                 self.functions[fname] = eval_func
 
             elif op == 'DIM':
                 for vname, x, y in instr[1]:
                     if y == 0:
                         # Single dimension variable
-                        self.lists[vname] = [0]*x
+                        self.lists[vname] = [0] * x
                     else:
                         # Double dimension variable
-                        temp = [0]*y
+                        temp = [0] * y
                         v = []
                         for i in range(x):
                             v.append(temp[:])
@@ -382,14 +386,16 @@ class BasicInterpreter:
             return "(%s)" % self.expr_str(expr[1])
         elif etype == 'UNARY':
             if expr[1] == '-':
-                return "-"+str(expr[2])
+                return "-" + str(expr[2])
         elif etype == 'BINOP':
-            return "%s %s %s" % (self.expr_str(expr[2]), expr[1], self.expr_str(expr[3]))
+            return "%s %s %s" % (self.expr_str(
+                expr[2]), expr[1], self.expr_str(expr[3]))
         elif etype == 'VAR':
             return self.var_str(expr[1])
 
     def relexpr_str(self, expr):
-        return "%s %s %s" % (self.expr_str(expr[2]), expr[1], self.expr_str(expr[3]))
+        return "%s %s %s" % (self.expr_str(
+            expr[2]), expr[1], self.expr_str(expr[3]))
 
     def var_str(self, var):
         varname, dim1, dim2 = var
@@ -397,11 +403,12 @@ class BasicInterpreter:
             return varname
         if dim1 and not dim2:
             return "%s(%s)" % (varname, self.expr_str(dim1))
-        return "%s(%s,%s)" % (varname, self.expr_str(dim1), self.expr_str(dim2))
+        return "%s(%s,%s)" % (varname, self.expr_str(dim1),
+                              self.expr_str(dim2))
 
     # Create a program listing
     def list(self):
-        stat = list(self.prog)      # Ordered list of all line numbers
+        stat = list(self.prog)  # Ordered list of all line numbers
         stat.sort()
         for line in stat:
             instr = self.prog[line]
@@ -422,7 +429,7 @@ class BasicInterpreter:
                     elif p[1]:
                         _out += self.expr_str(p[1])
                     else:
-                        _out += '"%s"' % (p[0],)
+                        _out += '"%s"' % (p[0], )
                     first = 0
                 if instr[2]:
                     _out += instr[2]
@@ -445,8 +452,9 @@ class BasicInterpreter:
             elif op == 'GOTO' or op == 'GOSUB':
                 print("%s %s %s" % (line, op, instr[1]))
             elif op == 'FOR':
-                _out = "%s FOR %s = %s TO %s" % (
-                    line, instr[1], self.expr_str(instr[2]), self.expr_str(instr[3]))
+                _out = "%s FOR %s = %s TO %s" % (line, instr[1],
+                                                 self.expr_str(instr[2]),
+                                                 self.expr_str(instr[3]))
                 if instr[4]:
                     _out += " STEP %s" % (self.expr_str(instr[4]))
                 print(_out)

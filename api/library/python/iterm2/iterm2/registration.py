@@ -35,12 +35,14 @@ async def generic_handle_rpc(coro, connection, notif):
     except Exception as exception:
         stack_trace = traceback.format_exc()
         exception = {"reason": repr(exception), "traceback": stack_trace}
-        await iterm2.rpc.async_send_rpc_result(
-            connection, rpc_notif.request_id, True, exception)
+        await iterm2.rpc.async_send_rpc_result(connection,
+                                               rpc_notif.request_id, True,
+                                               exception)
 
     if successful:
-        await iterm2.rpc.async_send_rpc_result(
-            connection, rpc_notif.request_id, False, result)
+        await iterm2.rpc.async_send_rpc_result(connection,
+                                               rpc_notif.request_id, False,
+                                               result)
 
 
 class Reference:  # pylint: disable=too-few-public-methods
@@ -51,7 +53,6 @@ class Reference:  # pylint: disable=too-few-public-methods
         * Example ":ref:`mousemode_example`"
         * Example ":ref:`statusbar_example`"
     """
-
     def __init__(self, name):
         self.name = name
 
@@ -127,12 +128,8 @@ def RPC(func):  # pylint: disable=invalid-name
         func.rpc_token = (
             await iterm2.notifications.
             async_subscribe_to_server_originated_rpc_notification(
-                connection,
-                handle_rpc,
-                func.__name__,
-                signature.parameters.keys(),
-                timeout,
-                defaults,
+                connection, handle_rpc, func.__name__,
+                signature.parameters.keys(), timeout, defaults,
                 iterm2.notifications.RPC_ROLE_GENERIC))
         func.rpc_connection = connection
 
@@ -157,11 +154,10 @@ def ContextMenuProviderRPC(func):  # pylint: disable=invalid-name
         (e.g., "com.example.my-provider")
     :param timeout: Max number of seconds to wait, or None to use the default.
     """
-    async def async_register(
-            connection: iterm2.connection.Connection,
-            display_name: str,
-            unique_identifier: str,
-            timeout: typing.Optional[float] = None):
+    async def async_register(connection: iterm2.connection.Connection,
+                             display_name: str,
+                             unique_identifier: str,
+                             timeout: typing.Optional[float] = None):
         assert unique_identifier
         iterm2.capabilities.check_supports_context_menu_provider(connection)
         signature = inspect.signature(func)
@@ -235,8 +231,10 @@ def TitleProviderRPC(func):  # pylint: disable=invalid-name
                   display_name="Upper-case Title",
                   unique_identifier="com.iterm2.example.title-provider")
     """
-    async def async_register(
-            connection, display_name, unique_identifier, timeout=None):
+    async def async_register(connection,
+                             display_name,
+                             unique_identifier,
+                             timeout=None):
         assert unique_identifier
         signature = inspect.signature(func)
         defaults = {}

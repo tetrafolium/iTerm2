@@ -37,24 +37,25 @@ class Tab:
                 self,
                 window_id: str) -> typing.Optional['iterm2.window.Window']:
             """Returns the Window with the given ID."""
+
     # pylint: enable=too-few-public-methods
 
     delegate: typing.Optional[Delegate] = None
 
     # pylint: disable=too-many-arguments
-    def __init__(
-            self,
-            connection,
-            tab_id,
-            root,
-            tmux_window_id=None,
-            tmux_connection_id=None):
+    def __init__(self,
+                 connection,
+                 tab_id,
+                 root,
+                 tmux_window_id=None,
+                 tmux_connection_id=None):
         self.connection = connection
         self.__tab_id = tab_id
         self.__root = root
         self.__active_session_id = None
         self.__tmux_window_id = tmux_window_id
         self.__tmux_connection_id = tmux_connection_id
+
     # pylint: enable=too-many-arguments
 
     def __repr__(self):
@@ -153,12 +154,11 @@ class Tab:
 
         .. seealso:: Example ":ref:`function_key_tabs_example`"
         """
-        await iterm2.rpc.async_activate(
-            self.connection,
-            False,
-            True,
-            order_window_front,
-            tab_id=self.__tab_id)
+        await iterm2.rpc.async_activate(self.connection,
+                                        False,
+                                        True,
+                                        order_window_front,
+                                        tab_id=self.__tab_id)
 
     async def async_select_pane_in_direction(
             self, direction: NavigationDirection) -> typing.Optional[str]:
@@ -178,10 +178,10 @@ class Tab:
             raise iterm2.capabilities.AppVersionTooOld()
 
         invocation = iterm2.util.invocation_string(
-            "iterm2.select_pane_in_direction",
-            {"direction": direction.value})
-        return await iterm2.rpc.async_invoke_method(
-            self.connection, self.tab_id, invocation, -1)
+            "iterm2.select_pane_in_direction", {"direction": direction.value})
+        return await iterm2.rpc.async_invoke_method(self.connection,
+                                                    self.tab_id, invocation,
+                                                    -1)
 
     async def async_update_layout(self) -> None:
         """Adjusts the layout of the sessions in this tab.
@@ -221,10 +221,10 @@ class Tab:
 
         :throws: :class:`RPCException` if something goes wrong.
         """
-        result = await iterm2.rpc.async_variable(
-            self.connection,
-            sets=[(name, json.dumps(value))],
-            tab_id=self.__tab_id)
+        result = await iterm2.rpc.async_variable(self.connection,
+                                                 sets=[(name,
+                                                        json.dumps(value))],
+                                                 tab_id=self.__tab_id)
         status = result.variable_response.status
         # pylint: disable=no-member
         if status != iterm2.api_pb2.VariableResponse.Status.Value("OK"):
@@ -245,8 +245,9 @@ class Tab:
 
         .. seealso:: Example ":ref:`sorttabs_example`"
         """
-        result = await iterm2.rpc.async_variable(
-            self.connection, gets=[name], tab_id=self.__tab_id)
+        result = await iterm2.rpc.async_variable(self.connection,
+                                                 gets=[name],
+                                                 tab_id=self.__tab_id)
         status = result.variable_response.status
         # pylint: disable=no-member
         if status != iterm2.api_pb2.VariableResponse.Status.Value("OK"):
@@ -265,8 +266,9 @@ class Tab:
 
         .. seealso:: Example ":ref:`close_to_the_right_example`"
         """
-        result = await iterm2.rpc.async_close(
-            self.connection, tabs=[self.__tab_id], force=force)
+        result = await iterm2.rpc.async_close(self.connection,
+                                              tabs=[self.__tab_id],
+                                              force=force)
         status = result.close_response.statuses[0]
         # pylint: disable=no-member
         if status != iterm2.api_pb2.CloseResponse.Status.Value("OK"):
@@ -284,14 +286,14 @@ class Tab:
 
         :throws: :class:`~iterm2.rpc.RPCException` if something goes wrong.
         """
-        invocation = iterm2.util.invocation_string(
-            "iterm2.set_title",
-            {"title": title})
-        await iterm2.rpc.async_invoke_method(
-            self.connection, self.tab_id, invocation, -1)
+        invocation = iterm2.util.invocation_string("iterm2.set_title",
+                                                   {"title": title})
+        await iterm2.rpc.async_invoke_method(self.connection, self.tab_id,
+                                             invocation, -1)
 
-    async def async_invoke_function(
-            self, invocation: str, timeout: float = -1):
+    async def async_invoke_function(self,
+                                    invocation: str,
+                                    timeout: float = -1):
         """
         Invoke an RPC. Could be a registered function by this or another script
         of a built-in function.
@@ -310,17 +312,15 @@ class Tab:
 
         :throws: :class:`~iterm2.rpc.RPCException` if something goes wrong.
         """
-        response = await iterm2.rpc.async_invoke_function(
-            self.connection,
-            invocation,
-            tab_id=self.tab_id,
-            timeout=timeout)
+        response = await iterm2.rpc.async_invoke_function(self.connection,
+                                                          invocation,
+                                                          tab_id=self.tab_id,
+                                                          timeout=timeout)
         which = response.invoke_function_response.WhichOneof('disposition')
         if which == 'error':
             # pylint: disable=no-member
-            if (response.invoke_function_response.error.status ==
-                    iterm2.api_pb2.InvokeFunctionResponse.Status.
-                    Value("TIMEOUT")):
+            if (response.invoke_function_response.error.status == iterm2.
+                    api_pb2.InvokeFunctionResponse.Status.Value("TIMEOUT")):
                 raise iterm2.rpc.RPCException("Timeout")
             raise iterm2.rpc.RPCException("{}: {}".format(
                 iterm2.api_pb2.InvokeFunctionResponse.Status.Name(

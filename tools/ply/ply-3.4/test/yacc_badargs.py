@@ -9,7 +9,6 @@ import sys
 sys.tracebacklimit = 0
 sys.path.insert(0, "..")
 
-
 # Parsing rules
 precedence = (
     ('left', 'PLUS', 'MINUS'),

@@ -14,7 +14,8 @@ if sys.version_info[0] >= 3:
     raw_input = input
 
 tokens = (
-    'NAME', 'NUMBER',
+    'NAME',
+    'NUMBER',
 )
 
 literals = ['=', '+', '-', '*', '/', '(', ')']

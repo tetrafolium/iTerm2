@@ -28,7 +28,6 @@ class Prompt:
     construct this object yourself. Use :func:`~async_get_last_prompt` to get
     an instance.
     """
-
     def __init__(self, proto):
         self.__proto = proto
 
@@ -81,9 +80,8 @@ class Prompt:
         return None
 
 
-async def async_get_last_prompt(
-        connection: iterm2.connection.Connection,
-        session_id: str) -> typing.Union[None, Prompt]:
+async def async_get_last_prompt(connection: iterm2.connection.Connection,
+                                session_id: str) -> typing.Union[None, Prompt]:
     """
     Fetches info about the last prompt in a session.
 
@@ -108,8 +106,7 @@ async def async_get_last_prompt(
 
 
 async def async_get_prompt_by_id(
-        connection: iterm2.connection.Connection,
-        session_id: str,
+        connection: iterm2.connection.Connection, session_id: str,
         prompt_unique_id: str) -> typing.Optional[Prompt]:
     """
     Fetches a Prompt by its unique ID.
@@ -123,8 +120,8 @@ async def async_get_prompt_by_id(
     :throws: :class:`RPCException` if something goes wrong.
     """
     iterm2.capabilities.check_supports_prompt_id(connection)
-    response = await iterm2.rpc.async_get_prompt(
-        connection, session_id, prompt_unique_id)
+    response = await iterm2.rpc.async_get_prompt(connection, session_id,
+                                                 prompt_unique_id)
     status = response.get_prompt_response.status
     # pylint: disable=no-member
     if status == iterm2.api_pb2.GetPromptResponse.Status.Value("OK"):
@@ -155,8 +152,8 @@ async def async_list_prompts(
     :throws: :class:`RPCException` if something goes wrong.
     """
     iterm2.capabilities.check_supports_prompt_id(connection)
-    response = await iterm2.rpc.async_list_prompts(
-        connection, session_id, first, last)
+    response = await iterm2.rpc.async_list_prompts(connection, session_id,
+                                                   first, last)
     status = response.list_prompts_response.status
     # pylint: disable=no-member
     if status == iterm2.api_pb2.ListPromptsResponse.Status.Value("OK"):
@@ -202,11 +199,10 @@ class PromptMonitor:
             "COMMAND_END")  #: Notify when a command finishes execution
         # pylint: enable=line-too-long
 
-    def __init__(
-            self,
-            connection: iterm2.connection.Connection,
-            session_id: str,
-            modes: typing.Optional[typing.List[Mode]] = None):
+    def __init__(self,
+                 connection: iterm2.connection.Connection,
+                 session_id: str,
+                 modes: typing.Optional[typing.List[Mode]] = None):
         if modes is None:
             modes = [PromptMonitor.Mode.PROMPT]
         self.connection = connection
@@ -215,8 +211,8 @@ class PromptMonitor:
         self.__token = None
         self.__queue: asyncio.Queue = asyncio.Queue(
             loop=asyncio.get_event_loop())
-        if (modes != [PromptMonitor.Mode.PROMPT] and
-                not iterm2.capabilities.supports_prompt_monitor_modes(
+        if (modes != [PromptMonitor.Mode.PROMPT]
+                and not iterm2.capabilities.supports_prompt_monitor_modes(
                     connection)):
             raise iterm2.capabilities.AppVersionTooOld(
                 "This version of iTerm2 is too old to handle the " +
@@ -231,17 +227,16 @@ class PromptMonitor:
 
         self.__token = (
             await iterm2.notifications.async_subscribe_to_prompt_notification(
-                self.connection,
-                callback,
-                self.session_id,
+                self.connection, callback, self.session_id,
                 list(map(lambda x: x.value, self.__modes))))
         return self
 
     async def async_get(
-            self,
-            include_id: bool = False) -> typing.Union[
-                typing.Tuple['PromptMonitor.Mode', typing.Any],
-                typing.Tuple['PromptMonitor.Mode', typing.Any, typing.Optional[str]]]:
+        self,
+        include_id: bool = False
+    ) -> typing.Union[typing.Tuple['PromptMonitor.Mode', typing.Any],
+                      typing.Tuple['PromptMonitor.Mode', typing.Any,
+                                   typing.Optional[str]]]:
         """Blocks until a new shell prompt is received.
 
         Note: Older versions of the runtime that do not support modes other
@@ -258,7 +253,8 @@ class PromptMonitor:
             return triple
         return (triple[0], triple[1])
 
-    async def _async_get(self) -> typing.Tuple['PromptMonitor.Mode', typing.Any]:
+    async def _async_get(
+            self) -> typing.Tuple['PromptMonitor.Mode', typing.Any]:
         message = await self.__queue.get()
         if not iterm2.capabilities.supports_prompt_monitor_modes(
                 self.connection):

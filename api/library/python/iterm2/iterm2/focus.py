@@ -11,7 +11,6 @@ import iterm2.notifications
 # pylint: disable=too-few-public-methods
 class FocusUpdateApplicationActive:
     """Describes a change in whether the application is active."""
-
     def __init__(self, active):
         self.__application_active = active
 
@@ -23,7 +22,6 @@ class FocusUpdateApplicationActive:
 
 class FocusUpdateWindowChanged:
     """Describes a change in which window is focused."""
-
     class Reason(enum.Enum):
         """Gives the reason for the change"""
         # pylint: disable=line-too-long
@@ -60,7 +58,6 @@ class FocusUpdateWindowChanged:
 
 class FocusUpdateSelectedTabChanged:
     """Describes a change in the selected tab."""
-
     def __init__(self, tab_id: str):
         self.__tab_id = tab_id
 
@@ -77,7 +74,6 @@ class FocusUpdateSelectedTabChanged:
 
 class FocusUpdateActiveSessionChanged:
     """Describes a change to the active session within a tab."""
-
     def __init__(self, session_id: str):
         self.__session_id = session_id
 
@@ -98,13 +94,12 @@ class FocusUpdate:
 
     Up to one of `application_active`, `window_changed`,
     `selected_tab_changed`, or `active_session_changed` will not be `None`."""
-
     def __init__(
-            self,
-            application_active: FocusUpdateApplicationActive = None,
-            window_changed: FocusUpdateWindowChanged = None,
-            selected_tab_changed: FocusUpdateSelectedTabChanged = None,
-            active_session_changed: FocusUpdateActiveSessionChanged = None):
+        self,
+        application_active: FocusUpdateApplicationActive = None,
+        window_changed: FocusUpdateWindowChanged = None,
+        selected_tab_changed: FocusUpdateSelectedTabChanged = None,
+        active_session_changed: FocusUpdateActiveSessionChanged = None):
         self.__application_active = application_active
         self.__window_changed = window_changed
         self.__selected_tab_changed = selected_tab_changed
@@ -122,8 +117,8 @@ class FocusUpdate:
         return "No Event"
 
     @property
-    def application_active(self) -> typing.Union[
-            None, FocusUpdateApplicationActive]:
+    def application_active(
+            self) -> typing.Union[None, FocusUpdateApplicationActive]:
         """
         :returns: `None` if no change to whether the app is active,
             otherwise :class:`FocusUpdateApplicationActive`"""
@@ -160,7 +155,6 @@ class FocusMonitor:
 
     .. seealso:: Example ":ref:`mrutabs_example`"
     """
-
     def __init__(self, connection: iterm2.connection.Connection):
         self.__connection = connection
         self.__queue: typing.List[iterm2.api_pb2.FocusChangedNotification] = []
@@ -169,8 +163,7 @@ class FocusMonitor:
 
     async def __aenter__(self):
         async def async_callback(
-                _connection,
-                message: iterm2.api_pb2.FocusChangedNotification):
+            _connection, message: iterm2.api_pb2.FocusChangedNotification):
             """Called when focus changes."""
             self.__queue.append(message)
             future = self.__future
@@ -186,8 +179,7 @@ class FocusMonitor:
 
         self.__token = await (
             iterm2.notifications.async_subscribe_to_focus_change_notification(
-                self.__connection,
-                async_callback))
+                self.__connection, async_callback))
         return self
 
     async def __aexit__(self, exc_type, exc, _tb):
@@ -231,9 +223,8 @@ class FocusMonitor:
         """Create a FocusUpdate from a protobuf."""
         which = proto.WhichOneof('event')
         if which == 'application_active':
-            return FocusUpdate(
-                application_active=FocusUpdateApplicationActive(
-                    proto.application_active))
+            return FocusUpdate(application_active=FocusUpdateApplicationActive(
+                proto.application_active))
         if which == 'window':
             return FocusUpdate(window_changed=FocusUpdateWindowChanged(
                 proto.window.window_id,
@@ -247,4 +238,5 @@ class FocusMonitor:
                 active_session_changed=FocusUpdateActiveSessionChanged(
                     proto.session))
         return FocusUpdate()
+
     # pylint: enable=no-self-use

@@ -14,8 +14,7 @@ tokens = [
     "NUMBER",
 ]
 
-states = (('comment', 'exclusive'),
-          ('example', 'exclusive'))
+states = (('comment', 'exclusive'), ('example', 'exclusive'))
 
 t_PLUS = r'\+'
 t_MINUS = r'-'

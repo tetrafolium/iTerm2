@@ -31,9 +31,8 @@ class GetPropertyException(Exception):
 
 
 DELEGATE_FACTORY: typing.Optional[
-    typing.Callable[
-        [iterm2.connection.Connection],
-        typing.Awaitable['Window.Delegate']]] = None
+    typing.Callable[[iterm2.connection.Connection],
+                    typing.Awaitable['Window.Delegate']]] = None
 
 
 # pylint: disable=too-many-public-methods
@@ -45,37 +44,32 @@ class Window:
     query its `windows` property. To create a new window, use
     :meth:`async_create`.
     """
-
     class Delegate:
         """Delegate for Window"""
         @abc.abstractmethod
         async def window_delegate_get_window_with_session_id(
-                self,
-                session_id: str) -> typing.Optional['Window']:
+                self, session_id: str) -> typing.Optional['Window']:
             """Gets the Window that contains a Session by ID."""
 
         @abc.abstractmethod
         async def window_delegate_get_tab_by_id(
-                self,
-                tab_id: str) -> typing.Optional[iterm2.tab.Tab]:
+                self, tab_id: str) -> typing.Optional[iterm2.tab.Tab]:
             """Gets a Tab by ID."""
 
         @abc.abstractmethod
         async def window_delegate_get_tab_with_session_id(
-                self,
-                session_id: str) -> typing.Optional[iterm2.tab.Tab]:
+                self, session_id: str) -> typing.Optional[iterm2.tab.Tab]:
             """Returns the Tab containing a Session by ID."""
 
     delegate: typing.Optional[Delegate] = None
 
     @staticmethod
     async def async_create(
-            connection: iterm2.connection.Connection,
-            profile: str = None,
-            command: str = None,
-            profile_customizations:
-            iterm2.profile.LocalWriteOnlyProfile = None) -> typing.Optional[
-                'Window']:
+        connection: iterm2.connection.Connection,
+        profile: str = None,
+        command: str = None,
+        profile_customizations: iterm2.profile.LocalWriteOnlyProfile = None
+    ) -> typing.Optional['Window']:
         """Creates a new window.
 
         :param connection: A :class:`~iterm2.connection.Connection`.
@@ -144,22 +138,14 @@ class Window:
             else:
                 tmux_window_id = None
             tabs.append(
-                iterm2.tab.Tab(
-                    connection,
-                    tab.tab_id,
-                    root,
-                    tmux_window_id,
-                    tab.tmux_connection_id))
+                iterm2.tab.Tab(connection, tab.tab_id, root, tmux_window_id,
+                               tab.tmux_connection_id))
 
         if not tabs:
             return None
 
-        return iterm2.window.Window(
-            connection,
-            window.window_id,
-            tabs,
-            window.frame,
-            window.number)
+        return iterm2.window.Window(connection, window.window_id, tabs,
+                                    window.frame, window.number)
 
     # pylint: disable=too-many-arguments
     def __init__(self, connection, window_id, tabs, frame, number):
@@ -173,9 +159,7 @@ class Window:
 
     def __repr__(self):
         return "<Window id=%s tabs=%s frame=%s>" % (
-            self.__window_id,
-            self.__tabs,
-            iterm2.util.frame_str(self.frame))
+            self.__window_id, self.__tabs, iterm2.util.frame_str(self.frame))
 
     def update_from(self, other):
         """Copies state from other window to this one."""
@@ -244,9 +228,9 @@ class Window:
             * Example ":ref:`sorttabs_example`"
         """
         tab_ids = map(lambda tab: tab.tab_id, tabs)
-        await iterm2.rpc.async_reorder_tabs(
-            self.connection,
-            assignments=[(self.window_id, tab_ids)])
+        await iterm2.rpc.async_reorder_tabs(self.connection,
+                                            assignments=[(self.window_id,
+                                                          tab_ids)])
 
     @property
     def current_tab(self) -> typing.Optional[iterm2.tab.Tab]:
@@ -260,9 +244,8 @@ class Window:
         return None
 
     async def async_create_tmux_tab(
-            self,
-            tmux_connection:
-            'iterm2.tmux.TmuxConnection') -> typing.Optional[iterm2.tab.Tab]:
+        self, tmux_connection: 'iterm2.tmux.TmuxConnection'
+    ) -> typing.Optional[iterm2.tab.Tab]:
         """Creates a new tmux tab in this window.
 
         This may not be called from within a
@@ -278,9 +261,7 @@ class Window:
         """
         tmux_window_id = "{}".format(-(self.__number + 1))
         response = await iterm2.rpc.async_rpc_create_tmux_window(
-            self.connection,
-            tmux_connection.connection_id,
-            tmux_window_id)
+            self.connection, tmux_connection.connection_id, tmux_window_id)
         # pylint: disable=no-member
         if (response.tmux_response.status !=
                 iterm2.api_pb2.TmuxResponse.Status.Value("OK")):
@@ -294,13 +275,13 @@ class Window:
         return await Window.delegate.window_delegate_get_tab_by_id(tab_id)
 
     async def async_create_tab(
-            self,
-            profile: typing.Optional[str] = None,
-            command: typing.Optional[str] = None,
-            index: typing.Optional[int] = None,
-            profile_customizations: typing.Optional[
-                iterm2.profile.LocalWriteOnlyProfile] = None) -> typing.Optional[
-                    iterm2.tab.Tab]:
+        self,
+        profile: typing.Optional[str] = None,
+        command: typing.Optional[str] = None,
+        index: typing.Optional[int] = None,
+        profile_customizations: typing.Optional[
+            iterm2.profile.LocalWriteOnlyProfile] = None
+    ) -> typing.Optional[iterm2.tab.Tab]:
         """
         Creates a new tab in this window.
 
@@ -358,8 +339,9 @@ class Window:
         :throws: :class:`GetPropertyException` if something goes wrong.
         """
 
-        response = await iterm2.rpc.async_get_property(
-            self.connection, "frame", self.__window_id)
+        response = await iterm2.rpc.async_get_property(self.connection,
+                                                       "frame",
+                                                       self.__window_id)
         status = response.get_property_response.status
         # pylint: disable=no-member
         if status == iterm2.api_pb2.GetPropertyResponse.Status.Value("OK"):
@@ -379,10 +361,7 @@ class Window:
         """
         json_value = json.dumps(frame.dict)
         response = await iterm2.rpc.async_set_property(
-            self.connection,
-            "frame",
-            json_value,
-            window_id=self.__window_id)
+            self.connection, "frame", json_value, window_id=self.__window_id)
         status = response.set_property_response.status
         # pylint: disable=no-member
         if status != iterm2.api_pb2.SetPropertyResponse.Status.Value("OK"):
@@ -396,8 +375,9 @@ class Window:
 
         :throws: :class:`GetPropertyException` if something goes wrong.
         """
-        response = await iterm2.rpc.async_get_property(
-            self.connection, "fullscreen", self.__window_id)
+        response = await iterm2.rpc.async_get_property(self.connection,
+                                                       "fullscreen",
+                                                       self.__window_id)
         status = response.get_property_response.status
         # pylint: disable=no-member
         if status == iterm2.api_pb2.GetPropertyResponse.Status.Value("OK"):
@@ -428,12 +408,11 @@ class Window:
         """
         Gives the window keyboard focus and orders it to the front.
         """
-        await iterm2.rpc.async_activate(
-            self.connection,
-            False,
-            False,
-            True,
-            window_id=self.__window_id)
+        await iterm2.rpc.async_activate(self.connection,
+                                        False,
+                                        False,
+                                        True,
+                                        window_id=self.__window_id)
 
     async def async_close(self, force: bool = False):
         """
@@ -444,8 +423,9 @@ class Window:
 
         :throws: :class:`RPCException` if something goes wrong.
         """
-        result = await iterm2.rpc.async_close(
-            self.connection, windows=[self.__window_id], force=force)
+        result = await iterm2.rpc.async_close(self.connection,
+                                              windows=[self.__window_id],
+                                              force=force)
         status = result.close_response.statuses[0]
         # pylint: disable=no-member
         if status != iterm2.api_pb2.CloseResponse.Status.Value("OK"):
@@ -497,8 +477,9 @@ class Window:
         :throws: :class:`~iterm2.rpc.RPCException` if something goes wrong.
         """
         # pylint: disable=no-member
-        result = await iterm2.rpc.async_variable(
-            self.connection, window_id=self.__window_id, gets=[name])
+        result = await iterm2.rpc.async_variable(self.connection,
+                                                 window_id=self.__window_id,
+                                                 gets=[name])
         status = result.variable_response.status
         if status != iterm2.api_pb2.VariableResponse.Status.Value("OK"):
             raise iterm2.rpc.RPCException(
@@ -518,10 +499,10 @@ class Window:
         :throws: :class:`RPCException` if something goes wrong.
         """
         # pylint: disable=no-member
-        result = await iterm2.rpc.async_variable(
-            self.connection,
-            sets=[(name, json.dumps(value))],
-            window_id=self.window_id)
+        result = await iterm2.rpc.async_variable(self.connection,
+                                                 sets=[(name,
+                                                        json.dumps(value))],
+                                                 window_id=self.window_id)
         status = result.variable_response.status
         if status != iterm2.api_pb2.VariableResponse.Status.Value("OK"):
             raise iterm2.rpc.RPCException(
@@ -540,14 +521,14 @@ class Window:
 
         :throws: :class:`~iterm2.rpc.RPCException` if something goes wrong.
         """
-        invocation = iterm2.util.invocation_string(
-            "iterm2.set_title",
-            {"title": title})
-        await iterm2.rpc.async_invoke_method(
-            self.connection, self.window_id, invocation, -1)
+        invocation = iterm2.util.invocation_string("iterm2.set_title",
+                                                   {"title": title})
+        await iterm2.rpc.async_invoke_method(self.connection, self.window_id,
+                                             invocation, -1)
 
-    async def async_invoke_function(
-            self, invocation: str, timeout: float = -1):
+    async def async_invoke_function(self,
+                                    invocation: str,
+                                    timeout: float = -1):
         """
         Invoke an RPC. Could be a registered function by this or another script
         of a built-in function.
@@ -574,9 +555,8 @@ class Window:
         which = response.invoke_function_response.WhichOneof('disposition')
         # pylint: disable=no-member
         if which == 'error':
-            if (response.invoke_function_response.error.status ==
-                    iterm2.api_pb2.InvokeFunctionResponse.Status.Value(
-                        "TIMEOUT")):
+            if (response.invoke_function_response.error.status == iterm2.
+                    api_pb2.InvokeFunctionResponse.Status.Value("TIMEOUT")):
                 raise iterm2.rpc.RPCException("Timeout")
             raise iterm2.rpc.RPCException("{}: {}".format(
                 iterm2.api_pb2.InvokeFunctionResponse.Status.Name(

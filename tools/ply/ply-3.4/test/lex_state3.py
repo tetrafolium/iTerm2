@@ -15,8 +15,7 @@ tokens = [
 ]
 
 comment = 1
-states = ((comment, 'inclusive'),
-          ('example', 'exclusive'))
+states = ((comment, 'inclusive'), ('example', 'exclusive'))
 
 t_PLUS = r'\+'
 t_MINUS = r'-'

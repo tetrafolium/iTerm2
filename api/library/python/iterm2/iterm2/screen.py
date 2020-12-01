@@ -10,7 +10,6 @@ import iterm2.util
 
 class LineContents:
     """Describes the contents of a line."""
-
     def __init__(self, proto):
         self.__proto = proto
         self.__offset_of_cell = [0]
@@ -47,14 +46,12 @@ class LineContents:
             longer line wraps onto the next line."""
         return (
             # pylint: disable=no-member
-            self.__proto.continuation ==
-            iterm2.api_pb2.LineContents.Continuation.Value(
-                "CONTINUATION_HARD_EOL"))
+            self.__proto.continuation == iterm2.api_pb2.LineContents.
+            Continuation.Value("CONTINUATION_HARD_EOL"))
 
 
 class ScreenContents:
     """Describes screen contents."""
-
     def __init__(self, proto):
         self.__proto = proto
 
@@ -114,7 +111,6 @@ class ScreenStreamer:
 
     Don't create this yourself. Use Session.get_screen_streamer() instead. See
     its docstring for more info."""
-
     def __init__(self, connection, session_id, want_contents=True):
         assert session_id != "all"
         self.connection = connection
@@ -136,11 +132,9 @@ class ScreenStreamer:
                 future.set_result(message)
 
         self.token = (
-            await iterm2.notifications.
-            async_subscribe_to_screen_update_notification(
-                self.connection,
-                async_on_update,
-                self.session_id))
+            await
+            iterm2.notifications.async_subscribe_to_screen_update_notification(
+                self.connection, async_on_update, self.session_id))
         return self
 
     async def __aexit__(self, exc_type, exc, _tb):
@@ -171,11 +165,9 @@ class ScreenStreamer:
             return None
         # pylint: disable=no-member
         result = await iterm2.rpc.async_get_screen_contents(
-            self.connection,
-            self.session_id,
-            None)
-        if (result.get_buffer_response.status == iterm2.
-                api_pb2.GetBufferResponse.Status.Value("OK")):
+            self.connection, self.session_id, None)
+        if (result.get_buffer_response.status ==
+                iterm2.api_pb2.GetBufferResponse.Status.Value("OK")):
             return ScreenContents(result.get_buffer_response)
         raise iterm2.rpc.RPCException(
             iterm2.api_pb2.GetBufferResponse.Status.Name(

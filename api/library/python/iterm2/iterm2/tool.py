@@ -5,11 +5,8 @@ import iterm2.rpc
 
 
 async def async_register_web_view_tool(
-        connection: iterm2.connection.Connection,
-        display_name: str,
-        identifier: str,
-        reveal_if_already_registered: bool,
-        url: str) -> None:
+        connection: iterm2.connection.Connection, display_name: str,
+        identifier: str, reveal_if_already_registered: bool, url: str) -> None:
     """
     Registers a toolbelt tool that shows a webview.
 
@@ -26,10 +23,7 @@ async def async_register_web_view_tool(
     .. seealso:: Example ":ref:`targeted_input_example`"
     """
     result = await iterm2.rpc.async_register_web_view_tool(
-        connection,
-        display_name,
-        identifier,
-        reveal_if_already_registered,
+        connection, display_name, identifier, reveal_if_already_registered,
         url)
     status = result.register_tool_response.status
     # pylint: disable=no-member

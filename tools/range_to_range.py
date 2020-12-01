@@ -20,4 +20,5 @@ while True:
 for tuple in contents:
     min = int(tuple[0], 16)
     max = int(tuple[1], 16)
-    print "[set addCharactersInRange:NSMakeRange(%s, %s)];" % (hex(min), str(max - min + 1))
+    print "[set addCharactersInRange:NSMakeRange(%s, %s)];" % (
+        hex(min), str(max - min + 1))

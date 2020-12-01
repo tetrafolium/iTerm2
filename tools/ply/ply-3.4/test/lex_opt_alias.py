@@ -11,7 +11,8 @@ if ".." not in sys.path:
     sys.path.insert(0, "..")
 
 tokens = (
-    'NAME', 'NUMBER',
+    'NAME',
+    'NUMBER',
 )
 
 states = (('instdef', 'inclusive'), ('spam', 'exclusive'))

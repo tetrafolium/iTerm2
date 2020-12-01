@@ -13,9 +13,15 @@ import sys
 sys.path.insert(0, "../..")
 
 tokens = (
-    'NAME', 'NUMBER',
-    'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'EQUALS',
-    'LPAREN', 'RPAREN',
+    'NAME',
+    'NUMBER',
+    'PLUS',
+    'MINUS',
+    'TIMES',
+    'DIVIDE',
+    'EQUALS',
+    'LPAREN',
+    'RPAREN',
 )
 
 # Tokens

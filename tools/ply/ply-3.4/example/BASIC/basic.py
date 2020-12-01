@@ -10,7 +10,6 @@ sys.path.insert(0, "../..")
 if sys.version_info[0] >= 3:
     raw_input = input
 
-
 # If a filename has been specified, we try to run it.
 # If a runtime error occurs, we bail out and enter
 # interactive mode below

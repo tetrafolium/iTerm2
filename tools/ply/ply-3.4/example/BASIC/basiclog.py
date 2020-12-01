@@ -11,13 +11,8 @@ sys.path.insert(0, "../..")
 if sys.version_info[0] >= 3:
     raw_input = input
 
-logging.basicConfig(
-    level=logging.INFO,
-    filename="parselog.txt",
-    filemode="w"
-)
+logging.basicConfig(level=logging.INFO, filename="parselog.txt", filemode="w")
 log = logging.getLogger()
-
 
 # If a filename has been specified, we try to run it.
 # If a runtime error occurs, we bail out and enter

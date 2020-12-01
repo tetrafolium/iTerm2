@@ -26,6 +26,5 @@ It is compatible with both Python 2 and Python 3.
       packages=['ply'],
       classifiers=[
           'Programming Language :: Python :: 3',
-              'Programming Language :: Python :: 2',
-      ]
-      )
+          'Programming Language :: Python :: 2',
+      ])

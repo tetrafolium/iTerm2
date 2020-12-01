@@ -12,7 +12,6 @@ class Size:
     """Describes a 2D size.
 
     Can be used where api_pb2.Size is accepted."""
-
     def __init__(self, width: int, height: int):
         """Constructs a new size.
 
@@ -76,7 +75,6 @@ class Point:
     """Describes a 2D coordinate.
 
     Can be used where api_pb2.Point is accepted."""
-
     def __init__(self, x: int, y: int):
         """Constructs a new point.
 
@@ -148,7 +146,6 @@ class Point:
 
 class Frame:
     """Describes a bounding rectangle. 0,0 is the bottom left coordinate."""
-
     def __init__(self, origin: Point = Point(0, 0), size: Size = Size(0, 0)):
         """Constructs a new frame."""
         self.__origin = origin
@@ -214,10 +211,8 @@ def frame_str(frame: Frame) -> str:
     if frame is None:
         return "[Undefined]"
 
-    return "[(%s, %s) %s]" % (
-        frame.origin.x,
-        frame.origin.y,
-        size_str(frame.size))
+    return "[(%s, %s) %s]" % (frame.origin.x, frame.origin.y,
+                              size_str(frame.size))
 
 
 def size_str(size: Size) -> str:
@@ -228,9 +223,7 @@ def size_str(size: Size) -> str:
     :returns: A human-readable string."""
     if size is None:
         return "[Undefined]"
-    return "(%s x %s)" % (
-        size.width,
-        size.height)
+    return "(%s x %s)" % (size.width, size.height)
 
 
 def point_str(point: Point) -> str:
@@ -265,7 +258,6 @@ class CoordRange:
 
     :param start: The start point.
     :param end: The first point after the start point not in the range."""
-
     def __init__(self, start: Point, end: Point):
         self.__start = start
         self.__end = end
@@ -276,9 +268,8 @@ class CoordRange:
     @staticmethod
     def from_proto(proto):
         """Creates a new CoordRange from a protobuf"""
-        return CoordRange(
-            Point.from_coord_proto(proto.start),
-            Point.from_coord_proto(proto.end))
+        return CoordRange(Point.from_coord_proto(proto.start),
+                          Point.from_coord_proto(proto.end))
 
     @property
     def start(self) -> Point:
@@ -311,7 +302,6 @@ class Range:
 
     :param location: The first value in the range.
     :param length: The number of values in the range."""
-
     def __init__(self, location: int, length: int):
         self.__location = location
         self.__length = length
@@ -362,11 +352,9 @@ class WindowedCoordRange:
     :param columnRange: The range of columns to intersect with `coordRange` to
         get the described region, or `None` if unwindowed.
     """
-
-    def __init__(
-            self,
-            coordRange: CoordRange,
-            columnRange: typing.Optional[Range] = None):
+    def __init__(self,
+                 coordRange: CoordRange,
+                 columnRange: typing.Optional[Range] = None):
         self.___coord_range = coordRange
         if columnRange:
             self.__column_range = columnRange
@@ -443,8 +431,8 @@ async def async_wait_forever():
     await asyncio.wait([asyncio.Future()])
 
 
-def invocation_string(
-        method_name: str, argdict: typing.Dict[str, typing.Any]) -> str:
+def invocation_string(method_name: str,
+                      argdict: typing.Dict[str, typing.Any]) -> str:
     """Gives the invocation string for a method call with given arguments."""
     parts = []
     for name, value in argdict.items():

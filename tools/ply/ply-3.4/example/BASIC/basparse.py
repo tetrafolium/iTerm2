@@ -6,12 +6,8 @@ import basiclex
 
 tokens = basiclex.tokens
 
-precedence = (
-    ('left', 'PLUS', 'MINUS'),
-    ('left', 'TIMES', 'DIVIDE'),
-    ('left', 'POWER'),
-    ('right', 'UMINUS')
-)
+precedence = (('left', 'PLUS', 'MINUS'), ('left', 'TIMES', 'DIVIDE'),
+              ('left', 'POWER'), ('right', 'UMINUS'))
 
 # A BASIC program is a series of statements.  We represent the program as a
 # dictionary of tuples indexed by line number.
@@ -33,6 +29,7 @@ def p_program(p):
             line, stat = p[2]
             p[0][line] = stat
 
+
 # This catch-all rule is used for any catastrophic errors.  In this case,
 # we simply return nothing
 
@@ -41,6 +38,7 @@ def p_program_error(p):
     '''program : error'''
     p[0] = None
     p.parser.error = 1
+
 
 # Format of all BASIC statements.
 
@@ -55,6 +53,7 @@ def p_statement(p):
         lineno = int(p[1])
         p[0] = (lineno, p[2])
 
+
 # Interactive statements.
 
 
@@ -64,12 +63,14 @@ def p_statement_interactive(p):
                  | NEW NEWLINE'''
     p[0] = (0, (p[1], 0))
 
+
 # Blank line number
 
 
 def p_statement_blank(p):
     '''statement : INTEGER NEWLINE'''
     p[0] = (0, ('BLANK', int(p[1])))
+
 
 # Error handling for malformed statements
 
@@ -80,12 +81,14 @@ def p_statement_bad(p):
     p[0] = None
     p.parser.error = 1
 
+
 # Blank line
 
 
 def p_statement_newline(p):
     '''statement : NEWLINE'''
     p[0] = None
+
 
 # LET statement
 
@@ -99,6 +102,7 @@ def p_command_let_bad(p):
     '''command : LET variable EQUALS error'''
     p[0] = "BAD EXPRESSION IN LET"
 
+
 # READ statement
 
 
@@ -110,6 +114,7 @@ def p_command_read(p):
 def p_command_read_bad(p):
     '''command : READ error'''
     p[0] = "MALFORMED VARIABLE LIST IN READ"
+
 
 # DATA statement
 
@@ -123,6 +128,7 @@ def p_command_data_bad(p):
     '''command : DATA error'''
     p[0] = "MALFORMED NUMBER LIST IN DATA"
 
+
 # PRINT statement
 
 
@@ -134,6 +140,7 @@ def p_command_print(p):
 def p_command_print_bad(p):
     '''command : PRINT error'''
     p[0] = "MALFORMED PRINT STATEMENT"
+
 
 # Optional ending on PRINT. Either a comma (,) or semicolon (;)
 
@@ -147,12 +154,14 @@ def p_optend(p):
     else:
         p[0] = None
 
+
 # PRINT statement with no arguments
 
 
 def p_command_print_empty(p):
     '''command : PRINT'''
     p[0] = ('PRINT', [], None)
+
 
 # GOTO statement
 
@@ -165,6 +174,7 @@ def p_command_goto(p):
 def p_command_goto_bad(p):
     '''command : GOTO error'''
     p[0] = "INVALID LINE NUMBER IN GOTO"
+
 
 # IF-THEN statement
 
@@ -182,6 +192,7 @@ def p_command_if_bad(p):
 def p_command_if_bad2(p):
     '''command : IF relexpr THEN error'''
     p[0] = "INVALID LINE NUMBER IN THEN"
+
 
 # FOR statement
 
@@ -205,6 +216,7 @@ def p_command_for_bad_step(p):
     '''command : FOR ID EQUALS expr TO expr STEP error'''
     p[0] = "MALFORMED STEP IN FOR STATEMENT"
 
+
 # Optional STEP qualifier on FOR statement
 
 
@@ -215,6 +227,7 @@ def p_optstep(p):
         p[0] = p[2]
     else:
         p[0] = None
+
 
 # NEXT statement
 
@@ -229,12 +242,14 @@ def p_command_next_bad(p):
     '''command : NEXT error'''
     p[0] = "MALFORMED NEXT"
 
+
 # END statement
 
 
 def p_command_end(p):
     '''command : END'''
-    p[0] = ('END',)
+    p[0] = ('END', )
+
 
 # REM statement
 
@@ -243,12 +258,14 @@ def p_command_rem(p):
     '''command : REM'''
     p[0] = ('REM', p[1])
 
+
 # STOP statement
 
 
 def p_command_stop(p):
     '''command : STOP'''
-    p[0] = ('STOP',)
+    p[0] = ('STOP', )
+
 
 # DEF statement
 
@@ -267,6 +284,7 @@ def p_command_def_bad_arg(p):
     '''command : DEF ID LPAREN error RPAREN EQUALS expr'''
     p[0] = "BAD ARGUMENT IN DEF STATEMENT"
 
+
 # GOSUB statement
 
 
@@ -279,12 +297,14 @@ def p_command_gosub_bad(p):
     '''command : GOSUB error'''
     p[0] = "INVALID LINE NUMBER IN GOSUB"
 
+
 # RETURN statement
 
 
 def p_command_return(p):
     '''command : RETURN'''
-    p[0] = ('RETURN',)
+    p[0] = ('RETURN', )
+
 
 # DIM statement
 
@@ -298,6 +318,7 @@ def p_command_dim_bad(p):
     '''command : DIM error'''
     p[0] = "MALFORMED VARIABLE LIST IN DIM"
 
+
 # List of variables supplied to DIM statement
 
 
@@ -310,6 +331,7 @@ def p_dimlist(p):
     else:
         p[0] = [p[1]]
 
+
 # DIM items
 
 
@@ -321,6 +343,7 @@ def p_dimitem_single(p):
 def p_dimitem_double(p):
     '''dimitem : ID LPAREN INTEGER COMMA INTEGER RPAREN'''
     p[0] = (p[1], eval(p[3]), eval(p[5]))
+
 
 # Arithmetic expressions
 
@@ -355,6 +378,7 @@ def p_expr_unary(p):
     '''expr : MINUS expr %prec UMINUS'''
     p[0] = ('UNARY', '-', p[2])
 
+
 # Relational expressions
 
 
@@ -366,6 +390,7 @@ def p_relexpr(p):
                | expr EQUALS expr
                | expr NE expr'''
     p[0] = ('RELOP', p[2], p[1], p[3])
+
 
 # Variables
 
@@ -380,6 +405,7 @@ def p_variable(p):
         p[0] = (p[1], p[3], None)
     else:
         p[0] = (p[1], p[3], p[5])
+
 
 # Builds a list of variable targets as a Python list
 
@@ -396,6 +422,7 @@ def p_varlist(p):
 
 # Builds a list of numbers as a Python list
 
+
 def p_numlist(p):
     '''numlist : numlist COMMA number
                | number'''
@@ -406,6 +433,7 @@ def p_numlist(p):
     else:
         p[0] = [p[1]]
 
+
 # A number. May be an integer or a float
 
 
@@ -414,13 +442,15 @@ def p_number(p):
                | FLOAT'''
     p[0] = eval(p[1])
 
+
 # A signed number.
 
 
 def p_number_signed(p):
     '''number  : MINUS INTEGER
                | MINUS FLOAT'''
-    p[0] = eval("-"+p[2])
+    p[0] = eval("-" + p[2])
+
 
 # List of targets for a print statement
 # Returns a list of tuples (label,expr)
@@ -450,11 +480,13 @@ def p_item_expr(p):
     '''pitem : expr'''
     p[0] = ("", p[1])
 
+
 # Empty
 
 
 def p_empty(p):
     '''empty : '''
+
 
 # Catastrophic error handler
 

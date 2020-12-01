@@ -14,5 +14,4 @@ tokens = [
     "NUMBER",
 ]
 
-
 lex.lex()

@@ -6,6 +6,7 @@ def get_ranges(i):
     def difference(pair):
         x, y = pair
         return y - x
+
     for a, b in itertools.groupby(enumerate(i), difference):
         b = list(b)
         yield b[0][1], b[-1][1]
@@ -30,8 +31,8 @@ def output(label, variable, values):
     for r in get_ranges(nums):
         start = r[0]
         count = r[1] - r[0] + 1
-        print("        [%s addCharactersInRange:NSMakeRange(%s, %d)];" % (
-            variable, hex(start), count))
+        print("        [%s addCharactersInRange:NSMakeRange(%s, %d)];" %
+              (variable, hex(start), count))
     print("")
 
 
@@ -149,7 +150,9 @@ def print_sequences_issue9185():
     emoji.sort()
     for i in emoji:
         print(
-            f'{hex(i)}: \U0001f37b{chr(i)} regular={chr(i)} emojified={chr(i)+chr(0xfe0f)}')
+            f'{hex(i)}: \U0001f37b{chr(i)} regular={chr(i)} emojified={chr(i)+chr(0xfe0f)}'
+        )
+
 
 # Uncomment the one you want:
 # output_default_emoji_presentation()

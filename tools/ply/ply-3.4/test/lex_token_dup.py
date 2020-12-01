@@ -8,12 +8,7 @@ if ".." not in sys.path:
 
 import ply.lex as lex
 
-tokens = [
-    "PLUS",
-    "MINUS",
-    "NUMBER",
-    "MINUS"
-]
+tokens = ["PLUS", "MINUS", "NUMBER", "MINUS"]
 
 t_PLUS = r'\+'
 t_MINUS = r'-'

@@ -26,7 +26,6 @@ import ylex
 import sys
 sys.path.insert(0, "../..")
 
-
 if len(sys.argv) == 1:
     print "usage : yply.py [-nocode] inputfile"
     raise SystemExit

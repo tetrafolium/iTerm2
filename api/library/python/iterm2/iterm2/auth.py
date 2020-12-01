@@ -47,8 +47,8 @@ def get_script_name():
     return name
 
 
-def request_cookie_and_key(
-        launch_if_needed: bool, myname: typing.Optional[str]):
+def request_cookie_and_key(launch_if_needed: bool,
+                           myname: typing.Optional[str]):
     script = """
     set appName to "iTerm2"
 
@@ -112,9 +112,8 @@ def applescript_auth_disabled():
         return False
 
 
-def authenticate(
-        launch_if_needed: bool = False,
-        myname: typing.Optional[str] = None) -> bool:
+def authenticate(launch_if_needed: bool = False,
+                 myname: typing.Optional[str] = None) -> bool:
     """Attempts to authenticate before connecting to iTerm2 API.
 
     :param launch_if_needed: If iTerm2 is not running, try to launch it first.

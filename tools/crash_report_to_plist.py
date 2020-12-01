@@ -8,9 +8,9 @@ import ply.yacc as yacc
 import datetime
 import time
 
-tokens = (
-    'QUOTED_WORD', 'WORD', 'EQUALS', 'BEGIN_BLOCK', 'END_BLOCK', 'REAL', 'SEMI', "BEGIN_ARRAY", "END_ARRAY", "COMMA", "BEGIN_TUPLE", "END_TUPLE", "DATE", "TIME"
-)
+tokens = ('QUOTED_WORD', 'WORD', 'EQUALS', 'BEGIN_BLOCK', 'END_BLOCK', 'REAL',
+          'SEMI', "BEGIN_ARRAY", "END_ARRAY", "COMMA", "BEGIN_TUPLE",
+          "END_TUPLE", "DATE", "TIME")
 
 # Tokens
 
@@ -48,8 +48,7 @@ lex.lex()
 
 # Parsing rules
 
-precedence = (
-)
+precedence = ()
 
 # dictionary of names
 names = {}

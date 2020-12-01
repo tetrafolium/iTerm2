@@ -15,7 +15,8 @@ if sys.version_info[0] >= 3:
     raw_input = input
 
 tokens = (
-    'NAME', 'NUMBER',
+    'NAME',
+    'NUMBER',
 )
 
 literals = ['=', '+', '-', '*', '/', '(', ')']
@@ -117,10 +118,7 @@ def p_error(p):
 
 yacc.yacc()
 
-logging.basicConfig(
-    level=logging.INFO,
-    filename="parselog.txt"
-)
+logging.basicConfig(level=logging.INFO, filename="parselog.txt")
 
 while 1:
     try:

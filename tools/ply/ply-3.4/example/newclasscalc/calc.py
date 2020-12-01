@@ -32,10 +32,10 @@ class Parser(object):
         self.debug = kw.get('debug', 0)
         self.names = {}
         try:
-            modname = os.path.split(os.path.splitext(__file__)[0])[
-                1] + "_" + self.__class__.__name__
+            modname = os.path.split(os.path.splitext(__file__)
+                                    [0])[1] + "_" + self.__class__.__name__
         except:
-            modname = "parser"+"_"+self.__class__.__name__
+            modname = "parser" + "_" + self.__class__.__name__
         self.debugfile = modname + ".dbg"
         self.tabmodule = modname + "_" + "parsetab"
         # print self.debugfile, self.tabmodule
@@ -61,9 +61,16 @@ class Parser(object):
 class Calc(Parser):
 
     tokens = (
-        'NAME', 'NUMBER',
-        'PLUS', 'MINUS', 'EXP', 'TIMES', 'DIVIDE', 'EQUALS',
-        'LPAREN', 'RPAREN',
+        'NAME',
+        'NUMBER',
+        'PLUS',
+        'MINUS',
+        'EXP',
+        'TIMES',
+        'DIVIDE',
+        'EQUALS',
+        'LPAREN',
+        'RPAREN',
     )
 
     # Tokens
@@ -133,7 +140,7 @@ class Calc(Parser):
         elif p[2] == '/':
             p[0] = p[1] / p[3]
         elif p[2] == '**':
-            p[0] = p[1] ** p[3]
+            p[0] = p[1]**p[3]
 
     def p_expression_uminus(self, p):
         'expression : MINUS expression %prec UMINUS'

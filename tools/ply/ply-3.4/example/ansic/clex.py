@@ -8,31 +8,89 @@ import ply.lex as lex
 import sys
 sys.path.insert(0, "../..")
 
-
 # Reserved words
 reserved = (
-    'AUTO', 'BREAK', 'CASE', 'CHAR', 'CONST', 'CONTINUE', 'DEFAULT', 'DO', 'DOUBLE',
-    'ELSE', 'ENUM', 'EXTERN', 'FLOAT', 'FOR', 'GOTO', 'IF', 'INT', 'LONG', 'REGISTER',
-    'RETURN', 'SHORT', 'SIGNED', 'SIZEOF', 'STATIC', 'STRUCT', 'SWITCH', 'TYPEDEF',
-    'UNION', 'UNSIGNED', 'VOID', 'VOLATILE', 'WHILE',
+    'AUTO',
+    'BREAK',
+    'CASE',
+    'CHAR',
+    'CONST',
+    'CONTINUE',
+    'DEFAULT',
+    'DO',
+    'DOUBLE',
+    'ELSE',
+    'ENUM',
+    'EXTERN',
+    'FLOAT',
+    'FOR',
+    'GOTO',
+    'IF',
+    'INT',
+    'LONG',
+    'REGISTER',
+    'RETURN',
+    'SHORT',
+    'SIGNED',
+    'SIZEOF',
+    'STATIC',
+    'STRUCT',
+    'SWITCH',
+    'TYPEDEF',
+    'UNION',
+    'UNSIGNED',
+    'VOID',
+    'VOLATILE',
+    'WHILE',
 )
 
 tokens = reserved + (
     # Literals (identifier, integer constant, float constant, string constant, char const)
-    'ID', 'TYPEID', 'ICONST', 'FCONST', 'SCONST', 'CCONST',
+    'ID',
+    'TYPEID',
+    'ICONST',
+    'FCONST',
+    'SCONST',
+    'CCONST',
 
     # Operators (+,-,*,/,%,|,&,~,^,<<,>>, ||, &&, !, <, <=, >, >=, ==, !=)
-    'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'MOD',
-    'OR', 'AND', 'NOT', 'XOR', 'LSHIFT', 'RSHIFT',
-    'LOR', 'LAND', 'LNOT',
-    'LT', 'LE', 'GT', 'GE', 'EQ', 'NE',
+    'PLUS',
+    'MINUS',
+    'TIMES',
+    'DIVIDE',
+    'MOD',
+    'OR',
+    'AND',
+    'NOT',
+    'XOR',
+    'LSHIFT',
+    'RSHIFT',
+    'LOR',
+    'LAND',
+    'LNOT',
+    'LT',
+    'LE',
+    'GT',
+    'GE',
+    'EQ',
+    'NE',
 
     # Assignment (=, *=, /=, %=, +=, -=, <<=, >>=, &=, ^=, |=)
-    'EQUALS', 'TIMESEQUAL', 'DIVEQUAL', 'MODEQUAL', 'PLUSEQUAL', 'MINUSEQUAL',
-    'LSHIFTEQUAL', 'RSHIFTEQUAL', 'ANDEQUAL', 'XOREQUAL', 'OREQUAL',
+    'EQUALS',
+    'TIMESEQUAL',
+    'DIVEQUAL',
+    'MODEQUAL',
+    'PLUSEQUAL',
+    'MINUSEQUAL',
+    'LSHIFTEQUAL',
+    'RSHIFTEQUAL',
+    'ANDEQUAL',
+    'XOREQUAL',
+    'OREQUAL',
 
     # Increment/decrement (++,--)
-    'PLUSPLUS', 'MINUSMINUS',
+    'PLUSPLUS',
+    'MINUSMINUS',
 
     # Structure dereference (->)
     'ARROW',
@@ -41,10 +99,16 @@ tokens = reserved + (
     'CONDOP',
 
     # Delimeters ( ) [ ] { } , . ; :
-    'LPAREN', 'RPAREN',
-    'LBRACKET', 'RBRACKET',
-    'LBRACE', 'RBRACE',
-    'COMMA', 'PERIOD', 'SEMI', 'COLON',
+    'LPAREN',
+    'RPAREN',
+    'LBRACKET',
+    'RBRACKET',
+    'LBRACE',
+    'RBRACE',
+    'COMMA',
+    'PERIOD',
+    'SEMI',
+    'COLON',
 
     # Ellipsis (...)
     'ELLIPSIS',
@@ -151,6 +215,7 @@ t_CCONST = r'(L)?\'([^\\\n]|(\\.))*?\''
 def t_comment(t):
     r'/\*(.|\n)*?\*/'
     t.lexer.lineno += t.value.count('\n')
+
 
 # Preprocessor directive (ignored)
 

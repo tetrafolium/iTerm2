@@ -15,7 +15,6 @@ class BroadcastDomain:
 
     .. seealso:: Example ":ref:`enable_broadcasting_example`"
     """
-
     def __init__(self):
         self.__sessions = []
         self.__unresolved = []
@@ -35,14 +34,15 @@ class BroadcastDomain:
         """Returns the list of sessions belonging to a broadcast domain.
 
         :returns: The sessions belonging to the broadcast domain."""
-        return list(filter(
-            lambda x: x is not None,
-            self.__sessions + list(map(lambda r: r(), self.__unresolved))))
+        return list(
+            filter(
+                lambda x: x is not None,
+                self.__sessions + list(map(lambda r: r(), self.__unresolved))))
 
 
 async def async_set_broadcast_domains(
-        connection: iterm2.connection.Connection,
-        broadcast_domains: typing.List[BroadcastDomain]):
+    connection: iterm2.connection.Connection,
+    broadcast_domains: typing.List[BroadcastDomain]):
     """Sets the current set of broadcast domains.
 
     :param connection: The connection to iTerm2.
@@ -50,11 +50,11 @@ async def async_set_broadcast_domains(
 
     .. seealso:: Example ":ref:`enable_broadcasting_example`"
     """
-    response = await iterm2.rpc.async_set_broadcast_domains(connection, list(
-        map(lambda d: list(
-            map(lambda s: s.session_id,
-                d.sessions)),
-            broadcast_domains)))
+    response = await iterm2.rpc.async_set_broadcast_domains(
+        connection,
+        list(
+            map(lambda d: list(map(lambda s: s.session_id, d.sessions)),
+                broadcast_domains)))
     # pylint: disable=no-member
     if (response.set_broadcast_domains_response.status !=
             iterm2.api_pb2.SetBroadcastDomainsResponse.Status.Value("OK")):

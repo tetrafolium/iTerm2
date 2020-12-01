@@ -18,5 +18,4 @@ t_PLUS = r'\+'
 t_MINUS = r'-'
 t_NUMBER = r'\d+'
 
-
 lex.lex()

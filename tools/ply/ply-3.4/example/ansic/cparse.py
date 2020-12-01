@@ -24,6 +24,7 @@ def p_translation_unit_2(t):
     'translation_unit : translation_unit external_declaration'
     pass
 
+
 # external-declaration:
 
 
@@ -35,6 +36,7 @@ def p_external_declaration_1(t):
 def p_external_declaration_2(t):
     'external_declaration : declaration'
     pass
+
 
 # function-definition:
 
@@ -58,6 +60,7 @@ def p_function_definition_4(t):
     'function_definition : declaration_specifiers declarator compound_statement'
     pass
 
+
 # declaration:
 
 
@@ -70,6 +73,7 @@ def p_declaration_2(t):
     'declaration : declaration_specifiers SEMI'
     pass
 
+
 # declaration-list:
 
 
@@ -81,6 +85,7 @@ def p_declaration_list_1(t):
 def p_declaration_list_2(t):
     'declaration_list : declaration_list declaration '
     pass
+
 
 # declaration-specifiers
 
@@ -114,6 +119,7 @@ def p_declaration_specifiers_6(t):
     'declaration_specifiers : type_qualifier'
     pass
 
+
 # storage-class-specifier
 
 
@@ -125,6 +131,7 @@ def p_storage_class_specifier(t):
                                | TYPEDEF
                                '''
     pass
+
 
 # type-specifier:
 
@@ -145,6 +152,7 @@ def p_type_specifier(t):
                       '''
     pass
 
+
 # type-qualifier:
 
 
@@ -152,6 +160,7 @@ def p_type_qualifier(t):
     '''type_qualifier : CONST
                       | VOLATILE'''
     pass
+
 
 # struct-or-union-specifier
 
@@ -170,6 +179,7 @@ def p_struct_or_union_specifier_3(t):
     'struct_or_union_specifier : struct_or_union ID'
     pass
 
+
 # struct-or-union:
 
 
@@ -178,6 +188,7 @@ def p_struct_or_union(t):
                        | UNION
                        '''
     pass
+
 
 # struct-declaration-list:
 
@@ -191,6 +202,7 @@ def p_struct_declaration_list_2(t):
     'struct_declaration_list : struct_declaration_list struct_declaration'
     pass
 
+
 # init-declarator-list:
 
 
@@ -202,6 +214,7 @@ def p_init_declarator_list_1(t):
 def p_init_declarator_list_2(t):
     'init_declarator_list : init_declarator_list COMMA init_declarator'
     pass
+
 
 # init-declarator
 
@@ -215,12 +228,14 @@ def p_init_declarator_2(t):
     'init_declarator : declarator EQUALS initializer'
     pass
 
+
 # struct-declaration:
 
 
 def p_struct_declaration(t):
     'struct_declaration : specifier_qualifier_list struct_declarator_list SEMI'
     pass
+
 
 # specifier-qualifier-list:
 
@@ -244,6 +259,7 @@ def p_specifier_qualifier_list_4(t):
     'specifier_qualifier_list : type_qualifier'
     pass
 
+
 # struct-declarator-list:
 
 
@@ -255,6 +271,7 @@ def p_struct_declarator_list_1(t):
 def p_struct_declarator_list_2(t):
     'struct_declarator_list : struct_declarator_list COMMA struct_declarator'
     pass
+
 
 # struct-declarator:
 
@@ -273,6 +290,7 @@ def p_struct_declarator_3(t):
     'struct_declarator : COLON constant_expression'
     pass
 
+
 # enum-specifier:
 
 
@@ -290,6 +308,7 @@ def p_enum_specifier_3(t):
     'enum_specifier : ENUM ID'
     pass
 
+
 # enumerator_list:
 
 
@@ -301,6 +320,7 @@ def p_enumerator_list_1(t):
 def p_enumerator_list_2(t):
     'enumerator_list : enumerator_list COMMA enumerator'
     pass
+
 
 # enumerator:
 
@@ -314,6 +334,7 @@ def p_enumerator_2(t):
     'enumerator : ID EQUALS constant_expression'
     pass
 
+
 # declarator:
 
 
@@ -325,6 +346,7 @@ def p_declarator_1(t):
 def p_declarator_2(t):
     'declarator : direct_declarator'
     pass
+
 
 # direct-declarator:
 
@@ -358,6 +380,7 @@ def p_direct_declarator_6(t):
     'direct_declarator : direct_declarator LPAREN RPAREN '
     pass
 
+
 # pointer:
 
 
@@ -380,6 +403,7 @@ def p_pointer_4(t):
     'pointer : TIMES pointer'
     pass
 
+
 # type-qualifier-list:
 
 
@@ -391,6 +415,7 @@ def p_type_qualifier_list_1(t):
 def p_type_qualifier_list_2(t):
     'type_qualifier_list : type_qualifier_list type_qualifier'
     pass
+
 
 # parameter-type-list:
 
@@ -404,6 +429,7 @@ def p_parameter_type_list_2(t):
     'parameter_type_list : parameter_list COMMA ELLIPSIS'
     pass
 
+
 # parameter-list:
 
 
@@ -415,6 +441,7 @@ def p_parameter_list_1(t):
 def p_parameter_list_2(t):
     'parameter_list : parameter_list COMMA parameter_declaration'
     pass
+
 
 # parameter-declaration:
 
@@ -428,6 +455,7 @@ def p_parameter_declaration_2(t):
     'parameter_declaration : declaration_specifiers abstract_declarator_opt'
     pass
 
+
 # identifier-list:
 
 
@@ -439,6 +467,7 @@ def p_identifier_list_1(t):
 def p_identifier_list_2(t):
     'identifier_list : identifier_list COMMA ID'
     pass
+
 
 # initializer:
 
@@ -453,6 +482,7 @@ def p_initializer_2(t):
                    | LBRACE initializer_list COMMA RBRACE'''
     pass
 
+
 # initializer-list:
 
 
@@ -464,6 +494,7 @@ def p_initializer_list_1(t):
 def p_initializer_list_2(t):
     'initializer_list : initializer_list COMMA initializer'
     pass
+
 
 # type-name:
 
@@ -482,6 +513,7 @@ def p_abstract_declarator_opt_2(t):
     'abstract_declarator_opt : abstract_declarator'
     pass
 
+
 # abstract-declarator:
 
 
@@ -498,6 +530,7 @@ def p_abstract_declarator_2(t):
 def p_abstract_declarator_3(t):
     'abstract_declarator : direct_abstract_declarator'
     pass
+
 
 # direct-abstract-declarator:
 
@@ -526,6 +559,7 @@ def p_direct_abstract_declarator_5(t):
     'direct_abstract_declarator : LPAREN parameter_type_list_opt RPAREN'
     pass
 
+
 # Optional fields in abstract declarators
 
 
@@ -548,6 +582,7 @@ def p_parameter_type_list_opt_2(t):
     'parameter_type_list_opt : parameter_type_list'
     pass
 
+
 # statement:
 
 
@@ -561,6 +596,7 @@ def p_statement(t):
               | jump_statement
               '''
     pass
+
 
 # labeled-statement:
 
@@ -579,12 +615,14 @@ def p_labeled_statement_3(t):
     'labeled_statement : DEFAULT COLON statement'
     pass
 
+
 # expression-statement:
 
 
 def p_expression_statement(t):
     'expression_statement : expression_opt SEMI'
     pass
+
 
 # compound-statement:
 
@@ -608,6 +646,7 @@ def p_compound_statement_4(t):
     'compound_statement : LBRACE RBRACE'
     pass
 
+
 # statement-list:
 
 
@@ -619,6 +658,7 @@ def p_statement_list_1(t):
 def p_statement_list_2(t):
     'statement_list : statement_list statement'
     pass
+
 
 # selection-statement
 
@@ -637,6 +677,7 @@ def p_selection_statement_3(t):
     'selection_statement : SWITCH LPAREN expression RPAREN statement '
     pass
 
+
 # iteration_statement:
 
 
@@ -653,6 +694,7 @@ def p_iteration_statement_2(t):
 def p_iteration_statement_3(t):
     'iteration_statement : DO statement WHILE LPAREN expression RPAREN SEMI'
     pass
+
 
 # jump_statement:
 
@@ -686,6 +728,7 @@ def p_expression_opt_2(t):
     'expression_opt : expression'
     pass
 
+
 # expression:
 
 
@@ -698,6 +741,7 @@ def p_expression_2(t):
     'expression : expression COMMA assignment_expression'
     pass
 
+
 # assigment_expression:
 
 
@@ -709,6 +753,7 @@ def p_assignment_expression_1(t):
 def p_assignment_expression_2(t):
     'assignment_expression : unary_expression assignment_operator assignment_expression'
     pass
+
 
 # assignment_operator:
 
@@ -729,6 +774,7 @@ def p_assignment_operator(t):
                         '''
     pass
 
+
 # conditional-expression
 
 
@@ -741,12 +787,14 @@ def p_conditional_expression_2(t):
     'conditional_expression : logical_or_expression CONDOP expression COLON conditional_expression '
     pass
 
+
 # constant-expression
 
 
 def p_constant_expression(t):
     'constant_expression : conditional_expression'
     pass
+
 
 # logical-or-expression
 
@@ -760,6 +808,7 @@ def p_logical_or_expression_2(t):
     'logical_or_expression : logical_or_expression LOR logical_and_expression'
     pass
 
+
 # logical-and-expression
 
 
@@ -771,6 +820,7 @@ def p_logical_and_expression_1(t):
 def p_logical_and_expression_2(t):
     'logical_and_expression : logical_and_expression LAND inclusive_or_expression'
     pass
+
 
 # inclusive-or-expression:
 
@@ -784,6 +834,7 @@ def p_inclusive_or_expression_2(t):
     'inclusive_or_expression : inclusive_or_expression OR exclusive_or_expression'
     pass
 
+
 # exclusive-or-expression:
 
 
@@ -795,6 +846,7 @@ def p_exclusive_or_expression_1(t):
 def p_exclusive_or_expression_2(t):
     'exclusive_or_expression :  exclusive_or_expression XOR and_expression'
     pass
+
 
 # AND-expression
 
@@ -850,6 +902,7 @@ def p_relational_expression_5(t):
     'relational_expression : relational_expression GE shift_expression'
     pass
 
+
 # shift-expression
 
 
@@ -867,6 +920,7 @@ def p_shift_expression_3(t):
     'shift_expression : shift_expression RSHIFT additive_expression'
     pass
 
+
 # additive-expression
 
 
@@ -883,6 +937,7 @@ def p_additive_expression_2(t):
 def p_additive_expression_3(t):
     'additive_expression : additive_expression MINUS multiplicative_expression'
     pass
+
 
 # multiplicative-expression
 
@@ -906,6 +961,7 @@ def p_multiplicative_expression_4(t):
     'multiplicative_expression : multiplicative_expression MOD cast_expression'
     pass
 
+
 # cast-expression:
 
 
@@ -917,6 +973,7 @@ def p_cast_expression_1(t):
 def p_cast_expression_2(t):
     'cast_expression : LPAREN type_name RPAREN cast_expression'
     pass
+
 
 # unary-expression:
 
@@ -950,6 +1007,7 @@ def p_unary_expression_6(t):
     'unary_expression : SIZEOF LPAREN type_name RPAREN'
     pass
 
+
 # unary-operator
 
 
@@ -961,6 +1019,7 @@ def p_unary_operator(t):
                     | NOT
                     | LNOT '''
     pass
+
 
 # postfix-expression:
 
@@ -1004,6 +1063,7 @@ def p_postfix_expression_8(t):
     'postfix_expression : postfix_expression MINUSMINUS'
     pass
 
+
 # primary-expression:
 
 
@@ -1014,6 +1074,7 @@ def p_primary_expression(t):
                         |  LPAREN expression RPAREN'''
     pass
 
+
 # argument-expression-list:
 
 
@@ -1021,6 +1082,7 @@ def p_argument_expression_list(t):
     '''argument_expression_list :  assignment_expression
                               |  argument_expression_list COMMA assignment_expression'''
     pass
+
 
 # constant:
 

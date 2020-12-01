@@ -17,7 +17,6 @@ class EachSessionOnceMonitor:
     :param connection: The :class:`~iterm2.connection.Connection` to use.
     :param app: An instance of :class:`~iterm2.app.App`.
     """
-
     def __init__(self, app: 'iterm2.app.App'):
         self.__connection = app.connection
         self.__app = app
@@ -68,6 +67,7 @@ class EachSessionOnceMonitor:
                         task = tasks[session_id]
                         del tasks[session_id]
                         task.cancel()
+
         await asyncio.gather(each_mon(), termination_mon())
 
     async def __aenter__(self):
@@ -76,10 +76,9 @@ class EachSessionOnceMonitor:
             await self.__queue.put(message)
 
         self.__token = (
-            await iterm2.notifications.
-            async_subscribe_to_new_session_notification(
-                self.__connection,
-                callback))
+            await
+            iterm2.notifications.async_subscribe_to_new_session_notification(
+                self.__connection, callback))
 
         for window in self.__app.terminal_windows:
             for tab in window.tabs:
@@ -122,7 +121,6 @@ class SessionTerminationMonitor:
                   session_id = await mon.async_get()
                   print("Session {} closed".format(session_id))
     """
-
     def __init__(self, connection: iterm2.connection.Connection):
         self.__connection = connection
         self.__token = None
@@ -134,11 +132,9 @@ class SessionTerminationMonitor:
             """Called when a session terminates."""
             await self.__queue.put(message.session_id)
 
-        self.__token = (
-            await iterm2.notifications.
-            async_subscribe_to_terminate_session_notification(
-                self.__connection,
-                callback))
+        self.__token = (await iterm2.notifications.
+                        async_subscribe_to_terminate_session_notification(
+                            self.__connection, callback))
         return self
 
     async def async_get(self) -> str:
@@ -151,8 +147,7 @@ class SessionTerminationMonitor:
     async def __aexit__(self, exc_type, exc, _tb):
         try:
             await iterm2.notifications.async_unsubscribe(
-                self.__connection,
-                self.__token)
+                self.__connection, self.__token)
         except iterm2.notifications.SubscriptionException:
             pass
 
@@ -163,7 +158,6 @@ class LayoutChangeMonitor:
 
     :param connection: The :class:`~iterm2.connection.Connection` to use.
     """
-
     def __init__(self, connection: iterm2.Connection):
         self.__connection = connection
         self.__token = None
@@ -176,8 +170,8 @@ class LayoutChangeMonitor:
             await self.__queue.put(message)
 
         self.__token = (
-            await iterm2.notifications.
-            async_subscribe_to_layout_change_notification(
+            await
+            iterm2.notifications.async_subscribe_to_layout_change_notification(
                 self.__connection, callback))
         return self
 
@@ -237,7 +231,6 @@ class NewSessionMonitor:
         .. seealso::
             * Example ":ref:`autoalert`"
       """
-
     def __init__(self, connection: iterm2.Connection):
         self.__connection = connection
         self.__token = None
@@ -250,10 +243,9 @@ class NewSessionMonitor:
             await self.__queue.put(message)
 
         self.__token = (
-            await iterm2.notifications.
-            async_subscribe_to_new_session_notification(
-                self.__connection,
-                callback))
+            await
+            iterm2.notifications.async_subscribe_to_new_session_notification(
+                self.__connection, callback))
         return self
 
     async def async_get(self) -> str:

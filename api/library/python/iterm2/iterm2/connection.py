@@ -35,9 +35,11 @@ def _cookie_and_key():
 
 def _headers():
     cookie, key = _cookie_and_key()
-    headers = {"origin": "ws://localhost/",
-               "x-iterm2-library-version": "python {}".format(__version__),
-               "x-iterm2-disable-auth-ui": "true"}
+    headers = {
+        "origin": "ws://localhost/",
+        "x-iterm2-library-version": "python {}".format(__version__),
+        "x-iterm2-disable-auth-ui": "true"
+    }
     if cookie is not None:
         headers["x-iterm2-cookie"] = cookie
     elif gAppKitAvailable:
@@ -61,10 +63,10 @@ class Connection:
     Provides functionality for sending and receiving messages. Supports
     dispatching incoming messages."""
 
-    helpers: typing.List[
-        typing.Callable[
-            ['Connection', typing.Any],
-            typing.Coroutine[typing.Any, typing.Any, None]]] = []
+    helpers: typing.List[typing.Callable[['Connection', typing.Any],
+                                         typing.Coroutine[typing.Any,
+                                                          typing.Any,
+                                                          None]]] = []
 
     @staticmethod
     def register_helper(helper):
@@ -153,6 +155,7 @@ class Connection:
     def set_message_in_future(self, loop, message, future):
         """Sets message as the future's result soon."""
         assert future is not None
+
         # Is the response to an RPC that is being awaited.
 
         def set_result():
@@ -334,21 +337,18 @@ class Connection:
     def _unix_domain_socket_path(self):
         applicationSupport = os.path.join(
             AppKit.NSSearchPathForDirectoriesInDomains(
-                AppKit.NSApplicationSupportDirectory,
-                AppKit.NSUserDomainMask,
-                True)[0],
-            "iTerm2")
+                AppKit.NSApplicationSupportDirectory, AppKit.NSUserDomainMask,
+                True)[0], "iTerm2")
         return os.path.join(applicationSupport, "private", "socket")
 
     def _get_unix_connect_coro(self):
         """Experimental: connect with unix domain socket."""
         path = self._unix_domain_socket_path()
-        return websockets.client.unix_connect(
-            path,
-            "ws://localhost/",
-            ping_interval=None,
-            extra_headers=_headers(),
-            subprotocols=_subprotocols())
+        return websockets.client.unix_connect(path,
+                                              "ws://localhost/",
+                                              ping_interval=None,
+                                              extra_headers=_headers(),
+                                              subprotocols=_subprotocols())
 
     def _get_tcp_connect_coro(self):
         """Legacy: connect with tcp socket."""
@@ -467,24 +467,27 @@ If you'd prefer to retry connecting automatically instead of
 raising an exception, pass retry=true to run_until_complete()
 or run_forever()
 
-""", file=sys.stderr)
+""",
+                          file=sys.stderr)
                     if gAppKitAvailable:
                         path = self._unix_domain_socket_path()
                         exists = os.path.exists(path)
                         if exists:
                             print(
-                                f"If you have downgraded from iTerm2 3.3.12+ to an older version, you must\nmanually delete the file at {path}.\n", file=sys.stderr)
+                                f"If you have downgraded from iTerm2 3.3.12+ to an older version, you must\nmanually delete the file at {path}.\n",
+                                file=sys.stderr)
                     done = True
                     raise
             finally:
                 self._remove_auth()
 
 
-def run_until_complete(
-        coro: typing.Callable[[Connection],
-                              typing.Coroutine[typing.Any, typing.Any, None]],
-        retry=False,
-        debug=False) -> None:
+def run_until_complete(coro: typing.Callable[[Connection],
+                                             typing.Coroutine[typing.Any,
+                                                              typing.Any,
+                                                              None]],
+                       retry=False,
+                       debug=False) -> None:
     """
     Convenience method to run an async function taking an
     :class:`~iterm2.Connection` as an argument.
@@ -499,12 +502,11 @@ def run_until_complete(
     return Connection().run_until_complete(coro, retry, debug)
 
 
-def run_forever(
-        coro: typing.Callable[[Connection],
-                              typing.Coroutine[typing.Any,
-                                               typing.Any, None]],
-        retry=False,
-        debug=False) -> None:
+def run_forever(coro: typing.Callable[[Connection],
+                                      typing.Coroutine[typing.Any, typing.Any,
+                                                       None]],
+                retry=False,
+                debug=False) -> None:
     """
     Convenience method to run an async function taking an
     :class:`~iterm2.Connection` as an argument.

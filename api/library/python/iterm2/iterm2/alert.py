@@ -16,12 +16,10 @@ class Alert:
 
     .. seealso:: Example ":ref:`oneshot_example`"
     """
-
-    def __init__(
-            self,
-            title: str,
-            subtitle: str,
-            window_id: typing.Optional[str] = None):
+    def __init__(self,
+                 title: str,
+                 subtitle: str,
+                 window_id: typing.Optional[str] = None):
         self.__title = title
         self.__subtitle = subtitle
         self.__buttons: typing.List[str] = []
@@ -60,11 +58,9 @@ class Alert:
         buttons = json.dumps(self.__buttons)
 
         return await iterm2.async_invoke_function(
-            connection,
-            (f'iterm2.alert(title: {title}, ' +
-             f'subtitle: {subtitle}, ' +
-             f'buttons: {buttons}, ' +
-             f'window_id: {json.dumps(self.window_id)})'))
+            connection, (f'iterm2.alert(title: {title}, ' +
+                         f'subtitle: {subtitle}, ' + f'buttons: {buttons}, ' +
+                         f'window_id: {json.dumps(self.window_id)})'))
 
 
 class TextInputAlert:
@@ -78,20 +74,21 @@ class TextInputAlert:
     :param default_value: Default text to place in the text field.
     :param window_id: Window ID to attach to, or None to make app-modal.
     """
+
     # pylint: disable=too-many-arguments
 
-    def __init__(
-            self,
-            title: str,
-            subtitle: str,
-            placeholder: str,
-            default_value: str,
-            window_id: typing.Optional[str] = None):
+    def __init__(self,
+                 title: str,
+                 subtitle: str,
+                 placeholder: str,
+                 default_value: str,
+                 window_id: typing.Optional[str] = None):
         self.__title = title
         self.__subtitle = subtitle
         self.__placeholder = placeholder
         self.__default_value = default_value
         self.__window_id = window_id
+
     # pylint: enable=too-many-arguments
 
     @property
@@ -119,6 +116,7 @@ class TextInputAlert:
     def defaultValue(self) -> str:
         """Deprecated in favor of default_valuedefault_value"""
         return self.__default_value
+
     # pylint: enable=invalid-name
 
     @property
@@ -144,7 +142,6 @@ class TextInputAlert:
         return await iterm2.async_invoke_function(
             connection,
             (f'iterm2.get_string(title: {title}, ' +
-             f'subtitle: {subtitle}, ' +
-             f'placeholder: {placeholder}, ' +
+             f'subtitle: {subtitle}, ' + f'placeholder: {placeholder}, ' +
              f'defaultValue: {default_value}, ' +
              f'window_id: {json.dumps(self.window_id)})'))
