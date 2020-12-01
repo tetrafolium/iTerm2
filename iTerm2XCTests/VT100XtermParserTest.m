@@ -40,10 +40,10 @@
     VT100Token *token = [[[VT100Token alloc] init] autorelease];
     _context = iTermParserContextMake((unsigned char *)data.bytes, data.length);
     [VT100XtermParser decodeFromContext:&_context
-                            incidentals:&_incidentals
-                                  token:token
-                               encoding:NSUTF8StringEncoding
-                             savedState:_savedState];
+                      incidentals:&_incidentals
+                      token:token
+                      encoding:NSUTF8StringEncoding
+                      savedState:_savedState];
     return token;
 }
 
@@ -148,7 +148,7 @@
 
 - (void)testCompleteMultitoken {
     VT100Token *token = [self tokenForDataWithFormat:@"%c]1337;File=blah;foo=bar:abc%c",
-                         VT100CC_ESC, VT100CC_BEL];
+                              VT100CC_ESC, VT100CC_BEL];
     XCTAssert(token->type == XTERMCC_MULTITOKEN_END);
     XCTAssert(CVectorCount(&_incidentals) == 2);
 

@@ -52,10 +52,10 @@ CF_EXTERN_C_BEGIN
 // generated sources to make sure they are linked with a supporting runtime.
 void GPBCheckRuntimeVersionSupport(int32_t objcRuntimeVersion);
 GPB_INLINE void GPB_DEBUG_CHECK_RUNTIME_VERSIONS() {
-  // NOTE: By being inline here, this captures the value from the library's
-  // headers at the time the generated code was compiled.
+    // NOTE: By being inline here, this captures the value from the library's
+    // headers at the time the generated code was compiled.
 #if defined(DEBUG) && DEBUG
-  GPBCheckRuntimeVersionSupport(GOOGLE_PROTOBUF_OBJC_VERSION);
+    GPBCheckRuntimeVersionSupport(GOOGLE_PROTOBUF_OBJC_VERSION);
 #endif
 }
 
@@ -64,42 +64,54 @@ GPB_INLINE void GPB_DEBUG_CHECK_RUNTIME_VERSIONS() {
 void GPBCheckRuntimeVersionInternal(int32_t version);
 GPB_INLINE void GPBDebugCheckRuntimeVersion() {
 #if defined(DEBUG) && DEBUG
-  GPBCheckRuntimeVersionInternal(GOOGLE_PROTOBUF_OBJC_GEN_VERSION);
+    GPBCheckRuntimeVersionInternal(GOOGLE_PROTOBUF_OBJC_GEN_VERSION);
 #endif
 }
 
 // Conversion functions for de/serializing floating point types.
 
 GPB_INLINE int64_t GPBConvertDoubleToInt64(double v) {
-  union { double f; int64_t i; } u;
-  u.f = v;
-  return u.i;
+    union {
+        double f;
+        int64_t i;
+    } u;
+    u.f = v;
+    return u.i;
 }
 
 GPB_INLINE int32_t GPBConvertFloatToInt32(float v) {
-  union { float f; int32_t i; } u;
-  u.f = v;
-  return u.i;
+    union {
+        float f;
+        int32_t i;
+    } u;
+    u.f = v;
+    return u.i;
 }
 
 GPB_INLINE double GPBConvertInt64ToDouble(int64_t v) {
-  union { double f; int64_t i; } u;
-  u.i = v;
-  return u.f;
+    union {
+        double f;
+        int64_t i;
+    } u;
+    u.i = v;
+    return u.f;
 }
 
 GPB_INLINE float GPBConvertInt32ToFloat(int32_t v) {
-  union { float f; int32_t i; } u;
-  u.i = v;
-  return u.f;
+    union {
+        float f;
+        int32_t i;
+    } u;
+    u.i = v;
+    return u.f;
 }
 
 GPB_INLINE int32_t GPBLogicalRightShift32(int32_t value, int32_t spaces) {
-  return (int32_t)((uint32_t)(value) >> spaces);
+    return (int32_t)((uint32_t)(value) >> spaces);
 }
 
 GPB_INLINE int64_t GPBLogicalRightShift64(int64_t value, int32_t spaces) {
-  return (int64_t)((uint64_t)(value) >> spaces);
+    return (int64_t)((uint64_t)(value) >> spaces);
 }
 
 // Decode a ZigZag-encoded 32-bit value.  ZigZag encodes signed integers
@@ -107,7 +119,7 @@ GPB_INLINE int64_t GPBLogicalRightShift64(int64_t value, int32_t spaces) {
 // negative values must be sign-extended to 64 bits to be varint encoded,
 // thus always taking 10 bytes on the wire.)
 GPB_INLINE int32_t GPBDecodeZigZag32(uint32_t n) {
-  return (int32_t)(GPBLogicalRightShift32((int32_t)n, 1) ^ -((int32_t)(n) & 1));
+    return (int32_t)(GPBLogicalRightShift32((int32_t)n, 1) ^ -((int32_t)(n) & 1));
 }
 
 // Decode a ZigZag-encoded 64-bit value.  ZigZag encodes signed integers
@@ -115,7 +127,7 @@ GPB_INLINE int32_t GPBDecodeZigZag32(uint32_t n) {
 // negative values must be sign-extended to 64 bits to be varint encoded,
 // thus always taking 10 bytes on the wire.)
 GPB_INLINE int64_t GPBDecodeZigZag64(uint64_t n) {
-  return (int64_t)(GPBLogicalRightShift64((int64_t)n, 1) ^ -((int64_t)(n) & 1));
+    return (int64_t)(GPBLogicalRightShift64((int64_t)n, 1) ^ -((int64_t)(n) & 1));
 }
 
 // Encode a ZigZag-encoded 32-bit value.  ZigZag encodes signed integers
@@ -123,8 +135,8 @@ GPB_INLINE int64_t GPBDecodeZigZag64(uint64_t n) {
 // negative values must be sign-extended to 64 bits to be varint encoded,
 // thus always taking 10 bytes on the wire.)
 GPB_INLINE uint32_t GPBEncodeZigZag32(int32_t n) {
-  // Note:  the right-shift must be arithmetic
-  return (uint32_t)((n << 1) ^ (n >> 31));
+    // Note:  the right-shift must be arithmetic
+    return (uint32_t)((n << 1) ^ (n >> 31));
 }
 
 // Encode a ZigZag-encoded 64-bit value.  ZigZag encodes signed integers
@@ -132,8 +144,8 @@ GPB_INLINE uint32_t GPBEncodeZigZag32(int32_t n) {
 // negative values must be sign-extended to 64 bits to be varint encoded,
 // thus always taking 10 bytes on the wire.)
 GPB_INLINE uint64_t GPBEncodeZigZag64(int64_t n) {
-  // Note:  the right-shift must be arithmetic
-  return (uint64_t)((n << 1) ^ (n >> 63));
+    // Note:  the right-shift must be arithmetic
+    return (uint64_t)((n << 1) ^ (n >> 63));
 }
 
 #pragma clang diagnostic push
@@ -141,46 +153,46 @@ GPB_INLINE uint64_t GPBEncodeZigZag64(int64_t n) {
 #pragma clang diagnostic ignored "-Wdirect-ivar-access"
 
 GPB_INLINE BOOL GPBDataTypeIsObject(GPBDataType type) {
-  switch (type) {
+    switch (type) {
     case GPBDataTypeBytes:
     case GPBDataTypeString:
     case GPBDataTypeMessage:
     case GPBDataTypeGroup:
-      return YES;
+        return YES;
     default:
-      return NO;
-  }
+        return NO;
+    }
 }
 
 GPB_INLINE BOOL GPBDataTypeIsMessage(GPBDataType type) {
-  switch (type) {
+    switch (type) {
     case GPBDataTypeMessage:
     case GPBDataTypeGroup:
-      return YES;
+        return YES;
     default:
-      return NO;
-  }
+        return NO;
+    }
 }
 
 GPB_INLINE BOOL GPBFieldDataTypeIsMessage(GPBFieldDescriptor *field) {
-  return GPBDataTypeIsMessage(field->description_->dataType);
+    return GPBDataTypeIsMessage(field->description_->dataType);
 }
 
 GPB_INLINE BOOL GPBFieldDataTypeIsObject(GPBFieldDescriptor *field) {
-  return GPBDataTypeIsObject(field->description_->dataType);
+    return GPBDataTypeIsObject(field->description_->dataType);
 }
 
 GPB_INLINE BOOL GPBExtensionIsMessage(GPBExtensionDescriptor *ext) {
-  return GPBDataTypeIsMessage(ext->description_->dataType);
+    return GPBDataTypeIsMessage(ext->description_->dataType);
 }
 
 // The field is an array/map or it has an object value.
 GPB_INLINE BOOL GPBFieldStoresObject(GPBFieldDescriptor *field) {
-  GPBMessageFieldDescription *desc = field->description_;
-  if ((desc->flags & (GPBFieldRepeated | GPBFieldMapKeyMask)) != 0) {
-    return YES;
-  }
-  return GPBDataTypeIsObject(desc->dataType);
+    GPBMessageFieldDescription *desc = field->description_;
+    if ((desc->flags & (GPBFieldRepeated | GPBFieldMapKeyMask)) != 0) {
+        return YES;
+    }
+    return GPBDataTypeIsObject(desc->dataType);
 }
 
 BOOL GPBGetHasIvar(GPBMessage *self, int32_t index, uint32_t fieldNumber);
@@ -190,13 +202,13 @@ uint32_t GPBGetHasOneof(GPBMessage *self, int32_t index);
 
 GPB_INLINE BOOL
 GPBGetHasIvarField(GPBMessage *self, GPBFieldDescriptor *field) {
-  GPBMessageFieldDescription *fieldDesc = field->description_;
-  return GPBGetHasIvar(self, fieldDesc->hasIndex, fieldDesc->number);
+    GPBMessageFieldDescription *fieldDesc = field->description_;
+    return GPBGetHasIvar(self, fieldDesc->hasIndex, fieldDesc->number);
 }
 GPB_INLINE void GPBSetHasIvarField(GPBMessage *self, GPBFieldDescriptor *field,
                                    BOOL value) {
-  GPBMessageFieldDescription *fieldDesc = field->description_;
-  GPBSetHasIvar(self, fieldDesc->hasIndex, fieldDesc->number, value);
+    GPBMessageFieldDescription *fieldDesc = field->description_;
+    GPBSetHasIvar(self, fieldDesc->hasIndex, fieldDesc->number, value);
 }
 
 void GPBMaybeClearOneof(GPBMessage *self, GPBOneofDescriptor *oneof,
@@ -277,15 +289,15 @@ void GPBSetObjectIvarWithFieldInternal(GPBMessage *self,
                                        GPBFieldDescriptor *field, id value,
                                        GPBFileSyntax syntax);
 void GPBSetRetainedObjectIvarWithFieldInternal(GPBMessage *self,
-                                               GPBFieldDescriptor *field,
-                                               id __attribute__((ns_consumed))
-                                               value,
-                                               GPBFileSyntax syntax);
+        GPBFieldDescriptor *field,
+        id __attribute__((ns_consumed))
+        value,
+        GPBFileSyntax syntax);
 
 // GPBGetObjectIvarWithField will automatically create the field (message) if
 // it doesn't exist. GPBGetObjectIvarWithFieldNoAutocreate will return nil.
 id GPBGetObjectIvarWithFieldNoAutocreate(GPBMessage *self,
-                                         GPBFieldDescriptor *field);
+        GPBFieldDescriptor *field);
 
 void GPBSetAutocreatedRetainedObjectIvarWithField(
     GPBMessage *self, GPBFieldDescriptor *field,
@@ -294,7 +306,7 @@ void GPBSetAutocreatedRetainedObjectIvarWithField(
 // Clears and releases the autocreated message ivar, if it's autocreated. If
 // it's not set as autocreated, this method does nothing.
 void GPBClearAutocreatedMessageIvarWithField(GPBMessage *self,
-                                             GPBFieldDescriptor *field);
+        GPBFieldDescriptor *field);
 
 // Returns an Objective C encoding for |selector|. |instanceSel| should be
 // YES if it's an instance selector (as opposed to a class selector).

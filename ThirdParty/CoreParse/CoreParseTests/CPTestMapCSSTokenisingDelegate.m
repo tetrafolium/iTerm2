@@ -19,12 +19,12 @@
 - (id)init
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         symbolsSet = [NSCharacterSet characterSetWithCharactersInString:@"*[]{}().,;@|-!=<>:!"];
     }
-    
+
     return self;
 }
 
@@ -55,7 +55,7 @@
     {
         return 0 == nestingDepth || [symbolsSet characterIsMember:[name characterAtIndex:0]] || [name isEqualToString:@"eval"] || [name isEqualToString:@"url"] || [name isEqualToString:@"set"] || [name isEqualToString:@"pt"] || [name isEqualToString:@"px"];
     }
-    
+
     return YES;
 }
 
@@ -73,7 +73,7 @@
         NSString *name = [token name];
         justTokenisedObject = ([name isEqualToString:@"node"] || [name isEqualToString:@"way" ] || [name isEqualToString:@"relation"] ||
                                [name isEqualToString:@"area"] || [name isEqualToString:@"line"] || [name isEqualToString:@"canvas"] || [name isEqualToString:@"*"]);
-        
+
         if (![name isEqualToString:@"Comment"])
         {
             [stream pushToken:token];

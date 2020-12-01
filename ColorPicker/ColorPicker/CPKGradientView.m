@@ -14,8 +14,8 @@
 @implementation CPKGradientView
 
 - (instancetype)initWithFrame:(NSRect)frameRect
-                         type:(CPKGradientViewType)type
-                        block:(void (^)(CPKColor *))block {
+    type:(CPKGradientViewType)type
+    block:(void (^)(CPKColor *))block {
     self = [super initWithFrame:frameRect];
     if (self) {
         _block = [block copy];
@@ -48,8 +48,8 @@
     for (NSInteger i = 0; i < self.bounds.size.height; i++) {
         CGFloat progress = i / self.bounds.size.height;
         NSGradient *gradient =
-        [[NSGradient alloc] initWithStartingColor:[self startingColorAt:progress]
-                                      endingColor:[self endingColorAt:progress]];
+            [[NSGradient alloc] initWithStartingColor:[self startingColorAt:progress]
+                                endingColor:[self endingColorAt:progress]];
         [gradient drawInRect:NSMakeRect(0, i, self.bounds.size.width, 1) angle:0];
     }
     [NSGraphicsContext restoreGraphicsState];
@@ -79,84 +79,84 @@
 
 - (NSColor *)startingColorAt:(CGFloat)fraction {
     switch (self.type) {
-        case kCPKGradientViewTypeSaturationBrightness:
-            return [NSColor cpk_colorWithHue:self.hue
-                                  saturation:0
-                                  brightness:fraction
-                                       alpha:1];
-            break;
-        case kCPKGradientViewTypeBrightnessHue:
-            return [NSColor cpk_colorWithHue:fraction
-                                  saturation:self.saturation
-                                  brightness:0
-                                       alpha:1];
-            break;
-        case kCPKGradientViewTypeHueSaturation:
-            return [NSColor cpk_colorWithHue:fraction
-                                  saturation:0
-                                  brightness:self.brightness
-                                       alpha:1];
-            break;
-        case kCPKGradientViewTypeRedGreen:
-            return [NSColor cpk_colorWithRed:0
-                                       green:fraction
-                                        blue:self.blue
-                                       alpha:1];
-            break;
-        case kCPKGradientViewTypeGreenBlue:
-            return [NSColor cpk_colorWithRed:self.red
-                                       green:0
-                                        blue:fraction
-                                       alpha:1];
-            break;
-        case kCPKGradientViewTypeBlueRed:
-            return [NSColor cpk_colorWithRed:fraction
-                                       green:self.green
-                                        blue:0
-                                       alpha:1];
-            break;
+    case kCPKGradientViewTypeSaturationBrightness:
+        return [NSColor cpk_colorWithHue:self.hue
+                        saturation:0
+                        brightness:fraction
+                        alpha:1];
+        break;
+    case kCPKGradientViewTypeBrightnessHue:
+        return [NSColor cpk_colorWithHue:fraction
+                        saturation:self.saturation
+                        brightness:0
+                        alpha:1];
+        break;
+    case kCPKGradientViewTypeHueSaturation:
+        return [NSColor cpk_colorWithHue:fraction
+                        saturation:0
+                        brightness:self.brightness
+                        alpha:1];
+        break;
+    case kCPKGradientViewTypeRedGreen:
+        return [NSColor cpk_colorWithRed:0
+                        green:fraction
+                        blue:self.blue
+                        alpha:1];
+        break;
+    case kCPKGradientViewTypeGreenBlue:
+        return [NSColor cpk_colorWithRed:self.red
+                        green:0
+                        blue:fraction
+                        alpha:1];
+        break;
+    case kCPKGradientViewTypeBlueRed:
+        return [NSColor cpk_colorWithRed:fraction
+                        green:self.green
+                        blue:0
+                        alpha:1];
+        break;
     }
     return [NSColor blackColor];
 }
 
 - (NSColor *)endingColorAt:(CGFloat)fraction {
     switch (self.type) {
-        case kCPKGradientViewTypeSaturationBrightness:
-            return [NSColor cpk_colorWithHue:self.hue
-                                  saturation:1
-                                  brightness:fraction
-                                       alpha:1];
-            break;
-        case kCPKGradientViewTypeBrightnessHue:
-            return [NSColor cpk_colorWithHue:fraction
-                                  saturation:self.saturation
-                                  brightness:1
-                                       alpha:1];
-            break;
-        case kCPKGradientViewTypeHueSaturation:
-            return [NSColor cpk_colorWithHue:fraction
-                                  saturation:1
-                                  brightness:self.brightness
-                                       alpha:1];
-            break;
-        case kCPKGradientViewTypeRedGreen:
-            return [NSColor cpk_colorWithRed:1
-                                       green:fraction
-                                        blue:self.blue
-                                       alpha:1];
-            break;
-        case kCPKGradientViewTypeGreenBlue:
-            return [NSColor cpk_colorWithRed:self.red
-                                       green:1
-                                        blue:fraction
-                                       alpha:1];
-            break;
-        case kCPKGradientViewTypeBlueRed:
-            return [NSColor cpk_colorWithRed:fraction
-                                       green:self.green
-                                        blue:1
-                                       alpha:1];
-            break;
+    case kCPKGradientViewTypeSaturationBrightness:
+        return [NSColor cpk_colorWithHue:self.hue
+                        saturation:1
+                        brightness:fraction
+                        alpha:1];
+        break;
+    case kCPKGradientViewTypeBrightnessHue:
+        return [NSColor cpk_colorWithHue:fraction
+                        saturation:self.saturation
+                        brightness:1
+                        alpha:1];
+        break;
+    case kCPKGradientViewTypeHueSaturation:
+        return [NSColor cpk_colorWithHue:fraction
+                        saturation:1
+                        brightness:self.brightness
+                        alpha:1];
+        break;
+    case kCPKGradientViewTypeRedGreen:
+        return [NSColor cpk_colorWithRed:1
+                        green:fraction
+                        blue:self.blue
+                        alpha:1];
+        break;
+    case kCPKGradientViewTypeGreenBlue:
+        return [NSColor cpk_colorWithRed:self.red
+                        green:1
+                        blue:fraction
+                        alpha:1];
+        break;
+    case kCPKGradientViewTypeBlueRed:
+        return [NSColor cpk_colorWithRed:fraction
+                        green:self.green
+                        blue:1
+                        alpha:1];
+        break;
     }
     return [NSColor blackColor];
 }
@@ -197,30 +197,30 @@
 
 - (void)setSelectedColor:(CPKColor *)selectedColor {
     switch (self.type) {
-        case kCPKGradientViewTypeSaturationBrightness:
-            self.selectedX = selectedColor.saturationComponent;
-            self.selectedY = selectedColor.brightnessComponent;
-            break;
-        case kCPKGradientViewTypeBrightnessHue:
-            self.selectedX = selectedColor.brightnessComponent;
-            self.selectedY = selectedColor.hueComponent;
-            break;
-        case kCPKGradientViewTypeHueSaturation:
-            self.selectedX = selectedColor.saturationComponent;
-            self.selectedY = selectedColor.hueComponent;
-            break;
-        case kCPKGradientViewTypeRedGreen:
-            self.selectedX = selectedColor.redComponent;
-            self.selectedY = selectedColor.greenComponent;
-            break;
-        case kCPKGradientViewTypeGreenBlue:
-            self.selectedX = selectedColor.greenComponent;
-            self.selectedY = selectedColor.blueComponent;
-            break;
-        case kCPKGradientViewTypeBlueRed:
-            self.selectedX = selectedColor.blueComponent;
-            self.selectedY = selectedColor.redComponent;
-            break;
+    case kCPKGradientViewTypeSaturationBrightness:
+        self.selectedX = selectedColor.saturationComponent;
+        self.selectedY = selectedColor.brightnessComponent;
+        break;
+    case kCPKGradientViewTypeBrightnessHue:
+        self.selectedX = selectedColor.brightnessComponent;
+        self.selectedY = selectedColor.hueComponent;
+        break;
+    case kCPKGradientViewTypeHueSaturation:
+        self.selectedX = selectedColor.saturationComponent;
+        self.selectedY = selectedColor.hueComponent;
+        break;
+    case kCPKGradientViewTypeRedGreen:
+        self.selectedX = selectedColor.redComponent;
+        self.selectedY = selectedColor.greenComponent;
+        break;
+    case kCPKGradientViewTypeGreenBlue:
+        self.selectedX = selectedColor.greenComponent;
+        self.selectedY = selectedColor.blueComponent;
+        break;
+    case kCPKGradientViewTypeBlueRed:
+        self.selectedX = selectedColor.blueComponent;
+        self.selectedY = selectedColor.redComponent;
+        break;
     }
 
     self.hue = selectedColor.hueComponent;
@@ -235,42 +235,42 @@
 
 - (CPKColor *)selectedColor {
     switch (self.type) {
-        case kCPKGradientViewTypeSaturationBrightness:
-            return [[CPKColor alloc] initWithHue:self.hue
-                                      saturation:self.selectedX
-                                      brightness:self.selectedY
-                                           alpha:1];
-            break;
-        case kCPKGradientViewTypeBrightnessHue:
-            return [[CPKColor alloc] initWithHue:self.selectedY
-                                      saturation:self.saturation
-                                      brightness:self.selectedX
-                                           alpha:1];
-            break;
-        case kCPKGradientViewTypeHueSaturation:
-            return [[CPKColor alloc] initWithHue:self.selectedY
-                                      saturation:self.selectedX
-                                      brightness:self.brightness
-                                           alpha:1];
-            break;
-        case kCPKGradientViewTypeRedGreen:
-            return [[CPKColor alloc] initWithColor:[NSColor cpk_colorWithRed:self.selectedX
-                                                                       green:self.selectedY
-                                                                        blue:self.blue
-                                                                       alpha:1]];
-            break;
-        case kCPKGradientViewTypeGreenBlue:
-            return [[CPKColor alloc] initWithColor:[NSColor cpk_colorWithRed:self.red
-                                                                       green:self.selectedX
-                                                                        blue:self.selectedY
-                                                                       alpha:1]];
-            break;
-        case kCPKGradientViewTypeBlueRed:
-            return [[CPKColor alloc] initWithColor:[NSColor cpk_colorWithRed:self.selectedY
-                                                                       green:self.green
-                                                                        blue:self.selectedX
-                                                                       alpha:1]];
-            break;
+    case kCPKGradientViewTypeSaturationBrightness:
+        return [[CPKColor alloc] initWithHue:self.hue
+                                 saturation:self.selectedX
+                                 brightness:self.selectedY
+                                 alpha:1];
+        break;
+    case kCPKGradientViewTypeBrightnessHue:
+        return [[CPKColor alloc] initWithHue:self.selectedY
+                                 saturation:self.saturation
+                                 brightness:self.selectedX
+                                 alpha:1];
+        break;
+    case kCPKGradientViewTypeHueSaturation:
+        return [[CPKColor alloc] initWithHue:self.selectedY
+                                 saturation:self.selectedX
+                                 brightness:self.brightness
+                                 alpha:1];
+        break;
+    case kCPKGradientViewTypeRedGreen:
+        return [[CPKColor alloc] initWithColor:[NSColor cpk_colorWithRed:self.selectedX
+                                                green:self.selectedY
+                                                blue:self.blue
+                                                alpha:1]];
+        break;
+    case kCPKGradientViewTypeGreenBlue:
+        return [[CPKColor alloc] initWithColor:[NSColor cpk_colorWithRed:self.red
+                                                green:self.selectedX
+                                                blue:self.selectedY
+                                                alpha:1]];
+        break;
+    case kCPKGradientViewTypeBlueRed:
+        return [[CPKColor alloc] initWithColor:[NSColor cpk_colorWithRed:self.selectedY
+                                                green:self.green
+                                                blue:self.selectedX
+                                                alpha:1]];
+        break;
     }
 }
 

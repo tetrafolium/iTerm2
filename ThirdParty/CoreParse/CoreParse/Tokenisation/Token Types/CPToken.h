@@ -10,16 +10,16 @@
 
 /**
  * The CPToken class reperesents a token in the token stream.
- * 
+ *
  * All tokens respond to the -name message which is used to identify the token while parsing.
  *
  * CPToken is an abstract class.  CPTokenRegnisers should add instances of CPTokens concrete subclasses to their token stream.
  */
 @interface CPToken : NSObject
 
-/**
- * The token name.
- */
+    /**
+     * The token name.
+     */
 @property (readonly) NSString *name;
 
 /**

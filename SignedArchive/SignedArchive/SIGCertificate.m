@@ -76,7 +76,7 @@
 - (NSString *)name {
     CFStringRef value;
     const OSStatus status = SecCertificateCopyCommonName(_secCertificate,
-                                                         &value);
+                            &value);
     NSString *string = (__bridge_transfer NSString *)value;
     if (string == NULL || status != noErr) {
         return nil;
@@ -87,8 +87,8 @@
 - (NSString *)longDescription {
     CFErrorRef error = NULL;
     NSString *value = (__bridge_transfer NSString *)SecCertificateCopyLongDescription(NULL,
-                                                                                      _secCertificate,
-                                                                                      &error);
+                      _secCertificate,
+                      &error);
     if (value == NULL || error != NULL) {
         return nil;
     }
@@ -101,14 +101,14 @@
 #if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_13
     if (@available(macOS 10.13, *)) {
         value = (__bridge_transfer NSData *)SecCertificateCopySerialNumberData(_secCertificate,
-                                                                               &error);
+                &error);
     } else {
         value = (__bridge_transfer NSData *)SecCertificateCopySerialNumber(_secCertificate,
-                                                                           &error);
+                &error);
     }
 #else
     value = (__bridge_transfer NSData *)SecCertificateCopySerialNumberData(_secCertificate,
-                                                                           &error);
+            &error);
 #endif
     if (value == NULL || error != NULL) {
         return nil;
@@ -117,10 +117,15 @@
 }
 
 + (NSDictionary *)queryForCertWithName:(CFDataRef)name {
-    return @{ (__bridge id)kSecClass: (__bridge id)kSecClassCertificate,
-              (__bridge id)kSecAttrSubject: (__bridge NSData *)name,
-              (__bridge id)kSecReturnRef: (__bridge id)kCFBooleanTrue,
-              (__bridge id)kSecMatchLimit: (__bridge id)kSecMatchLimitAll };
+    return @ { (__bridge id)kSecClass:
+               (__bridge id)kSecClassCertificate,
+               (__bridge id)kSecAttrSubject:
+               (__bridge NSData *)name,
+               (__bridge id)kSecReturnRef:
+               (__bridge id)kCFBooleanTrue,
+               (__bridge id)kSecMatchLimit:
+               (__bridge id)kSecMatchLimitAll
+             };
 }
 
 + (BOOL)certificateInArray:(CFArrayRef)array atIndex:(NSInteger)i hasName:(CFDataRef)name {

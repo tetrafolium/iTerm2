@@ -37,26 +37,26 @@ typedef enum
 - (id)initWithTokens:(NSArray *)initTokens
 {
     self = [self init];
-    
+
     if (nil != self)
     {
         [self setTokens:[[initTokens mutableCopy] autorelease]];
     }
-    
+
     return self;
 }
 
 - (id)init
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         isClosed = NO;
         readWriteLock = [[NSConditionLock alloc] initWithCondition:CPTokenStreamUnavailable];
         [self setTokens:[NSMutableArray array]];
     }
-    
+
     return self;
 }
 
@@ -64,7 +64,7 @@ typedef enum
 {
     [tokens release];
     [readWriteLock release];
-    
+
     [super dealloc];
 }
 
@@ -72,13 +72,13 @@ typedef enum
 {
     [readWriteLock lockWhenCondition:CPTokenStreamAvailable];
     CPToken *token = nil;
-    
+
     if ([tokens count] > 0)
     {
         token = [[[tokens objectAtIndex:0] retain] autorelease];
     }
     [readWriteLock unlockWithCondition:CPTokenStreamAvailable];
-    
+
     return token;
 }
 
@@ -136,12 +136,12 @@ typedef enum
 - (NSString *)description
 {
     NSMutableString *desc = [NSMutableString string];
-    
+
     for (CPToken *tok in [self tokens])
     {
         [desc appendFormat:@"%@ ", tok];
     }
-    
+
     return desc;
 }
 

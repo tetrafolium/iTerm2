@@ -11,30 +11,30 @@
 @implementation NSColor (CPK)
 
 + (NSColor *)cpk_colorWithHue:(CGFloat)hue
-                   saturation:(CGFloat)saturation
-                   brightness:(CGFloat)brightness
-                        alpha:(CGFloat)alpha {
+    saturation:(CGFloat)saturation
+    brightness:(CGFloat)brightness
+    alpha:(CGFloat)alpha {
     if ([self respondsToSelector:@selector(colorWithHue:saturation:brightness:alpha:)]) {
         return [self colorWithHue:hue saturation:saturation brightness:brightness alpha:alpha];
     } else {
         return [self colorWithCalibratedHue:hue
-                                 saturation:saturation
-                                 brightness:brightness
-                                      alpha:alpha];
+                     saturation:saturation
+                     brightness:brightness
+                     alpha:alpha];
     }
 }
 
 + (NSColor *)cpk_colorWithRed:(CGFloat)red
-                        green:(CGFloat)green
-                         blue:(CGFloat)blue
-                        alpha:(CGFloat)alpha {
+    green:(CGFloat)green
+    blue:(CGFloat)blue
+    alpha:(CGFloat)alpha {
     if ([self respondsToSelector:@selector(colorWithRed:green:blue:alpha:)]) {
         return [self colorWithRed:red green:green blue:blue alpha:alpha];
     } else {
         return [self colorWithCalibratedRed:red
-                                      green:green
-                                       blue:blue
-                                      alpha:alpha];
+                     green:green
+                     blue:blue
+                     alpha:alpha];
     }
 }
 

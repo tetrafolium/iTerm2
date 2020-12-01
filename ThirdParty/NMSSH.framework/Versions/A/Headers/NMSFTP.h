@@ -7,7 +7,7 @@
  */
 @interface NMSFTP : NSObject
 
-/** A valid NMSSHSession instance */
+    /** A valid NMSSHSession instance */
 @property (nonatomic, nonnull, readonly) NMSSHSession *session;
 
 /** Property that keeps track of connection status to the server */
@@ -133,7 +133,7 @@
  @returns Creation success
  */
 - (BOOL)createSymbolicLinkAtPath:(nonnull NSString *)linkPath
-             withDestinationPath:(nonnull NSString *)destPath;
+    withDestinationPath:(nonnull NSString *)destPath;
 
 /**
  Remove file at path
@@ -155,19 +155,19 @@
  Refer to contentsAtPath:
 
  This adds the ability to get periodic updates to bytes received.
- 
+
  @param path An existing file path
  @param progress Method called periodically with number of bytes downloaded and total file size.
-        Returns NO to abort. 
+        Returns NO to abort.
  @returns File contents
  */
 - (nullable NSData *)contentsAtPath:(nonnull NSString *)path progress:(BOOL (^_Nullable)(NSUInteger got, NSUInteger totalBytes))progress;
 
 /**
  Refer to contentsAtPath:
- 
+
  This adds the ability to get periodic updates to bytes received.
- 
+
  @param path An existing file path
  @param stream Stream to write bytes to
  @param progress Method called periodically with number of bytes downloaded and total file size. Returns NO to abort.
@@ -188,9 +188,9 @@
 
 /**
  Refer to writeContents:toFileAtPath:
- 
+
  This adds the ability to get periodic updates to bytes sent.
- 
+
  @param contents Bytes to write
  @param path File path to write bytes at
  @param progress Method called periodically with number of bytes sent.
@@ -212,9 +212,9 @@
 
 /**
  Refer to writeFileAtPath:toFileAtPath:
- 
+
  This adds the ability to get periodic updates to bytes sent.
- 
+
  @param localPath File path to read bytes at
  @param path File path to write bytes at
  @param progress Method called periodically with number of bytes sent.
@@ -236,9 +236,9 @@
 
 /**
  Refer to writeStream:toFileAtPath:
- 
+
  This adds the ability to get periodic updates to bytes sent.
- 
+
  @param inputStream Stream to read bytes from
  @param path File path to write bytes at
  @param progress Method called periodically with number of bytes sent.
@@ -301,7 +301,7 @@
 
 /**
  Copy a file remotely.
- 
+
  @param fromPath Path to copy from
  @param toPath Path to copy to
  */

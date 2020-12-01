@@ -20,12 +20,12 @@
 - (id)initWithKeyword:(NSString *)initKeyword
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         [self setKeyword:initKeyword];
     }
-    
+
     return self;
 }
 

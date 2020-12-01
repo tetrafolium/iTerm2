@@ -3,9 +3,9 @@
 	PROJECT:	CocoaTADS
 
     COPYRIGHT:  (c) 2004 M. Uli Kusterer, all rights reserved.
-    
+
 	AUTHORS:	M. Uli Kusterer - UK
-    
+
     LICENSES:   GPL, Modified BSD
 
 	REVISIONS:
@@ -39,8 +39,8 @@
         NSBundle*		mainB = [NSBundle mainBundle];
         NSArray *temp = nil;
         [mainB loadNibNamed:[self nibFilename]
-                      owner:self
-            topLevelObjects:&temp];
+               owner:self
+               topLevelObjects:&temp];
         topLevelObjects = [[NSMutableArray alloc] init];
         if (temp) {
             [topLevelObjects addObjectsFromArray:temp];
@@ -52,17 +52,17 @@
             return nil;
         }
     }
-    
+
     return self;
 }
 
 
 -(void)	dealloc
 {
-	[topLevelObjects release];
-	topLevelObjects = nil;
-	
-	[super dealloc];
+    [topLevelObjects release];
+    topLevelObjects = nil;
+
+    [super dealloc];
 }
 
 

@@ -30,12 +30,12 @@ extern NSString *const SIGArchiveHeaderMagicString;
 @property (nonatomic, readonly) NSFileHandle *fileHandle;
 
 + (instancetype)chunkFromFileHandle:(NSFileHandle *)fileHandle
-                           atOffset:(long long)offset
-                              error:(out NSError **)error;
+    atOffset:(long long)offset
+    error:(out NSError **)error;
 
 - (instancetype)initWithTag:(SIGArchiveTag)tag
-                     length:(long long)length
-                     offset:(long long)offset NS_DESIGNATED_INITIALIZER;
+    length:(long long)length
+    offset:(long long)offset NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (NSData *)data:(out NSError **)error;
@@ -45,12 +45,12 @@ extern NSString *const SIGArchiveHeaderMagicString;
 @interface SIGArchiveChunkWriter : SIGArchiveChunk
 
 - (BOOL)writeData:(NSData *)data
-         toStream:(NSOutputStream *)stream
-            error:(out NSError **)error;
+    toStream:(NSOutputStream *)stream
+    error:(out NSError **)error;
 
 - (BOOL)writeStream:(NSInputStream *)readStream
-           toStream:(NSOutputStream *)writeStream
-              error:(out NSError **)error;
+    toStream:(NSOutputStream *)writeStream
+    error:(out NSError **)error;
 
 @end
 

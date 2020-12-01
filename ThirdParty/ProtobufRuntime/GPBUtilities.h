@@ -62,7 +62,7 @@ NSString *GPBTextFormatForMessage(GPBMessage *message,
  * @return An NSString with the TextFormat of the unknown field set.
  **/
 NSString *GPBTextFormatForUnknownFieldSet(GPBUnknownFieldSet * __nullable unknownSet,
-                                          NSString * __nullable lineIndent);
+        NSString * __nullable lineIndent);
 
 /**
  * Checks if the given field number is set on a message.

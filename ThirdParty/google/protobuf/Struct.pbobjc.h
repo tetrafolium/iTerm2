@@ -4,13 +4,13 @@
 // This CPP symbol can be defined to use imports that match up to the framework
 // imports needed when using CocoaPods.
 #if !defined(GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS)
- #define GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS 0
+#define GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS 0
 #endif
 
 #if GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS
- #import <Protobuf/GPBProtocolBuffers.h>
+#import <Protobuf/GPBProtocolBuffers.h>
 #else
- #import "GPBProtocolBuffers.h"
+#import "GPBProtocolBuffers.h"
 #endif
 
 #if GOOGLE_PROTOBUF_OBJC_VERSION < 30002
@@ -42,14 +42,14 @@ NS_ASSUME_NONNULL_BEGIN
  *  The JSON representation for `NullValue` is JSON `null`.
  **/
 typedef GPB_ENUM(GPBNullValue) {
-  /**
-   * Value used if any message's field encounters a value that is not defined
-   * by this enum. The message will also have C functions to get/set the rawValue
-   * of the field.
-   **/
-  GPBNullValue_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  /** Null value. */
-  GPBNullValue_NullValue = 0,
+    /**
+     * Value used if any message's field encounters a value that is not defined
+     * by this enum. The message will also have C functions to get/set the rawValue
+     * of the field.
+     **/
+    GPBNullValue_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+    /** Null value. */
+    GPBNullValue_NullValue = 0,
 };
 
 GPBEnumDescriptor *GPBNullValue_EnumDescriptor(void);
@@ -78,7 +78,7 @@ BOOL GPBNullValue_IsValidValue(int32_t value);
 #pragma mark - GPBStruct
 
 typedef GPB_ENUM(GPBStruct_FieldNumber) {
-  GPBStruct_FieldNumber_Fields = 1,
+    GPBStruct_FieldNumber_Fields = 1,
 };
 
 /**
@@ -93,7 +93,7 @@ typedef GPB_ENUM(GPBStruct_FieldNumber) {
  **/
 @interface GPBStruct : GPBMessage
 
-/** Unordered map of dynamically typed values. */
+    /** Unordered map of dynamically typed values. */
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableDictionary<NSString*, GPBValue*> *fields;
 /** The number of items in @c fields without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger fields_Count;
@@ -103,22 +103,22 @@ typedef GPB_ENUM(GPBStruct_FieldNumber) {
 #pragma mark - GPBValue
 
 typedef GPB_ENUM(GPBValue_FieldNumber) {
-  GPBValue_FieldNumber_NullValue = 1,
-  GPBValue_FieldNumber_NumberValue = 2,
-  GPBValue_FieldNumber_StringValue = 3,
-  GPBValue_FieldNumber_BoolValue = 4,
-  GPBValue_FieldNumber_StructValue = 5,
-  GPBValue_FieldNumber_ListValue = 6,
+    GPBValue_FieldNumber_NullValue = 1,
+    GPBValue_FieldNumber_NumberValue = 2,
+    GPBValue_FieldNumber_StringValue = 3,
+    GPBValue_FieldNumber_BoolValue = 4,
+    GPBValue_FieldNumber_StructValue = 5,
+    GPBValue_FieldNumber_ListValue = 6,
 };
 
 typedef GPB_ENUM(GPBValue_Kind_OneOfCase) {
-  GPBValue_Kind_OneOfCase_GPBUnsetOneOfCase = 0,
-  GPBValue_Kind_OneOfCase_NullValue = 1,
-  GPBValue_Kind_OneOfCase_NumberValue = 2,
-  GPBValue_Kind_OneOfCase_StringValue = 3,
-  GPBValue_Kind_OneOfCase_BoolValue = 4,
-  GPBValue_Kind_OneOfCase_StructValue = 5,
-  GPBValue_Kind_OneOfCase_ListValue = 6,
+    GPBValue_Kind_OneOfCase_GPBUnsetOneOfCase = 0,
+    GPBValue_Kind_OneOfCase_NullValue = 1,
+    GPBValue_Kind_OneOfCase_NumberValue = 2,
+    GPBValue_Kind_OneOfCase_StringValue = 3,
+    GPBValue_Kind_OneOfCase_BoolValue = 4,
+    GPBValue_Kind_OneOfCase_StructValue = 5,
+    GPBValue_Kind_OneOfCase_ListValue = 6,
 };
 
 /**
@@ -131,7 +131,7 @@ typedef GPB_ENUM(GPBValue_Kind_OneOfCase) {
  **/
 @interface GPBValue : GPBMessage
 
-/** The kind of value. */
+    /** The kind of value. */
 @property(nonatomic, readonly) GPBValue_Kind_OneOfCase kindOneOfCase;
 
 /** Represents a null value. */
@@ -174,7 +174,7 @@ void GPBValue_ClearKindOneOfCase(GPBValue *message);
 #pragma mark - GPBListValue
 
 typedef GPB_ENUM(GPBListValue_FieldNumber) {
-  GPBListValue_FieldNumber_ValuesArray = 1,
+    GPBListValue_FieldNumber_ValuesArray = 1,
 };
 
 /**
@@ -184,7 +184,7 @@ typedef GPB_ENUM(GPBListValue_FieldNumber) {
  **/
 @interface GPBListValue : GPBMessage
 
-/** Repeated field of dynamically typed values. */
+    /** Repeated field of dynamically typed values. */
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<GPBValue*> *valuesArray;
 /** The number of items in @c valuesArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger valuesArray_Count;

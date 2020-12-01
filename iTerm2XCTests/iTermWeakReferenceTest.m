@@ -151,7 +151,7 @@ ITERM_WEAKLY_REFERENCEABLE
     BOOL ok = NO;
     @try {
         [ref performSelector:@selector(testProxyRaisesExceptionOnNonexistentMethods)
-                  withObject:nil];
+             withObject:nil];
     }
     @catch (NSException *e) {
         ok = YES;
@@ -185,13 +185,13 @@ ITERM_WEAKLY_REFERENCEABLE
         dispatch_group_enter(startGroup);
 
         NSValue *objectValue = [NSValue valueWithNonretainedObject:object];
-        dispatch_group_async(doneGroup, q1, ^{
+        dispatch_group_async(doneGroup, q1, ^ {
             dispatch_group_wait(startGroup, DISPATCH_TIME_FOREVER);
             [objectValue.nonretainedObjectValue release];
         });
 
         NSValue *refValue = [NSValue valueWithNonretainedObject:ref];
-        dispatch_group_async(doneGroup, q2, ^{
+        dispatch_group_async(doneGroup, q2, ^ {
             dispatch_group_wait(startGroup, DISPATCH_TIME_FOREVER);
             [refValue.nonretainedObjectValue release];
         });

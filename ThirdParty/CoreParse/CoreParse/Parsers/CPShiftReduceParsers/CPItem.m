@@ -28,13 +28,13 @@
 - (id)initWithRule:(CPRule *)initRule position:(NSUInteger)initPosition
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         rule = [initRule retain];
         position = initPosition;
     }
-    
+
     return self;
 }
 
@@ -46,7 +46,7 @@
 - (void)dealloc
 {
     [rule release];
-    
+
     [super dealloc];
 }
 

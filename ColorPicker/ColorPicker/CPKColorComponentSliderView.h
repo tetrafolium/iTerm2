@@ -18,7 +18,7 @@ typedef NS_ENUM(NSInteger, CPKColorComponentSliderType) {
  */
 @interface CPKColorComponentSliderView : CPKSliderView
 
-/** The selected color. Setting this sets the selectedValue and updates the gradient. */
+    /** The selected color. Setting this sets the selectedValue and updates the gradient. */
 @property(nonatomic) CPKColor *color;
 
 /** The slider type. */
@@ -35,9 +35,9 @@ typedef NS_ENUM(NSInteger, CPKColorComponentSliderType) {
  * @return An initialized instance.
  */
 - (instancetype)initWithFrame:(NSRect)frame
-                        color:(CPKColor *)color
-                         type:(CPKColorComponentSliderType)type
-                        block:(void (^)(CGFloat))block;
+    color:(CPKColor *)color
+    type:(CPKColorComponentSliderType)type
+    block:(void (^)(CGFloat))block;
 
 /** Changes the colors in the slider's gradient but does not update the selection. */
 - (void)setGradientColor:(CPKColor *)color;

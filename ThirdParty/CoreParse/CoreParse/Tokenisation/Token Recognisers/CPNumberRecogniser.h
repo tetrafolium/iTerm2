@@ -12,9 +12,9 @@
 
 /**
  * The CPNumberRecogniser class attempts to recognise integers and floating point numbers in the input string.
- * 
+ *
  * Number recognisers can be set up to recognise only integers, only floating point numbers, or both.
- * 
+ *
  * This recogniser produces CPNumberTokens.
  */
 @interface CPNumberRecogniser : NSObject <CPTokenRecogniser>
@@ -23,21 +23,21 @@
 /// @name Creating and Initialising a Number Recogniser
 ///---------------------------------------------------------------------------------------
 
-/**
- * Creates a number recogniser that recognises only integers.
- *
- * @return Returns a CPNumberRecogniser that recognises only integers.
- * 
- * @see floatRecogniser
- * @see numberRecogniser
- */
+    /**
+     * Creates a number recogniser that recognises only integers.
+     *
+     * @return Returns a CPNumberRecogniser that recognises only integers.
+     *
+     * @see floatRecogniser
+     * @see numberRecogniser
+     */
 + (id)integerRecogniser;
 
 /**
  * Creates a number recogniser that recognises only floating point numbers.
  *
  * @return Returns a CPNumberRecogniser that recognises only floating point numbers.
- * 
+ *
  * @see integerRecogniser
  * @see numberRecogniser
  */
@@ -47,7 +47,7 @@
  * Creates a number recogniser that recognises both integers and floating point numbers.
  *
  * @return Returns a CPNumberRecogniser that recognises both integers and floating point numbers.
- * 
+ *
  * @see integerRecogniser
  * @see floatRecogniser
  */

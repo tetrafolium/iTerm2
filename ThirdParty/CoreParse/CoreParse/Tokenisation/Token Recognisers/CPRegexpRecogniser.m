@@ -48,12 +48,12 @@
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         [self setRegexp:[aDecoder decodeObjectForKey:CPRegexpRecogniserRegexpKey]];
     }
-    
+
     return self;
 }
 
@@ -74,7 +74,7 @@
         CPToken* token = matchHandler(tokenString, result);
         if (token)
         {
-             *tokenPosition = result.range.location + result.range.length;
+            *tokenPosition = result.range.location + result.range.length;
             return token;
         }
     }

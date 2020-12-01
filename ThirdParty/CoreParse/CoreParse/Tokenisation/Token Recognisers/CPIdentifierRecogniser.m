@@ -28,13 +28,13 @@
 - (id)initWithInitialCharacters:(NSCharacterSet *)initInitialCharacters identifierCharacters:(NSCharacterSet *)initIdentifierCharacters
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         [self setInitialCharacters:initInitialCharacters];
         [self setIdentifierCharacters:initIdentifierCharacters];
     }
-    
+
     return self;
 }
 
@@ -44,13 +44,13 @@
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         [self setInitialCharacters:[aDecoder decodeObjectForKey:CPIdentifierRecogniserInitialCharactersKey]];
         [self setIdentifierCharacters:[aDecoder decodeObjectForKey:CPIdentifierRecogniserIdentifierCharactersKey]];
     }
-    
+
     return self;
 }
 
@@ -64,21 +64,21 @@
 {
     [initialCharacters release];
     [identifierCharacters release];
-    
+
     [super dealloc];
 }
 
 - (CPToken *)recogniseTokenInString:(NSString *)tokenString currentTokenPosition:(NSUInteger *)tokenPosition
 {
     NSCharacterSet *identifierStartCharacters = nil == [self initialCharacters] ? [NSCharacterSet characterSetWithCharactersInString:
-                                                                                   @"abcdefghijklmnopqrstuvwxyz"
-                                                                                   @"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                                                                                   @"_"] : [self initialCharacters];
+            @"abcdefghijklmnopqrstuvwxyz"
+            @"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            @"_"] : [self initialCharacters];
     NSCharacterSet *idCharacters = nil == [self identifierCharacters] ? [NSCharacterSet characterSetWithCharactersInString:
-                                                                         @"abcdefghijklmnopqrstuvwxyz"
-                                                                         @"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                                                                         @"_-1234567890"] : [self identifierCharacters];
-    
+                                   @"abcdefghijklmnopqrstuvwxyz"
+                                   @"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                   @"_-1234567890"] : [self identifierCharacters];
+
     unichar firstChar = [tokenString characterAtIndex:*tokenPosition];
     if ([identifierStartCharacters characterIsMember:firstChar])
     {
@@ -99,7 +99,7 @@
         }
         return [CPIdentifierToken tokenWithIdentifier:identifierString];
     }
-    
+
     return nil;
 }
 

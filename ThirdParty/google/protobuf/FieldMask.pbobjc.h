@@ -4,13 +4,13 @@
 // This CPP symbol can be defined to use imports that match up to the framework
 // imports needed when using CocoaPods.
 #if !defined(GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS)
- #define GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS 0
+#define GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS 0
 #endif
 
 #if GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS
- #import <Protobuf/GPBProtocolBuffers.h>
+#import <Protobuf/GPBProtocolBuffers.h>
 #else
- #import "GPBProtocolBuffers.h"
+#import "GPBProtocolBuffers.h"
 #endif
 
 #if GOOGLE_PROTOBUF_OBJC_VERSION < 30002
@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - GPBFieldMask
 
 typedef GPB_ENUM(GPBFieldMask_FieldNumber) {
-  GPBFieldMask_FieldNumber_PathsArray = 1,
+    GPBFieldMask_FieldNumber_PathsArray = 1,
 };
 
 /**
@@ -255,7 +255,7 @@ typedef GPB_ENUM(GPBFieldMask_FieldNumber) {
  **/
 @interface GPBFieldMask : GPBMessage
 
-/** The set of field mask paths. */
+    /** The set of field mask paths. */
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<NSString*> *pathsArray;
 /** The number of items in @c pathsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger pathsArray_Count;

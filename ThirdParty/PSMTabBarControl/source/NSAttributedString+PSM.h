@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSAttributedString *)attributedStringWithTextAlignment:(NSTextAlignment)textAlignment;
 
 + (instancetype)newAttributedStringWithHTML:(NSString *)html
-                                 attributes:(NSDictionary *)attributes;
+    attributes:(NSDictionary *)attributes;
 
 @end
 

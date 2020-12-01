@@ -13,7 +13,7 @@
 #import "UKCrashReporter.h"
 #import "UKSystemInfo.h"
 
-@interface UKCrashReporterWindow: NSWindow
+@interface UKCrashReporterWindow : NSWindow
 @end
 
 @implementation UKCrashReporterWindow
@@ -30,8 +30,8 @@ static NSString *UKReadErrorLog(void) {
     NSString *executableName =
         [[[NSBundle mainBundle] infoDictionary] objectForKey:(id)kCFBundleExecutableKey];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory,
-                                                         NSUserDomainMask,
-                                                         YES);
+                     NSUserDomainMask,
+                     YES);
     NSString *path = paths.firstObject;
     if (!path) {
         return nil;
@@ -59,7 +59,7 @@ static NSString *UKReadErrorLog(void) {
 //    UKCrashReporterCheckForCrash:
 //        This submits the crash report to a CGI form as a POST request by
 //        passing it as the request variable "crashlog".
-//    
+//
 //        KNOWN LIMITATION:    If the app crashes several times in a row, only the
 //                            last crash report will be sent because this doesn't
 //                            walk through the log files to try and determine the
@@ -77,69 +77,69 @@ void    UKCrashReporterCheckForCrash(void)
     NSAutoreleasePool*    pool = [[NSAutoreleasePool alloc] init];
 
     NS_DURING
-        // Try whether the classes we need to talk to the CGI are present:
-        Class            NSMutableURLRequestClass = NSClassFromString( @"NSMutableURLRequest" );
-        Class            NSURLConnectionClass = NSClassFromString( @"NSURLConnection" );
-        if( NSMutableURLRequestClass == Nil || NSURLConnectionClass == Nil )
-        {
-            [pool release];
-            NS_VOIDRETURN;
-        }
-        
-        // Get the log file, its last change date and last report date:
-        NSString*        appName = [[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleExecutable"];
-        NSArray *folders = @[ [@"~/Library/Logs/DiagnosticReports/" stringByExpandingTildeInPath],
-                              [@"~/Library/Logs/CrashReporter/" stringByExpandingTildeInPath] ];
-        NSString*        crashLogPath = UKCrashReporterFindTenFiveCrashReportPath( appName, folders );
-        NSDictionary*    fileAttrs = [[NSFileManager defaultManager] 
-                                     attributesOfItemAtPath: crashLogPath error: nil];
-        NSDate*            lastTimeCrashLogged = (fileAttrs == nil) ? nil : [fileAttrs fileModificationDate];
-        NSTimeInterval    lastCrashReportInterval = [[NSUserDefaults standardUserDefaults] floatForKey: @"UKCrashReporterLastCrashReportDate"];
-        NSDate*            lastTimeCrashReported = [NSDate dateWithTimeIntervalSince1970: lastCrashReportInterval];
+    // Try whether the classes we need to talk to the CGI are present:
+    Class            NSMutableURLRequestClass = NSClassFromString( @"NSMutableURLRequest" );
+    Class            NSURLConnectionClass = NSClassFromString( @"NSURLConnection" );
+    if( NSMutableURLRequestClass == Nil || NSURLConnectionClass == Nil )
+    {
+        [pool release];
+        NS_VOIDRETURN;
+    }
 
-        NSString *errorLog = nil;
-        @try {
-            errorLog = UKReadErrorLog();
-        } @catch (NSException *exception) {
-            errorLog = [exception debugDescription];
-        }
+    // Get the log file, its last change date and last report date:
+    NSString*        appName = [[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleExecutable"];
+    NSArray *folders = @[ [@"~/Library/Logs/DiagnosticReports/" stringByExpandingTildeInPath],
+                                                                                             [@"~/Library/Logs/CrashReporter/" stringByExpandingTildeInPath] ];
+    NSString*        crashLogPath = UKCrashReporterFindTenFiveCrashReportPath( appName, folders );
+    NSDictionary*    fileAttrs = [[NSFileManager defaultManager]
+                                  attributesOfItemAtPath: crashLogPath error: nil];
+    NSDate*            lastTimeCrashLogged = (fileAttrs == nil) ? nil : [fileAttrs fileModificationDate];
+    NSTimeInterval    lastCrashReportInterval = [[NSUserDefaults standardUserDefaults] floatForKey: @"UKCrashReporterLastCrashReportDate"];
+    NSDate*            lastTimeCrashReported = [NSDate dateWithTimeIntervalSince1970: lastCrashReportInterval];
 
-        if( lastTimeCrashLogged )    // We have a crash log file and its mod date? Means we crashed sometime in the past.
+    NSString *errorLog = nil;
+    @try {
+        errorLog = UKReadErrorLog();
+    } @catch (NSException *exception) {
+        errorLog = [exception debugDescription];
+    }
+
+    if( lastTimeCrashLogged )    // We have a crash log file and its mod date? Means we crashed sometime in the past.
+    {
+        // If we never before reported a crash or the last report lies before the last crash:
+        if( [lastTimeCrashReported compare: lastTimeCrashLogged] == NSOrderedAscending )
         {
-            // If we never before reported a crash or the last report lies before the last crash:
-            if( [lastTimeCrashReported compare: lastTimeCrashLogged] == NSOrderedAscending )
-            {
-                // Fetch the newest report from the log:
-                NSString*            crashLog = [NSString stringWithContentsOfFile:crashLogPath
-                                                                 encoding:NSUTF8StringEncoding
-                                                                    error:nil];
-                NSString *const ERROR_LOG_HEADER = @"~~ Error Logs ~~\n";
-                if (![crashLog containsString:ERROR_LOG_HEADER]) {
-                    crashLog = [crashLog stringByAppendingString:ERROR_LOG_HEADER];
-                    if (errorLog != nil) {
-                        crashLog = [crashLog stringByAppendingString:errorLog];
-                    }
-                    [crashLog writeToFile:crashLogPath atomically:NO encoding:NSUTF8StringEncoding error:nil];
+            // Fetch the newest report from the log:
+            NSString*            crashLog = [NSString stringWithContentsOfFile:crashLogPath
+                                                      encoding:NSUTF8StringEncoding
+                                                      error:nil];
+            NSString *const ERROR_LOG_HEADER = @"~~ Error Logs ~~\n";
+            if (![crashLog containsString:ERROR_LOG_HEADER]) {
+                crashLog = [crashLog stringByAppendingString:ERROR_LOG_HEADER];
+                if (errorLog != nil) {
+                    crashLog = [crashLog stringByAppendingString:errorLog];
                 }
-                NSArray*            separateReports = [crashLog componentsSeparatedByString: @"\n\n**********\n\n"];
-                NSString*            currentReport = [separateReports count] > 0 ? [separateReports objectAtIndex: [separateReports count] -1] : @"*** Couldn't read Report ***";    // 1 since report 0 is empty (file has a delimiter at the top).
-                unsigned            numCores = UKCountCores();
-                NSString*            numCPUsString = (numCores == 1) ? @"" : [NSString stringWithFormat: @"%dx ",numCores];
-                
-                // Create a string containing Mac and CPU info, crash log and prefs:
-                currentReport = [NSString stringWithFormat:
-                                    @"Model: %@\nCPU Speed: %@%.2f GHz\n%@\n",
-                                    UKMachineName(), numCPUsString, ((float)UKClockSpeed()) / 1000.0f,
-                                    currentReport];
-                
-                // Now show a crash reporter window so the user can edit the info to send:
-                [[UKCrashReporter alloc] initWithLogString: currentReport];
+                [crashLog writeToFile:crashLogPath atomically:NO encoding:NSUTF8StringEncoding error:nil];
             }
+            NSArray*            separateReports = [crashLog componentsSeparatedByString: @"\n\n**********\n\n"];
+            NSString*            currentReport = [separateReports count] > 0 ? [separateReports objectAtIndex: [separateReports count] -1] : @"*** Couldn't read Report ***";    // 1 since report 0 is empty (file has a delimiter at the top).
+            unsigned            numCores = UKCountCores();
+            NSString*            numCPUsString = (numCores == 1) ? @"" : [NSString stringWithFormat: @"%dx ",numCores];
+
+            // Create a string containing Mac and CPU info, crash log and prefs:
+            currentReport = [NSString stringWithFormat:
+                                      @"Model: %@\nCPU Speed: %@%.2f GHz\n%@\n",
+                                      UKMachineName(), numCPUsString, ((float)UKClockSpeed()) / 1000.0f,
+                                      currentReport];
+
+            // Now show a crash reporter window so the user can edit the info to send:
+            [[UKCrashReporter alloc] initWithLogString: currentReport];
         }
+    }
     NS_HANDLER
-        NSLog(@"Error during check for crash: %@",localException);
+    NSLog(@"Error during check for crash: %@",localException);
     NS_ENDHANDLER
-    
+
     [pool release];
 }
 
@@ -151,7 +151,7 @@ NSString* UKCrashReporterFindTenFiveCrashReportPath(NSString* appName, NSArray *
     NSString* foundName = nil;
     NSDate* foundDate = nil;
     NSString* foundFolder = nil;
-    
+
     for (NSString *crashLogsFolder in folders) {
         // Find the newest of our crash log files:
         NSDirectoryEnumerator*    enny =
@@ -193,7 +193,7 @@ NSString*    gCrashLogString = nil;
     // In super init the awakeFromNib method gets called, so we can not
     //    use ivars to transfer the log, and use a global instead:
     gCrashLogString = [theLog retain];
-    
+
     self = [super init];
     return self;
 }
@@ -214,7 +214,7 @@ NSString*    gCrashLogString = nil;
 {
     [_dataTask release];
     _dataTask = nil;
-    
+
     [super dealloc];
 }
 
@@ -222,8 +222,8 @@ NSString*    gCrashLogString = nil;
     if (@available(macOS 10.12, *)) {
         NSString *cc = [[NSLocale currentLocale] countryCode];
         NSArray *europeanCountryCodes = @[ @"BE", @"BG", @"CZ", @"DK", @"DE", @"EE", @"IE", @"EL", @"ES", @"FR",
-                                           @"HR", @"IT", @"CY", @"LV", @"LT", @"LU", @"HU", @"MT", @"NL", @"AT",
-                                           @"PL", @"PT", @"RO", @"SI", @"SK", @"FI", @"SE", @"UK" ];
+                                                  @"HR", @"IT", @"CY", @"LV", @"LT", @"LU", @"HU", @"MT", @"NL", @"AT",
+                                                  @"PL", @"PT", @"RO", @"SI", @"SK", @"FI", @"SE", @"UK" ];
         return !cc || [europeanCountryCodes containsObject:cc];
     } else {
         return YES;
@@ -240,9 +240,9 @@ NSString*    gCrashLogString = nil;
     else
         explanation = [[NSLocalizedStringFromTable(@"FEEDBACK_EXPLANATION_TEXT",@"UKCrashReporter",@"") mutableCopy] autorelease];
     [explanation replaceOccurrencesOfString: @"%%APPNAME" withString: appName
-                                    options: 0 range: NSMakeRange(0, [explanation length])];
+                 options: 0 range: NSMakeRange(0, [explanation length])];
     [explanationField setStringValue: explanation];
-    
+
     // Insert user name and e-mail address into the information field:
     NSMutableString*    userMessage = nil;
     if( gCrashLogString )
@@ -257,11 +257,11 @@ NSString*    gCrashLogString = nil;
     }
 
     [userMessage replaceOccurrencesOfString: @"%%LONGUSERNAME" withString: NSFullUserName()
-                options: 0 range: NSMakeRange(0, [userMessage length])];
+                 options: 0 range: NSMakeRange(0, [userMessage length])];
     [userMessage replaceOccurrencesOfString: @"%%EMAILADDRESS" withString: emailAddr
-                options: 0 range: NSMakeRange(0, [userMessage length])];
+                 options: 0 range: NSMakeRange(0, [userMessage length])];
     [informationField setString: userMessage];
-    
+
     // Show the crash log to the user:
     if( gCrashLogString )
     {
@@ -272,21 +272,21 @@ NSString*    gCrashLogString = nil;
     else
     {
         [remindButton setHidden: YES];
-        
+
         int                itemIndex = [switchTabView indexOfTabViewItemWithIdentifier: @"de.zathras.ukcrashreporter.crashlog-tab"];
         NSTabViewItem*    crashLogItem = [switchTabView tabViewItemAtIndex: itemIndex];
         unsigned        numCores = UKCountCores();
         NSString*        numCPUsString = (numCores == 1) ? @"" : [NSString stringWithFormat: @"%dx ",numCores];
         [crashLogItem setLabel: NSLocalizedStringFromTable(@"SYSTEM_INFO_TAB_NAME",@"UKCrashReporter",@"")];
-        
+
         NSString*    systemInfo = [NSString stringWithFormat: @"Application: %@ %@\nModel: %@\nCPU Speed: %@%.2f GHz\nSystem Version: %@\n\nPreferences:\n%@",
-                                    appName, [[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleVersion"],
-                                    UKMachineName(), numCPUsString, ((float)UKClockSpeed()) / 1000.0f,
-                                    UKSystemVersionString(),
-                                    [[NSUserDefaults standardUserDefaults] persistentDomainForName: [[NSBundle mainBundle] bundleIdentifier]]];
+                                            appName, [[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleVersion"],
+                                            UKMachineName(), numCPUsString, ((float)UKClockSpeed()) / 1000.0f,
+                                            UKSystemVersionString(),
+                                            [[NSUserDefaults standardUserDefaults] persistentDomainForName: [[NSBundle mainBundle] bundleIdentifier]]];
         [crashLogField setString: systemInfo];
     }
-    
+
     // Show the window:
     [reportWindow makeKeyAndOrderFront: self];
 }
@@ -301,7 +301,7 @@ NSString*    gCrashLogString = nil;
     [crashReportString appendString: [crashLogField string]];
     [crashReportString replaceOccurrencesOfString: boundary withString: @"USED_TO_BE_KHTMLBOUNDARY" options: 0 range: NSMakeRange(0, [crashReportString length])];
     NSData*                crashReport = [crashReportString dataUsingEncoding: NSUTF8StringEncoding];
-    
+
     // Prepare a request:
     NSURL *url = [NSURL URLWithString: NSLocalizedStringFromTable( @"CRASH_REPORT_CGI_URL", @"UKCrashReporter", @"" )];
     NSMutableURLRequest *postRequest = [NSMutableURLRequest requestWithURL: url];
@@ -313,7 +313,7 @@ NSString*    gCrashLogString = nil;
     NSMutableData*    formData = [[header mutableCopy] autorelease];
     [formData appendData: crashReport];
     [formData appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    
+
     // setting the headers:
     [postRequest setHTTPMethod: @"POST"];
     [postRequest setValue: url.host forHTTPHeaderField: @"Host"];
@@ -322,7 +322,7 @@ NSString*    gCrashLogString = nil;
     NSString *contentLength = [NSString stringWithFormat:@"%lu", (unsigned long)[formData length]];
     [postRequest setValue: contentLength forHTTPHeaderField: @"Content-Length"];
     [postRequest setHTTPBody: formData];
-    
+
     // Go into progress mode and kick off the HTTP post:
     [progressIndicator startAnimation: self];
     [sendButton setEnabled: NO];
@@ -330,12 +330,12 @@ NSString*    gCrashLogString = nil;
     [discardButton setEnabled: NO];
 
     _dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:postRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if (error) {
-            [self performSelectorOnMainThread: @selector(showFinishedMessage:) withObject: error waitUntilDone: NO];
-            return;
-        }
-        // Now that we successfully sent this crash, don't report it again:
-        if (!feedbackMode) {
+                                     if (error) {
+                                         [self performSelectorOnMainThread: @selector(showFinishedMessage:) withObject: error waitUntilDone: NO];
+                                         return;
+                                     }
+                                     // Now that we successfully sent this crash, don't report it again:
+                                     if (!feedbackMode) {
             [[NSUserDefaults standardUserDefaults] setFloat: [[NSDate date] timeIntervalSince1970] forKey:@"UKCrashReporterLastCrashReportDate"];
             [[NSUserDefaults standardUserDefaults] synchronize];
         }
@@ -382,7 +382,7 @@ NSString*    gCrashLogString = nil;
         [alert addButtonWithTitle:NSLocalizedStringFromTable( @"COULDNT_SEND_CRASH_REPORT_ERROR_OK",@"UKCrashReporter",@"")];
         [alert runModal];
     }
-    
+
     [reportWindow orderOut: self];
     [self autorelease];
 }

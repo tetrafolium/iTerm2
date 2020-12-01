@@ -29,10 +29,10 @@ NSString *const kCPFavoritesUserDefaultsKey = @"kCPFavoritesUserDefaultsKey";
         self.borderType = NSNoBorder;
 
         static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
+        dispatch_once(&onceToken, ^ {
             gFavorites = [NSMutableArray array];
             NSArray *userDefaults =
-                [[NSUserDefaults standardUserDefaults] objectForKey:kCPFavoritesUserDefaultsKey];
+            [[NSUserDefaults standardUserDefaults] objectForKey:kCPFavoritesUserDefaultsKey];
             if (!userDefaults) {
                 [gFavorites addObjectsFromArray:self.cannedFavorites];
             }
@@ -48,14 +48,14 @@ NSString *const kCPFavoritesUserDefaultsKey = @"kCPFavoritesUserDefaultsKey";
         self.drawsBackground = NO;
         NSSize availableSize = [NSScrollView contentSizeForFrameSize:self.frame.size
                                              horizontalScrollerClass:nil
-                                               verticalScrollerClass:self.verticalScroller.class
-                                                          borderType:self.borderType
-                                                         controlSize:NSRegularControlSize
-                                                       scrollerStyle:NSScrollerStyleLegacy];
+                                             verticalScrollerClass:self.verticalScroller.class
+                                             borderType:self.borderType
+                                             controlSize:NSRegularControlSize
+                                             scrollerStyle:NSScrollerStyleLegacy];
         self.tableView = [[NSTableView alloc] initWithFrame:NSMakeRect(0,
-                                                                       0,
-                                                                       availableSize.width,
-                                                                       self.contentSize.height)];
+                                              0,
+                                              availableSize.width,
+                                              self.contentSize.height)];
         self.tableView.backgroundColor = [NSColor clearColor];
         self.tableView.headerView = nil;
         self.tableView.allowsMultipleSelection = YES;
@@ -79,9 +79,9 @@ NSString *const kCPFavoritesUserDefaultsKey = @"kCPFavoritesUserDefaultsKey";
         [self.tableView registerForDraggedTypes:@[ kCPKFavoriteUTI ]];
 
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(favoritesDidChange:)
-                                                     name:kCPKFavoritesDidChangeNotification
-                                                   object:nil];
+                                              selector:@selector(favoritesDidChange:)
+                                              name:kCPKFavoritesDidChangeNotification
+                                              object:nil];
     }
     return self;
 }
@@ -92,17 +92,17 @@ NSString *const kCPFavoritesUserDefaultsKey = @"kCPFavoritesUserDefaultsKey";
 
 - (NSArray *)cannedFavorites {
     return
-    @[ [CPKFavorite favoriteWithColor:[NSColor cpk_colorWithRed:0.0 green:0.0 blue:0.0 alpha:1] name:@"Black"],
-       [CPKFavorite favoriteWithColor:[NSColor cpk_colorWithRed:0.1 green:0.1 blue:0.1 alpha:1] name:@"10% Gray"],
-       [CPKFavorite favoriteWithColor:[NSColor cpk_colorWithRed:0.2 green:0.2 blue:0.2 alpha:1] name:@"20% Gray"],
-       [CPKFavorite favoriteWithColor:[NSColor cpk_colorWithRed:0.3 green:0.3 blue:0.3 alpha:1] name:@"30% Gray"],
-       [CPKFavorite favoriteWithColor:[NSColor cpk_colorWithRed:0.4 green:0.4 blue:0.4 alpha:1] name:@"40% Gray"],
-       [CPKFavorite favoriteWithColor:[NSColor cpk_colorWithRed:0.5 green:0.5 blue:0.5 alpha:1] name:@"50% Gray"],
-       [CPKFavorite favoriteWithColor:[NSColor cpk_colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] name:@"60% Gray"],
-       [CPKFavorite favoriteWithColor:[NSColor cpk_colorWithRed:0.7 green:0.7 blue:0.7 alpha:1] name:@"70% Gray"],
-       [CPKFavorite favoriteWithColor:[NSColor cpk_colorWithRed:0.8 green:0.8 blue:0.8 alpha:1] name:@"80% Gray"],
-       [CPKFavorite favoriteWithColor:[NSColor cpk_colorWithRed:0.9 green:0.9 blue:0.9 alpha:1] name:@"90% Gray"],
-       [CPKFavorite favoriteWithColor:[NSColor cpk_colorWithRed:1.0 green:1.0 blue:1.0 alpha:1] name:@"White"] ];
+        @[ [CPKFavorite favoriteWithColor:[NSColor cpk_colorWithRed:0.0 green:0.0 blue:0.0 alpha:1] name:@"Black"],
+                                                                                                    [CPKFavorite favoriteWithColor:[NSColor cpk_colorWithRed:0.1 green:0.1 blue:0.1 alpha:1] name:@"10% Gray"],
+                                                                                                    [CPKFavorite favoriteWithColor:[NSColor cpk_colorWithRed:0.2 green:0.2 blue:0.2 alpha:1] name:@"20% Gray"],
+                                                                                                    [CPKFavorite favoriteWithColor:[NSColor cpk_colorWithRed:0.3 green:0.3 blue:0.3 alpha:1] name:@"30% Gray"],
+                                                                                                    [CPKFavorite favoriteWithColor:[NSColor cpk_colorWithRed:0.4 green:0.4 blue:0.4 alpha:1] name:@"40% Gray"],
+                                                                                                    [CPKFavorite favoriteWithColor:[NSColor cpk_colorWithRed:0.5 green:0.5 blue:0.5 alpha:1] name:@"50% Gray"],
+                                                                                                    [CPKFavorite favoriteWithColor:[NSColor cpk_colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] name:@"60% Gray"],
+                                                                                                    [CPKFavorite favoriteWithColor:[NSColor cpk_colorWithRed:0.7 green:0.7 blue:0.7 alpha:1] name:@"70% Gray"],
+                                                                                                    [CPKFavorite favoriteWithColor:[NSColor cpk_colorWithRed:0.8 green:0.8 blue:0.8 alpha:1] name:@"80% Gray"],
+                                                                                                    [CPKFavorite favoriteWithColor:[NSColor cpk_colorWithRed:0.9 green:0.9 blue:0.9 alpha:1] name:@"90% Gray"],
+                                                                                                    [CPKFavorite favoriteWithColor:[NSColor cpk_colorWithRed:1.0 green:1.0 blue:1.0 alpha:1] name:@"White"] ];
 }
 
 - (CPKFavorite *)favoriteForRow:(NSInteger)row {
@@ -116,14 +116,14 @@ NSString *const kCPFavoritesUserDefaultsKey = @"kCPFavoritesUserDefaultsKey";
     // The table view wants to resize its views, so to keep it centered properly, I use a wrapper
     // view that doesn't resize its subviews.
     NSView *wrapper = [[NSView alloc] initWithFrame:NSMakeRect(0,
-                                                               0,
-                                                               kColorColumnWidth,
-                                                               self.tableView.rowHeight - 1)];
+                                      0,
+                                      kColorColumnWidth,
+                                      self.tableView.rowHeight - 1)];
     CPKSwatchView *view =
         [[CPKSwatchView alloc] initWithFrame:NSMakeRect(0,
-                                                        1,
-                                                        kColorColumnWidth,
-                                                        self.tableView.rowHeight - 1)];
+                                      1,
+                                      kColorColumnWidth,
+                                      self.tableView.rowHeight - 1)];
     wrapper.autoresizesSubviews = NO;
     [wrapper addSubview:view];
     view.color = color;
@@ -133,9 +133,9 @@ NSString *const kCPFavoritesUserDefaultsKey = @"kCPFavoritesUserDefaultsKey";
 - (NSView *)nameViewWithValue:(NSString *)name identifier:(NSString *)identifier {
     NSTextField *textField =
         [[NSTextField alloc] initWithFrame:NSMakeRect(0,
-                                                      0,
-                                                      self.nameColumn.width,
-                                                      self.tableView.rowHeight)];
+                                    0,
+                                    self.nameColumn.width,
+                                    self.tableView.rowHeight)];
     textField.stringValue = name ?: @"";
     textField.editable = YES;
     textField.selectable = YES;
@@ -162,10 +162,10 @@ NSString *const kCPFavoritesUserDefaultsKey = @"kCPFavoritesUserDefaultsKey";
 
 - (void)saveFavorites {
     [[NSUserDefaults standardUserDefaults] setObject:[self encodedFavorites]
-                                              forKey:kCPFavoritesUserDefaultsKey];
+                                           forKey:kCPFavoritesUserDefaultsKey];
     [self.tableView reloadData];
     [[NSNotificationCenter defaultCenter] postNotificationName:kCPKFavoritesDidChangeNotification
-                                                        object:self];
+                                          object:self];
 }
 
 - (void)addFavorite:(CPKFavorite *)favorite {
@@ -177,9 +177,9 @@ NSString *const kCPFavoritesUserDefaultsKey = @"kCPFavoritesUserDefaultsKey";
 - (void)removeSelectedFavorites {
     NSMutableArray *identifiersToRemove = [NSMutableArray array];
     [self.tableView.selectedRowIndexes enumerateIndexesUsingBlock:^(NSUInteger idx,
-                                                                    BOOL *stop) {
-        [identifiersToRemove addObject:[[gFavorites[idx] identifier] copy]];
-    }];
+                                      BOOL *stop) {
+                                          [identifiersToRemove addObject:[[gFavorites[idx] identifier] copy]];
+                                      }];
     for (NSString *identifier in identifiersToRemove) {
         NSInteger row = [self rowForFavoriteWithIdentifier:identifier];
         if (row >= 0) {
@@ -217,7 +217,7 @@ NSString *const kCPFavoritesUserDefaultsKey = @"kCPFavoritesUserDefaultsKey";
             void (^saved)(NSColor *) = _selectionDidChangeBlock;
             _selectionDidChangeBlock = nil;
             [self.tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:i]
-                        byExtendingSelection:NO];
+                            byExtendingSelection:NO];
             _selectionDidChangeBlock = saved;
             [self.tableView scrollRowToVisible:i];
             return;
@@ -229,16 +229,16 @@ NSString *const kCPFavoritesUserDefaultsKey = @"kCPFavoritesUserDefaultsKey";
 - (NSArray *)objectsForRows:(NSIndexSet *)rowIndexes {
     NSMutableArray *result = [NSMutableArray array];
     [rowIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-        [result addObject:gFavorites[idx]];
-    }];
+                   [result addObject:gFavorites[idx]];
+               }];
     return result;
 }
 
 #pragma mark - NSTableViewDataSource
 
 - (NSView *)tableView:(NSTableView *)tableView
-   viewForTableColumn:(NSTableColumn *)tableColumn
-                  row:(NSInteger)row {
+    viewForTableColumn:(NSTableColumn *)tableColumn
+    row:(NSInteger)row {
     CPKFavorite *favorite = [self favoriteForRow:row];
     if (tableColumn == self.colorColumn) {
         return [self colorViewForColor:favorite.color];
@@ -254,69 +254,69 @@ NSString *const kCPFavoritesUserDefaultsKey = @"kCPFavoritesUserDefaultsKey";
 }
 
 - (BOOL)tableView:(NSTableView *)tableView
-       acceptDrop:(id<NSDraggingInfo>)info
-              row:(NSInteger)row
+    acceptDrop:(id<NSDraggingInfo>)info
+    row:(NSInteger)row
     dropOperation:(NSTableViewDropOperation)dropOperation {
     __block NSInteger index = row;
     [info enumerateDraggingItemsWithOptions:0
-                                    forView:tableView
-                                    classes:@[ [CPKFavorite class] ]
-                              searchOptions:@{ }
-                                 usingBlock:^(NSDraggingItem *draggingItem,
-                                              NSInteger idx,
-                                              BOOL *stop) {
-                                     CPKFavorite *favoriteToAdd = draggingItem.item;
-                                     NSString *identifier = favoriteToAdd.identifier;
-                                     NSInteger indexToRemove =
-                                        [self rowForFavoriteWithIdentifier:identifier];
-                                     BOOL shouldIncrement = YES;
-                                     if (indexToRemove >= index) {
-                                         ++indexToRemove;
-                                     } else {
-                                         shouldIncrement = NO;
-                                     }
-                                     [gFavorites insertObject:draggingItem.item
-                                                      atIndex:index];
-                                     if (shouldIncrement) {
-                                         index++;
-                                     }
-                                     [gFavorites removeObjectAtIndex:indexToRemove];
-                                 }];
+          forView:tableView
+          classes:@[ [CPKFavorite class] ]
+          searchOptions:@ { }
+          usingBlock:^(NSDraggingItem *draggingItem,
+                  NSInteger idx,
+         BOOL *stop) {
+             CPKFavorite *favoriteToAdd = draggingItem.item;
+             NSString *identifier = favoriteToAdd.identifier;
+             NSInteger indexToRemove =
+            [self rowForFavoriteWithIdentifier:identifier];
+        BOOL shouldIncrement = YES;
+        if (indexToRemove >= index) {
+            ++indexToRemove;
+        } else {
+            shouldIncrement = NO;
+        }
+        [gFavorites insertObject:draggingItem.item
+                    atIndex:index];
+        if (shouldIncrement) {
+            index++;
+        }
+        [gFavorites removeObjectAtIndex:indexToRemove];
+    }];
     [self saveFavorites];
     return YES;
 }
 
 - (NSDragOperation)tableView:(NSTableView *)aTableView
-                validateDrop:(id <NSDraggingInfo>)info
-                 proposedRow:(NSInteger)row
-       proposedDropOperation:(NSTableViewDropOperation)operation {
+    validateDrop:(id <NSDraggingInfo>)info
+    proposedRow:(NSInteger)row
+    proposedDropOperation:(NSTableViewDropOperation)operation {
     if (operation == NSTableViewDropOn) {
         return NSDragOperationNone;
     }
 
     __block BOOL shouldAccept = YES;
     [info enumerateDraggingItemsWithOptions:0
-                                    forView:self.tableView
-                                    classes:@[ [CPKFavorite class] ]
-                              searchOptions:@{ }
-                                 usingBlock:^(NSDraggingItem *draggingItem,
-                                              NSInteger idx,
-                                              BOOL *stop) {
-                                     CPKFavorite *favorite = draggingItem.item;
-                                     NSInteger row =
-                                        [self rowForFavoriteWithIdentifier:favorite.identifier];
-                                     if (row < 0) {
-                                         // We don't accept drags from other processes yet.
-                                         shouldAccept = NO;
-                                         *stop = YES;
-                                     }
-                                 }];
+          forView:self.tableView
+          classes:@[ [CPKFavorite class] ]
+          searchOptions:@ { }
+          usingBlock:^(NSDraggingItem *draggingItem,
+                  NSInteger idx,
+         BOOL *stop) {
+             CPKFavorite *favorite = draggingItem.item;
+             NSInteger row =
+            [self rowForFavoriteWithIdentifier:favorite.identifier];
+        if (row < 0) {
+            // We don't accept drags from other processes yet.
+            shouldAccept = NO;
+            *stop = YES;
+        }
+    }];
     return shouldAccept ? NSDragOperationMove : NSDragOperationNone;
 }
 
 - (BOOL)tableView:(NSTableView *)aTableView
     writeRowsWithIndexes:(NSIndexSet *)rowIndexes
-            toPasteboard:(NSPasteboard *)pboard {
+    toPasteboard:(NSPasteboard *)pboard {
     [pboard writeObjects:[self objectsForRows:rowIndexes]];
     return YES;
 }
@@ -343,7 +343,7 @@ NSString *const kCPFavoritesUserDefaultsKey = @"kCPFavoritesUserDefaultsKey";
             [self saveFavorites];
         } else {
             [self.tableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:row]
-                                      columnIndexes:[NSIndexSet indexSetWithIndex:1]];
+                            columnIndexes:[NSIndexSet indexSetWithIndex:1]];
         }
     }
 }

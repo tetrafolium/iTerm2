@@ -32,8 +32,8 @@
 
 - (void)testWillFinishCalled
 {
-	CPTokeniser *tokeniser = [[CPTokeniser alloc] init];
-	tokeniser.delegate = self;
+    CPTokeniser *tokeniser = [[CPTokeniser alloc] init];
+    tokeniser.delegate = self;
     [tokeniser addTokenRecogniser:[CPKeywordRecogniser recogniserForKeyword:@"{"]];
     [tokeniser addTokenRecogniser:[CPKeywordRecogniser recogniserForKeyword:@"}"]];
     CPTokenStream *tokenStream = [tokeniser tokenise:@"{}"];
@@ -43,12 +43,12 @@
 
 - (BOOL)tokeniser:(CPTokeniser *)tokeniser shouldConsumeToken:(CPToken *)token
 {
-	return YES;
+    return YES;
 }
 
 - (void)tokeniserWillFinish:(CPTokeniser *)tokeniser stream:(CPTokenStream *)stream
 {
-	[stream pushToken:[CPKeywordToken tokenWithKeyword:@"done"]];
+    [stream pushToken:[CPKeywordToken tokenWithKeyword:@"done"]];
 }
 
 @end

@@ -13,7 +13,7 @@
 typedef enum
 {
     CPRecoveryTypeAddToken    = 0,
-    CPRecoveryTypeRemoveToken    ,
+    CPRecoveryTypeRemoveToken,
     CPRecoveryTypeBail
 } CPRecoveryType;
 
@@ -22,9 +22,9 @@ typedef enum
  */
 @interface CPRecoveryAction : NSObject
 
-/**
- * The type of recovery action to take.  May be CPRecoveryTypeAddToken or CPRecoveryTypeRemoveToken.
- */
+    /**
+     * The type of recovery action to take.  May be CPRecoveryTypeAddToken or CPRecoveryTypeRemoveToken.
+     */
 @property (readwrite, assign) CPRecoveryType recoveryType;
 
 /**

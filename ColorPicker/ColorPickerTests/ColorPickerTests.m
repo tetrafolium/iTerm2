@@ -42,8 +42,8 @@ const NSInteger kMaxValue = 10;
     NSMutableArray *points = [NSMutableArray array];
     for (NSInteger i = 0; i < numPoints; i++) {
         NSArray *point = @[ @(abs(rand()) % kMaxValue),
-                            @(abs(rand()) % kMaxValue),
-                            @(abs(rand()) % kMaxValue) ];
+                                          @(abs(rand()) % kMaxValue),
+                                          @(abs(rand()) % kMaxValue) ];
         [points addObject:point];
     }
     return points;
@@ -77,7 +77,7 @@ const NSInteger kMaxValue = 10;
                 }
 
                 double distanceToNearestNeighbor = [self distanceFrom:xyz
-                                                                   to:points[n.integerValue]];
+                                                         to:points[n.integerValue]];
                 if (distanceToNearestNeighbor > bestDistance) {
                     NSLog(@"Oops");
                 }

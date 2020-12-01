@@ -6,13 +6,13 @@
  */
 @interface CPKKDTree : NSObject
 
-/**
- * Initializes the tree with the given number of dimensions.
- *
- * @param dimensions The number of dimensions for this tree (the "K" value)
- *
- * @return An initialized object.
- */
+    /**
+     * Initializes the tree with the given number of dimensions.
+     *
+     * @param dimensions The number of dimensions for this tree (the "K" value)
+     *
+     * @return An initialized object.
+     */
 - (instancetype)initWithDimensions:(NSInteger)dimensions;
 
 /**

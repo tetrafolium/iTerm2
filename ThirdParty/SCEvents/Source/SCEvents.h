@@ -17,7 +17,7 @@
  *
  *  The above copyright notice and this permission notice shall be
  *  included in all copies or substantial portions of the Software.
- * 
+ *
  *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  *  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  *  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -42,22 +42,22 @@
  *
  * An Objective-C wrapper for the FSEvents C API.
  */
-@interface SCEvents : NSObject 
+@interface SCEvents : NSObject
 {
-    id <NSObject, SCEventListenerProtocol> _delegate; 
-    
+    id <NSObject, SCEventListenerProtocol> _delegate;
+
     BOOL                 _isWatchingPaths;
     BOOL                 _ignoreEventsFromSubDirs;
-	CFRunLoopRef         _runLoop;
+    CFRunLoopRef         _runLoop;
     FSEventStreamRef     _eventStream;
     CFTimeInterval       _notificationLatency;
-	FSEventStreamEventId _resumeFromEventId;
-      
+    FSEventStreamEventId _resumeFromEventId;
+
     SCEvent              *_lastEvent;
     NSArray              *_watchedPaths;
     NSArray              *_excludedPaths;
-	
-	pthread_mutex_t       _eventsLock;
+
+    pthread_mutex_t       _eventsLock;
 }
 
 /**

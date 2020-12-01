@@ -22,11 +22,11 @@ typedef NS_ENUM(NSInteger, FMDBTransaction) {
 };
 
 /*
- 
- Note: we call [self retain]; before using dispatch_sync, just incase 
+
+ Note: we call [self retain]; before using dispatch_sync, just incase
  FMDatabaseQueue is released on another thread and we're in the middle of doing
  something in dispatch_sync
- 
+
  */
 
 /*
@@ -46,9 +46,9 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
 
 + (instancetype)databaseQueueWithPath:(NSString *)aPath {
     FMDatabaseQueue *q = [[self alloc] initWithPath:aPath];
-    
+
     FMDBAutorelease(q);
-    
+
     return q;
 }
 
@@ -58,9 +58,9 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
 
 + (instancetype)databaseQueueWithPath:(NSString *)aPath flags:(int)openFlags {
     FMDatabaseQueue *q = [[self alloc] initWithPath:aPath flags:openFlags];
-    
+
     FMDBAutorelease(q);
-    
+
     return q;
 }
 
@@ -78,12 +78,12 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
 
 - (instancetype)initWithPath:(NSString*)aPath flags:(int)openFlags vfs:(NSString *)vfsName {
     self = [super init];
-    
+
     if (self != nil) {
-        
+
         _db = [[[self class] databaseClass] databaseWithPath:aPath];
         FMDBRetain(_db);
-        
+
 #if SQLITE_VERSION_NUMBER >= 3005000
         BOOL success = [_db openWithFlags:openFlags vfs:vfsName];
 #else
@@ -94,15 +94,15 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
             FMDBRelease(self);
             return 0x00;
         }
-        
+
         _path = FMDBReturnRetained(aPath);
-        
+
         _queue = dispatch_queue_create([[NSString stringWithFormat:@"fmdb.%@", self] UTF8String], NULL);
         dispatch_queue_set_specific(_queue, kDispatchQueueSpecificKey, (__bridge void *)self, NULL);
         _openFlags = openFlags;
         _vfsName = [vfsName copy];
     }
-    
+
     return self;
 }
 
@@ -131,7 +131,7 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
     FMDBRelease(_db);
     FMDBRelease(_path);
     FMDBRelease(_vfsName);
-    
+
     if (_queue) {
         FMDBDispatchQueueRelease(_queue);
         _queue = 0x00;
@@ -158,9 +158,9 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
 - (FMDatabase*)database {
     if (![_db isOpen]) {
         if (!_db) {
-           _db = FMDBReturnRetained([[[self class] databaseClass] databaseWithPath:_path]);
+            _db = FMDBReturnRetained([[[self class] databaseClass] databaseWithPath:_path]);
         }
-        
+
 #if SQLITE_VERSION_NUMBER >= 3005000
         BOOL success = [_db openWithFlags:_openFlags vfs:_vfsName];
 #else
@@ -173,7 +173,7 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
             return 0x00;
         }
     }
-    
+
     return _db;
 }
 
@@ -184,18 +184,18 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
     FMDatabaseQueue *currentSyncQueue = (__bridge id)dispatch_get_specific(kDispatchQueueSpecificKey);
     assert(currentSyncQueue != self && "inDatabase: was called reentrantly on the same queue, which would lead to a deadlock");
 #endif
-    
+
     FMDBRetain(self);
-    
+
     dispatch_sync(_queue, ^() {
-        
+
         FMDatabase *db = [self database];
-        
+
         block(db);
-        
+
         if ([db hasOpenResultSets]) {
             NSLog(@"Warning: there is at least one open result set around after performing [FMDatabaseQueue inDatabase:]");
-            
+
 #if defined(DEBUG) && DEBUG
             NSSet *openSetCopy = FMDBReturnAutoreleased([[db valueForKey:@"_openResultSets"] copy]);
             for (NSValue *rsInWrappedInATastyValueMeal in openSetCopy) {
@@ -205,30 +205,30 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
 #endif
         }
     });
-    
+
     FMDBRelease(self);
 }
 
 - (void)beginTransaction:(FMDBTransaction)transaction withBlock:(void (^)(FMDatabase *db, BOOL *rollback))block {
     FMDBRetain(self);
-    dispatch_sync(_queue, ^() { 
-        
+    dispatch_sync(_queue, ^() {
+
         BOOL shouldRollback = NO;
 
         switch (transaction) {
-            case FMDBTransactionExclusive:
-                [[self database] beginTransaction];
-                break;
-            case FMDBTransactionDeferred:
-                [[self database] beginDeferredTransaction];
-                break;
-            case FMDBTransactionImmediate:
-                [[self database] beginImmediateTransaction];
-                break;
+        case FMDBTransactionExclusive:
+            [[self database] beginTransaction];
+            break;
+        case FMDBTransactionDeferred:
+            [[self database] beginDeferredTransaction];
+            break;
+        case FMDBTransactionImmediate:
+            [[self database] beginImmediateTransaction];
+            break;
         }
-        
+
         block([self database], &shouldRollback);
-        
+
         if (shouldRollback) {
             [[self database] rollback];
         }
@@ -236,7 +236,7 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
             [[self database] commit];
         }
     });
-    
+
     FMDBRelease(self);
 }
 
@@ -261,22 +261,22 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
     static unsigned long savePointIdx = 0;
     __block NSError *err = 0x00;
     FMDBRetain(self);
-    dispatch_sync(_queue, ^() { 
-        
+    dispatch_sync(_queue, ^() {
+
         NSString *name = [NSString stringWithFormat:@"savePoint%ld", savePointIdx++];
-        
+
         BOOL shouldRollback = NO;
-        
+
         if ([[self database] startSavePointWithName:name error:&err]) {
-            
+
             block([self database], &shouldRollback);
-            
+
             if (shouldRollback) {
                 // We need to rollback and release this savepoint to remove it
                 [[self database] rollbackToSavePointWithName:name error:&err];
             }
             [[self database] releaseSavePointWithName:name error:&err];
-            
+
         }
     });
     FMDBRelease(self);
@@ -284,7 +284,7 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
 #else
     NSString *errorMessage = NSLocalizedStringFromTable(@"Save point functions require SQLite 3.7", @"FMDB", nil);
     if (_db.logsErrors) NSLog(@"%@", errorMessage);
-    return [NSError errorWithDomain:@"FMDatabase" code:0 userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
+    return [NSError errorWithDomain:@"FMDatabase" code:0 userInfo:@ {NSLocalizedDescriptionKey : errorMessage}];
 #endif
 }
 
@@ -307,7 +307,7 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
         result = [self.database checkpoint:mode name:name logFrameCount:logFrameCount checkpointCount:checkpointCount error:error];
     });
     FMDBRelease(self);
-    
+
     return result;
 }
 

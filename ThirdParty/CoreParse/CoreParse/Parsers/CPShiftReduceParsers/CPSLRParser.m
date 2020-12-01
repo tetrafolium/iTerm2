@@ -31,10 +31,10 @@
     NSArray *kernels = [aug lr0Kernels];
     NSUInteger itemCount = [kernels count];
     NSString *startSymbol = [aug start];
-    
+
     [self setActionTable:[[[CPShiftReduceActionTable alloc] initWithCapacity:itemCount] autorelease]];
     [self setGotoTable:  [[[CPShiftReduceGotoTable   alloc] initWithCapacity:itemCount] autorelease]];
-    
+
     NSArray *allNonTerminalNames = [[self grammar] allNonTerminalNames];
     NSUInteger idx = 0;
     for (NSSet *kernel in kernels)
@@ -77,7 +77,7 @@
                 }
             }
         }
-        
+
         for (NSString *nonTerminalName in allNonTerminalNames)
         {
             NSSet *g = [aug lr0GotoKernelWithItems:itemSet symbol:[CPGrammarSymbol nonTerminalWithName:nonTerminalName]];
@@ -88,7 +88,7 @@
                 return NO;
             }
         }
-        
+
         idx++;
     }
 

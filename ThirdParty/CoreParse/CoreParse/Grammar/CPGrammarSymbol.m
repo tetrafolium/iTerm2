@@ -26,13 +26,13 @@
 - (id)initWithName:(NSString *)initName isTerminal:(BOOL)isTerminal;
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         [self setName:initName];
         [self setTerminal:isTerminal];
     }
-    
+
     return self;
 }
 
@@ -47,13 +47,13 @@
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         [self setName:[aDecoder decodeObjectForKey:CPGrammarSymbolNameKey]];
         [self setTerminal:[aDecoder decodeBoolForKey:CPGrammarSymbolTerminalKey]];
     }
-    
+
     return self;
 }
 
@@ -100,7 +100,7 @@
 - (void)dealloc
 {
     [name release];
-    
+
     [super dealloc];
 }
 

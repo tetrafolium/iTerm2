@@ -310,8 +310,8 @@ SWIFT_CLASS_NAMED("FontPickerCompositeView")
 @end
 
 typedef SWIFT_ENUM_NAMED(NSInteger, BFPCompositeViewMode, "Mode", closed) {
-  BFPCompositeViewModeNormal = 0,
-  BFPCompositeViewModeFixedPitch = 1,
+    BFPCompositeViewModeNormal = 0,
+    BFPCompositeViewModeFixedPitch = 1,
 };
 
 
@@ -699,8 +699,8 @@ SWIFT_CLASS_NAMED("FontPickerCompositeView")
 @end
 
 typedef SWIFT_ENUM_NAMED(NSInteger, BFPCompositeViewMode, "Mode", closed) {
-  BFPCompositeViewModeNormal = 0,
-  BFPCompositeViewModeFixedPitch = 1,
+    BFPCompositeViewModeNormal = 0,
+    BFPCompositeViewModeFixedPitch = 1,
 };
 
 

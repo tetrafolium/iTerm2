@@ -37,9 +37,9 @@
 }
 
 - (void)inCollection:(iTermProcessCollection *)collection
-addProcessWithProcessID:(pid_t)pid
-     parentProcessID:(pid_t)parentPid
-     isForegroundJob:(BOOL)isForegroundJob {
+    addProcessWithProcessID:(pid_t)pid
+    parentProcessID:(pid_t)parentPid
+    isForegroundJob:(BOOL)isForegroundJob {
     iTermProcessInfo *info = [collection addProcessWithProcessID:pid parentProcessID:parentPid];
     [info privateSetIsForegroundJob:isForegroundJob];
 }

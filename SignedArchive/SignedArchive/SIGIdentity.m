@@ -19,9 +19,13 @@
 }
 
 + (NSDictionary *)queryForSigningIdentities {
-    NSDictionary *dict = @{ (__bridge id)kSecClass: (__bridge id)kSecClassIdentity,
-                            (__bridge id)kSecReturnRef: (__bridge id)kCFBooleanTrue,
-                            (__bridge id)kSecMatchLimit: (__bridge id)kSecMatchLimitAll };
+    NSDictionary *dict = @ { (__bridge id)kSecClass:
+                             (__bridge id)kSecClassIdentity,
+                             (__bridge id)kSecReturnRef:
+                             (__bridge id)kCFBooleanTrue,
+                             (__bridge id)kSecMatchLimit:
+                             (__bridge id)kSecMatchLimitAll
+                           };
     return dict;
 }
 
@@ -52,19 +56,19 @@
         NSError *trustError = nil;
         // Don't use the CRL policy because it would need to make a network round-trip.
         SIGTrust *trust = [[SIGTrust alloc] initWithCertificates:@[ identity.signingCertificate ]
-                                                        policies:@[ [[SIGX509Policy alloc] init] ]
-                                                           error:&trustError];
+                                            policies:@[ [[SIGX509Policy alloc] init] ]
+                                            error:&trustError];
         if (!trust || trustError) {
             continue;
         }
         dispatch_group_enter(group);
         [trust evaluateWithCompletion:^(BOOL ok, NSError * _Nullable error) {
-            if (ok) {
-                @synchronized(identities) {
-                    [identities addObject:identity];
-                }
-            }
-            dispatch_group_leave(group);
+                  if (ok) {
+                      @synchronized(identities) {
+                          [identities addObject:identity];
+                      }
+                  }
+                  dispatch_group_leave(group);
         }];
     }
     dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
@@ -94,11 +98,11 @@
 - (SIGKey *)privateKey {
     SecKeyRef privateKey;
     OSStatus err = SecIdentityCopyPrivateKey(_secIdentity,
-                                             &privateKey);
+                   &privateKey);
     if (err != noErr) {
         return nil;
     }
-    
+
     SIGKey *result = [[SIGKey alloc] initWithSecKey:privateKey];
     CFRelease(privateKey);
     return result;

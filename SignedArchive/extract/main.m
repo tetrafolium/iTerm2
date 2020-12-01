@@ -22,9 +22,9 @@ static NSError *Extract(NSString *source, NSString *destination) {
     dispatch_group_t group = dispatch_group_create();
     dispatch_group_enter(group);
     [verifier verifyAndWritePayloadToURL:destinationURL completion:^(BOOL ok, NSError *error) {
-        result = ok;
-        errorResult = error;
-        dispatch_group_leave(group);
+                 result = ok;
+                 errorResult = error;
+                 dispatch_group_leave(group);
     }];
     dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
     if (result) {

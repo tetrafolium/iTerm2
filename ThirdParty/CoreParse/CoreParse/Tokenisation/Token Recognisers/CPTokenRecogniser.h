@@ -18,10 +18,10 @@
 @required
 /**
  * Attempts to recognise a token at tokenPosition in tokenString.
- * 
+ *
  * If a token is successfully recognised, it should be returned, and tokenPosition advanced to after the consumed characters.
  * If no valid token is found `nil` must be returned instead, and tokenPosition left unchanged.
- * 
+ *
  * @param tokenString The string in which to recognise tokens.
  * @param tokenPosition The position at which to try to find the token.  On output, the position after the recognised token.
  * @return Returns the token recognised.

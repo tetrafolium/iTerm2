@@ -4,12 +4,12 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p object=%@ key=%@ left=%p right=%p>",
-               NSStringFromClass([self class]),
-               self,
-               self.object,
-               self.keyDescription,
-               self.leftChild,
-               self.rightChild];
+                     NSStringFromClass([self class]),
+                     self,
+                     self.object,
+                     self.keyDescription,
+                     self.leftChild,
+                     self.rightChild];
 }
 
 - (double)distanceTo:(NSArray *)key {
@@ -34,13 +34,13 @@
     NSMutableString *result = [NSMutableString string];
     if (self.leftChild) {
         [result appendFormat:@"\"%@ @ %@\" -> \"%@ @ %@\"\n",
-            self.object, self.keyDescription, self.leftChild.object, self.leftChild.keyDescription];
+                self.object, self.keyDescription, self.leftChild.object, self.leftChild.keyDescription];
         [result appendString:self.leftChild.dot];
     }
     if (self.rightChild) {
         [result appendFormat:@"\"%@ @ %@\" -> \"%@ @ %@\"\n",
-            self.object, self.keyDescription, self.rightChild.object,
-            self.rightChild.keyDescription];
+                self.object, self.keyDescription, self.rightChild.object,
+                self.rightChild.keyDescription];
         [result appendString:self.rightChild.dot];
     }
     return result;

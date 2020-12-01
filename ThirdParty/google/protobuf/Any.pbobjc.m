@@ -4,19 +4,19 @@
 // This CPP symbol can be defined to use imports that match up to the framework
 // imports needed when using CocoaPods.
 #if !defined(GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS)
- #define GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS 0
+#define GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS 0
 #endif
 
 #if GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS
- #import <Protobuf/GPBProtocolBuffers_RuntimeSupport.h>
+#import <Protobuf/GPBProtocolBuffers_RuntimeSupport.h>
 #else
- #import "GPBProtocolBuffers_RuntimeSupport.h"
+#import "GPBProtocolBuffers_RuntimeSupport.h"
 #endif
 
 #if GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS
- #import <Protobuf/Any.pbobjc.h>
+#import <Protobuf/Any.pbobjc.h>
 #else
- #import "google/protobuf/Any.pbobjc.h"
+#import "google/protobuf/Any.pbobjc.h"
 #endif
 // @@protoc_insertion_point(imports)
 
@@ -35,16 +35,16 @@
 #pragma mark - GPBAnyRoot_FileDescriptor
 
 static GPBFileDescriptor *GPBAnyRoot_FileDescriptor(void) {
-  // This is called by +initialize so there is no need to worry
-  // about thread safety of the singleton.
-  static GPBFileDescriptor *descriptor = NULL;
-  if (!descriptor) {
-    GPB_DEBUG_CHECK_RUNTIME_VERSIONS();
-    descriptor = [[GPBFileDescriptor alloc] initWithPackage:@"google.protobuf"
-                                                 objcPrefix:@"GPB"
-                                                     syntax:GPBFileSyntaxProto3];
-  }
-  return descriptor;
+    // This is called by +initialize so there is no need to worry
+    // about thread safety of the singleton.
+    static GPBFileDescriptor *descriptor = NULL;
+    if (!descriptor) {
+        GPB_DEBUG_CHECK_RUNTIME_VERSIONS();
+        descriptor = [[GPBFileDescriptor alloc] initWithPackage:@"google.protobuf"
+                                                objcPrefix:@"GPB"
+                                                syntax:GPBFileSyntaxProto3];
+    }
+    return descriptor;
 }
 
 #pragma mark - GPBAny
@@ -55,53 +55,53 @@ static GPBFileDescriptor *GPBAnyRoot_FileDescriptor(void) {
 @dynamic value;
 
 typedef struct GPBAny__storage_ {
-  uint32_t _has_storage_[1];
-  NSString *typeURL;
-  NSData *value;
+    uint32_t _has_storage_[1];
+    NSString *typeURL;
+    NSData *value;
 } GPBAny__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
 + (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "typeURL",
-        .dataTypeSpecific.className = NULL,
-        .number = GPBAny_FieldNumber_TypeURL,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(GPBAny__storage_, typeURL),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "value",
-        .dataTypeSpecific.className = NULL,
-        .number = GPBAny_FieldNumber_Value,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(GPBAny__storage_, value),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeBytes,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[GPBAny class]
-                                     rootClass:[GPBAnyRoot class]
-                                          file:GPBAnyRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(GPBAny__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
+    static GPBDescriptor *descriptor = nil;
+    if (!descriptor) {
+        static GPBMessageFieldDescription fields[] = {
+            {
+                .name = "typeURL",
+                .dataTypeSpecific.className = NULL,
+                .number = GPBAny_FieldNumber_TypeURL,
+                .hasIndex = 0,
+                .offset = (uint32_t)offsetof(GPBAny__storage_, typeURL),
+                .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+                .dataType = GPBDataTypeString,
+            },
+            {
+                .name = "value",
+                .dataTypeSpecific.className = NULL,
+                .number = GPBAny_FieldNumber_Value,
+                .hasIndex = 1,
+                .offset = (uint32_t)offsetof(GPBAny__storage_, value),
+                .flags = GPBFieldOptional,
+                .dataType = GPBDataTypeBytes,
+            },
+        };
+        GPBDescriptor *localDescriptor =
+            [GPBDescriptor allocDescriptorForClass:[GPBAny class]
+                           rootClass:[GPBAnyRoot class]
+                           file:GPBAnyRoot_FileDescriptor()
+                           fields:fields
+                           fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                           storageSize:sizeof(GPBAny__storage_)
+                           flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
-    static const char *extraTextFormatInfo =
-        "\001\001\004\241!!\000";
-    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+        static const char *extraTextFormatInfo =
+            "\001\001\004\241!!\000";
+        [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
+        NSAssert(descriptor == nil, @"Startup recursed!");
+        descriptor = localDescriptor;
+    }
+    return descriptor;
 }
 
 @end

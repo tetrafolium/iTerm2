@@ -25,20 +25,20 @@
 }
 
 - (void)verifyCharacters:(NSString *)characters
-charactersIgnoringModifiers:(NSString *)charactersIgnoringModifiers
-               modifiers:(NSEventModifierFlags)modifiers
-                 keycode:(int)keycode
-                expected:(NSString *)expected {
+    charactersIgnoringModifiers:(NSString *)charactersIgnoringModifiers
+    modifiers:(NSEventModifierFlags)modifiers
+    keycode:(int)keycode
+    expected:(NSString *)expected {
     NSEvent *event = [NSEvent keyEventWithType:NSEventTypeKeyDown
-                                      location:NSZeroPoint
-                                 modifierFlags:modifiers
-                                     timestamp:[NSDate timeIntervalSinceReferenceDate]
-                                  windowNumber:0
-                                       context:nil
-                                    characters:characters
-                   charactersIgnoringModifiers:charactersIgnoringModifiers
-                                     isARepeat:NO
-                                       keyCode:keycode];
+                              location:NSZeroPoint
+                              modifierFlags:modifiers
+                              timestamp:[NSDate timeIntervalSinceReferenceDate]
+                              windowNumber:0
+                              context:nil
+                              characters:characters
+                              charactersIgnoringModifiers:charactersIgnoringModifiers
+                              isARepeat:NO
+                              keyCode:keycode];
     NSString *actual = [_mapper keyMapperStringForPreCocoaEvent:event];
     if (!actual) {
         NSData *data = [_mapper keyMapperDataForPostCocoaEvent:event];
@@ -65,9 +65,9 @@ charactersIgnoringModifiers:(NSString *)charactersIgnoringModifiers
 }
 
 - (NSString *)csiUWithCodepoint:(unichar)codepoint
-                        control:(BOOL)control
-                          shift:(BOOL)shift
-                         option:(BOOL)option {
+    control:(BOOL)control
+    shift:(BOOL)shift
+    option:(BOOL)option {
     int mod = 1;
     if (shift) {
         mod += 1;

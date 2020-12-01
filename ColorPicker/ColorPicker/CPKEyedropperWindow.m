@@ -33,10 +33,10 @@ const NSTimeInterval kUpdateInterval = 1.0 / 60.0;
     NSPoint origin = [CPKEyedropperWindow origin];
     NSRect frame = NSMakeRect(origin.x, origin.y, kSize, kSize);
     CPKEyedropperWindow *eyedropperWindow =
-            [[CPKEyedropperWindow alloc] initWithContentRect:frame
-                                           styleMask:NSBorderlessWindowMask
-                                                     backing:NSBackingStoreBuffered
-                                                       defer:NO];
+        [[CPKEyedropperWindow alloc] initWithContentRect:frame
+                                     styleMask:NSBorderlessWindowMask
+                                     backing:NSBackingStoreBuffered
+                                     defer:NO];
     eyedropperWindow.opaque = NO;
     eyedropperWindow.backgroundColor = [NSColor clearColor];
     eyedropperWindow.hasShadow = NO;
@@ -57,7 +57,7 @@ const NSTimeInterval kUpdateInterval = 1.0 / 60.0;
     eyedropperWindow.level = NSMainMenuWindowLevel + 1;
     [eyedropperWindow makeKeyAndOrderFront:nil];
 
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         [eyedropperWindow finishPickingColorWithCompletion:completion];
     });
 }
@@ -99,19 +99,19 @@ const NSTimeInterval kUpdateInterval = 1.0 / 60.0;
     [myRunLoop addPort:port
                forMode:NSDefaultRunLoopMode];
     NSTimer *timer = [NSTimer timerWithTimeInterval:kUpdateInterval
-                                             target:self
-                                           selector:@selector(sampleForPick:)
-                                           userInfo:nil
-                                            repeats:YES];
+                              target:self
+                              selector:@selector(sampleForPick:)
+                              userInfo:nil
+                              repeats:YES];
     [[NSNotificationCenter defaultCenter]
-        addObserver:self
-           selector:@selector(stopPicking:)
-               name:NSApplicationDidChangeScreenParametersNotification
-             object:nil];
+     addObserver:self
+     selector:@selector(stopPicking:)
+     name:NSApplicationDidChangeScreenParametersNotification
+     object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(stopPicking:)
-                                                 name:NSApplicationWillResignActiveNotification
-                                               object:nil];
+                                          selector:@selector(stopPicking:)
+                                          name:NSApplicationWillResignActiveNotification
+                                          object:nil];
 
     [myRunLoop addTimer:timer forMode:NSDefaultRunLoopMode];
     while (1) {
@@ -119,7 +119,7 @@ const NSTimeInterval kUpdateInterval = 1.0 / 60.0;
             break;
         }
         [myRunLoop runMode:NSDefaultRunLoopMode
-                beforeDate:[NSDate dateWithTimeIntervalSinceNow:kUpdateInterval]];
+                   beforeDate:[NSDate dateWithTimeIntervalSinceNow:kUpdateInterval]];
     }
     [timer invalidate];
     [NSApp endModalSession:session];
@@ -138,11 +138,11 @@ const NSTimeInterval kUpdateInterval = 1.0 / 60.0;
     NSPoint location = [NSEvent mouseLocation];
     __block NSInteger result = -1;
     [[NSScreen screens] enumerateObjectsUsingBlock:^(NSScreen * _Nonnull screen, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (NSPointInRect(location, screen.frame)) {
-            result = idx;
-            *stop = YES;
-        }
-    }];
+                           if (NSPointInRect(location, screen.frame)) {
+                               result = idx;
+                               *stop = YES;
+                           }
+                       }];
     return result;
 }
 

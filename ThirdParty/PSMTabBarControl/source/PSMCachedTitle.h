@@ -15,7 +15,7 @@ typedef NS_ENUM(int, PSMTabBarOrientation) {
 };
 
 
-@interface PSMCachedTitleInputs: NSObject
+@interface PSMCachedTitleInputs : NSObject
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic) NSLineBreakMode truncationStyle;
 @property (nonatomic, strong) NSColor *color;
@@ -25,16 +25,16 @@ typedef NS_ENUM(int, PSMTabBarOrientation) {
 @property (nonatomic) BOOL parseHTML;
 
 - (instancetype)initWithTitle:(NSString *)title
-              truncationStyle:(NSLineBreakMode)truncationStyle
-                        color:(NSColor *)color
-                      graphic:(NSImage *)graphic
-                  orientation:(PSMTabBarOrientation)orientation
-                     fontSize:(CGFloat)fontSize
-                    parseHTML:(BOOL)parseHTML NS_DESIGNATED_INITIALIZER;
+    truncationStyle:(NSLineBreakMode)truncationStyle
+    color:(NSColor *)color
+    graphic:(NSImage *)graphic
+    orientation:(PSMTabBarOrientation)orientation
+    fontSize:(CGFloat)fontSize
+    parseHTML:(BOOL)parseHTML NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 @end
 
-@interface PSMCachedTitle: NSObject
+@interface PSMCachedTitle : NSObject
 @property (nonatomic, readonly) PSMCachedTitleInputs *inputs;
 @property (nonatomic, readonly) BOOL isEmpty;
 @property (nonatomic, readonly) NSSize size;
@@ -43,7 +43,7 @@ typedef NS_ENUM(int, PSMTabBarOrientation) {
 - (instancetype)init NS_UNAVAILABLE;
 - (NSRect)boundingRectWithSize:(NSSize)size;
 - (NSAttributedString *)attributedStringForcingLeftAlignment:(BOOL)forceLeft
-                                           truncatedForWidth:(CGFloat)truncatingWidth;
+    truncatedForWidth:(CGFloat)truncatingWidth;
 
 @end
 

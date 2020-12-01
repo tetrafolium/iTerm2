@@ -4,13 +4,13 @@
 // This CPP symbol can be defined to use imports that match up to the framework
 // imports needed when using CocoaPods.
 #if !defined(GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS)
- #define GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS 0
+#define GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS 0
 #endif
 
 #if GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS
- #import <Protobuf/GPBProtocolBuffers.h>
+#import <Protobuf/GPBProtocolBuffers.h>
 #else
- #import "GPBProtocolBuffers.h"
+#import "GPBProtocolBuffers.h"
 #endif
 
 #if GOOGLE_PROTOBUF_OBJC_VERSION < 30002
@@ -53,13 +53,13 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - GPBApi
 
 typedef GPB_ENUM(GPBApi_FieldNumber) {
-  GPBApi_FieldNumber_Name = 1,
-  GPBApi_FieldNumber_MethodsArray = 2,
-  GPBApi_FieldNumber_OptionsArray = 3,
-  GPBApi_FieldNumber_Version = 4,
-  GPBApi_FieldNumber_SourceContext = 5,
-  GPBApi_FieldNumber_MixinsArray = 6,
-  GPBApi_FieldNumber_Syntax = 7,
+    GPBApi_FieldNumber_Name = 1,
+    GPBApi_FieldNumber_MethodsArray = 2,
+    GPBApi_FieldNumber_OptionsArray = 3,
+    GPBApi_FieldNumber_Version = 4,
+    GPBApi_FieldNumber_SourceContext = 5,
+    GPBApi_FieldNumber_MixinsArray = 6,
+    GPBApi_FieldNumber_Syntax = 7,
 };
 
 /**
@@ -67,10 +67,10 @@ typedef GPB_ENUM(GPBApi_FieldNumber) {
  **/
 @interface GPBApi : GPBMessage
 
-/**
- * The fully qualified name of this api, including package name
- * followed by the api's simple name.
- **/
+    /**
+     * The fully qualified name of this api, including package name
+     * followed by the api's simple name.
+     **/
 @property(nonatomic, readwrite, copy, null_resettable) NSString *name;
 
 /** The methods of this api, in unspecified order. */
@@ -140,13 +140,13 @@ void SetGPBApi_Syntax_RawValue(GPBApi *message, int32_t value);
 #pragma mark - GPBMethod
 
 typedef GPB_ENUM(GPBMethod_FieldNumber) {
-  GPBMethod_FieldNumber_Name = 1,
-  GPBMethod_FieldNumber_RequestTypeURL = 2,
-  GPBMethod_FieldNumber_RequestStreaming = 3,
-  GPBMethod_FieldNumber_ResponseTypeURL = 4,
-  GPBMethod_FieldNumber_ResponseStreaming = 5,
-  GPBMethod_FieldNumber_OptionsArray = 6,
-  GPBMethod_FieldNumber_Syntax = 7,
+    GPBMethod_FieldNumber_Name = 1,
+    GPBMethod_FieldNumber_RequestTypeURL = 2,
+    GPBMethod_FieldNumber_RequestStreaming = 3,
+    GPBMethod_FieldNumber_ResponseTypeURL = 4,
+    GPBMethod_FieldNumber_ResponseStreaming = 5,
+    GPBMethod_FieldNumber_OptionsArray = 6,
+    GPBMethod_FieldNumber_Syntax = 7,
 };
 
 /**
@@ -154,7 +154,7 @@ typedef GPB_ENUM(GPBMethod_FieldNumber) {
  **/
 @interface GPBMethod : GPBMessage
 
-/** The simple name of this method. */
+    /** The simple name of this method. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *name;
 
 /** A URL of the input message type. */
@@ -194,8 +194,8 @@ void SetGPBMethod_Syntax_RawValue(GPBMethod *message, int32_t value);
 #pragma mark - GPBMixin
 
 typedef GPB_ENUM(GPBMixin_FieldNumber) {
-  GPBMixin_FieldNumber_Name = 1,
-  GPBMixin_FieldNumber_Root = 2,
+    GPBMixin_FieldNumber_Name = 1,
+    GPBMixin_FieldNumber_Root = 2,
 };
 
 /**
@@ -279,7 +279,7 @@ typedef GPB_ENUM(GPBMixin_FieldNumber) {
  **/
 @interface GPBMixin : GPBMessage
 
-/** The fully qualified name of the API which is included. */
+    /** The fully qualified name of the API which is included. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *name;
 
 /**

@@ -17,7 +17,7 @@
  *
  *  The above copyright notice and this permission notice shall be
  *  included in all copies or substantial portions of the Software.
- * 
+ *
  *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  *  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  *  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -41,7 +41,7 @@
 #pragma mark Initialisation
 
 /**
- * Returns an initialized instance of SCEvent using the supplied event ID, date, path 
+ * Returns an initialized instance of SCEvent using the supplied event ID, date, path
  * and flag.
  *
  * @param identifer The ID of the event
@@ -51,10 +51,10 @@
  *
  * @return The initialized (autoreleased) instance
  */
-+ (SCEvent *)eventWithEventId:(NSUInteger)identifier 
-					eventDate:(NSDate *)date 
-					eventPath:(NSString *)path 
-				   eventFlags:(SCEventFlags)flags
++ (SCEvent *)eventWithEventId:(NSUInteger)identifier
+    eventDate:(NSDate *)date
+    eventPath:(NSString *)path
+    eventFlags:(SCEventFlags)flags
 {
     return [[[SCEvent alloc] initWithEventId:identifier eventDate:date eventPath:path eventFlags:flags] autorelease];
 }
@@ -69,10 +69,10 @@
  *
  * @return The initialized instance
  */
-- (id)initWithEventId:(NSUInteger)identifier 
-			eventDate:(NSDate *)date 
-			eventPath:(NSString *)path 
-		   eventFlags:(SCEventFlags)flags
+- (id)initWithEventId:(NSUInteger)identifier
+    eventDate:(NSDate *)date
+    eventPath:(NSString *)path
+    eventFlags:(SCEventFlags)flags
 {
     if ((self = [super init])) {
         [self setEventId:identifier];
@@ -80,7 +80,7 @@
         [self setEventPath:path];
         [self setEventFlags:flags];
     }
-    
+
     return self;
 }
 
@@ -95,11 +95,11 @@
  */
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@ { eventId = %ld, eventPath = %@, eventFlags = %ld } >", 
-			[self className], 
-			((unsigned long)_eventId), 
-			[self eventPath], 
-			((unsigned long)_eventFlags)];
+    return [NSString stringWithFormat:@"<%@ { eventId = %ld, eventPath = %@, eventFlags = %ld } >",
+                     [self className],
+                     ((unsigned long)_eventId),
+                     [self eventPath],
+                     ((unsigned long)_eventFlags)];
 }
 
 #pragma mark -

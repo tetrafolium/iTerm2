@@ -28,20 +28,20 @@
 - (id)initWithObject:(NSObject *)initObject state:(NSUInteger)initState
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         [self setObject:initObject];
         [self setState:initState];
     }
-    
+
     return self;
 }
 
 - (void)dealloc
 {
     [object release];
-    
+
     [super dealloc];
 }
 

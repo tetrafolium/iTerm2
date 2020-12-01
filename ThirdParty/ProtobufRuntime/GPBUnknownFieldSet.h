@@ -42,13 +42,13 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBUnknownFieldSet : NSObject<NSCopying>
 
-/**
- * Tests to see if the given field number has a value.
- *
- * @param number The field number to check.
- *
- * @return YES if there is an unknown field for the given field number.
- **/
+    /**
+     * Tests to see if the given field number has a value.
+     *
+     * @param number The field number to check.
+     *
+     * @return YES if there is an unknown field for the given field number.
+     **/
 - (BOOL)hasField:(int32_t)number;
 
 /**

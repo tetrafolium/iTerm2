@@ -18,10 +18,10 @@
         delta = -delta;
     }
     return [NSColor colorWithSRGBRed:color.redComponent + delta
-                               green:color.greenComponent + delta
-                                blue:color.blueComponent + delta
-                               alpha:1];
-    
+                    green:color.greenComponent + delta
+                    blue:color.blueComponent + delta
+                    alpha:1];
+
 }
 
 - (NSColor *)psm_highlightedColor:(double)weight {
@@ -34,10 +34,10 @@
     }
     delta *= weight;
     return [NSColor colorWithSRGBRed:color.redComponent + delta
-                               green:color.greenComponent + delta
-                                blue:color.blueComponent + delta
-                               alpha:1];
-    
+                    green:color.greenComponent + delta
+                    blue:color.blueComponent + delta
+                    alpha:1];
+
 }
 
 @end
@@ -103,7 +103,7 @@
 
 - (NSColor *)nonSelectedTabColor {
     const double difference = [[self.tabBar.delegate tabView:self.tabBar
-                                               valueOfOption:PSMTabBarControlOptionMinimalStyleBackgroundColorDifference] doubleValue];
+                                valueOfOption:PSMTabBarControlOptionMinimalStyleBackgroundColorDifference] doubleValue];
     return [self colorByDimmingColor:[self.tabBarColor psm_nonSelectedColorWithDifference:difference]];
 }
 
@@ -124,7 +124,7 @@
 
 - (NSColor *)colorByDimmingColor:(NSColor *)color {
     const CGFloat dimmingAmount = [[self.tabBar.delegate tabView:self.tabBar
-                                                   valueOfOption:PSMTabBarControlOptionDimmingAmount] doubleValue];
+                                    valueOfOption:PSMTabBarControlOptionDimmingAmount] doubleValue];
     if (dimmingAmount > 0) {
         CGFloat components[4];
         [color getComponents:components];
@@ -156,7 +156,7 @@
 }
 
 - (void)drawPostHocDecorationsOnSelectedCell:(PSMTabBarCell *)cell
-                               tabBarControl:(PSMTabBarControl *)bar {
+    tabBarControl:(PSMTabBarControl *)bar {
     if (self.anyTabHasColor) {
         const BOOL tabColorIsDark = ([self tabColorBrightness:cell] < 0.);
         NSRect containingFrame = cell.frame;
@@ -170,7 +170,7 @@
         }
         NSRect rect = NSInsetRect(containingFrame, 0, 0);
         NSBezierPath *path;
-        
+
         NSColor *outerColor;
         NSColor *innerColor;
         const BOOL keyMainAndActive = self.windowIsMainAndAppIsActive;
@@ -205,9 +205,9 @@
 
 - (NSColor *)outlineColor {
     CGFloat backgroundBrightness = self.tabBarColor.it_hspBrightness;
-    
+
     const CGFloat alpha = [[self.tabBar.delegate tabView:self.tabBar
-                                           valueOfOption:PSMTabBarControlOptionColoredMinimalOutlineStrength] doubleValue];
+                            valueOfOption:PSMTabBarControlOptionColoredMinimalOutlineStrength] doubleValue];
     CGFloat value;
     if (backgroundBrightness < 0.5) {
         value = 1;
@@ -224,10 +224,10 @@
 }
 
 - (void)drawCellBackgroundSelected:(BOOL)selected
-                            inRect:(NSRect)cellFrame
-                      withTabColor:(NSColor *)tabColor
-                   highlightAmount:(CGFloat)highlightAmount
-                        horizontal:(BOOL)horizontal {
+    inRect:(NSRect)cellFrame
+    withTabColor:(NSColor *)tabColor
+    highlightAmount:(CGFloat)highlightAmount
+    horizontal:(BOOL)horizontal {
     const BOOL horizontalOrientation = self.tabBar.orientation == PSMTabBarHorizontalOrientation;
     NSEdgeInsets insets = NSEdgeInsetsZero;
     BOOL drawFrame = NO;
@@ -261,8 +261,8 @@
 }
 
 - (void)drawBackgroundInRect:(NSRect)rect
-                       color:(NSColor *)backgroundColor
-                  horizontal:(BOOL)horizontal {
+    color:(NSColor *)backgroundColor
+    horizontal:(BOOL)horizontal {
     if (self.orientation == PSMTabBarVerticalOrientation && [self.tabBar frame].size.width < 2) {
         return;
     }
@@ -288,7 +288,7 @@
 
 - (BOOL)treatLeftInsetAsPartOfFirstTab {
     return [[self.tabBar.delegate tabView:self.tabBar
-                            valueOfOption:PSMTabBarControlOptionMinimalStyleTreatLeftInsetAsPartOfFirstTab] boolValue];
+             valueOfOption:PSMTabBarControlOptionMinimalStyleTreatLeftInsetAsPartOfFirstTab] boolValue];
 }
 
 - (void)drawStartInset {
@@ -323,9 +323,9 @@
     BOOL selected = (bar.orientation == PSMTabBarHorizontalOrientation) || [self firstTabIsSelected];
 
     return [self effectiveBackgroundColorForTabWithTabColor:cell.tabColor
-                                                   selected:selected
-                                            highlightAmount:0
-                                                     window:self.tabBar.window];
+                 selected:selected
+                 highlightAmount:0
+                 window:self.tabBar.window];
 }
 
 - (PSMTabBarCell *)selectedVisibleCell {
@@ -423,10 +423,10 @@
 }
 
 - (void)drawTabBar:(PSMTabBarControl *)bar
-            inRect:(NSRect)rect
-          clipRect:(NSRect)clipRect
-        horizontal:(BOOL)horizontal
-      withOverflow:(BOOL)withOverflow {
+    inRect:(NSRect)rect
+    clipRect:(NSRect)clipRect
+    horizontal:(BOOL)horizontal
+    withOverflow:(BOOL)withOverflow {
     [super drawTabBar:bar inRect:rect clipRect:clipRect horizontal:horizontal withOverflow:withOverflow];
     const BOOL horizontalOrientation = bar.orientation == PSMTabBarHorizontalOrientation;
 
@@ -510,10 +510,10 @@
     NSRect frame = cell.frame;
     if (!cell || cell.isInOverflowMenu) {
         frame = NSMakeRect(NSMaxX(bar.frame) - [self rightMarginForTabBarControlWithOverflow:bar.lainOutWithOverflow
-                                                                                addTabButton:bar.showAddTabButton],
+                                                     addTabButton:bar.showAddTabButton],
                            0,
                            [self rightMarginForTabBarControlWithOverflow:bar.lainOutWithOverflow
-                                                            addTabButton:bar.showAddTabButton],
+                                 addTabButton:bar.showAddTabButton],
                            NSHeight(bar.frame));
     }
     const CGFloat left = 0.5;
@@ -583,10 +583,10 @@
     NSRect frame = cell.frame;
     if (!cell || cell.isInOverflowMenu) {
         frame = NSMakeRect(NSMaxX(bar.frame) - [self rightMarginForTabBarControlWithOverflow:bar.lainOutWithOverflow
-                                                                                addTabButton:bar.showAddTabButton],
+                                                     addTabButton:bar.showAddTabButton],
                            0,
                            [self rightMarginForTabBarControlWithOverflow:bar.lainOutWithOverflow
-                                                            addTabButton:bar.showAddTabButton],
+                                 addTabButton:bar.showAddTabButton],
                            NSHeight(bar.frame));
     }
     const CGFloat left = 0;
@@ -666,7 +666,7 @@
 }
 
 - (NSColor *)cellBackgroundColorForTabColor:(NSColor *)tabColor
-                                   selected:(BOOL)selected {
+    selected:(BOOL)selected {
     CGFloat alpha = selected ? 1 : 0.5;
     const BOOL keyMainAndActive = self.windowIsMainAndAppIsActive;
     if (!keyMainAndActive) {

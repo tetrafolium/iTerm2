@@ -34,10 +34,10 @@
     NSUInteger itemCount = [kernels count];
     NSArray *allNonTerminalNames = [[self grammar] allNonTerminalNames];
     NSString *startSymbol = [aug start];
-    
+
     [self setActionTable:[[[CPShiftReduceActionTable alloc] initWithCapacity:itemCount] autorelease]];
     [self setGotoTable:  [[[CPShiftReduceGotoTable   alloc] initWithCapacity:itemCount] autorelease]];
-    
+
     NSUInteger idx = 0;
     for (NSSet *kernel in kernels)
     {
@@ -75,7 +75,7 @@
                 }
             }
         }
-        
+
         for (NSString *nonTerminalName in allNonTerminalNames)
         {
             NSSet *g = [aug lr1GotoKernelWithItems:itemsSet symbol:[CPGrammarSymbol nonTerminalWithName:nonTerminalName]];
@@ -89,7 +89,7 @@
 
         idx++;
     }
-        
+
     return YES;
 }
 
@@ -99,16 +99,16 @@
     NSSet *initialKernel = [NSSet setWithObject:[CPLR1Item lr1ItemWithRule:startRule position:0 terminal:[CPGrammarSymbol terminalWithName:@"EOF"]]];
     NSMutableArray *c = [NSMutableArray arrayWithObject:initialKernel];
     NSMutableArray *processingQueue = [NSMutableArray arrayWithObject:initialKernel];
-    
+
     while ([processingQueue count] > 0)
     {
         NSSet *kernels = [processingQueue objectAtIndex:0];
         NSSet *itemSet = [aug lr1Closure:kernels];
         NSSet *validNexts = [itemSet cp_map:^ id (CPItem *item)
-                             {
-                                 return [item nextSymbol];
-                             }];
-        
+                {
+                    return [item nextSymbol];
+                }];
+
         for (CPGrammarSymbol *s in validNexts)
         {
             NSSet *g = [aug lr1GotoKernelWithItems:itemSet symbol:s];
@@ -118,10 +118,10 @@
                 [c addObject:g];
             }
         }
-        
+
         [processingQueue removeObjectAtIndex:0];
     }
-    
+
     return c;
 }
 

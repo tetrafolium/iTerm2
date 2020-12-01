@@ -12,7 +12,7 @@
 
 /**
  * The CPNumberToken class reperesents a number appearing in the input.
- * 
+ *
  * These tokens return `@"Number"` as their name.
  */
 @interface CPNumberToken : CPToken
@@ -21,14 +21,14 @@
 /// @name Creating and Initialising a Number Token
 ///---------------------------------------------------------------------------------------
 
-/**
- * Creates a number token with the number found in the input.
- *
- * @param number The number found in the input stream.
- * @return Returns a CPNumberToken representing the specified number.
- *
- * @see initWithNumber:
- */
+    /**
+     * Creates a number token with the number found in the input.
+     *
+     * @param number The number found in the input stream.
+     * @return Returns a CPNumberToken representing the specified number.
+     *
+     * @see initWithNumber:
+     */
 + (id)tokenWithNumber:(NSNumber *)number;
 
 /**

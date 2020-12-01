@@ -20,8 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSArray<id<SIGPolicy>> *policies;
 
 - (instancetype)initWithCertificates:(NSArray<SIGCertificate *> *)certificates
-                            policies:(NSArray<id<SIGPolicy>> *)policies
-                               error:(out NSError **)error NS_DESIGNATED_INITIALIZER;
+    policies:(NSArray<id<SIGPolicy>> *)policies
+    error:(out NSError **)error NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 

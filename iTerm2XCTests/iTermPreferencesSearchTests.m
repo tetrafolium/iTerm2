@@ -23,8 +23,8 @@
 
 - (void)testDocumentTokenization {
     iTermPreferencesSearchDocument *doc1 = [iTermPreferencesSearchDocument documentWithDisplayName:@"foo bar"
-                                                                                        identifier:@"id1"
-                                                                                    keywordPhrases:@[ @"lorem ipsum dolor", @"sit amet" ]];
+                                                                           identifier:@"id1"
+                                                                           keywordPhrases:@[ @"lorem ipsum dolor", @"sit amet" ]];
     NSArray *expected = [@[ @"foo", @"bar", @"lorem", @"ipsum", @"dolor", @"sit", @"amet" ] sortedArrayUsingSelector:@selector(compare:)];
     NSArray *actual = [doc1.allKeywords sortedArrayUsingSelector:@selector(compare:)];
     XCTAssertEqualObjects(actual, expected);
@@ -32,11 +32,11 @@
 
 - (void)testSimple {
     iTermPreferencesSearchDocument *doc1 = [iTermPreferencesSearchDocument documentWithDisplayName:@"1"
-                                                                                        identifier:@"id1"
-                                                                                    keywordPhrases:@[]];
+                                                                           identifier:@"id1"
+                                                                           keywordPhrases:@[]];
     iTermPreferencesSearchDocument *doc2 = [iTermPreferencesSearchDocument documentWithDisplayName:@"2"
-                                                                                        identifier:@"id2"
-                                                                                    keywordPhrases:@[]];
+                                                                           identifier:@"id2"
+                                                                           keywordPhrases:@[]];
     [_engine addDocumentToIndex:doc1];
     [_engine addDocumentToIndex:doc2];
 
@@ -47,14 +47,14 @@
 
 - (void)testMultiword {
     iTermPreferencesSearchDocument *doc1 = [iTermPreferencesSearchDocument documentWithDisplayName:@"foo bar"
-                                                                                        identifier:@"id1"
-                                                                                    keywordPhrases:@[]];
+                                                                           identifier:@"id1"
+                                                                           keywordPhrases:@[]];
     iTermPreferencesSearchDocument *doc2 = [iTermPreferencesSearchDocument documentWithDisplayName:@"bar baz foo"
-                                                                                        identifier:@"id2"
-                                                                                    keywordPhrases:@[]];
+                                                                           identifier:@"id2"
+                                                                           keywordPhrases:@[]];
     iTermPreferencesSearchDocument *doc3 = [iTermPreferencesSearchDocument documentWithDisplayName:@"baz foo"
-                                                                                        identifier:@"id3"
-                                                                                    keywordPhrases:@[]];
+                                                                           identifier:@"id3"
+                                                                           keywordPhrases:@[]];
     [_engine addDocumentToIndex:doc1];
     [_engine addDocumentToIndex:doc2];
     [_engine addDocumentToIndex:doc3];
@@ -66,14 +66,14 @@
 
 - (void)testPrefixMatches {
     iTermPreferencesSearchDocument *doc1 = [iTermPreferencesSearchDocument documentWithDisplayName:@"aa ab ba"
-                                                                                        identifier:@"id1"
-                                                                                    keywordPhrases:@[]];
+                                                                           identifier:@"id1"
+                                                                           keywordPhrases:@[]];
     iTermPreferencesSearchDocument *doc2 = [iTermPreferencesSearchDocument documentWithDisplayName:@"a"
-                                                                                        identifier:@"id2"
-                                                                                    keywordPhrases:@[]];
+                                                                           identifier:@"id2"
+                                                                           keywordPhrases:@[]];
     iTermPreferencesSearchDocument *doc3 = [iTermPreferencesSearchDocument documentWithDisplayName:@"abc"
-                                                                                        identifier:@"id3"
-                                                                                    keywordPhrases:@[]];
+                                                                           identifier:@"id3"
+                                                                           keywordPhrases:@[]];
     [_engine addDocumentToIndex:doc1];
     [_engine addDocumentToIndex:doc2];
     [_engine addDocumentToIndex:doc3];

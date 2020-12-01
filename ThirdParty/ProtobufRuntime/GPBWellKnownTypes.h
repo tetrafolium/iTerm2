@@ -33,17 +33,17 @@
 // This CPP symbol can be defined to use imports that match up to the framework
 // imports needed when using CocoaPods.
 #if !defined(GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS)
- #define GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS 0
+#define GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS 0
 #endif
 
 #if GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS
- #import <Protobuf/Any.pbobjc.h>
- #import <Protobuf/Duration.pbobjc.h>
- #import <Protobuf/Timestamp.pbobjc.h>
+#import <Protobuf/Any.pbobjc.h>
+#import <Protobuf/Duration.pbobjc.h>
+#import <Protobuf/Timestamp.pbobjc.h>
 #else
- #import "google/protobuf/Any.pbobjc.h"
- #import "google/protobuf/Duration.pbobjc.h"
- #import "google/protobuf/Timestamp.pbobjc.h"
+#import "google/protobuf/Any.pbobjc.h"
+#import "google/protobuf/Duration.pbobjc.h"
+#import "google/protobuf/Timestamp.pbobjc.h"
 #endif
 
 NS_ASSUME_NONNULL_BEGIN
@@ -55,10 +55,10 @@ extern NSString *const GPBWellKnownTypesErrorDomain;
 
 /** Error code for NSError with GPBWellKnownTypesErrorDomain. */
 typedef NS_ENUM(NSInteger, GPBWellKnownTypesErrorCode) {
-  /** The type_url could not be computed for the requested GPBMessage class. */
-  GPBWellKnownTypesErrorCodeFailedToComputeTypeURL = -100,
-  /** type_url in a Any doesn’t match that of the requested GPBMessage class. */
-  GPBWellKnownTypesErrorCodeTypeURLMismatch = -101,
+    /** The type_url could not be computed for the requested GPBMessage class. */
+    GPBWellKnownTypesErrorCodeFailedToComputeTypeURL = -100,
+    /** type_url in a Any doesn’t match that of the requested GPBMessage class. */
+    GPBWellKnownTypesErrorCodeTypeURLMismatch = -101,
 };
 
 #pragma mark - GPBTimestamp
@@ -68,7 +68,7 @@ typedef NS_ENUM(NSInteger, GPBWellKnownTypesErrorCode) {
  **/
 @interface GPBTimestamp (GBPWellKnownTypes)
 
-/** The NSDate representation of this GPBTimestamp. */
+    /** The NSDate representation of this GPBTimestamp. */
 @property(nonatomic, readwrite, strong) NSDate *date;
 
 /**
@@ -106,12 +106,12 @@ typedef NS_ENUM(NSInteger, GPBWellKnownTypesErrorCode) {
  **/
 @interface GPBDuration (GBPWellKnownTypes)
 
-/**
- * The NSTimeInterval representation of this GPBDuration.
- *
- * @note: Not all second/nanos combinations can be represented in a
- * NSTimeInterval, so getting this could be a lossy transform.
- **/
+    /**
+     * The NSTimeInterval representation of this GPBDuration.
+     *
+     * @note: Not all second/nanos combinations can be represented in a
+     * NSTimeInterval, so getting this could be a lossy transform.
+     **/
 @property(nonatomic, readwrite) NSTimeInterval timeIntervalSince1970;
 
 /**
@@ -132,18 +132,18 @@ typedef NS_ENUM(NSInteger, GPBWellKnownTypesErrorCode) {
  **/
 @interface GPBAny (GBPWellKnownTypes)
 
-/**
- * Convenience method to create a GPBAny containing the serialized message.
- * This uses type.googleapis.com/ as the type_url's prefix.
- *
- * @param message  The message to be packed into the GPBAny.
- * @param errorPtr Pointer to an error that will be populated if something goes
- *                 wrong.
- *
- * @return A newly configured GPBAny with the given message, or nil on failure.
- */
+    /**
+     * Convenience method to create a GPBAny containing the serialized message.
+     * This uses type.googleapis.com/ as the type_url's prefix.
+     *
+     * @param message  The message to be packed into the GPBAny.
+     * @param errorPtr Pointer to an error that will be populated if something goes
+     *                 wrong.
+     *
+     * @return A newly configured GPBAny with the given message, or nil on failure.
+     */
 + (nullable instancetype)anyWithMessage:(nonnull GPBMessage *)message
-                                  error:(NSError **)errorPtr;
+    error:(NSError **)errorPtr;
 
 /**
  * Convenience method to create a GPBAny containing the serialized message.
@@ -156,8 +156,8 @@ typedef NS_ENUM(NSInteger, GPBWellKnownTypesErrorCode) {
  * @return A newly configured GPBAny with the given message, or nil on failure.
  */
 + (nullable instancetype)anyWithMessage:(nonnull GPBMessage *)message
-                          typeURLPrefix:(nonnull NSString *)typeURLPrefix
-                                  error:(NSError **)errorPtr;
+    typeURLPrefix:(nonnull NSString *)typeURLPrefix
+    error:(NSError **)errorPtr;
 
 /**
  * Initializes a GPBAny to contain the serialized message. This uses
@@ -170,7 +170,7 @@ typedef NS_ENUM(NSInteger, GPBWellKnownTypesErrorCode) {
  * @return A newly configured GPBAny with the given message, or nil on failure.
  */
 - (nullable instancetype)initWithMessage:(nonnull GPBMessage *)message
-                                   error:(NSError **)errorPtr;
+    error:(NSError **)errorPtr;
 
 /**
  * Initializes a GPBAny to contain the serialized message.
@@ -183,8 +183,8 @@ typedef NS_ENUM(NSInteger, GPBWellKnownTypesErrorCode) {
  * @return A newly configured GPBAny with the given message, or nil on failure.
  */
 - (nullable instancetype)initWithMessage:(nonnull GPBMessage *)message
-                           typeURLPrefix:(nonnull NSString *)typeURLPrefix
-                                   error:(NSError **)errorPtr;
+    typeURLPrefix:(nonnull NSString *)typeURLPrefix
+    error:(NSError **)errorPtr;
 
 /**
  * Packs the serialized message into this GPBAny. This uses
@@ -197,7 +197,7 @@ typedef NS_ENUM(NSInteger, GPBWellKnownTypesErrorCode) {
  * @return Whether the packing was successful or not.
  */
 - (BOOL)packWithMessage:(nonnull GPBMessage *)message
-                  error:(NSError **)errorPtr;
+    error:(NSError **)errorPtr;
 
 /**
  * Packs the serialized message into this GPBAny.
@@ -210,8 +210,8 @@ typedef NS_ENUM(NSInteger, GPBWellKnownTypesErrorCode) {
  * @return Whether the packing was successful or not.
  */
 - (BOOL)packWithMessage:(nonnull GPBMessage *)message
-          typeURLPrefix:(nonnull NSString *)typeURLPrefix
-                  error:(NSError **)errorPtr;
+    typeURLPrefix:(nonnull NSString *)typeURLPrefix
+    error:(NSError **)errorPtr;
 
 /**
  * Unpacks the serialized message as if it was an instance of the given class.
@@ -227,7 +227,7 @@ typedef NS_ENUM(NSInteger, GPBWellKnownTypesErrorCode) {
  *         nil on failure.
  */
 - (nullable GPBMessage *)unpackMessageClass:(Class)messageClass
-                                      error:(NSError **)errorPtr;
+    error:(NSError **)errorPtr;
 
 @end
 

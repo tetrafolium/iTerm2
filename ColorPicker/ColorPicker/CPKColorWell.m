@@ -16,7 +16,7 @@
 /** This really should be an NSCell. It provides the implementation of the CPKColorWell. */
 @interface CPKColorWellView : CPKSwatchView
 
-/** Block invoked when the user changes the color. Only called for continuous controls. */
+    /** Block invoked when the user changes the color. Only called for continuous controls. */
 @property(nonatomic, copy) void (^colorDidChange)(NSColor *);
 
 /** User can adjust alpha value. */
@@ -80,9 +80,9 @@
         // See https://bugs.chromium.org/p/chromium/issues/detail?id=767598
         // (╯°□°)╯︵ ┻━┻
         BOOL respondsToPrivateTargetMethod =
-        [panel respondsToSelector:@selector(__target)];
+            [panel respondsToSelector:@selector(__target)];
         if (respondsToPrivateTargetMethod &&
-            [panel __target] == self) {
+                [panel __target] == self) {
             panel.target = nil;
             panel.action = nil;
         }
@@ -115,7 +115,7 @@
 - (void)openPopOver {
     if (!_disabled && !self.open) {
         [self openPopOverRelativeToRect:_delegate.presentationRect
-                                 ofView:_delegate.presentingView];
+              ofView:_delegate.presentingView];
     }
 }
 
@@ -149,8 +149,8 @@
         return @[ imageComponent ];
     };
     [self beginDraggingSessionWithItems:@[ dragItem ]
-                                  event:theEvent
-                                 source:self];
+          event:theEvent
+          source:self];
 }
 
 #pragma mark - NSDraggingDestination
@@ -158,36 +158,36 @@
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
     __block NSDragOperation operation = NSDragOperationNone;
     [sender enumerateDraggingItemsWithOptions:0
-                                      forView:self
-                                      classes:@[ [NSColor class] ]
-                                searchOptions:@{}
-                                   usingBlock:^(NSDraggingItem * _Nonnull draggingItem, NSInteger idx, BOOL * _Nonnull stop) {
-                                       NSColor *color = draggingItem.item;
-                                       if (color) {
-                                           operation = NSDragOperationGeneric;
-                                           *stop = YES;
-                                       }
-                                   }];
+            forView:self
+            classes:@[ [NSColor class] ]
+            searchOptions:@ {}
+           usingBlock:^(NSDraggingItem * _Nonnull draggingItem, NSInteger idx, BOOL * _Nonnull stop) {
+               NSColor *color = draggingItem.item;
+               if (color) {
+            operation = NSDragOperationGeneric;
+            *stop = YES;
+        }
+    }];
     return operation;
 }
 
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
     __block BOOL ok = NO;
     [sender enumerateDraggingItemsWithOptions:0
-                                      forView:self
-                                      classes:@[ [NSColor class] ]
-                                searchOptions:@{}
-                                   usingBlock:^(NSDraggingItem * _Nonnull draggingItem, NSInteger idx, BOOL * _Nonnull stop) {
-                                       NSColor *color = draggingItem.item;
-                                       if (color) {
-                                           self.popover.selectedColor = color;
-                                           self.selectedColor = color;
-                                           [self.delegate colorChangedByDrag:color];
+            forView:self
+            classes:@[ [NSColor class] ]
+            searchOptions:@ {}
+           usingBlock:^(NSDraggingItem * _Nonnull draggingItem, NSInteger idx, BOOL * _Nonnull stop) {
+               NSColor *color = draggingItem.item;
+               if (color) {
+            self.popover.selectedColor = color;
+            self.selectedColor = color;
+            [self.delegate colorChangedByDrag:color];
 
-                                           ok = YES;
-                                           *stop = YES;
-                                       }
-                                   }];
+            ok = YES;
+            *stop = YES;
+        }
+    }];
     return ok;
 }
 
@@ -280,24 +280,24 @@
     }
     self.popover =
         [CPKPopover presentRelativeToRect:presentationRect
-                                   ofView:presentingView
-                            preferredEdge:NSRectEdgeMinY
-                             initialColor:self.color
-                                  options:options
-                       selectionDidChange:^(NSColor *color) {
-                           weakSelf.selectedColor = color;
-                           if (weakSelf.delegate.isContinuous) {
-                               weakSelf.color = color;
-                               if (weakSelf.colorDidChange) {
-                                   weakSelf.colorDidChange(color);
-                               }
-                           }
-                           [weakSelf setNeedsDisplay:YES];
-                       }
-                     useSystemColorPicker:^() {
-                         [weakSelf.popover close];
-                         [self showSystemColorPicker];
-                     }];
+                    ofView:presentingView
+                    preferredEdge:NSRectEdgeMinY
+                    initialColor:self.color
+                    options:options
+               selectionDidChange:^(NSColor *color) {
+                   weakSelf.selectedColor = color;
+                   if (weakSelf.delegate.isContinuous) {
+            weakSelf.color = color;
+            if (weakSelf.colorDidChange) {
+                weakSelf.colorDidChange(color);
+            }
+        }
+        [weakSelf setNeedsDisplay:YES];
+    }
+    useSystemColorPicker:^() {
+        [weakSelf.popover close];
+        [self showSystemColorPicker];
+    }];
     self.open = YES;
     self.popover.willClose = ^() {
         if (weakSelf.willClosePopover) {
@@ -339,22 +339,22 @@
 @end
 
 @implementation CPKColorWell {
-  CPKColorWellView *_view;
-  BOOL _continuous;
+    CPKColorWellView *_view;
+    BOOL _continuous;
 }
 
 // This is the path taken when created programatically.
 - (instancetype)initWithFrame:(NSRect)frameRect {
-  self = [super initWithFrame:frameRect];
-  if (self) {
-    [self load];
-  }
-  return self;
+    self = [super initWithFrame:frameRect];
+    if (self) {
+        [self load];
+    }
+    return self;
 }
 
 // This is the path taken when loaded from a nib.
 - (void)awakeFromNib {
-  [self load];
+    [self load];
 }
 
 - (void)load {
@@ -387,7 +387,7 @@
 }
 
 - (NSColor *)color {
-  return _view.selectedColor;
+    return _view.selectedColor;
 }
 
 - (void)setColor:(NSColor *)color {
@@ -406,24 +406,24 @@
 }
 
 - (void)setEnabled:(BOOL)enabled {
-  [super setEnabled:enabled];
-  _view.disabled = !enabled;
+    [super setEnabled:enabled];
+    _view.disabled = !enabled;
 }
 
 - (void)setContinuous:(BOOL)continuous {
-  _continuous = continuous;
+    _continuous = continuous;
 }
 
 - (BOOL)isContinuous {
-  return _continuous;
+    return _continuous;
 }
 
 - (NSRect)presentationRect {
-  return self.bounds;
+    return self.bounds;
 }
 
 - (NSView *)presentingView {
-  return self;
+    return self;
 }
 
 - (void)colorChangedByDrag:(NSColor *)color {

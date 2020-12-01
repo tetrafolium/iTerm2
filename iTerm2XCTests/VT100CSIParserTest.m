@@ -35,9 +35,9 @@
     VT100Token *token = [[[VT100Token alloc] init] autorelease];
     _context = iTermParserContextMake((unsigned char *)data.bytes, data.length);
     [VT100CSIParser decodeFromContext:&_context
-         support8BitControlCharacters:NO
-                          incidentals:&_incidentals
-                                token:token];
+                    support8BitControlCharacters:NO
+                    incidentals:&_incidentals
+                    token:token];
     return token;
 }
 

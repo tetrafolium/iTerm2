@@ -17,8 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)name;
 
 - (nullable NSData *)signatureForInputStream:(NSInputStream *)inputStream
-                               usingIdentity:(SIGIdentity *)identity
-                                       error:(out NSError **)error;
+    usingIdentity:(SIGIdentity *)identity
+    error:(out NSError **)error;
 
 @end
 

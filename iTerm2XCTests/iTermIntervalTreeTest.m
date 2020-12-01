@@ -9,7 +9,7 @@
     return [self init];
 }
 - (NSDictionary *)dictionaryValue {
-    return @{};
+    return @ {};
 }
 
 @synthesize entry;
@@ -75,15 +75,15 @@ static Interval *MakeInterval(long long location, long long length) {
     [tree_ addObject:obj1_ withInterval:MakeInterval(100, 50)];
 
     [self assertEntriesInInterval:MakeInterval(0, 100)
-                            equal:@[]];
+          equal:@[]];
     [self assertEntriesInInterval:MakeInterval(150, 1000)
-                            equal:@[]];
+          equal:@[]];
     [self assertEntriesInInterval:MakeInterval(100, 1)
-                            equal:@[obj1_]];
+          equal:@[obj1_]];
     [self assertEntriesInInterval:MakeInterval(125, 1)
-                            equal:@[obj1_]];
+          equal:@[obj1_]];
     [self assertEntriesInInterval:MakeInterval(149, 1)
-                            equal:@[obj1_]];
+          equal:@[obj1_]];
 }
 
 - (void)testDisjointEntries {

@@ -17,9 +17,9 @@ NSArray<NSString *> *SIGVerificationDigestAlgorithmNames(void);
 + (NSString *)name;
 
 - (BOOL)verifyInputStream:(NSInputStream *)payloadInputStream
-            signatureData:(NSData *)signatureData
-                publicKey:(SecKeyRef)publicKey
-                    error:(out NSError **)error;
+    signatureData:(NSData *)signatureData
+    publicKey:(SecKeyRef)publicKey
+    error:(out NSError **)error;
 
 @end
 

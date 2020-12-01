@@ -36,7 +36,7 @@ typedef NS_ENUM(NSInteger, NMSSHChannelType)  {
  */
 @interface NMSSHChannel : NSObject
 
-/** A valid NMSSHSession instance */
+    /** A valid NMSSHSession instance */
 @property (nonatomic, nonnull, readonly) NMSSHSession *session;
 
 /** Size of the buffers used by the channel, defaults to 0x4000 */
@@ -232,8 +232,8 @@ typedef NS_ENUM(NSInteger, NMSSHChannelType)  {
  @returns SCP download success
  */
 - (BOOL)downloadFile:(nonnull NSString *)remotePath
-                  to:(nonnull NSString *)localPath
-            progress:(BOOL (^_Nullable)(NSUInteger, NSUInteger))progress;
+    to:(nonnull NSString *)localPath
+    progress:(BOOL (^_Nullable)(NSUInteger, NSUInteger))progress;
 
 /**
  Upload a local file to a remote server.
@@ -247,8 +247,8 @@ typedef NS_ENUM(NSInteger, NMSSHChannelType)  {
  @returns SCP upload success
  */
 - (BOOL)uploadFile:(nonnull NSString *)localPath
-                to:(nonnull NSString *)remotePath
-          progress:(BOOL (^_Nullable)(NSUInteger))progress;
+    to:(nonnull NSString *)remotePath
+    progress:(BOOL (^_Nullable)(NSUInteger))progress;
 
 
 @end

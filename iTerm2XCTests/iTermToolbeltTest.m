@@ -53,7 +53,7 @@
     XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"launch session"];
 
     [iTermSessionLauncher launchBookmark:nil inTerminal:nil respectTabbingMode:NO completion:^(PTYSession * _Nonnull session) {
-        _session = session;
+                             _session = session;
         [expectation fulfill];
     }];
     [self waitForExpectations:@[expectation] timeout:3600];
@@ -76,11 +76,15 @@
     }
 
     // Define a capture output trigger.
-    NSDictionary *trigger = @{ kTriggerRegexKey: @"error:",
-                               kTriggerActionKey: @"CaptureTrigger",
-                               kTriggerParameterKey: @"sleep 99999" };
+    NSDictionary *trigger = @ { kTriggerRegexKey:
+                                @"error:",
+                                kTriggerActionKey:
+                                @"CaptureTrigger",
+                                kTriggerParameterKey:
+                                @"sleep 99999"
+                              };
 
-    [_session setSessionSpecificProfileValues:@{ KEY_TRIGGERS: @[ trigger ] }];
+    [_session setSessionSpecificProfileValues:@ { KEY_TRIGGERS: @[ trigger ] }];
 }
 
 - (void)tearDown {
@@ -110,49 +114,49 @@
 
 - (void)sendPrompt {
     NSString *promptLine = [NSString stringWithFormat:
-                            @"%c]1337;RemoteHost=user@hostname%c"
-                            @"%c]1337;CurrentDir=%@%c"
-                            @"%c]133;A%c"
-                            @"> "
-                            @"%c]133;B%c",
-                            VT100CC_ESC, VT100CC_BEL,  // RemoteHost
-                            VT100CC_ESC, _currentDir, VT100CC_BEL,  // CurrentDir
-                            VT100CC_ESC, VT100CC_BEL,  // FinalTerm A
-                            VT100CC_ESC, VT100CC_BEL];  // FinalTerm B
+                                     @"%c]1337;RemoteHost=user@hostname%c"
+                                     @"%c]1337;CurrentDir=%@%c"
+                                     @"%c]133;A%c"
+                                     @"> "
+                                     @"%c]133;B%c",
+                                     VT100CC_ESC, VT100CC_BEL,  // RemoteHost
+                                     VT100CC_ESC, _currentDir, VT100CC_BEL,  // CurrentDir
+                                     VT100CC_ESC, VT100CC_BEL,  // FinalTerm A
+                                     VT100CC_ESC, VT100CC_BEL];  // FinalTerm B
     [self sendData:[promptLine dataUsingEncoding:NSUTF8StringEncoding]
-        toTerminal:_session.terminal];
+          toTerminal:_session.terminal];
 }
 
 - (void)sendPromptAndStartCommand:(NSString *)command toSession:(PTYSession *)session {
     NSString *promptLine = [NSString stringWithFormat:
-                            @"%c]1337;RemoteHost=user@hostname%c"
-                            @"%c]1337;CurrentDir=%@%c"
-                            @"%c]133;A%c"
-                            @"> "
-                            @"%c]133;B%c"
-                            @"%@"
-                            @"%c]133;C%c",
-                            VT100CC_ESC, VT100CC_BEL,  // RemoteHost
-                            VT100CC_ESC, _currentDir, VT100CC_BEL,  // CurrentDir
-                            VT100CC_ESC, VT100CC_BEL,  // FinalTerm A
-                            VT100CC_ESC, VT100CC_BEL,  // FinalTerm B
-                            command,
-                            VT100CC_ESC, VT100CC_BEL];  // FinalTerm C
+                                     @"%c]1337;RemoteHost=user@hostname%c"
+                                     @"%c]1337;CurrentDir=%@%c"
+                                     @"%c]133;A%c"
+                                     @"> "
+                                     @"%c]133;B%c"
+                                     @"%@"
+                                     @"%c]133;C%c",
+                                     VT100CC_ESC, VT100CC_BEL,  // RemoteHost
+                                     VT100CC_ESC, _currentDir, VT100CC_BEL,  // CurrentDir
+                                     VT100CC_ESC, VT100CC_BEL,  // FinalTerm A
+                                     VT100CC_ESC, VT100CC_BEL,  // FinalTerm B
+                                     command,
+                                     VT100CC_ESC, VT100CC_BEL];  // FinalTerm C
     [self sendData:[promptLine dataUsingEncoding:NSUTF8StringEncoding]
-        toTerminal:session.terminal];
+          toTerminal:session.terminal];
 }
 
 - (void)endCommand {
     NSString *promptLine = [NSString stringWithFormat:@"%c]133;D;1%c",
-                            VT100CC_ESC, VT100CC_BEL];
+                                     VT100CC_ESC, VT100CC_BEL];
     [self sendData:[promptLine dataUsingEncoding:NSUTF8StringEncoding]
-        toTerminal:_session.terminal];
+          toTerminal:_session.terminal];
 }
 
 - (void)writeLongCommandOutput {
     for (int i = 0; i < _session.screen.height * 2; i++) {
         [self sendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]
-            toTerminal:_session.terminal];
+              toTerminal:_session.terminal];
     }
 }
 
@@ -169,33 +173,33 @@
 
 - (void)testToolbeltHasCapturedOutputTool {
     ToolCapturedOutputView *tool = (ToolCapturedOutputView *)[_view.toolbelt
-                                                              toolWithName:kCapturedOutputToolName];
+                                   toolWithName:kCapturedOutputToolName];
     XCTAssert(tool);
 }
 
 - (void)testCapturedOutputUpdatesOnMatch {
     ToolCapturedOutputView *tool = (ToolCapturedOutputView *)[_view.toolbelt
-                                                              toolWithName:kCapturedOutputToolName];
+                                   toolWithName:kCapturedOutputToolName];
     XCTAssertEqual(tool.tableView.numberOfRows, 0);
     // Gotta have a command mark for captured output to work
     [self sendPromptAndStartCommand:@"make" toSession:_session];
     [self sendData:[@"Hello\r\n" dataUsingEncoding:NSUTF8StringEncoding]
-        toTerminal:_session.terminal];
+          toTerminal:_session.terminal];
     XCTAssertEqual(tool.tableView.numberOfRows, 0);
     [self sendData:[@"error: blah\r\n" dataUsingEncoding:NSUTF8StringEncoding]
-        toTerminal:_session.terminal];
+          toTerminal:_session.terminal];
     XCTAssertEqual(tool.tableView.numberOfRows, 1);
 }
 
 - (void)testCapturedOutputShowsLineOnClick {
     ToolCapturedOutputView *tool = (ToolCapturedOutputView *)[_view.toolbelt
-                                                              toolWithName:kCapturedOutputToolName];
+                                   toolWithName:kCapturedOutputToolName];
     XCTAssertEqual(tool.tableView.numberOfRows, 0);
     // Gotta have a command mark for captured output to work
     [self sendPromptAndStartCommand:@"make" toSession:_session];
     NSRect rectForFirstCellOfCapturedLine = _session.textview.cursorFrame;
     [self sendData:[@"error: blah\r\n" dataUsingEncoding:NSUTF8StringEncoding]
-        toTerminal:_session.terminal];
+          toTerminal:_session.terminal];
     [self writeLongCommandOutput];
     // Update scroll position for new text
     [_session.textview refresh];
@@ -210,12 +214,12 @@
 
 - (void)testCapturedOutputActivatesTriggerOnDoubleClick {
     ToolCapturedOutputView *tool = (ToolCapturedOutputView *)[_view.toolbelt
-                                                              toolWithName:kCapturedOutputToolName];
+                                   toolWithName:kCapturedOutputToolName];
     XCTAssertEqual(tool.tableView.numberOfRows, 0);
     // Gotta have a command mark for captured output to work
     [self sendPromptAndStartCommand:@"make" toSession:_session];
     [self sendData:[@"error: blah\r\n" dataUsingEncoding:NSUTF8StringEncoding]
-        toTerminal:_session.terminal];
+          toTerminal:_session.terminal];
 
     // Select the row
     [tool.tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
@@ -232,8 +236,8 @@
 
 - (NSAttributedString *)attributedStringInTableView:(NSTableView *)tableView row:(NSInteger)row {
     id textField = [tableView.delegate tableView:tableView
-                              viewForTableColumn:tableView.tableColumns[0]
-                                             row:row];
+                                       viewForTableColumn:tableView.tableColumns[0]
+                                       row:row];
     return [textField attributedStringValue];
 }
 
@@ -241,10 +245,10 @@
     XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"launch session"];
     __block PTYSession *otherSession;
     [iTermSessionLauncher launchBookmark:nil
-                              inTerminal:_windowController
-                      respectTabbingMode:NO
-                              completion:^(PTYSession * _Nonnull session) {
-        otherSession = session;
+                          inTerminal:_windowController
+                          respectTabbingMode:NO
+                         completion:^(PTYSession * _Nonnull session) {
+                             otherSession = session;
         [expectation fulfill];
     }];
     [self waitForExpectations:@[expectation] timeout:3600];
@@ -255,12 +259,12 @@
 
     // Send the first command to tab 0
     [self sendData:[@"Output 1" dataUsingEncoding:NSUTF8StringEncoding]
-        toTerminal:_session.terminal];
+          toTerminal:_session.terminal];
     [self endCommand];
 
     // Send the second command to tab 1
     [self sendData:[@"Output 2" dataUsingEncoding:NSUTF8StringEncoding]
-        toTerminal:_session.terminal];
+          toTerminal:_session.terminal];
     [self endCommand];
 
     ToolCommandHistoryView *tool =
@@ -269,7 +273,7 @@
     // Select tab 0 and get its two commands from the table view.
     [_windowController.tabView selectTabViewItemAtIndex:0];
     NSArray *values = @[ [self attributedStringInTableView:tool.tableView row:0],
-                         [self attributedStringInTableView:tool.tableView row:1] ];
+                                                                                [self attributedStringInTableView:tool.tableView row:1] ];
 
     // TODO(georgen): Test that the first one should be bold.
     XCTAssert([values[0] isKindOfClass:[NSAttributedString class]]);
@@ -278,7 +282,7 @@
     // Select tab 1 and get its two commands from the table view.
     [_windowController.tabView selectTabViewItemAtIndex:1];
     values = @[ [self attributedStringInTableView:tool.tableView row:0],
-                [self attributedStringInTableView:tool.tableView row:1] ];
+                                                                       [self attributedStringInTableView:tool.tableView row:1] ];
 
     // TODO(georgen): Test that the second one should be bold.
     XCTAssert([values[0] isKindOfClass:[NSAttributedString class]]);
@@ -335,7 +339,7 @@
     ToolCommandHistoryView *tool =
         (ToolCommandHistoryView *)[_view.toolbelt toolWithName:kCommandHistoryToolName];
     [tool.tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:tool.tableView.numberOfRows - 1]
-                byExtendingSelection:NO];
+                    byExtendingSelection:NO];
 
     tool.toolWrapper.delegate.delegate = self;
     [tool.tableView.delegate performSelector:tool.tableView.doubleAction withObject:tool.tableView];
@@ -351,7 +355,7 @@
     ToolCommandHistoryView *tool =
         (ToolCommandHistoryView *)[_view.toolbelt toolWithName:kCommandHistoryToolName];
     [tool.tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:tool.tableView.numberOfRows - 1]
-                byExtendingSelection:NO];
+                    byExtendingSelection:NO];
 
     tool.toolWrapper.delegate.delegate = self;
     iTermApplication *app = iTermApplication.sharedApplication;
@@ -367,12 +371,12 @@
 - (void)testCommandHistoryLinkedToCapturedOutput {
     [self sendPromptAndStartCommand:@"command 1" toSession:_session];
     [self sendData:[@"error: 1\r\n" dataUsingEncoding:NSUTF8StringEncoding]
-        toTerminal:_session.terminal];
+          toTerminal:_session.terminal];
     [self endCommand];
 
     [self sendPromptAndStartCommand:@"command 2" toSession:_session];
     [self sendData:[@"error: 2\r\n" dataUsingEncoding:NSUTF8StringEncoding]
-        toTerminal:_session.terminal];
+          toTerminal:_session.terminal];
     [self endCommand];
 
     ToolCapturedOutputView *capturedOutputTool =
@@ -382,11 +386,11 @@
 
     // Select first command
     [commandHistoryTool.tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0]
-                              byExtendingSelection:NO];
+                                  byExtendingSelection:NO];
     NSString *(^getObject)(int) = ^NSString *(int row) {
         NSTextField *rowView = [[NSTableCellView castFrom:[capturedOutputTool.tableView.delegate tableView:capturedOutputTool.tableView
-                                                                                        viewForTableColumn:capturedOutputTool.tableView.tableColumns[0]
-                                                                                                       row:0]] textField];
+                                 viewForTableColumn:capturedOutputTool.tableView.tableColumns[0]
+                                 row:0]] textField];
         return rowView.attributedStringValue.string;
     };
     NSString *object = getObject(0);
@@ -394,14 +398,14 @@
 
     // Select second command
     [commandHistoryTool.tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:1]
-                              byExtendingSelection:NO];
+                                  byExtendingSelection:NO];
 
     object = getObject(0);
     XCTAssert([object containsString:@"error: 2"]);
 
     // Select nothing
     [commandHistoryTool.tableView selectRowIndexes:[NSIndexSet indexSet]
-                              byExtendingSelection:NO];
+                                  byExtendingSelection:NO];
     object = getObject(0);
     XCTAssert([object containsString:@"error: 2"]);
 }

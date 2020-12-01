@@ -27,11 +27,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)verifyWithCompletion:(void (^)(BOOL ok, NSError * _Nullable error))completion;
 
 - (void)verifyAndWritePayloadToURL:(NSURL *)url
-                        completion:(void (^)(BOOL ok, NSError * _Nullable error))completion;
+    completion:(void (^)(BOOL ok, NSError * _Nullable error))completion;
 
 // Must have called verifyWithCompletion: before.
 - (BOOL)copyPayloadToURL:(NSURL *)url
-                   error:(out NSError **)errorOut;
+    error:(out NSError **)errorOut;
 @end
 
 NS_ASSUME_NONNULL_END

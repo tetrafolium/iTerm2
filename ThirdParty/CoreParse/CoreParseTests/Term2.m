@@ -12,12 +12,12 @@
 
 @synthesize value;
 
-- (id)initWithSyntaxTree:(CPSyntaxTree *)syntaxTree{
+- (id)initWithSyntaxTree:(CPSyntaxTree *)syntaxTree {
     self = [super init];
-    if (nil != self){
+    if (nil != self) {
         [self setValue:[[(CPNumberToken *)[[syntaxTree children] objectAtIndex:0] number] floatValue]];
     }
-    
+
     return self;
 }
 

@@ -26,12 +26,12 @@
 - (id)initWithRule:(CPRule *)rule position:(NSUInteger)position terminal:(CPGrammarSymbol *)initTerminal
 {
     self = [super initWithRule:rule position:position];
-    
+
     if (nil != self)
     {
         [self setTerminal:initTerminal];
     }
-    
+
     return self;
 }
 
@@ -48,7 +48,7 @@
 - (void)dealloc
 {
     [terminal release];
-    
+
     [super dealloc];
 }
 

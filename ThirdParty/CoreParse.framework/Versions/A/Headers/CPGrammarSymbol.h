@@ -10,7 +10,7 @@
 
 /**
  * The CPGrammarSymbol class represents a terminal or non-terminal grammar symbol.
- * 
+ *
  * All grammar symbols carry a name which is used in constructing CPRules.
  */
 @interface CPGrammarSymbol : NSObject <NSCoding>
@@ -19,15 +19,15 @@
 /// @name Creating and Initialising a Rule
 ///---------------------------------------------------------------------------------------
 
-/**
- * Creates a non-terminal grammar symbol.
- *
- * @param name The non-terminal name.
- * @return Returns a non-terminal CPGrammarSymbol with the specified name.
- *
- * @see terminalWithName:
- * @see initWithName:isTerminal:
- */
+    /**
+     * Creates a non-terminal grammar symbol.
+     *
+     * @param name The non-terminal name.
+     * @return Returns a non-terminal CPGrammarSymbol with the specified name.
+     *
+     * @see terminalWithName:
+     * @see initWithName:isTerminal:
+     */
 + (id)nonTerminalWithName:(NSString *)name;
 
 /**

@@ -41,22 +41,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** Syntax used in the proto file. */
 typedef NS_ENUM(uint8_t, GPBFileSyntax) {
-  /** Unknown syntax. */
-  GPBFileSyntaxUnknown = 0,
-  /** Proto2 syntax. */
-  GPBFileSyntaxProto2 = 2,
-  /** Proto3 syntax. */
-  GPBFileSyntaxProto3 = 3,
+    /** Unknown syntax. */
+    GPBFileSyntaxUnknown = 0,
+    /** Proto2 syntax. */
+    GPBFileSyntaxProto2 = 2,
+    /** Proto3 syntax. */
+    GPBFileSyntaxProto3 = 3,
 };
 
 /** Type of proto field. */
 typedef NS_ENUM(uint8_t, GPBFieldType) {
-  /** Optional/required field. Only valid for proto2 fields. */
-  GPBFieldTypeSingle,
-  /** Repeated field. */
-  GPBFieldTypeRepeated,
-  /** Map field. */
-  GPBFieldTypeMap,
+    /** Optional/required field. Only valid for proto2 fields. */
+    GPBFieldTypeSingle,
+    /** Repeated field. */
+    GPBFieldTypeRepeated,
+    /** Map field. */
+    GPBFieldTypeMap,
 };
 
 /**
@@ -64,7 +64,7 @@ typedef NS_ENUM(uint8_t, GPBFieldType) {
  **/
 @interface GPBDescriptor : NSObject<NSCopying>
 
-/** Name of the message. */
+    /** Name of the message. */
 @property(nonatomic, readonly, copy) NSString *name;
 /** Fields declared in the message. */
 @property(nonatomic, readonly, strong, nullable) NSArray<GPBFieldDescriptor*> *fields;
@@ -123,7 +123,7 @@ typedef NS_ENUM(uint8_t, GPBFieldType) {
  **/
 @interface GPBFileDescriptor : NSObject
 
-/** The package declared in the proto file. */
+    /** The package declared in the proto file. */
 @property(nonatomic, readonly, copy) NSString *package;
 /** The objc prefix declared in the proto file. */
 @property(nonatomic, readonly, copy, nullable) NSString *objcPrefix;
@@ -136,7 +136,7 @@ typedef NS_ENUM(uint8_t, GPBFieldType) {
  * Describes a oneof field.
  **/
 @interface GPBOneofDescriptor : NSObject
-/** Name of the oneof field. */
+    /** Name of the oneof field. */
 @property(nonatomic, readonly) NSString *name;
 /** Fields declared in the oneof. */
 @property(nonatomic, readonly) NSArray<GPBFieldDescriptor*> *fields;
@@ -166,7 +166,7 @@ typedef NS_ENUM(uint8_t, GPBFieldType) {
  **/
 @interface GPBFieldDescriptor : NSObject
 
-/** Name of the field. */
+    /** Name of the field. */
 @property(nonatomic, readonly, copy) NSString *name;
 /** Number associated with the field. */
 @property(nonatomic, readonly) uint32_t number;
@@ -215,7 +215,7 @@ typedef NS_ENUM(uint8_t, GPBFieldType) {
  **/
 @interface GPBEnumDescriptor : NSObject
 
-/** Name of the enum. */
+    /** Name of the enum. */
 @property(nonatomic, readonly, copy) NSString *name;
 /** Function that validates that raw values are valid enum values. */
 @property(nonatomic, readonly) GPBEnumValidationFunc enumVerifier;
@@ -264,7 +264,7 @@ typedef NS_ENUM(uint8_t, GPBFieldType) {
  * Describes a proto extension.
  **/
 @interface GPBExtensionDescriptor : NSObject<NSCopying>
-/** Field number under which the extension is stored. */
+    /** Field number under which the extension is stored. */
 @property(nonatomic, readonly) uint32_t fieldNumber;
 /** The containing message class, i.e. the class extended by this extension. */
 @property(nonatomic, readonly) Class containingMessageClass;

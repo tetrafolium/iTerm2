@@ -6,23 +6,23 @@
 
 /*
  Copyright (c) 2008-2010, John Engelhart
- 
+
  All rights reserved.
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
- 
+
  * Redistributions of source code must retain the above copyright
  notice, this list of conditions and the following disclaimer.
- 
+
  * Redistributions in binary form must reproduce the above copyright
  notice, this list of conditions and the following disclaimer in the
  documentation and/or other materials provided with the distribution.
- 
+
  * Neither the name of the Zang Industries nor the names of its
  contributors may be used to endorse or promote products derived from
  this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -54,7 +54,7 @@
 extern "C" {
 #endif
 
-	
+
 //! Project version number for RegexKitLite.
 FOUNDATION_EXPORT double RegexKitLiteVersionNumber;
 
@@ -74,19 +74,19 @@ FOUNDATION_EXPORT const unsigned char RegexKitLiteVersionString[];
 // These must be identical to their ICU regex counterparts. See http://www.icu-project.org/userguide/regexp.html
 // This must be identical to the ICU 'flags' argument type.
 typedef NS_ENUM(uint32_t, RKLRegexOptions) {
-	RKLNoOptions             = 0,
-	RKLCaseless              = 2,
-	RKLComments              = 4,
-	RKLDotAll                = 32,
-	RKLMultiline             = 8,
-	RKLUnicodeWordBoundaries = 256
+    RKLNoOptions             = 0,
+    RKLCaseless              = 2,
+    RKLComments              = 4,
+    RKLDotAll                = 32,
+    RKLMultiline             = 8,
+    RKLUnicodeWordBoundaries = 256
 };
 
 typedef NS_ENUM(NSUInteger, RKLRegexEnumerationOptions) {
-	RKLRegexEnumerationNoOptions                               = 0UL,
-	RKLRegexEnumerationCapturedStringsNotRequired              = 1UL << 9,
-	RKLRegexEnumerationReleaseStringReturnedByReplacementBlock = 1UL << 10,
-	RKLRegexEnumerationFastCapturedStringsXXX                  = 1UL << 11,
+    RKLRegexEnumerationNoOptions                               = 0UL,
+    RKLRegexEnumerationCapturedStringsNotRequired              = 1UL << 9,
+    RKLRegexEnumerationReleaseStringReturnedByReplacementBlock = 1UL << 10,
+    RKLRegexEnumerationFastCapturedStringsXXX                  = 1UL << 11,
 };
 
 
@@ -213,10 +213,10 @@ extern NSString * const RKLICURegexSubjectStringErrorKey;
 
 @end
 
-	
+
 #endif // REGEX_KIT_LITE
 
-	
+
 #ifdef __cplusplus
 }  // extern "C"
 #endif

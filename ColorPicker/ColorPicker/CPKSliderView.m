@@ -9,8 +9,8 @@
 @implementation CPKSliderView
 
 - (instancetype)initWithFrame:(NSRect)frame
-                        value:(CGFloat)value
-                        block:(void (^)(CGFloat))block {
+    value:(CGFloat)value
+    block:(void (^)(CGFloat))block {
     self = [super initWithFrame:frame];
     if (self) {
         self.selectedValue = value;
@@ -18,9 +18,9 @@
         NSImage *image = [self cpk_imageNamed:@"SelectionIndicator"];
         self.indicatorView =
             [[NSImageView alloc] initWithFrame:NSMakeRect(0,
-                                                          0,
-                                                          image.size.width,
-                                                          image.size.height)];
+                                        0,
+                                        image.size.width,
+                                        image.size.height)];
         self.indicatorView.image = image;
         self.indicatorView.frame = self.indicatorFrame;
 
@@ -69,7 +69,7 @@
 - (void)setSelectedValue:(CGFloat)selectedValue {
     _selectedValue = MIN(MAX(0, selectedValue), 1);
     self.indicatorView.frame = self.indicatorFrame;
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^ {
         [self setNeedsDisplay:YES];;
     });
 }

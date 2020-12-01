@@ -17,7 +17,7 @@ static const CGFloat kHueMultiplier = 5;
 + (instancetype)sharedInstance {
     static id instance;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         instance = [[self alloc] init];
     });
     return instance;
@@ -27,10 +27,10 @@ static const CGFloat kHueMultiplier = 5;
     self = [super init];
     if (self) {
         NSString *filename = [[NSBundle bundleForClass:[self class]] pathForResource:@"colors"
-                                                                              ofType:@"txt"];
+                                                                   ofType:@"txt"];
         NSData *database = [NSData dataWithContentsOfFile:filename];
         NSString *asString = [[NSString alloc] initWithData:database
-                                                   encoding:NSUTF8StringEncoding];
+                                               encoding:NSUTF8StringEncoding];
         if (!asString) {
             return nil;
         }
@@ -55,9 +55,9 @@ static const CGFloat kHueMultiplier = 5;
                         int b = (value >> 0) & 0xff;
 
                         NSColor *color = [NSColor cpk_colorWithRed:r / 255.0
-                                                             green:g / 255.0
-                                                              blue:b / 255.0
-                                                             alpha:1];
+                                                  green:g / 255.0
+                                                  blue:b / 255.0
+                                                  alpha:1];
 
                         [self.tree addObject:name forKey:@[ @(color.hueComponent * kHueMultiplier),
                                                             @(color.saturationComponent),
@@ -73,11 +73,11 @@ static const CGFloat kHueMultiplier = 5;
 
 - (NSString *)nameForColor:(NSColor *)color {
     NSString *baseName = [self.tree nearestNeighborTo:@[ @(color.hueComponent * kHueMultiplier),
-                                                         @(color.saturationComponent),
-                                                         @(color.brightnessComponent) ]];
+                                    @(color.saturationComponent),
+                                    @(color.brightnessComponent) ]];
     if (color.alphaComponent < 0.99) {
         return [baseName stringByAppendingFormat:@" (%d%%)",
-                   (int)(color.alphaComponent * 100)];
+                         (int)(color.alphaComponent * 100)];
     } else {
         return baseName;
     }

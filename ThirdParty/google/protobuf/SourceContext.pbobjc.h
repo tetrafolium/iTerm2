@@ -4,13 +4,13 @@
 // This CPP symbol can be defined to use imports that match up to the framework
 // imports needed when using CocoaPods.
 #if !defined(GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS)
- #define GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS 0
+#define GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS 0
 #endif
 
 #if GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS
- #import <Protobuf/GPBProtocolBuffers.h>
+#import <Protobuf/GPBProtocolBuffers.h>
 #else
- #import "GPBProtocolBuffers.h"
+#import "GPBProtocolBuffers.h"
 #endif
 
 #if GOOGLE_PROTOBUF_OBJC_VERSION < 30002
@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - GPBSourceContext
 
 typedef GPB_ENUM(GPBSourceContext_FieldNumber) {
-  GPBSourceContext_FieldNumber_FileName = 1,
+    GPBSourceContext_FieldNumber_FileName = 1,
 };
 
 /**
@@ -56,10 +56,10 @@ typedef GPB_ENUM(GPBSourceContext_FieldNumber) {
  **/
 @interface GPBSourceContext : GPBMessage
 
-/**
- * The path-qualified name of the .proto file that contained the associated
- * protobuf element.  For example: `"google/protobuf/source_context.proto"`.
- **/
+    /**
+     * The path-qualified name of the .proto file that contained the associated
+     * protobuf element.  For example: `"google/protobuf/source_context.proto"`.
+     **/
 @property(nonatomic, readwrite, copy, null_resettable) NSString *fileName;
 
 @end

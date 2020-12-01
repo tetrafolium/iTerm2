@@ -61,23 +61,23 @@
     node.key = key;
     node.object = object;
     node.leftChild = [self buildAtDepth:depth + 1
-                                entries:[self entriesBefore:median
-                                                     onAxis:axis
-                                                  fromArray:entries]];
+                           entries:[self entriesBefore:median
+                               onAxis:axis
+                               fromArray:entries]];
     node.rightChild = [self buildAtDepth:depth + 1
-                                 entries:[self entriesOnOrAfter:median
-                                                         onAxis:axis
-                                                      fromArray:entries
-                                                         except:indexOfMedian]];
+                            entries:[self entriesOnOrAfter:median
+                                onAxis:axis
+                                fromArray:entries
+                                except:indexOfMedian]];
     return node;
 }
 
 - (NSInteger)indexOfMedianEntryFromEntries:(NSArray *)entries onAxis:(NSInteger)axis {
     // Sort entries by the |axis|th value in key.
     NSArray *sortedEntries =
-        [entries sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-            return [obj1[1][axis] compare:obj2[1][axis]];
-        }];
+    [entries sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+                return [obj1[1][axis] compare:obj2[1][axis]];
+            }];
 
     NSArray *medianKey = [sortedEntries[sortedEntries.count / 2] objectAtIndex:1];
 
@@ -103,9 +103,9 @@
 }
 
 - (NSArray *)entriesOnOrAfter:(double)pivot
-                       onAxis:(NSInteger)axis
-                    fromArray:(NSArray *)entries
-                       except:(NSInteger)indexToExclude {
+    onAxis:(NSInteger)axis
+    fromArray:(NSArray *)entries
+    except:(NSInteger)indexToExclude {
     NSMutableArray *result = [NSMutableArray array];
     NSInteger i = 0;
     for (NSArray *tuple in entries) {
@@ -135,8 +135,8 @@
 // This implementation based on:
 // http://web.stanford.edu/class/cs106l/handouts/assignment-3-kdtree.pdf
 - (void)findNearestNeighborTo:(NSArray *)testPoint
-                        depth:(NSInteger)depth
-                         node:(CPKKDTreeNode *)curr {
+    depth:(NSInteger)depth
+    node:(CPKKDTreeNode *)curr {
     if (!curr) {
         return;
     }
@@ -166,15 +166,15 @@
         DebugLog(@"Check left child because test point %f is less than splitting plane %f",
                  a_i, curr_i);
         [self findNearestNeighborTo:testPoint
-                              depth:depth + 1
-                               node:curr.leftChild];
+              depth:depth + 1
+              node:curr.leftChild];
         otherChild = curr.rightChild;
     } else {
         DebugLog(@"Check right child because test point %f is more than splitting plane %f",
                  a_i, curr_i);
         [self findNearestNeighborTo:testPoint
-                              depth:depth + 1
-                               node:curr.rightChild];
+              depth:depth + 1
+              node:curr.rightChild];
         otherChild = curr.leftChild;
     }
     DebugLog(@"returned from recursion. At node %@", curr);

@@ -41,10 +41,10 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 @interface GPBRootObject : NSObject
 
-/**
- * @return An extension registry for the given file and all the files it depends
- * on.
- **/
+    /**
+     * @return An extension registry for the given file and all the files it depends
+     * on.
+     **/
 + (GPBExtensionRegistry *)extensionRegistry;
 
 @end

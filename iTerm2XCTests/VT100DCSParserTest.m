@@ -47,9 +47,9 @@
     VT100Token *token = [[[VT100Token alloc] init] autorelease];
     _context = iTermParserContextMake((unsigned char *)data.bytes, data.length);
     [_parser decodeFromContext:&_context
-                         token:token
-                      encoding:NSUTF8StringEncoding
-                    savedState:_savedState];
+             token:token
+             encoding:NSUTF8StringEncoding
+             savedState:_savedState];
     return token;
 }
 
@@ -97,7 +97,7 @@
 
 - (void)testDCSIntermediateIgnoreMany {
     VT100Token *token = [self tokenForDataWithFormat:@"%cP 0%c%c%c0",
-                         VT100CC_ESC, VT100CC_LF, VT100CC_EM, VT100CC_FS];
+                              VT100CC_ESC, VT100CC_LF, VT100CC_EM, VT100CC_FS];
     XCTAssert(token->type == VT100_WAIT);
     XCTAssert(_parser.state == kVT100DCSStateIgnore);
 }
@@ -117,7 +117,7 @@
 - (void)testDCSIntermediateIgnoreIgnoreEscAsciiST {
     // Enter ignore, then dcs escape, then passthrough, then ground; should still be invalid.
     VT100Token *token = [self tokenForDataWithFormat:@"%cP 01%cabc%c\\",
-                             VT100CC_ESC, VT100CC_ESC, VT100CC_ESC];
+                              VT100CC_ESC, VT100CC_ESC, VT100CC_ESC];
     XCTAssert(token->type == VT100_INVALID_SEQUENCE);
     XCTAssert(_parser.state == kVT100DCSStateGround);
 }
@@ -154,7 +154,7 @@
 
 - (void)testDCSMultipleParameters {
     VT100Token *token = [self tokenForDataWithFormat:@"%cP12%c3;45%c6;;0",
-                            VT100CC_ESC, VT100CC_LF, VT100CC_DEL];
+                              VT100CC_ESC, VT100CC_LF, VT100CC_DEL];
     XCTAssert(token->type == VT100_WAIT);
     XCTAssert(_parser.state == kVT100DCSStateParam);
     NSArray *expected = @[ @"123", @"456", @"", @"0" ];
@@ -202,7 +202,7 @@
 
 - (void)testDCSCatchesBinaryGarbage {
     VT100Token *token = [self tokenForDataWithFormat:@"%cPAbc%c%c%c%c~",
-                            VT100CC_ESC, VT100CC_LF, VT100CC_EM, VT100CC_FS, VT100CC_DEL];
+                              VT100CC_ESC, VT100CC_LF, VT100CC_EM, VT100CC_FS, VT100CC_DEL];
     XCTAssert(token->type == VT100_BINARY_GARBAGE);
     XCTAssert(_parser.state == kVT100DCSStatePassthrough);
     XCTAssert([_parser.parameters isEqual:@[ ]]);
@@ -226,7 +226,7 @@
 
 - (void)testDCSEverything {
     VT100Token *token = [self tokenForDataWithFormat:@"%cP<0;1;!\"abc%c\\",
-                            VT100CC_ESC, VT100CC_ESC];
+                              VT100CC_ESC, VT100CC_ESC];
     XCTAssert(token->type == VT100_NOTSUPPORT);
     XCTAssert(_parser.state == kVT100DCSStateGround);
     XCTAssertEqualObjects(_parser.privateMarkers, @"<");
@@ -246,7 +246,7 @@
 
 - (void)testDCSRequestTermcapTerminfo {
     VT100Token *token = [self tokenForDataWithFormat:@"%cP+q%@%c\\",
-                            VT100CC_ESC, [self hexEncodedString:@"TN"], VT100CC_ESC];
+                              VT100CC_ESC, [self hexEncodedString:@"TN"], VT100CC_ESC];
     XCTAssert(token->type == DCS_REQUEST_TERMCAP_TERMINFO);
 }
 
@@ -325,7 +325,7 @@
 
 -  (void)testDCSTmuxWrap {
     VT100Token *token = [self tokenForDataWithFormat:@"%cPtmux;%c%c[1m%c\\",
-                            VT100CC_ESC, VT100CC_ESC, VT100CC_ESC, VT100CC_ESC];
+                              VT100CC_ESC, VT100CC_ESC, VT100CC_ESC, VT100CC_ESC];
     XCTAssert(token->type == DCS_TMUX_CODE_WRAP);
     NSString *expected = [NSString stringWithFormat:@"%c[1m", VT100CC_ESC];
     XCTAssertEqualObjects(token.string, expected);
@@ -333,14 +333,14 @@
 
 - (void)testDCSSavedState {
     NSString *wholeSequence = [NSString stringWithFormat:@"%cP<0;1;!\"abc%c\\",
-                                  VT100CC_ESC, VT100CC_ESC];
+                                        VT100CC_ESC, VT100CC_ESC];
 
     for (int i = 2; i < wholeSequence.length; i++) {
         VT100Token *token = [self tokenForDataWithFormat:@"%@", [wholeSequence substringToIndex:i]];
         XCTAssert(token->type == VT100_WAIT);
 
         token = [self tokenForDataWithFormat:@"%@%@",
-                    [@"-" stringRepeatedTimes:i], [wholeSequence substringFromIndex:i]];
+                      [@"-" stringRepeatedTimes:i], [wholeSequence substringFromIndex:i]];
         XCTAssert(_parser.state == kVT100DCSStateGround);
         XCTAssert([_parser.privateMarkers isEqualToString:@"<"]);
         NSArray *expected = @[ @"0", @"1", @"" ];

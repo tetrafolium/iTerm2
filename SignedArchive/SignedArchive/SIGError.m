@@ -15,8 +15,8 @@ NSString *const SIGErrorDomain = @"com.iterm2.sig";
 + (instancetype)errorWithCode:(SIGErrorCode)code {
     NSString *localizedDescription = [self localizedDescriptionFcode:code];
     return [SIGError errorWithDomain:SIGErrorDomain
-                                code:code
-                            userInfo:@{ NSLocalizedDescriptionKey: [localizedDescription stringByAppendingString:@"."] }];
+                     code:code
+                     userInfo:@ { NSLocalizedDescriptionKey: [localizedDescription stringByAppendingString:@"."] }];
 }
 
 + (instancetype)errorWithCode:(SIGErrorCode)code detail:(NSString *)detail {
@@ -24,8 +24,8 @@ NSString *const SIGErrorDomain = @"com.iterm2.sig";
         return [self errorWithCode:code];
     }
     return [SIGError errorWithDomain:SIGErrorDomain
-                                code:code
-                            userInfo:@{ NSLocalizedDescriptionKey: [detail stringByAppendingString:@"."] }];
+                     code:code
+                     userInfo:@ { NSLocalizedDescriptionKey: [detail stringByAppendingString:@"."] }];
 }
 
 + (instancetype)errorWrapping:(NSError *)otherError code:(SIGErrorCode)code detail:(NSString *)detail {
@@ -38,7 +38,7 @@ NSString *const SIGErrorDomain = @"com.iterm2.sig";
     }
 
     NSString *innerDetail = otherError.localizedDescription ?: [NSString stringWithFormat:@"%@ error code %@",
-                                                                otherError.domain, @(otherError.code)];
+                       otherError.domain, @(otherError.code)];
     NSString *description = [NSString stringWithFormat:@"%@: %@", detail, innerDetail];
     return [self errorWithCode:code detail:description];
 }
@@ -47,52 +47,52 @@ NSString *const SIGErrorDomain = @"com.iterm2.sig";
 
 + (NSString *)localizedDescriptionFcode:(SIGErrorCode)code {
     switch (code) {
-        case SIGErrorCodeConsistency:
-            return @"Inconsistency discovered";
-        case SIGErrorCodeIOWrite:
-            return @"Error writing destination file";
-        case SIGErrorCodeIORead:
-            return @"Error reading source file";
-        case SIGErrorCodeNoPrivateKey:
-            return @"No private key found";
-        case SIGErrorCodeNoCertificate:
-            return @"No certificate found";
-        case SIGErrorCodeNoMetadata:
-            return @"No metadata found";
-        case SIGErrorCodeNoSignature:
-            return @"No signature found";
-        case SIGErrorCodeNoPayload:
-            return @"No payload found";
-        case SIGErrorCodeNoHeader:
-            return @"No header found";
-        case SIGErrorCodeAlgorithmCreationFailed:
-            return @"Could not create algorithm";
-        case SIGErrorCodeVersionTooNew:
-            return @"This file is from a newer version of this app and cannot be loaded. Please upgrade and try again";
-        case SIGErrorCodeMalformedMetadata:
-            return @"Metadata chunk malformed";
-        case SIGErrorCodeDeprecatedOldVersion:
-            return @"This file is in an older format that is no longer supported because its authenticity cannot be guaranteed. It cannot be opened by this version of the app";
-        case SIGErrorCodeMalformedHeader:
-            return @"Header chunk malformed";
-        case SIGErrorCodeUnsupportedAlgorithm:
-            return @"Unsupported algorithm";
-        case SIGErrorCodeUnknown:
-            return @"Unknown or unexpected error";
-        case SIGErrorCodeInputFileMalformed:
-            return @"Input file malformed";
-        case SIGErrorCodeInputMalformedCertificate:
-            return @"Malformed certificate";
-        case SIGErrorCodeTrust:
-            return @"Error creating trust object";
-        case SIGErrorCodeTrustUserDeny:
-            return @"Trust chain verification failed by user preference";
-        case SIGErrorCodeTrustMisconfiguration:
-            return @"Trust chain verification internal error";
-        case SIGErrorCodeTrustFailed:
-            return @"Trust chain verification failed";
-        case SIGErrorCodeSignatureDoesNotMatchPayload:
-            return @"Signature does not match payload";
+    case SIGErrorCodeConsistency:
+        return @"Inconsistency discovered";
+    case SIGErrorCodeIOWrite:
+        return @"Error writing destination file";
+    case SIGErrorCodeIORead:
+        return @"Error reading source file";
+    case SIGErrorCodeNoPrivateKey:
+        return @"No private key found";
+    case SIGErrorCodeNoCertificate:
+        return @"No certificate found";
+    case SIGErrorCodeNoMetadata:
+        return @"No metadata found";
+    case SIGErrorCodeNoSignature:
+        return @"No signature found";
+    case SIGErrorCodeNoPayload:
+        return @"No payload found";
+    case SIGErrorCodeNoHeader:
+        return @"No header found";
+    case SIGErrorCodeAlgorithmCreationFailed:
+        return @"Could not create algorithm";
+    case SIGErrorCodeVersionTooNew:
+        return @"This file is from a newer version of this app and cannot be loaded. Please upgrade and try again";
+    case SIGErrorCodeMalformedMetadata:
+        return @"Metadata chunk malformed";
+    case SIGErrorCodeDeprecatedOldVersion:
+        return @"This file is in an older format that is no longer supported because its authenticity cannot be guaranteed. It cannot be opened by this version of the app";
+    case SIGErrorCodeMalformedHeader:
+        return @"Header chunk malformed";
+    case SIGErrorCodeUnsupportedAlgorithm:
+        return @"Unsupported algorithm";
+    case SIGErrorCodeUnknown:
+        return @"Unknown or unexpected error";
+    case SIGErrorCodeInputFileMalformed:
+        return @"Input file malformed";
+    case SIGErrorCodeInputMalformedCertificate:
+        return @"Malformed certificate";
+    case SIGErrorCodeTrust:
+        return @"Error creating trust object";
+    case SIGErrorCodeTrustUserDeny:
+        return @"Trust chain verification failed by user preference";
+    case SIGErrorCodeTrustMisconfiguration:
+        return @"Trust chain verification internal error";
+    case SIGErrorCodeTrustFailed:
+        return @"Trust chain verification failed";
+    case SIGErrorCodeSignatureDoesNotMatchPayload:
+        return @"Signature does not match payload";
     }
     return @"Unknown error";
 }

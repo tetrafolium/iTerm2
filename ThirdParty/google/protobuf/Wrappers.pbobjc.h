@@ -4,13 +4,13 @@
 // This CPP symbol can be defined to use imports that match up to the framework
 // imports needed when using CocoaPods.
 #if !defined(GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS)
- #define GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS 0
+#define GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS 0
 #endif
 
 #if GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS
- #import <Protobuf/GPBProtocolBuffers.h>
+#import <Protobuf/GPBProtocolBuffers.h>
 #else
- #import "GPBProtocolBuffers.h"
+#import "GPBProtocolBuffers.h"
 #endif
 
 #if GOOGLE_PROTOBUF_OBJC_VERSION < 30002
@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - GPBDoubleValue
 
 typedef GPB_ENUM(GPBDoubleValue_FieldNumber) {
-  GPBDoubleValue_FieldNumber_Value = 1,
+    GPBDoubleValue_FieldNumber_Value = 1,
 };
 
 /**
@@ -57,7 +57,7 @@ typedef GPB_ENUM(GPBDoubleValue_FieldNumber) {
  **/
 @interface GPBDoubleValue : GPBMessage
 
-/** The double value. */
+    /** The double value. */
 @property(nonatomic, readwrite) double value;
 
 @end
@@ -65,7 +65,7 @@ typedef GPB_ENUM(GPBDoubleValue_FieldNumber) {
 #pragma mark - GPBFloatValue
 
 typedef GPB_ENUM(GPBFloatValue_FieldNumber) {
-  GPBFloatValue_FieldNumber_Value = 1,
+    GPBFloatValue_FieldNumber_Value = 1,
 };
 
 /**
@@ -75,7 +75,7 @@ typedef GPB_ENUM(GPBFloatValue_FieldNumber) {
  **/
 @interface GPBFloatValue : GPBMessage
 
-/** The float value. */
+    /** The float value. */
 @property(nonatomic, readwrite) float value;
 
 @end
@@ -83,7 +83,7 @@ typedef GPB_ENUM(GPBFloatValue_FieldNumber) {
 #pragma mark - GPBInt64Value
 
 typedef GPB_ENUM(GPBInt64Value_FieldNumber) {
-  GPBInt64Value_FieldNumber_Value = 1,
+    GPBInt64Value_FieldNumber_Value = 1,
 };
 
 /**
@@ -93,7 +93,7 @@ typedef GPB_ENUM(GPBInt64Value_FieldNumber) {
  **/
 @interface GPBInt64Value : GPBMessage
 
-/** The int64 value. */
+    /** The int64 value. */
 @property(nonatomic, readwrite) int64_t value;
 
 @end
@@ -101,7 +101,7 @@ typedef GPB_ENUM(GPBInt64Value_FieldNumber) {
 #pragma mark - GPBUInt64Value
 
 typedef GPB_ENUM(GPBUInt64Value_FieldNumber) {
-  GPBUInt64Value_FieldNumber_Value = 1,
+    GPBUInt64Value_FieldNumber_Value = 1,
 };
 
 /**
@@ -111,7 +111,7 @@ typedef GPB_ENUM(GPBUInt64Value_FieldNumber) {
  **/
 @interface GPBUInt64Value : GPBMessage
 
-/** The uint64 value. */
+    /** The uint64 value. */
 @property(nonatomic, readwrite) uint64_t value;
 
 @end
@@ -119,7 +119,7 @@ typedef GPB_ENUM(GPBUInt64Value_FieldNumber) {
 #pragma mark - GPBInt32Value
 
 typedef GPB_ENUM(GPBInt32Value_FieldNumber) {
-  GPBInt32Value_FieldNumber_Value = 1,
+    GPBInt32Value_FieldNumber_Value = 1,
 };
 
 /**
@@ -129,7 +129,7 @@ typedef GPB_ENUM(GPBInt32Value_FieldNumber) {
  **/
 @interface GPBInt32Value : GPBMessage
 
-/** The int32 value. */
+    /** The int32 value. */
 @property(nonatomic, readwrite) int32_t value;
 
 @end
@@ -137,7 +137,7 @@ typedef GPB_ENUM(GPBInt32Value_FieldNumber) {
 #pragma mark - GPBUInt32Value
 
 typedef GPB_ENUM(GPBUInt32Value_FieldNumber) {
-  GPBUInt32Value_FieldNumber_Value = 1,
+    GPBUInt32Value_FieldNumber_Value = 1,
 };
 
 /**
@@ -147,7 +147,7 @@ typedef GPB_ENUM(GPBUInt32Value_FieldNumber) {
  **/
 @interface GPBUInt32Value : GPBMessage
 
-/** The uint32 value. */
+    /** The uint32 value. */
 @property(nonatomic, readwrite) uint32_t value;
 
 @end
@@ -155,7 +155,7 @@ typedef GPB_ENUM(GPBUInt32Value_FieldNumber) {
 #pragma mark - GPBBoolValue
 
 typedef GPB_ENUM(GPBBoolValue_FieldNumber) {
-  GPBBoolValue_FieldNumber_Value = 1,
+    GPBBoolValue_FieldNumber_Value = 1,
 };
 
 /**
@@ -165,7 +165,7 @@ typedef GPB_ENUM(GPBBoolValue_FieldNumber) {
  **/
 @interface GPBBoolValue : GPBMessage
 
-/** The bool value. */
+    /** The bool value. */
 @property(nonatomic, readwrite) BOOL value;
 
 @end
@@ -173,7 +173,7 @@ typedef GPB_ENUM(GPBBoolValue_FieldNumber) {
 #pragma mark - GPBStringValue
 
 typedef GPB_ENUM(GPBStringValue_FieldNumber) {
-  GPBStringValue_FieldNumber_Value = 1,
+    GPBStringValue_FieldNumber_Value = 1,
 };
 
 /**
@@ -183,7 +183,7 @@ typedef GPB_ENUM(GPBStringValue_FieldNumber) {
  **/
 @interface GPBStringValue : GPBMessage
 
-/** The string value. */
+    /** The string value. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *value;
 
 @end
@@ -191,7 +191,7 @@ typedef GPB_ENUM(GPBStringValue_FieldNumber) {
 #pragma mark - GPBBytesValue
 
 typedef GPB_ENUM(GPBBytesValue_FieldNumber) {
-  GPBBytesValue_FieldNumber_Value = 1,
+    GPBBytesValue_FieldNumber_Value = 1,
 };
 
 /**
@@ -201,7 +201,7 @@ typedef GPB_ENUM(GPBBytesValue_FieldNumber) {
  **/
 @interface GPBBytesValue : GPBMessage
 
-/** The bytes value. */
+    /** The bytes value. */
 @property(nonatomic, readwrite, copy, null_resettable) NSData *value;
 
 @end

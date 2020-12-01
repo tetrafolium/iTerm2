@@ -37,16 +37,16 @@ static const double kFloatingPointTolerance = 0.00001;
 @implementation iTermInstrumentedPasteHelper
 
 - (NSTimer *)scheduledTimerWithTimeInterval:(NSTimeInterval)ti
-                                     target:(id)aTarget
-                                   selector:(SEL)aSelector
-                                   userInfo:(id)userInfo
-                                    repeats:(BOOL)yesOrNo {
+    target:(id)aTarget
+    selector:(SEL)aSelector
+    userInfo:(id)userInfo
+    repeats:(BOOL)yesOrNo {
     _duration += ti;
     self.timer = [NSTimer scheduledTimerWithTimeInterval:ti
-                                                  target:aTarget
-                                                selector:aSelector
-                                                userInfo:userInfo
-                                                 repeats:yesOrNo];
+                          target:aTarget
+                          selector:aSelector
+                          userInfo:userInfo
+                          repeats:yesOrNo];
     return self.timer;
 }
 
@@ -78,11 +78,12 @@ static const double kFloatingPointTolerance = 0.00001;
     [iTermWarning setWarningHandler:self];
     [[PasteboardHistory sharedInstance] clear];
     _warningBlock = [^NSModalResponse(NSAlert *alert, NSString *identifier) {
-        if ([identifier isEqualToString:[iTermAdvancedSettingsModel noSyncDoNotWarnBeforeMultilinePasteUserDefaultsKey]]) {
-            return 1;  /* deprecated NSAlertDefaultReturn; */
-        }
-        XCTAssert(false);
-    } copy];
+                                 if ([identifier isEqualToString:[iTermAdvancedSettingsModel noSyncDoNotWarnBeforeMultilinePasteUserDefaultsKey]]) {
+                                     return 1;  /* deprecated NSAlertDefaultReturn; */
+                                 }
+                                 XCTAssert(false);
+    }
+    copy];
 }
 
 - (void)tearDown {
@@ -97,94 +98,94 @@ static const double kFloatingPointTolerance = 0.00001;
 }
 
 - (void)sanitizeString:(NSString *)string
-                expect:(NSString *)expected
-                 flags:(iTermPasteFlags)flags
-          tabTransform:(iTermTabTransformTags)tabTransform
-          spacesPerTab:(int)spacesPerTab {
-  [self sanitizeString:string
-                expect:expected
-                 flags:flags
+    expect:(NSString *)expected
+    flags:(iTermPasteFlags)flags
+    tabTransform:(iTermTabTransformTags)tabTransform
+    spacesPerTab:(int)spacesPerTab {
+    [self sanitizeString:string
+          expect:expected
+          flags:flags
           tabTransform:tabTransform
           spacesPerTab:spacesPerTab
-                 regex:nil
+          regex:nil
           substitution:nil];
 }
 
 - (void)sanitizeString:(NSString *)string
-                expect:(NSString *)expected
-                 flags:(iTermPasteFlags)flags
-          tabTransform:(iTermTabTransformTags)tabTransform
-          spacesPerTab:(int)spacesPerTab
-                 regex:(NSString *)regex
-          substitution:(NSString *)substitution {
+    expect:(NSString *)expected
+    flags:(iTermPasteFlags)flags
+    tabTransform:(iTermTabTransformTags)tabTransform
+    spacesPerTab:(int)spacesPerTab
+    regex:(NSString *)regex
+    substitution:(NSString *)substitution {
     PasteEvent *event = [PasteEvent pasteEventWithString:string
-                                                   flags:flags
-                                        defaultChunkSize:1
-                                                chunkKey:nil
-                                            defaultDelay:1
-                                                delayKey:nil
-                                            tabTransform:tabTransform
-                                            spacesPerTab:spacesPerTab
-                                                   regex:regex
-                                            substitution:substitution];
+                                    flags:flags
+                                    defaultChunkSize:1
+                                    chunkKey:nil
+                                    defaultDelay:1
+                                    delayKey:nil
+                                    tabTransform:tabTransform
+                                    spacesPerTab:spacesPerTab
+                                    regex:regex
+                                    substitution:substitution];
     [iTermPasteHelper sanitizePasteEvent:event encoding:NSUTF8StringEncoding];
     XCTAssertEqualObjects(expected, event.string);
 }
 
 - (void)testSanitizeIdentity {
     [self sanitizeString:kTestString
-                  expect:kTestString
-                   flags:0
-            tabTransform:kTabTransformNone
-            spacesPerTab:0];
+          expect:kTestString
+          flags:0
+          tabTransform:kTabTransformNone
+          spacesPerTab:0];
 }
 
 - (void)testSanitizeEscapeSpecialCharacters {
     [self sanitizeString:kTestString
-                  expect:@"a\\ \\(\\\t\r\r\n" @"\x16" @"“”‘’–—b"
-                   flags:kPasteFlagsEscapeSpecialCharacters
-            tabTransform:kTabTransformNone
-            spacesPerTab:0];
+          expect:@"a\\ \\(\\\t\r\r\n" @"\x16" @"“”‘’–—b"
+          flags:kPasteFlagsEscapeSpecialCharacters
+          tabTransform:kTabTransformNone
+          spacesPerTab:0];
 }
 
 - (void)testSanitizeSanitizingNewlines {
     [self sanitizeString:kTestString
-                  expect:@"a (\t\r\r" @"\x16" @"“”‘’–—b"
-                   flags:kPasteFlagsSanitizingNewlines
-            tabTransform:kTabTransformNone
-            spacesPerTab:0];
+          expect:@"a (\t\r\r" @"\x16" @"“”‘’–—b"
+          flags:kPasteFlagsSanitizingNewlines
+          tabTransform:kTabTransformNone
+          spacesPerTab:0];
 }
 
 - (void)testSanitizeRemovingUnsafeControlCodes {
     [self sanitizeString:kTestString
-                  expect:@"a (\t\r\r\n“”‘’–—b"
-                   flags:kPasteFlagsRemovingUnsafeControlCodes
-            tabTransform:kTabTransformNone
-            spacesPerTab:0];
+          expect:@"a (\t\r\r\n“”‘’–—b"
+          flags:kPasteFlagsRemovingUnsafeControlCodes
+          tabTransform:kTabTransformNone
+          spacesPerTab:0];
 }
 
 - (void)testSanitizeBracket {
     [self sanitizeString:kTestString
-                  expect:kTestString
-                   flags:0
-            tabTransform:kTabTransformNone
-            spacesPerTab:0];
+          expect:kTestString
+          flags:0
+          tabTransform:kTabTransformNone
+          spacesPerTab:0];
 }
 
 - (void)testSanitizeBase64Encode {
     [self sanitizeString:@"Hello"
-                  expect:@"SGVsbG8=\r"
-                   flags:kPasteFlagsBase64Encode
-            tabTransform:kTabTransformNone
-            spacesPerTab:0];
+          expect:@"SGVsbG8=\r"
+          flags:kPasteFlagsBase64Encode
+          tabTransform:kTabTransformNone
+          spacesPerTab:0];
 }
 
 - (void)testSanitizeQuotes {
     [self sanitizeString:@"a“”‘’–—b"
-                  expect:@"a\"\"''--b"
-                   flags:kPasteFlagsConvertUnicodePunctuation
-            tabTransform:kTabTransformNone
-            spacesPerTab:0];
+          expect:@"a\"\"''--b"
+          flags:kPasteFlagsConvertUnicodePunctuation
+          tabTransform:kTabTransformNone
+          spacesPerTab:0];
 }
 
 - (void)testSanitizeAllFlagsOn {
@@ -192,40 +193,40 @@ static const double kFloatingPointTolerance = 0.00001;
     NSData *data = [expectedString dataUsingEncoding:NSUTF8StringEncoding];
     NSString *expected = [data stringWithBase64EncodingWithLineBreak:@"\r"];
     [self sanitizeString:kTestString
-                  expect:expected
-                   flags:(kPasteFlagsEscapeSpecialCharacters |
-                          kPasteFlagsSanitizingNewlines |
-                          kPasteFlagsRemovingUnsafeControlCodes |
-                          kPasteFlagsBracket |
-                          kPasteFlagsBase64Encode |
-                          kPasteFlagsConvertUnicodePunctuation)
-            tabTransform:kTabTransformNone
-            spacesPerTab:0];
+          expect:expected
+          flags:(kPasteFlagsEscapeSpecialCharacters |
+            kPasteFlagsSanitizingNewlines |
+            kPasteFlagsRemovingUnsafeControlCodes |
+            kPasteFlagsBracket |
+            kPasteFlagsBase64Encode |
+            kPasteFlagsConvertUnicodePunctuation)
+          tabTransform:kTabTransformNone
+          spacesPerTab:0];
 }
 
 - (void)testSanitizeTabsToSpaces {
     [self sanitizeString:@"a\tb"
-                  expect:@"a    b"
-                   flags:0
-            tabTransform:kTabTransformConvertToSpaces
-            spacesPerTab:4];
+          expect:@"a    b"
+          flags:0
+          tabTransform:kTabTransformConvertToSpaces
+          spacesPerTab:4];
 }
 
 - (void)testSanitizeEscapeTabsCtrlV {
     [self sanitizeString:@"a\tb"
-                  expect:@"a" @"\x16" @"\tb"
-                   flags:0
-            tabTransform:kTabTransformEscapeWithCtrlV
-            spacesPerTab:4];
+          expect:@"a" @"\x16" @"\tb"
+          flags:0
+          tabTransform:kTabTransformEscapeWithCtrlV
+          spacesPerTab:4];
 }
 
 - (void)testBasicPasteString {
     [_helper pasteString:kHelloWorld
-                  slowly:NO
-        escapeShellChars:NO
-                isUpload:NO
-            tabTransform:kTabTransformNone
-            spacesPerTab:0];
+             slowly:NO
+             escapeShellChars:NO
+             isUpload:NO
+             tabTransform:kTabTransformNone
+             spacesPerTab:0];
     [self runTimer];
     XCTAssert([_writeBuffer isEqualToString:kHelloWorld]);
     XCTAssert(_helper.duration == 0);
@@ -234,11 +235,11 @@ static const double kFloatingPointTolerance = 0.00001;
 
 - (void)testDefaultFlagsOnPasteString {
     [_helper pasteString:kTestString
-                  slowly:NO
-        escapeShellChars:NO
-                isUpload:NO
-            tabTransform:kTabTransformNone
-            spacesPerTab:0];
+             slowly:NO
+             escapeShellChars:NO
+             isUpload:NO
+             tabTransform:kTabTransformNone
+             spacesPerTab:0];
     [self runTimer];
     NSString *expected = @"a (\t\r\r“”‘’–—b";
     XCTAssert([_writeBuffer isEqualToString:expected]);
@@ -246,11 +247,11 @@ static const double kFloatingPointTolerance = 0.00001;
 
 - (void)testExpandTabsBeforeEscaping {
     [_helper pasteString:@"\t"
-                  slowly:NO
-        escapeShellChars:YES
-                isUpload:NO
-            tabTransform:kTabTransformConvertToSpaces
-            spacesPerTab:4];
+             slowly:NO
+             escapeShellChars:YES
+             isUpload:NO
+             tabTransform:kTabTransformConvertToSpaces
+             spacesPerTab:4];
     [self runTimer];
     NSString *expected = @"\\ \\ \\ \\ ";
     XCTAssertEqualObjects(_writeBuffer, expected);
@@ -258,11 +259,11 @@ static const double kFloatingPointTolerance = 0.00001;
 
 - (void)testEscapeDoesNotEscapeCarriageReturn {
     [_helper pasteString:@"\r"
-                  slowly:NO
-        escapeShellChars:YES
-                isUpload:NO
-            tabTransform:kTabTransformConvertToSpaces
-            spacesPerTab:4];
+             slowly:NO
+             escapeShellChars:YES
+             isUpload:NO
+             tabTransform:kTabTransformConvertToSpaces
+             spacesPerTab:4];
     [self runTimer];
     NSString *expected = @"\r";
     XCTAssert([_writeBuffer isEqualToString:expected]);
@@ -270,11 +271,11 @@ static const double kFloatingPointTolerance = 0.00001;
 
 - (void)testPasteStringWithFlagsAndConvertToSpacesTabTransform {
     [_helper pasteString:kTestString
-                  slowly:NO
-        escapeShellChars:YES
-                isUpload:NO
-            tabTransform:kTabTransformConvertToSpaces
-            spacesPerTab:4];
+             slowly:NO
+             escapeShellChars:YES
+             isUpload:NO
+             tabTransform:kTabTransformConvertToSpaces
+             spacesPerTab:4];
     [self runTimer];
     NSString *expected = @"a\\ \\(\\ \\ \\ \\ \r\r“”‘’–—b";
     XCTAssertEqualObjects(_writeBuffer, expected);
@@ -282,11 +283,11 @@ static const double kFloatingPointTolerance = 0.00001;
 
 - (void)testDoNotEscapeNonAscii {
     [_helper pasteString:@"“"
-                  slowly:NO
-        escapeShellChars:YES
-                isUpload:NO
-            tabTransform:kTabTransformEscapeWithCtrlV
-            spacesPerTab:0];
+             slowly:NO
+             escapeShellChars:YES
+             isUpload:NO
+             tabTransform:kTabTransformEscapeWithCtrlV
+             spacesPerTab:0];
     [self runTimer];
     NSString *expected = @"“";
     XCTAssert([_writeBuffer isEqualToString:expected]);
@@ -294,11 +295,11 @@ static const double kFloatingPointTolerance = 0.00001;
 
 - (void)testStripControlV {
     [_helper pasteString:@"\x16"
-                  slowly:NO
-        escapeShellChars:YES
-                isUpload:NO
-            tabTransform:kTabTransformEscapeWithCtrlV
-            spacesPerTab:0];
+             slowly:NO
+             escapeShellChars:YES
+             isUpload:NO
+             tabTransform:kTabTransformEscapeWithCtrlV
+             spacesPerTab:0];
     [self runTimer];
     NSString *expected = @"";
     XCTAssert([_writeBuffer isEqualToString:expected]);
@@ -306,11 +307,11 @@ static const double kFloatingPointTolerance = 0.00001;
 
 - (void)testPasteStringWithFlagsAndCtrlVTabTransform {
     [_helper pasteString:kTestString
-                  slowly:NO
-        escapeShellChars:YES
-                isUpload:NO
-            tabTransform:kTabTransformEscapeWithCtrlV
-            spacesPerTab:0];
+             slowly:NO
+             escapeShellChars:YES
+             isUpload:NO
+             tabTransform:kTabTransformEscapeWithCtrlV
+             spacesPerTab:0];
     [self runTimer];
     NSString *expected = @"a\\ \\(\x16\t\r\r“”‘’–—b";
     XCTAssert([_writeBuffer isEqualToString:expected]);
@@ -318,12 +319,12 @@ static const double kFloatingPointTolerance = 0.00001;
 
 - (void)testMultilineWarningWithOverride {
     [iTermSelectorSwizzler swizzleSelector:@selector(promptForPasteWhenNotAtPrompt)
-                                 fromClass:[iTermAdvancedSettingsModel class]
-                                 withBlock:^ BOOL { return YES; }
-                                  forBlock:^{
-                                      [iTermAdvancedSettingsModel loadAdvancedSettingsFromUserDefaults];
-                                      [self doMultilineWarningTestWithOverride:YES];
-                                  }];
+                           fromClass:[iTermAdvancedSettingsModel class]
+                           withBlock:^ BOOL { return YES; }
+                          forBlock:^ {
+                              [iTermAdvancedSettingsModel loadAdvancedSettingsFromUserDefaults];
+        [self doMultilineWarningTestWithOverride:YES];
+    }];
 }
 
 - (void)testMultilineWarningNoOverride {
@@ -334,19 +335,20 @@ static const double kFloatingPointTolerance = 0.00001;
     __block BOOL warned = NO;
     [_warningBlock release];
     _warningBlock = [^NSModalResponse(NSAlert *alert, NSString *identifier) {
-        XCTAssert([identifier isEqualToString:[iTermAdvancedSettingsModel noSyncDoNotWarnBeforeMultilinePasteUserDefaultsKey]]);
-        warned = YES;
-        return 1;  /* deprecated NSAlertDefaultReturn; */
-    } copy];
+                                 XCTAssert([identifier isEqualToString:[iTermAdvancedSettingsModel noSyncDoNotWarnBeforeMultilinePasteUserDefaultsKey]]);
+                                 warned = YES;
+                                 return 1;  /* deprecated NSAlertDefaultReturn; */
+                             }
+                             copy];
 
     // Check no newline gives no warning.
     warned = NO;
     [_helper pasteString:@"line 1"
-                  slowly:NO
-        escapeShellChars:NO
-                isUpload:NO
-            tabTransform:kTabTransformNone
-            spacesPerTab:0];
+             slowly:NO
+             escapeShellChars:NO
+             isUpload:NO
+             tabTransform:kTabTransformNone
+             spacesPerTab:0];
     XCTAssert(!warned);
 
 }
@@ -355,18 +357,19 @@ static const double kFloatingPointTolerance = 0.00001;
     __block BOOL warned = NO;
     [_warningBlock release];
     _warningBlock = [^NSModalResponse(NSAlert *alert, NSString *identifier) {
-        XCTAssert([identifier isEqualToString:[iTermAdvancedSettingsModel noSyncDoNotWarnBeforeMultilinePasteUserDefaultsKey]]);
-        warned = YES;
-        return 1;  /* deprecated NSAlertDefaultReturn; */
-    } copy];
+                                 XCTAssert([identifier isEqualToString:[iTermAdvancedSettingsModel noSyncDoNotWarnBeforeMultilinePasteUserDefaultsKey]]);
+                                 warned = YES;
+                                 return 1;  /* deprecated NSAlertDefaultReturn; */
+                             }
+                             copy];
 
     // Check cr newline.
     [_helper pasteString:@"line 1\rline 2"
-                  slowly:NO
-        escapeShellChars:NO
-                isUpload:NO
-            tabTransform:kTabTransformNone
-            spacesPerTab:0];
+             slowly:NO
+             escapeShellChars:NO
+             isUpload:NO
+             tabTransform:kTabTransformNone
+             spacesPerTab:0];
     if (override) {
         XCTAssert(warned);
     } else {
@@ -376,11 +379,11 @@ static const double kFloatingPointTolerance = 0.00001;
     // Check lf newline.
     warned = NO;
     [_helper pasteString:@"line 1\nline 2"
-                  slowly:NO
-        escapeShellChars:NO
-                isUpload:NO
-            tabTransform:kTabTransformNone
-            spacesPerTab:0];
+             slowly:NO
+             escapeShellChars:NO
+             isUpload:NO
+             tabTransform:kTabTransformNone
+             spacesPerTab:0];
     if (override) {
         XCTAssert(warned);
     } else {
@@ -390,11 +393,11 @@ static const double kFloatingPointTolerance = 0.00001;
     // Check crlf newline.
     warned = NO;
     [_helper pasteString:@"line 1\r\nline 2"
-                  slowly:NO
-        escapeShellChars:NO
-                isUpload:NO
-            tabTransform:kTabTransformNone
-            spacesPerTab:0];
+             slowly:NO
+             escapeShellChars:NO
+             isUpload:NO
+             tabTransform:kTabTransformNone
+             spacesPerTab:0];
     if (override) {
         XCTAssert(warned);
     } else {
@@ -405,11 +408,11 @@ static const double kFloatingPointTolerance = 0.00001;
 - (void)testBracketingOnPasteString {
     _shouldBracket = YES;
     [_helper pasteString:kHelloWorld
-                  slowly:NO
-        escapeShellChars:NO
-                isUpload:NO
-            tabTransform:kTabTransformNone
-            spacesPerTab:0];
+             slowly:NO
+             escapeShellChars:NO
+             isUpload:NO
+             tabTransform:kTabTransformNone
+             spacesPerTab:0];
     [self runTimer];
     NSString *expected = @"\x1b[200~Hello World\x1b[201~";
     XCTAssert([_writeBuffer isEqualToString:expected]);
@@ -422,11 +425,11 @@ static const double kFloatingPointTolerance = 0.00001;
     NSString *test = [@" " stringRepeatedTimes:2000];
     _shouldBracket = YES;
     [_helper pasteString:test
-                  slowly:NO
-        escapeShellChars:NO
-                isUpload:NO
-            tabTransform:kTabTransformNone
-            spacesPerTab:0];
+             slowly:NO
+             escapeShellChars:NO
+             isUpload:NO
+             tabTransform:kTabTransformNone
+             spacesPerTab:0];
     _shouldBracket = NO;
     [self runTimer];
     NSString *expected = [[@"\x1b[200~" stringByAppendingString:test] stringByAppendingString:@"\x1b[201~"];
@@ -438,20 +441,20 @@ static const double kFloatingPointTolerance = 0.00001;
     NSString *test1 = [@"1" stringRepeatedTimes:2000];
     _shouldBracket = YES;
     [_helper pasteString:test1
-                  slowly:NO
-        escapeShellChars:NO
-                isUpload:NO
-            tabTransform:kTabTransformNone
-            spacesPerTab:0];
+             slowly:NO
+             escapeShellChars:NO
+             isUpload:NO
+             tabTransform:kTabTransformNone
+             spacesPerTab:0];
     _shouldBracket = NO;
 
     NSString *test2 = [@"2" stringRepeatedTimes:2000];
     [_helper pasteString:test2
-                  slowly:NO
-        escapeShellChars:NO
-                isUpload:NO
-            tabTransform:kTabTransformNone
-            spacesPerTab:0];
+             slowly:NO
+             escapeShellChars:NO
+             isUpload:NO
+             tabTransform:kTabTransformNone
+             spacesPerTab:0];
 
     [self runTimer];
     NSString *expected = [[[@"\x1b[200~" stringByAppendingString:test1] stringByAppendingString:@"\x1b[201~"] stringByAppendingString:test2];
@@ -461,11 +464,11 @@ static const double kFloatingPointTolerance = 0.00001;
 - (void)testTwoChunkPasteString {
     NSString *test = [@" " stringRepeatedTimes:2000];
     [_helper pasteString:test
-                  slowly:NO
-        escapeShellChars:NO
-                isUpload:NO
-            tabTransform:kTabTransformNone
-            spacesPerTab:0];
+             slowly:NO
+             escapeShellChars:NO
+             isUpload:NO
+             tabTransform:kTabTransformNone
+             spacesPerTab:0];
     [self runTimer];
     XCTAssert([_writeBuffer isEqualToString:test]);
     XCTAssert(fabs(_helper.duration - 0.02) < kFloatingPointTolerance);
@@ -474,11 +477,11 @@ static const double kFloatingPointTolerance = 0.00001;
 - (void)testSlowTwoChunkPasteString {
     NSString *test = [@" " stringRepeatedTimes:20];
     [_helper pasteString:test
-                  slowly:YES
-        escapeShellChars:NO
-                isUpload:NO
-            tabTransform:kTabTransformNone
-            spacesPerTab:0];
+             slowly:YES
+             escapeShellChars:NO
+             isUpload:NO
+             tabTransform:kTabTransformNone
+             spacesPerTab:0];
     [self runTimer];
     XCTAssert([_writeBuffer isEqualToString:test]);
     XCTAssert(fabs(_helper.duration - 0.125) < kFloatingPointTolerance);
@@ -487,18 +490,18 @@ static const double kFloatingPointTolerance = 0.00001;
 - (void)testPasteQueued {
     NSString *test1 = [@"1" stringRepeatedTimes:2000];
     [_helper pasteString:test1
-                  slowly:NO
-        escapeShellChars:NO
-                isUpload:NO
-            tabTransform:kTabTransformNone
-            spacesPerTab:0];
+             slowly:NO
+             escapeShellChars:NO
+             isUpload:NO
+             tabTransform:kTabTransformNone
+             spacesPerTab:0];
     NSString *test2 = [@"2" stringRepeatedTimes:2000];
     [_helper pasteString:test2
-                  slowly:NO
-        escapeShellChars:NO
-                isUpload:NO
-            tabTransform:kTabTransformNone
-            spacesPerTab:0];
+             slowly:NO
+             escapeShellChars:NO
+             isUpload:NO
+             tabTransform:kTabTransformNone
+             spacesPerTab:0];
     [self runTimer];
     XCTAssert([_writeBuffer isEqualToString:[test1 stringByAppendingString:test2]]);
     NSTimeInterval expectedDuration = 4 * 0.01;
@@ -510,28 +513,28 @@ static const double kFloatingPointTolerance = 0.00001;
 - (void)testQueuedKeystrokeAndPaste {
     NSString *test1 = [@"1" stringRepeatedTimes:2000];
     [_helper pasteString:test1
-                  slowly:NO
-        escapeShellChars:NO
-                isUpload:NO
-            tabTransform:kTabTransformNone
-            spacesPerTab:0];
+             slowly:NO
+             escapeShellChars:NO
+             isUpload:NO
+             tabTransform:kTabTransformNone
+             spacesPerTab:0];
     [_helper enqueueEvent:[NSEvent keyEventWithType:NSEventTypeKeyDown
-                                           location:NSZeroPoint
-                                      modifierFlags:0
-                                          timestamp:[NSDate timeIntervalSinceReferenceDate]
-                                       windowNumber:0
-                                            context:nil
-                                         characters:@"x"
-                        charactersIgnoringModifiers:@"x"
-                                          isARepeat:NO
-                                            keyCode:0]];
+                           location:NSZeroPoint
+                           modifierFlags:0
+                           timestamp:[NSDate timeIntervalSinceReferenceDate]
+                           windowNumber:0
+                           context:nil
+                           characters:@"x"
+                           charactersIgnoringModifiers:@"x"
+                           isARepeat:NO
+                           keyCode:0]];
     NSString *test2 = [@"2" stringRepeatedTimes:2000];
     [_helper pasteString:test2
-                  slowly:NO
-        escapeShellChars:NO
-                isUpload:NO
-            tabTransform:kTabTransformNone
-            spacesPerTab:0];
+             slowly:NO
+             escapeShellChars:NO
+             isUpload:NO
+             tabTransform:kTabTransformNone
+             spacesPerTab:0];
     [self runTimer];
     XCTAssert([_writeBuffer isEqualToString:[[test1 stringByAppendingString:@"x"] stringByAppendingString:test2]]);
     NSTimeInterval expectedDuration = 4 * 0.01;

@@ -83,18 +83,18 @@ static NSData *createRandomNSData()
 - (void)testCompressionPerformance
 {
     NSData *inputData = createRandomNSData();
-    [self measureBlock:^{
-        __unused NSData *compressedData = [inputData gzippedData];
-    }];
+    [self measureBlock:^ {
+             __unused NSData *compressedData = [inputData gzippedData];
+         }];
 }
 
 - (void)testDecompressionPerformance
 {
     NSData *inputData = createRandomNSData();
     NSData *compressedData = [inputData gzippedData];
-    [self measureBlock:^{
-        __unused NSData *outputData = [compressedData gunzippedData];
-    }];
+    [self measureBlock:^ {
+             __unused NSData *outputData = [compressedData gunzippedData];
+         }];
 }
 
 @end

@@ -18,7 +18,7 @@
 - (id)initWithCapacity:(NSUInteger)initCapacity
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         capacity = initCapacity;
@@ -28,7 +28,7 @@
             table[buildingState] = [[NSMutableDictionary alloc] init];
         }
     }
-    
+
     return self;
 }
 
@@ -37,7 +37,7 @@
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super init];
-    
+
     if (nil != self)
     {
         NSArray *rows = [aDecoder decodeObjectForKey:CPShiftReduceGotoTableTableKey];
@@ -49,7 +49,7 @@
             [table[i] retain];
         }
     }
-    
+
     return self;
 }
 
@@ -65,7 +65,7 @@
         [table[state] release];
     }
     free(table);
-    
+
     [super dealloc];
 }
 

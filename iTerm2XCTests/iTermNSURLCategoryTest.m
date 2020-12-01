@@ -104,14 +104,14 @@
     NSString *query = @"%20国=%20中&ö";
     NSString *fragment = @"%20é./?:~ñ";
     NSString *urlString = [NSString stringWithFormat:@"%@://%@:%@@%@:%@/%@?%@#%@",
-                           scheme,
-                           user,
-                           password,
-                           host,
-                           port,
-                           path,
-                           query,
-                           fragment];
+                                    scheme,
+                                    user,
+                                    password,
+                                    host,
+                                    port,
+                                    path,
+                                    query,
+                                    fragment];
     NSURL *url = [NSURL URLWithUserSuppliedString:urlString];
     host = @"xn--1ca0960bnsf.%20.icom.museum";
     password = @"&=+$,%C3%A9%20;&=+$,";
@@ -119,14 +119,14 @@
     query = @"%20%E5%9B%BD=%20%E4%B8%AD&%C3%B6";
     fragment = @"%20%C3%A9./?:~%C3%B1";
     urlString = [NSString stringWithFormat:@"%@://%@:%@@%@:%@/%@?%@#%@",
-                 scheme,
-                 user,
-                 password,
-                 host,
-                 port,
-                 path,
-                 query,
-                 fragment];
+                          scheme,
+                          user,
+                          password,
+                          host,
+                          port,
+                          path,
+                          query,
+                          fragment];
 
     XCTAssertEqualObjects(url.absoluteString, urlString);
 }

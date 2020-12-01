@@ -67,40 +67,40 @@ static const NSInteger kUnicodeVersion = 9;
                         @"@",
                         @"-" ];
     [self performTestForWordSelectionUsingLine:line
-                          wordForEachCharacter:words
-                           extraWordCharacters:@"-"];
+          wordForEachCharacter:words
+          extraWordCharacters:@"-"];
 }
 
 - (void)testChineseWordSelection {
     NSString *line = @"翻真的翻";
     NSArray *words = @[
-                       @"翻",
-                       @"翻",  // double-width extension
-                       @"真的",
-                       @"真的",  // double-width extension
-                       @"真的",
-                       @"真的",  // double-width extension
-                       @"翻",
-                       @"翻" ];  // double-width extension
+                         @"翻",
+                         @"翻",  // double-width extension
+                         @"真的",
+                         @"真的",  // double-width extension
+                         @"真的",
+                         @"真的",  // double-width extension
+                         @"翻",
+                         @"翻" ];  // double-width extension
     [self performTestForWordSelectionUsingLine:line
-                          wordForEachCharacter:words
-                           extraWordCharacters:@"-"];
+          wordForEachCharacter:words
+          extraWordCharacters:@"-"];
 }
 
 - (void)testChineseWithWhitelistedCharacters {
     NSString *line = @"真的-真的";
     NSArray *words = @[ @"真的-真的",  // 真
-                        @"真的-真的",  // 真 DWC
-                        @"真的-真的",  // 的
-                        @"真的-真的",  // 的 DWC
-                        @"真的-真的",  // -
-                        @"真的-真的",  // 真
-                        @"真的-真的",  // 真 DWC
-                        @"真的-真的",  // 的
-                        @"真的-真的" ];  // 的 DWC
+                                           @"真的-真的",  // 真 DWC
+                                           @"真的-真的",  // 的
+                                           @"真的-真的",  // 的 DWC
+                                           @"真的-真的",  // -
+                                           @"真的-真的",  // 真
+                                           @"真的-真的",  // 真 DWC
+                                           @"真的-真的",  // 的
+                                           @"真的-真的" ];  // 的 DWC
     [self performTestForWordSelectionUsingLine:line
-                          wordForEachCharacter:words
-                           extraWordCharacters:@"-"];
+          wordForEachCharacter:words
+          extraWordCharacters:@"-"];
 }
 
 - (void)testSurrogatePairWordSelection {
@@ -110,33 +110,33 @@ static const NSInteger kUnicodeVersion = 9;
                         @"次",
                         @"次"];  // DWC_RIGHT
     [self performTestForWordSelectionUsingLine:line
-                          wordForEachCharacter:words
-                           extraWordCharacters:@"-"];
+          wordForEachCharacter:words
+          extraWordCharacters:@"-"];
 }
 
 - (void)performTestForWordSelectionUsingLine:(NSString *)line
-                        wordForEachCharacter:(NSArray<NSString *> *)expected
-                         extraWordCharacters:(NSString *)extraWordCharacters {
+    wordForEachCharacter:(NSArray<NSString *> *)expected
+    extraWordCharacters:(NSString *)extraWordCharacters {
     iTermFakeUserDefaults *fakeDefaults = [[[iTermFakeUserDefaults alloc] init] autorelease];
     [fakeDefaults setFakeObject:extraWordCharacters forKey:kPreferenceKeyCharactersConsideredPartOfAWordForSelection];
     _lines = @[ line ];
     iTermTextExtractor *extractor = [iTermTextExtractor textExtractorWithDataSource:self];
 
     [iTermSelectorSwizzler swizzleSelector:@selector(standardUserDefaults)
-                                 fromClass:[NSUserDefaults class]
-                                 withBlock:^ id { return fakeDefaults; }
-                                  forBlock:^{
-                                      [iTermAdvancedSettingsModel loadAdvancedSettingsFromUserDefaults];
-                                      VT100GridWindowedRange range;
-                                      for (int i = 0; i < line.length; i++) {
-                                          range = [extractor rangeForWordAt:VT100GridCoordMake(i, 0)
-                                                              maximumLength:kReasonableMaximumWordLength];
-                                          NSString *actual = [self stringForRange:range];
-                                          XCTAssertEqualObjects(actual, expected[i],
-                                                                @"For click at %@ got a range of %@ giving “%@”, while I expected “%@”",
-                                                                @(i), VT100GridWindowedRangeDescription(range), actual, expected[i]);
-                                      }
-                                  }];
+                           fromClass:[NSUserDefaults class]
+                           withBlock:^ id { return fakeDefaults; }
+                          forBlock:^ {
+                              [iTermAdvancedSettingsModel loadAdvancedSettingsFromUserDefaults];
+                              VT100GridWindowedRange range;
+                              for (int i = 0; i < line.length; i++) {
+            range = [extractor rangeForWordAt:VT100GridCoordMake(i, 0)
+                               maximumLength:kReasonableMaximumWordLength];
+            NSString *actual = [self stringForRange:range];
+            XCTAssertEqualObjects(actual, expected[i],
+                                  @"For click at %@ got a range of %@ giving “%@”, while I expected “%@”",
+                                  @(i), VT100GridWindowedRangeDescription(range), actual, expected[i]);
+        }
+    }];
 }
 
 - (void)testSmartSelectionRulesPlistParseable {
@@ -149,13 +149,16 @@ static const NSInteger kUnicodeVersion = 9;
     _lines = @[ @"blah 页页的翻真的很不方便.txt blah" ];
     iTermTextExtractor *extractor = [iTermTextExtractor textExtractorWithDataSource:self];
     VT100GridWindowedRange range;
-    NSDictionary *rule = @{ kRegexKey: @"\\S+",
-                            kPrecisionKey: kVeryHighPrecision };
+    NSDictionary *rule = @ { kRegexKey:
+                             @"\\S+",
+                             kPrecisionKey:
+                             kVeryHighPrecision
+                           };
 
     SmartMatch *match = [extractor smartSelectionAt:VT100GridCoordMake(10, 0)
-                                          withRules:@[ rule ]
-                                     actionRequired:NO
-                                              range:&range
+                                   withRules:@[ rule ]
+                                   actionRequired:NO
+                                   range:&range
                                    ignoringNewlines:NO];
     XCTAssertNotNil(match);
     XCTAssertEqual(match.startX, 5);
@@ -189,58 +192,58 @@ static const NSInteger kUnicodeVersion = 9;
 }
 
 - (void)testRangeByTrimmingWhitespace_TrimBothEnds {
-  _lines = @[ @"  foo  " ];
-  iTermTextExtractor *extractor = [iTermTextExtractor textExtractorWithDataSource:self];
-  VT100GridAbsCoordRange actual = [extractor rangeByTrimmingWhitespaceFromRange:VT100GridAbsCoordRangeMake(0, 0, 7, 0)];
-  VT100GridAbsCoordRange expected = VT100GridAbsCoordRangeMake(2, 0, 5, 0);
-  XCTAssertEqual(actual.start.x, expected.start.x);
-  XCTAssertEqual(actual.start.y, expected.start.y);
-  XCTAssertEqual(actual.end.x, expected.end.x);
-  XCTAssertEqual(actual.end.y, expected.end.y);
+    _lines = @[ @"  foo  " ];
+    iTermTextExtractor *extractor = [iTermTextExtractor textExtractorWithDataSource:self];
+    VT100GridAbsCoordRange actual = [extractor rangeByTrimmingWhitespaceFromRange:VT100GridAbsCoordRangeMake(0, 0, 7, 0)];
+    VT100GridAbsCoordRange expected = VT100GridAbsCoordRangeMake(2, 0, 5, 0);
+    XCTAssertEqual(actual.start.x, expected.start.x);
+    XCTAssertEqual(actual.start.y, expected.start.y);
+    XCTAssertEqual(actual.end.x, expected.end.x);
+    XCTAssertEqual(actual.end.y, expected.end.y);
 }
 
 - (void)testRangeByTrimmingWhitespace_TrimLeft {
-  _lines = @[ @"  foo" ];
-  iTermTextExtractor *extractor = [iTermTextExtractor textExtractorWithDataSource:self];
-  VT100GridAbsCoordRange actual = [extractor rangeByTrimmingWhitespaceFromRange:VT100GridAbsCoordRangeMake(0, 0, 5, 0)];
-  VT100GridAbsCoordRange expected = VT100GridAbsCoordRangeMake(2, 0, 5, 0);
-  XCTAssertEqual(actual.start.x, expected.start.x);
-  XCTAssertEqual(actual.start.y, expected.start.y);
-  XCTAssertEqual(actual.end.x, expected.end.x);
-  XCTAssertEqual(actual.end.y, expected.end.y);
+    _lines = @[ @"  foo" ];
+    iTermTextExtractor *extractor = [iTermTextExtractor textExtractorWithDataSource:self];
+    VT100GridAbsCoordRange actual = [extractor rangeByTrimmingWhitespaceFromRange:VT100GridAbsCoordRangeMake(0, 0, 5, 0)];
+    VT100GridAbsCoordRange expected = VT100GridAbsCoordRangeMake(2, 0, 5, 0);
+    XCTAssertEqual(actual.start.x, expected.start.x);
+    XCTAssertEqual(actual.start.y, expected.start.y);
+    XCTAssertEqual(actual.end.x, expected.end.x);
+    XCTAssertEqual(actual.end.y, expected.end.y);
 }
 
 - (void)testRangeByTrimmingWhitespace_TrimRight {
-  _lines = @[ @"foo  " ];
-  iTermTextExtractor *extractor = [iTermTextExtractor textExtractorWithDataSource:self];
-  VT100GridAbsCoordRange actual = [extractor rangeByTrimmingWhitespaceFromRange:VT100GridAbsCoordRangeMake(0, 0, 5, 0)];
-  VT100GridAbsCoordRange expected = VT100GridAbsCoordRangeMake(0, 0, 3, 0);
-  XCTAssertEqual(actual.start.x, expected.start.x);
-  XCTAssertEqual(actual.start.y, expected.start.y);
-  XCTAssertEqual(actual.end.x, expected.end.x);
-  XCTAssertEqual(actual.end.y, expected.end.y);
+    _lines = @[ @"foo  " ];
+    iTermTextExtractor *extractor = [iTermTextExtractor textExtractorWithDataSource:self];
+    VT100GridAbsCoordRange actual = [extractor rangeByTrimmingWhitespaceFromRange:VT100GridAbsCoordRangeMake(0, 0, 5, 0)];
+    VT100GridAbsCoordRange expected = VT100GridAbsCoordRangeMake(0, 0, 3, 0);
+    XCTAssertEqual(actual.start.x, expected.start.x);
+    XCTAssertEqual(actual.start.y, expected.start.y);
+    XCTAssertEqual(actual.end.x, expected.end.x);
+    XCTAssertEqual(actual.end.y, expected.end.y);
 }
 
 - (void)testRangeByTrimmingWhitespace_NothingToTrim {
-  _lines = @[ @"foo" ];
-  iTermTextExtractor *extractor = [iTermTextExtractor textExtractorWithDataSource:self];
-  VT100GridAbsCoordRange actual = [extractor rangeByTrimmingWhitespaceFromRange:VT100GridAbsCoordRangeMake(0, 0, 3, 0)];
-  VT100GridAbsCoordRange expected = VT100GridAbsCoordRangeMake(0, 0, 3, 0);
-  XCTAssertEqual(actual.start.x, expected.start.x);
-  XCTAssertEqual(actual.start.y, expected.start.y);
-  XCTAssertEqual(actual.end.x, expected.end.x);
-  XCTAssertEqual(actual.end.y, expected.end.y);
+    _lines = @[ @"foo" ];
+    iTermTextExtractor *extractor = [iTermTextExtractor textExtractorWithDataSource:self];
+    VT100GridAbsCoordRange actual = [extractor rangeByTrimmingWhitespaceFromRange:VT100GridAbsCoordRangeMake(0, 0, 3, 0)];
+    VT100GridAbsCoordRange expected = VT100GridAbsCoordRangeMake(0, 0, 3, 0);
+    XCTAssertEqual(actual.start.x, expected.start.x);
+    XCTAssertEqual(actual.start.y, expected.start.y);
+    XCTAssertEqual(actual.end.x, expected.end.x);
+    XCTAssertEqual(actual.end.y, expected.end.y);
 }
 
 - (void)testRangeByTrimmingWhitespace_MultiLine {
-  _lines = @[ @"  fooba", @"123456 ", @"       " ];
-  iTermTextExtractor *extractor = [iTermTextExtractor textExtractorWithDataSource:self];
-  VT100GridAbsCoordRange actual = [extractor rangeByTrimmingWhitespaceFromRange:VT100GridAbsCoordRangeMake(0, 0, 7, 2)];
-  VT100GridAbsCoordRange expected = VT100GridAbsCoordRangeMake(2, 0, 6, 1);
-  XCTAssertEqual(actual.start.x, expected.start.x);
-  XCTAssertEqual(actual.start.y, expected.start.y);
-  XCTAssertEqual(actual.end.x, expected.end.x);
-  XCTAssertEqual(actual.end.y, expected.end.y);
+    _lines = @[ @"  fooba", @"123456 ", @"       " ];
+    iTermTextExtractor *extractor = [iTermTextExtractor textExtractorWithDataSource:self];
+    VT100GridAbsCoordRange actual = [extractor rangeByTrimmingWhitespaceFromRange:VT100GridAbsCoordRangeMake(0, 0, 7, 2)];
+    VT100GridAbsCoordRange expected = VT100GridAbsCoordRangeMake(2, 0, 6, 1);
+    XCTAssertEqual(actual.start.x, expected.start.x);
+    XCTAssertEqual(actual.start.y, expected.start.y);
+    XCTAssertEqual(actual.end.x, expected.end.x);
+    XCTAssertEqual(actual.end.y, expected.end.y);
 }
 
 - (void)testContentInRange_TruncateHeadSearchingBackwards_Huge {
@@ -265,15 +268,15 @@ static const NSInteger kUnicodeVersion = 9;
     VT100GridWindowedRange range = VT100GridWindowedRangeMake(VT100GridCoordRangeMake(0, 0, 3, _lines.count), 0, 0);
     NSMutableArray *coords = [NSMutableArray array];
     NSString *actual = [extractor contentInRange:range
-                               attributeProvider:nil
-                                      nullPolicy:kiTermTextExtractorNullPolicyFromLastToEnd
-                                             pad:NO
-                              includeLastNewline:NO
-                          trimTrailingWhitespace:NO
-                                    cappedAtSize:3
-                                    truncateTail:NO
-                               continuationChars:nil
-                                          coords:coords];
+                                  attributeProvider:nil
+                                  nullPolicy:kiTermTextExtractorNullPolicyFromLastToEnd
+                                  pad:NO
+                                  includeLastNewline:NO
+                                  trimTrailingWhitespace:NO
+                                  cappedAtSize:3
+                                  truncateTail:NO
+                                  continuationChars:nil
+                                  coords:coords];
     XCTAssertEqualObjects(@"xyz", actual);
     XCTAssertEqual(coords.count, 3);
 }
@@ -300,15 +303,15 @@ static const NSInteger kUnicodeVersion = 9;
     VT100GridWindowedRange range = VT100GridWindowedRangeMake(VT100GridCoordRangeMake(0, 0, 3, _lines.count), 0, 0);
     NSMutableArray *coords = [NSMutableArray array];
     NSString *actual = [extractor contentInRange:range
-                               attributeProvider:nil
-                                      nullPolicy:kiTermTextExtractorNullPolicyFromLastToEnd
-                                             pad:NO
-                              includeLastNewline:NO
-                          trimTrailingWhitespace:NO
-                                    cappedAtSize:3
-                                    truncateTail:NO
-                               continuationChars:nil
-                                          coords:coords];
+                                  attributeProvider:nil
+                                  nullPolicy:kiTermTextExtractorNullPolicyFromLastToEnd
+                                  pad:NO
+                                  includeLastNewline:NO
+                                  trimTrailingWhitespace:NO
+                                  cappedAtSize:3
+                                  truncateTail:NO
+                                  continuationChars:nil
+                                  coords:coords];
     XCTAssertEqualObjects(@"xyz", actual);
     XCTAssertEqual(coords.count, 3);
 }
@@ -334,28 +337,28 @@ static const NSInteger kUnicodeVersion = 9;
     iTermTextExtractor *extractor = [iTermTextExtractor textExtractorWithDataSource:self];
     VT100GridWindowedRange range = VT100GridWindowedRangeMake(VT100GridCoordRangeMake(0, 0, 3, _lines.count), 0, 0);
     NSString *actual = [extractor contentInRange:range
-                               attributeProvider:nil
-                                      nullPolicy:kiTermTextExtractorNullPolicyMidlineAsSpaceIgnoreTerminal
-                                             pad:NO
-                              includeLastNewline:NO
-                          trimTrailingWhitespace:NO
-                                    cappedAtSize:3
-                                    truncateTail:NO
-                               continuationChars:nil
-                                          coords:nil];
+                                  attributeProvider:nil
+                                  nullPolicy:kiTermTextExtractorNullPolicyMidlineAsSpaceIgnoreTerminal
+                                  pad:NO
+                                  includeLastNewline:NO
+                                  trimTrailingWhitespace:NO
+                                  cappedAtSize:3
+                                  truncateTail:NO
+                                  continuationChars:nil
+                                  coords:nil];
     XCTAssertEqualObjects(@"xyz", actual);
 
     // Same thing but truncate to 3 bytes at the tail.
     actual = [extractor contentInRange:range
-                     attributeProvider:nil
-                            nullPolicy:kiTermTextExtractorNullPolicyMidlineAsSpaceIgnoreTerminal
-                                   pad:NO
-                    includeLastNewline:NO
-                trimTrailingWhitespace:NO
-                          cappedAtSize:3
-                          truncateTail:YES
-                     continuationChars:nil
-                                coords:nil];
+                        attributeProvider:nil
+                        nullPolicy:kiTermTextExtractorNullPolicyMidlineAsSpaceIgnoreTerminal
+                        pad:NO
+                        includeLastNewline:NO
+                        trimTrailingWhitespace:NO
+                        cappedAtSize:3
+                        truncateTail:YES
+                        continuationChars:nil
+                        coords:nil];
     XCTAssertEqualObjects(@"abc", actual);
 }
 
@@ -386,15 +389,15 @@ static const NSInteger kUnicodeVersion = 9;
     iTermTextExtractor *extractor = [iTermTextExtractor textExtractorWithDataSource:self];
     VT100GridWindowedRange range = VT100GridWindowedRangeMake(VT100GridCoordRangeMake(0, 0, 5, 1), 0, 0);
     NSString *actual = [extractor contentInRange:range
-                               attributeProvider:nil
-                                      nullPolicy:kiTermTextExtractorNullPolicyMidlineAsSpaceIgnoreTerminal
-                                             pad:NO
-                              includeLastNewline:NO
-                          trimTrailingWhitespace:NO
-                                    cappedAtSize:-1
-                                    truncateTail:NO
-                               continuationChars:nil
-                                          coords:nil];
+                                  attributeProvider:nil
+                                  nullPolicy:kiTermTextExtractorNullPolicyMidlineAsSpaceIgnoreTerminal
+                                  pad:NO
+                                  includeLastNewline:NO
+                                  trimTrailingWhitespace:NO
+                                  cappedAtSize:-1
+                                  truncateTail:NO
+                                  continuationChars:nil
+                                  coords:nil];
     XCTAssertEqualObjects(@"a\tb", actual);
 
 }
@@ -426,15 +429,15 @@ static const NSInteger kUnicodeVersion = 9;
     iTermTextExtractor *extractor = [iTermTextExtractor textExtractorWithDataSource:self];
     VT100GridWindowedRange range = VT100GridWindowedRangeMake(VT100GridCoordRangeMake(0, 0, 5, 1), 0, 0);
     NSString *actual = [extractor contentInRange:range
-                               attributeProvider:nil
-                                      nullPolicy:kiTermTextExtractorNullPolicyMidlineAsSpaceIgnoreTerminal
-                                             pad:NO
-                              includeLastNewline:NO
-                          trimTrailingWhitespace:NO
-                                    cappedAtSize:-1
-                                    truncateTail:NO
-                               continuationChars:nil
-                                          coords:nil];
+                                  attributeProvider:nil
+                                  nullPolicy:kiTermTextExtractorNullPolicyMidlineAsSpaceIgnoreTerminal
+                                  pad:NO
+                                  includeLastNewline:NO
+                                  trimTrailingWhitespace:NO
+                                  cappedAtSize:-1
+                                  truncateTail:NO
+                                  continuationChars:nil
+                                  coords:nil];
     XCTAssertEqualObjects(@"ab  c", actual);
 }
 
@@ -443,12 +446,12 @@ static const NSInteger kUnicodeVersion = 9;
     _lines = @[ @"\u2716\ufe0e https://example.com/" ];
     iTermTextExtractor *extractor = [iTermTextExtractor textExtractorWithDataSource:self];
     iTermLocatedString *prefix =
-    [extractor wrappedLocatedStringAt:VT100GridCoordMake(5, 0)
-                                          forward:NO
-                              respectHardNewlines:YES
-                                         maxChars:4096
-                                continuationChars:[NSMutableIndexSet indexSet]
-                              convertNullsToSpace:NO];
+        [extractor wrappedLocatedStringAt:VT100GridCoordMake(5, 0)
+                   forward:NO
+                   respectHardNewlines:YES
+                   maxChars:4096
+                   continuationChars:[NSMutableIndexSet indexSet]
+                   convertNullsToSpace:NO];
     XCTAssertEqualObjects(prefix.string, @"\u2716\ufe0e htt");
     XCTAssertEqual(prefix.coords.count, prefix.string.length);
     int expected[] = { 0, 0, 1, 2, 3, 4 };
@@ -485,8 +488,8 @@ static const NSInteger kUnicodeVersion = 9;
 - (void)testRangeForWrappedLine_MaxChars {
     for (int i = 0; i < 10; i++) {
         [self appendWrappedLine:@"1234567890"
-                          width:10
-                            eol:i < 9 ? EOL_SOFT : EOL_HARD];
+              width:10
+              eol:i < 9 ? EOL_SOFT : EOL_HARD];
     }
     iTermTextExtractor *extractor = [iTermTextExtractor textExtractorWithDataSource:self];
     VT100GridWindowedRange range = [extractor rangeForWrappedLineEncompassing:VT100GridCoordMake(5, 5) respectContinuations:NO maxChars:20];
@@ -538,48 +541,48 @@ static const NSInteger kUnicodeVersion = 9;
 - (void)testBinarySearch_ExactMatch {
     iTermTextExtractor *extractor = [iTermTextExtractor textExtractorWithDataSource:self];
     NSInteger actual = [extractor indexInSortedArray:@[ @10, @20, @30 ]
-                          withValueLessThanOrEqualTo:20
-                               searchingBackwardFrom:2];
+                                  withValueLessThanOrEqualTo:20
+                                  searchingBackwardFrom:2];
     XCTAssertEqual(actual, 1);
 }
 
 - (void)testBinarySearch_ExactMatchWithMultipleEqualValues {
     iTermTextExtractor *extractor = [iTermTextExtractor textExtractorWithDataSource:self];
     NSInteger actual = [extractor indexInSortedArray:@[ @10, @20, @20, @30 ]
-                          withValueLessThanOrEqualTo:20
-                               searchingBackwardFrom:3];
+                                  withValueLessThanOrEqualTo:20
+                                  searchingBackwardFrom:3];
     XCTAssertEqual(actual, 2);
 }
 
 - (void)testBinarySearch_BetweenValues {
     iTermTextExtractor *extractor = [iTermTextExtractor textExtractorWithDataSource:self];
     NSInteger actual = [extractor indexInSortedArray:@[ @10, @20, @30 ]
-                          withValueLessThanOrEqualTo:25
-                               searchingBackwardFrom:2];
+                                  withValueLessThanOrEqualTo:25
+                                  searchingBackwardFrom:2];
     XCTAssertEqual(actual, 1);
 }
 
 - (void)testBinarySearch_AtEnd {
     iTermTextExtractor *extractor = [iTermTextExtractor textExtractorWithDataSource:self];
     NSInteger actual = [extractor indexInSortedArray:@[ @10, @20, @30 ]
-                          withValueLessThanOrEqualTo:40
-                               searchingBackwardFrom:2];
+                                  withValueLessThanOrEqualTo:40
+                                  searchingBackwardFrom:2];
     XCTAssertEqual(actual, 2);
 }
 
 - (void)testBinarySearch_AtStart {
     iTermTextExtractor *extractor = [iTermTextExtractor textExtractorWithDataSource:self];
     NSInteger actual = [extractor indexInSortedArray:@[ @10, @20, @30 ]
-                          withValueLessThanOrEqualTo:5
-                               searchingBackwardFrom:2];
+                                  withValueLessThanOrEqualTo:5
+                                  searchingBackwardFrom:2];
     XCTAssertEqual(actual, 0);
 }
 
 - (void)testBinarySearch_RespectsStartLocation {
     iTermTextExtractor *extractor = [iTermTextExtractor textExtractorWithDataSource:self];
     NSInteger actual = [extractor indexInSortedArray:@[ @10, @20, @30 ]
-                          withValueLessThanOrEqualTo:40
-                               searchingBackwardFrom:1];
+                                  withValueLessThanOrEqualTo:40
+                                  searchingBackwardFrom:1];
     XCTAssertEqual(actual, 1);
 }
 

@@ -22,7 +22,7 @@
 }
 
 - (instancetype)initWithPayloadFileURL:(NSURL *)url
-                              identity:(SIGIdentity *)identity {
+    identity:(SIGIdentity *)identity {
     self = [super init];
     if (self) {
         _payloadFileURL = url;
@@ -34,7 +34,7 @@
 #pragma mark - API
 
 - (BOOL)writeToURL:(NSURL *)url
-             error:(out NSError * _Nullable __autoreleasing *)error {
+    error:(out NSError * _Nullable __autoreleasing *)error {
 #if ENABLE_SIGARCHIVE_MIGRATION_CREATION
     NSData *signature = [self signature:error];
     if (!signature) {
@@ -125,11 +125,11 @@
     NSData *data = [SIGArchiveHeaderMagicString dataUsingEncoding:NSUTF8StringEncoding];
     const NSInteger desiredLength = data.length;
     SIGArchiveChunkWriter *chunkWriter = [[SIGArchiveChunkWriter alloc] initWithTag:SIGArchiveTagHeader
-                                                                             length:desiredLength
-                                                                             offset:_offset];
+                                                                        length:desiredLength
+                                                                        offset:_offset];
     const BOOL ok = [chunkWriter writeData:data
-                                  toStream:stream
-                                     error:error];
+                                 toStream:stream
+                                 error:error];
     _offset += chunkWriter.chunkLength;
     return ok;
 }
@@ -140,23 +140,23 @@
         return NO;
     }
     [readStream open];
-    
+
     NSError *error = nil;
     NSInteger length = [[NSFileManager defaultManager] attributesOfItemAtPath:_payloadFileURL.path error:&error].fileSize;
     if (length <= 0 || error != nil) {
         if (errorOut) {
             *errorOut = [SIGError errorWrapping:error
-                                         code:SIGErrorCodeIORead
-                                         detail:@"Error checking file size"];
+                                  code:SIGErrorCodeIORead
+                                  detail:@"Error checking file size"];
         }
         return NO;
     }
     SIGArchiveChunkWriter *chunkWriter = [[SIGArchiveChunkWriter alloc] initWithTag:SIGArchiveTagPayload
-                                                                             length:length
-                                                                             offset:_offset];
+                                                                        length:length
+                                                                        offset:_offset];
     const BOOL ok = [chunkWriter writeStream:readStream
-                                    toStream:writeStream
-                                       error:errorOut];
+                                 toStream:writeStream
+                                 error:errorOut];
     _offset += chunkWriter.chunkLength;
     return ok;
 }
@@ -164,8 +164,8 @@
 - (NSString *)keyValuePairsFromDictionary:(NSDictionary<NSString *, NSString *> *)dictionary {
     NSMutableArray<NSString *> *entries = [NSMutableArray array];
     [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop) {
-        [entries addObject:[NSString stringWithFormat:@"%@=%@", key, obj]];
-    }];
+                   [entries addObject:[NSString stringWithFormat:@"%@=%@", key, obj]];
+               }];
     return [entries componentsJoinedByString:@"\n"];
 }
 
@@ -183,16 +183,19 @@
 }
 
 - (BOOL)writeMetadataToStream:(NSOutputStream *)writeStream error:(out NSError * _Nullable __autoreleasing *)error {
-    NSDictionary *const fieldDict = @{ SIGArchiveMetadataKeyVersion: [self producedVersion],
-                                       SIGArchiveMetadataKeyDigestType: [self producedDigestType] };
+    NSDictionary *const fieldDict = @ { SIGArchiveMetadataKeyVersion:
+                                        [self producedVersion],
+                                        SIGArchiveMetadataKeyDigestType:
+                                        [self producedDigestType]
+                                      };
     NSString *metadata = [self keyValuePairsFromDictionary:fieldDict];
     NSData *data = [metadata dataUsingEncoding:NSUTF8StringEncoding];
     SIGArchiveChunkWriter *chunkWriter = [[SIGArchiveChunkWriter alloc] initWithTag:SIGArchiveTagMetadata
-                                                                             length:data.length
-                                                                             offset:_offset];
+                                                                        length:data.length
+                                                                        offset:_offset];
     const BOOL ok = [chunkWriter writeData:data
-                                  toStream:writeStream
-                                     error:error];
+                                 toStream:writeStream
+                                 error:error];
     _offset += chunkWriter.chunkLength;
     return ok;
 }
@@ -200,11 +203,11 @@
 #if ENABLE_SIGARCHIVE_MIGRATION_CREATION
 - (BOOL)writeSignature:(NSData *)signature toStream:(NSOutputStream *)writeStream error:(out NSError * _Nullable __autoreleasing *)error {
     SIGArchiveChunkWriter *chunkWriter = [[SIGArchiveChunkWriter alloc] initWithTag:SIGArchiveTagSignature
-                                                                             length:signature.length
-                                                                             offset:_offset];
+                                                                        length:signature.length
+                                                                        offset:_offset];
     const BOOL ok = [chunkWriter writeData:signature
-                                  toStream:writeStream
-                                     error:error];
+                                 toStream:writeStream
+                                 error:error];
     _offset += chunkWriter.chunkLength;
     return ok;
 }
@@ -212,22 +215,22 @@
 
 - (BOOL)writeSignature2:(NSData *)signature toStream:(NSOutputStream *)writeStream error:(out NSError * _Nullable __autoreleasing *)error {
     SIGArchiveChunkWriter *chunkWriter = [[SIGArchiveChunkWriter alloc] initWithTag:SIGArchiveTagSignature2
-                                                                             length:signature.length
-                                                                             offset:_offset];
+                                                                        length:signature.length
+                                                                        offset:_offset];
     const BOOL ok = [chunkWriter writeData:signature
-                                  toStream:writeStream
-                                     error:error];
+                                 toStream:writeStream
+                                 error:error];
     _offset += chunkWriter.chunkLength;
     return ok;
 }
 
 - (BOOL)writeCertificate:(NSData *)certificate toStream:(NSOutputStream *)writeStream error:(out NSError * _Nullable __autoreleasing *)error {
     SIGArchiveChunkWriter *chunkWriter = [[SIGArchiveChunkWriter alloc] initWithTag:SIGArchiveTagCertificate
-                                                                             length:certificate.length
-                                                                             offset:_offset];
+                                                                        length:certificate.length
+                                                                        offset:_offset];
     const BOOL ok = [chunkWriter writeData:certificate
-                                  toStream:writeStream
-                                     error:error];
+                                 toStream:writeStream
+                                 error:error];
     _offset += chunkWriter.chunkLength;
     return ok;
 }
@@ -264,8 +267,8 @@
     }
 
     return [algorithm signatureForInputStream:readStream
-                                usingIdentity:_identity
-                                        error:error];
+                      usingIdentity:_identity
+                      error:error];
 }
 #endif
 
@@ -282,10 +285,10 @@
         }
         return nil;
     }
-    
+
     return [algorithm signatureForInputStream:readStream
-                                usingIdentity:_identity
-                                        error:error];
+                      usingIdentity:_identity
+                      error:error];
 }
 
 @end

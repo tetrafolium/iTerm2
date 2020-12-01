@@ -39,39 +39,39 @@
 #import "GPBBootstrap.h"
 
 typedef struct GPBMessage_Storage {
-  uint32_t _has_storage_[0];
+    uint32_t _has_storage_[0];
 } GPBMessage_Storage;
 
 typedef struct GPBMessage_Storage *GPBMessage_StoragePtr;
 
 @interface GPBMessage () {
- @package
-  // NOTE: Because of the +allocWithZone code using NSAllocateObject(),
-  // this structure should ideally always be kept pointer aligned where the
-  // real storage starts is also pointer aligned. The compiler/runtime already
-  // do this, but it may not be documented.
+    @package
+    // NOTE: Because of the +allocWithZone code using NSAllocateObject(),
+    // this structure should ideally always be kept pointer aligned where the
+    // real storage starts is also pointer aligned. The compiler/runtime already
+    // do this, but it may not be documented.
 
-  // A pointer to the actual fields of the subclasses. The actual structure
-  // pointed to by this pointer will depend on the subclass.
-  // All of the actual structures will start the same as
-  // GPBMessage_Storage with _has_storage__ as the first field.
-  // Kept public because static functions need to access it.
-  GPBMessage_StoragePtr messageStorage_;
+    // A pointer to the actual fields of the subclasses. The actual structure
+    // pointed to by this pointer will depend on the subclass.
+    // All of the actual structures will start the same as
+    // GPBMessage_Storage with _has_storage__ as the first field.
+    // Kept public because static functions need to access it.
+    GPBMessage_StoragePtr messageStorage_;
 
-  // A lock to provide mutual exclusion from internal data that can be modified
-  // by *read* operations such as getters (autocreation of message fields and
-  // message extensions, not setting of values). Used to guarantee thread safety
-  // for concurrent reads on the message.
-  // NOTE: OSSpinLock may seem like a good fit here but Apple engineers have
-  // pointed out that they are vulnerable to live locking on iOS in cases of
-  // priority inversion:
-  //   http://mjtsai.com/blog/2015/12/16/osspinlock-is-unsafe/
-  //   https://lists.swift.org/pipermail/swift-dev/Week-of-Mon-20151214/000372.html
-  // Use of readOnlySemaphore_ must be prefaced by a call to
-  // GPBPrepareReadOnlySemaphore to ensure it has been created. This allows
-  // readOnlySemaphore_ to be only created when actually needed.
-  dispatch_once_t readOnlySemaphoreCreationOnce_;
-  dispatch_semaphore_t readOnlySemaphore_;
+    // A lock to provide mutual exclusion from internal data that can be modified
+    // by *read* operations such as getters (autocreation of message fields and
+    // message extensions, not setting of values). Used to guarantee thread safety
+    // for concurrent reads on the message.
+    // NOTE: OSSpinLock may seem like a good fit here but Apple engineers have
+    // pointed out that they are vulnerable to live locking on iOS in cases of
+    // priority inversion:
+    //   http://mjtsai.com/blog/2015/12/16/osspinlock-is-unsafe/
+    //   https://lists.swift.org/pipermail/swift-dev/Week-of-Mon-20151214/000372.html
+    // Use of readOnlySemaphore_ must be prefaced by a call to
+    // GPBPrepareReadOnlySemaphore to ensure it has been created. This allows
+    // readOnlySemaphore_ to be only created when actually needed.
+    dispatch_once_t readOnlySemaphoreCreationOnce_;
+    dispatch_semaphore_t readOnlySemaphore_;
 }
 
 // Gets an extension value without autocreating the result if not found. (i.e.
@@ -89,13 +89,13 @@ typedef struct GPBMessage_Storage *GPBMessage_StoragePtr;
 // or zero for EOF.
 // NOTE: This will throw if there is an error while parsing.
 - (void)mergeFromCodedInputStream:(GPBCodedInputStream *)input
-                extensionRegistry:(GPBExtensionRegistry *)extensionRegistry;
+    extensionRegistry:(GPBExtensionRegistry *)extensionRegistry;
 
 // Parses the next delimited message of this type from the input and merges it
 // with this message.
 - (void)mergeDelimitedFromCodedInputStream:(GPBCodedInputStream *)input
-                         extensionRegistry:
-                             (GPBExtensionRegistry *)extensionRegistry;
+    extensionRegistry:
+    (GPBExtensionRegistry *)extensionRegistry;
 
 - (void)addUnknownMapEntry:(int32_t)fieldNum value:(NSData *)data;
 
@@ -108,18 +108,18 @@ CF_EXTERN_C_BEGIN
 NS_INLINE void GPBPrepareReadOnlySemaphore(GPBMessage *self) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdirect-ivar-access"
-  dispatch_once(&self->readOnlySemaphoreCreationOnce_, ^{
-    self->readOnlySemaphore_ = dispatch_semaphore_create(1);
-  });
+    dispatch_once(&self->readOnlySemaphoreCreationOnce_, ^ {
+        self->readOnlySemaphore_ = dispatch_semaphore_create(1);
+    });
 #pragma clang diagnostic pop
 }
 
 // Returns a new instance that was automatically created by |autocreator| for
 // its field |field|.
 GPBMessage *GPBCreateMessageWithAutocreator(Class msgClass,
-                                            GPBMessage *autocreator,
-                                            GPBFieldDescriptor *field)
-    __attribute__((ns_returns_retained));
+        GPBMessage *autocreator,
+        GPBFieldDescriptor *field)
+__attribute__((ns_returns_retained));
 
 // Returns whether |message| autocreated this message. This is NO if the message
 // was not autocreated by |message| or if it has been mutated since
